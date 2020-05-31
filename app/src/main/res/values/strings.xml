@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">QuickPass</string>
+    <string name="hi_username">Hi, *username*</string>
+    <string name="userAvatar">User avatar</string>
+    <string name="inputLogin">Login</string>
+    <string name="inputPassword">Password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
+    <string name="helloSubText">Login or create new account</string>
+    <string name="errNumOfText">at least 3 characters</string>
+    <string name="errPass">between from 4 to 20 alphanumeric characters</string>
+    <string name="log_out">Log out</string>
+    <string name="coming_soon">Coming soon</string>
+</resources>

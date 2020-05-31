@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QuickPass</string>
+    <string name="hi_username">Привет, *username*</string>
+    <string name="userAvatar">Аватар</string>
+    <string name="inputLogin">Логин</string>
+    <string name="inputPassword">Пароль</string>
+    <string name="sign_up">Зарегистрироваться</string>
+    <string name="helloSubText">Войдите или создайте новый аккаунт</string>
+    <string name="sign_in">Войти</string>
+    <string name="errNumOfText">по крайней мере 3 символа</string>
+    <string name="errPass">необходимо ввести от 4 до 20 символов</string>
+    <string name="log_out">Выйти</string>
+    <string name="coming_soon">Будет позже</string>
+</resources>
