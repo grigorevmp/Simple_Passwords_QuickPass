@@ -15,6 +15,8 @@ import kotlin.random.Random
 class LoginActivity : AppCompatActivity() {
 
     private val TAG = "SignupActivity"
+    private val PREFERENCE_FILE_KEY = "quickPassPreference"
+    private val KEY_USERNAME = "prefUserNameKey"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +24,16 @@ class LoginActivity : AppCompatActivity() {
 
         // Start animation
         loginFab.show()
+
+        // Checking prefs
+        val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+        val username = sharedPref.getString(KEY_USERNAME, "none")
+        if(username != "none"){
+            val intent = Intent(this, SignActivity::class.java)
+            intent.putExtra("login", username)
+            startActivity(intent)
+            finish()
+        }
 
 
         // Fab handler

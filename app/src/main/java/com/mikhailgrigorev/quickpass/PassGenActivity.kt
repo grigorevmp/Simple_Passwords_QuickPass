@@ -2,6 +2,7 @@ package com.mikhailgrigorev.quickpass
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.database.Cursor
 import android.os.Bundle
 import android.widget.Toast
@@ -9,14 +10,27 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_pass_gen.*
 
 class PassGenActivity : AppCompatActivity() {
+
+    private val PREFERENCE_FILE_KEY = "quickPassPreference"
+    private val KEY_USERNAME = "prefUserNameKey"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pass_gen)
+
 
         val args: Bundle? = intent.extras
         val login: String? = args?.get("login").toString()
         val name: String? = "Hi, $login"
         helloTextId.text = name
+
+        // Checking prefs
+        val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+
+        with (sharedPref.edit()) {
+            putString(KEY_USERNAME, login)
+            commit()
+        }
 
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
@@ -54,7 +68,7 @@ class PassGenActivity : AppCompatActivity() {
         }
 
         logOut.setOnClickListener {
-            exit()
+            exit(sharedPref)
         }
 
         deleteAccount.setOnClickListener {
@@ -62,11 +76,12 @@ class PassGenActivity : AppCompatActivity() {
                 "NAME = ?",
                 arrayOf(login))
             toast("You account has been deleted")
-            exit()
+            exit(sharedPref)
         }
     }
 
-    private fun exit(){
+    private fun exit(sharedPref: SharedPreferences) {
+        sharedPref.edit().remove(KEY_USERNAME).apply()
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()
@@ -74,4 +89,5 @@ class PassGenActivity : AppCompatActivity() {
 
     private fun Context.toast(message:String)=
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
+
 }

@@ -17,4 +17,6 @@
     <string name="exists">Этот пользователь уже существует</string>
     <string name="wrong_name">Нет пользователя с таким именем</string>
     <string name="wrong_pass">Неверный пароль</string>
+    <string name="input_your_password">Введите пароль</string>
+    <string name="or_use_fingerprint">Или используйте отчпечаток пальца (скоро)</string>
 </resources>

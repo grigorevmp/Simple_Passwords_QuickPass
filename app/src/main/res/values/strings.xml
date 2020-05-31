@@ -16,4 +16,6 @@
     <string name="exists">This user already exists</string>
     <string name="wrong_name">No user with this name</string>
     <string name="wrong_pass">Wrong password</string>
+    <string name="input_your_password">Input your password</string>
+    <string name="or_use_fingerprint">Or use fingerprint (coming soon)</string>
 </resources>
