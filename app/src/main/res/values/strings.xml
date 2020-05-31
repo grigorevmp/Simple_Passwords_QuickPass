@@ -12,5 +12,8 @@
     <string name="log_out">Log out</string>
     <string name="coming_soon">Coming soon</string>
     <string name="delete_account">Delete account</string>
-    <string name="no_text">No text</string>
+    <string name="no_text">No information</string>
+    <string name="exists">This user already exists</string>
+    <string name="wrong_name">No user with this name</string>
+    <string name="wrong_pass">Wrong password</string>
 </resources>

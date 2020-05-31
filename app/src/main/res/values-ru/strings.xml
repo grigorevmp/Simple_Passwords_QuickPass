@@ -12,4 +12,9 @@
     <string name="errPass">необходимо ввести от 4 до 20 символов</string>
     <string name="log_out">Выйти</string>
     <string name="coming_soon">Будет позже</string>
+    <string name="delete_account">Удалить аккаунт</string>
+    <string name="no_text">Нет информации</string>
+    <string name="exists">Этот пользователь уже существует</string>
+    <string name="wrong_name">Нет пользователя с таким именем</string>
+    <string name="wrong_pass">Неверный пароль</string>
 </resources>

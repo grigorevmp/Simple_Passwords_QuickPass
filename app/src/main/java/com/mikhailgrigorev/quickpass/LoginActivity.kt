@@ -88,7 +88,7 @@ class LoginActivity : AppCompatActivity() {
         var dbLogin = "null"
 
         if (cursor.moveToFirst()) {
-            toast("This user is already exists")
+            inputLoginId.error = getString(R.string.exists)
             return
         } else {
             contentValues.put(dbHelper.KEY_ID, Random.nextInt(0, 100))
@@ -96,13 +96,14 @@ class LoginActivity : AppCompatActivity() {
             contentValues.put(dbHelper.KEY_PASS, password)
             contentValues.put(dbHelper.KEY_IMAGE, "ic_useravatar")
             database.insert(dbHelper.TABLE_USERS, null, contentValues);
-            toast("You signed up")
         }
 
         signIn(login, password)
     }
 
     private fun signIn (login: String, password:String){
+
+        Log.d(TAG, "SignIn");
 
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
@@ -113,26 +114,32 @@ class LoginActivity : AppCompatActivity() {
         )
 
         var dbLogin = "null"
+        var dbPassword = "null"
 
         if (cursor.moveToFirst()) {
             val nameIndex: Int = cursor.getColumnIndex(dbHelper.KEY_NAME)
+            val passIndex: Int = cursor.getColumnIndex(dbHelper.KEY_PASS)
             do {
                 dbLogin = cursor.getString(nameIndex).toString()
+                dbPassword = cursor.getString(passIndex).toString()
+                if(dbPassword != password){
+                    inputPasswordId.error = getString(R.string.wrong_pass)
+                    return
+                }
             } while (cursor.moveToNext())
         } else {
-            toast("No user with this name")
+            inputLoginId.error = getString(R.string.wrong_name)
             return
         }
 
         cursor.close()
 
-        Log.d(TAG, "SignIn");
-        toast("You signed in")
         // создание объекта Intent для запуска SecondActivity
 
         val intent = Intent(this, PassGenActivity::class.java)
         intent.putExtra("login", dbLogin)
         startActivity(intent)
+        finish()
     }
 
     private fun Context.toast(message:String)=

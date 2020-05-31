@@ -47,15 +47,14 @@ class PassGenActivity : AppCompatActivity() {
                 val id = getResources().getIdentifier(
                     ex_infoImgText,
                     "drawable",
-                    getPackageName()
+                    packageName
                 )
                 userAvatar.setImageResource(id)
             } while (cursor.moveToNext())
         }
 
         logOut.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            exit()
         }
 
         deleteAccount.setOnClickListener {
@@ -63,9 +62,14 @@ class PassGenActivity : AppCompatActivity() {
                 "NAME = ?",
                 arrayOf(login))
             toast("You account has been deleted")
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            exit()
         }
+    }
+
+    private fun exit(){
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun Context.toast(message:String)=
