@@ -1,12 +1,15 @@
 package com.mikhailgrigorev.quickpass
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlin.random.Random
 
 
 class LoginActivity : AppCompatActivity() {
@@ -19,6 +22,7 @@ class LoginActivity : AppCompatActivity() {
 
         // Start animation
         loginFab.show()
+
 
         // Fab handler
         loginFab.setOnClickListener {
@@ -68,18 +72,66 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signUp (login: String, password:String) {
+
         Log.d(TAG, "SignUp");
-        toast("You signed up")
+
+        val dbHelper = DataBaseHelper(this)
+        val database = dbHelper.writableDatabase
+        val contentValues = ContentValues()
+
+        val cursor: Cursor = database.query(
+            dbHelper.TABLE_USERS, arrayOf(dbHelper.KEY_NAME, dbHelper.KEY_PASS),
+            "NAME = ?", arrayOf(login),
+            null, null, null
+        )
+
+        var dbLogin = "null"
+
+        if (cursor.moveToFirst()) {
+            toast("This user is already exists")
+            return
+        } else {
+            contentValues.put(dbHelper.KEY_ID, Random.nextInt(0, 100))
+            contentValues.put(dbHelper.KEY_NAME, login)
+            contentValues.put(dbHelper.KEY_PASS, password)
+            contentValues.put(dbHelper.KEY_IMAGE, "ic_useravatar")
+            database.insert(dbHelper.TABLE_USERS, null, contentValues);
+            toast("You signed up")
+        }
+
         signIn(login, password)
     }
 
     private fun signIn (login: String, password:String){
+
+        val dbHelper = DataBaseHelper(this)
+        val database = dbHelper.writableDatabase
+        val cursor: Cursor = database.query(
+            dbHelper.TABLE_USERS, arrayOf(dbHelper.KEY_NAME, dbHelper.KEY_PASS),
+            "NAME = ?", arrayOf(login),
+            null, null, null
+        )
+
+        var dbLogin = "null"
+
+        if (cursor.moveToFirst()) {
+            val nameIndex: Int = cursor.getColumnIndex(dbHelper.KEY_NAME)
+            do {
+                dbLogin = cursor.getString(nameIndex).toString()
+            } while (cursor.moveToNext())
+        } else {
+            toast("No user with this name")
+            return
+        }
+
+        cursor.close()
+
         Log.d(TAG, "SignIn");
         toast("You signed in")
         // создание объекта Intent для запуска SecondActivity
 
         val intent = Intent(this, PassGenActivity::class.java)
-        intent.putExtra("login", login)
+        intent.putExtra("login", dbLogin)
         startActivity(intent)
     }
 

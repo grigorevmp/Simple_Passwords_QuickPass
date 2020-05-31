@@ -11,4 +11,6 @@
     <string name="errPass">between from 4 to 20 alphanumeric characters</string>
     <string name="log_out">Log out</string>
     <string name="coming_soon">Coming soon</string>
+    <string name="delete_account">Delete account</string>
+    <string name="no_text">No text</string>
 </resources>
