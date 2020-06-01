@@ -1,23 +1,33 @@
 package com.mikhailgrigorev.quickpass
 
 import android.annotation.SuppressLint
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.database.Cursor
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MotionEvent
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
+import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_new_password.*
+import kotlinx.android.synthetic.main.activity_new_password.cardPass
+import kotlinx.android.synthetic.main.activity_new_password.genPasswordId
+import kotlinx.android.synthetic.main.activity_new_password.genPasswordIdField
+import kotlinx.android.synthetic.main.activity_new_password.generatePassword
+import kotlinx.android.synthetic.main.activity_new_password.lengthToggle
+import kotlinx.android.synthetic.main.activity_new_password.lettersToggle
+import kotlinx.android.synthetic.main.activity_new_password.numbersToggle
+import kotlinx.android.synthetic.main.activity_new_password.passSettings
+import kotlinx.android.synthetic.main.activity_new_password.symToggles
+import kotlinx.android.synthetic.main.activity_new_password.upperCaseToggle
+import kotlinx.android.synthetic.main.activity_new_password.userAvatar
 import kotlinx.android.synthetic.main.activity_pass_gen.*
+import kotlin.random.Random
 
-
-class PassGenActivity : AppCompatActivity() {
+class NewPasswordActivity : AppCompatActivity() {
 
     private val PREFERENCE_FILE_KEY = "quickPassPreference"
     private val KEY_USERNAME = "prefUserNameKey"
@@ -26,26 +36,16 @@ class PassGenActivity : AppCompatActivity() {
     private var useUC = false
     private var useLetters = false
     private var useNums = false
-    private var safePass = 0
-    private var unsafePass = 0
-    private var fixPass = 0
 
     @SuppressLint("Recycle", "ClickableViewAccessibility", "ResourceAsColor", "RestrictedApi",
         "SetTextI18n"
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pass_gen)
-
+        setContentView(R.layout.activity_new_password)
 
         val args: Bundle? = intent.extras
         val login: String? = args?.get("login").toString()
-        val name: String? = "Hi, $login"
-        helloTextId.text = name
-
-        correctPasswords.text = safePass.toString() + " " + getString(R.string.correct_passwords)
-        negativePasswords.text = unsafePass.toString() + " " + getString(R.string.incorrect_password)
-        fixPasswords.text = getString(R.string.need_fix) + " " + fixPass.toString() + " " + getString(R.string.passwords)
 
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
@@ -67,21 +67,51 @@ class PassGenActivity : AppCompatActivity() {
             } while (cursor.moveToNext())
         }
 
-        // Checking prefs
-        val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
-
-        with (sharedPref.edit()) {
-            putString(KEY_USERNAME, login)
-            commit()
-        }
-
-        userAvatar.setOnClickListener {
-            val intent = Intent(this, AccountActivity::class.java)
-            intent.putExtra("login", login)
-            startActivity(intent)
-        }
-
         val list = mutableListOf<String>()
+        val pass: String? = args?.get("pass").toString()
+        genPasswordIdField.setText(pass)
+        useLetters = args?.get("useLetters") as Boolean
+        if(useLetters){
+            lettersToggle.isChecked = true
+            list.add(lettersToggle.text.toString())
+        }
+        useUC = args.get("useUC") as Boolean
+        if(useUC){
+            upperCaseToggle.isChecked = true
+            list.add(upperCaseToggle.text.toString())
+        }
+        useNums = args.get("useNums") as Boolean
+        if(useNums){
+            numbersToggle.isChecked = true
+            list.add(numbersToggle.text.toString())
+        }
+        useSyms = args.get("useSyms") as Boolean
+        if(useSyms){
+            symToggles.isChecked = true
+            list.add(symToggles.text.toString())
+        }
+        length = args.get("length") as Int
+        lengthToggle.text = getString(R.string.length)  + ": " +  length
+
+        lengthToggle.setOnClickListener {
+            val txt = EditText(this)
+            txt.hint = "$length"
+            AlertDialog.Builder(this)
+                .setTitle("Length of the password")
+                .setMessage("Input length of your password")
+                .setView(txt,  20, 0, 20, 0)
+                .setPositiveButton(
+                    "Set"
+                ) { _, _ ->
+                    length = txt.text.toString().toInt()
+                    lengthToggle.text = getString(R.string.length)  + ": " +  length
+                }
+                .setNegativeButton(
+                    "Cancel"
+                ) { _, _ -> }
+                .show()
+        }
+
         // Loop through the chips
         for (index in 0 until passSettings.childCount) {
             val chip: Chip = passSettings.getChildAt(index) as Chip
@@ -116,26 +146,6 @@ class PassGenActivity : AppCompatActivity() {
             }
         }
 
-        lengthToggle.text = getString(R.string.length)  + ": " +  length
-        lengthToggle.setOnClickListener {
-            val txt = EditText(this)
-            txt.hint = "$length"
-            AlertDialog.Builder(this)
-                .setTitle("Length of the password")
-                .setMessage("Input length of your password")
-                .setView(txt,  20, 0, 20, 0)
-                .setPositiveButton(
-                    "Set"
-                ) { _, _ ->
-                    length = txt.text.toString().toInt()
-                    lengthToggle.text = getString(R.string.length)  + ": " +  length
-                }
-                .setNegativeButton(
-                    "Cancel"
-                ) { _, _ -> }
-                .show()
-        }
-
         generatePassword.setOnClickListener {
             val myPasswordManager = PasswordManager()
             //Create a password with letters, uppercase letters, numbers but not special chars with 17 chars
@@ -150,20 +160,20 @@ class PassGenActivity : AppCompatActivity() {
             }
         }
         generatePassword.setOnTouchListener { v, event ->
-                when (event.action) {
-                    MotionEvent.ACTION_DOWN -> {
-                        cardPass.elevation = 50F
-                        generatePassword.background = ContextCompat.getDrawable(this, R.color.grey)
-                        v.invalidate()
-                    }
-                    MotionEvent.ACTION_UP -> {
-                        generatePassword.background = ContextCompat.getDrawable(this, R.color.white)
-                        cardPass.elevation = 10F
-                        v.invalidate()
-                    }
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    cardPass.elevation = 50F
+                    generatePassword.background = ContextCompat.getDrawable(this, R.color.grey)
+                    v.invalidate()
                 }
-                false
+                MotionEvent.ACTION_UP -> {
+                    generatePassword.background = ContextCompat.getDrawable(this, R.color.white)
+                    cardPass.elevation = 10F
+                    v.invalidate()
+                }
             }
+            false
+        }
 
         genPasswordId.setOnClickListener {
             if(genPasswordIdField.text.toString() != ""){
@@ -183,20 +193,45 @@ class PassGenActivity : AppCompatActivity() {
             }
         }
 
-        newPass.setOnClickListener {
-            val intent = Intent(this, NewPasswordActivity::class.java)
+        checkPassword.setOnClickListener {
+            val myPasswordManager = PasswordManager()
+            //Evaluate password
+            val evaluation: Float = myPasswordManager.evaluatePassword(genPasswordIdField.text.toString())
+            toast(evaluation.toString())
+        }
+
+        savePass.setOnClickListener {
+            //val pdbHelper = PasswordsDataBaseHelper(this, login.toString())
+            //val passDataBase = pdbHelper.writableDatabase
+            //val contentValues = ContentValues()
+//
+            //val newCursor: Cursor = passDataBase.query(
+            //    pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME),
+            //    "NAME = ?", arrayOf(login),
+            //    null, null, null
+            //)
+//
+            //if (newCursor.moveToFirst()) {
+            //    newName.error = getString(R.string.exists)
+            //} else {
+            //    contentValues.put(pdbHelper.KEY_ID, Random.nextInt(0, 100))
+            //    contentValues.put(pdbHelper.KEY_NAME, login)
+            //    contentValues.put(pdbHelper.KEY_PASS, genPasswordIdField.text.toString())
+            //    contentValues.put(pdbHelper.KEY_2FA, 0)
+            //    contentValues.put(pdbHelper.KEY_TIME, 0)
+            //    contentValues.put(pdbHelper.KEY_DESC, "0")
+            //    passDataBase.insert(pdbHelper.TABLE_USERS, null, contentValues)
+            //}
+
+
+            val intent = Intent(this, PassGenActivity::class.java)
             intent.putExtra("login", login)
-            intent.putExtra("pass", genPasswordIdField.text.toString())
-            intent.putExtra("useLetters", useLetters)
-            intent.putExtra("useUC", useUC)
-            intent.putExtra("useNums", useNums)
-            intent.putExtra("useSyms", useSyms)
-            intent.putExtra("length", length)
             startActivity(intent)
+            finish()
         }
     }
 
+
     private fun Context.toast(message:String)=
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
-
 }

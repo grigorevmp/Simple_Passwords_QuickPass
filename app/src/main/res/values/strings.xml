@@ -18,9 +18,10 @@
     <string name="input_your_password">Input your password</string>
     <string name="or_use_fingerprint">Or use fingerprint (coming soon)</string>
     <string name="view_account">View account</string>
-    <string name="correct_passwords">Correct passwords</string>
-    <string name="incorrect_password">Incorrect password</string>
-    <string name="need_fix">Need fix</string>
+    <string name="correct_passwords"> Safe passwords</string>
+    <string name="incorrect_password"> Unsafe passwords</string>
+    <string name="passwords"> passwords</string>
+    <string name="need_fix">You should improve fix</string>
     <string name="chipLetters">abc…</string>
     <string name="upperCaseLetters">ABC…</string>
     <string name="chipNumbers">123…</string>
@@ -34,4 +35,8 @@
     <string name="noRules">You should choose at least 1 rule</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="add_new_password">Add new password</string>
+    <string name="name_your_password">Name your password</string>
+    <string name="_2fa">2FA</string>
+    <string name="set_time_limit">Set time limit</string>
 </resources>

@@ -19,9 +19,9 @@
     <string name="input_your_password">Введите пароль</string>
     <string name="or_use_fingerprint">Или используйте отчпечаток пальца (скоро)</string>
     <string name="view_account">Аккаунт</string>
-    <string name="correct_passwords">Верные пароли</string>
-    <string name="incorrect_password">Ошибочные пароли</string>
-    <string name="need_fix">Необходимо изменить</string>
+    <string name="correct_passwords">Безопасных паролей</string>
+    <string name="incorrect_password">Небезопасных паролей</string>
+    <string name="need_fix">Вам следует изменить</string>
     <string name="chipLetters">abc…</string>
     <string name="chipSym">./-…</string>
     <string name="length">Длина</string>
@@ -35,4 +35,9 @@
     <string name="passCopied">Пароль скопирован в буфер обмена</string>
     <string name="ok">OK</string>
     <string name="cancel">Закрыть</string>
+    <string name="passwords">паролей</string>
+    <string name="add_new_password">Добавить новый пароль</string>
+    <string name="name_your_password">Введите имя пароля</string>
+    <string name="_2fa">2FA</string>
+    <string name="set_time_limit">Лимит времени</string>
 </resources>

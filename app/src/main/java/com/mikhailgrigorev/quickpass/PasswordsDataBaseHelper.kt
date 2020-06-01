@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class DataBaseHelper(context: Context?) :
+class PasswordsDataBaseHelper(context: Context?, tableName: String) :
     SQLiteOpenHelper(
         context,
         DATABASE_NAME,
@@ -12,16 +12,20 @@ class DataBaseHelper(context: Context?) :
         DATABASE_VERSION
     ) {
 
-    val TABLE_USERS = "users"
+    val TABLE_USERS = tableName
     val KEY_ID = "_id"
     val KEY_NAME = "name"
     val KEY_PASS = "pass"
-    val KEY_IMAGE = "avatar"
+    val KEY_2FA = "2fa"
+    val KEY_TIME = "time"
+    val KEY_DESC = "description"
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(
-            "create table " + TABLE_USERS + "(" + KEY_ID
-                    + " integer primary key," + KEY_NAME + " text," + KEY_PASS + " text," + KEY_IMAGE +" text"+ ")"
+            "create table " + TABLE_USERS + "(" + KEY_ID + " integer primary key,"
+                    + KEY_NAME + " text," + KEY_PASS + " text,"
+                    + KEY_2FA + " integer," + KEY_TIME + " date,"
+                    + KEY_DESC +" text"+ ")"
         )
     }
 
