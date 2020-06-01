@@ -19,4 +19,14 @@
     <string name="input_your_password">Input your password</string>
     <string name="or_use_fingerprint">Or use fingerprint (coming soon)</string>
     <string name="view_account">View account</string>
+    <string name="correct_passwords">Correct passwords</string>
+    <string name="incorrect_password">Incorrect password</string>
+    <string name="need_fix">Need fix</string>
+    <string name="chipLetters">abc...</string>
+    <string name="upperCaseLetters">ABC...</string>
+    <string name="chipNumbers">123...</string>
+    <string name="chipSym">./-...</string>
+    <string name="length">Length</string>
+    <string name="generate">Generate</string>
+    <string name="check">Check</string>
 </resources>

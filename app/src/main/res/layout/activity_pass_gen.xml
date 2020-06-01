@@ -40,4 +40,154 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <ImageView
+        android:id="@+id/positiveCircle"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="3dp"
+        android:contentDescription="@string/correct_passwords"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/correctPasswords"
+        app:srcCompat="@drawable/circle_positive" />
+
+    <ImageView
+        android:id="@+id/negativeCircle"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="3dp"
+        android:contentDescription="@string/incorrect_password"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/negativePasswords"
+        app:srcCompat="@drawable/circle_negative" />
+
+    <ImageView
+        android:id="@+id/negativeCircle2"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="3dp"
+        android:contentDescription="@string/need_fix"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fixPasswords"
+        app:srcCompat="@drawable/circle_improvement" />
+
+    <TextView
+        android:id="@+id/correctPasswords"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/correct_passwords"
+        app:layout_constraintStart_toEndOf="@+id/positiveCircle"
+        app:layout_constraintTop_toBottomOf="@+id/helloTextId" />
+
+    <TextView
+        android:id="@+id/negativePasswords"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/incorrect_password"
+        app:layout_constraintStart_toEndOf="@+id/negativeCircle"
+        app:layout_constraintTop_toBottomOf="@+id/correctPasswords" />
+
+    <TextView
+        android:id="@+id/fixPasswords"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/need_fix"
+        app:layout_constraintStart_toEndOf="@+id/negativeCircle2"
+        app:layout_constraintTop_toBottomOf="@+id/negativePasswords" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/genPasswordId"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="35dp"
+        app:endIconMode="clear_text"
+        app:errorEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fixPasswords">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/genPasswordIdField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/passSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/genPasswordId">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/lettersToggle"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chipLetters" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/upperCaseToggle"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/upperCaseLetters" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/numbersToggle"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chipNumbers" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/symToggles"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chipSym" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/lengthToggle"
+            style="@style/Widget.MaterialComponents.Chip.Action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/length" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <Button
+        android:id="@+id/generatePassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/generate"
+        app:layout_constraintBottom_toTopOf="@+id/viewAccount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/checkPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="@string/check"
+        app:layout_constraintBottom_toTopOf="@+id/generatePassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
