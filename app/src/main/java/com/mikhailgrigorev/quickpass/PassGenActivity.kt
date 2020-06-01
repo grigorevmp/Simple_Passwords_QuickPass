@@ -1,12 +1,20 @@
 package com.mikhailgrigorev.quickpass
 
+import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.core.view.marginTop
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_pass_gen.*
@@ -22,6 +30,7 @@ class PassGenActivity : AppCompatActivity() {
     private var useLetters = false
     private var useNums = false
 
+    @SuppressLint("Recycle", "ClickableViewAccessibility", "ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pass_gen)
@@ -43,8 +52,7 @@ class PassGenActivity : AppCompatActivity() {
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
             do {
                 val ex_infoImgText = cursor.getString(imageIndex).toString()
-                val infoImgText = "Avatar src: $ex_infoImgText"
-                val id = getResources().getIdentifier(
+                val id = resources.getIdentifier(
                     ex_infoImgText,
                     "drawable",
                     packageName
@@ -95,11 +103,10 @@ class PassGenActivity : AppCompatActivity() {
                         useUC = false
                     list.remove(view.text.toString())
                 }
-
-                if (list.isNotEmpty()){
-                    // SHow the selection
-                    toast("Selected $list")
-                }
+                //if (list.isNotEmpty()){
+                //    // SHow the selection
+                //    toast("Selected $list")
+                //}
             }
         }
 
@@ -110,7 +117,7 @@ class PassGenActivity : AppCompatActivity() {
         checkPassword.setOnClickListener {
             val myPasswordManager = PasswordManager()
             //Evaluate password
-            var evaluation: Float = myPasswordManager.evaluatePassword(genPasswordIdField.text.toString())
+            val evaluation: Float = myPasswordManager.evaluatePassword(genPasswordIdField.text.toString())
             toast(evaluation.toString())
         }
 
@@ -118,15 +125,56 @@ class PassGenActivity : AppCompatActivity() {
             val myPasswordManager = PasswordManager()
             //Create a password with letters, uppercase letters, numbers but not special chars with 17 chars
             if(list.size == 0){
-                toast("You should choose at least 1 rule")
+                genPasswordId.error = getString(R.string.noRules)
             }
             else {
+                genPasswordId.error = null
                 val newPassword: String =
                     myPasswordManager.generatePassword(useLetters, useUC, useNums, useSyms, length)
                 genPasswordIdField.setText(newPassword)
             }
         }
+        generatePassword.setOnTouchListener { v, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        cardPass.elevation = 50F
+                        generatePassword.background = ContextCompat.getDrawable(this, R.color.grey)
+                        v.invalidate()
+                    }
+                    MotionEvent.ACTION_UP -> {
+                        generatePassword.background = ContextCompat.getDrawable(this, R.color.white)
+                        cardPass.elevation = 10F
+                        v.invalidate()
+                    }
+                }
+                false
+            }
 
+
+        copyPass.setOnClickListener {
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Password", genPasswordIdField.text.toString())
+            clipboard.setPrimaryClip(clip)
+            toast(getString(R.string.passCopied))
+        }
+
+        genPasswordId.setOnClickListener {
+            if(genPasswordIdField.text.toString() != ""){
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("Password", genPasswordIdField.text.toString())
+                clipboard.setPrimaryClip(clip)
+                toast(getString(R.string.passCopied))
+            }
+        }
+
+        genPasswordIdField.setOnClickListener {
+            if(genPasswordIdField.text.toString() != ""){
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("Password", genPasswordIdField.text.toString())
+                clipboard.setPrimaryClip(clip)
+                toast(getString(R.string.passCopied))
+            }
+        }
     }
 
     private fun Context.toast(message:String)=

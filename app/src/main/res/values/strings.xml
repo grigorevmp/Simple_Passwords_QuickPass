@@ -10,7 +10,6 @@
     <string name="errNumOfText">at least 3 characters</string>
     <string name="errPass">between from 4 to 20 alphanumeric characters</string>
     <string name="log_out">Log out</string>
-    <string name="coming_soon">Coming soon</string>
     <string name="delete_account">Delete account</string>
     <string name="no_text">No information</string>
     <string name="exists">This user already exists</string>
@@ -22,11 +21,15 @@
     <string name="correct_passwords">Correct passwords</string>
     <string name="incorrect_password">Incorrect password</string>
     <string name="need_fix">Need fix</string>
-    <string name="chipLetters">abc...</string>
-    <string name="upperCaseLetters">ABC...</string>
-    <string name="chipNumbers">123...</string>
-    <string name="chipSym">./-...</string>
+    <string name="chipLetters">abc…</string>
+    <string name="upperCaseLetters">ABC…</string>
+    <string name="chipNumbers">123…</string>
+    <string name="chipSym">*/#…</string>
     <string name="length">Length</string>
-    <string name="generate">Generate</string>
+    <string name="generate">+</string>
     <string name="check">Check</string>
+    <string name="copy">Copy</string>
+    <string name="passCopied">Password was copied to clipboard</string>
+    <string name="new_password">New password</string>
+    <string name="noRules">You should choose at least 1 rule</string>
 </resources>

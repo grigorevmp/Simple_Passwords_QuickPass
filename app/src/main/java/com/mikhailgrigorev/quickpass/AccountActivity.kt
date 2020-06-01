@@ -1,5 +1,6 @@
 package com.mikhailgrigorev.quickpass
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -14,6 +15,7 @@ class AccountActivity : AppCompatActivity() {
     private val PREFERENCE_FILE_KEY = "quickPassPreference"
     private val KEY_USERNAME = "prefUserNameKey"
 
+    @SuppressLint("Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account)
@@ -58,7 +60,7 @@ class AccountActivity : AppCompatActivity() {
                 info_name.text = infoNameText
                 info_pass.text = infoPassText
                 info_image.text = infoImgText
-                val id = getResources().getIdentifier(
+                val id = resources.getIdentifier(
                     ex_infoImgText,
                     "drawable",
                     packageName

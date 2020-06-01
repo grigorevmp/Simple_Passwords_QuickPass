@@ -1,12 +1,12 @@
 package com.mikhailgrigorev.quickpass
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlin.random.Random
@@ -14,7 +14,7 @@ import kotlin.random.Random
 
 class LoginActivity : AppCompatActivity() {
 
-    private val TAG = "SignupActivity"
+    private val TAG = "SignUpActivity"
     private val PREFERENCE_FILE_KEY = "quickPassPreference"
     private val KEY_USERNAME = "prefUserNameKey"
 
@@ -76,16 +76,17 @@ class LoginActivity : AppCompatActivity() {
         }
         if (password.isEmpty() || password.length < 4 || password.length > 20) {
             inputPasswordId.error = getString(R.string.errPass)
-            valid = false;
+            valid = false
         } else {
             inputPasswordId.error = null
         }
         return valid
     }
 
+    @SuppressLint("Recycle")
     private fun signUp (login: String, password:String) {
 
-        Log.d(TAG, "SignUp");
+        Log.d(TAG, "SignUp")
 
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
@@ -97,8 +98,6 @@ class LoginActivity : AppCompatActivity() {
             null, null, null
         )
 
-        var dbLogin = "null"
-
         if (cursor.moveToFirst()) {
             inputLoginId.error = getString(R.string.exists)
             return
@@ -107,7 +106,7 @@ class LoginActivity : AppCompatActivity() {
             contentValues.put(dbHelper.KEY_NAME, login)
             contentValues.put(dbHelper.KEY_PASS, password)
             contentValues.put(dbHelper.KEY_IMAGE, "ic_useravatar")
-            database.insert(dbHelper.TABLE_USERS, null, contentValues);
+            database.insert(dbHelper.TABLE_USERS, null, contentValues)
         }
 
         signIn(login, password)
@@ -115,7 +114,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun signIn (login: String, password:String){
 
-        Log.d(TAG, "SignIn");
+        Log.d(TAG, "SignIn")
 
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
@@ -125,8 +124,8 @@ class LoginActivity : AppCompatActivity() {
             null, null, null
         )
 
-        var dbLogin = "null"
-        var dbPassword = "null"
+        var dbLogin: String
+        var dbPassword: String
 
         if (cursor.moveToFirst()) {
             val nameIndex: Int = cursor.getColumnIndex(dbHelper.KEY_NAME)
@@ -154,6 +153,4 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun Context.toast(message:String)=
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
 }

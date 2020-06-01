@@ -1,5 +1,6 @@
 package com.mikhailgrigorev.quickpass
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -11,10 +12,11 @@ import kotlinx.android.synthetic.main.activity_sign.*
 
 class SignActivity : AppCompatActivity() {
 
-    private val TAG = "SignupActivity"
+    private val TAG = "SignUpActivity"
     private val PREFERENCE_FILE_KEY = "quickPassPreference"
     private val KEY_USERNAME = "prefUserNameKey"
 
+    @SuppressLint("Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign)
@@ -35,8 +37,7 @@ class SignActivity : AppCompatActivity() {
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
             do {
                 val ex_infoImgText = cursor.getString(imageIndex).toString()
-                val infoImgText = "Avatar src: $ex_infoImgText"
-                val id = getResources().getIdentifier(
+                val id = resources.getIdentifier(
                     ex_infoImgText,
                     "drawable",
                     packageName
@@ -47,7 +48,6 @@ class SignActivity : AppCompatActivity() {
 
         // Start animation
         loginFab.show()
-        logOutFab.show()
 
         // Fab handler
         loginFab.setOnClickListener {
@@ -72,7 +72,7 @@ class SignActivity : AppCompatActivity() {
         var valid = true
         if (password.isEmpty() || password.length < 4 || password.length > 20) {
             inputPasswordId.error = getString(R.string.errPass)
-            valid = false;
+            valid = false
         } else {
             inputPasswordId.error = null
         }
@@ -81,7 +81,7 @@ class SignActivity : AppCompatActivity() {
 
     private fun signIn (login:String, password:String){
 
-        Log.d(TAG, "SignIn");
+        Log.d(TAG, "SignIn")
 
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
@@ -91,8 +91,8 @@ class SignActivity : AppCompatActivity() {
             null, null, null
         )
 
-        var dbLogin = "null"
-        var dbPassword = "null"
+        var dbLogin: String
+        var dbPassword: String
 
         if (cursor.moveToFirst()) {
             val nameIndex: Int = cursor.getColumnIndex(dbHelper.KEY_NAME)

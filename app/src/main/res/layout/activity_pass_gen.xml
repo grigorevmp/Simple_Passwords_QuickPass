@@ -10,8 +10,8 @@
         android:id="@+id/helloTextId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:text="@string/hi_username"
         android:textColor="@color/textDark"
         android:textSize="24sp"
@@ -22,8 +22,8 @@
         android:id="@+id/userAvatar"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="35dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         android:contentDescription="@string/userAvatar"
         android:foreground="@drawable/bg_rounded"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +34,7 @@
         android:id="@+id/viewAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="35dp"
+        android:layout_marginBottom="20dp"
         android:text="@string/view_account"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
         android:id="@+id/positiveCircle"
         android:layout_width="14dp"
         android:layout_height="14dp"
-        android:layout_marginStart="35dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="3dp"
         android:contentDescription="@string/correct_passwords"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +55,7 @@
         android:id="@+id/negativeCircle"
         android:layout_width="14dp"
         android:layout_height="14dp"
-        android:layout_marginStart="35dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="3dp"
         android:contentDescription="@string/incorrect_password"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +66,7 @@
         android:id="@+id/negativeCircle2"
         android:layout_width="14dp"
         android:layout_height="14dp"
-        android:layout_marginStart="35dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="3dp"
         android:contentDescription="@string/need_fix"
         app:layout_constraintStart_toStartOf="parent"
@@ -108,9 +108,13 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="18dp"
-        android:layout_marginEnd="35dp"
+        app:boxCornerRadiusBottomEnd="15dp"
+        app:boxCornerRadiusTopEnd="15dp"
+        app:boxCornerRadiusTopStart="15dp"
+        app:boxCornerRadiusBottomStart="15dp"
+        android:layout_marginEnd="95dp"
         app:endIconMode="clear_text"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -119,75 +123,114 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/genPasswordIdField"
+            android:cursorVisible="false"
+            android:longClickable="false"
+            android:focusable="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/passSettings"
-        android:layout_width="wrap_content"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardPass"
+        android:layout_width="@dimen/box_size"
+        android:layout_height="@dimen/box_size"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/genPasswordId">
+
+        <ImageButton
+            android:id="@+id/generatePassword"
+            android:layout_width="@dimen/box_size"
+            android:layout_height="@dimen/box_size"
+            android:background="#FFFFFF"
+            android:contentDescription="@string/generate"
+            android:tint="@color/textDark"
+            app:srcCompat="@drawable/ic_dice" />
+    </androidx.cardview.widget.CardView>
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScroll"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"
+        android:scrollbars="none"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/genPasswordId">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/lettersToggle"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/passSettings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/chipLetters" />
+            app:singleLine="true">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/upperCaseToggle"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/upperCaseLetters" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/lettersToggle"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/chipLetters" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/numbersToggle"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/chipNumbers" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/upperCaseToggle"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/upperCaseLetters" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/symToggles"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/chipSym" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/numbersToggle"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/chipNumbers" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/lengthToggle"
-            style="@style/Widget.MaterialComponents.Chip.Action"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/length" />
-    </com.google.android.material.chip.ChipGroup>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/symToggles"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/chipSym" />
 
-    <Button
-        android:id="@+id/generatePassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
-        android:layout_marginEnd="35dp"
-        android:layout_marginBottom="10dp"
-        android:text="@string/generate"
-        app:layout_constraintBottom_toTopOf="@+id/viewAccount"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/lengthToggle"
+                style="@style/Widget.MaterialComponents.Chip.Action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/length" />
+        </com.google.android.material.chip.ChipGroup>
+    </HorizontalScrollView>
 
     <Button
         android:id="@+id/checkPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:text="@string/check"
-        app:layout_constraintBottom_toTopOf="@+id/generatePassword"
+        app:layout_constraintBottom_toTopOf="@+id/viewAccount"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/copyPass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/copy"
+        app:layout_constraintBottom_toTopOf="@+id/checkPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/newPass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_password"
+        app:layout_constraintBottom_toTopOf="@+id/copyPass"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,7 +11,6 @@
     <string name="errNumOfText">по крайней мере 3 символа</string>
     <string name="errPass">необходимо ввести от 4 до 20 символов</string>
     <string name="log_out">Выйти</string>
-    <string name="coming_soon">Будет позже</string>
     <string name="delete_account">Удалить аккаунт</string>
     <string name="no_text">Нет информации</string>
     <string name="exists">Этот пользователь уже существует</string>
@@ -23,11 +22,15 @@
     <string name="correct_passwords">Верные пароли</string>
     <string name="incorrect_password">Ошибочные пароли</string>
     <string name="need_fix">Необходимо изменить</string>
-    <string name="chipLetters">abc...</string>
-    <string name="chipSym">./-...</string>
+    <string name="chipLetters">abc…</string>
+    <string name="chipSym">./-…</string>
     <string name="length">Длина</string>
-    <string name="generate">Создать</string>
-    <string name="chipNumbers">123...</string>
+    <string name="generate">+</string>
+    <string name="chipNumbers">123…</string>
     <string name="check">Проверить</string>
-    <string name="upperCaseLetters">ABC...</string>
+    <string name="upperCaseLetters">ABC…</string>
+    <string name="copy">Копировать</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="noRules">нужно выбрать как минимум 1 правило</string>
+    <string name="passCopied">Пароль скопирован в буфер обмена</string>
 </resources>
