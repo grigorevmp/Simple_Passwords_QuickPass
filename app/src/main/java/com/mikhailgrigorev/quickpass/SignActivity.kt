@@ -24,6 +24,27 @@ class SignActivity : AppCompatActivity() {
         val name: String? = "Hi, $login"
         helloTextId.text = name
 
+        val dbHelper = DataBaseHelper(this)
+        val database = dbHelper.writableDatabase
+        val cursor: Cursor = database.query(
+            dbHelper.TABLE_USERS, arrayOf(dbHelper.KEY_IMAGE),
+            "NAME = ?", arrayOf(login),
+            null, null, null
+        )
+        if (cursor.moveToFirst()) {
+            val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
+            do {
+                val ex_infoImgText = cursor.getString(imageIndex).toString()
+                val infoImgText = "Avatar src: $ex_infoImgText"
+                val id = getResources().getIdentifier(
+                    ex_infoImgText,
+                    "drawable",
+                    packageName
+                )
+                userAvatar.setImageResource(id)
+            } while (cursor.moveToNext())
+        }
+
         // Start animation
         loginFab.show()
         logOutFab.show()

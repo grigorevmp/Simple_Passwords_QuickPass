@@ -2,15 +2,14 @@ package com.mikhailgrigorev.quickpass
 
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.marginTop
 import com.google.android.material.chip.Chip
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_pass_gen.*
-import kotlinx.android.synthetic.main.activity_pass_gen.helloTextId
 
 
 class PassGenActivity : AppCompatActivity() {
@@ -32,6 +31,27 @@ class PassGenActivity : AppCompatActivity() {
         val login: String? = args?.get("login").toString()
         val name: String? = "Hi, $login"
         helloTextId.text = name
+
+        val dbHelper = DataBaseHelper(this)
+        val database = dbHelper.writableDatabase
+        val cursor: Cursor = database.query(
+            dbHelper.TABLE_USERS, arrayOf(dbHelper.KEY_IMAGE),
+            "NAME = ?", arrayOf(login),
+            null, null, null
+        )
+        if (cursor.moveToFirst()) {
+            val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
+            do {
+                val ex_infoImgText = cursor.getString(imageIndex).toString()
+                val infoImgText = "Avatar src: $ex_infoImgText"
+                val id = getResources().getIdentifier(
+                    ex_infoImgText,
+                    "drawable",
+                    packageName
+                )
+                userAvatar.setImageResource(id)
+            } while (cursor.moveToNext())
+        }
 
         // Checking prefs
         val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)

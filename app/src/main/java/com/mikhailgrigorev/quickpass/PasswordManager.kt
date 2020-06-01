@@ -39,7 +39,7 @@ class PasswordManager {
     fun evaluatePassword(passwordToTest: String) : Float {
 
         var factor = 0
-        var length = passwordToTest.length
+        val length = passwordToTest.length
 
         if( passwordToTest.matches( Regex(".*["+this.letters+"].*") ) ) { factor += 2 }
         if( passwordToTest.matches( Regex(".*["+this.uppercaseLetters+"].*") ) ){ factor += 2 }
