@@ -75,7 +75,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
         android:clickable="true"
         android:focusable="true"
         android:text="@string/sign_in"
@@ -84,8 +83,9 @@
         app:backgroundTint="@color/colorAccent"
         app:icon="@drawable/ic_arr_forward"
         app:iconTint="@color/textDark"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/logOutFab"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/logOutFab" />
 
     <TextView
         android:id="@+id/inputPass"
