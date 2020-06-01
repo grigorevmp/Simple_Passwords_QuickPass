@@ -33,4 +33,6 @@
     <string name="new_password">Новый пароль</string>
     <string name="noRules">нужно выбрать как минимум 1 правило</string>
     <string name="passCopied">Пароль скопирован в буфер обмена</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Закрыть</string>
 </resources>

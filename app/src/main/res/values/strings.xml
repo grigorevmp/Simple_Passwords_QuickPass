@@ -32,4 +32,6 @@
     <string name="passCopied">Password was copied to clipboard</string>
     <string name="new_password">New password</string>
     <string name="noRules">You should choose at least 1 rule</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 </resources>

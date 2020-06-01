@@ -18,27 +18,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/userAvatar"
+    <androidx.cardview.widget.CardView
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:contentDescription="@string/userAvatar"
-        android:foreground="@drawable/bg_rounded"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_account" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/viewAccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="@string/view_account"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <ImageView
+            android:id="@+id/userAvatar"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:contentDescription="@string/userAvatar"
+            app:srcCompat="@drawable/ic_account" />
+    </androidx.cardview.widget.CardView>
 
     <ImageView
         android:id="@+id/positiveCircle"
@@ -208,29 +204,34 @@
         android:id="@+id/checkPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="20dp"
         android:text="@string/check"
-        app:layout_constraintBottom_toTopOf="@+id/viewAccount"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/copyPass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/copy"
-        app:layout_constraintBottom_toTopOf="@+id/checkPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/newPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/new_password"
-        app:layout_constraintBottom_toTopOf="@+id/copyPass"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:iconTint="@color/textDark"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:srcCompat="@drawable/plus" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/passwordRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScroll" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
