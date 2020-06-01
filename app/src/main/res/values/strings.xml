@@ -18,4 +18,5 @@
     <string name="wrong_pass">Wrong password</string>
     <string name="input_your_password">Input your password</string>
     <string name="or_use_fingerprint">Or use fingerprint (coming soon)</string>
+    <string name="view_account">View account</string>
 </resources>

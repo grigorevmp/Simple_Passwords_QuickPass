@@ -49,7 +49,7 @@ class SignActivity : AppCompatActivity() {
 
     private fun validate(password:String): Boolean {
         var valid = true
-        if (password.isEmpty() || password.length < 4) {
+        if (password.isEmpty() || password.length < 4 || password.length > 20) {
             inputPasswordId.error = getString(R.string.errPass)
             valid = false;
         } else {

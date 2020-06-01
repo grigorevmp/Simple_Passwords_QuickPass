@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SignActivity"></activity>
+        <activity android:name=".AccountActivity"></activity>
+        <activity android:name=".SignActivity" />
         <activity android:name=".PassGenActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
