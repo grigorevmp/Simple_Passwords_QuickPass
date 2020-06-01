@@ -6,6 +6,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
+import android.database.SQLException
 import android.os.Bundle
 import android.view.MotionEvent
 import android.widget.EditText
@@ -66,6 +67,37 @@ class PassGenActivity : AppCompatActivity() {
                 userAvatar.setImageResource(id)
             } while (cursor.moveToNext())
         }
+
+
+        val pdbHelper = PasswordsDataBaseHelper(this, login.toString())
+        val pdatabase = pdbHelper.writableDatabase
+        try {
+            val pcursor: Cursor = pdatabase.query(
+                pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS),
+                null, null,
+                null, null, null
+            )
+
+            var dbLogin: String
+            var dbPassword: String
+
+            if (pcursor.moveToFirst()) {
+                val nameIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_NAME)
+                val passIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_PASS)
+                do {
+                    dbLogin = pcursor.getString(nameIndex).toString()
+                    dbPassword = pcursor.getString(passIndex).toString()
+                } while (pcursor.moveToNext())
+                sample.text = "$dbLogin $dbPassword"
+            } else {
+                sample.text = "no passwords"
+            }
+
+        } catch (e: SQLException) {
+            sample.text = "no passwords"
+        }
+
+
 
         // Checking prefs
         val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)

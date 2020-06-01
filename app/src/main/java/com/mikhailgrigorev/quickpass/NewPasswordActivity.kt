@@ -3,28 +3,19 @@ package com.mikhailgrigorev.quickpass
 import android.annotation.SuppressLint
 import android.content.*
 import android.database.Cursor
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MotionEvent
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_new_password.*
-import kotlinx.android.synthetic.main.activity_new_password.cardPass
-import kotlinx.android.synthetic.main.activity_new_password.genPasswordId
-import kotlinx.android.synthetic.main.activity_new_password.genPasswordIdField
-import kotlinx.android.synthetic.main.activity_new_password.generatePassword
-import kotlinx.android.synthetic.main.activity_new_password.lengthToggle
-import kotlinx.android.synthetic.main.activity_new_password.lettersToggle
-import kotlinx.android.synthetic.main.activity_new_password.numbersToggle
-import kotlinx.android.synthetic.main.activity_new_password.passSettings
-import kotlinx.android.synthetic.main.activity_new_password.symToggles
-import kotlinx.android.synthetic.main.activity_new_password.upperCaseToggle
 import kotlinx.android.synthetic.main.activity_new_password.userAvatar
-import kotlinx.android.synthetic.main.activity_pass_gen.*
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.random.Random
 
 class NewPasswordActivity : AppCompatActivity() {
@@ -201,34 +192,47 @@ class NewPasswordActivity : AppCompatActivity() {
         }
 
         savePass.setOnClickListener {
-            //val pdbHelper = PasswordsDataBaseHelper(this, login.toString())
-            //val passDataBase = pdbHelper.writableDatabase
-            //val contentValues = ContentValues()
-//
-            //val newCursor: Cursor = passDataBase.query(
-            //    pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME),
-            //    "NAME = ?", arrayOf(login),
-            //    null, null, null
-            //)
-//
-            //if (newCursor.moveToFirst()) {
-            //    newName.error = getString(R.string.exists)
-            //} else {
-            //    contentValues.put(pdbHelper.KEY_ID, Random.nextInt(0, 100))
-            //    contentValues.put(pdbHelper.KEY_NAME, login)
-            //    contentValues.put(pdbHelper.KEY_PASS, genPasswordIdField.text.toString())
-            //    contentValues.put(pdbHelper.KEY_2FA, 0)
-            //    contentValues.put(pdbHelper.KEY_TIME, 0)
-            //    contentValues.put(pdbHelper.KEY_DESC, "0")
-            //    passDataBase.insert(pdbHelper.TABLE_USERS, null, contentValues)
-            //}
+            val pdbHelper = PasswordsDataBaseHelper(this, login.toString())
+            val passDataBase = pdbHelper.writableDatabase
+            val contentValues = ContentValues()
 
+            val newCursor: Cursor = passDataBase.query(
+                pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME),
+                "NAME = ?", arrayOf(login),
+                null, null, null
+            )
+
+            if (newCursor.moveToFirst()) {
+                newName.error = getString(R.string.exists)
+            }
+            else if (login != null) {
+                if (login.isEmpty() || login.length < 3) {
+                    inputLoginId.error = getString(R.string.errNumOfText)
+                } else {
+                    contentValues.put(pdbHelper.KEY_ID, Random.nextInt(0, 100))
+                    contentValues.put(pdbHelper.KEY_NAME, newNameField.text.toString())
+                    contentValues.put(pdbHelper.KEY_PASS, genPasswordIdField.text.toString())
+                    contentValues.put(pdbHelper.KEY_2FA, 1)
+                    contentValues.put(pdbHelper.KEY_USE_TIME, 0)
+                    contentValues.put(pdbHelper.KEY_TIME, getDateTime())
+                    contentValues.put(pdbHelper.KEY_DESC, noteField.text.toString())
+                    passDataBase.insert(pdbHelper.TABLE_USERS, null, contentValues)
+                }
+            }
 
             val intent = Intent(this, PassGenActivity::class.java)
             intent.putExtra("login", login)
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun getDateTime(): String? {
+        val dateFormat = SimpleDateFormat(
+            "yyyy-MM-dd HH:mm:ss", Locale.getDefault()
+        )
+        val date = Date()
+        return dateFormat.format(date)
     }
 
 

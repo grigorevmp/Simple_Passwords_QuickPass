@@ -39,4 +39,9 @@
     <string name="name_your_password">Name your password</string>
     <string name="_2fa">2FA</string>
     <string name="set_time_limit">Set time limit</string>
+    <string name="add_some_description">Add some description</string>
+    <string name="desc">Decription:</string>
+    <string name="name">Name</string>
+    <string name="password">Password</string>
+    <string name="textview">TextView</string>
 </resources>
