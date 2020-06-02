@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.*
 import android.database.Cursor
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
@@ -63,6 +65,12 @@ class NewPasswordActivity : AppCompatActivity() {
         val list = mutableListOf<String>()
         val pass: String? = args?.get("pass").toString()
         genPasswordIdField.setText(pass)
+        if(pass!="") {
+            val myPasswordManager = PasswordManager()
+            val evaluation: Float =
+                myPasswordManager.evaluatePassword(genPasswordIdField.text.toString())
+            passQuality.text = evaluation.toString()
+        }
         useLetters = args?.get("useLetters") as Boolean
         if(useLetters){
             lettersToggle.isChecked = true
@@ -139,6 +147,20 @@ class NewPasswordActivity : AppCompatActivity() {
             }
         }
 
+        genPasswordIdField.addTextChangedListener(object: TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                val myPasswordManager = PasswordManager()
+                val evaluation: Float = myPasswordManager.evaluatePassword(genPasswordIdField.text.toString())
+                passQuality.text = evaluation.toString()
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        })
+
         generatePassword.setOnClickListener {
             val myPasswordManager = PasswordManager()
             //Create a password with letters, uppercase letters, numbers but not special chars with 17 chars
@@ -150,6 +172,9 @@ class NewPasswordActivity : AppCompatActivity() {
                 val newPassword: String =
                     myPasswordManager.generatePassword(useLetters, useUC, useNums, useSyms, length)
                 genPasswordIdField.setText(newPassword)
+
+                val evaluation: Float = myPasswordManager.evaluatePassword(genPasswordIdField.text.toString())
+                passQuality.text = evaluation.toString()
             }
         }
         generatePassword.setOnTouchListener { v, event ->
@@ -184,13 +209,6 @@ class NewPasswordActivity : AppCompatActivity() {
                 clipboard.setPrimaryClip(clip)
                 toast(getString(R.string.passCopied))
             }
-        }
-
-        checkPassword.setOnClickListener {
-            val myPasswordManager = PasswordManager()
-            //Evaluate password
-            val evaluation: Float = myPasswordManager.evaluatePassword(genPasswordIdField.text.toString())
-            toast(evaluation.toString())
         }
 
         savePass.setOnClickListener {

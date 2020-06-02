@@ -62,14 +62,7 @@ class AccountActivity : AppCompatActivity() {
                 val ex_infoNameText = cursor.getString(nameIndex).toString()
                 val ex_infoPassText = cursor.getString(passIndex).toString()
                 val ex_infoImgText = cursor.getString(imageIndex).toString()
-                val infoIdText = "Id: $ex_infoIdText"
-                val infoNameText = "Name: $ex_infoNameText"
-                val infoPassText = "Password: $ex_infoPassText"
-                val infoImgText = "Avatar src: $ex_infoImgText"
-                info_id.text = infoIdText
-                info_name.text = infoNameText
-                info_pass.text = infoPassText
-                info_image.text = infoImgText
+                passViewField.setText(ex_infoPassText)
                 val id = resources.getIdentifier(
                     ex_infoImgText,
                     "drawable",

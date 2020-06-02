@@ -1,6 +1,8 @@
 package com.mikhailgrigorev.quickpass
 
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
@@ -9,7 +11,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_pass_gen.*
 import kotlinx.android.synthetic.main.activity_password_view.*
+import kotlinx.android.synthetic.main.activity_password_view.helloTextId
+import kotlinx.android.synthetic.main.activity_password_view.userAvatar
 
 class PasswordViewActivity : AppCompatActivity() {
 
@@ -78,24 +83,28 @@ class PasswordViewActivity : AppCompatActivity() {
                 val descIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_DESC)
                 do {
                     dbLogin = pcursor.getString(nameIndex).toString()
+                    helloTextId.text = dbLogin
                     dbPassword = pcursor.getString(passIndex).toString()
+                    passViewField.setText(dbPassword)
                     val db2FAIndex = pcursor.getString(_2FAIndex).toString()
+                    if (db2FAIndex == "1"){
+                        authToogle.isChecked = true
+                    }
                     val dbUTIndex = pcursor.getString(uTIndex).toString()
+                    if (dbUTIndex == "1"){
+                        timeLimit.isChecked = true
+                    }
                     val dbTimeIndex = pcursor.getString(timeIndex).toString()
-                    val dbDescIndex = pcursor.getString(descIndex).toString()
-                    passwordName.text = dbLogin
-                    passwordContent.text = getString(R.string.pass) + " " + dbPassword
-                    password2FA.text = getString(R.string.useFA) + " " + db2FAIndex
-                    passwordUTL.text = getString(R.string.tl) + " " + dbUTIndex
                     passwordTime.text = getString(R.string.time_lim) + " " + dbTimeIndex
-                    passwordDesc.text = getString(R.string.decription) + " " + dbDescIndex
+                    val dbDescIndex = pcursor.getString(descIndex).toString()
+                    noteViewField.setText(dbDescIndex)
                 } while (pcursor.moveToNext())
             } else {
-                passwordName.text = getString(R.string.no_text)
+                helloTextId.text = getString(R.string.no_text)
             }
 
         } catch (e: SQLException) {
-            passwordName.text = getString(R.string.no_text)
+            helloTextId.text = getString(R.string.no_text)
         }
 
         deletePassword.setOnClickListener {
@@ -107,6 +116,30 @@ class PasswordViewActivity : AppCompatActivity() {
             intent.putExtra("login", login)
             startActivity(intent)
             finish()
+        }
+
+        userAvatar.setOnClickListener {
+            val intent = Intent(this, AccountActivity::class.java)
+            intent.putExtra("login", login)
+            startActivity(intent)
+        }
+
+        passView.setOnClickListener {
+            if(passViewField.text.toString() != ""){
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("Password", passViewField.text.toString())
+                clipboard.setPrimaryClip(clip)
+                toast(getString(R.string.passCopied))
+            }
+        }
+
+        passViewField.setOnClickListener {
+            if(passViewField.text.toString() != ""){
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("Password", passViewField.text.toString())
+                clipboard.setPrimaryClip(clip)
+                toast(getString(R.string.passCopied))
+            }
         }
 
     }

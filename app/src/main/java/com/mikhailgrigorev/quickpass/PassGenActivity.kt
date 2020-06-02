@@ -99,7 +99,10 @@ class PassGenActivity : AppCompatActivity() {
         } catch (e: SQLException) {
         }
 
-        passwordRecycler.layoutManager = LinearLayoutManager(this)
+        passwordRecycler.layoutManager = LinearLayoutManager(this,  LinearLayoutManager.VERTICAL, false)
+
+        passwordRecycler.setHasFixedSize(true)
+
         passwordRecycler.adapter = PasswordAdapter(passwords, this, clickListener = {
             passClickListener(it)
         })

@@ -46,13 +46,14 @@
     <string name="password">Пароль</string>
     <string name="textview">TexView</string>
     <string name="view_password">Просмотр пароль</string>
-    <string name="delete_password">Удалить пароль</string>
+    <string name="delete_password">Удалить</string>
     <string name="load_avatar">Загрузить аватар</string>
     <string name="decription">Описание:</string>
-    <string name="time_lim">Время последнего изменения:</string>
-    <string name="pass">Пароль</string>
+    <string name="time_lim">Изменено:</string>
+    <string name="pass">Пароль:</string>
     <string name="useFA">Использовать 2FA</string>
     <string name="tl">Ограничение времени:</string>
     <string name="tapToView">Нажмите для просмотра</string>
     <string name="hi">Привет,</string>
+    <string name="qualityPassword">Качество пароля:</string>
 </resources>
