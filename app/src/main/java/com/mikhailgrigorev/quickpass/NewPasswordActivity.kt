@@ -8,9 +8,9 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
-import android.widget.EditText
+import android.view.animation.TranslateAnimation
+import android.widget.SeekBar
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.activity_new_password.userAvatar
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.random.Random
+
 
 class NewPasswordActivity : AppCompatActivity() {
 
@@ -95,6 +96,13 @@ class NewPasswordActivity : AppCompatActivity() {
         lengthToggle.text = getString(R.string.length)  + ": " +  length
 
         lengthToggle.setOnClickListener {
+            if(seekBar.visibility ==  View.GONE){
+                seekBar.visibility =  View.VISIBLE
+            }
+            else{
+                seekBar.visibility =  View.GONE
+            }
+            /*
             val txt = EditText(this)
             txt.hint = "$length"
             AlertDialog.Builder(this)
@@ -110,8 +118,26 @@ class NewPasswordActivity : AppCompatActivity() {
                 .setNegativeButton(
                     "Cancel"
                 ) { _, _ -> }
-                .show()
+                .show()*/
         }
+
+        // Set a SeekBar change listener
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
+                // Display the current progress of SeekBar
+                length = i
+                lengthToggle.text = getString(R.string.length)  + ": " + length
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                // Do something
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                // Do something
+            }
+        })
 
         // Loop through the chips
         for (index in 0 until passSettings.childCount) {

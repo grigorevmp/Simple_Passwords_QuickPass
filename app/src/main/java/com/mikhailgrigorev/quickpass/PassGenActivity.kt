@@ -159,6 +159,13 @@ class PassGenActivity : AppCompatActivity() {
 
         lengthToggle.text = getString(R.string.length)  + ": " +  length
         lengthToggle.setOnClickListener {
+            if(seekBar2.visibility ==  View.GONE){
+                seekBar2.visibility =  View.VISIBLE
+            }
+            else{
+                seekBar2.visibility =  View.GONE
+            }
+            /*
             val txt = EditText(this)
             txt.hint = "$length"
             AlertDialog.Builder(this)
@@ -174,9 +181,8 @@ class PassGenActivity : AppCompatActivity() {
                 .setNegativeButton(
                     "Cancel"
                 ) { _, _ -> }
-                .show()
+                .show()*/
         }
-
         generatePassword.setOnClickListener {
             val myPasswordManager = PasswordManager()
             //Create a password with letters, uppercase letters, numbers but not special chars with 17 chars
