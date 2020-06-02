@@ -55,4 +55,5 @@
     <string name="tapToView">Tap to view password</string>
     <string name="hi">Hi, </string>
     <string name="qualityPassword">Password quality:</string>
+    <string name="edit">Edit</string>
 </resources>

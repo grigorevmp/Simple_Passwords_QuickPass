@@ -56,4 +56,5 @@
     <string name="tapToView">Нажмите для просмотра</string>
     <string name="hi">Привет,</string>
     <string name="qualityPassword">Качество пароля:</string>
+    <string name="edit">Изменить</string>
 </resources>

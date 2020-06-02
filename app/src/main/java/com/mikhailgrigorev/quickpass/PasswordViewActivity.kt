@@ -11,10 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_pass_gen.*
 import kotlinx.android.synthetic.main.activity_password_view.*
-import kotlinx.android.synthetic.main.activity_password_view.helloTextId
-import kotlinx.android.synthetic.main.activity_password_view.userAvatar
 
 class PasswordViewActivity : AppCompatActivity() {
 
@@ -140,6 +137,14 @@ class PasswordViewActivity : AppCompatActivity() {
                 clipboard.setPrimaryClip(clip)
                 toast(getString(R.string.passCopied))
             }
+        }
+
+        editButton.setOnClickListener {
+            val intent = Intent(this, EditPassActivity::class.java)
+            intent.putExtra("login", login)
+            intent.putExtra("passName", passName)
+            startActivity(intent)
+            finish()
         }
 
     }
