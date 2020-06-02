@@ -9,6 +9,7 @@ import android.database.Cursor
 import android.database.SQLException
 import android.os.Bundle
 import android.view.MotionEvent
+import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -39,12 +40,13 @@ class PassGenActivity : AppCompatActivity() {
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         setContentView(R.layout.activity_pass_gen)
 
 
         val args: Bundle? = intent.extras
         login = args?.get("login").toString()
-        val name: String? = "Hi, $login"
+        val name: String? = getString(R.string.hi) + " " + login
         helloTextId.text = name
 
         correctPasswords.text = safePass.toString() + " " + getString(R.string.correct_passwords)
@@ -98,7 +100,7 @@ class PassGenActivity : AppCompatActivity() {
         }
 
         passwordRecycler.layoutManager = LinearLayoutManager(this)
-        passwordRecycler.adapter = passwordAdapter(passwords, this, clickListener = {
+        passwordRecycler.adapter = PasswordAdapter(passwords, this, clickListener = {
             passClickListener(it)
         })
 

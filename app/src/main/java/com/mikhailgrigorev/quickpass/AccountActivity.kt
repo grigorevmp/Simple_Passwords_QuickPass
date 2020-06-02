@@ -13,6 +13,7 @@ import android.app.Activity.RESULT_OK
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
+import android.view.View
 import java.io.IOException
 
 class AccountActivity : AppCompatActivity() {
@@ -26,12 +27,13 @@ class AccountActivity : AppCompatActivity() {
     @SuppressLint("Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         setContentView(R.layout.activity_account)
 
 
         val args: Bundle? = intent.extras
         val login: String? = args?.get("login").toString()
-        val name: String? = "Hi, $login"
+        val name: String? = getString(R.string.hi) + " " + login
         helloTextId.text = name
 
         // Checking prefs

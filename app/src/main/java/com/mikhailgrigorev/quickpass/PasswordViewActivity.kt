@@ -7,6 +7,7 @@ import android.database.Cursor
 import android.database.SQLException
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_password_view.*
 
@@ -26,6 +27,7 @@ class PasswordViewActivity : AppCompatActivity() {
     @SuppressLint("Recycle", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         setContentView(R.layout.activity_password_view)
 
         val args: Bundle? = intent.extras
@@ -82,18 +84,18 @@ class PasswordViewActivity : AppCompatActivity() {
                     val dbTimeIndex = pcursor.getString(timeIndex).toString()
                     val dbDescIndex = pcursor.getString(descIndex).toString()
                     passwordName.text = dbLogin
-                    passwordContent.text = "Password: $dbPassword"
-                    password2FA.text = "Use 2FA: $db2FAIndex"
-                    passwordUTL.text = "Use limits of time: $dbUTIndex"
-                    passwordTime.text = "Time limits: $dbTimeIndex"
-                    passwordDesc.text = "Password: $dbDescIndex"
+                    passwordContent.text = getString(R.string.pass) + " " + dbPassword
+                    password2FA.text = getString(R.string.useFA) + " " + db2FAIndex
+                    passwordUTL.text = getString(R.string.tl) + " " + dbUTIndex
+                    passwordTime.text = getString(R.string.time_lim) + " " + dbTimeIndex
+                    passwordDesc.text = getString(R.string.decription) + " " + dbDescIndex
                 } while (pcursor.moveToNext())
             } else {
-                passwordName.text = "no passwords"
+                passwordName.text = getString(R.string.no_text)
             }
 
         } catch (e: SQLException) {
-            passwordName.text = "no passwords"
+            passwordName.text = getString(R.string.no_text)
         }
 
         deletePassword.setOnClickListener {
