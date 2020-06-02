@@ -44,4 +44,7 @@
     <string name="name">Name</string>
     <string name="password">Password</string>
     <string name="textview">TextView</string>
+    <string name="view_password">View password</string>
+    <string name="delete_password">Delete password</string>
+    <string name="load_avatar">Load avatar</string>
 </resources>

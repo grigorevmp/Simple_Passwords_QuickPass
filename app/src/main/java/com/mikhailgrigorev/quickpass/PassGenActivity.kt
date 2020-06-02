@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_pass_gen.*
 
@@ -30,6 +31,8 @@ class PassGenActivity : AppCompatActivity() {
     private var safePass = 0
     private var unsafePass = 0
     private var fixPass = 0
+    val passwords: ArrayList<String> = ArrayList()
+    lateinit var login: String
 
     @SuppressLint("Recycle", "ClickableViewAccessibility", "ResourceAsColor", "RestrictedApi",
         "SetTextI18n"
@@ -40,7 +43,7 @@ class PassGenActivity : AppCompatActivity() {
 
 
         val args: Bundle? = intent.extras
-        val login: String? = args?.get("login").toString()
+        login = args?.get("login").toString()
         val name: String? = "Hi, $login"
         helloTextId.text = name
 
@@ -69,7 +72,10 @@ class PassGenActivity : AppCompatActivity() {
         }
 
 
-        val pdbHelper = PasswordsDataBaseHelper(this, login.toString())
+        var dbLogin: String
+        var dbPassword: String
+
+        val pdbHelper = PasswordsDataBaseHelper(this, login)
         val pdatabase = pdbHelper.writableDatabase
         try {
             val pcursor: Cursor = pdatabase.query(
@@ -78,25 +84,23 @@ class PassGenActivity : AppCompatActivity() {
                 null, null, null
             )
 
-            var dbLogin: String
-            var dbPassword: String
 
             if (pcursor.moveToFirst()) {
                 val nameIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_NAME)
                 val passIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_PASS)
                 do {
                     dbLogin = pcursor.getString(nameIndex).toString()
+                    passwords.add(dbLogin)
                     dbPassword = pcursor.getString(passIndex).toString()
                 } while (pcursor.moveToNext())
-                sample.text = "$dbLogin $dbPassword"
-            } else {
-                sample.text = "no passwords"
             }
-
         } catch (e: SQLException) {
-            sample.text = "no passwords"
         }
 
+        passwordRecycler.layoutManager = LinearLayoutManager(this)
+        passwordRecycler.adapter = passwordAdapter(passwords, this, clickListener = {
+            passClickListener(it)
+        })
 
 
         // Checking prefs
@@ -226,6 +230,14 @@ class PassGenActivity : AppCompatActivity() {
             intent.putExtra("length", length)
             startActivity(intent)
         }
+    }
+
+    private fun passClickListener(position: Int) {
+        // You got the position of ArrayList
+        val intent = Intent(this, PasswordViewActivity::class.java)
+        intent.putExtra("login", login)
+        intent.putExtra("passName", passwords[position])
+        startActivity(intent)
     }
 
     private fun Context.toast(message:String)=

@@ -40,4 +40,12 @@
     <string name="name_your_password">Введите имя пароля</string>
     <string name="_2fa">2FA</string>
     <string name="set_time_limit">Лимит времени</string>
+    <string name="add_some_description">Добавить описание</string>
+    <string name="desc">Описание:</string>
+    <string name="name">Имя</string>
+    <string name="password">Пароль</string>
+    <string name="textview">TexView</string>
+    <string name="view_password">Просмотр пароль</string>
+    <string name="delete_password">Удалить пароль</string>
+    <string name="load_avatar">Загрузить аватар</string>
 </resources>

@@ -7,11 +7,12 @@
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:manageSpaceActivity=".NewPasswordActivity"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:manageSpaceActivity=".NewPasswordActivity"
         android:theme="@style/AppTheme">
-        <activity android:name=".NewPasswordActivity"/>
+        <activity android:name=".PasswordViewActivity"/>
+        <activity android:name=".NewPasswordActivity" />
         <activity android:name=".AccountActivity" />
         <activity android:name=".SignActivity" />
         <activity android:name=".PassGenActivity" />

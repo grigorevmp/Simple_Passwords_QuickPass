@@ -9,11 +9,19 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_account.*
+import android.app.Activity.RESULT_OK
+import android.graphics.Bitmap
+import android.net.Uri
+import android.provider.MediaStore
+import java.io.IOException
 
 class AccountActivity : AppCompatActivity() {
 
     private val PREFERENCE_FILE_KEY = "quickPassPreference"
     private val KEY_USERNAME = "prefUserNameKey"
+    private val GET_IMAGE = 1
+    private lateinit var filePath : Uri
+    private lateinit var bitmap : Bitmap
 
     @SuppressLint("Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,7 +81,13 @@ class AccountActivity : AppCompatActivity() {
             exit(sharedPref)
         }
 
-        viewAccount.setOnClickListener {
+        loadAcc.setOnClickListener {
+            val photoPickerIntent = Intent(Intent.ACTION_PICK)
+            photoPickerIntent.type = "image/*"
+            startActivityForResult(photoPickerIntent, GET_IMAGE)
+        }
+
+        deleteAccount.setOnClickListener {
             database.delete(dbHelper.TABLE_USERS,
                 "NAME = ?",
                 arrayOf(login))
@@ -92,4 +106,16 @@ class AccountActivity : AppCompatActivity() {
     private fun Context.toast(message:String)=
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == GET_IMAGE && resultCode == RESULT_OK && data != null){
+            filePath = data.data!!
+            try{
+                bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, filePath)
+                imageView!!.setImageBitmap(bitmap)
+            }catch (exception : IOException){
+                Toast.makeText(this,"Error Loading Image!!!", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 }
