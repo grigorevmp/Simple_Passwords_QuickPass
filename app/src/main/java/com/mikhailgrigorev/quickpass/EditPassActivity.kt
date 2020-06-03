@@ -1,42 +1,29 @@
 package com.mikhailgrigorev.quickpass
 
 import android.annotation.SuppressLint
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.ContentValues
-import android.content.Context
+import android.content.*
 import android.database.Cursor
 import android.database.SQLException
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.widget.SeekBar
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_edit_pass.*
 import kotlinx.android.synthetic.main.activity_edit_pass.authToogle
-import kotlinx.android.synthetic.main.activity_edit_pass.cardPass
-import kotlinx.android.synthetic.main.activity_edit_pass.genPasswordId
-import kotlinx.android.synthetic.main.activity_edit_pass.genPasswordIdField
-import kotlinx.android.synthetic.main.activity_edit_pass.generatePassword
 import kotlinx.android.synthetic.main.activity_edit_pass.helloTextId
-import kotlinx.android.synthetic.main.activity_edit_pass.lengthToggle
-import kotlinx.android.synthetic.main.activity_edit_pass.newNameField
-import kotlinx.android.synthetic.main.activity_edit_pass.noteField
-import kotlinx.android.synthetic.main.activity_edit_pass.passQuality
-import kotlinx.android.synthetic.main.activity_edit_pass.passSettings
-import kotlinx.android.synthetic.main.activity_edit_pass.savePass
-import kotlinx.android.synthetic.main.activity_edit_pass.seekBar
 import kotlinx.android.synthetic.main.activity_edit_pass.timeLimit
 import kotlinx.android.synthetic.main.activity_edit_pass.userAvatar
-import kotlinx.android.synthetic.main.activity_new_password.*
+import kotlinx.android.synthetic.main.activity_password_view.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.random.Random
+
 
 class EditPassActivity : AppCompatActivity() {
     private val PREFERENCE_FILE_KEY = "quickPassPreference"
@@ -49,6 +36,8 @@ class EditPassActivity : AppCompatActivity() {
     private var safePass = 0
     private var unsafePass = 0
     private var fixPass = 0
+    lateinit var login: String
+    lateinit var passName: String
 
     @SuppressLint("Recycle", "SetTextI18n", "ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,14 +46,8 @@ class EditPassActivity : AppCompatActivity() {
         setContentView(R.layout.activity_edit_pass)
 
         val args: Bundle? = intent.extras
-        val login: String? = args?.get("login").toString()
-        val passName: String? = args?.get("passName").toString()
-
-        if (passName != null) {
-            length = passName.length
-            seekBar.progress = length
-            lengthToggle.text = getString(R.string.length) + ": " + length
-        }
+        login = args?.get("login").toString()
+        passName = args?.get("passName").toString()
 
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
@@ -86,6 +69,11 @@ class EditPassActivity : AppCompatActivity() {
             } while (cursor.moveToNext())
         }
 
+        userAvatar.setOnClickListener {
+            val intent = Intent(this, AccountActivity::class.java)
+            intent.putExtra("login", login)
+            startActivity(intent)
+        }
 
         var dbLogin: String = ""
         var dbPassword: String
@@ -116,15 +104,22 @@ class EditPassActivity : AppCompatActivity() {
                 val descIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_DESC)
                 do {
                     dbLogin = pcursor.getString(nameIndex).toString()
-                    helloTextId.text = "$dbLogin •"
+                    helloTextId.text = "• $dbLogin"
                     newNameField.setText(dbLogin)
                     dbPassword = pcursor.getString(passIndex).toString()
                     genPasswordIdField.setText(dbPassword)
                     if (dbPassword != "") {
+                        length = dbPassword.length
+                        seekBar.progress = length
+                        lengthToggle.text = getString(R.string.length) + ": " + length
                         val myPasswordManager = PasswordManager()
                         val evaluation: Float =
                             myPasswordManager.evaluatePassword(genPasswordIdField.text.toString())
                         passQuality.text = evaluation.toString()
+                        lettersToggle.isChecked = myPasswordManager.isLetters(genPasswordIdField.text.toString())
+                        upperCaseToggle.isChecked = myPasswordManager.isUpperCase(genPasswordIdField.text.toString())
+                        numbersToggle.isChecked = myPasswordManager.isNumbers(genPasswordIdField.text.toString())
+                        symToggles.isChecked = myPasswordManager.isSymbols(genPasswordIdField.text.toString())
                     }
                     val db2FAIndex = pcursor.getString(_2FAIndex).toString()
                     if (db2FAIndex == "1") {
@@ -301,11 +296,31 @@ class EditPassActivity : AppCompatActivity() {
             pdatabase.update(pdbHelper.TABLE_USERS, contentValues,
                 "NAME = ?",
                 arrayOf(dbLogin))
+            val intent = Intent(this, PasswordViewActivity::class.java)
+            intent.putExtra("login", login)
+            intent.putExtra("passName",  newNameField.text.toString())
+            startActivity(intent)
+            finish()
         }
 
     }
+
+    override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
+        when (keyCode) {
+            KeyEvent.KEYCODE_BACK -> {
+                val intent = Intent(this, PasswordViewActivity::class.java)
+                intent.putExtra("login", login)
+                intent.putExtra("passName",  passName)
+                startActivity(intent)
+                finish()
+            }
+        }
+        return false
+    }
+
     private fun Context.toast(message:String)=
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
+
     private fun getDateTime(): String? {
         val dateFormat = SimpleDateFormat(
             "yyyy-MM-dd HH:mm:ss", Locale.getDefault()

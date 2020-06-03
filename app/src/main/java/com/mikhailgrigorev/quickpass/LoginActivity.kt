@@ -107,7 +107,7 @@ class LoginActivity : AppCompatActivity() {
             contentValues.put(dbHelper.KEY_ID, Random.nextInt(0, 100))
             contentValues.put(dbHelper.KEY_NAME, login)
             contentValues.put(dbHelper.KEY_PASS, password)
-            contentValues.put(dbHelper.KEY_IMAGE, "ic_useravatar")
+            contentValues.put(dbHelper.KEY_IMAGE, "ic_account")
             database.insert(dbHelper.TABLE_USERS, null, contentValues)
         }
 

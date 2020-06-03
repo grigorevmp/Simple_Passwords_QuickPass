@@ -48,4 +48,20 @@ class PasswordManager {
 
         return (factor*length)/(maxPasswordFactor*maxPasswordLength)
     }
+
+    fun isLetters(passwordToTest: String) : Boolean{
+        return passwordToTest.matches( Regex(".*["+this.letters+"].*") )
+    }
+
+    fun isUpperCase(passwordToTest: String) : Boolean{
+        return passwordToTest.matches( Regex(".*["+this.uppercaseLetters+"].*") )
+    }
+
+    fun isNumbers(passwordToTest: String) : Boolean{
+        return passwordToTest.matches( Regex(".*["+this.numbers+"].*") )
+    }
+
+    fun isSymbols(passwordToTest: String) : Boolean{
+        return passwordToTest.matches( Regex(".*["+this.special+"].*") )
+    }
 }

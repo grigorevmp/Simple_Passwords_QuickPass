@@ -165,6 +165,7 @@
         android:layout_marginBottom="20dp"
         android:clickable="true"
         android:focusable="true"
+        app:backgroundTint="@color/colorPrimaryLigth"
         app:iconTint="@color/textDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -267,10 +268,10 @@
         android:layout_marginEnd="20dp"
         android:max="40"
         android:progress="20"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScroll"
-        tools:visibility="gone" />
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScroll" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

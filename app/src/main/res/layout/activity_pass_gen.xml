@@ -74,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="18dp"
         android:text="@string/correct_passwords"
         app:layout_constraintStart_toEndOf="@+id/positiveCircle"
         app:layout_constraintTop_toBottomOf="@+id/helloTextId" />
@@ -223,6 +223,7 @@
         android:layout_marginBottom="20dp"
         android:clickable="true"
         android:focusable="true"
+        app:backgroundTint="@color/colorPrimaryLigth"
         app:iconTint="@color/textDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
