@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.pass_fragment.view.*
 
-class PasswordAdapter(val items : ArrayList<String>, val context: Context, val clickListener: (Int) -> Unit) : RecyclerView.Adapter<ViewHolder>() {
+class PasswordAdapter(val items : ArrayList<Pair<String, String>>, val quality : ArrayList<String>, val context: Context, val clickListener: (Int) -> Unit) : RecyclerView.Adapter<ViewHolder>() {
 
     // Gets the number of animals in the list
     override fun getItemCount(): Int {
@@ -23,9 +23,20 @@ class PasswordAdapter(val items : ArrayList<String>, val context: Context, val c
     // Binds each animal in the ArrayList to a view
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.passText?.text = items[position]
+        holder.passText?.text = items[position].first
+        if(items[position].second == "0"){
+            holder.chip.visibility = View.GONE
+        }
+        if(quality[position] == "1"){
+            holder.marker.setImageResource(R.drawable.circle_positive)
+        }
+        else if(quality[position] == "2"){
+            holder.marker.setImageResource(R.drawable.circle_negative)
+        }
+        else if(quality[position] == "3"){
+            holder.marker.setImageResource(R.drawable.circle_improvement)
+        }
         // holder?.passContent?.text = items.get(position)
-        holder.passContent?.text = context.getString(R.string.tapToView)
         holder.clickableView.setOnClickListener {
             clickListener(position)
         }
@@ -35,6 +46,7 @@ class PasswordAdapter(val items : ArrayList<String>, val context: Context, val c
 class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
     // Holds the TextView that will add each animal to
     val passText = view.list_title
-    val passContent = view.list_description
+    val chip = view.chip
     val clickableView = view.clickable_view
+    val marker = view.marker
 }

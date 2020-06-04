@@ -57,13 +57,6 @@
                     android:textStyle="bold"
                     tools:ignore="RtlHardcoded" />
 
-                <TextView
-                    android:id="@+id/list_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:text="@string/password"
-                    tools:ignore="RtlHardcoded" />
             </LinearLayout>
 
             <com.google.android.material.chip.Chip

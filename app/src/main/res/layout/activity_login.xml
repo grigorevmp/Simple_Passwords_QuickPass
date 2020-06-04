@@ -116,7 +116,7 @@
         android:visibility="invisible"
         app:backgroundTint="@color/colorAccent"
         app:icon="@drawable/ic_arr_forward"
-        app:iconTint="@color/textDark"
+        app:tint="@color/fabTint"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

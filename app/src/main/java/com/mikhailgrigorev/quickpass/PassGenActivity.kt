@@ -17,7 +17,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
+import kotlinx.android.synthetic.main.activity_new_password.*
 import kotlinx.android.synthetic.main.activity_pass_gen.*
+import kotlinx.android.synthetic.main.activity_pass_gen.cardPass
+import kotlinx.android.synthetic.main.activity_pass_gen.genPasswordId
+import kotlinx.android.synthetic.main.activity_pass_gen.genPasswordIdField
+import kotlinx.android.synthetic.main.activity_pass_gen.generatePassword
+import kotlinx.android.synthetic.main.activity_pass_gen.helloTextId
+import kotlinx.android.synthetic.main.activity_pass_gen.lengthToggle
+import kotlinx.android.synthetic.main.activity_pass_gen.passSettings
+import kotlinx.android.synthetic.main.activity_pass_gen.userAvatar
 
 
 class PassGenActivity : AppCompatActivity() {
@@ -32,7 +41,8 @@ class PassGenActivity : AppCompatActivity() {
     private var safePass = 0
     private var unsafePass = 0
     private var fixPass = 0
-    val passwords: ArrayList<String> = ArrayList()
+    val passwords: ArrayList<Pair<String, String>> = ArrayList()
+    val quality: ArrayList<String> = ArrayList()
     lateinit var login: String
 
     @SuppressLint("Recycle", "ClickableViewAccessibility", "ResourceAsColor", "RestrictedApi",
@@ -48,10 +58,6 @@ class PassGenActivity : AppCompatActivity() {
         login = args?.get("login").toString()
         val name: String? = getString(R.string.hi) + " " + login
         helloTextId.text = name
-
-        correctPasswords.text = safePass.toString() + " " + getString(R.string.correct_passwords)
-        negativePasswords.text = unsafePass.toString() + " " + getString(R.string.incorrect_password)
-        fixPasswords.text = getString(R.string.need_fix) + " " + fixPass.toString() + " " + getString(R.string.passwords)
 
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
@@ -81,7 +87,7 @@ class PassGenActivity : AppCompatActivity() {
         val pdatabase = pdbHelper.writableDatabase
         try {
             val pcursor: Cursor = pdatabase.query(
-                pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS),
+                pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS, pdbHelper.KEY_2FA),
                 null, null,
                 null, null, null
             )
@@ -90,20 +96,42 @@ class PassGenActivity : AppCompatActivity() {
             if (pcursor.moveToFirst()) {
                 val nameIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_NAME)
                 val passIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_PASS)
+                val FAIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_2FA)
                 do {
+                    val pass = pcursor.getString(passIndex).toString()
+                    val myPasswordManager = PasswordManager()
+                    val evaluation: Float =
+                        myPasswordManager.evaluatePassword(pass)
+                    val qual = if (evaluation < 0.33)
+                        "3"
+                    else if(evaluation < 0.66)
+                        "2"
+                    else "1"
                     dbLogin = pcursor.getString(nameIndex).toString()
-                    passwords.add(dbLogin)
+                    val fa = pcursor.getString(FAIndex).toString()
+                    passwords.add(Pair(dbLogin, fa))
+                    quality.add(qual)
+                    if(qual == "1")
+                        safePass += 1
+                    if(qual == "2")
+                        unsafePass += 1
+                    if(qual == "3")
+                        fixPass += 1
                     dbPassword = pcursor.getString(passIndex).toString()
                 } while (pcursor.moveToNext())
             }
         } catch (e: SQLException) {
         }
 
+        correctPasswords.text = safePass.toString() + " " + getString(R.string.correct_passwords)
+        negativePasswords.text = unsafePass.toString() + " " + getString(R.string.incorrect_password)
+        fixPasswords.text = getString(R.string.need_fix) + " " + fixPass.toString() + " " + getString(R.string.passwords)
+
         passwordRecycler.layoutManager = LinearLayoutManager(this,  LinearLayoutManager.VERTICAL, false)
 
         passwordRecycler.setHasFixedSize(true)
 
-        passwordRecycler.adapter = PasswordAdapter(passwords, this, clickListener = {
+        passwordRecycler.adapter = PasswordAdapter(passwords, quality, this, clickListener = {
             passClickListener(it)
         })
 
@@ -150,10 +178,6 @@ class PassGenActivity : AppCompatActivity() {
                         useUC = false
                     list.remove(view.text.toString())
                 }
-                //if (list.isNotEmpty()){
-                //    // SHow the selection
-                //    toast("Selected $list")
-                //}
             }
         }
 
@@ -247,7 +271,7 @@ class PassGenActivity : AppCompatActivity() {
         // You got the position of ArrayList
         val intent = Intent(this, PasswordViewActivity::class.java)
         intent.putExtra("login", login)
-        intent.putExtra("passName", passwords[position])
+        intent.putExtra("passName", passwords[position].first)
         startActivity(intent)
     }
 

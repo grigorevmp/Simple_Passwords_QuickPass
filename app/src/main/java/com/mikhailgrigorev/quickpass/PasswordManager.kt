@@ -49,6 +49,26 @@ class PasswordManager {
         return (factor*length)/(maxPasswordFactor*maxPasswordLength)
     }
 
+    fun evaluatePasswordString(passwordToTest: String) : String {
+
+        var factor = 0
+        val length = passwordToTest.length
+
+        if( passwordToTest.matches( Regex(".*["+this.letters+"].*") ) ) { factor += 2 }
+        if( passwordToTest.matches( Regex(".*["+this.uppercaseLetters+"].*") ) ){ factor += 2 }
+        if( passwordToTest.matches( Regex(".*["+this.numbers+"].*") ) ){ factor += 1 }
+        if( passwordToTest.matches( Regex(".*["+this.special+"].*") ) ){ factor += 5 }
+
+        val strong = (factor*length)/(maxPasswordFactor*maxPasswordLength)
+
+        return if(strong < 0.33)
+            "low"
+        else if(strong < 0.66)
+            "medium"
+        else "high"
+    }
+
+
     fun isLetters(passwordToTest: String) : Boolean{
         return passwordToTest.matches( Regex(".*["+this.letters+"].*") )
     }

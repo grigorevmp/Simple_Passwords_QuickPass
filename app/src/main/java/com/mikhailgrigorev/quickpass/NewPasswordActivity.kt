@@ -2,6 +2,7 @@ package com.mikhailgrigorev.quickpass
 
 import android.annotation.SuppressLint
 import android.content.*
+import android.content.res.ColorStateList
 import android.database.Cursor
 import android.os.Bundle
 import android.text.Editable
@@ -14,8 +15,27 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
+import kotlinx.android.synthetic.main.activity_edit_pass.*
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_new_password.*
+import kotlinx.android.synthetic.main.activity_new_password.authToogle
+import kotlinx.android.synthetic.main.activity_new_password.cardPass
+import kotlinx.android.synthetic.main.activity_new_password.genPasswordId
+import kotlinx.android.synthetic.main.activity_new_password.genPasswordIdField
+import kotlinx.android.synthetic.main.activity_new_password.generatePassword
+import kotlinx.android.synthetic.main.activity_new_password.lengthToggle
+import kotlinx.android.synthetic.main.activity_new_password.lettersToggle
+import kotlinx.android.synthetic.main.activity_new_password.newName
+import kotlinx.android.synthetic.main.activity_new_password.newNameField
+import kotlinx.android.synthetic.main.activity_new_password.noteField
+import kotlinx.android.synthetic.main.activity_new_password.numbersToggle
+import kotlinx.android.synthetic.main.activity_new_password.passQuality
+import kotlinx.android.synthetic.main.activity_new_password.passSettings
+import kotlinx.android.synthetic.main.activity_new_password.savePass
+import kotlinx.android.synthetic.main.activity_new_password.seekBar
+import kotlinx.android.synthetic.main.activity_new_password.symToggles
+import kotlinx.android.synthetic.main.activity_new_password.timeLimit
+import kotlinx.android.synthetic.main.activity_new_password.upperCaseToggle
 import kotlinx.android.synthetic.main.activity_new_password.userAvatar
 import java.text.SimpleDateFormat
 import java.util.*
@@ -94,6 +114,15 @@ class NewPasswordActivity : AppCompatActivity() {
         }
         length = args.get("length") as Int
         lengthToggle.text = getString(R.string.length)  + ": " +  length
+
+        getInfo.setOnClickListener {
+            if(info_card.visibility ==  View.GONE){
+                info_card.visibility =  View.VISIBLE
+            }
+            else{
+                info_card.visibility =  View.GONE
+            }
+        }
 
         lengthToggle.setOnClickListener {
             if(seekBar.visibility ==  View.GONE){
@@ -177,6 +206,10 @@ class NewPasswordActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 val myPasswordManager = PasswordManager()
                 val evaluation: Float = myPasswordManager.evaluatePassword(genPasswordIdField.text.toString())
+                lettersToggle.isChecked = myPasswordManager.isLetters(genPasswordIdField.text.toString())
+                upperCaseToggle.isChecked = myPasswordManager.isUpperCase(genPasswordIdField.text.toString())
+                numbersToggle.isChecked = myPasswordManager.isNumbers(genPasswordIdField.text.toString())
+                symToggles.isChecked = myPasswordManager.isSymbols(genPasswordIdField.text.toString())
                 passQuality.text = evaluation.toString()
             }
 
@@ -258,8 +291,14 @@ class NewPasswordActivity : AppCompatActivity() {
                     contentValues.put(pdbHelper.KEY_ID, Random.nextInt(0, 100))
                     contentValues.put(pdbHelper.KEY_NAME, newNameField.text.toString())
                     contentValues.put(pdbHelper.KEY_PASS, genPasswordIdField.text.toString())
-                    contentValues.put(pdbHelper.KEY_2FA, 1)
-                    contentValues.put(pdbHelper.KEY_USE_TIME, 0)
+                    var keyFA = "0"
+                    if(authToogle.isChecked)
+                        keyFA = "1"
+                    var keytimeLimit = "0"
+                    if(timeLimit.isChecked)
+                        keytimeLimit = "1"
+                    contentValues.put(pdbHelper.KEY_2FA, keyFA)
+                    contentValues.put(pdbHelper.KEY_USE_TIME, keytimeLimit)
                     contentValues.put(pdbHelper.KEY_TIME, getDateTime())
                     contentValues.put(pdbHelper.KEY_DESC, noteField.text.toString())
                     passDataBase.insert(pdbHelper.TABLE_USERS, null, contentValues)

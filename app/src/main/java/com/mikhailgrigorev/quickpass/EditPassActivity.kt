@@ -16,11 +16,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_edit_pass.*
-import kotlinx.android.synthetic.main.activity_edit_pass.authToogle
-import kotlinx.android.synthetic.main.activity_edit_pass.helloTextId
-import kotlinx.android.synthetic.main.activity_edit_pass.timeLimit
-import kotlinx.android.synthetic.main.activity_edit_pass.userAvatar
-import kotlinx.android.synthetic.main.activity_password_view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -225,6 +220,10 @@ class EditPassActivity : AppCompatActivity() {
                 val myPasswordManager = PasswordManager()
                 val evaluation: Float =
                     myPasswordManager.evaluatePassword(genPasswordIdField.text.toString())
+                lettersToggle.isChecked = myPasswordManager.isLetters(genPasswordIdField.text.toString())
+                upperCaseToggle.isChecked = myPasswordManager.isUpperCase(genPasswordIdField.text.toString())
+                numbersToggle.isChecked = myPasswordManager.isNumbers(genPasswordIdField.text.toString())
+                symToggles.isChecked = myPasswordManager.isSymbols(genPasswordIdField.text.toString())
                 passQuality.text = evaluation.toString()
             }
 
@@ -289,8 +288,14 @@ class EditPassActivity : AppCompatActivity() {
             val contentValues = ContentValues()
             contentValues.put(pdbHelper.KEY_NAME, newNameField.text.toString())
             contentValues.put(pdbHelper.KEY_PASS, genPasswordIdField.text.toString())
-            contentValues.put(pdbHelper.KEY_2FA, 1)
-            contentValues.put(pdbHelper.KEY_USE_TIME, 0)
+            var keyFA = "0"
+            if(authToogle.isChecked)
+                keyFA = "1"
+            var keytimeLimit = "0"
+            if(timeLimit.isChecked)
+                keytimeLimit = "1"
+            contentValues.put(pdbHelper.KEY_2FA, keyFA)
+            contentValues.put(pdbHelper.KEY_USE_TIME, keytimeLimit)
             contentValues.put(pdbHelper.KEY_TIME, getDateTime())
             contentValues.put(pdbHelper.KEY_DESC, noteField.text.toString())
             pdatabase.update(pdbHelper.TABLE_USERS, contentValues,
@@ -312,6 +317,8 @@ class EditPassActivity : AppCompatActivity() {
                 intent.putExtra("login", login)
                 intent.putExtra("passName",  passName)
                 startActivity(intent)
+                this.overridePendingTransition(R.anim.right_in,
+                    R.anim.right_out);
                 finish()
             }
         }

@@ -56,4 +56,8 @@
     <string name="hi">Hi, </string>
     <string name="qualityPassword">Password quality:</string>
     <string name="edit">Edit</string>
+    <string name="info">Info:</string>
+    <string name="get_info">Info</string>
+    <string name="_2fa_you_use_multi_factor_authentication_in_this_app">2FA - you use multi-factor authentication in this app</string>
+    <string name="time_limit_we_will_remeber_you_to_change_your_password_in_4_months">Time Limit - we will remeber you to change your password in 4 months</string>
 </resources>

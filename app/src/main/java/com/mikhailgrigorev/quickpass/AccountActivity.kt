@@ -14,6 +14,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import java.io.IOException
 
 class AccountActivity : AppCompatActivity() {
@@ -83,11 +84,25 @@ class AccountActivity : AppCompatActivity() {
         }
 
         deleteAccount.setOnClickListener {
-            database.delete(dbHelper.TABLE_USERS,
-                "NAME = ?",
-                arrayOf(login))
-            toast("You account has been deleted")
-            exit(sharedPref)
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Delete this password")
+            builder.setMessage("Are you really want to this password?")
+
+            builder.setPositiveButton("YES"){ _, _ ->
+                database.delete(dbHelper.TABLE_USERS,
+                    "NAME = ?",
+                    arrayOf(login))
+                toast("You account has been deleted")
+                exit(sharedPref)
+            }
+
+            builder.setNegativeButton("NO"){ _, _ ->
+            }
+
+            builder.setNeutralButton("Cancel"){_,_ ->
+            }
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
         }
     }
 

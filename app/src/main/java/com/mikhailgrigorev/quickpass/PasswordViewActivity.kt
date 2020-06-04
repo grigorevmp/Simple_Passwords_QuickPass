@@ -7,11 +7,18 @@ import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.database.SQLException
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_password_view.*
+import java.text.SimpleDateFormat
+import java.time.Duration
+import java.time.temporal.ChronoUnit
+import java.util.*
 
 class PasswordViewActivity : AppCompatActivity() {
 
@@ -25,6 +32,8 @@ class PasswordViewActivity : AppCompatActivity() {
     private var safePass = 0
     private var unsafePass = 0
     private var fixPass = 0
+    lateinit var login: String
+    lateinit var passName: String
 
     @SuppressLint("Recycle", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,8 +42,8 @@ class PasswordViewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_password_view)
 
         val args: Bundle? = intent.extras
-        val login: String? = args?.get("login").toString()
-        val passName: String? = args?.get("passName").toString()
+        login= args?.get("login").toString()
+        passName = args?.get("passName").toString()
 
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
@@ -105,14 +114,30 @@ class PasswordViewActivity : AppCompatActivity() {
         }
 
         deletePassword.setOnClickListener {
-            pdatabase.delete(pdbHelper.TABLE_USERS,
-                "NAME = ?",
-                arrayOf(dbLogin))
-            toast("You password has been deleted")
-            val intent = Intent(this, PassGenActivity::class.java)
-            intent.putExtra("login", login)
-            startActivity(intent)
-            finish()
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Delete this password")
+            builder.setMessage("Are you really want to this password?")
+
+            builder.setPositiveButton("YES"){ _, _ ->
+                pdatabase.delete(
+                    pdbHelper.TABLE_USERS,
+                    "NAME = ?",
+                    arrayOf(dbLogin)
+                )
+                toast("You password has been deleted")
+                val intent = Intent(this, PassGenActivity::class.java)
+                intent.putExtra("login", login)
+                startActivity(intent)
+                finish()
+            }
+
+            builder.setNegativeButton("NO"){ _, _ ->
+            }
+
+            builder.setNeutralButton("Cancel"){_,_ ->
+            }
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
         }
 
         userAvatar.setOnClickListener {
@@ -148,6 +173,31 @@ class PasswordViewActivity : AppCompatActivity() {
         }
 
     }
+
+    override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
+        when (keyCode) {
+            KeyEvent.KEYCODE_BACK -> {
+                val intent = Intent(this, PassGenActivity::class.java)
+                intent.putExtra("login", login)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                startActivity(intent)
+                this.overridePendingTransition(R.anim.right_in,
+                    R.anim.right_out);
+                finish()
+            }
+        }
+        return false
+    }
+
     private fun Context.toast(message:String)=
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
+
+    private fun getDateTime(): String? {
+        val dateFormat = SimpleDateFormat(
+            "yyyy-MM-dd HH:mm:ss", Locale.getDefault()
+        )
+        val date = Date()
+        return dateFormat.format(date)
+    }
+
 }
