@@ -7,7 +7,6 @@
     tools:context=".PassGenActivity">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/note"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -151,7 +150,7 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/lengthToggle"
-                style="@style/Widget.MaterialComponents.Chip.Action"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/length" />
@@ -165,12 +164,12 @@
         android:layout_marginBottom="20dp"
         android:clickable="true"
         android:focusable="true"
-        app:backgroundTint="@color/colorPrimaryLigth"
-        app:tint="@color/fabTint"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/content_save" />
+        app:srcCompat="@drawable/content_save"
+        app:backgroundTint="@color/white"
+        app:tint="@color/colorPrimary"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/newName"
@@ -190,6 +189,7 @@
         app:layout_constraintTop_toBottomOf="@+id/seekBar">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:inputType="text"
             android:id="@+id/newNameField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -207,13 +207,12 @@
         app:layout_constraintTop_toBottomOf="@+id/newName">
 
         <com.google.android.material.chip.ChipGroup
-            android:id="@+id/newPassSettings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:singleLine="true">
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/authToogle"
+                android:id="@+id/authToggle"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -261,6 +260,8 @@
     <SeekBar
         android:id="@+id/seekBar"
         style="@style/Widget.AppCompat.SeekBar"
+        android:thumbTint="@color/colorPrimaryLight"
+        android:progressTint="@color/colorPrimaryLight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"

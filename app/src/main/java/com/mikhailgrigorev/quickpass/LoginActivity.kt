@@ -51,7 +51,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         // Chip handler
-        signUpChipGroup.setOnCheckedChangeListener{ group, checkedId ->
+        signUpChipGroup.setOnCheckedChangeListener{ _, _ ->
             // Get the checked chip instance from chip group
             signUpChip?.let {
                 if (signUpChip.isChecked){

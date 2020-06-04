@@ -10,23 +10,13 @@ import android.database.SQLException
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
-import android.widget.EditText
+import android.widget.SeekBar
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
-import kotlinx.android.synthetic.main.activity_new_password.*
 import kotlinx.android.synthetic.main.activity_pass_gen.*
-import kotlinx.android.synthetic.main.activity_pass_gen.cardPass
-import kotlinx.android.synthetic.main.activity_pass_gen.genPasswordId
-import kotlinx.android.synthetic.main.activity_pass_gen.genPasswordIdField
-import kotlinx.android.synthetic.main.activity_pass_gen.generatePassword
-import kotlinx.android.synthetic.main.activity_pass_gen.helloTextId
-import kotlinx.android.synthetic.main.activity_pass_gen.lengthToggle
-import kotlinx.android.synthetic.main.activity_pass_gen.passSettings
-import kotlinx.android.synthetic.main.activity_pass_gen.userAvatar
 
 
 class PassGenActivity : AppCompatActivity() {
@@ -34,16 +24,16 @@ class PassGenActivity : AppCompatActivity() {
     private val PREFERENCE_FILE_KEY = "quickPassPreference"
     private val KEY_USERNAME = "prefUserNameKey"
     private var length = 20
-    private var useSyms = false
+    private var useSymbols = false
     private var useUC = false
     private var useLetters = false
-    private var useNums = false
+    private var useNumbers = false
     private var safePass = 0
     private var unsafePass = 0
     private var fixPass = 0
-    val passwords: ArrayList<Pair<String, String>> = ArrayList()
-    val quality: ArrayList<String> = ArrayList()
-    lateinit var login: String
+    private val passwords: ArrayList<Pair<String, String>> = ArrayList()
+    private val quality: ArrayList<String> = ArrayList()
+    private lateinit var login: String
 
     @SuppressLint("Recycle", "ClickableViewAccessibility", "ResourceAsColor", "RestrictedApi",
         "SetTextI18n"
@@ -69,9 +59,9 @@ class PassGenActivity : AppCompatActivity() {
         if (cursor.moveToFirst()) {
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
             do {
-                val ex_infoImgText = cursor.getString(imageIndex).toString()
+                val exInfoImgText = cursor.getString(imageIndex).toString()
                 val id = resources.getIdentifier(
-                    ex_infoImgText,
+                    exInfoImgText,
                     "drawable",
                     packageName
                 )
@@ -81,46 +71,48 @@ class PassGenActivity : AppCompatActivity() {
 
 
         var dbLogin: String
-        var dbPassword: String
 
         val pdbHelper = PasswordsDataBaseHelper(this, login)
-        val pdatabase = pdbHelper.writableDatabase
+        val pDatabase = pdbHelper.writableDatabase
         try {
-            val pcursor: Cursor = pdatabase.query(
+            val pCursor: Cursor = pDatabase.query(
                 pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS, pdbHelper.KEY_2FA),
                 null, null,
                 null, null, null
             )
 
 
-            if (pcursor.moveToFirst()) {
-                val nameIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_NAME)
-                val passIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_PASS)
-                val FAIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_2FA)
+            if (pCursor.moveToFirst()) {
+                val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
+                val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
+                val aIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_2FA)
                 do {
-                    val pass = pcursor.getString(passIndex).toString()
+                    val pass = pCursor.getString(passIndex).toString()
                     val myPasswordManager = PasswordManager()
                     val evaluation: Float =
                         myPasswordManager.evaluatePassword(pass)
-                    val qual = if (evaluation < 0.33)
-                        "3"
-                    else if(evaluation < 0.66)
-                        "2"
-                    else "1"
-                    dbLogin = pcursor.getString(nameIndex).toString()
-                    val fa = pcursor.getString(FAIndex).toString()
+                    val qualityNum = when {
+                        evaluation < 0.33 -> "2"
+                        evaluation < 0.66 -> "3"
+                        else -> "1"
+                    }
+                    dbLogin = pCursor.getString(nameIndex).toString()
+                    val fa = pCursor.getString(aIndex).toString()
                     passwords.add(Pair(dbLogin, fa))
-                    quality.add(qual)
-                    if(qual == "1")
-                        safePass += 1
-                    if(qual == "2")
-                        unsafePass += 1
-                    if(qual == "3")
-                        fixPass += 1
-                    dbPassword = pcursor.getString(passIndex).toString()
-                } while (pcursor.moveToNext())
+                    quality.add(qualityNum)
+                    when (qualityNum) {
+                        "1" -> safePass += 1
+                        "2" -> unsafePass += 1
+                        "3" -> fixPass += 1
+                    }
+                } while (pCursor.moveToNext())
             }
         } catch (e: SQLException) {
+        }
+
+        if(passwords.size == 0){
+            allPassword.visibility = View.GONE
+            noPasswords.visibility = View.VISIBLE
         }
 
         correctPasswords.text = safePass.toString() + " " + getString(R.string.correct_passwords)
@@ -161,9 +153,9 @@ class PassGenActivity : AppCompatActivity() {
                     if (view.id == R.id.lettersToggle)
                         useLetters = true
                     if (view.id == R.id.symToggles)
-                        useSyms = true
+                        useSymbols = true
                     if (view.id == R.id.numbersToggle)
-                        useNums = true
+                        useNumbers = true
                     if (view.id == R.id.upperCaseToggle)
                         useUC = true
                     list.add(view.text.toString())
@@ -171,9 +163,9 @@ class PassGenActivity : AppCompatActivity() {
                     if (view.id == R.id.lettersToggle)
                         useLetters = false
                     if (view.id == R.id.symToggles)
-                        useSyms = false
+                        useSymbols = false
                     if (view.id == R.id.numbersToggle)
-                        useNums = false
+                        useNumbers = false
                     if (view.id == R.id.upperCaseToggle)
                         useUC = false
                     list.remove(view.text.toString())
@@ -183,30 +175,32 @@ class PassGenActivity : AppCompatActivity() {
 
         lengthToggle.text = getString(R.string.length)  + ": " +  length
         lengthToggle.setOnClickListener {
-            if(seekBar2.visibility ==  View.GONE){
-                seekBar2.visibility =  View.VISIBLE
+            if(seekBar.visibility ==  View.GONE){
+                seekBar.visibility =  View.VISIBLE
             }
             else{
-                seekBar2.visibility =  View.GONE
+                seekBar.visibility =  View.GONE
             }
-            /*
-            val txt = EditText(this)
-            txt.hint = "$length"
-            AlertDialog.Builder(this)
-                .setTitle("Length of the password")
-                .setMessage("Input length of your password")
-                .setView(txt,  20, 0, 20, 0)
-                .setPositiveButton(
-                    "Set"
-                ) { _, _ ->
-                    length = txt.text.toString().toInt()
-                    lengthToggle.text = getString(R.string.length)  + ": " +  length
-                }
-                .setNegativeButton(
-                    "Cancel"
-                ) { _, _ -> }
-                .show()*/
         }
+
+        // Set a SeekBar change listener
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
+                // Display the current progress of SeekBar
+                length = i
+                lengthToggle.text = getString(R.string.length)  + ": " + length
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                // Do something
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                // Do something
+            }
+        })
+
         generatePassword.setOnClickListener {
             val myPasswordManager = PasswordManager()
             //Create a password with letters, uppercase letters, numbers but not special chars with 17 chars
@@ -216,7 +210,7 @@ class PassGenActivity : AppCompatActivity() {
             else {
                 genPasswordId.error = null
                 val newPassword: String =
-                    myPasswordManager.generatePassword(useLetters, useUC, useNums, useSyms, length)
+                    myPasswordManager.generatePassword(useLetters, useUC, useNumbers, useSymbols, length)
                 genPasswordIdField.setText(newPassword)
             }
         }
@@ -260,8 +254,8 @@ class PassGenActivity : AppCompatActivity() {
             intent.putExtra("pass", genPasswordIdField.text.toString())
             intent.putExtra("useLetters", useLetters)
             intent.putExtra("useUC", useUC)
-            intent.putExtra("useNums", useNums)
-            intent.putExtra("useSyms", useSyms)
+            intent.putExtra("useNumbers", useNumbers)
+            intent.putExtra("useSymbols", useSymbols)
             intent.putExtra("length", length)
             startActivity(intent)
         }

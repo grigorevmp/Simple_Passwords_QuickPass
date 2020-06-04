@@ -3,4 +3,8 @@
     <issue id="IconDuplicates">
         <ignore path="src/main/res/mipmap-hdpi/ic_launcher.png" />
     </issue>
+    <issue id="IconLocation">
+        <ignore path="src/main/res/drawable/ic_useravatar.jpg" />
+        <ignore path="src/main/res/drawable/ic_useravatar.jpg" />
+    </issue>
 </lint>

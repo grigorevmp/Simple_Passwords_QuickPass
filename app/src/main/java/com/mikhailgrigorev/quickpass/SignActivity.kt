@@ -38,9 +38,9 @@ class SignActivity : AppCompatActivity() {
         if (cursor.moveToFirst()) {
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
             do {
-                val ex_infoImgText = cursor.getString(imageIndex).toString()
+                val exInfoImgText = cursor.getString(imageIndex).toString()
                 val id = resources.getIdentifier(
-                    ex_infoImgText,
+                    exInfoImgText,
                     "drawable",
                     packageName
                 )

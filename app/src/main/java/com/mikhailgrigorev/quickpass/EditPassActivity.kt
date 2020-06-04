@@ -21,18 +21,13 @@ import java.util.*
 
 
 class EditPassActivity : AppCompatActivity() {
-    private val PREFERENCE_FILE_KEY = "quickPassPreference"
-    private val KEY_USERNAME = "prefUserNameKey"
     private var length = 20
-    private var useSyms = false
+    private var useSymbols = false
     private var useUC = false
     private var useLetters = false
-    private var useNums = false
-    private var safePass = 0
-    private var unsafePass = 0
-    private var fixPass = 0
-    lateinit var login: String
-    lateinit var passName: String
+    private var useNumbers = false
+    private lateinit var login: String
+    private lateinit var passName: String
 
     @SuppressLint("Recycle", "SetTextI18n", "ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,9 +49,9 @@ class EditPassActivity : AppCompatActivity() {
         if (cursor.moveToFirst()) {
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
             do {
-                val ex_infoImgText = cursor.getString(imageIndex).toString()
+                val exInfoImgText = cursor.getString(imageIndex).toString()
                 val id = resources.getIdentifier(
-                    ex_infoImgText,
+                    exInfoImgText,
                     "drawable",
                     packageName
                 )
@@ -70,13 +65,15 @@ class EditPassActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        var dbLogin: String = ""
+        var dbLogin = ""
         var dbPassword: String
 
-        val pdbHelper = PasswordsDataBaseHelper(this, login.toString())
-        val pdatabase = pdbHelper.writableDatabase
+        val list = mutableListOf<String>()
+
+        val pdbHelper = PasswordsDataBaseHelper(this, login)
+        val pDatabase = pdbHelper.writableDatabase
         try {
-            val pcursor: Cursor = pdatabase.query(
+            val pCursor: Cursor = pDatabase.query(
                 pdbHelper.TABLE_USERS, arrayOf(
                     pdbHelper.KEY_NAME,
                     pdbHelper.KEY_PASS,
@@ -90,43 +87,67 @@ class EditPassActivity : AppCompatActivity() {
             )
 
 
-            if (pcursor.moveToFirst()) {
-                val nameIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_NAME)
-                val passIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_PASS)
-                val _2FAIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_2FA)
-                val uTIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_USE_TIME)
-                val timeIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_TIME)
-                val descIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_DESC)
+            if (pCursor.moveToFirst()) {
+                val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
+                val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
+                val aIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_2FA)
+                val uTIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_USE_TIME)
+                val descIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_DESC)
                 do {
-                    dbLogin = pcursor.getString(nameIndex).toString()
+                    dbLogin = pCursor.getString(nameIndex).toString()
                     helloTextId.text = "• $dbLogin"
                     newNameField.setText(dbLogin)
-                    dbPassword = pcursor.getString(passIndex).toString()
+                    dbPassword = pCursor.getString(passIndex).toString()
                     genPasswordIdField.setText(dbPassword)
                     if (dbPassword != "") {
                         length = dbPassword.length
                         seekBar.progress = length
                         lengthToggle.text = getString(R.string.length) + ": " + length
                         val myPasswordManager = PasswordManager()
-                        val evaluation: Float =
-                            myPasswordManager.evaluatePassword(genPasswordIdField.text.toString())
-                        passQuality.text = evaluation.toString()
+                        val evaluation: String = myPasswordManager.evaluatePasswordString(genPasswordIdField.text.toString())
+                        passQuality.text = evaluation
+                        when (evaluation) {
+                            "low" -> passQuality.text = getString(R.string.low)
+                            "high" -> passQuality.text = getString(R.string.high)
+                            else -> passQuality.text = getString(R.string.medium)
+                        }
+                        when (evaluation) {
+                            "low" -> passQuality.setTextColor(ContextCompat.getColor(this, R.color.negative))
+                            "high" -> passQuality.setTextColor(ContextCompat.getColor(this, R.color.positive))
+                            else -> passQuality.setTextColor(ContextCompat.getColor(this, R.color.fixable))
+                        }
                         lettersToggle.isChecked = myPasswordManager.isLetters(genPasswordIdField.text.toString())
                         upperCaseToggle.isChecked = myPasswordManager.isUpperCase(genPasswordIdField.text.toString())
                         numbersToggle.isChecked = myPasswordManager.isNumbers(genPasswordIdField.text.toString())
                         symToggles.isChecked = myPasswordManager.isSymbols(genPasswordIdField.text.toString())
                     }
-                    val db2FAIndex = pcursor.getString(_2FAIndex).toString()
+                    val db2FAIndex = pCursor.getString(aIndex).toString()
                     if (db2FAIndex == "1") {
-                        authToogle.isChecked = true
+                        authToggle.isChecked = true
                     }
-                    val dbUTIndex = pcursor.getString(uTIndex).toString()
+                    val dbUTIndex = pCursor.getString(uTIndex).toString()
                     if (dbUTIndex == "1") {
                         timeLimit.isChecked = true
                     }
-                    val dbDescIndex = pcursor.getString(descIndex).toString()
+                    val dbDescIndex = pCursor.getString(descIndex).toString()
                     noteField.setText(dbDescIndex)
-                } while (pcursor.moveToNext())
+                } while (pCursor.moveToNext())
+                if(lettersToggle.isChecked ){
+                    useLetters = true
+                    list.add(lettersToggle.text.toString())
+                }
+                if(upperCaseToggle.isChecked){
+                    list.add(upperCaseToggle.text.toString())
+                    useUC = true
+                }
+                if(numbersToggle.isChecked ){
+                    list.add(numbersToggle.text.toString())
+                    useNumbers = true
+                }
+                if( symToggles.isChecked ){
+                    list.add(symToggles.text.toString())
+                    useSymbols = true
+                }
             } else {
                 helloTextId.text = getString(R.string.no_text)
             }
@@ -136,7 +157,7 @@ class EditPassActivity : AppCompatActivity() {
         }
 
 
-        val list = mutableListOf<String>()
+
 
         lengthToggle.setOnClickListener {
             if (seekBar.visibility == View.GONE) {
@@ -144,23 +165,6 @@ class EditPassActivity : AppCompatActivity() {
             } else {
                 seekBar.visibility = View.GONE
             }
-            /*
-        val txt = EditText(this)
-        txt.hint = "$length"
-        AlertDialog.Builder(this)
-            .setTitle("Length of the password")
-            .setMessage("Input length of your password")
-            .setView(txt,  20, 0, 20, 0)
-            .setPositiveButton(
-                "Set"
-            ) { _, _ ->
-                length = txt.text.toString().toInt()
-                lengthToggle.text = getString(R.string.length)  + ": " +  length
-            }
-            .setNegativeButton(
-                "Cancel"
-            ) { _, _ -> }
-            .show()*/
         }
 
         // Set a SeekBar change listener
@@ -191,9 +195,9 @@ class EditPassActivity : AppCompatActivity() {
                     if (view.id == R.id.lettersToggle)
                         useLetters = true
                     if (view.id == R.id.symToggles)
-                        useSyms = true
+                        useSymbols = true
                     if (view.id == R.id.numbersToggle)
-                        useNums = true
+                        useNumbers = true
                     if (view.id == R.id.upperCaseToggle)
                         useUC = true
                     list.add(view.text.toString())
@@ -201,30 +205,36 @@ class EditPassActivity : AppCompatActivity() {
                     if (view.id == R.id.lettersToggle)
                         useLetters = false
                     if (view.id == R.id.symToggles)
-                        useSyms = false
+                        useSymbols = false
                     if (view.id == R.id.numbersToggle)
-                        useNums = false
+                        useNumbers = false
                     if (view.id == R.id.upperCaseToggle)
                         useUC = false
                     list.remove(view.text.toString())
                 }
-                //if (list.isNotEmpty()){
-                //    // SHow the selection
-                //    toast("Selected $list")
-                //}
             }
         }
 
         genPasswordIdField.addTextChangedListener(object : TextWatcher {
+            @SuppressLint("ResourceAsColor")
             override fun afterTextChanged(s: Editable?) {
                 val myPasswordManager = PasswordManager()
-                val evaluation: Float =
-                    myPasswordManager.evaluatePassword(genPasswordIdField.text.toString())
                 lettersToggle.isChecked = myPasswordManager.isLetters(genPasswordIdField.text.toString())
                 upperCaseToggle.isChecked = myPasswordManager.isUpperCase(genPasswordIdField.text.toString())
                 numbersToggle.isChecked = myPasswordManager.isNumbers(genPasswordIdField.text.toString())
                 symToggles.isChecked = myPasswordManager.isSymbols(genPasswordIdField.text.toString())
-                passQuality.text = evaluation.toString()
+                val evaluation: String = myPasswordManager.evaluatePasswordString(genPasswordIdField.text.toString())
+                passQuality.text = evaluation
+                when (evaluation) {
+                    "low" -> passQuality.text = getString(R.string.low)
+                    "high" -> passQuality.text = getString(R.string.high)
+                    else -> passQuality.text = getString(R.string.medium)
+                }
+                when (evaluation) {
+                    "low" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.negative))
+                    "high" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.positive))
+                    else -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.fixable))
+                }
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -242,12 +252,16 @@ class EditPassActivity : AppCompatActivity() {
             } else {
                 genPasswordId.error = null
                 val newPassword: String =
-                    myPasswordManager.generatePassword(useLetters, useUC, useNums, useSyms, length)
+                    myPasswordManager.generatePassword(useLetters, useUC, useNumbers, useSymbols, length)
                 genPasswordIdField.setText(newPassword)
 
-                val evaluation: Float =
-                    myPasswordManager.evaluatePassword(genPasswordIdField.text.toString())
-                passQuality.text = evaluation.toString()
+                val evaluation: String = myPasswordManager.evaluatePasswordString(genPasswordIdField.text.toString())
+                passQuality.text = evaluation
+                when (evaluation) {
+                    "low" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.negative))
+                    "high" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.positive))
+                    else -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.fixable))
+                }
             }
         }
         generatePassword.setOnTouchListener { v, event ->
@@ -289,16 +303,16 @@ class EditPassActivity : AppCompatActivity() {
             contentValues.put(pdbHelper.KEY_NAME, newNameField.text.toString())
             contentValues.put(pdbHelper.KEY_PASS, genPasswordIdField.text.toString())
             var keyFA = "0"
-            if(authToogle.isChecked)
+            if(authToggle.isChecked)
                 keyFA = "1"
-            var keytimeLimit = "0"
+            var keyTimeLimit = "0"
             if(timeLimit.isChecked)
-                keytimeLimit = "1"
+                keyTimeLimit = "1"
             contentValues.put(pdbHelper.KEY_2FA, keyFA)
-            contentValues.put(pdbHelper.KEY_USE_TIME, keytimeLimit)
+            contentValues.put(pdbHelper.KEY_USE_TIME, keyTimeLimit)
             contentValues.put(pdbHelper.KEY_TIME, getDateTime())
             contentValues.put(pdbHelper.KEY_DESC, noteField.text.toString())
-            pdatabase.update(pdbHelper.TABLE_USERS, contentValues,
+            pDatabase.update(pdbHelper.TABLE_USERS, contentValues,
                 "NAME = ?",
                 arrayOf(dbLogin))
             val intent = Intent(this, PasswordViewActivity::class.java)
@@ -318,7 +332,7 @@ class EditPassActivity : AppCompatActivity() {
                 intent.putExtra("passName",  passName)
                 startActivity(intent)
                 this.overridePendingTransition(R.anim.right_in,
-                    R.anim.right_out);
+                    R.anim.right_out)
                 finish()
             }
         }

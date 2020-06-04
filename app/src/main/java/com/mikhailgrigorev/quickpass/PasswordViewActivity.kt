@@ -7,33 +7,19 @@ import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.database.SQLException
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_password_view.*
-import java.text.SimpleDateFormat
-import java.time.Duration
-import java.time.temporal.ChronoUnit
-import java.util.*
 
 class PasswordViewActivity : AppCompatActivity() {
 
-    private val PREFERENCE_FILE_KEY = "quickPassPreference"
-    private val KEY_USERNAME = "prefUserNameKey"
-    private var length = 20
-    private var useSyms = false
-    private var useUC = false
-    private var useLetters = false
-    private var useNums = false
-    private var safePass = 0
-    private var unsafePass = 0
-    private var fixPass = 0
-    lateinit var login: String
-    lateinit var passName: String
+    private lateinit var login: String
+    private lateinit var passName: String
 
     @SuppressLint("Recycle", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,9 +41,9 @@ class PasswordViewActivity : AppCompatActivity() {
         if (cursor.moveToFirst()) {
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
             do {
-                val ex_infoImgText = cursor.getString(imageIndex).toString()
+                val exInfoImgText = cursor.getString(imageIndex).toString()
                 val id = resources.getIdentifier(
-                    ex_infoImgText,
+                    exInfoImgText,
                     "drawable",
                     packageName
                 )
@@ -66,13 +52,13 @@ class PasswordViewActivity : AppCompatActivity() {
         }
 
 
-        var dbLogin: String = ""
+        var dbLogin = ""
         var dbPassword: String
 
-        val pdbHelper = PasswordsDataBaseHelper(this, login.toString())
-        val pdatabase = pdbHelper.writableDatabase
+        val pdbHelper = PasswordsDataBaseHelper(this, login)
+        val pDatabase = pdbHelper.writableDatabase
         try {
-            val pcursor: Cursor = pdatabase.query(
+            val pCursor: Cursor = pDatabase.query(
                 pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
                     pdbHelper.KEY_2FA, pdbHelper.KEY_USE_TIME, pdbHelper.KEY_TIME, pdbHelper.KEY_DESC),
                 "NAME = ?", arrayOf(passName),
@@ -80,31 +66,43 @@ class PasswordViewActivity : AppCompatActivity() {
             )
 
 
-            if (pcursor.moveToFirst()) {
-                val nameIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_NAME)
-                val passIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_PASS)
-                val _2FAIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_2FA)
-                val uTIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_USE_TIME)
-                val timeIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_TIME)
-                val descIndex: Int = pcursor.getColumnIndex(pdbHelper.KEY_DESC)
+            if (pCursor.moveToFirst()) {
+                val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
+                val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
+                val aIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_2FA)
+                val uTIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_USE_TIME)
+                val timeIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TIME)
+                val descIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_DESC)
                 do {
-                    dbLogin = pcursor.getString(nameIndex).toString()
+                    dbLogin = pCursor.getString(nameIndex).toString()
                     helloTextId.text = dbLogin
-                    dbPassword = pcursor.getString(passIndex).toString()
+                    dbPassword = pCursor.getString(passIndex).toString()
                     passViewField.setText(dbPassword)
-                    val db2FAIndex = pcursor.getString(_2FAIndex).toString()
-                    if (db2FAIndex == "1"){
-                        authToogle.isChecked = true
+                    val myPasswordManager = PasswordManager()
+                    val evaluation: String = myPasswordManager.evaluatePasswordString(dbPassword)
+                    when (evaluation) {
+                        "low" -> passQuality.text = getString(R.string.low)
+                        "high" -> passQuality.text = getString(R.string.high)
+                        else -> passQuality.text = getString(R.string.medium)
                     }
-                    val dbUTIndex = pcursor.getString(uTIndex).toString()
+                    when (evaluation) {
+                        "low" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.negative))
+                        "high" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.positive))
+                        else -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.fixable))
+                    }
+                    val db2FAIndex = pCursor.getString(aIndex).toString()
+                    if (db2FAIndex == "1"){
+                        authToggle.isChecked = true
+                    }
+                    val dbUTIndex = pCursor.getString(uTIndex).toString()
                     if (dbUTIndex == "1"){
                         timeLimit.isChecked = true
                     }
-                    val dbTimeIndex = pcursor.getString(timeIndex).toString()
+                    val dbTimeIndex = pCursor.getString(timeIndex).toString()
                     passwordTime.text = getString(R.string.time_lim) + " " + dbTimeIndex
-                    val dbDescIndex = pcursor.getString(descIndex).toString()
+                    val dbDescIndex = pCursor.getString(descIndex).toString()
                     noteViewField.setText(dbDescIndex)
-                } while (pcursor.moveToNext())
+                } while (pCursor.moveToNext())
             } else {
                 helloTextId.text = getString(R.string.no_text)
             }
@@ -115,26 +113,26 @@ class PasswordViewActivity : AppCompatActivity() {
 
         deletePassword.setOnClickListener {
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Delete this password")
-            builder.setMessage("Are you really want to this password?")
+            builder.setTitle(getString(R.string.deletePassword))
+            builder.setMessage(getString(R.string.passwordDeleteConfirm))
 
-            builder.setPositiveButton("YES"){ _, _ ->
-                pdatabase.delete(
+            builder.setPositiveButton(getString(R.string.yes)){ _, _ ->
+                pDatabase.delete(
                     pdbHelper.TABLE_USERS,
                     "NAME = ?",
                     arrayOf(dbLogin)
                 )
-                toast("You password has been deleted")
+                toast(getString(R.string.passwordDeleted))
                 val intent = Intent(this, PassGenActivity::class.java)
                 intent.putExtra("login", login)
                 startActivity(intent)
                 finish()
             }
 
-            builder.setNegativeButton("NO"){ _, _ ->
+            builder.setNegativeButton(getString(R.string.no)){ _, _ ->
             }
 
-            builder.setNeutralButton("Cancel"){_,_ ->
+            builder.setNeutralButton(getString(R.string.cancel)){ _, _ ->
             }
             val dialog: AlertDialog = builder.create()
             dialog.show()
@@ -182,7 +180,7 @@ class PasswordViewActivity : AppCompatActivity() {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 startActivity(intent)
                 this.overridePendingTransition(R.anim.right_in,
-                    R.anim.right_out);
+                    R.anim.right_out)
                 finish()
             }
         }
@@ -191,13 +189,5 @@ class PasswordViewActivity : AppCompatActivity() {
 
     private fun Context.toast(message:String)=
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
-
-    private fun getDateTime(): String? {
-        val dateFormat = SimpleDateFormat(
-            "yyyy-MM-dd HH:mm:ss", Locale.getDefault()
-        )
-        val date = Date()
-        return dateFormat.format(date)
-    }
 
 }

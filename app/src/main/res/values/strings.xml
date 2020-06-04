@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">QuickPass</string>
-    <string name="hi_username">Hi, *username*</string>
+    <string name="hi_username">Hi,</string>
     <string name="userAvatar">User avatar</string>
     <string name="inputLogin">Login</string>
     <string name="inputPassword">Password</string>
@@ -17,7 +17,6 @@
     <string name="wrong_pass">Wrong password</string>
     <string name="input_your_password">Input your password</string>
     <string name="or_use_fingerprint">Or use fingerprint (coming soon)</string>
-    <string name="view_account">View account</string>
     <string name="correct_passwords"> Safe passwords</string>
     <string name="incorrect_password"> Unsafe passwords</string>
     <string name="passwords"> passwords</string>
@@ -28,36 +27,37 @@
     <string name="chipSym">*/#…</string>
     <string name="length">Length</string>
     <string name="generate">+</string>
-    <string name="check">Check</string>
-    <string name="copy">Copy</string>
     <string name="passCopied">Password was copied to clipboard</string>
-    <string name="new_password">New password</string>
     <string name="noRules">You should choose at least 1 rule</string>
-    <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
     <string name="add_new_password">Add new password</string>
     <string name="name_your_password">Name your password</string>
     <string name="_2fa">2FA</string>
     <string name="set_time_limit">Set time limit</string>
     <string name="add_some_description">Add some description</string>
-    <string name="desc">Decription:</string>
+    <string name="desc">Description:</string>
     <string name="name">Name</string>
-    <string name="password">Password</string>
-    <string name="textview">TextView</string>
     <string name="view_password">View password</string>
     <string name="delete_password">Delete</string>
     <string name="load_avatar">Load avatar</string>
-    <string name="decription">"Description: "</string>
     <string name="time_lim">Last changed:</string>
     <string name="pass">Password:</string>
-    <string name="useFA">Use 2FA:</string>
-    <string name="tl">Use limits of time:</string>
-    <string name="tapToView">Tap to view password</string>
     <string name="hi">Hi, </string>
     <string name="qualityPassword">Password quality:</string>
     <string name="edit">Edit</string>
-    <string name="info">Info:</string>
     <string name="get_info">Info</string>
     <string name="_2fa_you_use_multi_factor_authentication_in_this_app">2FA - you use multi-factor authentication in this app</string>
-    <string name="time_limit_we_will_remeber_you_to_change_your_password_in_4_months">Time Limit - we will remeber you to change your password in 4 months</string>
+    <string name="time_limit_we_will_remember_you_to_change_your_password_in_4_months">Time Limit - we will remember you to change your password in 4 months</string>
+    <string name="yes">YES</string>
+    <string name="no">Np</string>
+    <string name="cancel">Cancel</string>
+    <string name="deletePassword">Delete this password</string>
+    <string name="passwordDeleteConfirm">Are you really want to this password?</string>
+    <string name="passwordDeleted">You password has been deleted</string>
+    <string name="accountDeleteConfirm">Are you really want to this account?</string>
+    <string name="accountDelete">Delete this account</string>
+    <string name="accountDeleted">You account has been deleted</string>
+    <string name="low">low</string>
+    <string name="high">high</string>
+    <string name="medium">medium</string>
+    <string name="no_password">Still no passwords =(</string>
 </resources>

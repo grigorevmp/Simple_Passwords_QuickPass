@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">QuickPass</string>
-    <string name="hi_username">Привет, *username*</string>
+    <string name="hi_username">Привет,</string>
     <string name="userAvatar">Аватар</string>
     <string name="inputLogin">Логин</string>
     <string name="inputPassword">Пароль</string>
@@ -18,7 +18,6 @@
     <string name="wrong_pass">Неверный пароль</string>
     <string name="input_your_password">Введите пароль</string>
     <string name="or_use_fingerprint">Или используйте отчпечаток пальца (скоро)</string>
-    <string name="view_account">Аккаунт</string>
     <string name="correct_passwords">Безопасных паролей</string>
     <string name="incorrect_password">Небезопасных паролей</string>
     <string name="need_fix">Вам следует изменить</string>
@@ -27,14 +26,9 @@
     <string name="length">Длина</string>
     <string name="generate">+</string>
     <string name="chipNumbers">123…</string>
-    <string name="check">Проверить</string>
     <string name="upperCaseLetters">ABC…</string>
-    <string name="copy">Копировать</string>
-    <string name="new_password">Новый пароль</string>
     <string name="noRules">нужно выбрать как минимум 1 правило</string>
     <string name="passCopied">Пароль скопирован в буфер обмена</string>
-    <string name="ok">OK</string>
-    <string name="cancel">Закрыть</string>
     <string name="passwords">паролей</string>
     <string name="add_new_password">Добавить новый пароль</string>
     <string name="name_your_password">Введите имя пароля</string>
@@ -43,22 +37,28 @@
     <string name="add_some_description">Добавить описание</string>
     <string name="desc">Описание:</string>
     <string name="name">Имя</string>
-    <string name="password">Пароль</string>
-    <string name="textview">TexView</string>
     <string name="view_password">Просмотр пароль</string>
     <string name="delete_password">Удалить</string>
     <string name="load_avatar">Загрузить аватар</string>
-    <string name="decription">Описание:</string>
     <string name="time_lim">Изменено:</string>
     <string name="pass">Пароль:</string>
-    <string name="useFA">Использовать 2FA</string>
-    <string name="tl">Ограничение времени:</string>
-    <string name="tapToView">Нажмите для просмотра</string>
     <string name="hi">Привет,</string>
     <string name="qualityPassword">Качество пароля:</string>
     <string name="edit">Изменить</string>
-    <string name="info">Инфомация:</string>
     <string name="get_info">Инфомация</string>
     <string name="_2fa_you_use_multi_factor_authentication_in_this_app">2FA - вы используете многофакторную аутентификацию</string>
-    <string name="time_limit_we_will_remeber_you_to_change_your_password_in_4_months">Лимит времени - мы напомним вам изменить пароль через 4 месяца</string>
+    <string name="time_limit_we_will_remember_you_to_change_your_password_in_4_months">Лимит времени - мы напомним вам изменить пароль через 4 месяца</string>
+    <string name="yes">ДА</string>
+    <string name="no">Нет</string>
+    <string name="cancel">Закрыть</string>
+    <string name="deletePassword">Удалить пароль</string>
+    <string name="passwordDeleteConfirm">Вы уверены, что хотите удалить этот пароль?</string>
+    <string name="accountDeleteConfirm">Вы уверены, что хотите удалить этот аккаунт?</string>
+    <string name="accountDelete">Удалить аккаунт</string>
+    <string name="passwordDeleted">Ваш пароль удален</string>
+    <string name="accountDeleted">Ваш аккаунт удален</string>
+    <string name="low">низкое</string>
+    <string name="high">высокое</string>
+    <string name="medium">среднее</string>
+    <string name="no_password">Всё ещё нет паролей =(</string>
 </resources>

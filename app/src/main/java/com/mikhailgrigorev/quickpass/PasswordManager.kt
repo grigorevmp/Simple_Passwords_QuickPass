@@ -61,11 +61,11 @@ class PasswordManager {
 
         val strong = (factor*length)/(maxPasswordFactor*maxPasswordLength)
 
-        return if(strong < 0.33)
-            "low"
-        else if(strong < 0.66)
-            "medium"
-        else "high"
+        return when {
+            strong < 0.33 -> "low"
+            strong < 0.66 -> "medium"
+            else -> "high"
+        }
     }
 
 

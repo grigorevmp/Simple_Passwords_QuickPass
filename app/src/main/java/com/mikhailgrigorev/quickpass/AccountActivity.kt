@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_account.*
-import android.app.Activity.RESULT_OK
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
@@ -59,13 +58,11 @@ class AccountActivity : AppCompatActivity() {
             val passIndex: Int = cursor.getColumnIndex(dbHelper.KEY_PASS)
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
             do {
-                val ex_infoIdText = cursor.getString(idIndex).toString()
-                val ex_infoNameText = cursor.getString(nameIndex).toString()
-                val ex_infoPassText = cursor.getString(passIndex).toString()
-                val ex_infoImgText = cursor.getString(imageIndex).toString()
-                passViewField.setText(ex_infoPassText)
+                val exInfoPassText = cursor.getString(passIndex).toString()
+                val exInfoImgText = cursor.getString(imageIndex).toString()
+                passViewField.setText(exInfoPassText)
                 val id = resources.getIdentifier(
-                    ex_infoImgText,
+                    exInfoImgText,
                     "drawable",
                     packageName
                 )
@@ -85,21 +82,21 @@ class AccountActivity : AppCompatActivity() {
 
         deleteAccount.setOnClickListener {
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Delete this password")
-            builder.setMessage("Are you really want to this password?")
+            builder.setTitle(getString(R.string.accountDelete))
+            builder.setMessage(getString(R.string.accountDeleteConfirm))
 
-            builder.setPositiveButton("YES"){ _, _ ->
+            builder.setPositiveButton(getString(R.string.yes)){ _, _ ->
                 database.delete(dbHelper.TABLE_USERS,
                     "NAME = ?",
                     arrayOf(login))
-                toast("You account has been deleted")
+                toast(getString(R.string.accountDeleted))
                 exit(sharedPref)
             }
 
-            builder.setNegativeButton("NO"){ _, _ ->
+            builder.setNegativeButton(getString(R.string.no)){ _, _ ->
             }
 
-            builder.setNeutralButton("Cancel"){_,_ ->
+            builder.setNeutralButton(getString(R.string.cancel)){ _, _ ->
             }
             val dialog: AlertDialog = builder.create()
             dialog.show()

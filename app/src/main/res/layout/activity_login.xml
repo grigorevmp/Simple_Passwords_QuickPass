@@ -18,24 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        app:cardCornerRadius="25dp"
-        app:cardElevation="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/userAvatar"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:contentDescription="@string/userAvatar"
-            app:srcCompat="@drawable/ic_account" />
-    </androidx.cardview.widget.CardView>
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputLoginId"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -57,6 +39,7 @@
             android:id="@+id/inputLoginIdField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
             android:hint="@string/inputLogin" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,10 +95,11 @@
         android:clickable="true"
         android:focusable="true"
         android:text="@string/sign_in"
-        android:textColor="@color/textDark"
         android:visibility="invisible"
-        app:backgroundTint="@color/colorAccent"
         app:icon="@drawable/ic_arr_forward"
+        app:backgroundTint="@color/white"
+        app:iconTint="@color/colorPrimary"
+        android:textColor="@color/colorPrimary"
         app:tint="@color/fabTint"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

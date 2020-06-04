@@ -2,41 +2,23 @@ package com.mikhailgrigorev.quickpass
 
 import android.annotation.SuppressLint
 import android.content.*
-import android.content.res.ColorStateList
 import android.database.Cursor
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
-import android.view.animation.TranslateAnimation
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
-import kotlinx.android.synthetic.main.activity_edit_pass.*
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_new_password.*
-import kotlinx.android.synthetic.main.activity_new_password.authToogle
-import kotlinx.android.synthetic.main.activity_new_password.cardPass
-import kotlinx.android.synthetic.main.activity_new_password.genPasswordId
-import kotlinx.android.synthetic.main.activity_new_password.genPasswordIdField
-import kotlinx.android.synthetic.main.activity_new_password.generatePassword
-import kotlinx.android.synthetic.main.activity_new_password.lengthToggle
-import kotlinx.android.synthetic.main.activity_new_password.lettersToggle
-import kotlinx.android.synthetic.main.activity_new_password.newName
-import kotlinx.android.synthetic.main.activity_new_password.newNameField
-import kotlinx.android.synthetic.main.activity_new_password.noteField
-import kotlinx.android.synthetic.main.activity_new_password.numbersToggle
+import kotlinx.android.synthetic.main.activity_new_password.authToggle
 import kotlinx.android.synthetic.main.activity_new_password.passQuality
-import kotlinx.android.synthetic.main.activity_new_password.passSettings
-import kotlinx.android.synthetic.main.activity_new_password.savePass
-import kotlinx.android.synthetic.main.activity_new_password.seekBar
-import kotlinx.android.synthetic.main.activity_new_password.symToggles
 import kotlinx.android.synthetic.main.activity_new_password.timeLimit
-import kotlinx.android.synthetic.main.activity_new_password.upperCaseToggle
 import kotlinx.android.synthetic.main.activity_new_password.userAvatar
+import kotlinx.android.synthetic.main.activity_password_view.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.random.Random
@@ -44,13 +26,11 @@ import kotlin.random.Random
 
 class NewPasswordActivity : AppCompatActivity() {
 
-    private val PREFERENCE_FILE_KEY = "quickPassPreference"
-    private val KEY_USERNAME = "prefUserNameKey"
     private var length = 20
-    private var useSyms = false
+    private var useSymbols = false
     private var useUC = false
     private var useLetters = false
-    private var useNums = false
+    private var useNumbers = false
 
     @SuppressLint("Recycle", "ClickableViewAccessibility", "ResourceAsColor", "RestrictedApi",
         "SetTextI18n"
@@ -73,9 +53,9 @@ class NewPasswordActivity : AppCompatActivity() {
         if (cursor.moveToFirst()) {
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
             do {
-                val ex_infoImgText = cursor.getString(imageIndex).toString()
+                val exInfoImgText = cursor.getString(imageIndex).toString()
                 val id = resources.getIdentifier(
-                    ex_infoImgText,
+                    exInfoImgText,
                     "drawable",
                     packageName
                 )
@@ -88,9 +68,18 @@ class NewPasswordActivity : AppCompatActivity() {
         genPasswordIdField.setText(pass)
         if(pass!="") {
             val myPasswordManager = PasswordManager()
-            val evaluation: Float =
-                myPasswordManager.evaluatePassword(genPasswordIdField.text.toString())
-            passQuality.text = evaluation.toString()
+            val evaluation: String = myPasswordManager.evaluatePasswordString(genPasswordIdField.text.toString())
+            passQuality.text = evaluation
+            when (evaluation) {
+                "low" -> passQuality.text = getString(R.string.low)
+                "high" -> passQuality.text = getString(R.string.high)
+                else -> passQuality.text = getString(R.string.medium)
+            }
+            when (evaluation) {
+                "low" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.negative))
+                "high" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.positive))
+                else -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.fixable))
+            }
         }
         useLetters = args?.get("useLetters") as Boolean
         if(useLetters){
@@ -102,13 +91,13 @@ class NewPasswordActivity : AppCompatActivity() {
             upperCaseToggle.isChecked = true
             list.add(upperCaseToggle.text.toString())
         }
-        useNums = args.get("useNums") as Boolean
-        if(useNums){
+        useNumbers = args.get("useNumbers") as Boolean
+        if(useNumbers){
             numbersToggle.isChecked = true
             list.add(numbersToggle.text.toString())
         }
-        useSyms = args.get("useSyms") as Boolean
-        if(useSyms){
+        useSymbols = args.get("useSymbols") as Boolean
+        if(useSymbols){
             symToggles.isChecked = true
             list.add(symToggles.text.toString())
         }
@@ -131,23 +120,6 @@ class NewPasswordActivity : AppCompatActivity() {
             else{
                 seekBar.visibility =  View.GONE
             }
-            /*
-            val txt = EditText(this)
-            txt.hint = "$length"
-            AlertDialog.Builder(this)
-                .setTitle("Length of the password")
-                .setMessage("Input length of your password")
-                .setView(txt,  20, 0, 20, 0)
-                .setPositiveButton(
-                    "Set"
-                ) { _, _ ->
-                    length = txt.text.toString().toInt()
-                    lengthToggle.text = getString(R.string.length)  + ": " +  length
-                }
-                .setNegativeButton(
-                    "Cancel"
-                ) { _, _ -> }
-                .show()*/
         }
 
         // Set a SeekBar change listener
@@ -178,9 +150,9 @@ class NewPasswordActivity : AppCompatActivity() {
                     if (view.id == R.id.lettersToggle)
                         useLetters = true
                     if (view.id == R.id.symToggles)
-                        useSyms = true
+                        useSymbols = true
                     if (view.id == R.id.numbersToggle)
-                        useNums = true
+                        useNumbers = true
                     if (view.id == R.id.upperCaseToggle)
                         useUC = true
                     list.add(view.text.toString())
@@ -188,9 +160,9 @@ class NewPasswordActivity : AppCompatActivity() {
                     if (view.id == R.id.lettersToggle)
                         useLetters = false
                     if (view.id == R.id.symToggles)
-                        useSyms = false
+                        useSymbols = false
                     if (view.id == R.id.numbersToggle)
-                        useNums = false
+                        useNumbers = false
                     if (view.id == R.id.upperCaseToggle)
                         useUC = false
                     list.remove(view.text.toString())
@@ -205,12 +177,17 @@ class NewPasswordActivity : AppCompatActivity() {
         genPasswordIdField.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(s: Editable?) {
                 val myPasswordManager = PasswordManager()
-                val evaluation: Float = myPasswordManager.evaluatePassword(genPasswordIdField.text.toString())
                 lettersToggle.isChecked = myPasswordManager.isLetters(genPasswordIdField.text.toString())
                 upperCaseToggle.isChecked = myPasswordManager.isUpperCase(genPasswordIdField.text.toString())
                 numbersToggle.isChecked = myPasswordManager.isNumbers(genPasswordIdField.text.toString())
                 symToggles.isChecked = myPasswordManager.isSymbols(genPasswordIdField.text.toString())
-                passQuality.text = evaluation.toString()
+                val evaluation: String = myPasswordManager.evaluatePasswordString(genPasswordIdField.text.toString())
+                passQuality.text = evaluation
+                when (evaluation) {
+                    "low" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.negative))
+                    "high" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.positive))
+                    else -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.fixable))
+                }
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -229,11 +206,21 @@ class NewPasswordActivity : AppCompatActivity() {
             else {
                 genPasswordId.error = null
                 val newPassword: String =
-                    myPasswordManager.generatePassword(useLetters, useUC, useNums, useSyms, length)
+                    myPasswordManager.generatePassword(useLetters, useUC, useNumbers, useSymbols, length)
                 genPasswordIdField.setText(newPassword)
 
-                val evaluation: Float = myPasswordManager.evaluatePassword(genPasswordIdField.text.toString())
-                passQuality.text = evaluation.toString()
+                val evaluation: String = myPasswordManager.evaluatePasswordString(genPasswordIdField.text.toString())
+                passQuality.text = evaluation
+                when (evaluation) {
+                    "low" -> passQuality.text = getString(R.string.low)
+                    "high" -> passQuality.text = getString(R.string.high)
+                    else -> passQuality.text = getString(R.string.medium)
+                }
+                when (evaluation) {
+                    "low" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.negative))
+                    "high" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.positive))
+                    else -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.fixable))
+                }
             }
         }
         generatePassword.setOnTouchListener { v, event ->
@@ -277,38 +264,38 @@ class NewPasswordActivity : AppCompatActivity() {
 
             val newCursor: Cursor = passDataBase.query(
                 pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME),
-                "NAME = ?", arrayOf(login),
+                "NAME = ?", arrayOf(newNameField.text.toString()),
                 null, null, null
             )
 
+            val login2 = newNameField.text
             if (newCursor.moveToFirst()) {
                 newName.error = getString(R.string.exists)
             }
-            else if (login != null) {
-                if (login.isEmpty() || login.length < 3) {
-                    inputLoginId.error = getString(R.string.errNumOfText)
+            else if (login2 != null) {
+                if (login2.isEmpty() || login2.length < 3) {
+                    newName.error = getString(R.string.errNumOfText)
                 } else {
                     contentValues.put(pdbHelper.KEY_ID, Random.nextInt(0, 100))
                     contentValues.put(pdbHelper.KEY_NAME, newNameField.text.toString())
                     contentValues.put(pdbHelper.KEY_PASS, genPasswordIdField.text.toString())
                     var keyFA = "0"
-                    if(authToogle.isChecked)
+                    if(authToggle.isChecked)
                         keyFA = "1"
-                    var keytimeLimit = "0"
+                    var keyTimeLimit = "0"
                     if(timeLimit.isChecked)
-                        keytimeLimit = "1"
+                        keyTimeLimit = "1"
                     contentValues.put(pdbHelper.KEY_2FA, keyFA)
-                    contentValues.put(pdbHelper.KEY_USE_TIME, keytimeLimit)
+                    contentValues.put(pdbHelper.KEY_USE_TIME, keyTimeLimit)
                     contentValues.put(pdbHelper.KEY_TIME, getDateTime())
                     contentValues.put(pdbHelper.KEY_DESC, noteField.text.toString())
                     passDataBase.insert(pdbHelper.TABLE_USERS, null, contentValues)
+                    val intent = Intent(this, PassGenActivity::class.java)
+                    intent.putExtra("login", login)
+                    startActivity(intent)
+                    finish()
                 }
             }
-
-            val intent = Intent(this, PassGenActivity::class.java)
-            intent.putExtra("login", login)
-            startActivity(intent)
-            finish()
         }
     }
 
