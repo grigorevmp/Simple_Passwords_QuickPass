@@ -5,26 +5,24 @@ import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.database.Cursor
-import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.view.KeyEvent
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_edit_account.*
-import java.io.IOException
+
 
 class EditAccountActivity : AppCompatActivity() {
     private val PREFERENCE_FILE_KEY = "quickPassPreference"
     private val KEY_USERNAME = "prefUserNameKey"
-    private lateinit var filePath : Uri
-    private lateinit var bitmap : Bitmap
     private lateinit var login: String
     private lateinit var passName: String
     private lateinit var account: String
@@ -37,7 +35,7 @@ class EditAccountActivity : AppCompatActivity() {
 
 
         val args: Bundle? = intent.extras
-        login= args?.get("login").toString()
+        login = args?.get("login").toString()
         passName = args?.get("passName").toString()
         account = args?.get("activity").toString()
         val name: String? = getString(R.string.hi) + " " + login
@@ -47,7 +45,7 @@ class EditAccountActivity : AppCompatActivity() {
         // Checking prefs
         val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
 
-        with (sharedPref.edit()) {
+        with(sharedPref.edit()) {
             putString(KEY_USERNAME, login)
             commit()
         }
@@ -55,9 +53,13 @@ class EditAccountActivity : AppCompatActivity() {
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
         val cursor: Cursor = database.query(
-            dbHelper.TABLE_USERS, arrayOf(dbHelper.KEY_NAME, dbHelper.KEY_PASS, dbHelper.KEY_ID, dbHelper.KEY_IMAGE),
-            "NAME = ?", arrayOf(login),
-            null, null, null
+            dbHelper.TABLE_USERS,
+            arrayOf(dbHelper.KEY_NAME, dbHelper.KEY_PASS, dbHelper.KEY_ID, dbHelper.KEY_IMAGE),
+            "NAME = ?",
+            arrayOf(login),
+            null,
+            null,
+            null
         )
 
         if (cursor.moveToFirst()) {
@@ -66,7 +68,6 @@ class EditAccountActivity : AppCompatActivity() {
             do {
                 val exInfoPassText = cursor.getString(passIndex).toString()
                 val exInfoImgText = cursor.getString(imageIndex).toString()
-                imageUri = Uri.parse(cursor.getString(imageIndex).toString())
                 passViewField.setText(exInfoPassText)
                 val id = resources.getIdentifier(
                     exInfoImgText,
@@ -97,13 +98,15 @@ class EditAccountActivity : AppCompatActivity() {
                 val contentValues = ContentValues()
                 contentValues.put(dbHelper.KEY_NAME, nameViewField.text.toString())
                 contentValues.put(dbHelper.KEY_PASS, passViewField.text.toString())
-                contentValues.put(dbHelper.KEY_IMAGE, "ic_account")
-                database.update(dbHelper.TABLE_USERS, contentValues,
+                contentValues.put(dbHelper.KEY_IMAGE,"ic_account")
+                database.update(
+                    dbHelper.TABLE_USERS, contentValues,
                     "NAME = ?",
-                    arrayOf(login))
+                    arrayOf(login)
+                )
                 val intent = Intent(this, AccountActivity::class.java)
                 // Checking prefs
-                with (sharedPref.edit()) {
+                with(sharedPref.edit()) {
                     putString(KEY_USERNAME, nameViewField.text.toString())
                     commit()
                 }
@@ -121,8 +124,8 @@ class EditAccountActivity : AppCompatActivity() {
         }
     }
 
-    private fun Context.toast(message:String)=
-        Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
+    private fun Context.toast(message: String) =
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
@@ -132,13 +135,16 @@ class EditAccountActivity : AppCompatActivity() {
                 intent.putExtra("passName", passName)
                 intent.putExtra("activity", account)
                 startActivity(intent)
-                this.overridePendingTransition(R.anim.right_in,
-                    R.anim.right_out)
+                this.overridePendingTransition(
+                    R.anim.right_in,
+                    R.anim.right_out
+                )
                 finish()
             }
         }
         return false
     }
+
 
     private fun checkPermissionForImage() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -148,12 +154,19 @@ class EditAccountActivity : AppCompatActivity() {
                 val permission = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
                 val permissionCoarse = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-                requestPermissions(permission, 1001) // GIVE AN INTEGER VALUE FOR PERMISSION_CODE_READ LIKE 1001
-                requestPermissions(permissionCoarse, 1002) // GIVE AN INTEGER VALUE FOR PERMISSION_CODE_WRITE LIKE 1002
+                requestPermissions(
+                    permission,
+                    1001
+                ) // GIVE AN INTEGER VALUE FOR PERMISSION_CODE_READ LIKE 1001
+                requestPermissions(
+                    permissionCoarse,
+                    1002
+                ) // GIVE AN INTEGER VALUE FOR PERMISSION_CODE_WRITE LIKE 1002
             } else {
                 pickImageFromGallery()
             }
-        }}
+        }
+    }
 
     private fun pickImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK)
@@ -164,8 +177,10 @@ class EditAccountActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 1000) {
-            imageView.setImageURI(data?.data)
+            userAvatar.setImageURI(data?.data)
             imageUri = data?.data
         }
     }
+
+
 }
