@@ -17,6 +17,7 @@ class AccountActivity : AppCompatActivity() {
 
     private val PREFERENCE_FILE_KEY = "quickPassPreference"
     private val KEY_USERNAME = "prefUserNameKey"
+    private val KEY_BIO = "prefUserBioKey"
     private lateinit var login: String
     private lateinit var passName: String
     private lateinit var account: String
@@ -40,6 +41,45 @@ class AccountActivity : AppCompatActivity() {
         with (sharedPref.edit()) {
             putString(KEY_USERNAME, login)
             commit()
+        }
+
+
+        val useBio = sharedPref.getString(KEY_BIO, "none")
+
+        if(useBio == "using"){
+            biometricSwitch.isChecked = true
+        }
+
+        biometricSwitch.setOnCheckedChangeListener { _, _ ->
+            if(biometricSwitch.isChecked){
+                with (sharedPref.edit()) {
+                    putString(KEY_BIO, "using")
+                    commit()
+                }
+            }
+            else{
+                with (sharedPref.edit()) {
+                    putString(KEY_BIO, "none")
+                    commit()
+                }
+            }
+        }
+
+        biometricText.setOnClickListener {
+            if(!biometricSwitch.isChecked){
+                biometricSwitch.isChecked = true
+                with (sharedPref.edit()) {
+                    putString(KEY_BIO, "using")
+                    commit()
+                }
+            }
+            else{
+                biometricSwitch.isChecked = false
+                with (sharedPref.edit()) {
+                    putString(KEY_BIO, "none")
+                    commit()
+                }
+            }
         }
 
         val dbHelper = DataBaseHelper(this)

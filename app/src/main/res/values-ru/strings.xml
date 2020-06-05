@@ -17,7 +17,7 @@
     <string name="wrong_name">Нет пользователя с таким именем</string>
     <string name="wrong_pass">Неверный пароль</string>
     <string name="input_your_password">Введите пароль</string>
-    <string name="or_use_fingerprint">Или используйте отчпечаток пальца (скоро)</string>
+    <string name="or_use_fingerprint">Или используйте отчпечаток пальца</string>
     <string name="correct_passwords">Безопасных паролей</string>
     <string name="incorrect_password">Небезопасных паролей</string>
     <string name="need_fix">Вам следует изменить</string>
@@ -63,4 +63,9 @@
     <string name="no_password">Всё ещё нет паролей =(</string>
     <string name="share_database">Экспорт</string>
     <string name="you_decided_to_change_some_settings">Вы решили изменить данные аккаунта</string>
+    <string name="bio_usage">Использование биометрии</string>
+    <string name="fingUnlock">Вы хотите использовать разблокировку по отпечатку?</string>
+    <string name="biometricLogin">Сканер отпечатков</string>
+    <string name="logWithBio">Войти с помощью биометрии</string>
+    <string name="usePass">Использовать пароль</string>
 </resources>

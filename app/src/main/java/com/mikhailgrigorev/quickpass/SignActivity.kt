@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.database.Cursor
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -71,37 +73,21 @@ class SignActivity : AppCompatActivity() {
             executor = ContextCompat.getMainExecutor(this)
             biometricPrompt = BiometricPrompt(this, executor,
                 object : BiometricPrompt.AuthenticationCallback() {
-                    override fun onAuthenticationError(errorCode: Int,
-                                                       errString: CharSequence) {
-                        super.onAuthenticationError(errorCode, errString)
-                        Toast.makeText(applicationContext,
-                            "Authentication error: $errString", Toast.LENGTH_SHORT)
-                                .show()
-                    }
 
                     override fun onAuthenticationSucceeded(
                         result: BiometricPrompt.AuthenticationResult) {
                         super.onAuthenticationSucceeded(result)
-                        Toast.makeText(applicationContext,
-                            "Authentication succeeded!", Toast.LENGTH_SHORT)
-                                .show()
                         intent.putExtra("login", login)
                         startActivity(intent)
                         finish()
                     }
 
-                    override fun onAuthenticationFailed() {
-                        super.onAuthenticationFailed()
-                        Toast.makeText(applicationContext, "Authentication failed",
-                            Toast.LENGTH_SHORT)
-                                .show()
-                    }
                 })
 
             promptInfo = BiometricPrompt.PromptInfo.Builder()
-                    .setTitle("Biometric login for my app")
-                    .setSubtitle("Log in using your biometric credential")
-                    .setNegativeButtonText("Use account password")
+                    .setTitle(getString(R.string.biometricLogin))
+                    .setSubtitle(getString(R.string.logWithBio))
+                    .setNegativeButtonText(getString(R.string.usePass))
                     .build()
 
             // Prompt appears when user clicks "Log in".
@@ -175,60 +161,11 @@ class SignActivity : AppCompatActivity() {
 
         cursor.close()
 
-        // создание объекта Intent для запуска SecondActivity
-        if(isAvailable(this)){
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Biometric usage")
-            builder.setMessage("Do you want to use fingerprint?")
+        val intent = Intent(this, PassGenActivity::class.java)
+        intent.putExtra("login", dbLogin)
+        startActivity(intent)
+        finish()
 
-            builder.setPositiveButton(getString(R.string.yes)){ _, _ ->
-                // Checking prefs
-                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
-                with (sharedPref.edit()) {
-                    putString(KEY_BIO, "using")
-                    commit()
-                }
-                val intent = Intent(this, PassGenActivity::class.java)
-                intent.putExtra("login", dbLogin)
-                startActivity(intent)
-                finish()
-            }
-
-            builder.setNegativeButton(getString(R.string.no)){ _, _ ->
-                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
-                with (sharedPref.edit()) {
-                    putString(KEY_BIO, "none")
-                    commit()
-                }
-                val intent = Intent(this, PassGenActivity::class.java)
-                intent.putExtra("login", dbLogin)
-                startActivity(intent)
-                finish()
-            }
-
-            builder.setNeutralButton(getString(R.string.cancel)){ _, _ ->
-                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
-                with (sharedPref.edit()) {
-                    putString(KEY_BIO, "none")
-                    commit()
-                }
-                val intent = Intent(this, PassGenActivity::class.java)
-                intent.putExtra("login", dbLogin)
-                startActivity(intent)
-                finish()
-            }
-            val dialog: AlertDialog = builder.create()
-            dialog.show()
-        }
-        else{
-            val intent = Intent(this, PassGenActivity::class.java)
-            intent.putExtra("login", dbLogin)
-            startActivity(intent)
-            finish()
-        }
     }
-    private fun isAvailable(context: Context): Boolean {
-        val fingerprintManager = FingerprintManagerCompat.from(context)
-        return fingerprintManager.isHardwareDetected && fingerprintManager.hasEnrolledFingerprints()
-    }
+
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryTint">#806200EE</color>
     <color name="colorPrimaryLight">#B388FF</color>
     <color name="colorLight">#F1F1F1</color>
     <color name="colorPrimaryDark">#DDDDDD</color>

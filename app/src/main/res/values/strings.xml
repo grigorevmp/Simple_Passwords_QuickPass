@@ -16,7 +16,7 @@
     <string name="wrong_name">No user with this name</string>
     <string name="wrong_pass">Wrong password</string>
     <string name="input_your_password">Input your password</string>
-    <string name="or_use_fingerprint">Or use fingerprint (coming soon)</string>
+    <string name="or_use_fingerprint">Or use fingerprint</string>
     <string name="correct_passwords"> Safe passwords</string>
     <string name="incorrect_password"> Unsafe passwords</string>
     <string name="passwords"> passwords</string>
@@ -62,4 +62,9 @@
     <string name="no_password">Still no passwords =(</string>
     <string name="share_database">Export</string>
     <string name="you_decided_to_change_some_settings">You decided to change some settings</string>
+    <string name="bio_usage">Biometric usage</string>
+    <string name="fingUnlock">Do you want to use fingerprint unlock?</string>
+    <string name="biometricLogin">Fingerprint unlock</string>
+    <string name="logWithBio">Log in using your biometric credential</string>
+    <string name="usePass">Use account password</string>
 </resources>

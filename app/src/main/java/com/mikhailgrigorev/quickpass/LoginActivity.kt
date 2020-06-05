@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.database.Cursor
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -154,8 +156,8 @@ class LoginActivity : AppCompatActivity() {
 
         if(isAvailable(this)){
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Biometric usage")
-            builder.setMessage("Do you want to use fingerprint?")
+            builder.setTitle(getString(R.string.bio_usage))
+            builder.setMessage(getString(R.string.fingUnlock))
 
             builder.setPositiveButton(getString(R.string.yes)){ _, _ ->
                 // Checking prefs
@@ -204,7 +206,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
     private fun isAvailable(context: Context): Boolean {
-        val fingerprintManager = FingerprintManagerCompat.from(context)
-        return fingerprintManager.isHardwareDetected && fingerprintManager.hasEnrolledFingerprints()
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                context.packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)
     }
 }
