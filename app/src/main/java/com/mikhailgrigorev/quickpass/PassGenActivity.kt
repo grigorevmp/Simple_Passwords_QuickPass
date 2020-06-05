@@ -139,7 +139,9 @@ class PassGenActivity : AppCompatActivity() {
         userAvatar.setOnClickListener {
             val intent = Intent(this, AccountActivity::class.java)
             intent.putExtra("login", login)
+            intent.putExtra("activity","menu");
             startActivity(intent)
+            finish()
         }
 
         val list = mutableListOf<String>()

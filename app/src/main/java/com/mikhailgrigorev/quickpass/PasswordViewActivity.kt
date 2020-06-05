@@ -141,7 +141,10 @@ class PasswordViewActivity : AppCompatActivity() {
         userAvatar.setOnClickListener {
             val intent = Intent(this, AccountActivity::class.java)
             intent.putExtra("login", login)
+            intent.putExtra("passName", passName)
+            intent.putExtra("activity","viewPass")
             startActivity(intent)
+            finish()
         }
 
         passView.setOnClickListener {

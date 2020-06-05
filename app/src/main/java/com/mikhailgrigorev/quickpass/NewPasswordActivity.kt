@@ -13,10 +13,26 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
+import kotlinx.android.synthetic.main.activity_edit_pass.*
 import kotlinx.android.synthetic.main.activity_new_password.*
 import kotlinx.android.synthetic.main.activity_new_password.authToggle
+import kotlinx.android.synthetic.main.activity_new_password.cardPass
+import kotlinx.android.synthetic.main.activity_new_password.genPasswordId
+import kotlinx.android.synthetic.main.activity_new_password.genPasswordIdField
+import kotlinx.android.synthetic.main.activity_new_password.generatePassword
+import kotlinx.android.synthetic.main.activity_new_password.lengthToggle
+import kotlinx.android.synthetic.main.activity_new_password.lettersToggle
+import kotlinx.android.synthetic.main.activity_new_password.newName
+import kotlinx.android.synthetic.main.activity_new_password.newNameField
+import kotlinx.android.synthetic.main.activity_new_password.noteField
+import kotlinx.android.synthetic.main.activity_new_password.numbersToggle
 import kotlinx.android.synthetic.main.activity_new_password.passQuality
+import kotlinx.android.synthetic.main.activity_new_password.passSettings
+import kotlinx.android.synthetic.main.activity_new_password.savePass
+import kotlinx.android.synthetic.main.activity_new_password.seekBar
+import kotlinx.android.synthetic.main.activity_new_password.symToggles
 import kotlinx.android.synthetic.main.activity_new_password.timeLimit
+import kotlinx.android.synthetic.main.activity_new_password.upperCaseToggle
 import kotlinx.android.synthetic.main.activity_new_password.userAvatar
 import kotlinx.android.synthetic.main.activity_password_view.*
 import java.text.SimpleDateFormat
@@ -167,10 +183,6 @@ class NewPasswordActivity : AppCompatActivity() {
                         useUC = false
                     list.remove(view.text.toString())
                 }
-                //if (list.isNotEmpty()){
-                //    // SHow the selection
-                //    toast("Selected $list")
-                //}
             }
         }
 
@@ -182,7 +194,11 @@ class NewPasswordActivity : AppCompatActivity() {
                 numbersToggle.isChecked = myPasswordManager.isNumbers(genPasswordIdField.text.toString())
                 symToggles.isChecked = myPasswordManager.isSymbols(genPasswordIdField.text.toString())
                 val evaluation: String = myPasswordManager.evaluatePasswordString(genPasswordIdField.text.toString())
-                passQuality.text = evaluation
+                when (evaluation) {
+                    "low" -> passQuality.text = getString(R.string.low)
+                    "high" -> passQuality.text = getString(R.string.high)
+                    else -> passQuality.text = getString(R.string.medium)
+                }
                 when (evaluation) {
                     "low" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.negative))
                     "high" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.positive))

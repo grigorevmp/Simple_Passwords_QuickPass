@@ -62,7 +62,10 @@ class EditPassActivity : AppCompatActivity() {
         userAvatar.setOnClickListener {
             val intent = Intent(this, AccountActivity::class.java)
             intent.putExtra("login", login)
+            intent.putExtra("passName", passName)
+            intent.putExtra("activity","editPass")
             startActivity(intent)
+            finish()
         }
 
         var dbLogin = ""
@@ -256,7 +259,11 @@ class EditPassActivity : AppCompatActivity() {
                 genPasswordIdField.setText(newPassword)
 
                 val evaluation: String = myPasswordManager.evaluatePasswordString(genPasswordIdField.text.toString())
-                passQuality.text = evaluation
+                when (evaluation) {
+                    "low" -> passQuality.text = getString(R.string.low)
+                    "high" -> passQuality.text = getString(R.string.high)
+                    else -> passQuality.text = getString(R.string.medium)
+                }
                 when (evaluation) {
                     "low" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.negative))
                     "high" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.positive))

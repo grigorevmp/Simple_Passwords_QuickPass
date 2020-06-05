@@ -61,4 +61,6 @@
     <string name="high">высокое</string>
     <string name="medium">среднее</string>
     <string name="no_password">Всё ещё нет паролей =(</string>
+    <string name="share_database">Экспорт</string>
+    <string name="you_decided_to_change_some_settings">Вы решили изменить данные аккаунта</string>
 </resources>

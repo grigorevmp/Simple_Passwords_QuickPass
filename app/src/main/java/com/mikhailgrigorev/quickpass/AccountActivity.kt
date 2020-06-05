@@ -5,24 +5,21 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.database.Cursor
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_account.*
-import android.graphics.Bitmap
-import android.net.Uri
-import android.provider.MediaStore
+import android.view.KeyEvent
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import java.io.IOException
+import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_account.*
 
 class AccountActivity : AppCompatActivity() {
 
     private val PREFERENCE_FILE_KEY = "quickPassPreference"
     private val KEY_USERNAME = "prefUserNameKey"
-    private val GET_IMAGE = 1
-    private lateinit var filePath : Uri
-    private lateinit var bitmap : Bitmap
+    private lateinit var login: String
+    private lateinit var passName: String
+    private lateinit var account: String
 
     @SuppressLint("Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,9 +27,10 @@ class AccountActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         setContentView(R.layout.activity_account)
 
-
         val args: Bundle? = intent.extras
-        val login: String? = args?.get("login").toString()
+        login = args?.get("login").toString()
+        passName = args?.get("passName").toString()
+        account = args?.get("activity").toString()
         val name: String? = getString(R.string.hi) + " " + login
         helloTextId.text = name
 
@@ -53,8 +51,6 @@ class AccountActivity : AppCompatActivity() {
         )
 
         if (cursor.moveToFirst()) {
-            val idIndex: Int = cursor.getColumnIndex(dbHelper.KEY_ID)
-            val nameIndex: Int = cursor.getColumnIndex(dbHelper.KEY_NAME)
             val passIndex: Int = cursor.getColumnIndex(dbHelper.KEY_PASS)
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
             do {
@@ -74,10 +70,13 @@ class AccountActivity : AppCompatActivity() {
             exit(sharedPref)
         }
 
-        loadAcc.setOnClickListener {
-            val photoPickerIntent = Intent(Intent.ACTION_PICK)
-            photoPickerIntent.type = "image/*"
-            startActivityForResult(photoPickerIntent, GET_IMAGE)
+        editAccount.setOnClickListener {
+            val intent = Intent(this, EditAccountActivity::class.java)
+            intent.putExtra("login", login)
+            intent.putExtra("passName", passName)
+            intent.putExtra("activity", account)
+            startActivity(intent)
+            finish()
         }
 
         deleteAccount.setOnClickListener {
@@ -87,6 +86,11 @@ class AccountActivity : AppCompatActivity() {
 
             builder.setPositiveButton(getString(R.string.yes)){ _, _ ->
                 database.delete(dbHelper.TABLE_USERS,
+                    "NAME = ?",
+                    arrayOf(login))
+                val pdbHelper = PasswordsDataBaseHelper(this, login)
+                val pDatabase = pdbHelper.writableDatabase
+                pDatabase.delete(pdbHelper.TABLE_USERS,
                     "NAME = ?",
                     arrayOf(login))
                 toast(getString(R.string.accountDeleted))
@@ -103,6 +107,36 @@ class AccountActivity : AppCompatActivity() {
         }
     }
 
+
+    override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
+        when (keyCode) {
+            KeyEvent.KEYCODE_BACK -> {
+                val activity = intent.getStringExtra("activity")
+                if(activity == "menu"){
+                    val intent = Intent(this, PassGenActivity::class.java)
+                    intent.putExtra("login", login)
+                    startActivity(intent)
+                }
+                else if(activity == "editPass"){
+                    val intent = Intent(this, EditPassActivity::class.java)
+                    intent.putExtra("login", login)
+                    intent.putExtra("passName", passName)
+                    startActivity(intent)
+                }
+                else if(activity == "viewPass"){
+                    val intent = Intent(this, PasswordViewActivity::class.java)
+                    intent.putExtra("login", login)
+                    intent.putExtra("passName", passName)
+                    startActivity(intent)
+                }
+                this.overridePendingTransition(R.anim.right_in,
+                    R.anim.right_out)
+                finish()
+            }
+        }
+        return false
+    }
+
     private fun exit(sharedPref: SharedPreferences) {
         sharedPref.edit().remove(KEY_USERNAME).apply()
         val intent = Intent(this, LoginActivity::class.java)
@@ -113,16 +147,4 @@ class AccountActivity : AppCompatActivity() {
     private fun Context.toast(message:String)=
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == GET_IMAGE && resultCode == RESULT_OK && data != null){
-            filePath = data.data!!
-            try{
-                bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, filePath)
-                imageView!!.setImageBitmap(bitmap)
-            }catch (exception : IOException){
-                Toast.makeText(this,"Error Loading Image!!!", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
 }
