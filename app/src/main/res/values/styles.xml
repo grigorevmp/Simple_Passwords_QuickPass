@@ -7,4 +7,5 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
     </style>
-</resources>
+
+    </resources>

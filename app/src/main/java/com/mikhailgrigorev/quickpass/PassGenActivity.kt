@@ -8,6 +8,8 @@ import android.content.Intent
 import android.database.Cursor
 import android.database.SQLException
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
 import android.widget.SeekBar
@@ -125,6 +127,46 @@ class PassGenActivity : AppCompatActivity() {
 
         passwordRecycler.adapter = PasswordAdapter(passwords, quality, this, clickListener = {
             passClickListener(it)
+        })
+
+        search.setOnClickListener {
+            if(searchPass.visibility ==  View.GONE){
+                searchPass.visibility =  View.VISIBLE
+                passwordRecycler.adapter = null
+                imageView.visibility =  View.VISIBLE
+                imageView.visibility=  View.VISIBLE
+                newPass.visibility =  View.GONE
+            }
+            else{
+                searchPass.visibility =  View.GONE
+                newPass.visibility =  View.VISIBLE
+                imageView.visibility =  View.GONE
+                passwordRecycler.adapter = PasswordAdapter(passwords, quality, this, clickListener = {
+                    passClickListener(it)
+                })
+            }
+        }
+
+        searchPassField.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                val passwords2: ArrayList<Pair<String, String>> = ArrayList()
+                val quality2: ArrayList<String> = ArrayList()
+                for ((index, pair) in passwords.withIndex()) {
+                    if (pair.first.contains(s.toString())){
+                        passwords2.add(pair)
+                        quality2.add(quality[index])
+                    }
+                }
+                passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, this@PassGenActivity, clickListener = {
+                    passClickListener(it)
+                })
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
         })
 
 

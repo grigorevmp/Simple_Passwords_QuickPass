@@ -99,32 +99,6 @@
         app:layout_constraintStart_toEndOf="@+id/negativeCircle2"
         app:layout_constraintTop_toBottomOf="@+id/negativePasswords" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/genPasswordId"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="18dp"
-        app:boxCornerRadiusBottomEnd="15dp"
-        app:boxCornerRadiusTopEnd="15dp"
-        app:boxCornerRadiusTopStart="15dp"
-        app:boxCornerRadiusBottomStart="15dp"
-        android:layout_marginEnd="95dp"
-        app:endIconMode="clear_text"
-        app:errorEnabled="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fixPasswords">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/genPasswordIdField"
-            android:cursorVisible="false"
-            android:longClickable="false"
-            android:focusable="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardPass"
@@ -231,6 +205,20 @@
         app:backgroundTint="@color/white"
         app:tint="@color/colorPrimary"/>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:backgroundTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/text_box_search_outline"
+        app:tint="@color/colorPrimary" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/noPasswords"
         android:layout_width="match_parent"
@@ -304,5 +292,71 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/genPasswordId"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="18dp"
+        app:boxCornerRadiusBottomEnd="15dp"
+        app:boxCornerRadiusTopEnd="15dp"
+        app:boxCornerRadiusTopStart="15dp"
+        app:boxCornerRadiusBottomStart="15dp"
+        android:layout_marginEnd="95dp"
+        app:endIconMode="clear_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fixPasswords">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/genPasswordIdField"
+            android:cursorVisible="false"
+            android:longClickable="false"
+            android:focusable="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:contentDescription="@string/no_text"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/allPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/bc_rounded_w" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/searchPass"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:visibility="gone"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusBottomEnd="15dp"
+        app:boxCornerRadiusBottomStart="15dp"
+        app:boxCornerRadiusTopEnd="15dp"
+        app:boxCornerRadiusTopStart="15dp"
+        app:endIconMode="clear_text"
+        app:layout_constraintBottom_toBottomOf="@+id/search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/search"
+        app:layout_constraintTop_toTopOf="@+id/search">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchPassField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/search_password"
+            android:inputType="text"
+            android:visibility="visible" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

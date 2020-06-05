@@ -67,4 +67,5 @@
     <string name="biometricLogin">Fingerprint unlock</string>
     <string name="logWithBio">Log in using your biometric credential</string>
     <string name="usePass">Use account password</string>
+    <string name="search_password">Search password</string>
 </resources>
