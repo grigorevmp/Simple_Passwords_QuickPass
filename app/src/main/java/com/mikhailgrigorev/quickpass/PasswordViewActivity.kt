@@ -111,6 +111,13 @@ class PasswordViewActivity : AppCompatActivity() {
             helloTextId.text = getString(R.string.no_text)
         }
 
+        if(passViewField.text.toString() != ""){
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Password", passViewField.text.toString())
+            clipboard.setPrimaryClip(clip)
+            toast(getString(R.string.passCopied))
+        }
+
         deletePassword.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             builder.setTitle(getString(R.string.deletePassword))

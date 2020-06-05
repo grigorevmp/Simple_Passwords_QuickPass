@@ -8,7 +8,9 @@ import android.database.Cursor
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlin.random.Random
 
@@ -18,6 +20,7 @@ class LoginActivity : AppCompatActivity() {
     private val TAG = "SignUpActivity"
     private val PREFERENCE_FILE_KEY = "quickPassPreference"
     private val KEY_USERNAME = "prefUserNameKey"
+    private val KEY_BIO = "prefUserBioKey"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -149,10 +152,59 @@ class LoginActivity : AppCompatActivity() {
 
         // создание объекта Intent для запуска SecondActivity
 
-        val intent = Intent(this, PassGenActivity::class.java)
-        intent.putExtra("login", dbLogin)
-        startActivity(intent)
-        finish()
-    }
+        if(isAvailable(this)){
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Biometric usage")
+            builder.setMessage("Do you want to use fingerprint?")
 
+            builder.setPositiveButton(getString(R.string.yes)){ _, _ ->
+                // Checking prefs
+                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                with (sharedPref.edit()) {
+                    putString(KEY_BIO, "using")
+                    commit()
+                }
+                val intent = Intent(this, PassGenActivity::class.java)
+                intent.putExtra("login", dbLogin)
+                startActivity(intent)
+                finish()
+            }
+
+            builder.setNegativeButton(getString(R.string.no)){ _, _ ->
+                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                with (sharedPref.edit()) {
+                    putString(KEY_BIO, "none")
+                    commit()
+                }
+                val intent = Intent(this, PassGenActivity::class.java)
+                intent.putExtra("login", dbLogin)
+                startActivity(intent)
+                finish()
+            }
+
+            builder.setNeutralButton(getString(R.string.cancel)){ _, _ ->
+                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                with (sharedPref.edit()) {
+                    putString(KEY_BIO, "none")
+                    commit()
+                }
+                val intent = Intent(this, PassGenActivity::class.java)
+                intent.putExtra("login", dbLogin)
+                startActivity(intent)
+                finish()
+            }
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        }
+        else{
+            val intent = Intent(this, PassGenActivity::class.java)
+            intent.putExtra("login", dbLogin)
+            startActivity(intent)
+            finish()
+        }
+    }
+    private fun isAvailable(context: Context): Boolean {
+        val fingerprintManager = FingerprintManagerCompat.from(context)
+        return fingerprintManager.isHardwareDetected && fingerprintManager.hasEnrolledFingerprints()
+    }
 }
