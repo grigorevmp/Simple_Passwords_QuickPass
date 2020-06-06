@@ -19,11 +19,12 @@ class AccountActivity : AppCompatActivity() {
     private val KEY_USERNAME = "prefUserNameKey"
     private val KEY_BIO = "prefUserBioKey"
     private val KEY_AUTOCOPY = "prefAutoCopyKey"
+    private val KEY_USEPIN = "prefUsePinKey"
     private lateinit var login: String
     private lateinit var passName: String
     private lateinit var account: String
 
-    @SuppressLint("Recycle")
+    @SuppressLint("Recycle", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
@@ -47,6 +48,7 @@ class AccountActivity : AppCompatActivity() {
 
         val useBio = sharedPref.getString(KEY_BIO, "none")
         val useAuto = sharedPref.getString(KEY_AUTOCOPY, "none")
+        val usePin = sharedPref.getString(KEY_USEPIN, "none")
 
         if(useBio == "using"){
             biometricSwitch.isChecked = true
@@ -54,6 +56,12 @@ class AccountActivity : AppCompatActivity() {
 
         if(useAuto == "dis"){
             autoCopySwitch.isChecked = false
+        }
+
+        if(usePin != "none"){
+            setPinSwitch.isChecked = true
+            setPinCurrent.alpha = 1F
+            setPinCurrent.text = "($usePin)"
         }
 
 
@@ -86,6 +94,43 @@ class AccountActivity : AppCompatActivity() {
                     putString(KEY_AUTOCOPY, "none")
                     commit()
                 }
+            }
+        }
+
+        setPinSwitch.setOnCheckedChangeListener { _, _ ->
+            if(setPinSwitch.isChecked){
+                val intent = Intent(this, SetPinActivity::class.java)
+                intent.putExtra("login", login)
+                intent.putExtra("passName", passName)
+                intent.putExtra("activity", account)
+                startActivity(intent)
+                finish()
+            }
+            else{
+                with (sharedPref.edit()) {
+                    putString(KEY_USEPIN, "none")
+                    commit()
+                }
+                setPinCurrent.alpha = 0F
+            }
+        }
+
+        setPin.setOnClickListener {
+            if(setPinSwitch.isChecked){
+                setPinSwitch.isChecked = false
+                with (sharedPref.edit()) {
+                    putString(KEY_USEPIN, "none")
+                    commit()
+                }
+                setPinCurrent.alpha = 0F
+            }
+            else{
+                val intent = Intent(this, SetPinActivity::class.java)
+                intent.putExtra("login", login)
+                intent.putExtra("passName", passName)
+                intent.putExtra("activity", account)
+                startActivity(intent)
+                finish()
             }
         }
 
@@ -195,23 +240,24 @@ class AccountActivity : AppCompatActivity() {
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
-                val activity = intent.getStringExtra("activity")
-                if(activity == "menu"){
-                    val intent = Intent(this, PassGenActivity::class.java)
-                    intent.putExtra("login", login)
-                    startActivity(intent)
-                }
-                else if(activity == "editPass"){
-                    val intent = Intent(this, EditPassActivity::class.java)
-                    intent.putExtra("login", login)
-                    intent.putExtra("passName", passName)
-                    startActivity(intent)
-                }
-                else if(activity == "viewPass"){
-                    val intent = Intent(this, PasswordViewActivity::class.java)
-                    intent.putExtra("login", login)
-                    intent.putExtra("passName", passName)
-                    startActivity(intent)
+                when (intent.getStringExtra("activity")) {
+                    "menu" -> {
+                        val intent = Intent(this, PassGenActivity::class.java)
+                        intent.putExtra("login", login)
+                        startActivity(intent)
+                    }
+                    "editPass" -> {
+                        val intent = Intent(this, EditPassActivity::class.java)
+                        intent.putExtra("login", login)
+                        intent.putExtra("passName", passName)
+                        startActivity(intent)
+                    }
+                    "viewPass" -> {
+                        val intent = Intent(this, PasswordViewActivity::class.java)
+                        intent.putExtra("login", login)
+                        intent.putExtra("passName", passName)
+                        startActivity(intent)
+                    }
                 }
                 this.overridePendingTransition(R.anim.right_in,
                     R.anim.right_out)
@@ -223,6 +269,8 @@ class AccountActivity : AppCompatActivity() {
 
     private fun exit(sharedPref: SharedPreferences) {
         sharedPref.edit().remove(KEY_USERNAME).apply()
+        sharedPref.edit().remove(KEY_USEPIN).apply()
+        sharedPref.edit().remove(KEY_BIO).apply()
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()

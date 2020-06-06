@@ -20,6 +20,7 @@ class SignActivity : AppCompatActivity() {
     private val PREFERENCE_FILE_KEY = "quickPassPreference"
     private val KEY_USERNAME = "prefUserNameKey"
     private val KEY_BIO = "prefUserBioKey"
+    private val KEY_USEPIN = "prefUsePinKey"
     private lateinit var executor: Executor
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
@@ -110,6 +111,8 @@ class SignActivity : AppCompatActivity() {
     }
     private fun exit(sharedPref: SharedPreferences) {
         sharedPref.edit().remove(KEY_USERNAME).apply()
+        sharedPref.edit().remove(KEY_USEPIN).apply()
+        sharedPref.edit().remove(KEY_BIO).apply()
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()

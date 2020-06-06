@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AboutActivity"/>
+        <activity android:name=".SetPinActivity"/>
+        <activity android:name=".PinActivity" />
+        <activity android:name=".AboutActivity" />
         <activity
             android:name=".EditAccountActivity"
             android:windowSoftInputMode="adjustResize" />

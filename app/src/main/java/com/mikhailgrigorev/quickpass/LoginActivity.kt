@@ -22,6 +22,7 @@ class LoginActivity : AppCompatActivity() {
     private val PREFERENCE_FILE_KEY = "quickPassPreference"
     private val KEY_USERNAME = "prefUserNameKey"
     private val KEY_BIO = "prefUserBioKey"
+    private val KEY_USEPIN = "prefUsePinKey"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +35,15 @@ class LoginActivity : AppCompatActivity() {
         // Checking prefs
         val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
         val username = sharedPref.getString(KEY_USERNAME, "none")
-        if(username != "none"){
+
+        val usePin = sharedPref.getString(KEY_USEPIN, "none")
+        if(usePin != "none"){
+            val intent = Intent(this, PinActivity::class.java)
+            intent.putExtra("login", username)
+            startActivity(intent)
+            finish()
+        }
+        else if(username != "none"){
             val intent = Intent(this, SignActivity::class.java)
             intent.putExtra("login", username)
             startActivity(intent)

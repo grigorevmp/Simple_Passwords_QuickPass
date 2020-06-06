@@ -75,6 +75,11 @@
     <string name="chooseEmail">Выберете email клиент…</string>
     <string name="key_words">Ключевые слова:</string>
     <string name="add_keywords">Добавить ключевые слова</string>
-    <string name="versionCode" translatable="false">Версия 1.0.0 • Сборка 85</string>
+    <string name="versionCode">Версия 1.0.0 • Сборка 85</string>
     <string name="you_are_using_this_password_for_a_long_time_you_should_change_it">Вы используете данный пароль слишком долго, вам следует изменить его.</string>
+    <string name="input_your_pin">Введите пин</string>
+    <string name="set_pin">Установить пин</string>
+    <string name="settings">Настройки приложения</string>
+    <string name="account_settings">Настройки аккаунта</string>
+    <string name="incorrectPin">Неверный пин</string>
 </resources>
