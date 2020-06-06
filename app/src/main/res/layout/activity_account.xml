@@ -8,6 +8,28 @@
 
 
     <TextView
+        android:id="@+id/autoCopy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/auto_copy_password"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/biometricText" />
+
+    <Switch
+        android:id="@+id/autoCopySwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:checked="true"
+        android:thumbTint="@color/colorPrimary"
+        android:trackTint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/autoCopy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/autoCopy" />
+
+    <TextView
         android:id="@+id/helloTextId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -109,12 +131,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:clickable="false"
         android:text="@string/share_database"
         android:textColor="@color/grey"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/biometricText" />
+        app:layout_constraintTop_toBottomOf="@+id/autoCopy" />
 
     <TextView
         android:id="@+id/biometricText"

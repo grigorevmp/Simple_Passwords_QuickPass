@@ -20,6 +20,8 @@ class PasswordViewActivity : AppCompatActivity() {
 
     private lateinit var login: String
     private lateinit var passName: String
+    private val KEY_AUTOCOPY = "prefAutoCopyKey"
+    private val PREFERENCE_FILE_KEY = "quickPassPreference"
 
     @SuppressLint("Recycle", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -111,7 +113,11 @@ class PasswordViewActivity : AppCompatActivity() {
             helloTextId.text = getString(R.string.no_text)
         }
 
-        if(passViewField.text.toString() != ""){
+
+        val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+        val autoCopy = sharedPref.getString(KEY_AUTOCOPY, "none")
+
+        if(autoCopy == "none" && passViewField.text.toString() != ""){
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("Password", passViewField.text.toString())
             clipboard.setPrimaryClip(clip)

@@ -18,6 +18,7 @@ class AccountActivity : AppCompatActivity() {
     private val PREFERENCE_FILE_KEY = "quickPassPreference"
     private val KEY_USERNAME = "prefUserNameKey"
     private val KEY_BIO = "prefUserBioKey"
+    private val KEY_AUTOCOPY = "prefAutoCopyKey"
     private lateinit var login: String
     private lateinit var passName: String
     private lateinit var account: String
@@ -45,9 +46,47 @@ class AccountActivity : AppCompatActivity() {
 
 
         val useBio = sharedPref.getString(KEY_BIO, "none")
+        val useAuto = sharedPref.getString(KEY_AUTOCOPY, "none")
 
         if(useBio == "using"){
             biometricSwitch.isChecked = true
+        }
+
+        if(useAuto == "dis"){
+            autoCopySwitch.isChecked = false
+        }
+
+
+        autoCopySwitch.setOnCheckedChangeListener { _, _ ->
+            if(!autoCopySwitch.isChecked){
+                with (sharedPref.edit()) {
+                    putString(KEY_AUTOCOPY, "dis")
+                    commit()
+                }
+            }
+            else{
+                with (sharedPref.edit()) {
+                    putString(KEY_AUTOCOPY, "none")
+                    commit()
+                }
+            }
+        }
+
+        autoCopy.setOnClickListener {
+            if(autoCopySwitch.isChecked){
+                autoCopySwitch.isChecked = false
+                with (sharedPref.edit()) {
+                    putString(KEY_AUTOCOPY, "dis")
+                    commit()
+                }
+            }
+            else{
+                autoCopySwitch.isChecked = true
+                with (sharedPref.edit()) {
+                    putString(KEY_AUTOCOPY, "none")
+                    commit()
+                }
+            }
         }
 
         biometricSwitch.setOnCheckedChangeListener { _, _ ->
@@ -81,6 +120,8 @@ class AccountActivity : AppCompatActivity() {
                 }
             }
         }
+
+
 
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
