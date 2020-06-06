@@ -230,8 +230,10 @@
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
+                    android:contentDescription="@string/fingUnlock"
                     android:src="@drawable/fingerprint"
-                    android:contentDescription="@string/fingUnlock" />
+                    android:clickable="false"
+                    android:visibility="invisible" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

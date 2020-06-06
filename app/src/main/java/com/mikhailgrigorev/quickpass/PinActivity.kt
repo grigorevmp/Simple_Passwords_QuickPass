@@ -45,6 +45,7 @@ class PinActivity : AppCompatActivity() {
 
         if(useBio != "none"){
             finger.visibility = View.VISIBLE
+            finger.isClickable = true
             val intent = Intent(this, PassGenActivity::class.java)
             executor = ContextCompat.getMainExecutor(this)
             biometricPrompt = BiometricPrompt(this, executor,

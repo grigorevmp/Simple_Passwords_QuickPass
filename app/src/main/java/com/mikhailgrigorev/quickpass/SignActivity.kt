@@ -11,7 +11,11 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
+import kotlinx.android.synthetic.main.activity_pin.*
 import kotlinx.android.synthetic.main.activity_sign.*
+import kotlinx.android.synthetic.main.activity_sign.finger
+import kotlinx.android.synthetic.main.activity_sign.helloTextId
+import kotlinx.android.synthetic.main.activity_sign.userAvatar
 import java.util.concurrent.Executor
 
 class SignActivity : AppCompatActivity() {
@@ -64,6 +68,7 @@ class SignActivity : AppCompatActivity() {
         val username = sharedPref.getString(KEY_BIO, "none")
         if(username != "none"){
             finger.visibility = View.VISIBLE
+            finger.isClickable = true
             val intent = Intent(this, PassGenActivity::class.java)
             executor = ContextCompat.getMainExecutor(this)
             biometricPrompt = BiometricPrompt(this, executor,
@@ -105,7 +110,6 @@ class SignActivity : AppCompatActivity() {
         }
 
         logOutFab.setOnClickListener {
-            val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
             exit(sharedPref)
         }
     }

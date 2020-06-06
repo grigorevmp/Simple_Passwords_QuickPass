@@ -121,6 +121,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputPasswordId"
-        app:srcCompat="@drawable/fingerprint" />
+        android:clickable="false"
+        app:srcCompat="@drawable/fingerprint"
+        android:contentDescription="@string/fingUnlock" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,5 +7,12 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
     </style>
-
+    <style name="ThemeOverlay.MySwitch" parent="">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="android:colorControlActivated">@color/colorPrimary</item>
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">#f1f1f1</item>
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">#BFBFBF</item>
+    </style>
     </resources>

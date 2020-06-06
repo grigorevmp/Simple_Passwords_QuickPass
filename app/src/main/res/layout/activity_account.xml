@@ -18,14 +18,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/autoCopy" />
 
-    <Switch
+    <Switch android:theme="@style/ThemeOverlay.MySwitch"
         android:id="@+id/setPinSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:checked="false"
-        android:thumbTint="@color/colorPrimary"
-        android:trackTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/setPin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/setPin" />
@@ -40,14 +38,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/biometricText" />
 
-    <Switch
+    <Switch android:theme="@style/ThemeOverlay.MySwitch"
         android:id="@+id/autoCopySwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:checked="true"
-        android:thumbTint="@color/colorPrimary"
-        android:trackTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/autoCopy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/autoCopy" />
@@ -146,13 +142,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/settings" />
 
-    <Switch
+    <Switch android:theme="@style/ThemeOverlay.MySwitch"
         android:id="@+id/biometricSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
-        android:trackTint="@color/colorPrimary"
-        android:thumbTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/biometricText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/biometricText" />
@@ -181,7 +175,7 @@
                 android:layout_margin="10dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/delete_account"
-                android:paddingRight="20dp"
+                android:paddingEnd="20dp"
                 android:src="@drawable/delete_outline"
                 android:tint="#E91E63" />
 
@@ -201,7 +195,7 @@
                 android:layout_margin="10dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/about_app"
-                android:paddingLeft="20dp"
+                android:paddingStart="20dp"
                 android:src="@drawable/information_outline" />
         </LinearLayout>
 
