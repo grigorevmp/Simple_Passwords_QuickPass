@@ -39,7 +39,7 @@
     <string name="name">Имя</string>
     <string name="view_password">Просмотр пароль</string>
     <string name="delete_password">Удалить</string>
-    <string name="load_avatar">Загрузить аватар</string>
+    <string name="load_avatar">Выбрать аватар</string>
     <string name="time_lim">Изменено:</string>
     <string name="pass">Пароль:</string>
     <string name="hi">Привет,</string>
@@ -69,4 +69,10 @@
     <string name="logWithBio">Войти с помощью биометрии</string>
     <string name="usePass">Использовать пароль</string>
     <string name="search_password">Найти пароль</string>
+    <string name="auto_copy_password">Авто-копирование пароля</string>
+    <string name="about_app">О приложении</string>
+    <string name="mikhail_grigorev">Михаил Григорьев</string>
+    <string name="chooseEmail">Выберете email клиент…</string>
+    <string name="key_words">Ключевые слова:</string>
+    <string name="add_keywords">Добавить ключевые слова</string>
 </resources>

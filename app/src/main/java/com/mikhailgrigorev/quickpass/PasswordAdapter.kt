@@ -8,7 +8,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.pass_fragment.view.*
 
-class PasswordAdapter(private val items : ArrayList<Pair<String, String>>, private val quality : ArrayList<String>, val context: Context, val clickListener: (Int) -> Unit) : RecyclerView.Adapter<ViewHolder>() {
+class PasswordAdapter(private val items : ArrayList<Pair<String, String>>,
+                      private val quality : ArrayList<String>,
+                      private val tags : ArrayList<String>,
+                      val context: Context,
+                      val clickListener: (Int) -> Unit) : RecyclerView.Adapter<ViewHolder>()
+{
 
     // Gets the number of animals in the list
     override fun getItemCount(): Int {
@@ -26,6 +31,12 @@ class PasswordAdapter(private val items : ArrayList<Pair<String, String>>, priva
         holder.passText.text = items[position].first
         if(items[position].second == "0"){
             holder.chip.visibility = View.GONE
+        }
+        if(tags[position] == ""){
+            holder.tags.visibility = View.GONE
+        }
+        else{
+            holder.tags.text = tags[position]
         }
         when {
             quality[position] == "1" -> {
@@ -45,9 +56,9 @@ class PasswordAdapter(private val items : ArrayList<Pair<String, String>>, priva
 }
 
 class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
-    // Holds the TextView that will add each animal to
     val passText = view.list_title!!
     val chip = view.chip!!
+    val tags = view.tags!!
     val clickableView = view.clickable_view!!
     val marker = view.marker!!
 }

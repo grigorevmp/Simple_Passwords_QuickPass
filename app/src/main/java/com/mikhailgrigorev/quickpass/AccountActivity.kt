@@ -146,6 +146,10 @@ class AccountActivity : AppCompatActivity() {
                 userAvatar.setImageResource(id)
             } while (cursor.moveToNext())
         }
+        aboutApp.setOnClickListener {
+            val intent = Intent(this, AboutActivity::class.java)
+            startActivity(intent)
+        }
 
         logOut.setOnClickListener {
             exit(sharedPref)
@@ -172,8 +176,7 @@ class AccountActivity : AppCompatActivity() {
                 val pdbHelper = PasswordsDataBaseHelper(this, login)
                 val pDatabase = pdbHelper.writableDatabase
                 pDatabase.delete(pdbHelper.TABLE_USERS,
-                    "NAME = ?",
-                    arrayOf(login))
+                    null, null)
                 toast(getString(R.string.accountDeleted))
                 exit(sharedPref)
             }

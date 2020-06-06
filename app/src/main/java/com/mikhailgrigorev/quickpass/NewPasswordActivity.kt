@@ -13,28 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
-import kotlinx.android.synthetic.main.activity_edit_pass.*
 import kotlinx.android.synthetic.main.activity_new_password.*
-import kotlinx.android.synthetic.main.activity_new_password.authToggle
-import kotlinx.android.synthetic.main.activity_new_password.cardPass
-import kotlinx.android.synthetic.main.activity_new_password.genPasswordId
-import kotlinx.android.synthetic.main.activity_new_password.genPasswordIdField
-import kotlinx.android.synthetic.main.activity_new_password.generatePassword
-import kotlinx.android.synthetic.main.activity_new_password.lengthToggle
-import kotlinx.android.synthetic.main.activity_new_password.lettersToggle
-import kotlinx.android.synthetic.main.activity_new_password.newName
-import kotlinx.android.synthetic.main.activity_new_password.newNameField
-import kotlinx.android.synthetic.main.activity_new_password.noteField
-import kotlinx.android.synthetic.main.activity_new_password.numbersToggle
-import kotlinx.android.synthetic.main.activity_new_password.passQuality
-import kotlinx.android.synthetic.main.activity_new_password.passSettings
-import kotlinx.android.synthetic.main.activity_new_password.savePass
-import kotlinx.android.synthetic.main.activity_new_password.seekBar
-import kotlinx.android.synthetic.main.activity_new_password.symToggles
-import kotlinx.android.synthetic.main.activity_new_password.timeLimit
-import kotlinx.android.synthetic.main.activity_new_password.upperCaseToggle
-import kotlinx.android.synthetic.main.activity_new_password.userAvatar
-import kotlinx.android.synthetic.main.activity_password_view.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.random.Random
@@ -295,6 +274,7 @@ class NewPasswordActivity : AppCompatActivity() {
                     contentValues.put(pdbHelper.KEY_ID, Random.nextInt(0, 100))
                     contentValues.put(pdbHelper.KEY_NAME, newNameField.text.toString())
                     contentValues.put(pdbHelper.KEY_PASS, genPasswordIdField.text.toString())
+                    contentValues.put(pdbHelper.KEY_TAGS, keyWordsField.text.toString())
                     var keyFA = "0"
                     if(authToggle.isChecked)
                         keyFA = "1"

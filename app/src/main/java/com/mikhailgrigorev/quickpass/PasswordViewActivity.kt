@@ -62,7 +62,8 @@ class PasswordViewActivity : AppCompatActivity() {
         try {
             val pCursor: Cursor = pDatabase.query(
                 pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
-                    pdbHelper.KEY_2FA, pdbHelper.KEY_USE_TIME, pdbHelper.KEY_TIME, pdbHelper.KEY_DESC),
+                    pdbHelper.KEY_2FA, pdbHelper.KEY_USE_TIME, pdbHelper.KEY_TIME,
+                    pdbHelper.KEY_DESC, pdbHelper.KEY_TAGS),
                 "NAME = ?", arrayOf(passName),
                 null, null, null
             )
@@ -75,6 +76,7 @@ class PasswordViewActivity : AppCompatActivity() {
                 val uTIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_USE_TIME)
                 val timeIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TIME)
                 val descIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_DESC)
+                val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
                 do {
                     dbLogin = pCursor.getString(nameIndex).toString()
                     helloTextId.text = dbLogin
@@ -104,6 +106,10 @@ class PasswordViewActivity : AppCompatActivity() {
                     passwordTime.text = getString(R.string.time_lim) + " " + dbTimeIndex
                     val dbDescIndex = pCursor.getString(descIndex).toString()
                     noteViewField.setText(dbDescIndex)
+
+                    val dbTagsIndex = pCursor.getString(tagsIndex).toString()
+                    if(dbTagsIndex != "")
+                        keywords.text = dbTagsIndex
                 } while (pCursor.moveToNext())
             } else {
                 helloTextId.text = getString(R.string.no_text)
@@ -177,6 +183,7 @@ class PasswordViewActivity : AppCompatActivity() {
                 toast(getString(R.string.passCopied))
             }
         }
+
 
         editButton.setOnClickListener {
             val intent = Intent(this, EditPassActivity::class.java)

@@ -38,7 +38,7 @@
     <string name="name">Name</string>
     <string name="view_password">View password</string>
     <string name="delete_password">Delete</string>
-    <string name="load_avatar">Load avatar</string>
+    <string name="load_avatar">Choose avatar</string>
     <string name="time_lim">Last changed:</string>
     <string name="pass">Password:</string>
     <string name="hi">Hi, </string>
@@ -68,5 +68,15 @@
     <string name="logWithBio">Log in using your biometric credential</string>
     <string name="usePass">Use account password</string>
     <string name="search_password">Search password</string>
-    <string name="auto_copy_password">Auto copy password</string>
+    <string name="auto_copy_password">Auto-copy password</string>
+    <string name="about_app">About app</string>
+    <string name="versionCode" translatable="false">1.0.0 - 85</string>
+    <string name="mikhail_grigorev">Mikhail Grigorev</string>
+    <string name="_2020" translatable="false">2020</string>
+    <string name="telegram" translatable="false">Telegram</string>
+    <string name="vkontakte" translatable="false">Vkontakte</string>
+    <string name="sen_email" translatable="false">Send email</string>
+    <string name="chooseEmail">Choose Email Client…</string>
+    <string name="key_words">Keywords:</string>
+    <string name="add_keywords">Add keywords</string>
 </resources>

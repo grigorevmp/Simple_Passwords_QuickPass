@@ -144,6 +144,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
         android:scrollbars="none"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/genPasswordId">
@@ -300,11 +301,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="18dp"
+        android:layout_marginEnd="95dp"
         app:boxCornerRadiusBottomEnd="15dp"
+        app:boxCornerRadiusBottomStart="15dp"
         app:boxCornerRadiusTopEnd="15dp"
         app:boxCornerRadiusTopStart="15dp"
-        app:boxCornerRadiusBottomStart="15dp"
-        android:layout_marginEnd="95dp"
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -312,11 +313,11 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/genPasswordIdField"
-            android:cursorVisible="false"
-            android:longClickable="false"
-            android:focusable="false"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:longClickable="false" />
     </com.google.android.material.textfield.TextInputLayout>
 
 

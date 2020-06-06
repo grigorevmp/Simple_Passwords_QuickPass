@@ -35,6 +35,7 @@ class PassGenActivity : AppCompatActivity() {
     private var fixPass = 0
     private val passwords: ArrayList<Pair<String, String>> = ArrayList()
     private val quality: ArrayList<String> = ArrayList()
+    private val tags: ArrayList<String> = ArrayList()
     private lateinit var login: String
 
     @SuppressLint("Recycle", "ClickableViewAccessibility", "ResourceAsColor", "RestrictedApi",
@@ -78,7 +79,8 @@ class PassGenActivity : AppCompatActivity() {
         val pDatabase = pdbHelper.writableDatabase
         try {
             val pCursor: Cursor = pDatabase.query(
-                pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS, pdbHelper.KEY_2FA),
+                pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
+                    pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS),
                 null, null,
                 null, null, null
             )
@@ -88,6 +90,7 @@ class PassGenActivity : AppCompatActivity() {
                 val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
                 val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
                 val aIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_2FA)
+                val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
                 do {
                     val pass = pCursor.getString(passIndex).toString()
                     val myPasswordManager = PasswordManager()
@@ -102,6 +105,8 @@ class PassGenActivity : AppCompatActivity() {
                     val fa = pCursor.getString(aIndex).toString()
                     passwords.add(Pair(dbLogin, fa))
                     quality.add(qualityNum)
+                    val dbTag = pCursor.getString(tagsIndex).toString()
+                    tags.add(dbTag)
                     when (qualityNum) {
                         "1" -> safePass += 1
                         "2" -> unsafePass += 1
@@ -125,7 +130,7 @@ class PassGenActivity : AppCompatActivity() {
 
         passwordRecycler.setHasFixedSize(true)
 
-        passwordRecycler.adapter = PasswordAdapter(passwords, quality, this, clickListener = {
+        passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,this, clickListener = {
             passClickListener(it)
         })
 
@@ -141,7 +146,7 @@ class PassGenActivity : AppCompatActivity() {
                 searchPass.visibility =  View.GONE
                 newPass.visibility =  View.VISIBLE
                 imageView.visibility =  View.GONE
-                passwordRecycler.adapter = PasswordAdapter(passwords, quality, this, clickListener = {
+                passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags, this, clickListener = {
                     passClickListener(it)
                 })
             }
@@ -151,13 +156,16 @@ class PassGenActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 val passwords2: ArrayList<Pair<String, String>> = ArrayList()
                 val quality2: ArrayList<String> = ArrayList()
+                val tags2: ArrayList<String> = ArrayList()
                 for ((index, pair) in passwords.withIndex()) {
-                    if (pair.first.contains(s.toString())){
+                    if (pair.first.contains(s.toString()) ||
+                        tags[index].contains(s.toString())){
                         passwords2.add(pair)
                         quality2.add(quality[index])
+                        tags2.add(tags[index])
                     }
                 }
-                passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, this@PassGenActivity, clickListener = {
+                passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, tags2, this@PassGenActivity, clickListener = {
                     passClickListener(it)
                 })
             }
@@ -181,7 +189,7 @@ class PassGenActivity : AppCompatActivity() {
         userAvatar.setOnClickListener {
             val intent = Intent(this, AccountActivity::class.java)
             intent.putExtra("login", login)
-            intent.putExtra("activity","menu");
+            intent.putExtra("activity","menu")
             startActivity(intent)
             finish()
         }

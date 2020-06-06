@@ -83,7 +83,8 @@ class EditPassActivity : AppCompatActivity() {
                     pdbHelper.KEY_2FA,
                     pdbHelper.KEY_USE_TIME,
                     pdbHelper.KEY_TIME,
-                    pdbHelper.KEY_DESC
+                    pdbHelper.KEY_DESC,
+                    pdbHelper.KEY_TAGS
                 ),
                 "NAME = ?", arrayOf(passName),
                 null, null, null
@@ -96,6 +97,7 @@ class EditPassActivity : AppCompatActivity() {
                 val aIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_2FA)
                 val uTIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_USE_TIME)
                 val descIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_DESC)
+                val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
                 do {
                     dbLogin = pCursor.getString(nameIndex).toString()
                     helloTextId.text = "• $dbLogin"
@@ -134,6 +136,8 @@ class EditPassActivity : AppCompatActivity() {
                     }
                     val dbDescIndex = pCursor.getString(descIndex).toString()
                     noteField.setText(dbDescIndex)
+                    val dbTagsIndex = pCursor.getString(tagsIndex).toString()
+                    keyWordsField.setText(dbTagsIndex)
                 } while (pCursor.moveToNext())
                 if(lettersToggle.isChecked ){
                     useLetters = true
@@ -319,6 +323,7 @@ class EditPassActivity : AppCompatActivity() {
             contentValues.put(pdbHelper.KEY_USE_TIME, keyTimeLimit)
             contentValues.put(pdbHelper.KEY_TIME, getDateTime())
             contentValues.put(pdbHelper.KEY_DESC, noteField.text.toString())
+            contentValues.put(pdbHelper.KEY_TAGS, keyWordsField.text.toString())
             pDatabase.update(pdbHelper.TABLE_USERS, contentValues,
                 "NAME = ?",
                 arrayOf(dbLogin))

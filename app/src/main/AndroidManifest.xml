@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mikhailgrigorev.quickpass">
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGEE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+
     <application
         android:allowBackup="true"
         android:fullBackupContent="true"
@@ -12,16 +14,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditAccountActivity"
-            android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".AboutActivity"/>
+        <activity
+            android:name=".EditAccountActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".EditPassActivity" />
         <activity android:name=".PasswordViewActivity" />
         <activity android:name=".NewPasswordActivity" />
         <activity android:name=".AccountActivity" />
-        <activity android:name=".SignActivity"
-            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".SignActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".PassGenActivity" />
-        <activity android:name=".LoginActivity"
+        <activity
+            android:name=".LoginActivity"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

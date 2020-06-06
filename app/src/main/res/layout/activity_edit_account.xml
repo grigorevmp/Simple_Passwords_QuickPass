@@ -118,9 +118,62 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/load_avatar"
-        android:textColor="@color/grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passView" />
+
+    <HorizontalScrollView
+        android:id="@+id/avatars"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loadAcc">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/colorLight"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/basicAcc"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/load_avatar"
+                app:srcCompat="@drawable/ic_account" />
+
+            <ImageView
+                android:id="@+id/customAcc"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/load_avatar"
+                app:srcCompat="@drawable/ic_custom" />
+
+            <ImageView
+                android:id="@+id/mAcc"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/load_avatar"
+                app:srcCompat="@drawable/ic_m" />
+
+            <ImageView
+                android:id="@+id/eAcc"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/load_avatar"
+                app:srcCompat="@drawable/ic_e" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
