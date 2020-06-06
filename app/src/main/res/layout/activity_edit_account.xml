@@ -30,8 +30,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/content_save_outline"
-        app:tint="@color/colorPrimary" />
+        app:srcCompat="@drawable/content_save_outline"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passView"
