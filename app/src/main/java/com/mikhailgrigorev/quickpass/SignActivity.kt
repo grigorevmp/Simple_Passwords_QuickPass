@@ -62,6 +62,7 @@ class SignActivity : AppCompatActivity() {
         val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
         val username = sharedPref.getString(KEY_BIO, "none")
         if(username != "none"){
+            finger.visibility = View.VISIBLE
             val intent = Intent(this, PassGenActivity::class.java)
             executor = ContextCompat.getMainExecutor(this)
             biometricPrompt = BiometricPrompt(this, executor,
@@ -88,6 +89,10 @@ class SignActivity : AppCompatActivity() {
             // if needed by your app.
             biometricPrompt.authenticate(promptInfo)
 
+        }
+
+        finger.setOnClickListener {
+            biometricPrompt.authenticate(promptInfo)
         }
 
 

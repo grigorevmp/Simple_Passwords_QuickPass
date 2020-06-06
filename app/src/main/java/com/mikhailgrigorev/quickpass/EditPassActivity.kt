@@ -228,22 +228,47 @@ class EditPassActivity : AppCompatActivity() {
         genPasswordIdField.addTextChangedListener(object : TextWatcher {
             @SuppressLint("ResourceAsColor")
             override fun afterTextChanged(s: Editable?) {
-                val myPasswordManager = PasswordManager()
-                lettersToggle.isChecked = myPasswordManager.isLetters(genPasswordIdField.text.toString())
-                upperCaseToggle.isChecked = myPasswordManager.isUpperCase(genPasswordIdField.text.toString())
-                numbersToggle.isChecked = myPasswordManager.isNumbers(genPasswordIdField.text.toString())
-                symToggles.isChecked = myPasswordManager.isSymbols(genPasswordIdField.text.toString())
-                val evaluation: String = myPasswordManager.evaluatePasswordString(genPasswordIdField.text.toString())
-                passQuality.text = evaluation
-                when (evaluation) {
-                    "low" -> passQuality.text = getString(R.string.low)
-                    "high" -> passQuality.text = getString(R.string.high)
-                    else -> passQuality.text = getString(R.string.medium)
-                }
-                when (evaluation) {
-                    "low" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.negative))
-                    "high" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.positive))
-                    else -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.fixable))
+                if (genPasswordIdField.hasFocus()) {
+                    val deg = generatePassword.rotation + 10f
+                    generatePassword.animate().rotation(deg).interpolator =
+                            AccelerateDecelerateInterpolator()
+                    val myPasswordManager = PasswordManager()
+                    lettersToggle.isChecked =
+                            myPasswordManager.isLetters(genPasswordIdField.text.toString())
+                    upperCaseToggle.isChecked =
+                            myPasswordManager.isUpperCase(genPasswordIdField.text.toString())
+                    numbersToggle.isChecked =
+                            myPasswordManager.isNumbers(genPasswordIdField.text.toString())
+                    symToggles.isChecked =
+                            myPasswordManager.isSymbols(genPasswordIdField.text.toString())
+                    val evaluation: String =
+                            myPasswordManager.evaluatePasswordString(genPasswordIdField.text.toString())
+                    passQuality.text = evaluation
+                    when (evaluation) {
+                        "low" -> passQuality.text = getString(R.string.low)
+                        "high" -> passQuality.text = getString(R.string.high)
+                        else -> passQuality.text = getString(R.string.medium)
+                    }
+                    when (evaluation) {
+                        "low" -> passQuality.setTextColor(
+                                ContextCompat.getColor(
+                                        applicationContext,
+                                        R.color.negative
+                                )
+                        )
+                        "high" -> passQuality.setTextColor(
+                                ContextCompat.getColor(
+                                        applicationContext,
+                                        R.color.positive
+                                )
+                        )
+                        else -> passQuality.setTextColor(
+                                ContextCompat.getColor(
+                                        applicationContext,
+                                        R.color.fixable
+                                )
+                        )
+                    }
                 }
             }
 
@@ -257,6 +282,7 @@ class EditPassActivity : AppCompatActivity() {
         generatePassword.setOnClickListener {
             val deg = 0f
             generatePassword.animate().rotation(deg).interpolator = AccelerateDecelerateInterpolator()
+            genPasswordIdField.clearFocus()
             val myPasswordManager = PasswordManager()
             //Create a password with letters, uppercase letters, numbers but not special chars with 17 chars
             if (list.size == 0) {
