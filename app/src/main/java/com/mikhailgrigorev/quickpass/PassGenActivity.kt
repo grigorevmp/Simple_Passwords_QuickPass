@@ -19,6 +19,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_pass_gen.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class PassGenActivity : AppCompatActivity() {
@@ -158,8 +160,8 @@ class PassGenActivity : AppCompatActivity() {
                 val quality2: ArrayList<String> = ArrayList()
                 val tags2: ArrayList<String> = ArrayList()
                 for ((index, pair) in passwords.withIndex()) {
-                    if (pair.first.contains(s.toString()) ||
-                        tags[index].contains(s.toString())){
+                    if (pair.first.toLowerCase(Locale.ROOT).contains(s.toString().toLowerCase(Locale.ROOT)) ||
+                        tags[index].toLowerCase(Locale.ROOT).contains(s.toString().toLowerCase(Locale.ROOT))){
                         passwords2.add(pair)
                         quality2.add(quality[index])
                         tags2.add(tags[index])
