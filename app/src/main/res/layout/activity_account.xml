@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:context=".PassGenActivity">
 
 
@@ -90,31 +91,6 @@
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/logOut"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="20dp"
-        android:text="@string/log_out"
-        app:layout_constraintBottom_toTopOf="@+id/deleteAccount"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/deleteAccount"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="@string/delete_account"
-        android:textColor="#E91E63"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:rippleColor="@color/trAccent"
-        app:strokeColor="@color/trAccentDark" />
-
-    <Button
         android:id="@+id/editAccount"
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="wrap_content"
@@ -131,7 +107,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:clickable="false"
         android:text="@string/share_database"
         android:textColor="@color/grey"
@@ -159,15 +135,54 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/biometricText" />
 
-    <Button
-        android:id="@+id/aboutApp"
-        style="?attr/materialButtonOutlinedStyle"
+    <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:text="@string/about_app"
-        app:layout_constraintBottom_toTopOf="@+id/deleteAccount"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_marginBottom="30dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/deleteAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/delete_account"
+                android:paddingRight="20dp"
+                android:src="@drawable/delete_outline"
+                android:tint="#E91E63" />
+
+            <ImageButton
+                android:id="@+id/logOut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/log_out"
+                android:src="@drawable/exit_to_app" />
+
+            <ImageButton
+                android:id="@+id/aboutApp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/about_app"
+                android:paddingLeft="20dp"
+                android:src="@drawable/information_outline" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

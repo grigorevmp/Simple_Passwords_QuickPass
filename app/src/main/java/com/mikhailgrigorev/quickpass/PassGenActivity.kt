@@ -1,5 +1,6 @@
 package com.mikhailgrigorev.quickpass
 
+import android.R.attr.button
 import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -12,6 +13,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -136,18 +138,18 @@ class PassGenActivity : AppCompatActivity() {
             passClickListener(it)
         })
 
+
         search.setOnClickListener {
             if(searchPass.visibility ==  View.GONE){
-                searchPass.visibility =  View.VISIBLE
-                passwordRecycler.adapter = null
-                imageView.visibility =  View.VISIBLE
-                imageView.visibility=  View.VISIBLE
-                newPass.visibility =  View.GONE
+                newPass.hide()
+                searchPass.visibility = View.VISIBLE
+                imageView.visibility = View.VISIBLE
+
             }
             else{
-                searchPass.visibility =  View.GONE
-                newPass.visibility =  View.VISIBLE
-                imageView.visibility =  View.GONE
+                newPass.show()
+                searchPass.visibility = View.GONE
+                imageView.visibility = View.GONE
                 passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags, this, clickListener = {
                     passClickListener(it)
                 })
@@ -203,6 +205,8 @@ class PassGenActivity : AppCompatActivity() {
 
             // Set the chip checked change listener
             chip.setOnCheckedChangeListener{view, isChecked ->
+                val deg = generatePassword.rotation + 30f
+                generatePassword.animate().rotation(deg).interpolator = AccelerateDecelerateInterpolator()
                 if (isChecked){
                     if (view.id == R.id.lettersToggle)
                         useLetters = true
@@ -267,6 +271,8 @@ class PassGenActivity : AppCompatActivity() {
                     myPasswordManager.generatePassword(useLetters, useUC, useNumbers, useSymbols, length)
                 genPasswordIdField.setText(newPassword)
             }
+            val deg = 0f
+            generatePassword.animate().rotation(deg).interpolator = AccelerateDecelerateInterpolator()
         }
         generatePassword.setOnTouchListener { v, event ->
                 when (event.action) {

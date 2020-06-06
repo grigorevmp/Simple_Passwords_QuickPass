@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:context=".AboutActivity">
 
     <ImageView
@@ -65,6 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         app:cardCornerRadius="15dp"
+        app:cardElevation="10dp"
         app:layout_constraintBottom_toTopOf="@+id/author"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -95,7 +97,6 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="10dp"
-                android:layout_weight="1"
                 android:contentDescription="@string/sen_email"
                 app:srcCompat="@drawable/ic_mail" />
         </LinearLayout>

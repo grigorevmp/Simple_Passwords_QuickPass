@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:context=".PassGenActivity">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -102,7 +103,8 @@
             android:background="@color/white"
             android:contentDescription="@string/generate"
             android:tint="@color/textDark"
-            app:srcCompat="@drawable/ic_dice" />
+            app:srcCompat="@drawable/dice_5_outline"
+            android:rotation="45" />
     </androidx.cardview.widget.CardView>
 
     <HorizontalScrollView
@@ -165,12 +167,11 @@
         android:layout_marginBottom="20dp"
         android:clickable="true"
         android:focusable="true"
+        app:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/content_save"
-        app:backgroundTint="@color/white"
-        app:tint="@color/colorPrimary"/>
+        app:srcCompat="@drawable/content_save_outline" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/newName"

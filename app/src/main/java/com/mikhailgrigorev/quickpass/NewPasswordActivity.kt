@@ -8,6 +8,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -138,9 +139,10 @@ class NewPasswordActivity : AppCompatActivity() {
         // Loop through the chips
         for (index in 0 until passSettings.childCount) {
             val chip: Chip = passSettings.getChildAt(index) as Chip
-
             // Set the chip checked change listener
             chip.setOnCheckedChangeListener{view, isChecked ->
+                val deg = generatePassword.rotation + 30f
+                generatePassword.animate().rotation(deg).interpolator = AccelerateDecelerateInterpolator()
                 if (isChecked){
                     if (view.id == R.id.lettersToggle)
                         useLetters = true
@@ -193,6 +195,8 @@ class NewPasswordActivity : AppCompatActivity() {
         })
 
         generatePassword.setOnClickListener {
+            val deg = 0f
+            generatePassword.animate().rotation(deg).interpolator = AccelerateDecelerateInterpolator()
             val myPasswordManager = PasswordManager()
             //Create a password with letters, uppercase letters, numbers but not special chars with 17 chars
             if(list.size == 0){

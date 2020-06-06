@@ -10,12 +10,35 @@ import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_edit_pass.*
+import kotlinx.android.synthetic.main.activity_edit_pass.authToggle
+import kotlinx.android.synthetic.main.activity_edit_pass.cardPass
+import kotlinx.android.synthetic.main.activity_edit_pass.genPasswordId
+import kotlinx.android.synthetic.main.activity_edit_pass.genPasswordIdField
+import kotlinx.android.synthetic.main.activity_edit_pass.generatePassword
+import kotlinx.android.synthetic.main.activity_edit_pass.helloTextId
+import kotlinx.android.synthetic.main.activity_edit_pass.keyWordsField
+import kotlinx.android.synthetic.main.activity_edit_pass.lengthToggle
+import kotlinx.android.synthetic.main.activity_edit_pass.lettersToggle
+import kotlinx.android.synthetic.main.activity_edit_pass.newNameField
+import kotlinx.android.synthetic.main.activity_edit_pass.noteField
+import kotlinx.android.synthetic.main.activity_edit_pass.numbersToggle
+import kotlinx.android.synthetic.main.activity_edit_pass.passQuality
+import kotlinx.android.synthetic.main.activity_edit_pass.passSettings
+import kotlinx.android.synthetic.main.activity_edit_pass.savePass
+import kotlinx.android.synthetic.main.activity_edit_pass.seekBar
+import kotlinx.android.synthetic.main.activity_edit_pass.symToggles
+import kotlinx.android.synthetic.main.activity_edit_pass.timeLimit
+import kotlinx.android.synthetic.main.activity_edit_pass.upperCaseToggle
+import kotlinx.android.synthetic.main.activity_edit_pass.userAvatar
+import kotlinx.android.synthetic.main.activity_new_password.*
+import kotlinx.android.synthetic.main.activity_pass_gen.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -198,6 +221,8 @@ class EditPassActivity : AppCompatActivity() {
 
             // Set the chip checked change listener
             chip.setOnCheckedChangeListener { view, isChecked ->
+                val deg = generatePassword.rotation + 30f
+                generatePassword.animate().rotation(deg).interpolator = AccelerateDecelerateInterpolator()
                 if (isChecked) {
                     if (view.id == R.id.lettersToggle)
                         useLetters = true
@@ -252,6 +277,8 @@ class EditPassActivity : AppCompatActivity() {
         })
 
         generatePassword.setOnClickListener {
+            val deg = 0f
+            generatePassword.animate().rotation(deg).interpolator = AccelerateDecelerateInterpolator()
             val myPasswordManager = PasswordManager()
             //Create a password with letters, uppercase letters, numbers but not special chars with 17 chars
             if (list.size == 0) {

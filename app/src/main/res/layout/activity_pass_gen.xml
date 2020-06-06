@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:context=".PassGenActivity">
 
     <TextView
@@ -118,7 +119,8 @@
             android:background="@color/white"
             android:contentDescription="@string/generate"
             android:tint="@color/textDark"
-            app:srcCompat="@drawable/ic_dice" />
+            android:rotation="45"
+            app:srcCompat="@drawable/dice_5_outline" />
 
     </androidx.cardview.widget.CardView>
 
@@ -189,6 +191,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/length" />
+
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
 
@@ -217,8 +220,7 @@
         app:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/text_box_search_outline"
-        app:tint="@color/colorPrimary" />
+        app:srcCompat="@drawable/text_box_search_outline" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/noPasswords"
