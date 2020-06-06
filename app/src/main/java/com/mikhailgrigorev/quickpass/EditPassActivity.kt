@@ -17,28 +17,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_edit_pass.*
-import kotlinx.android.synthetic.main.activity_edit_pass.authToggle
-import kotlinx.android.synthetic.main.activity_edit_pass.cardPass
-import kotlinx.android.synthetic.main.activity_edit_pass.genPasswordId
-import kotlinx.android.synthetic.main.activity_edit_pass.genPasswordIdField
-import kotlinx.android.synthetic.main.activity_edit_pass.generatePassword
-import kotlinx.android.synthetic.main.activity_edit_pass.helloTextId
-import kotlinx.android.synthetic.main.activity_edit_pass.keyWordsField
-import kotlinx.android.synthetic.main.activity_edit_pass.lengthToggle
-import kotlinx.android.synthetic.main.activity_edit_pass.lettersToggle
-import kotlinx.android.synthetic.main.activity_edit_pass.newNameField
-import kotlinx.android.synthetic.main.activity_edit_pass.noteField
-import kotlinx.android.synthetic.main.activity_edit_pass.numbersToggle
-import kotlinx.android.synthetic.main.activity_edit_pass.passQuality
-import kotlinx.android.synthetic.main.activity_edit_pass.passSettings
-import kotlinx.android.synthetic.main.activity_edit_pass.savePass
-import kotlinx.android.synthetic.main.activity_edit_pass.seekBar
-import kotlinx.android.synthetic.main.activity_edit_pass.symToggles
-import kotlinx.android.synthetic.main.activity_edit_pass.timeLimit
-import kotlinx.android.synthetic.main.activity_edit_pass.upperCaseToggle
-import kotlinx.android.synthetic.main.activity_edit_pass.userAvatar
-import kotlinx.android.synthetic.main.activity_new_password.*
-import kotlinx.android.synthetic.main.activity_pass_gen.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -337,30 +315,43 @@ class EditPassActivity : AppCompatActivity() {
         }
 
         savePass.setOnClickListener {
-            val contentValues = ContentValues()
-            contentValues.put(pdbHelper.KEY_NAME, newNameField.text.toString())
-            contentValues.put(pdbHelper.KEY_PASS, genPasswordIdField.text.toString())
-            var keyFA = "0"
-            if(authToggle.isChecked)
-                keyFA = "1"
-            var keyTimeLimit = "0"
-            if(timeLimit.isChecked)
-                keyTimeLimit = "1"
-            contentValues.put(pdbHelper.KEY_2FA, keyFA)
-            contentValues.put(pdbHelper.KEY_USE_TIME, keyTimeLimit)
-            contentValues.put(pdbHelper.KEY_TIME, getDateTime())
-            contentValues.put(pdbHelper.KEY_DESC, noteField.text.toString())
-            contentValues.put(pdbHelper.KEY_TAGS, keyWordsField.text.toString())
-            pDatabase.update(pdbHelper.TABLE_USERS, contentValues,
-                "NAME = ?",
-                arrayOf(dbLogin))
-            val intent = Intent(this, PasswordViewActivity::class.java)
-            intent.putExtra("login", login)
-            intent.putExtra("passName",  newNameField.text.toString())
-            startActivity(intent)
-            finish()
-        }
+            val login2 = newNameField.text
+            if (login2 != null) {
+                if (login2.isEmpty() || login2.length < 3) {
+                    newName.error = getString(R.string.errNumOfText)
+                }
+                else if (genPasswordIdField.text.toString() == "" || genPasswordIdField.text.toString().length < 3){
+                    genPasswordId.error = getString(R.string.errPass)
+                }
+                else {
+                    val contentValues = ContentValues()
+                    contentValues.put(pdbHelper.KEY_NAME, newNameField.text.toString())
+                    contentValues.put(pdbHelper.KEY_PASS, genPasswordIdField.text.toString())
+                    var keyFA = "0"
+                    if (authToggle.isChecked)
+                        keyFA = "1"
+                    var keyTimeLimit = "0"
+                    if (timeLimit.isChecked)
+                        keyTimeLimit = "1"
+                    contentValues.put(pdbHelper.KEY_2FA, keyFA)
+                    contentValues.put(pdbHelper.KEY_USE_TIME, keyTimeLimit)
+                    contentValues.put(pdbHelper.KEY_TIME, getDateTime())
+                    contentValues.put(pdbHelper.KEY_DESC, noteField.text.toString())
+                    contentValues.put(pdbHelper.KEY_TAGS, keyWordsField.text.toString())
+                    pDatabase.update(
+                            pdbHelper.TABLE_USERS, contentValues,
+                            "NAME = ?",
+                            arrayOf(dbLogin)
+                    )
+                    val intent = Intent(this, PasswordViewActivity::class.java)
+                    intent.putExtra("login", login)
+                    intent.putExtra("passName", newNameField.text.toString())
+                    startActivity(intent)
+                    finish()
+                }
+            }
 
+        }
     }
 
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {

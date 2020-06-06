@@ -100,8 +100,6 @@
         android:visibility="invisible"
         app:icon="@drawable/ic_arr_forward"
         app:backgroundTint="@color/white"
-        app:iconTint="@color/colorPrimary"
-        android:textColor="@color/colorPrimary"
         app:tint="@color/fabTint"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

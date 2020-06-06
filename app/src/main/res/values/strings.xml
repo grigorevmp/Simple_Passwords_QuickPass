@@ -70,7 +70,7 @@
     <string name="search_password">Search password</string>
     <string name="auto_copy_password">Auto-copy password</string>
     <string name="about_app">About app</string>
-    <string name="versionCode" translatable="false">1.0.0 - 85</string>
+    <string name="versionCode">Version 1.0.0 • Build 85</string>
     <string name="mikhail_grigorev">Mikhail Grigorev</string>
     <string name="_2020" translatable="false">2020</string>
     <string name="telegram" translatable="false">Telegram</string>

@@ -262,28 +262,29 @@ class NewPasswordActivity : AppCompatActivity() {
             val contentValues = ContentValues()
 
             val newCursor: Cursor = passDataBase.query(
-                pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME),
-                "NAME = ?", arrayOf(newNameField.text.toString()),
-                null, null, null
+                    pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME),
+                    "NAME = ?", arrayOf(newNameField.text.toString()),
+                    null, null, null
             )
 
             val login2 = newNameField.text
             if (newCursor.moveToFirst()) {
                 newName.error = getString(R.string.exists)
-            }
-            else if (login2 != null) {
+            } else if (login2 != null) {
                 if (login2.isEmpty() || login2.length < 3) {
                     newName.error = getString(R.string.errNumOfText)
+                } else if (genPasswordIdField.text.toString() == "" || genPasswordIdField.text.toString().length < 3) {
+                    genPasswordId.error = getString(R.string.errPass)
                 } else {
                     contentValues.put(pdbHelper.KEY_ID, Random.nextInt(0, 100))
                     contentValues.put(pdbHelper.KEY_NAME, newNameField.text.toString())
                     contentValues.put(pdbHelper.KEY_PASS, genPasswordIdField.text.toString())
                     contentValues.put(pdbHelper.KEY_TAGS, keyWordsField.text.toString())
                     var keyFA = "0"
-                    if(authToggle.isChecked)
+                    if (authToggle.isChecked)
                         keyFA = "1"
                     var keyTimeLimit = "0"
-                    if(timeLimit.isChecked)
+                    if (timeLimit.isChecked)
                         keyTimeLimit = "1"
                     contentValues.put(pdbHelper.KEY_2FA, keyFA)
                     contentValues.put(pdbHelper.KEY_USE_TIME, keyTimeLimit)

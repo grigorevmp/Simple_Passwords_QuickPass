@@ -88,10 +88,8 @@
         android:focusable="true"
         android:text="@string/sign_in"
         app:backgroundTint="@color/white"
-        android:textColor="@color/colorPrimary"
         android:visibility="invisible"
         app:icon="@drawable/ic_arr_forward"
-        app:iconTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/logOutFab"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/logOutFab" />

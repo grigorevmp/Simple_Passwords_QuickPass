@@ -1,6 +1,5 @@
 package com.mikhailgrigorev.quickpass
 
-import android.R.attr.button
 import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -18,6 +17,7 @@ import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_pass_gen.*
@@ -319,6 +319,16 @@ class PassGenActivity : AppCompatActivity() {
             intent.putExtra("length", length)
             startActivity(intent)
         }
+
+        allPassword.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if (scrollY > oldScrollY) {
+                newPass.hide()
+                search.hide()
+            } else {
+                newPass.show()
+                search.show()
+            }
+        })
     }
 
     private fun passClickListener(position: Int) {
