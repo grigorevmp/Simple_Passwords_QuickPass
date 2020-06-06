@@ -79,4 +79,5 @@
     <string name="chooseEmail">Choose Email Client…</string>
     <string name="key_words">Keywords:</string>
     <string name="add_keywords">Add keywords</string>
+    <string name="you_are_using_this_password_for_a_long_time_you_should_change_it">You are using this password for a long time. You should change it.</string>
 </resources>
