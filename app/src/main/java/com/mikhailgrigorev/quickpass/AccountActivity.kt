@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_account.*
 
 class AccountActivity : AppCompatActivity() {
@@ -183,12 +184,33 @@ class AccountActivity : AppCompatActivity() {
                 val exInfoPassText = cursor.getString(passIndex).toString()
                 val exInfoImgText = cursor.getString(imageIndex).toString()
                 passViewField.setText(exInfoPassText)
-                val id = resources.getIdentifier(
-                    exInfoImgText,
-                    "drawable",
-                    packageName
-                )
-                userAvatar.setImageResource(id)
+                when(cursor.getString(imageIndex).toString()){
+                    "ic_account" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account)
+                    "ic_account_Pink" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Pink)
+                    "ic_account_Red" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Red)
+                    "ic_account_Purple" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Purple)
+                    "ic_account_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Violet)
+                    "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Dark_Violet)
+                    "ic_account_Blue" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Blue)
+                    "ic_account_Cyan" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Cyan)
+                    "ic_account_Teal" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Teal)
+                    "ic_account_Green" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Green)
+                    "ic_account_lightGreen" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_lightGreen)
+                    else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account)
+                }
+                accountAvatarText.text = login[0].toString()
             } while (cursor.moveToNext())
         }
         aboutApp.setOnClickListener {

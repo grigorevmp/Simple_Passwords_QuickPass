@@ -38,7 +38,7 @@
     <string name="name">Name</string>
     <string name="view_password">View password</string>
     <string name="delete_password">Delete</string>
-    <string name="load_avatar">Choose avatar</string>
+    <string name="load_avatar">Choose avatar color</string>
     <string name="time_lim">Last changed:</string>
     <string name="pass">Password:</string>
     <string name="hi">Hi, </string>

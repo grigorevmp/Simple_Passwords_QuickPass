@@ -39,7 +39,7 @@
     <string name="name">Имя</string>
     <string name="view_password">Просмотр пароль</string>
     <string name="delete_password">Удалить</string>
-    <string name="load_avatar">Выбрать аватар</string>
+    <string name="load_avatar">Выбрать цвет аватара</string>
     <string name="time_lim">Изменено:</string>
     <string name="pass">Пароль:</string>
     <string name="hi">Привет,</string>

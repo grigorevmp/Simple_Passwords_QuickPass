@@ -93,87 +93,167 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <androidx.cardview.widget.CardView
+        android:id="@+id/accountAvatar"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         app:cardCornerRadius="25dp"
+        android:backgroundTint="@color/ic_account"
         app:cardElevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/userAvatar"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:contentDescription="@string/userAvatar"
-            app:srcCompat="@drawable/ic_account" />
+        <TextView
+            android:id="@+id/accountAvatarText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:textColor="@color/white"
+            android:text="@string/_0" />
     </androidx.cardview.widget.CardView>
-
-    <Button
-        android:id="@+id/loadAcc"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/load_avatar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passView" />
 
     <HorizontalScrollView
         android:id="@+id/avatars"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:visibility="gone"
+        android:scrollbars="none"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loadAcc">
+        app:layout_constraintTop_toBottomOf="@+id/textView3">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@color/colorLight"
+            android:background="@color/white"
             android:gravity="center">
 
-            <ImageView
-                android:id="@+id/basicAcc"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:contentDescription="@string/load_avatar"
-                app:srcCompat="@drawable/ic_account" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/basicColor"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="15dp"
+                android:backgroundTint="@color/ic_account"
+                app:cardCornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/customAcc"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:contentDescription="@string/load_avatar"
-                app:srcCompat="@drawable/ic_custom" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/redColor"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="15dp"
+                android:backgroundTint="@color/ic_account_Red"
+                app:cardCornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/mAcc"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:contentDescription="@string/load_avatar"
-                app:srcCompat="@drawable/ic_m" />
 
-            <ImageView
-                android:id="@+id/eAcc"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:contentDescription="@string/load_avatar"
-                app:srcCompat="@drawable/ic_e" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/pinkColor"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="15dp"
+                android:backgroundTint="@color/ic_account_Pink"
+                app:cardCornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/purpleColor"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="15dp"
+                android:backgroundTint="@color/ic_account_Purple"
+                app:cardCornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/violetColor"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="15dp"
+                android:backgroundTint="@color/ic_account_Violet"
+                app:cardCornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/darkVioletColor"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="15dp"
+                android:backgroundTint="@color/ic_account_Dark_Violet"
+                app:cardCornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/blueColor"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="15dp"
+                android:backgroundTint="@color/ic_account_Blue"
+                app:cardCornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cyanColor"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="15dp"
+                android:backgroundTint="@color/ic_account_Cyan"
+                app:cardCornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/tealColor"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="15dp"
+                android:backgroundTint="@color/ic_account_Teal"
+                app:cardCornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/greenColor"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="15dp"
+                android:backgroundTint="@color/ic_account_Green"
+                app:cardCornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/lightGreenColor"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="15dp"
+                android:backgroundTint="@color/ic_account_lightGreen"
+                app:cardCornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </LinearLayout>
     </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:text="@string/load_avatar"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

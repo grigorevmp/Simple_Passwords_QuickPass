@@ -16,4 +16,17 @@
     <color name="fixable">#FF9E22</color>
     <color name="trAccent">#1AE91E63</color>
     <color name="trAccentDark">#61E91E63</color>
+
+
+    <color name="ic_account">#7e57c2</color>
+    <color name="ic_account_Red">#ef5350</color>
+    <color name="ic_account_Pink">#ec407a</color>
+    <color name="ic_account_Purple">#ab47bc</color>
+    <color name="ic_account_Violet">#7e57c2</color>
+    <color name="ic_account_Dark_Violet">#5c6bc0</color>
+    <color name="ic_account_Blue">#42a5f5</color>
+    <color name="ic_account_Cyan">#26c6da</color>
+    <color name="ic_account_Teal">#26a69a</color>
+    <color name="ic_account_Green">#66bb6a</color>
+    <color name="ic_account_lightGreen">#9ccc65</color>
 </resources>

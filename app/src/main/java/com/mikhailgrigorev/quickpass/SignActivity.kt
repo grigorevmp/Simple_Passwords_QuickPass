@@ -1,6 +1,7 @@
 package com.mikhailgrigorev.quickpass
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -11,11 +12,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
-import kotlinx.android.synthetic.main.activity_pin.*
 import kotlinx.android.synthetic.main.activity_sign.*
-import kotlinx.android.synthetic.main.activity_sign.finger
-import kotlinx.android.synthetic.main.activity_sign.helloTextId
-import kotlinx.android.synthetic.main.activity_sign.userAvatar
 import java.util.concurrent.Executor
 
 class SignActivity : AppCompatActivity() {
@@ -29,7 +26,7 @@ class SignActivity : AppCompatActivity() {
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
 
-    @SuppressLint("Recycle")
+    @SuppressLint("Recycle", "ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
@@ -50,13 +47,33 @@ class SignActivity : AppCompatActivity() {
         if (cursor.moveToFirst()) {
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
             do {
-                val exInfoImgText = cursor.getString(imageIndex).toString()
-                val id = resources.getIdentifier(
-                    exInfoImgText,
-                    "drawable",
-                    packageName
-                )
-                userAvatar.setImageResource(id)
+                when(cursor.getString(imageIndex).toString()){
+                    "ic_account" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account)
+                    "ic_account_Pink" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Pink)
+                    "ic_account_Red" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Red)
+                    "ic_account_Purple" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Purple)
+                    "ic_account_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Violet)
+                    "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Dark_Violet)
+                    "ic_account_Blue" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Blue)
+                    "ic_account_Cyan" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Cyan)
+                    "ic_account_Teal" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Teal)
+                    "ic_account_Green" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Green)
+                    "ic_account_lightGreen" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_lightGreen)
+                    else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account)
+                }
+                accountAvatarText.text = login?.get(0).toString()
             } while (cursor.moveToNext())
         }
 

@@ -8,7 +8,12 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_edit_account.*
+import kotlinx.android.synthetic.main.activity_edit_account.accountAvatar
+import kotlinx.android.synthetic.main.activity_edit_account.accountAvatarText
+import kotlinx.android.synthetic.main.activity_edit_account.helloTextId
+import kotlinx.android.synthetic.main.activity_sign.*
 
 
 class EditAccountActivity : AppCompatActivity() {
@@ -61,70 +66,149 @@ class EditAccountActivity : AppCompatActivity() {
                 val exInfoImgText = cursor.getString(imageIndex).toString()
                 imageName = exInfoImgText
                 passViewField.setText(exInfoPassText)
-                val id = resources.getIdentifier(
-                    exInfoImgText,
-                    "drawable",
-                    packageName
-                )
-                userAvatar.setImageResource(id)
+                when(cursor.getString(imageIndex).toString()){
+                    "ic_account" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account)
+                    "ic_account_Pink" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Pink)
+                    "ic_account_Red" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Red)
+                    "ic_account_Purple" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Purple)
+                    "ic_account_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Violet)
+                    "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Dark_Violet)
+                    "ic_account_Blue" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Blue)
+                    "ic_account_Cyan" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Cyan)
+                    "ic_account_Teal" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Teal)
+                    "ic_account_Green" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Green)
+                    "ic_account_lightGreen" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_lightGreen)
+                    else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account)
+                }
+                accountAvatarText.text = login?.get(0).toString()
             } while (cursor.moveToNext())
-        }
-
-
-        loadAcc.setOnClickListener {
-            avatars.visibility = View.VISIBLE
         }
 
         // Checking prefs
         when (imageName) {
             "ic_account" -> {
-                basicAcc.rotation = 20F
+                basicColor.cardElevation = 20F
             }
-            "ic_custom" -> {
-                customAcc.rotation = 20F
+            "ic_account_Red" -> {
+                redColor.cardElevation = 20F
             }
-            "ic_m" -> {
-                mAcc.rotation = 20F
+            "ic_account_Pink" -> {
+                pinkColor.cardElevation = 20F
             }
-            "ic_e" -> {
-                eAcc.rotation = 20F
+            "ic_account_Purple" -> {
+                purpleColor.cardElevation = 20F
+            }
+            "ic_account_Violet" -> {
+                violetColor.cardElevation = 20F
+            }
+            "ic_account_Dark_Violet" -> {
+                darkVioletColor.cardElevation = 20F
+            }
+            "ic_account_Blue" -> {
+                blueColor.cardElevation = 20F
+            }
+            "ic_account_Cyan" -> {
+                cyanColor.cardElevation = 20F
+            }
+            "ic_account_Teal" -> {
+                tealColor.cardElevation = 20F
+            }
+            "ic_account_Green" -> {
+                greenColor.cardElevation = 20F
+            }
+            "ic_account_lightGreen" -> {
+                lightGreenColor.cardElevation = 20F
             }
         }
 
 
-        basicAcc.setOnClickListener {
-            basicAcc.rotation = 20F
-            customAcc.rotation = 0F
-            mAcc.rotation = 0F
-            eAcc.rotation = 0F
+        basicColor.setOnClickListener {
+            clearCE()
+            basicColor.cardElevation = 20F
             imageName = "ic_account"
+            updateAvatar(imageName)
         }
 
-        customAcc.setOnClickListener {
-            basicAcc.rotation = 0F
-            customAcc.rotation = 20F
-            mAcc.rotation = 0F
-            eAcc.rotation = 0F
-            imageName = "ic_custom"
+        redColor.setOnClickListener {
+            clearCE()
+            redColor.cardElevation = 20F
+            imageName = "ic_account_Red"
+            updateAvatar(imageName)
         }
 
-        mAcc.setOnClickListener {
-            basicAcc.rotation = 0F
-            customAcc.rotation = 0F
-            mAcc.rotation = 20F
-            eAcc.rotation = 0F
-            imageName = "ic_m"
+        pinkColor.setOnClickListener {
+            clearCE()
+            pinkColor.cardElevation = 20F
+            imageName = "ic_account_Pink"
+            updateAvatar(imageName)
         }
 
-        eAcc.setOnClickListener {
-            basicAcc.rotation = 0F
-            customAcc.rotation = 0F
-            mAcc.rotation = 0F
-            eAcc.rotation = 20F
-            imageName = "ic_e"
+        purpleColor.setOnClickListener {
+            clearCE()
+            purpleColor.cardElevation = 20F
+            imageName = "ic_account_Purple"
+            updateAvatar(imageName)
         }
 
+        violetColor.setOnClickListener {
+            clearCE()
+            violetColor.cardElevation = 20F
+            imageName = "ic_account_Violet"
+            updateAvatar(imageName)
+        }
 
+        darkVioletColor.setOnClickListener {
+            clearCE()
+            darkVioletColor.cardElevation = 20F
+            imageName = "ic_account_Dark_Violet"
+            updateAvatar(imageName)
+        }
+
+        blueColor.setOnClickListener {
+            clearCE()
+            blueColor.cardElevation = 20F
+            imageName = "ic_account_Blue"
+            updateAvatar(imageName)
+        }
+
+        cyanColor.setOnClickListener {
+            clearCE()
+            cyanColor.cardElevation = 20F
+            lightGreenColor.cardElevation = 0F
+            imageName = "ic_account_Cyan"
+            updateAvatar(imageName)
+        }
+
+        tealColor.setOnClickListener {
+            clearCE()
+            tealColor.cardElevation = 20F
+            imageName = "ic_account_Teal"
+            updateAvatar(imageName)
+        }
+        greenColor.setOnClickListener {
+            clearCE()
+            greenColor.cardElevation = 20F
+            imageName = "ic_account_Green"
+            updateAvatar(imageName)
+        }
+        lightGreenColor.setOnClickListener {
+            clearCE()
+            lightGreenColor.cardElevation = 20F
+            imageName = "ic_account_lightGreen"
+            updateAvatar(imageName)
+        }
 
         savePass.setOnClickListener {
             nameView.error = null
@@ -165,6 +249,50 @@ class EditAccountActivity : AppCompatActivity() {
                 finish()
             }
         }
+    }
+
+    private fun clearCE() {
+        basicColor.cardElevation = 0F
+        redColor.cardElevation = 0F
+        pinkColor.cardElevation = 0F
+        purpleColor.cardElevation = 0F
+        violetColor.cardElevation = 0F
+        darkVioletColor.cardElevation = 0F
+        blueColor.cardElevation = 0F
+        cyanColor.cardElevation = 0F
+        tealColor.cardElevation = 0F
+        greenColor.cardElevation = 0F
+        lightGreenColor.cardElevation = 0F
+    }
+
+    private fun updateAvatar(imageName: String) {
+        when(imageName){
+            "ic_account" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    this, R.color.ic_account)
+            "ic_account_Pink" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    this, R.color.ic_account_Pink)
+            "ic_account_Red" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    this, R.color.ic_account_Red)
+            "ic_account_Purple" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    this, R.color.ic_account_Purple)
+            "ic_account_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    this, R.color.ic_account_Violet)
+            "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    this, R.color.ic_account_Dark_Violet)
+            "ic_account_Blue" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    this, R.color.ic_account_Blue)
+            "ic_account_Cyan" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    this, R.color.ic_account_Cyan)
+            "ic_account_Teal" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    this, R.color.ic_account_Teal)
+            "ic_account_Green" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    this, R.color.ic_account_Green)
+            "ic_account_lightGreen" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    this, R.color.ic_account_lightGreen)
+            else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    this, R.color.ic_account)
+        }
+
     }
 
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {

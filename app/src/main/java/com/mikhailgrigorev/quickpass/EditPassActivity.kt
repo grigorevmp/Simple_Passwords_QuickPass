@@ -50,17 +50,37 @@ class EditPassActivity : AppCompatActivity() {
         if (cursor.moveToFirst()) {
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
             do {
-                val exInfoImgText = cursor.getString(imageIndex).toString()
-                val id = resources.getIdentifier(
-                    exInfoImgText,
-                    "drawable",
-                    packageName
-                )
-                userAvatar.setImageResource(id)
+                when(cursor.getString(imageIndex).toString()){
+                    "ic_account" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account)
+                    "ic_account_Pink" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Pink)
+                    "ic_account_Red" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Red)
+                    "ic_account_Purple" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Purple)
+                    "ic_account_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Violet)
+                    "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Dark_Violet)
+                    "ic_account_Blue" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Blue)
+                    "ic_account_Cyan" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Cyan)
+                    "ic_account_Teal" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Teal)
+                    "ic_account_Green" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Green)
+                    "ic_account_lightGreen" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_lightGreen)
+                    else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account)
+                }
+                accountAvatarText.text = login[0].toString()
             } while (cursor.moveToNext())
         }
 
-        userAvatar.setOnClickListener {
+        accountAvatar.setOnClickListener {
             val intent = Intent(this, AccountActivity::class.java)
             intent.putExtra("login", login)
             intent.putExtra("passName", passName)

@@ -3,11 +3,13 @@ package com.mikhailgrigorev.quickpass
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_set_pin.*
 
 class SetPinActivity : AppCompatActivity() {
@@ -28,6 +30,47 @@ class SetPinActivity : AppCompatActivity() {
         account = args?.get("activity").toString()
         val name: String? = getString(R.string.hi) + " " + login
         helloTextId.text = name
+
+
+        val dbHelper = DataBaseHelper(this)
+        val database = dbHelper.writableDatabase
+        val cursor: Cursor = database.query(
+                dbHelper.TABLE_USERS, arrayOf(dbHelper.KEY_IMAGE),
+                "NAME = ?", arrayOf(login),
+                null, null, null
+        )
+        if (cursor.moveToFirst()) {
+            val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
+            do {
+                when(cursor.getString(imageIndex).toString()){
+                    "ic_account" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account)
+                    "ic_account_Pink" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Pink)
+                    "ic_account_Red" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Red)
+                    "ic_account_Purple" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Purple)
+                    "ic_account_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Violet)
+                    "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Dark_Violet)
+                    "ic_account_Blue" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Blue)
+                    "ic_account_Cyan" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Cyan)
+                    "ic_account_Teal" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Teal)
+                    "ic_account_Green" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_Green)
+                    "ic_account_lightGreen" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account_lightGreen)
+                    else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                            this, R.color.ic_account)
+                }
+                accountAvatarText.text = login?.get(0).toString()
+            } while (cursor.moveToNext())
+        }
 
         num0.setOnClickListener {
             if(inputPinIdField.text.toString().length < 4)

@@ -58,7 +58,7 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+        app:layout_constraintTop_toBottomOf="@+id/accountAvatar" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passView"
@@ -90,22 +90,25 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/accountAvatar"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginTop="40dp"
         app:cardCornerRadius="35dp"
+        android:backgroundTint="@color/ic_account"
         app:cardElevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/userAvatar"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:contentDescription="@string/userAvatar"
-            app:srcCompat="@drawable/ic_account" />
+        <TextView
+            android:id="@+id/accountAvatarText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:text="@string/_0"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
     </androidx.cardview.widget.CardView>
 
     <Button
