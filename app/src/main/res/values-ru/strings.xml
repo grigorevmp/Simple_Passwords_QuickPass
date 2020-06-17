@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">QuickPass</string>
     <string name="hi_username">Привет,</string>
-    <string name="userAvatar">Аватар</string>
     <string name="inputLogin">Логин</string>
     <string name="inputPassword">Пароль</string>
     <string name="sign_up">Зарегистрироваться</string>
@@ -38,7 +37,6 @@
     <string name="desc">Описание:</string>
     <string name="name">Имя</string>
     <string name="view_password">Просмотр пароль</string>
-    <string name="delete_password">Удалить</string>
     <string name="load_avatar">Выбрать цвет аватара</string>
     <string name="time_lim">Изменено:</string>
     <string name="pass">Пароль:</string>
@@ -75,7 +73,7 @@
     <string name="chooseEmail">Выберете email клиент…</string>
     <string name="key_words">Ключевые слова:</string>
     <string name="add_keywords">Добавить ключевые слова</string>
-    <string name="versionCode">Версия 1.0.0 • Сборка 85</string>
+    <string name="versionCode">Версия 1.0.0 • Сборка 100</string>
     <string name="you_are_using_this_password_for_a_long_time_you_should_change_it">Вы используете данный пароль слишком долго, вам следует изменить его.</string>
     <string name="input_your_pin">Введите пин</string>
     <string name="set_pin">Установить пин</string>

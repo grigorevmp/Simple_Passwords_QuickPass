@@ -11,25 +11,36 @@
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SetPinActivity"/>
-        <activity android:name=".PinActivity" />
-        <activity android:name=".AboutActivity" />
+        <activity android:name=".SetPinActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".PinActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AboutActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".EditAccountActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".EditPassActivity" />
-        <activity android:name=".PasswordViewActivity" />
-        <activity android:name=".NewPasswordActivity" />
-        <activity android:name=".AccountActivity" />
+        <activity android:name=".EditPassActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".PasswordViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".NewPasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AccountActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SignActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".PassGenActivity" />
+        <activity android:name=".PassGenActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".LoginActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -3,6 +3,7 @@ package com.mikhailgrigorev.quickpass
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.database.Cursor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,6 +17,7 @@ import java.util.concurrent.Executor
 
 class PinActivity : AppCompatActivity() {
 
+    private val KEY_USERNAME = "prefUserNameKey"
     private val PREFERENCE_FILE_KEY = "quickPassPreference"
     private val KEY_USEPIN = "prefUsePinKey"
     private val KEY_BIO = "prefUserBioKey"
@@ -76,7 +78,7 @@ class PinActivity : AppCompatActivity() {
                     else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account)
                 }
-                accountAvatarText.text = login?.get(0).toString()
+                accountAvatarText.text = login.get(0).toString()
             } while (cursor.moveToNext())
         }
 
@@ -167,6 +169,10 @@ class PinActivity : AppCompatActivity() {
                 inputPinIdField.setText(inputPinIdField.text.toString().substring(0, inputPinIdField.text.toString().length - 1))
         }
 
+        exit.setOnClickListener {
+            exit(sharedPref)
+        }
+
         val intent = Intent(this, PassGenActivity::class.java)
         inputPinIdField.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -192,8 +198,14 @@ class PinActivity : AppCompatActivity() {
             }
         })
 
-
-
-
     }
+    private fun exit(sharedPref: SharedPreferences) {
+        sharedPref.edit().remove(KEY_USERNAME).apply()
+        sharedPref.edit().remove(KEY_USEPIN).apply()
+        sharedPref.edit().remove(KEY_BIO).apply()
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
 }

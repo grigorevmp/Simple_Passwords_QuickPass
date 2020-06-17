@@ -10,10 +10,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_edit_account.*
-import kotlinx.android.synthetic.main.activity_edit_account.accountAvatar
-import kotlinx.android.synthetic.main.activity_edit_account.accountAvatarText
-import kotlinx.android.synthetic.main.activity_edit_account.helloTextId
-import kotlinx.android.synthetic.main.activity_sign.*
 
 
 class EditAccountActivity : AppCompatActivity() {
@@ -92,7 +88,7 @@ class EditAccountActivity : AppCompatActivity() {
                     else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account)
                 }
-                accountAvatarText.text = login?.get(0).toString()
+                accountAvatarText.text = login.get(0).toString()
             } while (cursor.moveToNext())
         }
 

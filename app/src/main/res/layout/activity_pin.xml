@@ -91,9 +91,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+        android:elevation="0dp"
         app:cardCornerRadius="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/exit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -110,31 +111,37 @@
 
                 <Button
                     android:id="@+id/num1"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:text="@string/_1" />
+                    android:backgroundTint="@color/white"
+                    android:text="@string/_1"
+                    android:textColor="@color/colorPrimary" />
 
                 <Button
                     android:id="@+id/num2"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="wrap_content"
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:text="@string/_2" />
+                    android:backgroundTint="@color/white"
+                    android:text="@string/_2"
+                    android:textColor="@color/colorPrimary" />
 
                 <Button
                     android:id="@+id/num3"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="wrap_content"
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:text="@string/_3" />
+                    android:backgroundTint="@color/white"
+                    android:text="@string/_3"
+                    android:textColor="@color/colorPrimary" />
             </LinearLayout>
 
             <LinearLayout
@@ -144,30 +151,36 @@
 
                 <Button
                     android:id="@+id/num4"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="80dp"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:text="@string/_4" />
-
-                <Button
-                    android:id="@+id/num5"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:text="@string/_5" />
+                    android:backgroundTint="@color/white"
+                    android:text="@string/_4"
+                    android:textColor="@color/colorPrimary" />
+
+                <Button
+                    android:id="@+id/num5"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/white"
+                    android:text="@string/_5"
+                    android:textColor="@color/colorPrimary" />
 
                 <Button
                     android:id="@+id/num6"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="wrap_content"
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:text="@string/_6" />
+                    android:backgroundTint="@color/white"
+                    android:text="@string/_6"
+                    android:textColor="@color/colorPrimary" />
             </LinearLayout>
 
             <LinearLayout
@@ -177,30 +190,36 @@
 
                 <Button
                     android:id="@+id/num7"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:text="@string/_7" />
+                    android:backgroundTint="@color/white"
+                    android:text="@string/_7"
+                    android:textColor="@color/colorPrimary" />
 
                 <Button
                     android:id="@+id/num8"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:text="@string/_8" />
+                    android:backgroundTint="@color/white"
+                    android:text="@string/_8"
+                    android:textColor="@color/colorPrimary" />
 
                 <Button
                     android:id="@+id/num9"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:text="@string/_9" />
+                    android:backgroundTint="@color/white"
+                    android:text="@string/_9"
+                    android:textColor="@color/colorPrimary" />
             </LinearLayout>
 
             <LinearLayout
@@ -211,7 +230,7 @@
                 <ImageButton
                     android:id="@+id/erase"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
@@ -220,12 +239,14 @@
 
                 <Button
                     android:id="@+id/num0"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:text="@string/_0" />
+                    android:backgroundTint="@color/white"
+                    android:text="@string/_0"
+                    android:textColor="@color/colorPrimary" />
 
                 <ImageButton
                     android:id="@+id/finger"
@@ -234,11 +255,22 @@
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
+                    android:clickable="false"
                     android:contentDescription="@string/fingUnlock"
                     android:src="@drawable/fingerprint"
-                    android:clickable="false"
                     android:visibility="invisible" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/exit"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="@string/log_out"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

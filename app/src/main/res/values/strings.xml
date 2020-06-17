@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">QuickPass</string>
     <string name="hi_username">Hi,</string>
-    <string name="userAvatar">User avatar</string>
     <string name="inputLogin">Login</string>
     <string name="inputPassword">Password</string>
     <string name="sign_in">Sign in</string>
@@ -37,7 +36,6 @@
     <string name="desc">Description:</string>
     <string name="name">Name</string>
     <string name="view_password">View password</string>
-    <string name="delete_password">Delete</string>
     <string name="load_avatar">Choose avatar color</string>
     <string name="time_lim">Last changed:</string>
     <string name="pass">Password:</string>
@@ -70,7 +68,7 @@
     <string name="search_password">Search password</string>
     <string name="auto_copy_password">Auto-copy password</string>
     <string name="about_app">About app</string>
-    <string name="versionCode">Version 1.0.0 • Build 85</string>
+    <string name="versionCode">Version 1.0.0 • Build 100</string>
     <string name="mikhail_grigorev">Mikhail Grigorev</string>
     <string name="_2020" translatable="false">2020</string>
     <string name="telegram" translatable="false">Telegram</string>

@@ -121,12 +121,12 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="40dp"
-        android:visibility="visible"
+        android:clickable="false"
+        android:contentDescription="@string/fingUnlock"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputPasswordId"
-        android:clickable="false"
-        app:srcCompat="@drawable/fingerprint"
-        android:contentDescription="@string/fingUnlock" />
+        app:srcCompat="@drawable/fingerprint" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
