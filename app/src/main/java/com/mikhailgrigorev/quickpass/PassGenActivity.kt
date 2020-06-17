@@ -282,7 +282,7 @@ class PassGenActivity : AppCompatActivity() {
         generatePassword.setOnClickListener {
             val myPasswordManager = PasswordManager()
             //Create a password with letters, uppercase letters, numbers but not special chars with 17 chars
-            if(list.size == 0){
+            if(list.size == 0 || (list.size == 1 && lengthToggle.isChecked)){
                 genPasswordId.error = getString(R.string.noRules)
             }
             else {

@@ -178,6 +178,7 @@
                 android:layout_margin="10dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/delete_account"
+                android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:src="@drawable/delete_outline"
                 android:tint="#E91E63" />
@@ -199,6 +200,7 @@
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/about_app"
                 android:paddingStart="20dp"
+                android:paddingEnd="20dp"
                 android:src="@drawable/information_outline" />
         </LinearLayout>
 
@@ -219,7 +221,7 @@
         android:id="@+id/settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:text="@string/settings"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

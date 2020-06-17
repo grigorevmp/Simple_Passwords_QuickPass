@@ -133,16 +133,6 @@
             android:gravity="center">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/basicColor"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_margin="15dp"
-                android:backgroundTint="@color/ic_account"
-                app:cardCornerRadius="25dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.cardview.widget.CardView
                 android:id="@+id/redColor"
                 android:layout_width="35dp"
                 android:layout_height="35dp"

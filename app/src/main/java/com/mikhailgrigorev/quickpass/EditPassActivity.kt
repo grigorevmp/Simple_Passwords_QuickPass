@@ -17,6 +17,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_edit_pass.*
+import kotlinx.android.synthetic.main.activity_edit_pass.accountAvatar
+import kotlinx.android.synthetic.main.activity_edit_pass.accountAvatarText
+import kotlinx.android.synthetic.main.activity_edit_pass.cardPass
+import kotlinx.android.synthetic.main.activity_edit_pass.genPasswordId
+import kotlinx.android.synthetic.main.activity_edit_pass.genPasswordIdField
+import kotlinx.android.synthetic.main.activity_edit_pass.generatePassword
+import kotlinx.android.synthetic.main.activity_edit_pass.helloTextId
+import kotlinx.android.synthetic.main.activity_edit_pass.lengthToggle
+import kotlinx.android.synthetic.main.activity_edit_pass.lettersToggle
+import kotlinx.android.synthetic.main.activity_edit_pass.numbersToggle
+import kotlinx.android.synthetic.main.activity_edit_pass.passSettings
+import kotlinx.android.synthetic.main.activity_edit_pass.seekBar
+import kotlinx.android.synthetic.main.activity_edit_pass.symToggles
+import kotlinx.android.synthetic.main.activity_edit_pass.upperCaseToggle
+import kotlinx.android.synthetic.main.activity_pass_gen.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -305,7 +320,7 @@ class EditPassActivity : AppCompatActivity() {
             genPasswordIdField.clearFocus()
             val myPasswordManager = PasswordManager()
             //Create a password with letters, uppercase letters, numbers but not special chars with 17 chars
-            if (list.size == 0) {
+            if(list.size == 0 || (list.size == 1 && lengthToggle.isChecked)){
                 genPasswordId.error = getString(R.string.noRules)
             } else {
                 genPasswordId.error = null

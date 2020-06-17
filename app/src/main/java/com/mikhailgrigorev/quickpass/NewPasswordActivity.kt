@@ -15,6 +15,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_new_password.*
+import kotlinx.android.synthetic.main.activity_new_password.accountAvatar
+import kotlinx.android.synthetic.main.activity_new_password.accountAvatarText
+import kotlinx.android.synthetic.main.activity_new_password.cardPass
+import kotlinx.android.synthetic.main.activity_new_password.genPasswordId
+import kotlinx.android.synthetic.main.activity_new_password.genPasswordIdField
+import kotlinx.android.synthetic.main.activity_new_password.generatePassword
+import kotlinx.android.synthetic.main.activity_new_password.lengthToggle
+import kotlinx.android.synthetic.main.activity_new_password.lettersToggle
+import kotlinx.android.synthetic.main.activity_new_password.numbersToggle
+import kotlinx.android.synthetic.main.activity_new_password.passSettings
+import kotlinx.android.synthetic.main.activity_new_password.seekBar
+import kotlinx.android.synthetic.main.activity_new_password.symToggles
+import kotlinx.android.synthetic.main.activity_new_password.upperCaseToggle
+import kotlinx.android.synthetic.main.activity_pass_gen.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.random.Random
@@ -244,7 +258,7 @@ class NewPasswordActivity : AppCompatActivity() {
             generatePassword.animate().rotation(deg).interpolator = AccelerateDecelerateInterpolator()
             val myPasswordManager = PasswordManager()
             //Create a password with letters, uppercase letters, numbers but not special chars with 17 chars
-            if(list.size == 0){
+            if(list.size == 0 || (list.size == 1 && lengthToggle.isChecked)){
                 genPasswordId.error = getString(R.string.noRules)
             }
             else {

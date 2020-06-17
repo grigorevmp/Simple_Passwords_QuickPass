@@ -97,117 +97,55 @@ class EditAccountActivity : AppCompatActivity() {
         }
 
         // Checking prefs
-        when (imageName) {
-            "ic_account" -> {
-                basicColor.cardElevation = 20F
-            }
-            "ic_account_Red" -> {
-                redColor.cardElevation = 20F
-            }
-            "ic_account_Pink" -> {
-                pinkColor.cardElevation = 20F
-            }
-            "ic_account_Purple" -> {
-                purpleColor.cardElevation = 20F
-            }
-            "ic_account_Violet" -> {
-                violetColor.cardElevation = 20F
-            }
-            "ic_account_Dark_Violet" -> {
-                darkVioletColor.cardElevation = 20F
-            }
-            "ic_account_Blue" -> {
-                blueColor.cardElevation = 20F
-            }
-            "ic_account_Cyan" -> {
-                cyanColor.cardElevation = 20F
-            }
-            "ic_account_Teal" -> {
-                tealColor.cardElevation = 20F
-            }
-            "ic_account_Green" -> {
-                greenColor.cardElevation = 20F
-            }
-            "ic_account_lightGreen" -> {
-                lightGreenColor.cardElevation = 20F
-            }
-        }
+        updateChooser(imageName)
 
-
-        basicColor.setOnClickListener {
-            clearCE()
-            basicColor.cardElevation = 20F
-            imageName = "ic_account"
-            updateAvatar(imageName)
-        }
 
         redColor.setOnClickListener {
-            clearCE()
-            redColor.cardElevation = 20F
             imageName = "ic_account_Red"
-            updateAvatar(imageName)
+            updateChooser(imageName)
         }
 
         pinkColor.setOnClickListener {
-            clearCE()
-            pinkColor.cardElevation = 20F
             imageName = "ic_account_Pink"
-            updateAvatar(imageName)
+            updateChooser(imageName)
         }
 
         purpleColor.setOnClickListener {
-            clearCE()
-            purpleColor.cardElevation = 20F
             imageName = "ic_account_Purple"
-            updateAvatar(imageName)
+            updateChooser(imageName)
         }
 
         violetColor.setOnClickListener {
-            clearCE()
-            violetColor.cardElevation = 20F
             imageName = "ic_account_Violet"
-            updateAvatar(imageName)
+            updateChooser(imageName)
         }
 
         darkVioletColor.setOnClickListener {
-            clearCE()
-            darkVioletColor.cardElevation = 20F
             imageName = "ic_account_Dark_Violet"
-            updateAvatar(imageName)
+            updateChooser(imageName)
         }
 
         blueColor.setOnClickListener {
-            clearCE()
-            blueColor.cardElevation = 20F
             imageName = "ic_account_Blue"
-            updateAvatar(imageName)
+            updateChooser(imageName)
         }
 
         cyanColor.setOnClickListener {
-            clearCE()
-            cyanColor.cardElevation = 20F
-            lightGreenColor.cardElevation = 0F
             imageName = "ic_account_Cyan"
-            updateAvatar(imageName)
+            updateChooser(imageName)
         }
 
         tealColor.setOnClickListener {
-            clearCE()
-            tealColor.cardElevation = 20F
             imageName = "ic_account_Teal"
-            updateAvatar(imageName)
+            updateChooser(imageName)
         }
         greenColor.setOnClickListener {
-            clearCE()
-            greenColor.cardElevation = 20F
             imageName = "ic_account_Green"
-            updateAvatar(imageName)
+            updateChooser(imageName)
         }
         lightGreenColor.setOnClickListener {
-            clearCE()
-            lightGreenColor.cardElevation = 20F
             imageName = "ic_account_lightGreen"
-            updateAvatar(imageName)
+            updateChooser(imageName)
         }
 
         savePass.setOnClickListener {
@@ -251,8 +189,79 @@ class EditAccountActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateChooser(imageName: String){
+        when (imageName) {
+            "ic_account_Red" -> {
+                clearCE()
+                setAlpha()
+                redColor.alpha = 1F
+                redColor.cardElevation = 20F
+            }
+            "ic_account_Pink" -> {
+                clearCE()
+                setAlpha()
+                pinkColor.alpha = 1F
+                pinkColor.cardElevation = 20F
+            }
+            "ic_account_Purple" -> {
+                clearCE()
+                setAlpha()
+                purpleColor.alpha = 1F
+                purpleColor.cardElevation = 20F
+            }
+            "ic_account_Violet" -> {
+                clearCE()
+                setAlpha()
+                violetColor.alpha = 1F
+                violetColor.cardElevation = 20F
+            }
+            "ic_account_Dark_Violet" -> {
+                clearCE()
+                setAlpha()
+                darkVioletColor.alpha = 1F
+                darkVioletColor.cardElevation = 20F
+            }
+            "ic_account_Blue" -> {
+                clearCE()
+                setAlpha()
+                blueColor.alpha = 1F
+                blueColor.cardElevation = 20F
+            }
+            "ic_account_Cyan" -> {
+                clearCE()
+                setAlpha()
+                cyanColor.alpha = 1F
+                cyanColor.cardElevation = 20F
+            }
+            "ic_account_Teal" -> {
+                clearCE()
+                setAlpha()
+                tealColor.alpha = 1F
+                tealColor.cardElevation = 20F
+            }
+            "ic_account_Green" -> {
+                clearCE()
+                setAlpha()
+                greenColor.alpha = 1F
+                greenColor.cardElevation = 20F
+            }
+            "ic_account_lightGreen" -> {
+                clearCE()
+                setAlpha()
+                lightGreenColor.alpha = 1F
+                lightGreenColor.cardElevation = 20F
+            }
+            else ->  {
+                clearCE()
+                setAlpha()
+                purpleColor.alpha = 1F
+                purpleColor.cardElevation = 20F
+            }
+        }
+        updateAvatar(imageName)
+    }
+
     private fun clearCE() {
-        basicColor.cardElevation = 0F
         redColor.cardElevation = 0F
         pinkColor.cardElevation = 0F
         purpleColor.cardElevation = 0F
@@ -263,6 +272,18 @@ class EditAccountActivity : AppCompatActivity() {
         tealColor.cardElevation = 0F
         greenColor.cardElevation = 0F
         lightGreenColor.cardElevation = 0F
+    }
+    private fun setAlpha() {
+        redColor.alpha = 0.7F
+        pinkColor.alpha = 0.7F
+        purpleColor.alpha = 0.7F
+        violetColor.alpha = 0.7F
+        darkVioletColor.alpha = 0.7F
+        blueColor.alpha = 0.7F
+        cyanColor.alpha = 0.7F
+        tealColor.alpha = 0.7F
+        greenColor.alpha = 0.7F
+        lightGreenColor.alpha = 0.7F
     }
 
     private fun updateAvatar(imageName: String) {
