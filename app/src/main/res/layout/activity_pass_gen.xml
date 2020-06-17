@@ -233,8 +233,9 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:visibility="gone"
-        app:cardBackgroundColor="#E2D1FF"
-        app:cardCornerRadius="15dp"
+        app:cardBackgroundColor="@color/ic_account_Violet"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekBar">
@@ -243,31 +244,40 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingTop="20dp"
+            android:paddingTop="10dp"
             android:paddingBottom="20dp"
             tools:ignore="UseCompoundDrawables">
 
-            <ImageView
-                android:id="@+id/imageView2"
+            <TextView
+                android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/no_password"
-                app:srcCompat="@drawable/folder_outline" />
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/get_info"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingTop="20dp"
-                android:text="@string/no_password" />
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/no_password"
+                android:textColor="@color/colorLight"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/_2faInfo" />
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/allPassword"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
@@ -276,6 +286,7 @@
         android:overScrollMode="never"
         android:padding="0dp"
         android:visibility="visible"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

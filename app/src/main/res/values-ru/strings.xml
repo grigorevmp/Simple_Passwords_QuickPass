@@ -45,7 +45,7 @@
     <string name="hi">Привет,</string>
     <string name="qualityPassword">Качество пароля:</string>
     <string name="edit">Изменить</string>
-    <string name="get_info">Инфомация</string>
+    <string name="get_info">Информация</string>
     <string name="_2fa_you_use_multi_factor_authentication_in_this_app">2FA - вы используете многофакторную аутентификацию</string>
     <string name="time_limit_we_will_remember_you_to_change_your_password_in_4_months">Лимит времени - мы напомним вам изменить пароль через 4 месяца</string>
     <string name="yes">ДА</string>
