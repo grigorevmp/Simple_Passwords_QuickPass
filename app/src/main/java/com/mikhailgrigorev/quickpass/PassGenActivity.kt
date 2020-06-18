@@ -42,6 +42,11 @@ class PassGenActivity : AppCompatActivity() {
     private val tags: ArrayList<String> = ArrayList()
     private lateinit var login: String
 
+    private var searchPos: Boolean = false
+    private var searchNeg: Boolean = false
+    private var searchMId: Boolean = false
+
+
     @SuppressLint("Recycle", "ClickableViewAccessibility", "ResourceAsColor", "RestrictedApi",
         "SetTextI18n"
     )
@@ -158,9 +163,202 @@ class PassGenActivity : AppCompatActivity() {
             passClickListener(it)
         })
 
+        positiveCircle.setOnClickListener {
+            if(searchPos){
+                positiveCircle.setImageResource(R.drawable.circle_positive)
+                passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,this, clickListener = {
+                    passClickListener(it)
+                })
+                searchPos = false
+            }
+            else{
+                searchNeg = false
+                searchMId= false
+                negativeCircle.setImageResource(R.drawable.circle_negative)
+                negativeCircle2.setImageResource(R.drawable.circle_improvement)
+                positiveCircle.setImageResource(R.drawable.circle_positive_fill)
+                val passwords2: ArrayList<Pair<String, String>> = ArrayList()
+                val quality2: ArrayList<String> = ArrayList()
+                val tags2: ArrayList<String> = ArrayList()
+                for ((index, value) in quality.withIndex()) {
+                    if (value == "1"){
+                        passwords2.add(passwords[index])
+                        quality2.add(quality[index])
+                        tags2.add(tags[index])
+                    }
+                }
+                passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, tags2, this@PassGenActivity, clickListener = {
+                    passClickListener(it)
+                })
+                searchPos = true
+            }
+        }
+
+        correctPasswords.setOnClickListener{
+            if(searchPos){
+                positiveCircle.setImageResource(R.drawable.circle_positive)
+                passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,this, clickListener = {
+                    passClickListener(it)
+                })
+                searchPos = false
+            }
+            else{
+                searchMId = false
+                searchNeg = false
+                negativeCircle.setImageResource(R.drawable.circle_negative)
+                negativeCircle2.setImageResource(R.drawable.circle_improvement)
+                positiveCircle.setImageResource(R.drawable.circle_positive_fill)
+                val passwords2: ArrayList<Pair<String, String>> = ArrayList()
+                val quality2: ArrayList<String> = ArrayList()
+                val tags2: ArrayList<String> = ArrayList()
+                for ((index, value) in quality.withIndex()) {
+                    if (value == "1"){
+                        passwords2.add(passwords[index])
+                        quality2.add(quality[index])
+                        tags2.add(tags[index])
+                    }
+                }
+                passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, tags2, this@PassGenActivity, clickListener = {
+                    passClickListener(it)
+                })
+                searchPos = true
+            }
+        }
+
+        negativeCircle.setOnClickListener {
+            if(searchNeg){
+                negativeCircle.setImageResource(R.drawable.circle_negative)
+                passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,this, clickListener = {
+                    passClickListener(it)
+                })
+                searchNeg = false
+            }
+            else{
+                searchMId = false
+                searchPos = false
+                positiveCircle.setImageResource(R.drawable.circle_positive)
+                negativeCircle2.setImageResource(R.drawable.circle_improvement)
+                negativeCircle.setImageResource(R.drawable.circle_negative_fill)
+                val passwords2: ArrayList<Pair<String, String>> = ArrayList()
+                val quality2: ArrayList<String> = ArrayList()
+                val tags2: ArrayList<String> = ArrayList()
+                for ((index, value) in quality.withIndex()) {
+                    if (value == "2"){
+                        passwords2.add(passwords[index])
+                        quality2.add(quality[index])
+                        tags2.add(tags[index])
+                    }
+                }
+                passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, tags2, this@PassGenActivity, clickListener = {
+                    passClickListener(it)
+                })
+                searchNeg = true
+            }
+        }
+
+        negativePasswords.setOnClickListener{
+            if(searchNeg){
+                negativeCircle.setImageResource(R.drawable.circle_negative)
+                passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,this, clickListener = {
+                    passClickListener(it)
+                })
+                searchNeg = false
+            }
+            else{
+                searchMId = false
+                searchPos = false
+                positiveCircle.setImageResource(R.drawable.circle_positive)
+                negativeCircle2.setImageResource(R.drawable.circle_improvement)
+                negativeCircle.setImageResource(R.drawable.circle_negative_fill)
+                val passwords2: ArrayList<Pair<String, String>> = ArrayList()
+                val quality2: ArrayList<String> = ArrayList()
+                val tags2: ArrayList<String> = ArrayList()
+                for ((index, value) in quality.withIndex()) {
+                    if (value == "2"){
+                        passwords2.add(passwords[index])
+                        quality2.add(quality[index])
+                        tags2.add(tags[index])
+                    }
+                }
+                passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, tags2, this@PassGenActivity, clickListener = {
+                    passClickListener(it)
+                })
+                searchNeg = true
+            }
+        }
+
+
+        negativeCircle2.setOnClickListener{
+            if(searchMId){
+                negativeCircle2.setImageResource(R.drawable.circle_improvement)
+                passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,this, clickListener = {
+                    passClickListener(it)
+                })
+                searchMId = false
+            }
+            else{
+                searchNeg = false
+                searchPos = false
+                positiveCircle.setImageResource(R.drawable.circle_positive)
+                negativeCircle.setImageResource(R.drawable.circle_negative)
+                negativeCircle2.setImageResource(R.drawable.circle_improvement_fill)
+                val passwords2: ArrayList<Pair<String, String>> = ArrayList()
+                val quality2: ArrayList<String> = ArrayList()
+                val tags2: ArrayList<String> = ArrayList()
+                for ((index, value) in quality.withIndex()) {
+                    if (value == "3"){
+                        passwords2.add(passwords[index])
+                        quality2.add(quality[index])
+                        tags2.add(tags[index])
+                    }
+                }
+                passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, tags2, this@PassGenActivity, clickListener = {
+                    passClickListener(it)
+                })
+                searchMId = true
+            }
+        }
+
+        fixPasswords.setOnClickListener {
+            if(searchMId){
+                negativeCircle2.setImageResource(R.drawable.circle_improvement)
+                passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,this, clickListener = {
+                    passClickListener(it)
+                })
+                searchMId = false
+            }
+            else{
+                searchNeg = false
+                searchPos = false
+                positiveCircle.setImageResource(R.drawable.circle_positive)
+                negativeCircle.setImageResource(R.drawable.circle_negative)
+                negativeCircle2.setImageResource(R.drawable.circle_improvement_fill)
+                val passwords2: ArrayList<Pair<String, String>> = ArrayList()
+                val quality2: ArrayList<String> = ArrayList()
+                val tags2: ArrayList<String> = ArrayList()
+                for ((index, value) in quality.withIndex()) {
+                    if (value == "3"){
+                        passwords2.add(passwords[index])
+                        quality2.add(quality[index])
+                        tags2.add(tags[index])
+                    }
+                }
+                passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, tags2, this@PassGenActivity, clickListener = {
+                    passClickListener(it)
+                })
+                searchMId = true
+            }
+        }
+
 
         search.setOnClickListener {
             if(searchPass.visibility ==  View.GONE){
+                searchMId = false
+                searchNeg = false
+                searchPos = false
+                positiveCircle.setImageResource(R.drawable.circle_positive)
+                negativeCircle.setImageResource(R.drawable.circle_negative)
+                negativeCircle2.setImageResource(R.drawable.circle_improvement)
                 newPass.hide()
                 searchPass.visibility = View.VISIBLE
                 imageView.visibility = View.VISIBLE
