@@ -93,4 +93,12 @@
     <string name="settings">App settings</string>
     <string name="account_settings">Account settings</string>
     <string name="incorrectPin">Incorrect pin</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+
+    <!-- Messages Preferences -->
+
+    <!-- Sync Preferences -->
+    <string name="choose_theme">Choose theme</string>
 </resources>

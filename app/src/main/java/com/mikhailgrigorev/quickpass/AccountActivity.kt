@@ -46,129 +46,6 @@ class AccountActivity : AppCompatActivity() {
             commit()
         }
 
-
-        val useBio = sharedPref.getString(KEY_BIO, "none")
-        val useAuto = sharedPref.getString(KEY_AUTOCOPY, "none")
-        val usePin = sharedPref.getString(KEY_USEPIN, "none")
-
-        if(useBio == "using"){
-            biometricSwitch.isChecked = true
-        }
-
-        if(useAuto == "dis"){
-            autoCopySwitch.isChecked = false
-        }
-
-        if(usePin != "none"){
-            setPinSwitch.isChecked = true
-            setPinCurrent.alpha = 1F
-            setPinCurrent.text = "($usePin)"
-        }
-
-
-        autoCopySwitch.setOnCheckedChangeListener { _, _ ->
-            if(!autoCopySwitch.isChecked){
-                with (sharedPref.edit()) {
-                    putString(KEY_AUTOCOPY, "dis")
-                    commit()
-                }
-            }
-            else{
-                with (sharedPref.edit()) {
-                    putString(KEY_AUTOCOPY, "none")
-                    commit()
-                }
-            }
-        }
-
-        autoCopy.setOnClickListener {
-            if(autoCopySwitch.isChecked){
-                autoCopySwitch.isChecked = false
-                with (sharedPref.edit()) {
-                    putString(KEY_AUTOCOPY, "dis")
-                    commit()
-                }
-            }
-            else{
-                autoCopySwitch.isChecked = true
-                with (sharedPref.edit()) {
-                    putString(KEY_AUTOCOPY, "none")
-                    commit()
-                }
-            }
-        }
-
-        setPinSwitch.setOnCheckedChangeListener { _, _ ->
-            if(setPinSwitch.isChecked){
-                val intent = Intent(this, SetPinActivity::class.java)
-                intent.putExtra("login", login)
-                intent.putExtra("passName", passName)
-                intent.putExtra("activity", account)
-                startActivity(intent)
-                finish()
-            }
-            else{
-                with (sharedPref.edit()) {
-                    putString(KEY_USEPIN, "none")
-                    commit()
-                }
-                setPinCurrent.alpha = 0F
-            }
-        }
-
-        setPin.setOnClickListener {
-            if(setPinSwitch.isChecked){
-                setPinSwitch.isChecked = false
-                with (sharedPref.edit()) {
-                    putString(KEY_USEPIN, "none")
-                    commit()
-                }
-                setPinCurrent.alpha = 0F
-            }
-            else{
-                val intent = Intent(this, SetPinActivity::class.java)
-                intent.putExtra("login", login)
-                intent.putExtra("passName", passName)
-                intent.putExtra("activity", account)
-                startActivity(intent)
-                finish()
-            }
-        }
-
-        biometricSwitch.setOnCheckedChangeListener { _, _ ->
-            if(biometricSwitch.isChecked){
-                with (sharedPref.edit()) {
-                    putString(KEY_BIO, "using")
-                    commit()
-                }
-            }
-            else{
-                with (sharedPref.edit()) {
-                    putString(KEY_BIO, "none")
-                    commit()
-                }
-            }
-        }
-
-        biometricText.setOnClickListener {
-            if(!biometricSwitch.isChecked){
-                biometricSwitch.isChecked = true
-                with (sharedPref.edit()) {
-                    putString(KEY_BIO, "using")
-                    commit()
-                }
-            }
-            else{
-                biometricSwitch.isChecked = false
-                with (sharedPref.edit()) {
-                    putString(KEY_BIO, "none")
-                    commit()
-                }
-            }
-        }
-
-
-
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
         val cursor: Cursor = database.query(
@@ -224,6 +101,15 @@ class AccountActivity : AppCompatActivity() {
 
         editAccount.setOnClickListener {
             val intent = Intent(this, EditAccountActivity::class.java)
+            intent.putExtra("login", login)
+            intent.putExtra("passName", passName)
+            intent.putExtra("activity", account)
+            startActivity(intent)
+            finish()
+        }
+
+        settings.setOnClickListener {
+            val intent = Intent(this, SettingsActivity::class.java)
             intent.putExtra("login", login)
             intent.putExtra("passName", passName)
             intent.putExtra("activity", account)
