@@ -205,12 +205,14 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:clickable="true"
+        android:elevation="25dp"
         android:focusable="true"
+        app:backgroundTint="@color/white"
+        app:elevation="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/plus"
-        app:backgroundTint="@color/white"
-        app:tint="@color/colorPrimary"/>
+        app:tint="@color/colorPrimary" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/search"
@@ -221,9 +223,21 @@
         android:clickable="true"
         android:focusable="true"
         app:backgroundTint="@color/white"
+        app:elevation="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/text_box_search_outline" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:visibility="gone"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/noPasswords"
@@ -334,19 +348,9 @@
             android:cursorVisible="false"
             android:focusable="false"
             android:longClickable="false" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="96dp"
-        android:contentDescription="@string/no_text"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/allPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/bc_rounded_w" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/searchPass"
@@ -355,6 +359,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:elevation="25dp"
         android:visibility="gone"
         app:boxBackgroundMode="outline"
         app:boxCornerRadiusBottomEnd="15dp"
