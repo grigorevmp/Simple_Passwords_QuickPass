@@ -5,10 +5,10 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_settings.*
 
@@ -59,8 +59,6 @@ class SettingsActivity : AppCompatActivity() {
 
         if(usePin != "none"){
             setPinSwitch.isChecked = true
-            setPinCurrent.alpha = 1F
-            setPinCurrent.text = "($usePin)"
         }
 
 
@@ -110,7 +108,6 @@ class SettingsActivity : AppCompatActivity() {
                     putString(KEY_USEPIN, "none")
                     commit()
                 }
-                setPinCurrent.alpha = 0F
             }
         }
 
@@ -121,7 +118,6 @@ class SettingsActivity : AppCompatActivity() {
                     putString(KEY_USEPIN, "none")
                     commit()
                 }
-                setPinCurrent.alpha = 0F
             }
             else{
                 val intent = Intent(this, SetPinActivity::class.java)
@@ -417,6 +413,19 @@ class SettingsActivity : AppCompatActivity() {
 
 
     }
+
+    /*
+        val pdbHelper = PasswordsDataBaseHelper(this, login)
+        val pDatabase = pdbHelper.writableDatabase
+        try {
+            val pCursor: Cursor = pDatabase.query(
+                pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
+                    pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS),
+                null, null,
+                null, null, null
+            )
+*/
+
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {

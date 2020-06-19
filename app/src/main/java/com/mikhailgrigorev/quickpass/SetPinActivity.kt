@@ -140,7 +140,7 @@ class SetPinActivity : AppCompatActivity() {
                 putString(KEY_USEPIN, inputPinIdField.text.toString())
                 commit()
             }
-            val intent = Intent(this, AccountActivity::class.java)
+            val intent = Intent(this, SettingsActivity::class.java)
             intent.putExtra("login", login)
             intent.putExtra("passName", passName)
             intent.putExtra("activity", account)
@@ -154,7 +154,7 @@ class SetPinActivity : AppCompatActivity() {
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
-                val intent = Intent(this, AccountActivity::class.java)
+                val intent = Intent(this, SettingsActivity::class.java)
                 intent.putExtra("login", login)
                 intent.putExtra("passName", passName)
                 intent.putExtra("activity", account)

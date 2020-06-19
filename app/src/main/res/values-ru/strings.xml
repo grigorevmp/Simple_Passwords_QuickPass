@@ -77,9 +77,10 @@
     <string name="you_are_using_this_password_for_a_long_time_you_should_change_it">Вы используете данный пароль слишком долго, вам следует изменить его.</string>
     <string name="input_your_pin">Введите пин</string>
     <string name="set_pin">Установить пин</string>
-    <string name="settings">Настройки приложения</string>
+    <string name="settings">Настройки</string>
     <string name="account_settings">Настройки аккаунта</string>
     <string name="incorrectPin">Неверный пин</string>
     <string name="messages_header">Сообщения</string>
     <string name="choose_theme">Выберите тему</string>
+    <string name="main_settings">Основные</string>
 </resources>

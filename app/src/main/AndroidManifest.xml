@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".SettingsActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SetPinActivity"
             android:screenOrientation="portrait" />

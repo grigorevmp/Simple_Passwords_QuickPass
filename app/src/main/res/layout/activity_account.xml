@@ -71,19 +71,6 @@
             android:textSize="24sp" />
     </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/share"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:clickable="false"
-        android:text="@string/share_database"
-        android:textColor="@color/grey"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passView" />
-
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

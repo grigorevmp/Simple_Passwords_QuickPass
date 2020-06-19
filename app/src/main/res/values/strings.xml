@@ -90,7 +90,7 @@
     <string name="_0" translatable="false">0</string>
     <string name="input_your_pin">"Input your pin "</string>
     <string name="set_pin">Set pin</string>
-    <string name="settings">App settings</string>
+    <string name="settings">Settings</string>
     <string name="account_settings">Account settings</string>
     <string name="incorrectPin">Incorrect pin</string>
 
@@ -101,4 +101,5 @@
 
     <!-- Sync Preferences -->
     <string name="choose_theme">Choose theme</string>
+    <string name="main_settings">Main settings</string>
 </resources>
