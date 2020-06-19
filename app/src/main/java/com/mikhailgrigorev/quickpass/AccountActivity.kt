@@ -8,6 +8,7 @@ import android.database.Cursor
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -94,6 +95,11 @@ class AccountActivity : AppCompatActivity() {
             val intent = Intent(this, AboutActivity::class.java)
             startActivity(intent)
         }
+
+
+        val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate)
+        rotation.fillAfter = true
+        settings.startAnimation(rotation)
 
         logOut.setOnClickListener {
             exit(sharedPref)
