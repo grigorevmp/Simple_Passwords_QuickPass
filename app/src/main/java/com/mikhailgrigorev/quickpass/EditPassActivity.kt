@@ -121,7 +121,7 @@ class EditPassActivity : AppCompatActivity() {
                 val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
                 do {
                     dbLogin = pCursor.getString(nameIndex).toString()
-                    helloTextId.text = "• $dbLogin"
+                    helloTextId.text = "$dbLogin"
                     newNameField.setText(dbLogin)
                     dbPassword = pCursor.getString(passIndex).toString()
                     genPasswordIdField.setText(dbPassword)
