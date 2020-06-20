@@ -83,4 +83,11 @@
     <string name="messages_header">Сообщения</string>
     <string name="choose_theme">Выберите тему</string>
     <string name="main_settings">Основные</string>
+    <string name="save_pin">Сохранить пароль</string>
+    <string-array name="darkModeElem">
+        <item>По-умолчанию</item>
+        <item>Светлая</item>
+        <item>Темная</item>
+        <item>На основе энергосбережения</item>
+    </string-array>
 </resources>

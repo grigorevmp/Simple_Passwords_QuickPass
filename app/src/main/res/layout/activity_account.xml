@@ -75,7 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        app:cardBackgroundColor="#FFFFFF"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="15dp"
         app:cardElevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -98,27 +98,29 @@
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:src="@drawable/delete_outline"
-                android:tint="#E91E63" />
+                android:tint="@color/quitAccent"  />
 
             <ImageButton
                 android:id="@+id/logOut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/log_out"
-                android:src="@drawable/exit_to_app" />
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:src="@drawable/exit_to_app"
+                android:tint="@color/black" />
 
             <ImageButton
                 android:id="@+id/settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
+                android:contentDescription="@string/settings"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:src="@drawable/cog_outline"
-                android:contentDescription="@string/settings" />
+                android:tint="@color/black" />
 
             <ImageButton
                 android:id="@+id/aboutApp"
@@ -128,7 +130,8 @@
                 android:contentDescription="@string/about_app"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
-                android:src="@drawable/information_outline" />
+                android:src="@drawable/information_outline"
+                android:tint="@color/black"  />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
@@ -153,6 +156,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/edit"
             android:padding="10dp"
+            android:tint="@color/black"
             app:srcCompat="@drawable/pencil_outline" />
     </androidx.cardview.widget.CardView>
 

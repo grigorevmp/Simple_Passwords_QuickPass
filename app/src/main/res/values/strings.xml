@@ -94,12 +94,15 @@
     <string name="account_settings">Account settings</string>
     <string name="incorrectPin">Incorrect pin</string>
 
-    <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
-
-    <!-- Messages Preferences -->
-
-    <!-- Sync Preferences -->
     <string name="choose_theme">Choose theme</string>
     <string name="main_settings">Main settings</string>
+    <string name="save_pin">Save pin</string>
+    <string name="daynight_mode">DayNight mode</string>
+    <string-array name="darkModeElem">
+        <item>Default</item>
+        <item>Light</item>
+        <item>Dark</item>
+        <item>Set by Battery Saver</item>
+    </string-array>
 </resources>

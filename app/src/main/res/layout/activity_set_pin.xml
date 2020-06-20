@@ -86,6 +86,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
+        app:cardBackgroundColor="@color/colorLight"
         app:cardCornerRadius="15dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -113,7 +114,7 @@
                     android:background="@android:color/transparent"
                     android:backgroundTint="@color/white"
                     android:text="@string/_1"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/black" />
 
                 <Button
                     android:id="@+id/num2"
@@ -124,7 +125,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
                     android:text="@string/_2"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/black" />
 
                 <Button
                     android:id="@+id/num3"
@@ -135,7 +136,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
                     android:text="@string/_3"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/black" />
             </LinearLayout>
 
             <LinearLayout
@@ -152,7 +153,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
                     android:text="@string/_4"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/black" />
 
                 <Button
                     android:id="@+id/num5"
@@ -163,7 +164,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
                     android:text="@string/_5"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/black" />
 
                 <Button
                     android:id="@+id/num6"
@@ -174,7 +175,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
                     android:text="@string/_6"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/black" />
             </LinearLayout>
 
             <LinearLayout
@@ -191,7 +192,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
                     android:text="@string/_7"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/black" />
 
                 <Button
                     android:id="@+id/num8"
@@ -202,7 +203,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
                     android:text="@string/_8"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/black" />
 
                 <Button
                     android:id="@+id/num9"
@@ -213,7 +214,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
                     android:text="@string/_9"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/black" />
             </LinearLayout>
 
             <LinearLayout
@@ -229,7 +230,8 @@
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:contentDescription="@string/fingUnlock"
-                    android:src="@drawable/chevron_left" />
+                    android:src="@drawable/chevron_left"
+                    android:tint="@color/black" />
 
                 <Button
                     android:id="@+id/num0"
@@ -240,7 +242,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
                     android:text="@string/_0"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/black" />
 
                 <ImageButton
                     android:id="@+id/savePin"
@@ -250,8 +252,9 @@
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:alpha="0"
+                    android:contentDescription="@string/save_pin"
                     android:src="@drawable/content_save_outline"
-                    android:contentDescription="TODO" />
+                    android:tint="@color/black" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

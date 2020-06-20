@@ -2,6 +2,7 @@ package com.mikhailgrigorev.quickpass
 
 import android.annotation.SuppressLint
 import android.content.*
+import android.content.res.Configuration
 import android.database.Cursor
 import android.os.Bundle
 import android.text.Editable
@@ -33,7 +34,10 @@ class NewPasswordActivity : AppCompatActivity() {
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        when ((resources.configuration.uiMode + Configuration.UI_MODE_NIGHT_MASK)) {
+            Configuration.UI_MODE_NIGHT_NO ->
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
         setContentView(R.layout.activity_new_password)
 
         val args: Bundle? = intent.extras

@@ -82,6 +82,7 @@
         <com.google.android.material.chip.Chip
             android:id="@+id/signUpChip"
             style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:checked="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sign_up" />
@@ -99,8 +100,10 @@
         android:text="@string/sign_in"
         android:visibility="invisible"
         app:icon="@drawable/ic_arr_forward"
+        app:iconTint="@color/black"
         app:backgroundTint="@color/white"
         app:tint="@color/fabTint"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

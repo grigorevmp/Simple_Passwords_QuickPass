@@ -97,6 +97,7 @@
         android:layout_marginEnd="20dp"
         app:cardCornerRadius="15dp"
         app:cardElevation="10dp"
+        app:cardBackgroundColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/genPasswordId">
 
@@ -116,6 +117,8 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="20dp"
+        android:contentDescription="@string/edit"
+        android:tint="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/helloTextId"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/helloTextId"
@@ -186,7 +189,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/content_save_outline" />
+        app:srcCompat="@drawable/content_save_outline"
+        app:tint="@color/black"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/newName"

@@ -110,6 +110,7 @@
         android:layout_height="@dimen/box_size"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="15dp"
         app:cardElevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -121,8 +122,8 @@
             android:layout_height="@dimen/box_size"
             android:background="@color/white"
             android:contentDescription="@string/generate"
-            android:tint="@color/textDark"
             android:rotation="45"
+            android:tint="@color/textDark"
             app:srcCompat="@drawable/dice_5_outline" />
 
     </androidx.cardview.widget.CardView>
@@ -222,6 +223,7 @@
         android:layout_marginBottom="20dp"
         android:clickable="true"
         android:focusable="true"
+        app:tint="@color/fabTint"
         app:backgroundTint="@color/white"
         app:elevation="25dp"
         app:layout_constraintBottom_toBottomOf="parent"

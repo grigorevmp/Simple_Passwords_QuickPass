@@ -1,18 +1,41 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
     </style>
+
     <style name="ThemeOverlay.MySwitch" parent="">
         <!-- active thumb & track color (30% transparency) -->
-        <item name="android:colorControlActivated">@color/colorPrimary</item>
+        <item name="android:colorControlActivated">@color/ic_account</item>
         <!-- inactive thumb color -->
         <item name="colorSwitchThumbNormal">#f1f1f1</item>
         <!-- inactive track color (30% transparency) -->
         <item name="android:colorForeground">#BFBFBF</item>
+
+    </style>
+
+
+    <style name="ThemeOverlay.MySwitchRed" parent="">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="android:colorControlActivated">@color/ic_account_Pink</item>
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">#f1f1f1</item>
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">#BFBFBF</item>
+
+    </style>
+
+    <style name="ThemeOverlay.MySwitchPink" parent="">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="android:colorControlActivated">@color/ic_account_Purple</item>
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">#f1f1f1</item>
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">#BFBFBF</item>
+
     </style>
     </resources>
