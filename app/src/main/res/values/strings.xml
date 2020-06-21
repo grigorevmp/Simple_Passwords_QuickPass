@@ -36,7 +36,6 @@
     <string name="desc">Description:</string>
     <string name="name">Name</string>
     <string name="view_password">View password</string>
-    <string name="load_avatar">Choose avatar color</string>
     <string name="time_lim">Last changed:</string>
     <string name="pass">Password:</string>
     <string name="hi">Hi, </string>
@@ -91,18 +90,14 @@
     <string name="input_your_pin">"Input your pin "</string>
     <string name="set_pin">Set pin</string>
     <string name="settings">Settings</string>
-    <string name="account_settings">Account settings</string>
     <string name="incorrectPin">Incorrect pin</string>
 
-    <string name="messages_header">Messages</string>
     <string name="choose_theme">Choose theme</string>
     <string name="main_settings">Main settings</string>
     <string name="save_pin">Save pin</string>
-    <string name="daynight_mode">DayNight mode</string>
-    <string-array name="darkModeElem">
-        <item>Default</item>
-        <item>Light</item>
-        <item>Dark</item>
-        <item>Set by Battery Saver</item>
-    </string-array>
+    <string name="daynight_mode">Dark theme</string>
+    <string name="defaultSystem">Default</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="battery_saver">Battery saver</string>
 </resources>

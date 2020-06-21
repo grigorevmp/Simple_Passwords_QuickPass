@@ -37,7 +37,6 @@
     <string name="desc">Описание:</string>
     <string name="name">Имя</string>
     <string name="view_password">Просмотр пароль</string>
-    <string name="load_avatar">Выбрать цвет аватара</string>
     <string name="time_lim">Изменено:</string>
     <string name="pass">Пароль:</string>
     <string name="hi">Привет,</string>
@@ -78,16 +77,13 @@
     <string name="input_your_pin">Введите пин</string>
     <string name="set_pin">Установить пин</string>
     <string name="settings">Настройки</string>
-    <string name="account_settings">Настройки аккаунта</string>
     <string name="incorrectPin">Неверный пин</string>
-    <string name="messages_header">Сообщения</string>
     <string name="choose_theme">Выберите тему</string>
     <string name="main_settings">Основные</string>
     <string name="save_pin">Сохранить пароль</string>
-    <string-array name="darkModeElem">
-        <item>По-умолчанию</item>
-        <item>Светлая</item>
-        <item>Темная</item>
-        <item>На основе энергосбережения</item>
-    </string-array>
+    <string name="daynight_mode">Тёмная тема</string>
+    <string name="defaultSystem">Системная</string>
+    <string name="light">Светлая</string>
+    <string name="dark">Темная</string>
+    <string name="battery_saver">При энергосбережении</string>
 </resources>

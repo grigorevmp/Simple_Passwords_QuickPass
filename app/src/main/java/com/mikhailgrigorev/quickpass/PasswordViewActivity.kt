@@ -14,19 +14,28 @@ import android.view.KeyEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_password_view.*
 import java.util.*
 
 class PasswordViewActivity : AppCompatActivity() {
 
+    private val KEY_THEME = "themePreference"
+    private val PREFERENCE_FILE_KEY = "quickPassPreference"
     private lateinit var login: String
     private lateinit var passName: String
     private val KEY_AUTOCOPY = "prefAutoCopyKey"
-    private val PREFERENCE_FILE_KEY = "quickPassPreference"
 
     @SuppressLint("Recycle", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
+        val pref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+        when(pref.getString(KEY_THEME, "none")){
+            "none", "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            "battery" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+        }
         super.onCreate(savedInstanceState)
         when ((resources.configuration.uiMode + Configuration.UI_MODE_NIGHT_MASK)) {
             Configuration.UI_MODE_NIGHT_NO ->

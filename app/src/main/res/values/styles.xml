@@ -19,23 +19,4 @@
     </style>
 
 
-    <style name="ThemeOverlay.MySwitchRed" parent="">
-        <!-- active thumb & track color (30% transparency) -->
-        <item name="android:colorControlActivated">@color/ic_account_Pink</item>
-        <!-- inactive thumb color -->
-        <item name="colorSwitchThumbNormal">#f1f1f1</item>
-        <!-- inactive track color (30% transparency) -->
-        <item name="android:colorForeground">#BFBFBF</item>
-
-    </style>
-
-    <style name="ThemeOverlay.MySwitchPink" parent="">
-        <!-- active thumb & track color (30% transparency) -->
-        <item name="android:colorControlActivated">@color/ic_account_Purple</item>
-        <!-- inactive thumb color -->
-        <item name="colorSwitchThumbNormal">#f1f1f1</item>
-        <!-- inactive track color (30% transparency) -->
-        <item name="android:colorForeground">#BFBFBF</item>
-
-    </style>
-    </resources>
+</resources>

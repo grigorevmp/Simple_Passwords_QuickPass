@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_pin.*
@@ -19,6 +20,7 @@ import java.util.concurrent.Executor
 class PinActivity : AppCompatActivity() {
 
     private val KEY_USERNAME = "prefUserNameKey"
+    private val KEY_THEME = "themePreference"
     private val PREFERENCE_FILE_KEY = "quickPassPreference"
     private val KEY_USEPIN = "prefUsePinKey"
     private val KEY_BIO = "prefUserBioKey"
@@ -29,8 +31,15 @@ class PinActivity : AppCompatActivity() {
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
+        val pref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+        when(pref.getString(KEY_THEME, "none")){
+            "none", "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            "battery" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+        }
         super.onCreate(savedInstanceState)
         when ((resources.configuration.uiMode + Configuration.UI_MODE_NIGHT_MASK)) {
             Configuration.UI_MODE_NIGHT_NO ->
@@ -83,7 +92,7 @@ class PinActivity : AppCompatActivity() {
                     else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account)
                 }
-                accountAvatarText.text = login.get(0).toString()
+                accountAvatarText.text = login[0].toString()
             } while (cursor.moveToNext())
         }
 

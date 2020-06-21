@@ -15,6 +15,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_edit_pass.*
@@ -23,6 +24,9 @@ import java.util.*
 
 
 class EditPassActivity : AppCompatActivity() {
+
+    private val KEY_THEME = "themePreference"
+    private val PREFERENCE_FILE_KEY = "quickPassPreference"
     private var length = 20
     private var useSymbols = false
     private var useUC = false
@@ -33,6 +37,13 @@ class EditPassActivity : AppCompatActivity() {
 
     @SuppressLint("Recycle", "SetTextI18n", "ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
+        val pref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+        when(pref.getString(KEY_THEME, "none")){
+            "none", "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            "battery" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+        }
         super.onCreate(savedInstanceState)
         when ((resources.configuration.uiMode + Configuration.UI_MODE_NIGHT_MASK)) {
             Configuration.UI_MODE_NIGHT_NO ->
@@ -125,7 +136,7 @@ class EditPassActivity : AppCompatActivity() {
                 val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
                 do {
                     dbLogin = pCursor.getString(nameIndex).toString()
-                    helloTextId.text = "$dbLogin"
+                    helloTextId.text = dbLogin
                     newNameField.setText(dbLogin)
                     dbPassword = pCursor.getString(passIndex).toString()
                     genPasswordIdField.setText(dbPassword)

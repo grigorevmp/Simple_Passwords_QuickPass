@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_sign.*
@@ -18,6 +19,7 @@ import java.util.concurrent.Executor
 class SignActivity : AppCompatActivity() {
 
     private val TAG = "SignUpActivity"
+    private val KEY_THEME = "themePreference"
     private val PREFERENCE_FILE_KEY = "quickPassPreference"
     private val KEY_USERNAME = "prefUserNameKey"
     private val KEY_BIO = "prefUserBioKey"
@@ -28,6 +30,13 @@ class SignActivity : AppCompatActivity() {
 
     @SuppressLint("Recycle", "ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
+        val pref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+        when(pref.getString(KEY_THEME, "none")){
+            "none", "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            "battery" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+        }
         super.onCreate(savedInstanceState)
         when ((resources.configuration.uiMode + Configuration.UI_MODE_NIGHT_MASK)) {
             Configuration.UI_MODE_NIGHT_NO ->

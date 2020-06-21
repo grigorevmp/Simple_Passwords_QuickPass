@@ -13,15 +13,16 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_account.*
 
 class AccountActivity : AppCompatActivity() {
 
+    private val KEY_THEME = "themePreference"
     private val PREFERENCE_FILE_KEY = "quickPassPreference"
     private val KEY_USERNAME = "prefUserNameKey"
     private val KEY_BIO = "prefUserBioKey"
-    private val KEY_AUTOCOPY = "prefAutoCopyKey"
     private val KEY_USEPIN = "prefUsePinKey"
     private lateinit var login: String
     private lateinit var passName: String
@@ -29,6 +30,13 @@ class AccountActivity : AppCompatActivity() {
 
     @SuppressLint("Recycle", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
+        val pref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+        when(pref.getString(KEY_THEME, "none")){
+            "none", "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            "battery" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+        }
         super.onCreate(savedInstanceState)
         when ((resources.configuration.uiMode + Configuration.UI_MODE_NIGHT_MASK)) {
             Configuration.UI_MODE_NIGHT_NO ->
@@ -64,7 +72,6 @@ class AccountActivity : AppCompatActivity() {
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
             do {
                 val exInfoPassText = cursor.getString(passIndex).toString()
-                val exInfoImgText = cursor.getString(imageIndex).toString()
                 passViewField.setText(exInfoPassText)
                 when(cursor.getString(imageIndex).toString()){
                     "ic_account" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(

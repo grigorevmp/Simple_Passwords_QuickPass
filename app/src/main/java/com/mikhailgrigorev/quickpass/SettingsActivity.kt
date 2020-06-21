@@ -9,8 +9,6 @@ import android.database.Cursor
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -19,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : AppCompatActivity() {
 
+    private val KEY_THEME = "themePreference"
     private val PREFERENCE_FILE_KEY = "quickPassPreference"
     private val KEY_USERNAME = "prefUserNameKey"
     private val KEY_BIO = "prefUserBioKey"
@@ -30,12 +29,29 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var imageName: String
     @SuppressLint("SetTextI18n", "Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
+        val pref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+        when(pref.getString(KEY_THEME, "none")){
+            "none", "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            "battery" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+        }
         super.onCreate(savedInstanceState)
+
         when ((resources.configuration.uiMode + Configuration.UI_MODE_NIGHT_MASK)) {
             Configuration.UI_MODE_NIGHT_NO ->
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
         setContentView(R.layout.activity_settings)
+
+        when(AppCompatDelegate.getDefaultNightMode()){
+            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> defaultSystem.isChecked = true
+            AppCompatDelegate.MODE_NIGHT_NO -> light.isChecked = true
+            AppCompatDelegate.MODE_NIGHT_YES -> dark.isChecked = true
+            AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY -> autoBattery.isChecked = true
+            AppCompatDelegate.MODE_NIGHT_UNSPECIFIED -> defaultSystem.isChecked = true
+            else-> defaultSystem.isChecked = true
+        }
 
 
         val args: Bundle? = intent.extras
@@ -53,45 +69,36 @@ class SettingsActivity : AppCompatActivity() {
 
         //THEME
         // Получаем экземпляр элемента Spinner
-        val darkModeElem = resources.getStringArray(R.array.darkModeElem)
-        if (darkMode != null) {
-            val adapter = ArrayAdapter(this,
-                    android.R.layout.simple_spinner_item, darkModeElem)
-            darkMode.adapter = adapter
 
-            darkMode.onItemSelectedListener = object :
-                AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>,
-                                            view: View, position: Int, id: Long) {
-                    when(position){
-                        0 -> {
-                            AppCompatDelegate.setDefaultNightMode(
-                                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                        }
-                        1 -> {
-                            AppCompatDelegate.setDefaultNightMode(
-                                    AppCompatDelegate.MODE_NIGHT_NO
-                            )
-                            recreate()
-                        }
-                        2 -> {
-                            AppCompatDelegate.setDefaultNightMode(
-                                    AppCompatDelegate.MODE_NIGHT_YES
-                            )
-                        }
-                        3 -> {
-                            AppCompatDelegate.setDefaultNightMode(
-                                    AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
-                            )
-                        }
-                    }
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>) {
-                    // write code to perform some action
-                }
+        light.setOnClickListener {
+            with(sharedPref.edit()) {
+                putString(KEY_THEME, "no")
+                commit()
             }
+            recreate()
         }
+        dark.setOnClickListener {
+            with(sharedPref.edit()) {
+                putString(KEY_THEME, "yes")
+                commit()
+            }
+            recreate()
+        }
+        autoBattery.setOnClickListener {
+            with(sharedPref.edit()) {
+                putString(KEY_THEME, "battery")
+                commit()
+            }
+            recreate()
+        }
+        defaultSystem.setOnClickListener {
+            with(sharedPref.edit()) {
+                putString(KEY_THEME, "default")
+                commit()
+            }
+            recreate()
+        }
+
 
         val useBio = sharedPref.getString(KEY_BIO, "none")
         val useAuto = sharedPref.getString(KEY_AUTOCOPY, "none")
@@ -223,7 +230,6 @@ class SettingsActivity : AppCompatActivity() {
         )
 
         if (cursor.moveToFirst()) {
-            val passIndex: Int = cursor.getColumnIndex(dbHelper.KEY_PASS)
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
             do {
                 val exInfoImgText = cursor.getString(imageIndex).toString()
@@ -254,7 +260,7 @@ class SettingsActivity : AppCompatActivity() {
                     else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account)
                 }
-                accountAvatarText.text = login.get(0).toString()
+                accountAvatarText.text = login[0].toString()
             } while (cursor.moveToNext())
         }
 
