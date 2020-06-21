@@ -110,4 +110,7 @@
     <string name="light">Светлая</string>
     <string name="dark">Темная</string>
     <string name="battery_saver">При энергосбережении</string>
+    <string name="set_icon_color_to_current_theme">Установить цвет иконки в соответствие темы</string>
+    <string name="warning_app_will_be_closed">(Внимание: Приложение будет закрыто)</string>
+    <string name="set">Установить</string>
 </resources>

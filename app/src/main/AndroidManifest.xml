@@ -54,11 +54,127 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <activity-alias
+            android:label="@string/app_name"
+            android:icon="@mipmap/ic_launcher_red"
+            android:name=".LoginActivityRed"
+            android:enabled="false"
+            android:targetActivity=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:label="@string/app_name"
+            android:icon="@mipmap/ic_launcher_pink"
+            android:name=".LoginActivityPink"
+            android:enabled="true"
+            android:targetActivity=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:label="@string/app_name"
+            android:icon="@mipmap/ic_launcher_purple"
+            android:name=".LoginActivityPurple"
+            android:enabled="false"
+            android:targetActivity=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:label="@string/app_name"
+            android:icon="@mipmap/ic_launcher_dviole"
+            android:name=".LoginActivitydViolet"
+            android:enabled="false"
+            android:targetActivity=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:label="@string/app_name"
+            android:icon="@mipmap/ic_launcher_blue"
+            android:name=".LoginActivityBlue"
+            android:enabled="false"
+            android:targetActivity=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:label="@string/app_name"
+            android:icon="@mipmap/ic_launcher_cyan"
+            android:name=".LoginActivityCyan"
+            android:enabled="false"
+            android:targetActivity=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:label="@string/app_name"
+            android:icon="@mipmap/ic_launcher_teal"
+            android:name=".LoginActivityTeal"
+            android:enabled="false"
+            android:targetActivity=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:label="@string/app_name"
+            android:icon="@mipmap/ic_launcher_lgreen"
+            android:name=".LoginActivitylGreen"
+            android:enabled="false"
+            android:targetActivity=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:label="@string/app_name"
+            android:icon="@mipmap/ic_launcher_green"
+            android:name=".LoginActivityGreen"
+            android:enabled="false"
+            android:targetActivity=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias android:label="@string/app_name"
+            android:icon="@mipmap/ic_launcher_violet"
+            android:name=".LoginActivity"
+            android:enabled="false"
+            android:targetActivity=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
     </application>
 
 </manifest>

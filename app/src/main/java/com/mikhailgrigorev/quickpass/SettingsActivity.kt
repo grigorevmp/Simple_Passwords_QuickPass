@@ -1,9 +1,11 @@
 package com.mikhailgrigorev.quickpass
 
 import android.annotation.SuppressLint
+import android.content.ComponentName
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.database.Cursor
 import android.os.Bundle
@@ -335,6 +337,104 @@ class SettingsActivity : AppCompatActivity() {
             updateChooser(imageName)
         }
 
+        iconTheme.setOnClickListener{
+            when(imageName){
+                "ic_account_Pink" -> {
+                    turnOffAllIcons()
+                    packageManager.setComponentEnabledSetting(
+                            ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityPink"),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+                }
+                "ic_account_Red" -> {
+                    turnOffAllIcons()
+                    packageManager.setComponentEnabledSetting(
+                            ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityRed"),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+                }
+                "ic_account_Purple" -> {
+                    turnOffAllIcons()
+                    packageManager.setComponentEnabledSetting(
+                            ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityPurple"),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+                }
+                "ic_account_Violet" -> {
+                    turnOffAllIcons()
+                        packageManager.setComponentEnabledSetting(
+                                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivity"),
+                                PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+                }
+                "ic_account_Dark_Violet" -> {
+                    turnOffAllIcons()
+                    packageManager.setComponentEnabledSetting(
+                            ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivitydViolet"),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+                }
+                "ic_account_Blue" -> {
+                    turnOffAllIcons()
+                    packageManager.setComponentEnabledSetting(
+                            ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityBlue"),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+                }
+                "ic_account_Cyan" -> {
+                    turnOffAllIcons()
+                    packageManager.setComponentEnabledSetting(
+                            ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityCyan"),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+                }
+                "ic_account_Teal" -> {
+                    turnOffAllIcons()
+                    packageManager.setComponentEnabledSetting(
+                            ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityTeal"),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+                }
+                "ic_account_Green" -> {
+                        turnOffAllIcons()
+                        packageManager.setComponentEnabledSetting(
+                                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityGreen"),
+                                PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+                }
+                "ic_account_lightGreen" -> {
+                    turnOffAllIcons()
+                    packageManager.setComponentEnabledSetting(
+                            ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivitylGreen"),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+                }
+            }
+        }
+
+    }
+
+    private fun turnOffAllIcons(){
+        packageManager.setComponentEnabledSetting(
+                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivity"),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+        packageManager.setComponentEnabledSetting(
+                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityGreen"),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+        packageManager.setComponentEnabledSetting(
+                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityTeal"),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+        packageManager.setComponentEnabledSetting(
+                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivitylGreen"),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+        packageManager.setComponentEnabledSetting(
+                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityCyan"),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+        packageManager.setComponentEnabledSetting(
+                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityBlue"),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+        packageManager.setComponentEnabledSetting(
+                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivitydViolet"),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+        packageManager.setComponentEnabledSetting(
+                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityPurple"),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+        packageManager.setComponentEnabledSetting(
+                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityPink"),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+        packageManager.setComponentEnabledSetting(
+                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityRed"),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
     }
 
 
@@ -596,18 +696,6 @@ class SettingsActivity : AppCompatActivity() {
                 arrayOf(login)
         )
     }
-
-    /*
-        val pdbHelper = PasswordsDataBaseHelper(this, login)
-        val pDatabase = pdbHelper.writableDatabase
-        try {
-            val pCursor: Cursor = pDatabase.query(
-                pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
-                    pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS),
-                null, null,
-                null, null, null
-            )
-*/
 
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
