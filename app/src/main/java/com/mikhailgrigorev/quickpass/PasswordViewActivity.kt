@@ -36,6 +36,19 @@ class PasswordViewActivity : AppCompatActivity() {
             "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
             "battery" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
         }
+        when(pref.getString("themeAccentPreference", "none")){
+            "Red" -> setTheme(R.style.AppThemeRed)
+            "Pink" -> setTheme(R.style.AppThemePink)
+            "Purple" -> setTheme(R.style.AppThemePurple)
+            "Violet" -> setTheme(R.style.AppThemeViolet)
+            "DViolet" -> setTheme(R.style.AppThemeDarkViolet)
+            "Blue" -> setTheme(R.style.AppThemeBlue)
+            "Cyan" -> setTheme(R.style.AppThemeCyan)
+            "Teal" -> setTheme(R.style.AppThemeTeal)
+            "Green" -> setTheme(R.style.AppThemeGreen)
+            "LGreen" -> setTheme(R.style.AppThemeLightGreen)
+            else -> setTheme(R.style.AppTheme)
+        }
         super.onCreate(savedInstanceState)
         when ((resources.configuration.uiMode + Configuration.UI_MODE_NIGHT_MASK)) {
             Configuration.UI_MODE_NIGHT_NO ->

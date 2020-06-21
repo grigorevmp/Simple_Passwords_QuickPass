@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.activity_settings.*
 class SettingsActivity : AppCompatActivity() {
 
     private val KEY_THEME = "themePreference"
+    private val KEY_THEME_ACCENT = "themeAccentPreference"
     private val PREFERENCE_FILE_KEY = "quickPassPreference"
     private val KEY_USERNAME = "prefUserNameKey"
     private val KEY_BIO = "prefUserBioKey"
@@ -35,6 +36,19 @@ class SettingsActivity : AppCompatActivity() {
             "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
             "battery" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+        }
+        when(pref.getString("themeAccentPreference", "none")){
+            "Red" -> setTheme(R.style.AppThemeRed)
+            "Pink" -> setTheme(R.style.AppThemePink)
+            "Purple" -> setTheme(R.style.AppThemePurple)
+            "Violet" -> setTheme(R.style.AppThemeViolet)
+            "DViolet" -> setTheme(R.style.AppThemeDarkViolet)
+            "Blue" -> setTheme(R.style.AppThemeBlue)
+            "Cyan" -> setTheme(R.style.AppThemeCyan)
+            "Teal" -> setTheme(R.style.AppThemeTeal)
+            "Green" -> setTheme(R.style.AppThemeGreen)
+            "LGreen" -> setTheme(R.style.AppThemeLightGreen)
+            else -> setTheme(R.style.AppTheme)
         }
         super.onCreate(savedInstanceState)
 
@@ -75,6 +89,7 @@ class SettingsActivity : AppCompatActivity() {
                 putString(KEY_THEME, "no")
                 commit()
             }
+            light.isChecked = true
             recreate()
         }
         dark.setOnClickListener {
@@ -82,6 +97,7 @@ class SettingsActivity : AppCompatActivity() {
                 putString(KEY_THEME, "yes")
                 commit()
             }
+            dark.isChecked = true
             recreate()
         }
         autoBattery.setOnClickListener {
@@ -89,6 +105,7 @@ class SettingsActivity : AppCompatActivity() {
                 putString(KEY_THEME, "battery")
                 commit()
             }
+            autoBattery.isChecked = true
             recreate()
         }
         defaultSystem.setOnClickListener {
@@ -96,6 +113,7 @@ class SettingsActivity : AppCompatActivity() {
                 putString(KEY_THEME, "default")
                 commit()
             }
+            defaultSystem.isChecked = true
             recreate()
         }
 
@@ -423,35 +441,148 @@ class SettingsActivity : AppCompatActivity() {
             "ic_account" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account)
+                // Checking prefs
+                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                if(sharedPref.getString("themeAccentPreference", "none") != "Violet") {
+                    with(sharedPref.edit()) {
+                        putString(KEY_THEME_ACCENT, "Violet")
+                        commit()
+                    }
+                    recreate()
+                }
             }
             "ic_account_Pink" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                     this, R.color.ic_account_Pink)
-
+                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                if(sharedPref.getString("themeAccentPreference", "none") != "Pink") {
+                    with(sharedPref.edit()) {
+                        putString(KEY_THEME_ACCENT, "Pink")
+                        commit()
+                    }
+                    recreate()
+                }
             }
             "ic_account_Red" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Red)
-
+                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                if(sharedPref.getString("themeAccentPreference", "none") != "Red") {
+                    with(sharedPref.edit()) {
+                        putString(KEY_THEME_ACCENT, "Red")
+                        commit()
+                    }
+                    recreate()
+                }
             }
-            "ic_account_Purple" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                    this, R.color.ic_account_Purple)
-            "ic_account_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                    this, R.color.ic_account_Violet)
-            "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                    this, R.color.ic_account_Dark_Violet)
-            "ic_account_Blue" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                    this, R.color.ic_account_Blue)
-            "ic_account_Cyan" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                    this, R.color.ic_account_Cyan)
-            "ic_account_Teal" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                    this, R.color.ic_account_Teal)
-            "ic_account_Green" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                    this, R.color.ic_account_Green)
-            "ic_account_lightGreen" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                    this, R.color.ic_account_lightGreen)
-            else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                    this, R.color.ic_account)
+            "ic_account_Purple" -> {
+                accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                        this, R.color.ic_account_Purple)
+                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                if(sharedPref.getString("themeAccentPreference", "none") != "Purple") {
+                    with(sharedPref.edit()) {
+                        putString(KEY_THEME_ACCENT, "Purple")
+                        commit()
+                    }
+                    recreate()
+                }
+            }
+            "ic_account_Violet" -> {
+                accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                        this, R.color.ic_account_Violet)
+                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                if(sharedPref.getString("themeAccentPreference", "none") != "Violet") {
+                with(sharedPref.edit()) {
+                    putString(KEY_THEME_ACCENT, "Violet")
+                    commit()
+                }
+                    recreate()
+                }
+            }
+            "ic_account_Dark_Violet" -> {
+                accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                        this, R.color.ic_account_Dark_Violet)
+                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                    if(sharedPref.getString("themeAccentPreference", "none") != "DViolet") {
+                with(sharedPref.edit()) {
+                    putString(KEY_THEME_ACCENT, "DViolet")
+                    commit()
+                }
+                        recreate()
+                    }
+            }
+            "ic_account_Blue" -> {
+                accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                        this, R.color.ic_account_Blue)
+                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                    if(sharedPref.getString("themeAccentPreference", "none") != "Blue") {
+                with(sharedPref.edit()) {
+                    putString(KEY_THEME_ACCENT, "Blue")
+                    commit()
+                }
+                        recreate()
+                    }
+            }
+            "ic_account_Cyan" -> {
+                accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                        this, R.color.ic_account_Cyan)
+                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                    if(sharedPref.getString("themeAccentPreference", "none") != "Cyan") {
+                with(sharedPref.edit()) {
+                    putString(KEY_THEME_ACCENT, "Cyan")
+                    commit()
+                }
+                        recreate()
+                    }
+            }
+            "ic_account_Teal" -> {
+                accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                        this, R.color.ic_account_Teal)
+                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                    if(sharedPref.getString("themeAccentPreference", "none") != "Teal") {
+                with(sharedPref.edit()) {
+                    putString(KEY_THEME_ACCENT, "Teal")
+                    commit()
+                }
+                        recreate()
+                    }
+            }
+            "ic_account_Green" -> {
+                accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                        this, R.color.ic_account_Green)
+                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                    if(sharedPref.getString("themeAccentPreference", "none") != "Green") {
+                with(sharedPref.edit()) {
+                    putString(KEY_THEME_ACCENT, "Green")
+                    commit()
+                }
+                        recreate()
+                    }
+            }
+            "ic_account_lightGreen" -> {
+                accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                        this, R.color.ic_account_lightGreen)
+                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                    if(sharedPref.getString("themeAccentPreference", "none") != "LGreen") {
+                with(sharedPref.edit()) {
+                    putString(KEY_THEME_ACCENT, "LGreen")
+                    commit()
+                }
+                        recreate()
+                    }
+            }
+            else -> {
+                accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                        this, R.color.ic_account)
+                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                    if(sharedPref.getString("themeAccentPreference", "none") != "Violet") {
+                with(sharedPref.edit()) {
+                    putString(KEY_THEME_ACCENT, "Violet")
+                    commit()
+                }
+                        recreate()
+                    }
+            }
         }
 
         val dbHelper = DataBaseHelper(this)
@@ -464,8 +595,6 @@ class SettingsActivity : AppCompatActivity() {
                 "NAME = ?",
                 arrayOf(login)
         )
-
-
     }
 
     /*

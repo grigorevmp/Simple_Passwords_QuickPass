@@ -138,8 +138,8 @@
         android:layout_marginEnd="20dp"
         android:max="40"
         android:progress="20"
-        android:progressTint="@color/colorPrimaryLight"
-        android:thumbTint="@color/colorPrimaryLight"
+        android:progressTint="?attr/colorAccent"
+        android:thumbTint="?attr/colorPrimary"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -213,7 +213,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/plus"
-        app:tint="@color/colorPrimary" />
+        app:tint="?attr/colorPrimary" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/search"
@@ -250,7 +250,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:visibility="gone"
-        app:cardBackgroundColor="@color/ic_account_Violet"
+        app:cardBackgroundColor="?attr/colorPrimary"
         app:cardCornerRadius="10dp"
         app:cardElevation="20dp"
         app:layout_constraintEnd_toEndOf="parent"

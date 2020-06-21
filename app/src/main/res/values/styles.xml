@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
@@ -8,15 +8,54 @@
         <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
     </style>
 
+    <style name="AppThemeRed" parent="AppTheme">
+        <item name="colorPrimary">@color/ic_account_Red</item>
+        <item name="colorAccent">@color/ic_account_Red_Tr</item>
+    </style>
+    <style name="AppThemePink" parent="AppTheme">
+        <item name="colorPrimary">@color/ic_account_Pink</item>
+        <item name="colorAccent">@color/ic_account_Pink_Tr</item>
+    </style>
+    <style name="AppThemePurple" parent="AppTheme">
+        <item name="colorPrimary">@color/ic_account_Purple</item>
+        <item name="colorAccent">@color/ic_account_Purple_Tr</item>
+    </style>
+    <style name="AppThemeViolet" parent="AppTheme">
+        <item name="colorPrimary">@color/ic_account_Violet</item>
+        <item name="colorAccent">@color/ic_account_Violet_Tr</item>
+    </style>
+    <style name="AppThemeDarkViolet" parent="AppTheme">
+        <item name="colorPrimary">@color/ic_account_Dark_Violet</item>
+        <item name="colorAccent">@color/ic_account_Dark_Violet_Tr</item>
+    </style>
+    <style name="AppThemeBlue" parent="AppTheme">
+        <item name="colorPrimary">@color/ic_account_Blue</item>
+        <item name="colorAccent">@color/ic_account_Blue_Tr</item>
+    </style>
+    <style name="AppThemeCyan" parent="AppTheme">
+        <item name="colorPrimary">@color/ic_account_Cyan</item>
+        <item name="colorAccent">@color/ic_account_Cyan_Tr</item>
+    </style>
+    <style name="AppThemeTeal" parent="AppTheme">
+        <item name="colorPrimary">@color/ic_account_Teal</item>
+        <item name="colorAccent">@color/ic_account_Teal_Tr</item>
+    </style>
+    <style name="AppThemeGreen" parent="AppTheme">
+        <item name="colorPrimary">@color/ic_account_Green</item>
+        <item name="colorAccent">@color/ic_account_Green_Tr</item>
+    </style>
+    <style name="AppThemeLightGreen" parent="AppTheme">
+        <item name="colorPrimary">@color/ic_account_lightGreen</item>
+        <item name="colorAccent">@color/ic_account_lightGreen_Tr</item>
+    </style>
+
     <style name="ThemeOverlay.MySwitch" parent="">
         <!-- active thumb & track color (30% transparency) -->
-        <item name="android:colorControlActivated">@color/ic_account</item>
+        <item name="android:colorControlActivated">?attr/colorPrimary</item>
         <!-- inactive thumb color -->
         <item name="colorSwitchThumbNormal">#f1f1f1</item>
         <!-- inactive track color (30% transparency) -->
         <item name="android:colorForeground">#BFBFBF</item>
 
     </style>
-
-
 </resources>

@@ -16,7 +16,6 @@
     <color name="positive">#75E900</color>
     <color name="fixable">#FF9E22</color>
 
-
     <color name="ic_account">#7e57c2</color>
     <color name="ic_account_Red">#ef5350</color>
     <color name="ic_account_Pink">#ec407a</color>
@@ -28,4 +27,16 @@
     <color name="ic_account_Teal">#26a69a</color>
     <color name="ic_account_Green">#66bb6a</color>
     <color name="ic_account_lightGreen">#9ccc65</color>
+
+    <color name="ic_account_Tr">#817E57C2</color>
+    <color name="ic_account_Red_Tr">#81ef5350</color>
+    <color name="ic_account_Pink_Tr">#81ec407a</color>
+    <color name="ic_account_Purple_Tr">#81ab47bc</color>
+    <color name="ic_account_Violet_Tr">#817e57c2</color>
+    <color name="ic_account_Dark_Violet_Tr">#815c6bc0</color>
+    <color name="ic_account_Blue_Tr">#8142a5f5</color>
+    <color name="ic_account_Cyan_Tr">#8126c6da</color>
+    <color name="ic_account_Teal_Tr">#8126a69a</color>
+    <color name="ic_account_Green_Tr">#8166bb6a</color>
+    <color name="ic_account_lightGreen_Tr">#819ccc65</color>
 </resources>

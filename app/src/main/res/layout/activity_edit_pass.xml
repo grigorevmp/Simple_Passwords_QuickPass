@@ -281,8 +281,8 @@
     <SeekBar
         android:id="@+id/seekBar"
         style="@style/Widget.AppCompat.SeekBar"
-        android:thumbTint="@color/colorPrimaryLight"
-        android:progressTint="@color/colorPrimaryLight"
+        android:thumbTint="?attr/colorPrimary"
+        android:progressTint="?attr/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
