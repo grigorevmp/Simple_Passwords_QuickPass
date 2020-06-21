@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryLight">#B388FF</color>
     <color name="colorWarningLight">#FF80AB</color>
     <color name="colorLight">#F1F1F1</color>
     <color name="colorPrimaryDark">#DDDDDD</color>
@@ -28,7 +27,6 @@
     <color name="ic_account_Green">#66bb6a</color>
     <color name="ic_account_lightGreen">#9ccc65</color>
 
-    <color name="ic_account_Tr">#817E57C2</color>
     <color name="ic_account_Red_Tr">#81ef5350</color>
     <color name="ic_account_Pink_Tr">#81ec407a</color>
     <color name="ic_account_Purple_Tr">#81ab47bc</color>

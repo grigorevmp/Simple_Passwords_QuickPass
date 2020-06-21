@@ -319,7 +319,6 @@
                 android:scrollbars="none">
 
                 <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroup"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     app:singleSelection="true">
@@ -356,7 +355,6 @@
             </HorizontalScrollView>
 
             <TextView
-                android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -365,7 +363,6 @@
                 android:text="@string/set_icon_color_to_current_theme" />
 
             <TextView
-                android:id="@+id/warning"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"

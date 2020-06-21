@@ -1,7 +1,6 @@
 package com.mikhailgrigorev.quickpass
 
 import android.annotation.SuppressLint
-import android.content.ComponentName
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent

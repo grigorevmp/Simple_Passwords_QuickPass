@@ -22,19 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
-import kotlinx.android.synthetic.main.activity_edit_pass.*
 import kotlinx.android.synthetic.main.activity_pass_gen.*
-import kotlinx.android.synthetic.main.activity_pass_gen.accountAvatar
-import kotlinx.android.synthetic.main.activity_pass_gen.accountAvatarText
-import kotlinx.android.synthetic.main.activity_pass_gen.cardPass
-import kotlinx.android.synthetic.main.activity_pass_gen.genPasswordId
-import kotlinx.android.synthetic.main.activity_pass_gen.genPasswordIdField
-import kotlinx.android.synthetic.main.activity_pass_gen.generatePassword
-import kotlinx.android.synthetic.main.activity_pass_gen.helloTextId
-import kotlinx.android.synthetic.main.activity_pass_gen.horizontalScroll
-import kotlinx.android.synthetic.main.activity_pass_gen.lengthToggle
-import kotlinx.android.synthetic.main.activity_pass_gen.passSettings
-import kotlinx.android.synthetic.main.activity_pass_gen.seekBar
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -615,7 +603,7 @@ class PassGenActivity : AppCompatActivity() {
                     search.hide()
                 }
                 if(horizontalScroll.visibility == View.VISIBLE) {
-                    allPassword.scrollTo(0, 0);
+                    allPassword.scrollTo(0, 0)
                     horizontalScroll.visibility = View.GONE
                     genPasswordId.visibility = View.GONE
                     cardPass.visibility = View.GONE

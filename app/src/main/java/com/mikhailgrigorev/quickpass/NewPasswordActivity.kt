@@ -105,7 +105,7 @@ class NewPasswordActivity : AppCompatActivity() {
                     else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account)
                 }
-                accountAvatarText.text = login?.get(0).toString()
+                accountAvatarText.text = login[0].toString()
             } while (cursor.moveToNext())
         }
 
@@ -332,7 +332,7 @@ class NewPasswordActivity : AppCompatActivity() {
         }
 
         savePass.setOnClickListener {
-            val pdbHelper = PasswordsDataBaseHelper(this, login.toString())
+            val pdbHelper = PasswordsDataBaseHelper(this, login)
             val passDataBase = pdbHelper.writableDatabase
             val contentValues = ContentValues()
 
