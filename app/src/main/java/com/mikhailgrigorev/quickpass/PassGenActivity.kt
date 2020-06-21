@@ -22,7 +22,19 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
+import kotlinx.android.synthetic.main.activity_edit_pass.*
 import kotlinx.android.synthetic.main.activity_pass_gen.*
+import kotlinx.android.synthetic.main.activity_pass_gen.accountAvatar
+import kotlinx.android.synthetic.main.activity_pass_gen.accountAvatarText
+import kotlinx.android.synthetic.main.activity_pass_gen.cardPass
+import kotlinx.android.synthetic.main.activity_pass_gen.genPasswordId
+import kotlinx.android.synthetic.main.activity_pass_gen.genPasswordIdField
+import kotlinx.android.synthetic.main.activity_pass_gen.generatePassword
+import kotlinx.android.synthetic.main.activity_pass_gen.helloTextId
+import kotlinx.android.synthetic.main.activity_pass_gen.horizontalScroll
+import kotlinx.android.synthetic.main.activity_pass_gen.lengthToggle
+import kotlinx.android.synthetic.main.activity_pass_gen.passSettings
+import kotlinx.android.synthetic.main.activity_pass_gen.seekBar
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -386,12 +398,14 @@ class PassGenActivity : AppCompatActivity() {
                 negativeCircle.setImageResource(R.drawable.circle_negative)
                 negativeCircle2.setImageResource(R.drawable.circle_improvement)
                 newPass.hide()
+                showAll.hide()
                 searchPass.visibility = View.VISIBLE
                 imageView.visibility = View.VISIBLE
 
             }
             else{
                 newPass.show()
+                showAll.show()
                 searchPass.visibility = View.GONE
                 imageView.visibility = View.GONE
                 passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags, this, clickListener = {
@@ -562,6 +576,7 @@ class PassGenActivity : AppCompatActivity() {
             intent.putExtra("useSymbols", useSymbols)
             intent.putExtra("length", length)
             startActivity(intent)
+            finish()
         }
 
 
@@ -575,15 +590,47 @@ class PassGenActivity : AppCompatActivity() {
             intent.putExtra("useSymbols", useSymbols)
             intent.putExtra("length", length)
             startActivity(intent)
+            finish()
         }
 
-        allPassword.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+        showAll.hide()
+
+        showAll.setOnClickListener {
+            showAll.hide()
+            horizontalScroll.visibility = View.VISIBLE
+            genPasswordId.visibility = View.VISIBLE
+            cardPass.visibility = View.VISIBLE
+            fixPasswords.visibility = View.VISIBLE
+            correctPasswords.visibility = View.VISIBLE
+            negativePasswords.visibility = View.VISIBLE
+            positiveCircle.visibility = View.VISIBLE
+            negativeCircle.visibility = View.VISIBLE
+            negativeCircle2.visibility = View.VISIBLE
+        }
+
+        allPassword.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
             if (scrollY > oldScrollY) {
-                newPass.hide()
-                search.hide()
-            } else {
-                newPass.show()
-                search.show()
+                if(searchPass.visibility == View.GONE) {
+                    newPass.hide()
+                    search.hide()
+                }
+                if(horizontalScroll.visibility == View.VISIBLE) {
+                    allPassword.scrollTo(0, 0);
+                    horizontalScroll.visibility = View.GONE
+                    genPasswordId.visibility = View.GONE
+                    cardPass.visibility = View.GONE
+                    fixPasswords.visibility = View.GONE
+                    correctPasswords.visibility = View.GONE
+                    negativePasswords.visibility = View.GONE
+                    positiveCircle.visibility = View.GONE
+                    negativeCircle.visibility = View.GONE
+                    negativeCircle2.visibility = View.GONE
+                    showAll.show()
+                }
+            }
+            else if(searchPass.visibility == View.GONE) {
+                    newPass.show()
+                    search.show()
             }
         })
     }
@@ -594,6 +641,7 @@ class PassGenActivity : AppCompatActivity() {
         intent.putExtra("login", login)
         intent.putExtra("passName", passwords[position].first)
         startActivity(intent)
+        finish()
     }
 
     private fun Context.toast(message:String)=

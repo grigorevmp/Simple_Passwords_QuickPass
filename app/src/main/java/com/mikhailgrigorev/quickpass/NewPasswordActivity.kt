@@ -7,6 +7,7 @@ import android.database.Cursor
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -31,6 +32,8 @@ class NewPasswordActivity : AppCompatActivity() {
     private var useUC = false
     private var useLetters = false
     private var useNumbers = false
+
+    private lateinit var login: String
 
     @SuppressLint("Recycle", "ClickableViewAccessibility", "ResourceAsColor", "RestrictedApi",
         "SetTextI18n"
@@ -64,7 +67,7 @@ class NewPasswordActivity : AppCompatActivity() {
         setContentView(R.layout.activity_new_password)
 
         val args: Bundle? = intent.extras
-        val login: String? = args?.get("login").toString()
+        login = args?.get("login").toString()
 
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
@@ -370,6 +373,21 @@ class NewPasswordActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+
+    override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
+        when (keyCode) {
+            KeyEvent.KEYCODE_BACK -> {
+                val intent = Intent(this, PassGenActivity::class.java)
+                intent.putExtra("login", login)
+                startActivity(intent)
+                this.overridePendingTransition(R.anim.right_in,
+                        R.anim.right_out)
+                finish()
+            }
+        }
+        return false
     }
 
     private fun getDateTime(): String? {
