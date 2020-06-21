@@ -46,7 +46,7 @@
         android:layout_height="14dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="3dp"
-        android:contentDescription="@string/correct_passwords"
+        android:contentDescription="@string/no_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/correctPasswords"
         app:srcCompat="@drawable/circle_positive" />
@@ -57,7 +57,7 @@
         android:layout_height="14dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="3dp"
-        android:contentDescription="@string/incorrect_password"
+        android:contentDescription="@string/no_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/negativePasswords"
         app:srcCompat="@drawable/circle_negative" />
@@ -68,7 +68,7 @@
         android:layout_height="14dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="3dp"
-        android:contentDescription="@string/need_fix"
+        android:contentDescription="@string/no_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/fixPasswords"
         app:srcCompat="@drawable/circle_improvement" />
@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="18dp"
-        android:text="@string/correct_passwords"
+        android:text="@string/no_text"
         app:layout_constraintStart_toEndOf="@+id/positiveCircle"
         app:layout_constraintTop_toBottomOf="@+id/helloTextId" />
 
@@ -89,7 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:text="@string/incorrect_password"
+        android:text="@string/no_text"
         app:layout_constraintStart_toEndOf="@+id/negativeCircle"
         app:layout_constraintTop_toBottomOf="@+id/correctPasswords" />
 
@@ -99,7 +99,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:text="@string/need_fix"
+        android:text="@string/no_text"
         app:layout_constraintStart_toEndOf="@+id/negativeCircle2"
         app:layout_constraintTop_toBottomOf="@+id/negativePasswords" />
 

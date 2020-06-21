@@ -17,6 +17,7 @@ class AboutActivity : AppCompatActivity() {
     private val PREFERENCE_FILE_KEY = "quickPassPreference"
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        var dark = true
         val pref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
         when(pref.getString(KEY_THEME, "none")){
             "none", "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -26,10 +27,14 @@ class AboutActivity : AppCompatActivity() {
         }
         super.onCreate(savedInstanceState)
         when ((resources.configuration.uiMode + Configuration.UI_MODE_NIGHT_MASK)) {
-            Configuration.UI_MODE_NIGHT_NO ->
+            Configuration.UI_MODE_NIGHT_NO -> {
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                dark = false
+            }
         }
         setContentView(R.layout.activity_about)
+
+        if(dark) appIcon.setImageResource(R.drawable.logo_dark)
 
         telegram.setOnClickListener {
             val i = Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/mikhail_grigorev"))

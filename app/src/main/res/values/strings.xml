@@ -16,10 +16,34 @@
     <string name="wrong_pass">Wrong password</string>
     <string name="input_your_password">Input your password</string>
     <string name="or_use_fingerprint">Or use fingerprint</string>
-    <string name="correct_passwords"> Safe passwords</string>
-    <string name="incorrect_password"> Unsafe passwords</string>
-    <string name="passwords"> passwords</string>
-    <string name="need_fix">You should improve fix</string>
+
+    <plurals name="correct_passwords">
+        <item quantity="zero">No safe passwords</item>
+        <item quantity="one">%1$d safe password</item>
+        <item quantity="two">%1$d safe passwords</item>
+        <item quantity="few">%1$d safe passwords</item>
+        <item quantity="many">%1$d safe passwords</item>
+        <item quantity="other">%1$d safe passwords</item>
+    </plurals>
+
+    <plurals name="incorrect_password">
+        <item quantity="zero">No unsafe passwords</item>
+        <item quantity="one">%1$d unsafe password</item>
+        <item quantity="two">%1$d unsafe passwords</item>
+        <item quantity="few">%1$d unsafe passwords</item>
+        <item quantity="many">%1$d unsafe passwords</item>
+        <item quantity="other">%1$d unsafe passwords</item>
+    </plurals>
+
+    <plurals name="need_fix">
+        <item quantity="zero">No low quality passwords</item>
+        <item quantity="one">You should improve %1$d password</item>
+        <item quantity="two">You should improve %1$d passwords</item>
+        <item quantity="few">You should improve %1$d passwords</item>
+        <item quantity="many">You should improve %1$d passwords</item>
+        <item quantity="other">You should improve %1$d passwords</item>
+    </plurals>
+
     <string name="chipLetters">abc…</string>
     <string name="upperCaseLetters">ABC…</string>
     <string name="chipNumbers">123…</string>

@@ -177,9 +177,9 @@ class PassGenActivity : AppCompatActivity() {
             noPasswords.visibility = View.VISIBLE
         }
 
-        correctPasswords.text = safePass.toString() + " " + getString(R.string.correct_passwords)
-        negativePasswords.text = unsafePass.toString() + " " + getString(R.string.incorrect_password)
-        fixPasswords.text = getString(R.string.need_fix) + " " + fixPass.toString() + " " + getString(R.string.passwords)
+        correctPasswords.text = resources.getQuantityString(R.plurals.correct_passwords, safePass, safePass)
+        negativePasswords.text = resources.getQuantityString(R.plurals.incorrect_password, unsafePass, unsafePass)
+        fixPasswords.text = resources.getQuantityString(R.plurals.need_fix, fixPass, fixPass)
 
         passwordRecycler.layoutManager = LinearLayoutManager(this,  LinearLayoutManager.VERTICAL, false)
 

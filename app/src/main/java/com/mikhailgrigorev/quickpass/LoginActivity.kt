@@ -1,6 +1,7 @@
 package com.mikhailgrigorev.quickpass
 
 import android.annotation.SuppressLint
+import android.content.ComponentName
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -28,6 +29,35 @@ class LoginActivity : AppCompatActivity() {
     private val TAG = "SignUpActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        /*
+        packageManager.setComponentEnabledSetting(
+                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivity"),
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+        packageManager.setComponentEnabledSetting(
+                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivity_Dark"),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+                        <activity-alias
+            android:label="@string/app_name"
+            android:icon="@mipmap/ic_launcher_dark"
+            android:name=".LoginActivity_Dark"
+            android:enabled="false"
+            android:targetActivity=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias android:label="@string/app_name"
+            android:icon="@mipmap/ic_launcher"
+            android:name=".LoginActivity"
+            android:enabled="true"
+            android:targetActivity=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        */
         val pref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
         when(pref.getString(KEY_THEME, "none")){
             "none", "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)

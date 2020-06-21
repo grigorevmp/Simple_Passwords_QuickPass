@@ -36,7 +36,7 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_gravity="center"
-                android:contentDescription="@string/need_fix"
+                android:contentDescription="@string/no_text"
                 card_view:srcCompat="@drawable/circle_improvement" />
 
             <LinearLayout
