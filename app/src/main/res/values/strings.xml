@@ -80,7 +80,7 @@
     <string name="low">low</string>
     <string name="high">high</string>
     <string name="medium">medium</string>
-    <string name="no_password">Still no passwords =(</string>
+    <string name="no_password">You have no passwords yet. Add your first password.</string>
     <string name="share_database">Export</string>
     <string name="you_decided_to_change_some_settings">You decided to change some settings</string>
     <string name="bio_usage">Biometric usage</string>
