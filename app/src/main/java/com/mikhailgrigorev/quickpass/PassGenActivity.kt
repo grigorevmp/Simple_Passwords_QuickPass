@@ -158,17 +158,26 @@ class PassGenActivity : AppCompatActivity() {
                         evaluation < 0.66 -> "3"
                         else -> "1"
                     }
-                    if(pCursor.getString(groupIndex) == null)
+                    if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none") {
+                        dbLogin = pCursor.getString(nameIndex).toString()
+                        val fa = pCursor.getString(aIndex).toString()
+                        passwords.add(Pair(dbLogin, fa))
+                        quality.add(qualityNum)
+                        val dbTag = pCursor.getString(tagsIndex).toString()
+                        tags.add(dbTag)
                         group.add("none")
-                    else
-                        group.add("#favorite")
+                    }
+                    else {
+                        dbLogin = pCursor.getString(nameIndex).toString()
+                        val fa = pCursor.getString(aIndex).toString()
+                        passwords.add(0, Pair(dbLogin, fa))
+                        quality.add(0, qualityNum)
+                        val dbTag = pCursor.getString(tagsIndex).toString()
+                        tags.add(0, dbTag)
+                        group.add(0, "#favorite")
+                    }
 
-                    dbLogin = pCursor.getString(nameIndex).toString()
-                    val fa = pCursor.getString(aIndex).toString()
-                    passwords.add(Pair(dbLogin, fa))
-                    quality.add(qualityNum)
-                    val dbTag = pCursor.getString(tagsIndex).toString()
-                    tags.add(dbTag)
+
                     when (qualityNum) {
                         "1" -> safePass += 1
                         "2" -> unsafePass += 1

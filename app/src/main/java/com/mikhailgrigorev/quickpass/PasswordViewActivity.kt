@@ -266,30 +266,30 @@ class PasswordViewActivity : AppCompatActivity() {
             favButton2.visibility = View.VISIBLE
         }
 
-        favButton.setOnClickListener {
-            if(dbGroup == "#favorite"){
-                favButton.visibility = View.VISIBLE
-                favButton2.visibility = View.GONE
 
-                val contentValues = ContentValues()
-                contentValues.put(pdbHelper.KEY_GROUPS, "none")
-                pDatabase.update(
-                        pdbHelper.TABLE_USERS, contentValues,
-                        "NAME = ?",
-                        arrayOf(passName)
-                )
-            }
-            else{
-                favButton.visibility = View.GONE
-                favButton2.visibility = View.VISIBLE
-                val contentValues = ContentValues()
-                contentValues.put(pdbHelper.KEY_GROUPS, "#favorite")
-                pDatabase.update(
-                        pdbHelper.TABLE_USERS, contentValues,
-                        "NAME = ?",
-                        arrayOf(passName)
-                )
-            }
+        favButton.setOnClickListener {
+            favButton.visibility = View.GONE
+            favButton2.visibility = View.VISIBLE
+            val contentValues = ContentValues()
+            contentValues.put(pdbHelper.KEY_GROUPS, "#favorite")
+            pDatabase.update(
+                    pdbHelper.TABLE_USERS, contentValues,
+                    "NAME = ?",
+                    arrayOf(passName)
+            )
+        }
+
+        favButton2.setOnClickListener {
+            favButton.visibility = View.VISIBLE
+            favButton2.visibility = View.GONE
+
+            val contentValues = ContentValues()
+            contentValues.put(pdbHelper.KEY_GROUPS, "none")
+            pDatabase.update(
+                    pdbHelper.TABLE_USERS, contentValues,
+                    "NAME = ?",
+                    arrayOf(passName)
+            )
         }
 
     }

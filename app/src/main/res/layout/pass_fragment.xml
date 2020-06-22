@@ -79,6 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:clickable="false"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/log_out"
                 android:src="@drawable/heart_outline"
