@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.pass_fragment.view.*
 class PasswordAdapter(private val items : ArrayList<Pair<String, String>>,
                       private val quality : ArrayList<String>,
                       private val tags : ArrayList<String>,
+                      private val group : ArrayList<String>,
                       val context: Context,
                       val clickListener: (Int) -> Unit) : RecyclerView.Adapter<ViewHolder>()
 {
@@ -31,6 +32,9 @@ class PasswordAdapter(private val items : ArrayList<Pair<String, String>>,
         holder.passText.text = items[position].first
         if(items[position].second == "0"){
             holder.chip.visibility = View.GONE
+        }
+        if(group[position] == "#favorite"){
+            holder.favorite.visibility = View.VISIBLE
         }
         if(tags[position] == ""){
             holder.tags.visibility = View.GONE
@@ -59,6 +63,7 @@ class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
     val passText = view.list_title!!
     val chip = view.chip!!
     val tags = view.tags!!
+    val favorite = view.favorite!!
     val clickableView = view.clickable_view!!
     val marker = view.marker!!
 }

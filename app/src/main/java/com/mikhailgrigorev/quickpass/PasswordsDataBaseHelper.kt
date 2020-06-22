@@ -21,7 +21,7 @@ class PasswordsDataBaseHelper(context: Context?, tableName: String) :
     val KEY_TIME = "time"
     val KEY_DESC = "description"
     val KEY_TAGS = "tags"
-    private val KEY_GROUPS = "groups"
+    val KEY_GROUPS = "groups"
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(

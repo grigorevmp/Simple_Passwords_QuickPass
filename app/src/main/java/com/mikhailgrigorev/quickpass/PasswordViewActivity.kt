@@ -1,13 +1,12 @@
 package com.mikhailgrigorev.quickpass
 
 import android.annotation.SuppressLint
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.content.Intent
+import android.content.*
+import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.database.Cursor
 import android.database.SQLException
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
@@ -103,6 +102,7 @@ class PasswordViewActivity : AppCompatActivity() {
 
         var dbLogin = ""
         var dbPassword: String
+        var dbGroup = "null"
 
         val pdbHelper = PasswordsDataBaseHelper(this, login)
         val pDatabase = pdbHelper.writableDatabase
@@ -110,7 +110,7 @@ class PasswordViewActivity : AppCompatActivity() {
             val pCursor: Cursor = pDatabase.query(
                 pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
                     pdbHelper.KEY_2FA, pdbHelper.KEY_USE_TIME, pdbHelper.KEY_TIME,
-                    pdbHelper.KEY_DESC, pdbHelper.KEY_TAGS),
+                    pdbHelper.KEY_DESC, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS),
                 "NAME = ?", arrayOf(passName),
                 null, null, null
             )
@@ -124,6 +124,7 @@ class PasswordViewActivity : AppCompatActivity() {
                 val timeIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TIME)
                 val descIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_DESC)
                 val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
+                val groupIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_GROUPS)
                 do {
                     dbLogin = pCursor.getString(nameIndex).toString()
                     helloTextId.text = dbLogin
@@ -151,6 +152,11 @@ class PasswordViewActivity : AppCompatActivity() {
                     }
                     val dbTimeIndex = pCursor.getString(timeIndex).toString()
                     passwordTime.text = getString(R.string.time_lim) + " " + dbTimeIndex
+
+                    dbGroup = if(pCursor.getString(groupIndex) == null)
+                        "none"
+                    else
+                        pCursor.getString(groupIndex).toString()
 
                     //val year = dbTimeIndex.substring(0, 3).toInt()
                     val month = dbTimeIndex.substring(5, 7).toInt()
@@ -253,6 +259,37 @@ class PasswordViewActivity : AppCompatActivity() {
             intent.putExtra("passName", passName)
             startActivity(intent)
             finish()
+        }
+
+        if(dbGroup == "#favorite"){
+            favButton.visibility = View.GONE
+            favButton2.visibility = View.VISIBLE
+        }
+
+        favButton.setOnClickListener {
+            if(dbGroup == "#favorite"){
+                favButton.visibility = View.VISIBLE
+                favButton2.visibility = View.GONE
+
+                val contentValues = ContentValues()
+                contentValues.put(pdbHelper.KEY_GROUPS, "none")
+                pDatabase.update(
+                        pdbHelper.TABLE_USERS, contentValues,
+                        "NAME = ?",
+                        arrayOf(passName)
+                )
+            }
+            else{
+                favButton.visibility = View.GONE
+                favButton2.visibility = View.VISIBLE
+                val contentValues = ContentValues()
+                contentValues.put(pdbHelper.KEY_GROUPS, "#favorite")
+                pDatabase.update(
+                        pdbHelper.TABLE_USERS, contentValues,
+                        "NAME = ?",
+                        arrayOf(passName)
+                )
+            }
         }
 
     }
