@@ -7,6 +7,7 @@ import android.content.res.Configuration
 import android.database.Cursor
 import android.database.SQLException
 import android.graphics.Color
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
@@ -58,6 +59,8 @@ class PasswordViewActivity : AppCompatActivity() {
         val args: Bundle? = intent.extras
         login= args?.get("login").toString()
         passName = args?.get("passName").toString()
+
+
 
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
@@ -187,6 +190,12 @@ class PasswordViewActivity : AppCompatActivity() {
             helloTextId.text = getString(R.string.no_text)
         }
 
+        if((args?.get("sameWith") != null) and (args?.get("sameWith").toString() != "none")){
+            sameParts.visibility = View.VISIBLE
+            sameParts.text = args?.get("sameWith").toString()
+            passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.negative))
+            passQuality.text = getString(R.string.low)
+        }
 
         val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
         val autoCopy = sharedPref.getString(KEY_AUTOCOPY, "none")

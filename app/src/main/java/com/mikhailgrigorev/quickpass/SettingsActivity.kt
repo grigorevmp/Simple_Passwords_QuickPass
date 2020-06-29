@@ -8,13 +8,19 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
+import android.os.Environment
 import android.view.KeyEvent
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_settings.*
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileWriter
 
 
 class SettingsActivity : AppCompatActivity() {
@@ -695,7 +701,61 @@ class SettingsActivity : AppCompatActivity() {
                 "NAME = ?",
                 arrayOf(login)
         )
+
+        val pdbHelper = PasswordsDataBaseHelper(this, login)
+
+        export.setOnClickListener(object : View.OnClickListener {
+            var passDataBase: SQLiteDatabase = pdbHelper.readableDatabase
+            @SuppressLint("Recycle")
+            override fun onClick(v: View) {
+                try {
+                    val c = passDataBase.rawQuery("select * from $login", null)
+                    val rowcount: Int
+                    val colcount: Int
+                    val sdCardDir =
+                            Environment.getExternalStorageDirectory()
+                    val filename = "MyBackUp.csv"
+
+                    val saveFile = File(sdCardDir, filename)
+                    val fw = FileWriter(saveFile)
+                    val bw = BufferedWriter(fw)
+                    rowcount = c.count
+                    colcount = c.columnCount
+                    if (rowcount > 0) {
+                        c.moveToFirst()
+                        for (i in 0 until colcount) {
+                            if (i != colcount - 1) {
+                                bw.write(c.getColumnName(i) + ",")
+                            } else {
+                                bw.write(c.getColumnName(i))
+                            }
+                        }
+                        bw.newLine()
+                        for (i in 0 until rowcount) {
+                            c.moveToPosition(i)
+                            for (j in 0 until colcount) {
+                                if (j != colcount - 1) bw.write(c.getString(j) + ",") else bw.write(
+                                        c.getString(j)
+                                )
+                            }
+                            bw.newLine()
+                        }
+                        bw.flush()
+                        toast("Exported successfully to sdcard.")
+                    }
+                } catch (ex: Exception) {
+                    if (passDataBase.isOpen) {
+                        passDataBase.close()
+                        toast(ex.message.toString())
+                    }
+                } finally {
+                }
+            }
+        })
     }
+
+    private fun Context.toast(message:String)=
+            Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
 
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {

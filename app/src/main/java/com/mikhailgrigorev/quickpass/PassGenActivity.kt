@@ -41,6 +41,9 @@ class PassGenActivity : AppCompatActivity() {
     private var unsafePass = 0
     private var fixPass = 0
     private val passwords: ArrayList<Pair<String, String>> = ArrayList()
+    private val realPass: ArrayList<Pair<String, String>> = ArrayList()
+    private val realQuality: ArrayList<String> = ArrayList()
+    private val realMap: MutableMap<String, ArrayList<String>> = mutableMapOf()
     private val quality: ArrayList<String> = ArrayList()
     private val tags: ArrayList<String> = ArrayList()
     private val group: ArrayList<String> = ArrayList()
@@ -141,6 +144,17 @@ class PassGenActivity : AppCompatActivity() {
                 null, null, null
             )
 
+            if (pCursor.moveToFirst()) {
+                val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
+                val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
+                do {
+                    val pass = pCursor.getString(passIndex).toString()
+                    val login = pCursor.getString(nameIndex).toString()
+                    realPass.add(Pair(login, pass))
+                } while (pCursor.moveToNext())
+            }
+
+            analyzeDataBase()
 
             if (pCursor.moveToFirst()) {
                 val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
@@ -148,16 +162,20 @@ class PassGenActivity : AppCompatActivity() {
                 val aIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_2FA)
                 val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
                 val groupIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_GROUPS)
+                var j = 0
                 do {
                     val pass = pCursor.getString(passIndex).toString()
                     val myPasswordManager = PasswordManager()
                     val evaluation: Float =
                         myPasswordManager.evaluatePassword(pass)
-                    val qualityNum = when {
+                    var qualityNum = when {
                         evaluation < 0.33 -> "2"
                         evaluation < 0.66 -> "3"
                         else -> "1"
                     }
+                    if(realQuality[j] != "1")
+                        qualityNum = "2"
+                    j++
                     if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none") {
                         dbLogin = pCursor.getString(nameIndex).toString()
                         val fa = pCursor.getString(aIndex).toString()
@@ -653,11 +671,55 @@ class PassGenActivity : AppCompatActivity() {
         })
     }
 
+    private fun analyzeDataBase() {
+        var subContains: Boolean
+        var gSubContains: Boolean
+        for (pass in realPass){
+            subContains = false
+            gSubContains = false
+            for (pass2 in realPass){
+                if(pass.first != pass2.first){
+                    for(i in 0..(pass.second.length - 4)){
+                        if (pass2.second.contains(pass.second.subSequence(i, i + 3))){
+                            subContains = true
+                            gSubContains = true
+                            break
+                        }
+                    }
+                    if (subContains)
+                        if (realMap.containsKey(pass.first))
+                            realMap[pass.first]?.add(pass2.first)
+                        else {
+                            val c = arrayListOf(pass2.first)
+                            realMap[pass.first] = c
+                        }
+                        subContains = false
+                }
+            }
+            if (gSubContains) {
+                realQuality.add("0")
+            }
+            else
+                realQuality.add("1")
+        }
+    }
+
     private fun passClickListener(position: Int) {
-        // You got the position of ArrayList
         val intent = Intent(this, PasswordViewActivity::class.java)
+        var isPass = false
         intent.putExtra("login", login)
         intent.putExtra("passName", passwords[position].first)
+        var str = getString(R.string.sameParts)
+        if (realMap.containsKey(passwords[position].first)){
+            for(pass in realMap[passwords[position].first]!!) {
+                isPass = true
+                str += "$pass "
+            }
+        }
+        if(isPass)
+            intent.putExtra("sameWith", str)
+        else
+            intent.putExtra("sameWith", "none")
         startActivity(intent)
         finish()
     }

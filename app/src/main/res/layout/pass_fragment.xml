@@ -82,8 +82,8 @@
                 android:clickable="false"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/log_out"
-                android:src="@drawable/heart_outline"
-                android:tint="?attr/colorPrimary"
+                android:src="@drawable/heart"
+                android:tint="@color/ic_account_Red"
                 android:visibility="gone" />
         </LinearLayout>
 

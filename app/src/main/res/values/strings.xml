@@ -91,7 +91,7 @@
     <string name="search_password">Search password</string>
     <string name="auto_copy_password">Auto-copy password</string>
     <string name="about_app">About app</string>
-    <string name="versionCode">Version 1.0.0 • Build 100</string>
+    <string name="versionCode">Version 1.0.0 • Build 110</string>
     <string name="mikhail_grigorev">Mikhail Grigorev</string>
     <string name="_2020" translatable="false">2020</string>
     <string name="telegram" translatable="false">Telegram</string>
@@ -127,4 +127,5 @@
     <string name="set_icon_color_to_current_theme">Set icon color to current theme</string>
     <string name="warning_app_will_be_closed">(Warning: App will be closed)</string>
     <string name="set">Set</string>
+    <string name="sameParts">"Password contains same parts with "</string>
 </resources>
