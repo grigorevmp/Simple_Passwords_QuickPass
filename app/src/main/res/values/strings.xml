@@ -128,4 +128,5 @@
     <string name="warning_app_will_be_closed">(Warning: App will be closed)</string>
     <string name="set">Set</string>
     <string name="sameParts">"Password contains same parts with "</string>
+
 </resources>

@@ -5,9 +5,14 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ShortcutInfo
+import android.content.pm.ShortcutManager
 import android.content.res.Configuration
 import android.database.Cursor
 import android.database.SQLException
+import android.graphics.drawable.Icon
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,6 +21,7 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.SeekBar
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -41,6 +47,7 @@ class PassGenActivity : AppCompatActivity() {
     private var unsafePass = 0
     private var fixPass = 0
     private val passwords: ArrayList<Pair<String, String>> = ArrayList()
+    private var passwordsG: ArrayList<Pair<String, String>> = ArrayList()
     private val realPass: ArrayList<Pair<String, String>> = ArrayList()
     private val realQuality: ArrayList<String> = ArrayList()
     private val realMap: MutableMap<String, ArrayList<String>> = mutableMapOf()
@@ -54,6 +61,7 @@ class PassGenActivity : AppCompatActivity() {
     private var searchMId: Boolean = false
 
 
+    @RequiresApi(Build.VERSION_CODES.N_MR1)
     @SuppressLint("Recycle", "ClickableViewAccessibility", "ResourceAsColor", "RestrictedApi",
         "SetTextI18n"
     )
@@ -206,6 +214,106 @@ class PassGenActivity : AppCompatActivity() {
         } catch (e: SQLException) {
         }
 
+        if(passwords.size > 0) {
+            val intent = Intent(this, PasswordViewActivity::class.java)
+            var isPass = false
+            intent.action = Intent.ACTION_VIEW
+            intent.putExtra("login", login)
+            intent.putExtra("passName", passwords[0].first)
+            var str = getString(R.string.sameParts)
+            if (realMap.containsKey(passwords[0].first)){
+                for(pass in realMap[passwords[0].first]!!) {
+                    isPass = true
+                    str += "$pass "
+                }
+            }
+            if(isPass)
+                intent.putExtra("sameWith", str)
+            else
+                intent.putExtra("sameWith", "none")
+
+            val shortcutManager: ShortcutManager
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                shortcutManager = getSystemService<ShortcutManager>(ShortcutManager::class.java)!!
+                val shortcut: ShortcutInfo
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                    shortcut = ShortcutInfo.Builder(this, "first_shortcut")
+                            .setShortLabel(passwords[0].first)
+                            .setLongLabel(passwords[0].first)
+                            .setIcon(Icon.createWithResource(this, R.drawable.ic_fav_action))
+                            .setIntent(intent)
+                            .build()
+                    shortcutManager.dynamicShortcuts = listOf(shortcut)
+                }
+            }
+        }
+
+        if(passwords.size > 1) {
+            val intent = Intent(this, PasswordViewActivity::class.java)
+            var isPass = false
+            intent.action = Intent.ACTION_VIEW
+            intent.putExtra("login", login)
+            intent.putExtra("passName", passwords[1].first)
+            var str = getString(R.string.sameParts)
+            if (realMap.containsKey(passwords[1].first)){
+                for(pass in realMap[passwords[1].first]!!) {
+                    isPass = true
+                    str += "$pass "
+                }
+            }
+            if(isPass)
+                intent.putExtra("sameWith", str)
+            else
+                intent.putExtra("sameWith", "none")
+
+            val shortcutManager: ShortcutManager
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                shortcutManager = getSystemService<ShortcutManager>(ShortcutManager::class.java)!!
+                val shortcut: ShortcutInfo
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                    shortcut = ShortcutInfo.Builder(this, "second_shortcut")
+                            .setShortLabel(passwords[1].first)
+                            .setLongLabel(passwords[1].first)
+                            .setIcon(Icon.createWithResource(this, R.drawable.ic_fav_action2))
+                            .setIntent(intent)
+                            .build()
+                    shortcutManager.dynamicShortcuts = shortcutManager.dynamicShortcuts +  listOf(shortcut)
+                }
+            }
+        }
+        if(passwords.size > 2) {
+            val intent = Intent(this, PasswordViewActivity::class.java)
+            var isPass = false
+            intent.action = Intent.ACTION_VIEW
+            intent.putExtra("login", login)
+            intent.putExtra("passName", passwords[2].first)
+            var str = getString(R.string.sameParts)
+            if (realMap.containsKey(passwords[2].first)){
+                for(pass in realMap[passwords[2].first]!!) {
+                    isPass = true
+                    str += "$pass "
+                }
+            }
+            if(isPass)
+                intent.putExtra("sameWith", str)
+            else
+                intent.putExtra("sameWith", "none")
+
+            val shortcutManager: ShortcutManager
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                shortcutManager = getSystemService<ShortcutManager>(ShortcutManager::class.java)!!
+                val shortcut: ShortcutInfo
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                    shortcut = ShortcutInfo.Builder(this, "third_shortcut")
+                            .setShortLabel(passwords[2].first)
+                            .setLongLabel(passwords[2].first)
+                            .setIcon(Icon.createWithResource(this, R.drawable.ic_fav_action3))
+                            .setIntent(intent)
+                            .build()
+                    shortcutManager.dynamicShortcuts = shortcutManager.dynamicShortcuts + listOf(shortcut)
+                }
+            }
+        }
         if(passwords.size == 0){
             allPassword.visibility = View.GONE
             noPasswords.visibility = View.VISIBLE
@@ -219,6 +327,7 @@ class PassGenActivity : AppCompatActivity() {
 
         passwordRecycler.setHasFixedSize(true)
 
+        passwordsG = passwords
         passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags, group, this, clickListener = {
             passClickListener(it)
         })
@@ -226,6 +335,8 @@ class PassGenActivity : AppCompatActivity() {
         positiveCircle.setOnClickListener {
             if(searchPos){
                 positiveCircle.setImageResource(R.drawable.circle_positive)
+
+                passwordsG = passwords
                 passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags, group, this, clickListener = {
                     passClickListener(it)
                 })
@@ -249,6 +360,8 @@ class PassGenActivity : AppCompatActivity() {
                         group2.add(group[index])
                     }
                 }
+
+                passwordsG = passwords2
                 passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, tags2, group2,this@PassGenActivity, clickListener = {
                     passClickListener(it)
                 })
@@ -259,6 +372,7 @@ class PassGenActivity : AppCompatActivity() {
         correctPasswords.setOnClickListener{
             if(searchPos){
                 positiveCircle.setImageResource(R.drawable.circle_positive)
+                passwordsG = passwords
                 passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags, group, this, clickListener = {
                     passClickListener(it)
                 })
@@ -282,6 +396,8 @@ class PassGenActivity : AppCompatActivity() {
                         group2.add(group[index])
                     }
                 }
+
+                passwordsG = passwords2
                 passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, tags2, group2,this@PassGenActivity, clickListener = {
                     passClickListener(it)
                 })
@@ -292,6 +408,8 @@ class PassGenActivity : AppCompatActivity() {
         negativeCircle.setOnClickListener {
             if(searchNeg){
                 negativeCircle.setImageResource(R.drawable.circle_negative)
+
+                passwordsG = passwords
                 passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,group,this, clickListener = {
                     passClickListener(it)
                 })
@@ -315,6 +433,8 @@ class PassGenActivity : AppCompatActivity() {
                         group2.add(group[index])
                     }
                 }
+
+                passwordsG = passwords2
                 passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, tags2, group,this@PassGenActivity, clickListener = {
                     passClickListener(it)
                 })
@@ -325,6 +445,8 @@ class PassGenActivity : AppCompatActivity() {
         negativePasswords.setOnClickListener{
             if(searchNeg){
                 negativeCircle.setImageResource(R.drawable.circle_negative)
+
+                passwordsG = passwords
                 passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,group,this, clickListener = {
                     passClickListener(it)
                 })
@@ -348,6 +470,8 @@ class PassGenActivity : AppCompatActivity() {
                         group2.add(group[index])
                     }
                 }
+
+                passwordsG = passwords2
                 passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, tags2,group, this@PassGenActivity, clickListener = {
                     passClickListener(it)
                 })
@@ -359,6 +483,8 @@ class PassGenActivity : AppCompatActivity() {
         negativeCircle2.setOnClickListener{
             if(searchMId){
                 negativeCircle2.setImageResource(R.drawable.circle_improvement)
+
+                passwordsG = passwords
                 passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,group,this, clickListener = {
                     passClickListener(it)
                 })
@@ -382,6 +508,8 @@ class PassGenActivity : AppCompatActivity() {
                         group2.add(group[index])
                     }
                 }
+
+                passwordsG = passwords2
                 passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, tags2, group2,this@PassGenActivity, clickListener = {
                     passClickListener(it)
                 })
@@ -392,6 +520,8 @@ class PassGenActivity : AppCompatActivity() {
         fixPasswords.setOnClickListener {
             if(searchMId){
                 negativeCircle2.setImageResource(R.drawable.circle_improvement)
+
+                passwordsG = passwords
                 passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,group,this, clickListener = {
                     passClickListener(it)
                 })
@@ -415,6 +545,8 @@ class PassGenActivity : AppCompatActivity() {
                         group2.add(group[index])
                     }
                 }
+
+                passwordsG = passwords2
                 passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, tags2, group2,this@PassGenActivity, clickListener = {
                     passClickListener(it)
                 })
@@ -442,6 +574,7 @@ class PassGenActivity : AppCompatActivity() {
                 showAll.show()
                 searchPass.visibility = View.GONE
                 imageView.visibility = View.GONE
+                passwordsG = passwords
                 passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,group, this, clickListener = {
                     passClickListener(it)
                 })
@@ -463,6 +596,8 @@ class PassGenActivity : AppCompatActivity() {
                         group2.add(group[index])
                     }
                 }
+
+                passwordsG = passwords2
                 passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, tags2, group2,this@PassGenActivity, clickListener = {
                     passClickListener(it)
                 })
@@ -708,10 +843,10 @@ class PassGenActivity : AppCompatActivity() {
         val intent = Intent(this, PasswordViewActivity::class.java)
         var isPass = false
         intent.putExtra("login", login)
-        intent.putExtra("passName", passwords[position].first)
+        intent.putExtra("passName", passwordsG[position].first)
         var str = getString(R.string.sameParts)
-        if (realMap.containsKey(passwords[position].first)){
-            for(pass in realMap[passwords[position].first]!!) {
+        if (realMap.containsKey(passwordsG[position].first)){
+            for(pass in realMap[passwordsG[position].first]!!) {
                 isPass = true
                 str += "$pass "
             }
