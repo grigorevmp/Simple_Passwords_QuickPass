@@ -1,29 +1,29 @@
 package com.mikhailgrigorev.quickpass
 
 import android.annotation.SuppressLint
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.content.res.Configuration
 import android.database.Cursor
 import android.database.SQLException
 import android.graphics.drawable.Icon
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
+import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -253,10 +253,10 @@ class PassGenActivity : AppCompatActivity() {
             var isPass = false
             intent.action = Intent.ACTION_VIEW
             intent.putExtra("login", login)
-            intent.putExtra("passName", passwords[1].first)
+            intent.putExtra("passName", passwords[0].first)
             var str = getString(R.string.sameParts)
-            if (realMap.containsKey(passwords[1].first)){
-                for(pass in realMap[passwords[1].first]!!) {
+            if (realMap.containsKey(passwords[0].first)){
+                for(pass in realMap[passwords[0].first]!!) {
                     isPass = true
                     str += "$pass "
                 }
@@ -266,18 +266,42 @@ class PassGenActivity : AppCompatActivity() {
             else
                 intent.putExtra("sameWith", "none")
 
+            val intent2 = Intent(this, PasswordViewActivity::class.java)
+            isPass = false
+            intent2.action = Intent.ACTION_VIEW
+            intent2.putExtra("login", login)
+            intent2.putExtra("passName", passwords[1].first)
+            str = getString(R.string.sameParts)
+            if (realMap.containsKey(passwords[1].first)){
+                for(pass in realMap[passwords[1].first]!!) {
+                    isPass = true
+                    str += "$pass "
+                }
+            }
+            if(isPass)
+                intent2.putExtra("sameWith", str)
+            else
+                intent2.putExtra("sameWith", "none")
+
             val shortcutManager: ShortcutManager
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 shortcutManager = getSystemService<ShortcutManager>(ShortcutManager::class.java)!!
                 val shortcut: ShortcutInfo
+                val shortcut1: ShortcutInfo
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                    shortcut1 = ShortcutInfo.Builder(this, "first_shortcut")
+                            .setShortLabel(passwords[0].first)
+                            .setLongLabel(passwords[0].first)
+                            .setIcon(Icon.createWithResource(this, R.drawable.ic_fav_action))
+                            .setIntent(intent)
+                            .build()
                     shortcut = ShortcutInfo.Builder(this, "second_shortcut")
                             .setShortLabel(passwords[1].first)
                             .setLongLabel(passwords[1].first)
-                            .setIcon(Icon.createWithResource(this, R.drawable.ic_fav_action2))
-                            .setIntent(intent)
+                            .setIcon(Icon.createWithResource(this, R.drawable.ic_fav_action))
+                            .setIntent(intent2)
                             .build()
-                    shortcutManager.dynamicShortcuts = shortcutManager.dynamicShortcuts +  listOf(shortcut)
+                    shortcutManager.dynamicShortcuts = listOf(shortcut1, shortcut)
                 }
             }
         }
@@ -286,10 +310,10 @@ class PassGenActivity : AppCompatActivity() {
             var isPass = false
             intent.action = Intent.ACTION_VIEW
             intent.putExtra("login", login)
-            intent.putExtra("passName", passwords[2].first)
+            intent.putExtra("passName", passwords[0].first)
             var str = getString(R.string.sameParts)
-            if (realMap.containsKey(passwords[2].first)){
-                for(pass in realMap[passwords[2].first]!!) {
+            if (realMap.containsKey(passwords[0].first)){
+                for(pass in realMap[passwords[0].first]!!) {
                     isPass = true
                     str += "$pass "
                 }
@@ -299,21 +323,70 @@ class PassGenActivity : AppCompatActivity() {
             else
                 intent.putExtra("sameWith", "none")
 
+            val intent2 = Intent(this, PasswordViewActivity::class.java)
+            isPass = false
+            intent2.action = Intent.ACTION_VIEW
+            intent2.putExtra("login", login)
+            intent2.putExtra("passName", passwords[1].first)
+            str = getString(R.string.sameParts)
+            if (realMap.containsKey(passwords[1].first)){
+                for(pass in realMap[passwords[1].first]!!) {
+                    isPass = true
+                    str += "$pass "
+                }
+            }
+            if(isPass)
+                intent2.putExtra("sameWith", str)
+            else
+                intent2.putExtra("sameWith", "none")
+
+            val intent3 = Intent(this, PasswordViewActivity::class.java)
+            isPass = false
+            intent3.action = Intent.ACTION_VIEW
+            intent3.putExtra("login", login)
+            intent3.putExtra("passName", passwords[2].first)
+            str = getString(R.string.sameParts)
+            if (realMap.containsKey(passwords[2].first)){
+                for(pass in realMap[passwords[2].first]!!) {
+                    isPass = true
+                    str += "$pass "
+                }
+            }
+            if(isPass)
+                intent3.putExtra("sameWith", str)
+            else
+                intent3.putExtra("sameWith", "none")
+
             val shortcutManager: ShortcutManager
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 shortcutManager = getSystemService<ShortcutManager>(ShortcutManager::class.java)!!
                 val shortcut: ShortcutInfo
+                val shortcut1: ShortcutInfo
+                val shortcut3: ShortcutInfo
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                    shortcut = ShortcutInfo.Builder(this, "third_shortcut")
-                            .setShortLabel(passwords[2].first)
-                            .setLongLabel(passwords[2].first)
-                            .setIcon(Icon.createWithResource(this, R.drawable.ic_fav_action3))
+                    shortcut1 = ShortcutInfo.Builder(this, "first_shortcut")
+                            .setShortLabel(passwords[0].first)
+                            .setLongLabel(passwords[0].first)
+                            .setIcon(Icon.createWithResource(this, R.drawable.ic_fav_action))
                             .setIntent(intent)
                             .build()
-                    shortcutManager.dynamicShortcuts = shortcutManager.dynamicShortcuts + listOf(shortcut)
+                    shortcut = ShortcutInfo.Builder(this, "second_shortcut")
+                            .setShortLabel(passwords[1].first)
+                            .setLongLabel(passwords[1].first)
+                            .setIcon(Icon.createWithResource(this, R.drawable.ic_fav_action))
+                            .setIntent(intent2)
+                            .build()
+                    shortcut3 = ShortcutInfo.Builder(this, "third_shortcut")
+                            .setShortLabel(passwords[2].first)
+                            .setLongLabel(passwords[2].first)
+                            .setIcon(Icon.createWithResource(this, R.drawable.ic_fav_action))
+                            .setIntent(intent3)
+                            .build()
+                    shortcutManager.dynamicShortcuts = listOf(shortcut1, shortcut, shortcut3)
                 }
             }
         }
+
         if(passwords.size == 0){
             allPassword.visibility = View.GONE
             noPasswords.visibility = View.VISIBLE
@@ -330,7 +403,7 @@ class PassGenActivity : AppCompatActivity() {
         passwordsG = passwords
         passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags, group, this, clickListener = {
             passClickListener(it)
-        })
+        }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
 
         positiveCircle.setOnClickListener {
             if(searchPos){
@@ -339,7 +412,7 @@ class PassGenActivity : AppCompatActivity() {
                 passwordsG = passwords
                 passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags, group, this, clickListener = {
                     passClickListener(it)
-                })
+                }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
                 searchPos = false
             }
             else{
@@ -364,7 +437,7 @@ class PassGenActivity : AppCompatActivity() {
                 passwordsG = passwords2
                 passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, tags2, group2,this@PassGenActivity, clickListener = {
                     passClickListener(it)
-                })
+                }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
                 searchPos = true
             }
         }
@@ -375,7 +448,7 @@ class PassGenActivity : AppCompatActivity() {
                 passwordsG = passwords
                 passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags, group, this, clickListener = {
                     passClickListener(it)
-                })
+                }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
                 searchPos = false
             }
             else{
@@ -400,7 +473,7 @@ class PassGenActivity : AppCompatActivity() {
                 passwordsG = passwords2
                 passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, tags2, group2,this@PassGenActivity, clickListener = {
                     passClickListener(it)
-                })
+                }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
                 searchPos = true
             }
         }
@@ -412,7 +485,7 @@ class PassGenActivity : AppCompatActivity() {
                 passwordsG = passwords
                 passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,group,this, clickListener = {
                     passClickListener(it)
-                })
+                }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
                 searchNeg = false
             }
             else{
@@ -437,7 +510,7 @@ class PassGenActivity : AppCompatActivity() {
                 passwordsG = passwords2
                 passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, tags2, group,this@PassGenActivity, clickListener = {
                     passClickListener(it)
-                })
+                }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
                 searchNeg = true
             }
         }
@@ -449,7 +522,7 @@ class PassGenActivity : AppCompatActivity() {
                 passwordsG = passwords
                 passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,group,this, clickListener = {
                     passClickListener(it)
-                })
+                }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
                 searchNeg = false
             }
             else{
@@ -474,7 +547,7 @@ class PassGenActivity : AppCompatActivity() {
                 passwordsG = passwords2
                 passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, tags2,group, this@PassGenActivity, clickListener = {
                     passClickListener(it)
-                })
+                }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
                 searchNeg = true
             }
         }
@@ -487,7 +560,7 @@ class PassGenActivity : AppCompatActivity() {
                 passwordsG = passwords
                 passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,group,this, clickListener = {
                     passClickListener(it)
-                })
+                }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
                 searchMId = false
             }
             else{
@@ -512,7 +585,7 @@ class PassGenActivity : AppCompatActivity() {
                 passwordsG = passwords2
                 passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, tags2, group2,this@PassGenActivity, clickListener = {
                     passClickListener(it)
-                })
+                }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
                 searchMId = true
             }
         }
@@ -524,7 +597,7 @@ class PassGenActivity : AppCompatActivity() {
                 passwordsG = passwords
                 passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,group,this, clickListener = {
                     passClickListener(it)
-                })
+                }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
                 searchMId = false
             }
             else{
@@ -549,7 +622,7 @@ class PassGenActivity : AppCompatActivity() {
                 passwordsG = passwords2
                 passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, tags2, group2,this@PassGenActivity, clickListener = {
                     passClickListener(it)
-                })
+                }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
                 searchMId = true
             }
         }
@@ -577,7 +650,7 @@ class PassGenActivity : AppCompatActivity() {
                 passwordsG = passwords
                 passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,group, this, clickListener = {
                     passClickListener(it)
-                })
+                }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
             }
         }
 
@@ -600,7 +673,7 @@ class PassGenActivity : AppCompatActivity() {
                 passwordsG = passwords2
                 passwordRecycler.adapter = PasswordAdapter(passwords2, quality2, tags2, group2,this@PassGenActivity, clickListener = {
                     passClickListener(it)
-                })
+                }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -837,6 +910,225 @@ class PassGenActivity : AppCompatActivity() {
             else
                 realQuality.add("1")
         }
+    }
+
+
+    private fun passLongClickListener(position: Int, view: View) {
+        showPopup(position, view)
+    }
+
+    private fun showPopup(position: Int, view: View) {
+        var popup: PopupMenu? = null;
+        popup = PopupMenu(this, view)
+        popup.inflate(R.menu.header_menu)
+        
+
+        popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
+            when (item!!.itemId) {
+                R.id.delete -> {
+                    val pdbHelper = PasswordsDataBaseHelper(this, login)
+                    val pDatabase = pdbHelper.writableDatabase
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle(getString(R.string.deletePassword))
+                    builder.setMessage(getString(R.string.passwordDeleteConfirm))
+
+                    builder.setPositiveButton(getString(R.string.yes)){ _, _ ->
+                        pDatabase.delete(
+                                pdbHelper.TABLE_USERS,
+                                "NAME = ?",
+                                arrayOf(passwordsG[position].first)
+                        )
+                        passwords.clear()
+                        quality.clear()
+                        tags.clear()
+                        group.clear()
+                        realPass.clear()
+                        realQuality.clear()
+
+                        try {
+                            val pCursor: Cursor = pDatabase.query(
+                                    pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
+                                    pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS),
+                                    null, null,
+                                    null, null, null
+                            )
+
+                            if (pCursor.moveToFirst()) {
+                                val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
+                                val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
+                                do {
+                                    val pass = pCursor.getString(passIndex).toString()
+                                    val login = pCursor.getString(nameIndex).toString()
+                                    realPass.add(Pair(login, pass))
+                                } while (pCursor.moveToNext())
+                            }
+
+                            analyzeDataBase()
+
+                            if (pCursor.moveToFirst()) {
+                                val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
+                                val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
+                                val aIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_2FA)
+                                val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
+                                val groupIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_GROUPS)
+                                var j = 0
+                                do {
+                                    val pass = pCursor.getString(passIndex).toString()
+                                    val myPasswordManager = PasswordManager()
+                                    val evaluation: Float =
+                                            myPasswordManager.evaluatePassword(pass)
+                                    var qualityNum = when {
+                                        evaluation < 0.33 -> "2"
+                                        evaluation < 0.66 -> "3"
+                                        else -> "1"
+                                    }
+                                    if(realQuality[j] != "1")
+                                        qualityNum = "2"
+                                    j++
+                                    if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none") {
+                                        val dbLogin = pCursor.getString(nameIndex).toString()
+                                        val fa = pCursor.getString(aIndex).toString()
+                                        passwords.add(Pair(dbLogin, fa))
+                                        quality.add(qualityNum)
+                                        val dbTag = pCursor.getString(tagsIndex).toString()
+                                        tags.add(dbTag)
+                                        group.add("none")
+                                    }
+                                    else {
+                                        val dbLogin = pCursor.getString(nameIndex).toString()
+                                        val fa = pCursor.getString(aIndex).toString()
+                                        passwords.add(0, Pair(dbLogin, fa))
+                                        quality.add(0, qualityNum)
+                                        val dbTag = pCursor.getString(tagsIndex).toString()
+                                        tags.add(0, dbTag)
+                                        group.add(0, "#favorite")
+                                    }
+
+
+                                    when (qualityNum) {
+                                        "1" -> safePass += 1
+                                        "2" -> unsafePass += 1
+                                        "3" -> fixPass += 1
+                                    }
+                                } while (pCursor.moveToNext())
+                            }
+                        } catch (e: SQLException) {
+                        }
+                        passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,group,this, clickListener = {
+                            passClickListener(it)
+                        }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
+                    }
+
+                    builder.setNegativeButton(getString(R.string.no)){ _, _ ->
+                    }
+
+                    builder.setNeutralButton(getString(R.string.cancel)){ _, _ ->
+                    }
+                    val dialog: AlertDialog = builder.create()
+                    dialog.show()
+
+
+                }
+                R.id.favorite -> {
+                    val pdbHelper = PasswordsDataBaseHelper(this, login)
+                    val pDatabase = pdbHelper.writableDatabase
+                    val contentValues = ContentValues()
+                    if(group[position]=="#favorite")
+                        contentValues.put(pdbHelper.KEY_GROUPS, "none")
+                    else
+                        contentValues.put(pdbHelper.KEY_GROUPS, "#favorite")
+                    pDatabase.update(
+                            pdbHelper.TABLE_USERS, contentValues,
+                            "NAME = ?",
+                            arrayOf(passwordsG[position].first)
+                    )
+
+                    passwords.clear()
+                    quality.clear()
+                    tags.clear()
+                    group.clear()
+                    realPass.clear()
+                    realQuality.clear()
+
+                    try {
+                        val pCursor: Cursor = pDatabase.query(
+                                pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
+                                pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS),
+                                null, null,
+                                null, null, null
+                        )
+
+                        if (pCursor.moveToFirst()) {
+                            val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
+                            val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
+                            do {
+                                val pass = pCursor.getString(passIndex).toString()
+                                val login = pCursor.getString(nameIndex).toString()
+                                realPass.add(Pair(login, pass))
+                            } while (pCursor.moveToNext())
+                        }
+
+                        analyzeDataBase()
+
+                        if (pCursor.moveToFirst()) {
+                            val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
+                            val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
+                            val aIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_2FA)
+                            val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
+                            val groupIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_GROUPS)
+                            var j = 0
+                            do {
+                                val pass = pCursor.getString(passIndex).toString()
+                                val myPasswordManager = PasswordManager()
+                                val evaluation: Float =
+                                        myPasswordManager.evaluatePassword(pass)
+                                var qualityNum = when {
+                                    evaluation < 0.33 -> "2"
+                                    evaluation < 0.66 -> "3"
+                                    else -> "1"
+                                }
+                                if(realQuality[j] != "1")
+                                    qualityNum = "2"
+                                j++
+                                if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none") {
+                                    val dbLogin = pCursor.getString(nameIndex).toString()
+                                    val fa = pCursor.getString(aIndex).toString()
+                                    passwords.add(Pair(dbLogin, fa))
+                                    quality.add(qualityNum)
+                                    val dbTag = pCursor.getString(tagsIndex).toString()
+                                    tags.add(dbTag)
+                                    group.add("none")
+                                }
+                                else {
+                                    val dbLogin = pCursor.getString(nameIndex).toString()
+                                    val fa = pCursor.getString(aIndex).toString()
+                                    passwords.add(0, Pair(dbLogin, fa))
+                                    quality.add(0, qualityNum)
+                                    val dbTag = pCursor.getString(tagsIndex).toString()
+                                    tags.add(0, dbTag)
+                                    group.add(0, "#favorite")
+                                }
+
+
+                                when (qualityNum) {
+                                    "1" -> safePass += 1
+                                    "2" -> unsafePass += 1
+                                    "3" -> fixPass += 1
+                                }
+                            } while (pCursor.moveToNext())
+                        }
+                    } catch (e: SQLException) {
+                    }
+                    passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,group,this, clickListener = {
+                        passClickListener(it)
+                    }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
+                    Toast.makeText(this, item.title, Toast.LENGTH_SHORT).show();
+                }
+            }
+            true
+        })
+
+        popup.show()
     }
 
     private fun passClickListener(position: Int) {

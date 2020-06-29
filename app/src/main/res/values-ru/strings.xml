@@ -114,4 +114,5 @@
     <string name="warning_app_will_be_closed">(Внимание: Приложение будет закрыто)</string>
     <string name="set">Установить</string>
     <string name="sameParts">Пароль частично совпадает с </string>
+    <string name="favorite">Избранное</string>
 </resources>
