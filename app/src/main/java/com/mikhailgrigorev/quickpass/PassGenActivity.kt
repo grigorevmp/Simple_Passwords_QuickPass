@@ -917,11 +917,12 @@ class PassGenActivity : AppCompatActivity() {
         showPopup(position, view)
     }
 
+
     private fun showPopup(position: Int, view: View) {
         var popup: PopupMenu? = null;
         popup = PopupMenu(this, view)
         popup.inflate(R.menu.header_menu)
-        
+
 
         popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
             when (item!!.itemId) {

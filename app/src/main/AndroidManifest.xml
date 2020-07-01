@@ -17,6 +17,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="q">
+
+        <service
+            android:name=".MyAutofillService"
+            android:label="QuickPass"
+            android:permission="android.permission.BIND_AUTOFILL_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.autofill.AutofillService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.autofill"
+                android:resource="@xml/service_configuration" />
+        </service>
+
         <activity
             android:name=".SettingsActivity"
             android:screenOrientation="portrait" />
