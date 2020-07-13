@@ -12,7 +12,6 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
@@ -390,6 +389,7 @@ class PassGenActivity : AppCompatActivity() {
         if(passwords.size == 0){
             allPassword.visibility = View.GONE
             noPasswords.visibility = View.VISIBLE
+            search.hide()
         }
 
         correctPasswords.text = resources.getQuantityString(R.plurals.correct_passwords, safePass, safePass)
@@ -1137,7 +1137,7 @@ class PassGenActivity : AppCompatActivity() {
         var isPass = false
         intent.putExtra("login", login)
         intent.putExtra("passName", passwordsG[position].first)
-        var str = getString(R.string.sameParts)
+        var str = getString(R.string.sameParts) + " "
         if (realMap.containsKey(passwordsG[position].first)){
             for(pass in realMap[passwordsG[position].first]!!) {
                 isPass = true

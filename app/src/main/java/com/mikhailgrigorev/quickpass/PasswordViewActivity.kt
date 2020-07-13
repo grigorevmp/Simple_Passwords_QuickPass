@@ -2,12 +2,9 @@ package com.mikhailgrigorev.quickpass
 
 import android.annotation.SuppressLint
 import android.content.*
-import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.database.Cursor
 import android.database.SQLException
-import android.graphics.Color
-import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
@@ -16,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_password_view.*
 import java.util.*
 
@@ -115,7 +113,7 @@ class PasswordViewActivity : AppCompatActivity() {
             val pCursor: Cursor = pDatabase.query(
                 pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
                     pdbHelper.KEY_2FA, pdbHelper.KEY_USE_TIME, pdbHelper.KEY_TIME,
-                    pdbHelper.KEY_DESC, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS),
+                    pdbHelper.KEY_DESC, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS, pdbHelper.KEY_LOGIN),
                 "NAME = ?", arrayOf(passName),
                 null, null, null
             )
@@ -130,6 +128,7 @@ class PasswordViewActivity : AppCompatActivity() {
                 val descIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_DESC)
                 val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
                 val groupIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_GROUPS)
+                val loginIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_LOGIN)
                 do {
                     dbLogin = pCursor.getString(nameIndex).toString()
                     helloTextId.text = dbLogin
@@ -178,11 +177,32 @@ class PasswordViewActivity : AppCompatActivity() {
 
 
                     val dbDescIndex = pCursor.getString(descIndex).toString()
-                    noteViewField.setText(dbDescIndex)
+                    if (dbDescIndex != "")
+                        noteViewField.setText(dbDescIndex)
+                    else
+                        noteView.visibility = View.GONE
+
+
+                    val dbEmailIndex = pCursor.getString(loginIndex).toString()
+                    if (dbEmailIndex != "")
+                        emailViewField.setText(dbEmailIndex)
+                    else
+                        emailView.visibility = View.GONE
 
                     val dbTagsIndex = pCursor.getString(tagsIndex).toString()
-                    if(dbTagsIndex != "")
-                        keywords.text = dbTagsIndex
+                    if(dbTagsIndex != "") {
+                        dbTagsIndex.split("\\s".toRegex()).forEach { item ->
+                            val chip = Chip(group.context)
+                            chip.text= item
+                            chip.isClickable = false
+                            chip.textSize = 12F
+                            group.addView(chip)
+                        }
+                    }
+                    else{
+                        kwInfo.visibility = View.GONE
+                    }
+
                 } while (pCursor.moveToNext())
             } else {
                 helloTextId.text = getString(R.string.no_text)
@@ -262,6 +282,8 @@ class PasswordViewActivity : AppCompatActivity() {
                 toast(getString(R.string.passCopied))
             }
         }
+
+
 
 
         editButton.setOnClickListener {

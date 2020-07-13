@@ -22,14 +22,19 @@ class PasswordsDataBaseHelper(context: Context?, tableName: String) :
     val KEY_DESC = "description"
     val KEY_TAGS = "tags"
     val KEY_GROUPS = "groups"
+    val KEY_LOGIN = "none"
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(
-            "create table " + TABLE_USERS + "(" + KEY_ID + " integer primary key,"
+            "create table " + TABLE_USERS + "("
+                    + KEY_ID + " integer primary key,"
                     + KEY_NAME + " text," + KEY_PASS + " text,"
-                    + KEY_2FA + " integer," + KEY_USE_TIME + " integer," + KEY_TIME + " date,"
+                    + KEY_2FA + " integer," + KEY_USE_TIME + " integer,"
+                    + KEY_TIME + " date,"
                     + KEY_TAGS + " text," + KEY_GROUPS + " text,"
-                    + KEY_DESC +" text"+ ")"
+                    + KEY_LOGIN + " text,"
+                    + KEY_DESC +" text"
+                    + ")"
         )
     }
 

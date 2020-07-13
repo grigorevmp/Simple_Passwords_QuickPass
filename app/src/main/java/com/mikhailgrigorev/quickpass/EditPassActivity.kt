@@ -7,6 +7,7 @@ import android.database.Cursor
 import android.database.SQLException
 import android.os.Bundle
 import android.text.Editable
+import android.text.Spanned
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.MotionEvent
@@ -133,7 +134,8 @@ class EditPassActivity : AppCompatActivity() {
                     pdbHelper.KEY_USE_TIME,
                     pdbHelper.KEY_TIME,
                     pdbHelper.KEY_DESC,
-                    pdbHelper.KEY_TAGS
+                    pdbHelper.KEY_TAGS,
+                    pdbHelper.KEY_LOGIN
                 ),
                 "NAME = ?", arrayOf(passName),
                 null, null, null
@@ -147,6 +149,7 @@ class EditPassActivity : AppCompatActivity() {
                 val uTIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_USE_TIME)
                 val descIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_DESC)
                 val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
+                val loginIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_LOGIN)
                 do {
                     dbLogin = pCursor.getString(nameIndex).toString()
                     helloTextId.text = dbLogin
@@ -187,6 +190,14 @@ class EditPassActivity : AppCompatActivity() {
                     noteField.setText(dbDescIndex)
                     val dbTagsIndex = pCursor.getString(tagsIndex).toString()
                     keyWordsField.setText(dbTagsIndex)
+
+                    val dbEmailIndex = pCursor.getString(loginIndex).toString()
+                    if (dbEmailIndex != "") {
+                        email.visibility = View.VISIBLE
+                        emailSwitch.isChecked = true
+                        emailField.setText(dbEmailIndex)
+                    }
+
                 } while (pCursor.moveToNext())
                 if(lettersToggle.isChecked ){
                     useLetters = true
@@ -370,6 +381,8 @@ class EditPassActivity : AppCompatActivity() {
             false
         }
 
+
+
         genPasswordId.setOnClickListener {
             if (genPasswordIdField.text.toString() != "") {
                 val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -388,6 +401,14 @@ class EditPassActivity : AppCompatActivity() {
             }
         }
 
+        emailSwitch.setOnClickListener {
+            if (emailSwitch.isChecked)
+                email.visibility = View.VISIBLE
+            else
+                email.visibility = View.GONE
+
+        }
+
         savePass.setOnClickListener {
             val login2 = newNameField.text
             if (login2 != null) {
@@ -401,6 +422,7 @@ class EditPassActivity : AppCompatActivity() {
                     val contentValues = ContentValues()
                     contentValues.put(pdbHelper.KEY_NAME, newNameField.text.toString())
                     contentValues.put(pdbHelper.KEY_PASS, genPasswordIdField.text.toString())
+                    contentValues.put(pdbHelper.KEY_LOGIN, emailField.text.toString())
                     var keyFA = "0"
                     if (authToggle.isChecked)
                         keyFA = "1"
@@ -427,6 +449,7 @@ class EditPassActivity : AppCompatActivity() {
 
         }
     }
+
 
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {

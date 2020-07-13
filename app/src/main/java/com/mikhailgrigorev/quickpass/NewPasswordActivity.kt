@@ -331,6 +331,14 @@ class NewPasswordActivity : AppCompatActivity() {
             }
         }
 
+        emailSwitch.setOnClickListener {
+            if (emailSwitch.isChecked)
+                email.visibility = View.VISIBLE
+            else
+                email.visibility = View.GONE
+
+        }
+
         savePass.setOnClickListener {
             val pdbHelper = PasswordsDataBaseHelper(this, login)
             val passDataBase = pdbHelper.writableDatabase
@@ -355,6 +363,7 @@ class NewPasswordActivity : AppCompatActivity() {
                     contentValues.put(pdbHelper.KEY_NAME, newNameField.text.toString())
                     contentValues.put(pdbHelper.KEY_PASS, genPasswordIdField.text.toString())
                     contentValues.put(pdbHelper.KEY_TAGS, keyWordsField.text.toString())
+                    contentValues.put(pdbHelper.KEY_LOGIN, emailField.text.toString())
                     var keyFA = "0"
                     if (authToggle.isChecked)
                         keyFA = "1"

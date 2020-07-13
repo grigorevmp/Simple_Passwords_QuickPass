@@ -9,7 +9,6 @@ import android.view.autofill.AutofillValue
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 
-
 @RequiresApi(Build.VERSION_CODES.O)
 class MyAutofillService : AutofillService() {
 

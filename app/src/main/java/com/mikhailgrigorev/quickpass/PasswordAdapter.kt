@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.pass_fragment.view.*
 
 class PasswordAdapter(private val items: ArrayList<Pair<String, String>>,
@@ -32,18 +33,31 @@ class PasswordAdapter(private val items: ArrayList<Pair<String, String>>,
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.passText.text = items[position].first
-        if(items[position].second == "0"){
-            holder.chip.visibility = View.GONE
+        holder.chip.visibility = View.GONE
+        if(items[position].second != "0"){
+            val chip = Chip(holder.group.context)
+            chip.text= "2FA"
+            chip.isClickable = false
+            chip.textSize = 12F
+            holder.group.addView(chip)
         }
         if(group[position] == "#favorite"){
             holder.favorite.visibility = View.VISIBLE
         }
-        if(tags[position] == ""){
-            holder.tags.visibility = View.GONE
-        }
-        else{
-            holder.tags.text = tags[position]
-        }
+        // if(tags[position] == ""){
+        //     holder.tags.visibility = View.GONE
+        // }
+        // else{
+        //     holder.tags.text = tags[position]
+        // }
+        if(tags[position] != "")
+            tags[position] .split("\\s".toRegex()).forEach { item ->
+                val chip = Chip(holder.group.context)
+                chip.text= item
+                chip.isClickable = false
+                chip.textSize = 12F
+                holder.group.addView(chip)
+            }
         when {
             quality[position] == "1" -> {
                 holder.marker.setImageResource(R.drawable.circle_positive)
@@ -68,8 +82,9 @@ class PasswordAdapter(private val items: ArrayList<Pair<String, String>>,
 class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
     val passText = view.list_title!!
     val chip = view.chip!!
-    val tags = view.tags!!
+    // // val tags = view.tags!!
     val favorite = view.favorite!!
     val clickableView = view.clickable_view!!
     val marker = view.marker!!
+    val group = view.group!!
 }
