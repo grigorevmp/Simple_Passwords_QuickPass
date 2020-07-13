@@ -14,12 +14,10 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.view.View.OnTouchListener
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import android.widget.PopupWindow
@@ -65,7 +63,7 @@ class PassGenActivity : AppCompatActivity() {
     private var searchNeg: Boolean = false
     private var searchMId: Boolean = false
 
-    public var xTouch = 500
+    var xTouch = 500
     private var changeStatusPopUp: PopupWindow = PopupWindow()
     private var globalPos: Int = -1
 

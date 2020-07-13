@@ -59,7 +59,6 @@
                     tools:ignore="RtlHardcoded" />
 
                 <TextView
-                    android:id="@+id/tags"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/no_text"
