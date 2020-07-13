@@ -127,7 +127,7 @@
     <string name="set_icon_color_to_current_theme">Set icon color to current theme</string>
     <string name="warning_app_will_be_closed">(Warning: App will be closed)</string>
     <string name="set">Set</string>
-    <string name="sameParts">" • Password contains same parts with"</string>
+    <string name="sameParts">Password contains same parts with</string>
     <string name="favorite">Favorite</string>
     <string name="email_login" translatable="false">E-mail/Login</string>
     <string name="add_email">Add login or e-mail</string>

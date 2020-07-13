@@ -145,19 +145,37 @@ class PasswordViewActivity : AppCompatActivity() {
                         else -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.fixable))
                     }
 
+                    if (evaluation == "high")
+                        warning.visibility = View.GONE
+                    else
+                        warning2.visibility = View.GONE
+
                     if((dbPassword.length == 4) and (evaluation == "high")){
                         passQualityText.text = getString(R.string.showPin)
                         passQuality.visibility = View.GONE
+                        warning.visibility = View.GONE
+                        warning2.visibility = View.VISIBLE
                     }
 
                     val db2FAIndex = pCursor.getString(aIndex).toString()
+
+                    authToggle.visibility = View.GONE
+                    timeLimit.visibility = View.GONE
+                    addSettings.visibility = View.GONE
+
                     if (db2FAIndex == "1"){
                         authToggle.isChecked = true
+                        authToggle.visibility = View.VISIBLE
+                        addSettings.visibility = View.VISIBLE
                     }
                     val dbUTIndex = pCursor.getString(uTIndex).toString()
                     if (dbUTIndex == "1"){
                         timeLimit.isChecked = true
+                        timeLimit.visibility = View.VISIBLE
+                        addSettings.visibility = View.VISIBLE
                     }
+
+
                     val dbTimeIndex = pCursor.getString(timeIndex).toString()
                     passwordTime.text = getString(R.string.time_lim) + " " + dbTimeIndex
 
@@ -216,6 +234,7 @@ class PasswordViewActivity : AppCompatActivity() {
         }
 
         if((args?.get("sameWith") != null) and (args?.get("sameWith").toString() != "none")){
+            warning0.visibility = View.VISIBLE
             sameParts.visibility = View.VISIBLE
             sameParts.text = args?.get("sameWith").toString()
             passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.negative))

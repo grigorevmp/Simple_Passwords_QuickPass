@@ -924,34 +924,25 @@ class PassGenActivity : AppCompatActivity() {
     @SuppressLint("Recycle", "InflateParams")
     private fun showPopup(position: Int, view: View) {
         val location = IntArray(2)
-        // val currentRowId = position
-        // val currentRow = view
-        // Get the x, y location and store it in the location[] array
-        // location[0] = x, location[1] = y.
-        // Get the x, y location and store it in the location[] array
-        // location[0] = x, location[1] = y.
         view.getLocationOnScreen(location)
         val point = Point()
         point.x = location[0]
         point.y = location[1]
-        // Inflate the popup_layout.xml
         val layoutInflater =
                 this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val layout: View = layoutInflater.inflate(R.layout.popup, null)
 
         globalPos = position.toString().toInt()
-        // Creating the PopupWindow
-
-        // Creating the PopupWindow
         changeStatusPopUp = PopupWindow(this)
         changeStatusPopUp.contentView = layout
         changeStatusPopUp.width = LinearLayout.LayoutParams.WRAP_CONTENT
         changeStatusPopUp.height = LinearLayout.LayoutParams.WRAP_CONTENT
         changeStatusPopUp.isFocusable = true
-        val offset_x = 50
-        val offset_y = 50
+        val offsetX = 50
+        val offsetY = 0
         changeStatusPopUp.setBackgroundDrawable(BitmapDrawable())
-        changeStatusPopUp.showAtLocation(layout, Gravity.NO_GRAVITY, offset_x, point.y + offset_y)
+        changeStatusPopUp.animationStyle = R.style.popUpAnim
+        changeStatusPopUp.showAtLocation(layout, Gravity.NO_GRAVITY, offsetX, point.y + offsetY)
     }
 
     private fun passClickListener(position: Int) {
@@ -999,6 +990,7 @@ class PassGenActivity : AppCompatActivity() {
         group.clear()
         realPass.clear()
         realQuality.clear()
+        realMap.clear()
 
         try {
             val pCursor: Cursor = pDatabase.query(
@@ -1096,6 +1088,7 @@ class PassGenActivity : AppCompatActivity() {
                 group.clear()
                 realPass.clear()
                 realQuality.clear()
+                realMap.clear()
 
                 try {
                     val pCursor: Cursor = pDatabase.query(

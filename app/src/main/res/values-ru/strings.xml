@@ -113,7 +113,7 @@
     <string name="set_icon_color_to_current_theme">Установить цвет иконки в соответствие темы</string>
     <string name="warning_app_will_be_closed">(Внимание: Приложение будет закрыто)</string>
     <string name="set">Установить</string>
-    <string name="sameParts">" • Пароль частично совпадает с"</string>
+    <string name="sameParts">Пароль частично совпадает с</string>
     <string name="favorite">Избранное</string>
     <string name="add_email">Добавить e-mail ли логин</string>
     <string name="additional_settings">Дополнительные настройки</string>

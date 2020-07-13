@@ -274,7 +274,7 @@ class NewPasswordActivity : AppCompatActivity() {
             generatePassword.animate().rotation(deg).interpolator = AccelerateDecelerateInterpolator()
             val myPasswordManager = PasswordManager()
             //Create a password with letters, uppercase letters, numbers but not special chars with 17 chars
-            if(list.size == 0 || (list.size == 1 && lengthToggle.isChecked)){
+            if(list.size == 0 || (list.size == 1 && lengthToggle.isChecked)|| (list.size == 1 && list[0].contains(getString(R.string.length)))){
                 genPasswordId.error = getString(R.string.noRules)
             }
             else {

@@ -10,11 +10,14 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        tools:layout_editor_absoluteX="-32dp"
+        tools:layout_editor_absoluteY="235dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true">
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -23,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
                 app:boxCornerRadiusBottomEnd="15dp"
                 app:boxCornerRadiusBottomStart="15dp"
@@ -31,8 +34,9 @@
                 app:boxCornerRadiusTopStart="15dp"
                 app:endIconMode="clear_text"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView">
+                app:layout_constraintTop_toBottomOf="@+id/horizontalScroll2">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/noteField"
@@ -60,8 +64,8 @@
                 android:layout_height="35dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                app:cardCornerRadius="25dp"
                 android:backgroundTint="@color/ic_account"
+                app:cardCornerRadius="25dp"
                 app:cardElevation="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -71,8 +75,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical"
-                    android:textColor="@color/white"
-                    android:text="@string/_0" />
+                    android:text="@string/_0"
+                    android:textColor="@color/white" />
             </androidx.cardview.widget.CardView>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -105,9 +109,9 @@
                 android:layout_height="@dimen/box_size"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="10dp"
-                app:cardBackgroundColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/genPasswordId">
 
@@ -117,9 +121,9 @@
                     android:layout_height="@dimen/box_size"
                     android:background="@color/white"
                     android:contentDescription="@string/generate"
+                    android:rotation="45"
                     android:tint="@color/textDark"
-                    app:srcCompat="@drawable/dice_5_outline"
-                    android:rotation="45" />
+                    app:srcCompat="@drawable/dice_5_outline" />
             </androidx.cardview.widget.CardView>
 
             <ImageView
@@ -139,10 +143,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
                 android:scrollbars="none"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/passQualityText">
+                app:layout_constraintTop_toBottomOf="@+id/genPasswordId">
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/passSettings"
@@ -223,11 +226,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/email">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:inputType="text"
                     android:id="@+id/newNameField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/name_your_password" />
+                    android:hint="@string/name_your_password"
+                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <HorizontalScrollView
@@ -238,7 +241,7 @@
                 android:layout_marginTop="10dp"
                 android:scrollbars="none"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView5">
+                app:layout_constraintTop_toBottomOf="@+id/passQualityText">
 
                 <com.google.android.material.chip.ChipGroup
                     android:layout_width="wrap_content"
@@ -263,23 +266,14 @@
             </HorizontalScrollView>
 
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/desc"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/horizontalScroll2" />
-
-            <TextView
                 android:id="@+id/passQualityText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/qualityPassword"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/genPasswordId" />
+                app:layout_constraintStart_toEndOf="@+id/imageView4"
+                app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
             <TextView
                 android:id="@+id/passQuality"
@@ -294,8 +288,6 @@
             <SeekBar
                 android:id="@+id/seekBar"
                 style="@style/Widget.AppCompat.SeekBar"
-                android:thumbTint="?attr/colorPrimary"
-                android:progressTint="?attr/colorPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -303,20 +295,13 @@
                 android:layout_marginEnd="20dp"
                 android:max="40"
                 android:progress="20"
+                android:progressTint="?attr/colorPrimary"
+                android:thumbTint="?attr/colorPrimary"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/horizontalScroll" />
 
-            <TextView
-                android:id="@+id/tags"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/key_words"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout4"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -332,7 +317,7 @@
                 app:endIconMode="clear_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tags">
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/keyWordsField"
@@ -380,15 +365,16 @@
                     android:hint="@string/add_email" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/additional_settings"
+                app:layout_constraintBottom_toBottomOf="@+id/passQualityText"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/horizontalScroll" />
+                app:layout_constraintTop_toTopOf="@+id/passQualityText"
+                app:srcCompat="@drawable/circle_double"
+                android:contentDescription="@string/no_text" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

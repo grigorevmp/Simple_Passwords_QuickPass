@@ -314,7 +314,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:overScrollMode="never"
-            android:paddingBottom="0dp">
+            android:paddingBottom="0dp"
+            android:animateLayoutChanges="true">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/passwordRecycler"
