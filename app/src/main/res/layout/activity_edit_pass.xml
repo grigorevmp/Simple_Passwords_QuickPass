@@ -374,6 +374,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/passQualityText"
                 app:srcCompat="@drawable/circle_double"
+                android:tint="@color/black"
                 android:contentDescription="@string/no_text" />
 
 
