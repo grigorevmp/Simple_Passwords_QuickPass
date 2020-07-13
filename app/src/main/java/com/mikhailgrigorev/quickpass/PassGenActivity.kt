@@ -14,12 +14,17 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.View.OnTouchListener
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.*
+import android.widget.LinearLayout
+import android.widget.PopupWindow
+import android.widget.SeekBar
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -60,6 +65,7 @@ class PassGenActivity : AppCompatActivity() {
     private var searchNeg: Boolean = false
     private var searchMId: Boolean = false
 
+    public var xTouch = 500
     private var changeStatusPopUp: PopupWindow = PopupWindow()
     private var globalPos: Int = -1
 
@@ -94,6 +100,7 @@ class PassGenActivity : AppCompatActivity() {
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
         setContentView(R.layout.activity_pass_gen)
+
 
 
         val args: Bundle? = intent.extras
@@ -686,7 +693,6 @@ class PassGenActivity : AppCompatActivity() {
             }
         })
 
-
         // Checking prefs
         val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
 
@@ -916,7 +922,12 @@ class PassGenActivity : AppCompatActivity() {
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun passLongClickListener(position: Int, view: View) {
+        view.setOnTouchListener { _, event ->
+            xTouch = event.x.toInt()
+            false
+        }
         showPopup(position, view)
     }
 
@@ -938,11 +949,11 @@ class PassGenActivity : AppCompatActivity() {
         changeStatusPopUp.width = LinearLayout.LayoutParams.WRAP_CONTENT
         changeStatusPopUp.height = LinearLayout.LayoutParams.WRAP_CONTENT
         changeStatusPopUp.isFocusable = true
-        val offsetX = 50
+        val offsetX = -50
         val offsetY = 0
         changeStatusPopUp.setBackgroundDrawable(BitmapDrawable())
         changeStatusPopUp.animationStyle = R.style.popUpAnim
-        changeStatusPopUp.showAtLocation(layout, Gravity.NO_GRAVITY, offsetX, point.y + offsetY)
+        changeStatusPopUp.showAtLocation(layout, Gravity.NO_GRAVITY, offsetX + xTouch, point.y + offsetY)
     }
 
     private fun passClickListener(position: Int) {
@@ -1063,7 +1074,7 @@ class PassGenActivity : AppCompatActivity() {
         }
         passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,group,this, clickListener = {
             passClickListener(it)
-        }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
+        }, longClickListener = { i: Int, _view: View ->  passLongClickListener(i, _view)})
 
         changeStatusPopUp.dismiss()
     }

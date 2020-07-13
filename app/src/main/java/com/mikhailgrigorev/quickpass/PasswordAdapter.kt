@@ -30,7 +30,7 @@ class PasswordAdapter(private val items: ArrayList<Pair<String, String>>,
     }
 
     // Binds each animal in the ArrayList to a view
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "ClickableViewAccessibility")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.passText.text = items[position].first
         holder.chip.visibility = View.GONE
