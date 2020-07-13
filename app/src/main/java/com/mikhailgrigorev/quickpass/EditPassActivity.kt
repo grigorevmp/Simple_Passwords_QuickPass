@@ -7,7 +7,6 @@ import android.database.Cursor
 import android.database.SQLException
 import android.os.Bundle
 import android.text.Editable
-import android.text.Spanned
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.MotionEvent

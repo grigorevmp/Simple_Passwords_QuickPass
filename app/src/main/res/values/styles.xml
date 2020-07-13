@@ -8,10 +8,6 @@
         <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="SmallerText" parent="TextAppearance.AppCompat.Small">
-        <item name="android:textSize">11sp</item>
-    </style>
-
     <style name="AppThemeRed" parent="AppTheme">
         <item name="colorPrimary">@color/ic_account_Red</item>
         <item name="colorAccent">@color/ic_account_Red_Tr</item>

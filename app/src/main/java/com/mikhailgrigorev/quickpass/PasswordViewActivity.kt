@@ -24,8 +24,6 @@ class PasswordViewActivity : AppCompatActivity() {
     private lateinit var login: String
     private lateinit var passName: String
     private val KEY_AUTOCOPY = "prefAutoCopyKey"
-    private val realPass: ArrayList<Pair<String, String>> = ArrayList()
-    private val realMap: ArrayList<String> = ArrayList()
 
     @SuppressLint("Recycle", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {

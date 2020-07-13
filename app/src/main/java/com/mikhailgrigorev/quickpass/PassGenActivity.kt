@@ -7,22 +7,23 @@ import android.content.pm.ShortcutManager
 import android.content.res.Configuration
 import android.database.Cursor
 import android.database.SQLException
+import android.graphics.Point
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.MenuItem
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.SeekBar
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -59,6 +60,8 @@ class PassGenActivity : AppCompatActivity() {
     private var searchNeg: Boolean = false
     private var searchMId: Boolean = false
 
+    private var changeStatusPopUp: PopupWindow = PopupWindow()
+    private var globalPos: Int = -1
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
     @SuppressLint("Recycle", "ClickableViewAccessibility", "ResourceAsColor", "RestrictedApi",
@@ -918,219 +921,37 @@ class PassGenActivity : AppCompatActivity() {
     }
 
 
-    @SuppressLint("Recycle")
+    @SuppressLint("Recycle", "InflateParams")
     private fun showPopup(position: Int, view: View) {
-        val popup: PopupMenu?
-        popup = PopupMenu(this, view)
-        popup.inflate(R.menu.header_menu)
+        val location = IntArray(2)
+        // val currentRowId = position
+        // val currentRow = view
+        // Get the x, y location and store it in the location[] array
+        // location[0] = x, location[1] = y.
+        // Get the x, y location and store it in the location[] array
+        // location[0] = x, location[1] = y.
+        view.getLocationOnScreen(location)
+        val point = Point()
+        point.x = location[0]
+        point.y = location[1]
+        // Inflate the popup_layout.xml
+        val layoutInflater =
+                this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val layout: View = layoutInflater.inflate(R.layout.popup, null)
 
+        globalPos = position.toString().toInt()
+        // Creating the PopupWindow
 
-        popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
-            when (item!!.itemId) {
-                R.id.delete -> {
-                    val pdbHelper = PasswordsDataBaseHelper(this, login)
-                    val pDatabase = pdbHelper.writableDatabase
-                    val builder = AlertDialog.Builder(this)
-                    builder.setTitle(getString(R.string.deletePassword))
-                    builder.setMessage(getString(R.string.passwordDeleteConfirm))
-
-                    builder.setPositiveButton(getString(R.string.yes)){ _, _ ->
-                        pDatabase.delete(
-                                pdbHelper.TABLE_USERS,
-                                "NAME = ?",
-                                arrayOf(passwordsG[position].first)
-                        )
-                        passwords.clear()
-                        quality.clear()
-                        tags.clear()
-                        group.clear()
-                        realPass.clear()
-                        realQuality.clear()
-
-                        try {
-                            val pCursor: Cursor = pDatabase.query(
-                                    pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
-                                    pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS),
-                                    null, null,
-                                    null, null, null
-                            )
-
-                            if (pCursor.moveToFirst()) {
-                                val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
-                                val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
-                                do {
-                                    val pass = pCursor.getString(passIndex).toString()
-                                    val login = pCursor.getString(nameIndex).toString()
-                                    realPass.add(Pair(login, pass))
-                                } while (pCursor.moveToNext())
-                            }
-
-                            analyzeDataBase()
-
-                            if (pCursor.moveToFirst()) {
-                                val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
-                                val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
-                                val aIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_2FA)
-                                val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
-                                val groupIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_GROUPS)
-                                var j = 0
-                                do {
-                                    val pass = pCursor.getString(passIndex).toString()
-                                    val myPasswordManager = PasswordManager()
-                                    val evaluation: Float =
-                                            myPasswordManager.evaluatePassword(pass)
-                                    var qualityNum = when {
-                                        evaluation < 0.33 -> "2"
-                                        evaluation < 0.66 -> "3"
-                                        else -> "1"
-                                    }
-                                    if(realQuality[j] != "1")
-                                        qualityNum = "2"
-                                    j++
-                                    if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none") {
-                                        val dbLogin = pCursor.getString(nameIndex).toString()
-                                        val fa = pCursor.getString(aIndex).toString()
-                                        passwords.add(Pair(dbLogin, fa))
-                                        quality.add(qualityNum)
-                                        val dbTag = pCursor.getString(tagsIndex).toString()
-                                        tags.add(dbTag)
-                                        group.add("none")
-                                    }
-                                    else {
-                                        val dbLogin = pCursor.getString(nameIndex).toString()
-                                        val fa = pCursor.getString(aIndex).toString()
-                                        passwords.add(0, Pair(dbLogin, fa))
-                                        quality.add(0, qualityNum)
-                                        val dbTag = pCursor.getString(tagsIndex).toString()
-                                        tags.add(0, dbTag)
-                                        group.add(0, "#favorite")
-                                    }
-
-
-                                    when (qualityNum) {
-                                        "1" -> safePass += 1
-                                        "2" -> unsafePass += 1
-                                        "3" -> fixPass += 1
-                                    }
-                                } while (pCursor.moveToNext())
-                            }
-                        } catch (e: SQLException) {
-                        }
-                        passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,group,this, clickListener = {
-                            passClickListener(it)
-                        }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
-                    }
-
-                    builder.setNegativeButton(getString(R.string.no)){ _, _ ->
-                    }
-
-                    builder.setNeutralButton(getString(R.string.cancel)){ _, _ ->
-                    }
-                    val dialog: AlertDialog = builder.create()
-                    dialog.show()
-
-
-                }
-                R.id.favorite -> {
-                    val pdbHelper = PasswordsDataBaseHelper(this, login)
-                    val pDatabase = pdbHelper.writableDatabase
-                    val contentValues = ContentValues()
-                    if(group[position]=="#favorite")
-                        contentValues.put(pdbHelper.KEY_GROUPS, "none")
-                    else
-                        contentValues.put(pdbHelper.KEY_GROUPS, "#favorite")
-                    pDatabase.update(
-                            pdbHelper.TABLE_USERS, contentValues,
-                            "NAME = ?",
-                            arrayOf(passwordsG[position].first)
-                    )
-
-                    passwords.clear()
-                    quality.clear()
-                    tags.clear()
-                    group.clear()
-                    realPass.clear()
-                    realQuality.clear()
-
-                    try {
-                        val pCursor: Cursor = pDatabase.query(
-                                pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
-                                pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS),
-                                null, null,
-                                null, null, null
-                        )
-
-                        if (pCursor.moveToFirst()) {
-                            val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
-                            val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
-                            do {
-                                val pass = pCursor.getString(passIndex).toString()
-                                val login = pCursor.getString(nameIndex).toString()
-                                realPass.add(Pair(login, pass))
-                            } while (pCursor.moveToNext())
-                        }
-
-                        analyzeDataBase()
-
-                        if (pCursor.moveToFirst()) {
-                            val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
-                            val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
-                            val aIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_2FA)
-                            val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
-                            val groupIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_GROUPS)
-                            var j = 0
-                            do {
-                                val pass = pCursor.getString(passIndex).toString()
-                                val myPasswordManager = PasswordManager()
-                                val evaluation: Float =
-                                        myPasswordManager.evaluatePassword(pass)
-                                var qualityNum = when {
-                                    evaluation < 0.33 -> "2"
-                                    evaluation < 0.66 -> "3"
-                                    else -> "1"
-                                }
-                                if(realQuality[j] != "1")
-                                    qualityNum = "2"
-                                j++
-                                if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none") {
-                                    val dbLogin = pCursor.getString(nameIndex).toString()
-                                    val fa = pCursor.getString(aIndex).toString()
-                                    passwords.add(Pair(dbLogin, fa))
-                                    quality.add(qualityNum)
-                                    val dbTag = pCursor.getString(tagsIndex).toString()
-                                    tags.add(dbTag)
-                                    group.add("none")
-                                }
-                                else {
-                                    val dbLogin = pCursor.getString(nameIndex).toString()
-                                    val fa = pCursor.getString(aIndex).toString()
-                                    passwords.add(0, Pair(dbLogin, fa))
-                                    quality.add(0, qualityNum)
-                                    val dbTag = pCursor.getString(tagsIndex).toString()
-                                    tags.add(0, dbTag)
-                                    group.add(0, "#favorite")
-                                }
-
-
-                                when (qualityNum) {
-                                    "1" -> safePass += 1
-                                    "2" -> unsafePass += 1
-                                    "3" -> fixPass += 1
-                                }
-                            } while (pCursor.moveToNext())
-                        }
-                    } catch (e: SQLException) {
-                    }
-                    passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,group,this, clickListener = {
-                        passClickListener(it)
-                    }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
-                    Toast.makeText(this, item.title, Toast.LENGTH_SHORT).show()
-                }
-            }
-            true
-        })
-
-        popup.show()
+        // Creating the PopupWindow
+        changeStatusPopUp = PopupWindow(this)
+        changeStatusPopUp.contentView = layout
+        changeStatusPopUp.width = LinearLayout.LayoutParams.WRAP_CONTENT
+        changeStatusPopUp.height = LinearLayout.LayoutParams.WRAP_CONTENT
+        changeStatusPopUp.isFocusable = true
+        val offset_x = 50
+        val offset_y = 50
+        changeStatusPopUp.setBackgroundDrawable(BitmapDrawable())
+        changeStatusPopUp.showAtLocation(layout, Gravity.NO_GRAVITY, offset_x, point.y + offset_y)
     }
 
     private fun passClickListener(position: Int) {
@@ -1155,5 +976,210 @@ class PassGenActivity : AppCompatActivity() {
 
     private fun Context.toast(message:String)=
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
+
+    @SuppressLint("Recycle")
+    fun favorite(view: View) {
+        val position = globalPos
+        val pdbHelper = PasswordsDataBaseHelper(this, login)
+        val pDatabase = pdbHelper.writableDatabase
+        val contentValues = ContentValues()
+        if(group[position]=="#favorite")
+            contentValues.put(pdbHelper.KEY_GROUPS, "none")
+        else
+            contentValues.put(pdbHelper.KEY_GROUPS, "#favorite")
+        pDatabase.update(
+                pdbHelper.TABLE_USERS, contentValues,
+                "NAME = ?",
+                arrayOf(passwordsG[position].first)
+        )
+
+        passwords.clear()
+        quality.clear()
+        tags.clear()
+        group.clear()
+        realPass.clear()
+        realQuality.clear()
+
+        try {
+            val pCursor: Cursor = pDatabase.query(
+                    pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
+                    pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS),
+                    null, null,
+                    null, null, null
+            )
+
+            if (pCursor.moveToFirst()) {
+                val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
+                val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
+                do {
+                    val pass = pCursor.getString(passIndex).toString()
+                    val login = pCursor.getString(nameIndex).toString()
+                    realPass.add(Pair(login, pass))
+                } while (pCursor.moveToNext())
+            }
+
+            analyzeDataBase()
+
+            if (pCursor.moveToFirst()) {
+                val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
+                val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
+                val aIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_2FA)
+                val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
+                val groupIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_GROUPS)
+                var j = 0
+                do {
+                    val pass = pCursor.getString(passIndex).toString()
+                    val myPasswordManager = PasswordManager()
+                    val evaluation: Float =
+                            myPasswordManager.evaluatePassword(pass)
+                    var qualityNum = when {
+                        evaluation < 0.33 -> "2"
+                        evaluation < 0.66 -> "3"
+                        else -> "1"
+                    }
+                    if(realQuality[j] != "1")
+                        qualityNum = "2"
+                    j++
+                    if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none") {
+                        val dbLogin = pCursor.getString(nameIndex).toString()
+                        val fa = pCursor.getString(aIndex).toString()
+                        passwords.add(Pair(dbLogin, fa))
+                        quality.add(qualityNum)
+                        val dbTag = pCursor.getString(tagsIndex).toString()
+                        tags.add(dbTag)
+                        group.add("none")
+                    }
+                    else {
+                        val dbLogin = pCursor.getString(nameIndex).toString()
+                        val fa = pCursor.getString(aIndex).toString()
+                        passwords.add(0, Pair(dbLogin, fa))
+                        quality.add(0, qualityNum)
+                        val dbTag = pCursor.getString(tagsIndex).toString()
+                        tags.add(0, dbTag)
+                        group.add(0, "#favorite")
+                    }
+
+
+                    when (qualityNum) {
+                        "1" -> safePass += 1
+                        "2" -> unsafePass += 1
+                        "3" -> fixPass += 1
+                    }
+                } while (pCursor.moveToNext())
+            }
+        } catch (e: SQLException) {
+        }
+        passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,group,this, clickListener = {
+            passClickListener(it)
+        }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
+
+        changeStatusPopUp.dismiss()
+    }
+    @SuppressLint("Recycle")
+    fun delete(view: View) {
+        val position = globalPos
+        val pdbHelper = PasswordsDataBaseHelper(this, login)
+            val pDatabase = pdbHelper.writableDatabase
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle(getString(R.string.deletePassword))
+            builder.setMessage(getString(R.string.passwordDeleteConfirm))
+
+            builder.setPositiveButton(getString(R.string.yes)){ _, _ ->
+                pDatabase.delete(
+                        pdbHelper.TABLE_USERS,
+                        "NAME = ?",
+                        arrayOf(passwordsG[position].first)
+                )
+                passwords.clear()
+                quality.clear()
+                tags.clear()
+                group.clear()
+                realPass.clear()
+                realQuality.clear()
+
+                try {
+                    val pCursor: Cursor = pDatabase.query(
+                            pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
+                            pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS),
+                            null, null,
+                            null, null, null
+                    )
+
+                    if (pCursor.moveToFirst()) {
+                        val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
+                        val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
+                        do {
+                            val pass = pCursor.getString(passIndex).toString()
+                            val login = pCursor.getString(nameIndex).toString()
+                            realPass.add(Pair(login, pass))
+                        } while (pCursor.moveToNext())
+                    }
+
+                    analyzeDataBase()
+
+                    if (pCursor.moveToFirst()) {
+                        val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
+                        val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
+                        val aIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_2FA)
+                        val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
+                        val groupIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_GROUPS)
+                        var j = 0
+                        do {
+                            val pass = pCursor.getString(passIndex).toString()
+                            val myPasswordManager = PasswordManager()
+                            val evaluation: Float =
+                                    myPasswordManager.evaluatePassword(pass)
+                            var qualityNum = when {
+                                evaluation < 0.33 -> "2"
+                                evaluation < 0.66 -> "3"
+                                else -> "1"
+                            }
+                            if(realQuality[j] != "1")
+                                qualityNum = "2"
+                            j++
+                            if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none") {
+                                val dbLogin = pCursor.getString(nameIndex).toString()
+                                val fa = pCursor.getString(aIndex).toString()
+                                passwords.add(Pair(dbLogin, fa))
+                                quality.add(qualityNum)
+                                val dbTag = pCursor.getString(tagsIndex).toString()
+                                tags.add(dbTag)
+                                group.add("none")
+                            }
+                            else {
+                                val dbLogin = pCursor.getString(nameIndex).toString()
+                                val fa = pCursor.getString(aIndex).toString()
+                                passwords.add(0, Pair(dbLogin, fa))
+                                quality.add(0, qualityNum)
+                                val dbTag = pCursor.getString(tagsIndex).toString()
+                                tags.add(0, dbTag)
+                                group.add(0, "#favorite")
+                            }
+
+
+                            when (qualityNum) {
+                                "1" -> safePass += 1
+                                "2" -> unsafePass += 1
+                                "3" -> fixPass += 1
+                            }
+                        } while (pCursor.moveToNext())
+                    }
+                } catch (e: SQLException) {
+                }
+                passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,group,this, clickListener = {
+                    passClickListener(it)
+                }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
+            }
+
+            builder.setNegativeButton(getString(R.string.no)){ _, _ ->
+            }
+
+            builder.setNeutralButton(getString(R.string.cancel)){ _, _ ->
+            }
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        changeStatusPopUp.dismiss()
+
+    }
 
 }
