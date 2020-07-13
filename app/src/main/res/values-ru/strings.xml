@@ -94,9 +94,9 @@
     <string name="about_app">О приложении</string>
     <string name="mikhail_grigorev">Михаил Григорьев</string>
     <string name="chooseEmail">Выберете email клиент…</string>
-    <string name="key_words">Ключевые слова:</string>
+    <string name="key_words">Ключевые слова</string>
     <string name="add_keywords">Добавить ключевые слова</string>
-    <string name="versionCode">Версия 1.0.0 • Сборка 150</string>
+    <string name="versionCode">Версия 1.0.0 • Сборка 160</string>
     <string name="you_are_using_this_password_for_a_long_time_you_should_change_it">Вы используете данный пароль слишком долго, вам следует изменить его.</string>
     <string name="input_your_pin">Введите пин</string>
     <string name="set_pin">Установить пин</string>
@@ -113,8 +113,9 @@
     <string name="set_icon_color_to_current_theme">Установить цвет иконки в соответствие темы</string>
     <string name="warning_app_will_be_closed">(Внимание: Приложение будет закрыто)</string>
     <string name="set">Установить</string>
-    <string name="sameParts">" • Пароль частично совпадает с "</string>
+    <string name="sameParts">" • Пароль частично совпадает с"</string>
     <string name="favorite">Избранное</string>
     <string name="add_email">Добавить e-mail ли логин</string>
-    <string name="additional_settings">Дополнительные настройки:</string>
+    <string name="additional_settings">Дополнительные настройки</string>
+    <string name="showPin">Не показывайте этот пин окружающим</string>
 </resources>

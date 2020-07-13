@@ -552,7 +552,6 @@ class PassGenActivity : AppCompatActivity() {
             }
         }
 
-
         negativeCircle2.setOnClickListener{
             if(searchMId){
                 negativeCircle2.setImageResource(R.drawable.circle_improvement)
@@ -644,7 +643,8 @@ class PassGenActivity : AppCompatActivity() {
             }
             else{
                 newPass.show()
-                showAll.show()
+                if (genPasswordId.visibility == View.GONE)
+                    showAll.show()
                 searchPass.visibility = View.GONE
                 imageView.visibility = View.GONE
                 passwordsG = passwords
@@ -918,8 +918,9 @@ class PassGenActivity : AppCompatActivity() {
     }
 
 
+    @SuppressLint("Recycle")
     private fun showPopup(position: Int, view: View) {
-        var popup: PopupMenu? = null;
+        val popup: PopupMenu?
         popup = PopupMenu(this, view)
         popup.inflate(R.menu.header_menu)
 
@@ -1123,7 +1124,7 @@ class PassGenActivity : AppCompatActivity() {
                     passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,group,this, clickListener = {
                         passClickListener(it)
                     }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})
-                    Toast.makeText(this, item.title, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, item.title, Toast.LENGTH_SHORT).show()
                 }
             }
             true

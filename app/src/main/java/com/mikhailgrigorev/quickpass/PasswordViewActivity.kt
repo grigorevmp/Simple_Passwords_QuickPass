@@ -146,6 +146,12 @@ class PasswordViewActivity : AppCompatActivity() {
                         "high" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.positive))
                         else -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.fixable))
                     }
+
+                    if((dbPassword.length == 4) and (evaluation == "high")){
+                        passQualityText.text = getString(R.string.showPin)
+                        passQuality.visibility = View.GONE
+                    }
+
                     val db2FAIndex = pCursor.getString(aIndex).toString()
                     if (db2FAIndex == "1"){
                         authToggle.isChecked = true
@@ -195,7 +201,6 @@ class PasswordViewActivity : AppCompatActivity() {
                             val chip = Chip(group.context)
                             chip.text= item
                             chip.isClickable = false
-                            chip.textSize = 12F
                             group.addView(chip)
                         }
                     }

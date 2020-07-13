@@ -91,14 +91,14 @@
     <string name="search_password">Search password</string>
     <string name="auto_copy_password">Auto-copy password</string>
     <string name="about_app">About app</string>
-    <string name="versionCode">Version 1.0.0 • Build 150</string>
+    <string name="versionCode">Version 1.0.0 • Build 160</string>
     <string name="mikhail_grigorev">Mikhail Grigorev</string>
     <string name="_2020" translatable="false">2020</string>
     <string name="telegram" translatable="false">Telegram</string>
     <string name="vkontakte" translatable="false">Vkontakte</string>
     <string name="sen_email" translatable="false">Send email</string>
     <string name="chooseEmail">Choose Email Client…</string>
-    <string name="key_words">Keywords:</string>
+    <string name="key_words">Keywords</string>
     <string name="add_keywords">Add keywords</string>
     <string name="you_are_using_this_password_for_a_long_time_you_should_change_it">You are using this password for a long time. You should change it.</string>
     <string name="_2" translatable="false">2</string>
@@ -127,11 +127,12 @@
     <string name="set_icon_color_to_current_theme">Set icon color to current theme</string>
     <string name="warning_app_will_be_closed">(Warning: App will be closed)</string>
     <string name="set">Set</string>
-    <string name="sameParts">" • Password contains same parts with "</string>
+    <string name="sameParts">" • Password contains same parts with"</string>
     <string name="favorite">Favorite</string>
     <string name="email_login" translatable="false">E-mail/Login</string>
     <string name="add_email">Add login or e-mail</string>
     <string name="email" translatable="false">E-mail/login</string>
-    <string name="additional_settings">Additional settings:</string>
+    <string name="additional_settings">Additional settings</string>
+    <string name="showPin">Don\'t show this pin to others</string>
 
 </resources>

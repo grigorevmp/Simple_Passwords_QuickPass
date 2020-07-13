@@ -46,6 +46,13 @@ class PasswordManager {
         if( passwordToTest.matches( Regex(".*["+this.numbers+"].*") ) ){ factor += 3 }
         if( passwordToTest.matches( Regex(".*["+this.special+"].*") ) ){ factor += 4 }
 
+        if((passwordToTest.length == 4) and (isNumbers(passwordToTest))
+            and (!isLetters(passwordToTest))
+            and (!isUpperCase(passwordToTest))
+            and (!isSymbols(passwordToTest)))
+            return 1F
+
+
         return (factor*length)/(maxPasswordFactor*max(maxPasswordLength, length.toFloat()))
     }
 
@@ -60,6 +67,12 @@ class PasswordManager {
         if( passwordToTest.matches( Regex(".*["+this.special+"].*") ) ){ factor += 4 }
 
         val strong = (factor*length)/(maxPasswordFactor*max(maxPasswordLength, length.toFloat()))
+
+        if((passwordToTest.length == 4) and (isNumbers(passwordToTest))
+            and (!isLetters(passwordToTest))
+            and (!isUpperCase(passwordToTest))
+            and (!isSymbols(passwordToTest)))
+            return "high"
 
         return when {
             strong < 0.33 -> "low"
