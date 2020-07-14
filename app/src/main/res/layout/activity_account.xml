@@ -85,6 +85,8 @@
                     android:textSize="24sp" />
             </androidx.cardview.widget.CardView>
 
+
+
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -114,6 +116,8 @@
                         android:contentDescription="@string/delete_account"
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:src="@drawable/delete_outline"
                         android:tint="@color/quitAccent" />
 
@@ -125,6 +129,8 @@
                         android:contentDescription="@string/log_out"
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:src="@drawable/exit_to_app"
                         android:tint="@color/black" />
 
@@ -136,6 +142,8 @@
                         android:contentDescription="@string/settings"
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:src="@drawable/cog_outline"
                         android:tint="@color/black" />
 
@@ -147,6 +155,8 @@
                         android:contentDescription="@string/about_app"
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:src="@drawable/information_outline"
                         android:tint="@color/black" />
                 </LinearLayout>
