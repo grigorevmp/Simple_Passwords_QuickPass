@@ -20,16 +20,16 @@ import kotlin.random.Random
 
 class LoginActivity : AppCompatActivity() {
 
-    private val KEY_THEME = "themePreference"
-    private val PREFERENCE_FILE_KEY = "quickPassPreference"
-    private val KEY_USERNAME = "prefUserNameKey"
-    private val KEY_BIO = "prefUserBioKey"
-    private val KEY_USEPIN = "prefUsePinKey"
-    private val TAG = "SignUpActivity"
+    private val _keyTheme = "themePreference"
+    private val _preferenceFile = "quickPassPreference"
+    private val _keyUsername = "prefUserNameKey"
+    private val _keyBio = "prefUserBioKey"
+    private val _keyUsePin = "prefUsePinKey"
+    private val _tag = "SignUpActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val pref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
-        when(pref.getString(KEY_THEME, "none")){
+        val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+        when(pref.getString(_keyTheme, "none")){
             "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             "none", "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
@@ -59,10 +59,10 @@ class LoginActivity : AppCompatActivity() {
         loginFab.show()
 
         // Checking prefs
-        val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
-        val username = sharedPref.getString(KEY_USERNAME, "none")
+        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+        val username = sharedPref.getString(_keyUsername, "none")
 
-        val usePin = sharedPref.getString(KEY_USEPIN, "none")
+        val usePin = sharedPref.getString(_keyUsePin, "none")
         if(usePin != "none"){
             val intent = Intent(this, PinActivity::class.java)
             intent.putExtra("login", username)
@@ -127,7 +127,7 @@ class LoginActivity : AppCompatActivity() {
     @SuppressLint("Recycle")
     private fun signUp (login: String, password:String) {
 
-        Log.d(TAG, "SignUp")
+        Log.d(_tag, "SignUp")
 
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
@@ -155,7 +155,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun signIn (login: String, password:String){
 
-        Log.d(TAG, "SignIn")
+        Log.d(_tag, "SignIn")
 
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
@@ -191,13 +191,13 @@ class LoginActivity : AppCompatActivity() {
         if(isAvailable(this)){
             val builder = AlertDialog.Builder(this)
             builder.setTitle(getString(R.string.bio_usage))
-            builder.setMessage(getString(R.string.fingUnlock))
+            builder.setMessage(getString(R.string.fingerUnlock))
 
             builder.setPositiveButton(getString(R.string.yes)){ _, _ ->
                 // Checking prefs
-                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
                 with (sharedPref.edit()) {
-                    putString(KEY_BIO, "using")
+                    putString(_keyBio, "using")
                     commit()
                 }
                 val intent = Intent(this, PassGenActivity::class.java)
@@ -207,9 +207,9 @@ class LoginActivity : AppCompatActivity() {
             }
 
             builder.setNegativeButton(getString(R.string.no)){ _, _ ->
-                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
                 with (sharedPref.edit()) {
-                    putString(KEY_BIO, "none")
+                    putString(_keyBio, "none")
                     commit()
                 }
                 val intent = Intent(this, PassGenActivity::class.java)
@@ -219,9 +219,9 @@ class LoginActivity : AppCompatActivity() {
             }
 
             builder.setNeutralButton(getString(R.string.cancel)){ _, _ ->
-                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
                 with (sharedPref.edit()) {
-                    putString(KEY_BIO, "none")
+                    putString(_keyBio, "none")
                     commit()
                 }
                 val intent = Intent(this, PassGenActivity::class.java)

@@ -17,9 +17,9 @@ import kotlinx.android.synthetic.main.activity_edit_account.*
 
 class EditAccountActivity : AppCompatActivity() {
 
-    private val KEY_THEME = "themePreference"
-    private val PREFERENCE_FILE_KEY = "quickPassPreference"
-    private val KEY_USERNAME = "prefUserNameKey"
+    private val _keyTheme = "themePreference"
+    private val _preferenceFile = "quickPassPreference"
+    private val _keyUsername = "prefUserNameKey"
     private lateinit var login: String
     private lateinit var passName: String
     private lateinit var account: String
@@ -27,8 +27,8 @@ class EditAccountActivity : AppCompatActivity() {
 
     @SuppressLint("Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
-        val pref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
-        when(pref.getString(KEY_THEME, "none")){
+        val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+        when(pref.getString(_keyTheme, "none")){
             "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             "none", "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
@@ -51,10 +51,10 @@ class EditAccountActivity : AppCompatActivity() {
         nameViewField.setText(login)
 
         // Checking prefs
-        val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
 
         with(sharedPref.edit()) {
-            putString(KEY_USERNAME, login)
+            putString(_keyUsername, login)
             commit()
         }
 
@@ -133,7 +133,7 @@ class EditAccountActivity : AppCompatActivity() {
                 val intent = Intent(this, AccountActivity::class.java)
                 // Checking prefs
                 with(sharedPref.edit()) {
-                    putString(KEY_USERNAME, nameViewField.text.toString())
+                    putString(_keyUsername, nameViewField.text.toString())
                     commit()
                 }
 

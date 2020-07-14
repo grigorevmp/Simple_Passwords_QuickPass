@@ -82,10 +82,9 @@
     <string name="high">высокое</string>
     <string name="medium">среднее</string>
     <string name="no_password">У вас ещё нет паролей. Добавьте ваш первый пароль.</string>
-    <string name="share_database">Экспорт</string>
     <string name="you_decided_to_change_some_settings">Вы решили изменить данные аккаунта</string>
     <string name="bio_usage">Использование биометрии</string>
-    <string name="fingUnlock">Вы хотите использовать разблокировку по отпечатку?</string>
+    <string name="fingerUnlock">Вы хотите использовать разблокировку по отпечатку?</string>
     <string name="biometricLogin">Сканер отпечатков</string>
     <string name="logWithBio">Войти с помощью биометрии</string>
     <string name="usePass">Использовать пароль</string>
@@ -96,7 +95,7 @@
     <string name="chooseEmail">Выберете email клиент…</string>
     <string name="key_words">Ключевые слова</string>
     <string name="add_keywords">Добавить ключевые слова</string>
-    <string name="versionCode">Версия 1.0.0 • Сборка 160</string>
+    <string name="versionCode">Версия 1.0.0 • Сборка 180</string>
     <string name="you_are_using_this_password_for_a_long_time_you_should_change_it">Вы используете данный пароль слишком долго, вам следует изменить его.</string>
     <string name="input_your_pin">Введите пин</string>
     <string name="set_pin">Установить пин</string>
@@ -120,4 +119,10 @@
     <string name="showPin">Не показывайте этот пин окружающим</string>
     <string name="time_notification">Уведомления</string>
     <string name="total_points">Общее качество:</string>
+    <string name="exported">Успешно экспортировано.</string>
+    <string name="imported">Успешно импортировано.</string>
+    <string name="inOut">Информация по экспорту/импорту</string>
+    <string name="InOutMessage">"В целях доверия к нашему приложению, мы не запрашиваем разрешения на запись файлов. Поэтому вам следует самостоятельно предоставить его в настройках приложения. "</string>
+    <string name="InOutMessage2">Резервная копия создаётся в начальном каталоге внутренней памяти. Для экспорта данных просим также разместить корректный csv - файл в каталог.</string>
+    <string name="InOutMessage3">Вы можете самостоятельно создать csv  в формате: (_id,name,password,2fa,useTimeNotifications,time,tags,groups,login(or e-mail), description). Id, time - будут заполнены автоматически, 2fa, usetime принимают 1 или 0 в зависимости от использования. Groups инициализирован \"#favorite\", если пароль в избранном.</string>
 </resources>

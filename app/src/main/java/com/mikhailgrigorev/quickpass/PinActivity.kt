@@ -19,11 +19,11 @@ import java.util.concurrent.Executor
 
 class PinActivity : AppCompatActivity() {
 
-    private val KEY_USERNAME = "prefUserNameKey"
-    private val KEY_THEME = "themePreference"
-    private val PREFERENCE_FILE_KEY = "quickPassPreference"
-    private val KEY_USEPIN = "prefUsePinKey"
-    private val KEY_BIO = "prefUserBioKey"
+    private val _keyUsername = "prefUserNameKey"
+    private val _keyTheme = "themePreference"
+    private val _preferenceFile = "quickPassPreference"
+    private val _keyUsePin = "prefUsePinKey"
+    private val _keyBio = "prefUserBioKey"
     private lateinit var login: String
     private lateinit var passName: String
     private lateinit var account: String
@@ -33,8 +33,8 @@ class PinActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n", "Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
-        val pref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
-        when(pref.getString(KEY_THEME, "none")){
+        val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+        when(pref.getString(_keyTheme, "none")){
             "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             "none", "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
@@ -110,10 +110,10 @@ class PinActivity : AppCompatActivity() {
         }
 
         // Checking prefs
-        val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
 
-        val useBio = sharedPref.getString(KEY_BIO, "none")
-        val usePin = sharedPref.getString(KEY_USEPIN, "none")
+        val useBio = sharedPref.getString(_keyBio, "none")
+        val usePin = sharedPref.getString(_keyUsePin, "none")
 
         if(useBio != "none"){
             finger.visibility = View.VISIBLE
@@ -227,9 +227,9 @@ class PinActivity : AppCompatActivity() {
 
     }
     private fun exit(sharedPref: SharedPreferences) {
-        sharedPref.edit().remove(KEY_USERNAME).apply()
-        sharedPref.edit().remove(KEY_USEPIN).apply()
-        sharedPref.edit().remove(KEY_BIO).apply()
+        sharedPref.edit().remove(_keyUsername).apply()
+        sharedPref.edit().remove(_keyUsePin).apply()
+        sharedPref.edit().remove(_keyBio).apply()
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()

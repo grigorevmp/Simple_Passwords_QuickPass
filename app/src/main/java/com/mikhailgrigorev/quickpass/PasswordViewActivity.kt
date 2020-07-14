@@ -19,16 +19,16 @@ import java.util.*
 
 class PasswordViewActivity : AppCompatActivity() {
 
-    private val KEY_THEME = "themePreference"
-    private val PREFERENCE_FILE_KEY = "quickPassPreference"
+    private val _keyTheme = "themePreference"
+    private val _preferenceFile = "quickPassPreference"
+    private val _keyAutoCopy = "prefAutoCopyKey"
     private lateinit var login: String
     private lateinit var passName: String
-    private val KEY_AUTOCOPY = "prefAutoCopyKey"
 
     @SuppressLint("Recycle", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
-        val pref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
-        when(pref.getString(KEY_THEME, "none")){
+        val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+        when(pref.getString(_keyTheme, "none")){
             "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             "none", "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
@@ -241,8 +241,8 @@ class PasswordViewActivity : AppCompatActivity() {
             passQuality.text = getString(R.string.low)
         }
 
-        val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
-        val autoCopy = sharedPref.getString(KEY_AUTOCOPY, "none")
+        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+        val autoCopy = sharedPref.getString(_keyAutoCopy, "none")
 
         if(autoCopy == "none" && passViewField.text.toString() != ""){
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager

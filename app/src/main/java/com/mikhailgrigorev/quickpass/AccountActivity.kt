@@ -20,11 +20,11 @@ import kotlinx.android.synthetic.main.activity_account.*
 
 class AccountActivity : AppCompatActivity() {
 
-    private val KEY_THEME = "themePreference"
-    private val PREFERENCE_FILE_KEY = "quickPassPreference"
-    private val KEY_USERNAME = "prefUserNameKey"
-    private val KEY_BIO = "prefUserBioKey"
-    private val KEY_USEPIN = "prefUsePinKey"
+    private val _keyTheme = "themePreference"
+    private val _preferenceFile = "quickPassPreference"
+    private val _keyUsername = "prefUserNameKey"
+    private val _keyBio = "prefUserBioKey"
+    private val _keyUsePin = "prefUsePinKey"
     private lateinit var login: String
     private lateinit var passName: String
     private lateinit var account: String
@@ -35,8 +35,8 @@ class AccountActivity : AppCompatActivity() {
 
     @SuppressLint("Recycle", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
-        val pref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
-        when(pref.getString(KEY_THEME, "none")){
+        val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+        when(pref.getString(_keyTheme, "none")){
             "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             "none", "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
@@ -57,10 +57,10 @@ class AccountActivity : AppCompatActivity() {
         helloTextId.text = name
 
         // Checking prefs
-        val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
 
         with (sharedPref.edit()) {
-            putString(KEY_USERNAME, login)
+            putString(_keyUsername, login)
             commit()
         }
 
@@ -112,8 +112,8 @@ class AccountActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val pdbHelper = PasswordsDataBaseHelper(this, login)
-        val pDatabase = pdbHelper.writableDatabase
+        var pdbHelper = PasswordsDataBaseHelper(this, login)
+        var pDatabase = pdbHelper.writableDatabase
         try {
             val pCursor: Cursor = pDatabase.query(
                     pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
@@ -222,8 +222,6 @@ class AccountActivity : AppCompatActivity() {
                 database.delete(dbHelper.TABLE_USERS,
                     "NAME = ?",
                     arrayOf(login))
-                val pdbHelper = PasswordsDataBaseHelper(this, login)
-                val pDatabase = pdbHelper.writableDatabase
                 pDatabase.delete(pdbHelper.TABLE_USERS,
                     null, null)
                 toast(getString(R.string.accountDeleted))
@@ -306,9 +304,9 @@ class AccountActivity : AppCompatActivity() {
 
 
     private fun exit(sharedPref: SharedPreferences) {
-        sharedPref.edit().remove(KEY_USERNAME).apply()
-        sharedPref.edit().remove(KEY_USEPIN).apply()
-        sharedPref.edit().remove(KEY_BIO).apply()
+        sharedPref.edit().remove(_keyUsername).apply()
+        sharedPref.edit().remove(_keyUsePin).apply()
+        sharedPref.edit().remove(_keyBio).apply()
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()

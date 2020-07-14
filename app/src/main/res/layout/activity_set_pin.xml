@@ -229,7 +229,7 @@
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:contentDescription="@string/fingUnlock"
+                    android:contentDescription="@string/fingerUnlock"
                     android:src="@drawable/chevron_left"
                     android:tint="@color/black" />
 

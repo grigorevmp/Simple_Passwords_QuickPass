@@ -16,17 +16,17 @@ import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_set_pin.*
 
 class SetPinActivity : AppCompatActivity() {
-    private val KEY_THEME = "themePreference"
-    private val PREFERENCE_FILE_KEY = "quickPassPreference"
-    private val KEY_USEPIN = "prefUsePinKey"
+    private val _keyTheme = "themePreference"
+    private val _preferenceFile = "quickPassPreference"
+    private val _keyUsePin = "prefUsePinKey"
     private lateinit var login: String
     private lateinit var passName: String
     private lateinit var account: String
 
     @SuppressLint("SetTextI18n", "Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
-        val pref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
-        when(pref.getString(KEY_THEME, "none")){
+        val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+        when(pref.getString(_keyTheme, "none")){
             "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             "none", "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
@@ -163,9 +163,9 @@ class SetPinActivity : AppCompatActivity() {
         })
 
         savePin.setOnClickListener {
-            val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+            val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
             with (sharedPref.edit()) {
-                putString(KEY_USEPIN, inputPinIdField.text.toString())
+                putString(_keyUsePin, inputPinIdField.text.toString())
                 commit()
             }
             val intent = Intent(this, SettingsActivity::class.java)

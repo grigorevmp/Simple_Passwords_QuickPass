@@ -25,8 +25,8 @@ import kotlin.random.Random
 
 class NewPasswordActivity : AppCompatActivity() {
 
-    private val KEY_THEME = "themePreference"
-    private val PREFERENCE_FILE_KEY = "quickPassPreference"
+    private val _keyTheme = "themePreference"
+    private val _preferenceFile = "quickPassPreference"
     private var length = 20
     private var useSymbols = false
     private var useUC = false
@@ -39,8 +39,8 @@ class NewPasswordActivity : AppCompatActivity() {
         "SetTextI18n"
     )
     override fun onCreate(savedInstanceState: Bundle?) {
-        val pref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
-        when(pref.getString(KEY_THEME, "none")){
+        val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+        when(pref.getString(_keyTheme, "none")){
             "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             "none", "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
@@ -359,7 +359,7 @@ class NewPasswordActivity : AppCompatActivity() {
                 } else if (genPasswordIdField.text.toString() == "" || genPasswordIdField.text.toString().length < 3) {
                     genPasswordId.error = getString(R.string.errPass)
                 } else {
-                    contentValues.put(pdbHelper.KEY_ID, Random.nextInt(0, 100))
+                    contentValues.put(pdbHelper.KEY_ID, Random.nextInt(0, 10000))
                     contentValues.put(pdbHelper.KEY_NAME, newNameField.text.toString())
                     contentValues.put(pdbHelper.KEY_PASS, genPasswordIdField.text.toString())
                     contentValues.put(pdbHelper.KEY_TAGS, keyWordsField.text.toString())

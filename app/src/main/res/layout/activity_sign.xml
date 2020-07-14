@@ -124,7 +124,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="40dp"
         android:clickable="false"
-        android:contentDescription="@string/fingUnlock"
+        android:contentDescription="@string/fingerUnlock"
         android:visibility="gone"
         android:tint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"

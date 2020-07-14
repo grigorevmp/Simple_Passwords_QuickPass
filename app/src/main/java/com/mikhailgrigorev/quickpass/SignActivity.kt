@@ -18,20 +18,20 @@ import java.util.concurrent.Executor
 
 class SignActivity : AppCompatActivity() {
 
-    private val TAG = "SignUpActivity"
-    private val KEY_THEME = "themePreference"
-    private val PREFERENCE_FILE_KEY = "quickPassPreference"
-    private val KEY_USERNAME = "prefUserNameKey"
-    private val KEY_BIO = "prefUserBioKey"
-    private val KEY_USEPIN = "prefUsePinKey"
+    private val _tag = "SignUpActivity"
+    private val _keyTheme = "themePreference"
+    private val _preferenceFile = "quickPassPreference"
+    private val _keyUsername = "prefUserNameKey"
+    private val _keyBio = "prefUserBioKey"
+    private val _keyUsePin = "prefUsePinKey"
     private lateinit var executor: Executor
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
 
     @SuppressLint("Recycle", "ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
-        val pref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
-        when(pref.getString(KEY_THEME, "none")){
+        val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+        when(pref.getString(_keyTheme, "none")){
             "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             "none", "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
@@ -106,8 +106,8 @@ class SignActivity : AppCompatActivity() {
         loginFab.show()
 
         // Checking prefs
-        val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
-        val username = sharedPref.getString(KEY_BIO, "none")
+        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+        val username = sharedPref.getString(_keyBio, "none")
         if(username != "none"){
             finger.visibility = View.VISIBLE
             finger.isClickable = true
@@ -156,9 +156,9 @@ class SignActivity : AppCompatActivity() {
         }
     }
     private fun exit(sharedPref: SharedPreferences) {
-        sharedPref.edit().remove(KEY_USERNAME).apply()
-        sharedPref.edit().remove(KEY_USEPIN).apply()
-        sharedPref.edit().remove(KEY_BIO).apply()
+        sharedPref.edit().remove(_keyUsername).apply()
+        sharedPref.edit().remove(_keyUsePin).apply()
+        sharedPref.edit().remove(_keyBio).apply()
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()
@@ -177,7 +177,7 @@ class SignActivity : AppCompatActivity() {
 
     private fun signIn (login:String, password:String){
 
-        Log.d(TAG, "SignIn")
+        Log.d(_tag, "SignIn")
 
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase

@@ -8,7 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
+import android.database.SQLException
 import android.os.Bundle
 import android.os.Environment
 import android.view.KeyEvent
@@ -18,28 +18,29 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_settings.*
-import java.io.BufferedWriter
-import java.io.File
-import java.io.FileWriter
+import java.io.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.random.Random
 
 
 class SettingsActivity : AppCompatActivity() {
 
-    private val KEY_THEME = "themePreference"
-    private val KEY_THEME_ACCENT = "themeAccentPreference"
-    private val PREFERENCE_FILE_KEY = "quickPassPreference"
-    private val KEY_USERNAME = "prefUserNameKey"
-    private val KEY_BIO = "prefUserBioKey"
-    private val KEY_AUTOCOPY = "prefAutoCopyKey"
-    private val KEY_USEPIN = "prefUsePinKey"
+    private val _keyTheme = "themePreference"
+    private val _keyThemeAccent = "themeAccentPreference"
+    private val _preferenceFile = "quickPassPreference"
+    private val _keyUsername = "prefUserNameKey"
+    private val _keyBio = "prefUserBioKey"
+    private val _keyAutoCopy = "prefAutoCopyKey"
+    private val _keyUsePin = "prefUsePinKey"
     private lateinit var login: String
     private lateinit var passName: String
     private lateinit var account: String
     private lateinit var imageName: String
     @SuppressLint("SetTextI18n", "Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
-        val pref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
-        when(pref.getString(KEY_THEME, "none")){
+        val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+        when(pref.getString(_keyTheme, "none")){
             "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             "none", "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
@@ -82,10 +83,10 @@ class SettingsActivity : AppCompatActivity() {
         account = args?.get("activity").toString()
 
         // Checking prefs
-        val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
 
         with(sharedPref.edit()) {
-            putString(KEY_USERNAME, login)
+            putString(_keyUsername, login)
             commit()
         }
 
@@ -94,7 +95,7 @@ class SettingsActivity : AppCompatActivity() {
 
         light.setOnClickListener {
             with(sharedPref.edit()) {
-                putString(KEY_THEME, "no")
+                putString(_keyTheme, "no")
                 commit()
             }
             light.isChecked = true
@@ -102,7 +103,7 @@ class SettingsActivity : AppCompatActivity() {
         }
         dark.setOnClickListener {
             with(sharedPref.edit()) {
-                putString(KEY_THEME, "yes")
+                putString(_keyTheme, "yes")
                 commit()
             }
             dark.isChecked = true
@@ -110,7 +111,7 @@ class SettingsActivity : AppCompatActivity() {
         }
         autoBattery.setOnClickListener {
             with(sharedPref.edit()) {
-                putString(KEY_THEME, "battery")
+                putString(_keyTheme, "battery")
                 commit()
             }
             autoBattery.isChecked = true
@@ -118,7 +119,7 @@ class SettingsActivity : AppCompatActivity() {
         }
         defaultSystem.setOnClickListener {
             with(sharedPref.edit()) {
-                putString(KEY_THEME, "default")
+                putString(_keyTheme, "default")
                 commit()
             }
             defaultSystem.isChecked = true
@@ -126,9 +127,9 @@ class SettingsActivity : AppCompatActivity() {
         }
 
 
-        val useBio = sharedPref.getString(KEY_BIO, "none")
-        val useAuto = sharedPref.getString(KEY_AUTOCOPY, "none")
-        val usePin = sharedPref.getString(KEY_USEPIN, "none")
+        val useBio = sharedPref.getString(_keyBio, "none")
+        val useAuto = sharedPref.getString(_keyAutoCopy, "none")
+        val usePin = sharedPref.getString(_keyUsePin, "none")
 
         if(useBio == "using"){
             biometricSwitch.isChecked = true
@@ -146,13 +147,13 @@ class SettingsActivity : AppCompatActivity() {
         autoCopySwitch.setOnCheckedChangeListener { _, _ ->
             if(!autoCopySwitch.isChecked){
                 with (sharedPref.edit()) {
-                    putString(KEY_AUTOCOPY, "dis")
+                    putString(_keyAutoCopy, "dis")
                     commit()
                 }
             }
             else{
                 with (sharedPref.edit()) {
-                    putString(KEY_AUTOCOPY, "none")
+                    putString(_keyAutoCopy, "none")
                     commit()
                 }
             }
@@ -162,14 +163,14 @@ class SettingsActivity : AppCompatActivity() {
             if(autoCopySwitch.isChecked){
                 autoCopySwitch.isChecked = false
                 with (sharedPref.edit()) {
-                    putString(KEY_AUTOCOPY, "dis")
+                    putString(_keyAutoCopy, "dis")
                     commit()
                 }
             }
             else{
                 autoCopySwitch.isChecked = true
                 with (sharedPref.edit()) {
-                    putString(KEY_AUTOCOPY, "none")
+                    putString(_keyAutoCopy, "none")
                     commit()
                 }
             }
@@ -186,7 +187,7 @@ class SettingsActivity : AppCompatActivity() {
             }
             else{
                 with (sharedPref.edit()) {
-                    putString(KEY_USEPIN, "none")
+                    putString(_keyUsePin, "none")
                     commit()
                 }
             }
@@ -196,7 +197,7 @@ class SettingsActivity : AppCompatActivity() {
             if(setPinSwitch.isChecked){
                 setPinSwitch.isChecked = false
                 with (sharedPref.edit()) {
-                    putString(KEY_USEPIN, "none")
+                    putString(_keyUsePin, "none")
                     commit()
                 }
             }
@@ -213,13 +214,13 @@ class SettingsActivity : AppCompatActivity() {
         biometricSwitch.setOnCheckedChangeListener { _, _ ->
             if(biometricSwitch.isChecked){
                 with (sharedPref.edit()) {
-                    putString(KEY_BIO, "using")
+                    putString(_keyBio, "using")
                     commit()
                 }
             }
             else{
                 with (sharedPref.edit()) {
-                    putString(KEY_BIO, "none")
+                    putString(_keyBio, "none")
                     commit()
                 }
             }
@@ -229,14 +230,14 @@ class SettingsActivity : AppCompatActivity() {
             if(!biometricSwitch.isChecked){
                 biometricSwitch.isChecked = true
                 with (sharedPref.edit()) {
-                    putString(KEY_BIO, "using")
+                    putString(_keyBio, "using")
                     commit()
                 }
             }
             else{
                 biometricSwitch.isChecked = false
                 with (sharedPref.edit()) {
-                    putString(KEY_BIO, "none")
+                    putString(_keyBio, "none")
                     commit()
                 }
             }
@@ -541,6 +542,7 @@ class SettingsActivity : AppCompatActivity() {
         lightGreenColor.alpha = 0.7F
     }
 
+    @SuppressLint("Recycle")
     private fun updateAvatar(imageName: String) {
 
         when(imageName){
@@ -548,10 +550,10 @@ class SettingsActivity : AppCompatActivity() {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account)
                 // Checking prefs
-                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
                 if(sharedPref.getString("themeAccentPreference", "none") != "Violet") {
                     with(sharedPref.edit()) {
-                        putString(KEY_THEME_ACCENT, "Violet")
+                        putString(_keyThemeAccent, "Violet")
                         commit()
                     }
                     recreate()
@@ -560,10 +562,10 @@ class SettingsActivity : AppCompatActivity() {
             "ic_account_Pink" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                     this, R.color.ic_account_Pink)
-                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
                 if(sharedPref.getString("themeAccentPreference", "none") != "Pink") {
                     with(sharedPref.edit()) {
-                        putString(KEY_THEME_ACCENT, "Pink")
+                        putString(_keyThemeAccent, "Pink")
                         commit()
                     }
                     recreate()
@@ -572,10 +574,10 @@ class SettingsActivity : AppCompatActivity() {
             "ic_account_Red" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Red)
-                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
                 if(sharedPref.getString("themeAccentPreference", "none") != "Red") {
                     with(sharedPref.edit()) {
-                        putString(KEY_THEME_ACCENT, "Red")
+                        putString(_keyThemeAccent, "Red")
                         commit()
                     }
                     recreate()
@@ -584,10 +586,10 @@ class SettingsActivity : AppCompatActivity() {
             "ic_account_Purple" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Purple)
-                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
                 if(sharedPref.getString("themeAccentPreference", "none") != "Purple") {
                     with(sharedPref.edit()) {
-                        putString(KEY_THEME_ACCENT, "Purple")
+                        putString(_keyThemeAccent, "Purple")
                         commit()
                     }
                     recreate()
@@ -596,10 +598,10 @@ class SettingsActivity : AppCompatActivity() {
             "ic_account_Violet" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Violet)
-                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
                 if(sharedPref.getString("themeAccentPreference", "none") != "Violet") {
                 with(sharedPref.edit()) {
-                    putString(KEY_THEME_ACCENT, "Violet")
+                    putString(_keyThemeAccent, "Violet")
                     commit()
                 }
                     recreate()
@@ -608,10 +610,10 @@ class SettingsActivity : AppCompatActivity() {
             "ic_account_Dark_Violet" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Dark_Violet)
-                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
                     if(sharedPref.getString("themeAccentPreference", "none") != "DViolet") {
                 with(sharedPref.edit()) {
-                    putString(KEY_THEME_ACCENT, "DViolet")
+                    putString(_keyThemeAccent, "DViolet")
                     commit()
                 }
                         recreate()
@@ -620,10 +622,10 @@ class SettingsActivity : AppCompatActivity() {
             "ic_account_Blue" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Blue)
-                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
                     if(sharedPref.getString("themeAccentPreference", "none") != "Blue") {
                 with(sharedPref.edit()) {
-                    putString(KEY_THEME_ACCENT, "Blue")
+                    putString(_keyThemeAccent, "Blue")
                     commit()
                 }
                         recreate()
@@ -632,10 +634,10 @@ class SettingsActivity : AppCompatActivity() {
             "ic_account_Cyan" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Cyan)
-                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
                     if(sharedPref.getString("themeAccentPreference", "none") != "Cyan") {
                 with(sharedPref.edit()) {
-                    putString(KEY_THEME_ACCENT, "Cyan")
+                    putString(_keyThemeAccent, "Cyan")
                     commit()
                 }
                         recreate()
@@ -644,10 +646,10 @@ class SettingsActivity : AppCompatActivity() {
             "ic_account_Teal" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Teal)
-                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
                     if(sharedPref.getString("themeAccentPreference", "none") != "Teal") {
                 with(sharedPref.edit()) {
-                    putString(KEY_THEME_ACCENT, "Teal")
+                    putString(_keyThemeAccent, "Teal")
                     commit()
                 }
                         recreate()
@@ -656,10 +658,10 @@ class SettingsActivity : AppCompatActivity() {
             "ic_account_Green" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Green)
-                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
                     if(sharedPref.getString("themeAccentPreference", "none") != "Green") {
                 with(sharedPref.edit()) {
-                    putString(KEY_THEME_ACCENT, "Green")
+                    putString(_keyThemeAccent, "Green")
                     commit()
                 }
                         recreate()
@@ -668,10 +670,10 @@ class SettingsActivity : AppCompatActivity() {
             "ic_account_lightGreen" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_lightGreen)
-                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
                     if(sharedPref.getString("themeAccentPreference", "none") != "LGreen") {
                 with(sharedPref.edit()) {
-                    putString(KEY_THEME_ACCENT, "LGreen")
+                    putString(_keyThemeAccent, "LGreen")
                     commit()
                 }
                         recreate()
@@ -680,10 +682,10 @@ class SettingsActivity : AppCompatActivity() {
             else -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account)
-                val sharedPref = getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+                val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
                     if(sharedPref.getString("themeAccentPreference", "none") != "Violet") {
                 with(sharedPref.edit()) {
-                    putString(KEY_THEME_ACCENT, "Violet")
+                    putString(_keyThemeAccent, "Violet")
                     commit()
                 }
                         recreate()
@@ -694,7 +696,7 @@ class SettingsActivity : AppCompatActivity() {
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
 
-        val contentValues = ContentValues()
+        var contentValues = ContentValues()
         contentValues.put(dbHelper.KEY_IMAGE, imageName)
         database.update(
                 dbHelper.TABLE_USERS, contentValues,
@@ -702,60 +704,169 @@ class SettingsActivity : AppCompatActivity() {
                 arrayOf(login)
         )
 
-        val pdbHelper = PasswordsDataBaseHelper(this, login)
+        var pdbHelper = PasswordsDataBaseHelper(this, login)
+        val pDatabase = pdbHelper.writableDatabase
 
-        export.setOnClickListener(object : View.OnClickListener {
-            var passDataBase: SQLiteDatabase = pdbHelper.readableDatabase
-            @SuppressLint("Recycle")
-            override fun onClick(v: View) {
-                try {
-                    val c = passDataBase.rawQuery("select * from $login", null)
-                    val rowcount: Int
-                    val colcount: Int
-                    val sdCardDir =
-                            Environment.getExternalStorageDirectory()
-                    val filename = "MyBackUp.csv"
+        var names = ""
 
-                    val saveFile = File(sdCardDir, filename)
-                    val fw = FileWriter(saveFile)
-                    val bw = BufferedWriter(fw)
-                    rowcount = c.count
-                    colcount = c.columnCount
-                    if (rowcount > 0) {
-                        c.moveToFirst()
-                        for (i in 0 until colcount) {
-                            if (i != colcount - 1) {
-                                bw.write(c.getColumnName(i) + ",")
-                            } else {
-                                bw.write(c.getColumnName(i))
-                            }
-                        }
-                        bw.newLine()
-                        for (i in 0 until rowcount) {
-                            c.moveToPosition(i)
-                            for (j in 0 until colcount) {
-                                if (j != colcount - 1) bw.write(c.getString(j) + ",") else bw.write(
-                                        c.getString(j)
-                                )
-                            }
-                            bw.newLine()
-                        }
-                        bw.flush()
-                        toast("Exported successfully to sdcard.")
+        try {
+            val pCursor: Cursor = pDatabase.query(
+                    pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
+                    pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS, pdbHelper.KEY_USE_TIME),
+                    null, null,
+                    null, null, null
+            )
+
+            if (pCursor.moveToFirst()) {
+                val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
+                do {
+                    val login = pCursor.getString(nameIndex).toString()
+                    names += login
+                } while (pCursor.moveToNext())
+            }
+
+        } catch (e: SQLException) {
+        }
+
+
+        pdbHelper = PasswordsDataBaseHelper(this, login)
+        val passDataBase = pdbHelper.writableDatabase
+        contentValues = ContentValues()
+
+        importDB.setOnClickListener {
+            try {
+                val filename = "/MyBackUp.csv"
+                val sdCardDir =
+                        Environment.getExternalStorageDirectory()
+                val saveFile = File(sdCardDir, filename)
+                val file = FileReader(saveFile)
+                val buffer = BufferedReader(file)
+                var line: String?
+
+                var count = 0
+
+                while (buffer.readLine().also { line = it } != null) {
+                    val str = line!!.split(",".toRegex()).toTypedArray()
+
+                    if (count == 0) {
+                        count += 1
+                        continue
                     }
-                } catch (ex: Exception) {
-                    if (passDataBase.isOpen) {
-                        passDataBase.close()
-                        toast(ex.message.toString())
+
+                    if (!names.contains(str[1])) {
+                        contentValues.put(pdbHelper.KEY_ID, Random.nextInt(0, 10000))
+
+                        if (str[1] == "")
+                            str[1] = "None"
+                        contentValues.put(pdbHelper.KEY_NAME, str[1])
+
+                        if (str[2] == "")
+                            str[2] = "None"
+                        contentValues.put(pdbHelper.KEY_PASS, str[2])
+
+                        if (str[3] == "")
+                            str[3] = "0"
+                        contentValues.put(pdbHelper.KEY_2FA, str[3])
+
+                        if (str[4] == "")
+                            str[4] = "0"
+                        contentValues.put(pdbHelper.KEY_USE_TIME, str[4])
+
+                        contentValues.put(pdbHelper.KEY_TIME, getDateTime())
+
+                        if (str[6] == "")
+                            str[6] = ""
+                        contentValues.put(pdbHelper.KEY_TAGS, str[6])
+
+                        if (str[7] == "")
+                            str[7] = ""
+                        contentValues.put(pdbHelper.KEY_GROUPS, str[7])
+
+                        if (str[8] == "")
+                            str[8] = ""
+                        contentValues.put(pdbHelper.KEY_LOGIN, str[8])
+
+                        if (str[9] == "")
+                            str[9] = ""
+                        contentValues.put(pdbHelper.KEY_DESC, str[9])
+
+
+                        passDataBase.insert(pdbHelper.TABLE_USERS, null, contentValues)
                     }
-                } finally {
+
+
+                }
+                toast(getString(R.string.imported))
+            }
+            catch (ex: Exception) {
+                if (passDataBase.isOpen) {
+                    passDataBase.close()
+                    toast(ex.message.toString())
+                    warn_Card.visibility = View.VISIBLE
                 }
             }
-        })
+
+        }
+
+        export.setOnClickListener {
+            try {
+                val c = passDataBase.rawQuery("select * from $login", null)
+                val rowcount: Int
+                val colcount: Int
+                val sdCardDir =
+                        Environment.getExternalStorageDirectory()
+                val filename =  "/MyBackUp.csv"
+                val saveFile = File(sdCardDir, filename)
+                val bw = BufferedWriter(
+                        OutputStreamWriter(
+                                FileOutputStream(saveFile), "UTF-8"
+                        )
+                )
+
+                //val bw = BufferedWriter(fw)
+                rowcount = c.count
+                colcount = c.columnCount
+                if (rowcount > 0) {
+                    c.moveToFirst()
+                    for (i in 0 until colcount) {
+                        if (i != colcount - 1) {
+                            bw.write(c.getColumnName(i) + ",")
+                        } else {
+                            bw.write(c.getColumnName(i))
+                        }
+                    }
+                    bw.newLine()
+                    for (i in 0 until rowcount) {
+                        c.moveToPosition(i)
+                        for (j in 0 until colcount) {
+                            if (j != colcount - 1) bw.write(c.getString(j) + ",") else bw.write(
+                                    c.getString(j)
+                            )
+                        }
+                        bw.newLine()
+                    }
+                    bw.flush()
+                    toast(getString(R.string.exported))
+                }
+            } catch (ex: Exception) {
+                if (passDataBase.isOpen) {
+                    passDataBase.close()
+                    toast(ex.message.toString())
+                    warn_Card.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
     private fun Context.toast(message:String)=
             Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
+    private fun getDateTime(): String? {
+        val dateFormat = SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault()
+        )
+        val date = Date()
+        return dateFormat.format(date)
+    }
 
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
