@@ -43,7 +43,7 @@ class AccountActivity : AppCompatActivity() {
             "battery" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
         }
         super.onCreate(savedInstanceState)
-        when ((resources.configuration.uiMode + Configuration.UI_MODE_NIGHT_MASK)) {
+        when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_NO ->
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
