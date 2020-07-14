@@ -90,9 +90,8 @@
     <string name="search_password">Search password</string>
     <string name="auto_copy_password">Auto-copy password</string>
     <string name="about_app">About app</string>
-    <string name="versionCode">Version 1.0.0 • Build 180</string>
     <string name="mikhail_grigorev">Mikhail Grigorev</string>
-    <string name="_2020" translatable="false">2020</string>
+    <string name="_2020">"Version 1.0.200 • 2020 "</string>
     <string name="telegram" translatable="false">Telegram</string>
     <string name="vkontakte" translatable="false">Vkontakte</string>
     <string name="sen_email" translatable="false">Send email</string>
@@ -143,5 +142,6 @@
     <string name="InOutMessage3">You can create csv yourself in the format: (_id, name, password, 2fa, useTimeNotifications, time, tags, groups, login (or e-mail), description). Id, time - will be filled automatically, 2fa, usetime take 1 or 0 depending on usage. Groups initialized to \"#favorite\" if the password is in the favorites.</string>
     <string name="warning">Warning!</string>
     <string name="latest_updates_on_my_github_page">Latest updates on my GitHub page</string>
+    <string name="about_desc">Powerful password manager with friendly UI, secured system, cool password generateor and it\'s own autofill framework</string>
 
 </resources>

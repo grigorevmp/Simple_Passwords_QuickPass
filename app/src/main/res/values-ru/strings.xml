@@ -95,7 +95,6 @@
     <string name="chooseEmail">Выберете email клиент…</string>
     <string name="key_words">Ключевые слова</string>
     <string name="add_keywords">Добавить ключевые слова</string>
-    <string name="versionCode">Версия 1.0.0 • Сборка 180</string>
     <string name="you_are_using_this_password_for_a_long_time_you_should_change_it">Вы используете данный пароль слишком долго, вам следует изменить его.</string>
     <string name="input_your_pin">Введите пин</string>
     <string name="set_pin">Установить пин</string>
@@ -127,4 +126,6 @@
     <string name="InOutMessage3">Вы можете самостоятельно создать csv  в формате: (_id,name,password,2fa,useTimeNotifications,time,tags,groups,login(or e-mail), description). Id, time - будут заполнены автоматически, 2fa, usetime принимают 1 или 0 в зависимости от использования. Groups инициализирован \"#favorite\", если пароль в избранном.</string>
     <string name="warning">Предупреждение!</string>
     <string name="latest_updates_on_my_github_page">Свежие обновления на моей странице GitHub</string>
+    <string name="about_desc">Мощный менеджер паролей с дружественным пользовательским интерфейсом, защищенной системой, классным генератором паролей и собственной платформой автозаполнения</string>
+    <string name="_2020">"Версия 1.0.200 • 2020 "</string>
 </resources>

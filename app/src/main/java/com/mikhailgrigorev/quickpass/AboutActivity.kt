@@ -56,11 +56,6 @@ class AboutActivity : AppCompatActivity() {
             startActivity(i)
         }
 
-        gitHubText.setOnClickListener {
-            val i = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/MikhailGrigorevP/QuickPass/releases"))
-            startActivity(i)
-        }
-
         mail.setOnClickListener {
             val recipient = "16112000m@gmai.com"
             val subject = "Quick password app"
