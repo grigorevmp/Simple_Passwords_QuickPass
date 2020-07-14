@@ -1113,6 +1113,10 @@ class PassGenActivity : AppCompatActivity() {
                 realQuality.clear()
                 realMap.clear()
 
+                safePass = 0
+                unsafePass = 0
+                fixPass = 0
+
                 try {
                     val pCursor: Cursor = pDatabase.query(
                             pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
@@ -1178,7 +1182,11 @@ class PassGenActivity : AppCompatActivity() {
                                 "2" -> unsafePass += 1
                                 "3" -> fixPass += 1
                             }
+
                         } while (pCursor.moveToNext())
+                        correctPasswords.text = resources.getQuantityString(R.plurals.correct_passwords, safePass, safePass)
+                        negativePasswords.text = resources.getQuantityString(R.plurals.incorrect_password, unsafePass, unsafePass)
+                        fixPasswords.text = resources.getQuantityString(R.plurals.need_fix, fixPass, fixPass)
                     }
                 } catch (e: SQLException) {
                 }
