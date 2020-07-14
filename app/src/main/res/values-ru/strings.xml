@@ -126,4 +126,5 @@
     <string name="InOutMessage2">Резервная копия создаётся в начальном каталоге внутренней памяти. Для экспорта данных просим также разместить корректный csv - файл в каталог.</string>
     <string name="InOutMessage3">Вы можете самостоятельно создать csv  в формате: (_id,name,password,2fa,useTimeNotifications,time,tags,groups,login(or e-mail), description). Id, time - будут заполнены автоматически, 2fa, usetime принимают 1 или 0 в зависимости от использования. Groups инициализирован \"#favorite\", если пароль в избранном.</string>
     <string name="warning">Предупреждение!</string>
+    <string name="latest_updates_on_my_github_page">Свежие обновления на моей странице GitHub</string>
 </resources>
