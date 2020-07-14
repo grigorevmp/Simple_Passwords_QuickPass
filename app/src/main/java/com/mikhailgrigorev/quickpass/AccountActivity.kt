@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.database.Cursor
+import android.database.SQLException
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -27,6 +28,10 @@ class AccountActivity : AppCompatActivity() {
     private lateinit var login: String
     private lateinit var passName: String
     private lateinit var account: String
+
+    private val realPass: ArrayList<Pair<String, String>> = ArrayList()
+    private val realQuality: ArrayList<String> = ArrayList()
+    private val realMap: MutableMap<String, ArrayList<String>> = mutableMapOf()
 
     @SuppressLint("Recycle", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,6 +112,80 @@ class AccountActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val pdbHelper = PasswordsDataBaseHelper(this, login)
+        val pDatabase = pdbHelper.writableDatabase
+        try {
+            val pCursor: Cursor = pDatabase.query(
+                    pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
+                    pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS, pdbHelper.KEY_USE_TIME),
+                    null, null,
+                    null, null, null
+            )
+
+            var correctNum = 0
+            var inCorrectNum = 0
+            var midCorrectNum = 0
+            var faNum = 0
+            var tlNum = 0
+
+            if (pCursor.moveToFirst()) {
+                val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
+                val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
+                do {
+                    val pass = pCursor.getString(passIndex).toString()
+                    val login = pCursor.getString(nameIndex).toString()
+                    realPass.add(Pair(login, pass))
+                } while (pCursor.moveToNext())
+            }
+
+            analyzeDataBase()
+
+            if (pCursor.moveToFirst()) {
+                val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
+                val aIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_2FA)
+                val tIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_USE_TIME)
+                var j = 0
+                do {
+                    val pass = pCursor.getString(passIndex).toString()
+                    val myPasswordManager = PasswordManager()
+                    var evaluation: Float =
+                            myPasswordManager.evaluatePassword(pass)
+                    if(realQuality[j] != "1")
+                        evaluation = 0F
+                    j++
+                    when{
+                        evaluation < 0.33 -> inCorrectNum += 1
+                        evaluation < 0.66 -> midCorrectNum += 1
+                        else -> correctNum += 1
+                    }
+
+                    val fa = pCursor.getString(aIndex).toString()
+                    val tl= pCursor.getString(tIndex).toString()
+
+                    if(fa == "1")
+                        faNum += 1
+
+                    if(tl == "1")
+                        tlNum += 1
+
+                } while (pCursor.moveToNext())
+            }
+
+            correctPasswords.text = resources.getQuantityString(R.plurals.correct_passwords, correctNum, correctNum)
+            negativePasswords.text = resources.getQuantityString(R.plurals.incorrect_password, inCorrectNum, inCorrectNum)
+            fixPasswords.text = resources.getQuantityString(R.plurals.need_fix, midCorrectNum, midCorrectNum)
+
+            afText.text = faNum.toString()
+            tlText.text = tlNum.toString()
+
+            allPass.text = (correctNum+ inCorrectNum + midCorrectNum).toString()
+
+            realPoints.text = ((correctNum.toFloat() + midCorrectNum.toFloat()/2 + inCorrectNum.toFloat()*0 + tlNum.toFloat() + faNum.toFloat())
+                    /(7/3*(correctNum.toFloat() + inCorrectNum.toFloat() + midCorrectNum.toFloat())))
+                    .toString()
+
+        } catch (e: SQLException) {
+        }
 
         val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate)
         rotation.fillAfter = true
@@ -191,6 +270,40 @@ class AccountActivity : AppCompatActivity() {
         }
         return false
     }
+
+    private fun analyzeDataBase() {
+        var subContains: Boolean
+        var gSubContains: Boolean
+        for (pass in realPass){
+            subContains = false
+            gSubContains = false
+            for (pass2 in realPass){
+                if(pass.first != pass2.first){
+                    for(i in 0..(pass.second.length - 4)){
+                        if (pass2.second.contains(pass.second.subSequence(i, i + 3))){
+                            subContains = true
+                            gSubContains = true
+                            break
+                        }
+                    }
+                    if (subContains)
+                        if (realMap.containsKey(pass.first))
+                            realMap[pass.first]?.add(pass2.first)
+                        else {
+                            val c = arrayListOf(pass2.first)
+                            realMap[pass.first] = c
+                        }
+                    subContains = false
+                }
+            }
+            if (gSubContains) {
+                realQuality.add("0")
+            }
+            else
+                realQuality.add("1")
+        }
+    }
+
 
     private fun exit(sharedPref: SharedPreferences) {
         sharedPref.edit().remove(KEY_USERNAME).apply()

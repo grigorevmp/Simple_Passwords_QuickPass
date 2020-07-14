@@ -134,5 +134,7 @@
     <string name="email" translatable="false">E-mail/login</string>
     <string name="additional_settings">Additional settings</string>
     <string name="showPin">Don\'t show this pin to others</string>
+    <string name="time_notification">Time notification</string>
+    <string name="total_points">Total quality:</string>
 
 </resources>

@@ -118,4 +118,6 @@
     <string name="add_email">Добавить e-mail ли логин</string>
     <string name="additional_settings">Дополнительные настройки</string>
     <string name="showPin">Не показывайте этот пин окружающим</string>
+    <string name="time_notification">Уведомления</string>
+    <string name="total_points">Общее качество:</string>
 </resources>
