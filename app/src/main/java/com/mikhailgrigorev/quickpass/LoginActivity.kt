@@ -189,7 +189,7 @@ class LoginActivity : AppCompatActivity() {
         // создание объекта Intent для запуска SecondActivity
 
         if(isAvailable(this)){
-            val builder = AlertDialog.Builder(this)
+            val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
             builder.setTitle(getString(R.string.bio_usage))
             builder.setMessage(getString(R.string.fingerUnlock))
 

@@ -112,12 +112,13 @@ class AccountActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        var pdbHelper = PasswordsDataBaseHelper(this, login)
-        var pDatabase = pdbHelper.writableDatabase
+        val pdbHelper = PasswordsDataBaseHelper(this, login)
+        val pDatabase = pdbHelper.writableDatabase
         try {
             val pCursor: Cursor = pDatabase.query(
                     pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
-                    pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS, pdbHelper.KEY_USE_TIME),
+                    pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS, pdbHelper.KEY_USE_TIME,
+            pdbHelper.KEY_TIME),
                     null, null,
                     null, null, null
             )
@@ -144,12 +145,21 @@ class AccountActivity : AppCompatActivity() {
                 val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
                 val aIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_2FA)
                 val tIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_USE_TIME)
+                val timeIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TIME)
                 var j = 0
                 do {
                     val pass = pCursor.getString(passIndex).toString()
                     val myPasswordManager = PasswordManager()
                     var evaluation: Float =
                             myPasswordManager.evaluatePassword(pass)
+
+
+                    val dbTimeIndex = pCursor.getString(timeIndex).toString()
+
+                    if((myPasswordManager.evaluateDate(dbTimeIndex)) && (pass.length!= 4))
+                        evaluation = 0F
+
+
                     if(realQuality[j] != "1")
                         evaluation = 0F
                     j++
@@ -214,7 +224,7 @@ class AccountActivity : AppCompatActivity() {
         }
 
         deleteAccount.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
+            val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
             builder.setTitle(getString(R.string.accountDelete))
             builder.setMessage(getString(R.string.accountDeleteConfirm))
 

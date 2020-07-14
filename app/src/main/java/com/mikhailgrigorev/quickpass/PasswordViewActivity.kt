@@ -5,17 +5,16 @@ import android.content.*
 import android.content.res.Configuration
 import android.database.Cursor
 import android.database.SQLException
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_password_view.*
-import java.util.*
 
 class PasswordViewActivity : AppCompatActivity() {
 
@@ -133,7 +132,21 @@ class PasswordViewActivity : AppCompatActivity() {
                     dbPassword = pCursor.getString(passIndex).toString()
                     passViewField.setText(dbPassword)
                     val myPasswordManager = PasswordManager()
-                    val evaluation: String = myPasswordManager.evaluatePasswordString(dbPassword)
+                    var evaluation: String = myPasswordManager.evaluatePasswordString(dbPassword)
+
+                    val dbTimeIndex = pCursor.getString(timeIndex).toString()
+                    passwordTime.text = getString(R.string.time_lim) + " " + dbTimeIndex
+
+                    dbGroup = if(pCursor.getString(groupIndex) == null)
+                        "none"
+                    else
+                        pCursor.getString(groupIndex).toString()
+
+                    if((myPasswordManager.evaluateDate(dbTimeIndex)) && (dbPassword.length!= 4)){
+                        warnCard.visibility = View.VISIBLE
+                        evaluation = "low"
+                    }
+
                     when (evaluation) {
                         "low" -> passQuality.text = getString(R.string.low)
                         "high" -> passQuality.text = getString(R.string.high)
@@ -176,26 +189,6 @@ class PasswordViewActivity : AppCompatActivity() {
                     }
 
 
-                    val dbTimeIndex = pCursor.getString(timeIndex).toString()
-                    passwordTime.text = getString(R.string.time_lim) + " " + dbTimeIndex
-
-                    dbGroup = if(pCursor.getString(groupIndex) == null)
-                        "none"
-                    else
-                        pCursor.getString(groupIndex).toString()
-
-                    //val year = dbTimeIndex.substring(0, 3).toInt()
-                    val month = dbTimeIndex.substring(5, 7).toInt()
-                    //val day = dbTimeIndex.substring(8, 9).toInt()
-                    //val hour = dbTimeIndex.substring(11, 12).toInt()
-                    //val minute = dbTimeIndex.substring(14, 15).toInt()
-                    //val second = dbTimeIndex.substring(17, 18).toInt()
-
-                    val c = Calendar.getInstance()
-                    val month2 = c.get(Calendar.MONTH)
-                    if(month2 + 1 - month >= 4){
-                        warnCard.visibility = View.VISIBLE
-                    }
 
 
                     val dbDescIndex = pCursor.getString(descIndex).toString()
@@ -252,7 +245,7 @@ class PasswordViewActivity : AppCompatActivity() {
         }
 
         deletePassword.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
+            val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
             builder.setTitle(getString(R.string.deletePassword))
             builder.setMessage(getString(R.string.passwordDeleteConfirm))
 

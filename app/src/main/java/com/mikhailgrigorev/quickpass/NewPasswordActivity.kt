@@ -66,6 +66,7 @@ class NewPasswordActivity : AppCompatActivity() {
         }
         setContentView(R.layout.activity_new_password)
 
+
         val args: Bundle? = intent.extras
         login = args?.get("login").toString()
 
@@ -377,6 +378,8 @@ class NewPasswordActivity : AppCompatActivity() {
                     passDataBase.insert(pdbHelper.TABLE_USERS, null, contentValues)
                     val intent = Intent(this, PassGenActivity::class.java)
                     intent.putExtra("login", login)
+
+
                     startActivity(intent)
                     finish()
                 }
@@ -407,7 +410,8 @@ class NewPasswordActivity : AppCompatActivity() {
         return dateFormat.format(date)
     }
 
-
     private fun Context.toast(message:String)=
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
+
+
 }

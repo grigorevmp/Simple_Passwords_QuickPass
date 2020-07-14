@@ -1,5 +1,6 @@
 package com.mikhailgrigorev.quickpass
 import java.security.SecureRandom
+import java.util.*
 import kotlin.math.max
 
 class PasswordManager {
@@ -34,6 +35,29 @@ class PasswordManager {
         }
 
         return sb.toString()
+    }
+
+    fun evaluateDate(date: String): Boolean{
+
+        // YYYY-MM-DD HH:MM:SS
+
+        val year = date.substring(0, 4).toInt()
+        val month = date.substring(5, 7).toInt()
+        val day = date.substring(8, 10).toInt()
+        // val hour = date.substring(11, 13).toInt()
+        // val minute = date.substring(14, 16).toInt()
+        // val second = date.substring(17, 19).toInt()
+
+        val c = Calendar.getInstance()
+        val yearCurrent = c.get(Calendar.YEAR)
+        val monthCurrent = c.get(Calendar.MONTH)
+        val dayCurrent = c.get(Calendar.DAY_OF_MONTH)
+
+        return if(yearCurrent > year)
+            true
+        else if(monthCurrent > month + 4)
+            true
+        else (monthCurrent > month + 3) && (dayCurrent > day)
     }
 
     fun evaluatePassword(passwordToTest: String) : Float {

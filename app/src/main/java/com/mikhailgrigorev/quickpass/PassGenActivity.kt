@@ -154,7 +154,8 @@ class PassGenActivity : AppCompatActivity() {
         try {
             val pCursor: Cursor = pDatabase.query(
                 pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
-                    pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS),
+                    pdbHelper.KEY_TIME, pdbHelper.KEY_2FA,
+                    pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS),
                 null, null,
                 null, null, null
             )
@@ -177,6 +178,7 @@ class PassGenActivity : AppCompatActivity() {
                 val aIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_2FA)
                 val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
                 val groupIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_GROUPS)
+                val timeIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TIME)
                 var j = 0
                 do {
                     val pass = pCursor.getString(passIndex).toString()
@@ -188,6 +190,13 @@ class PassGenActivity : AppCompatActivity() {
                         evaluation < 0.66 -> "3"
                         else -> "1"
                     }
+
+                    val dbTimeIndex = pCursor.getString(timeIndex).toString()
+
+                    if((myPasswordManager.evaluateDate(dbTimeIndex)) && (pass.length!= 4))
+                        qualityNum = "2"
+
+
                     if(realQuality[j] != "1")
                         qualityNum = "2"
                     j++
@@ -960,10 +969,15 @@ class PassGenActivity : AppCompatActivity() {
         intent.putExtra("login", login)
         intent.putExtra("passName", passwordsG[position].first)
         var str = getString(R.string.sameParts) + " "
+        var j = 0
         if (realMap.containsKey(passwordsG[position].first)){
             for(pass in realMap[passwordsG[position].first]!!) {
+                if (j == 0)
+                    j += 1
+                else
+                    str += ", "
                 isPass = true
-                str += "$pass "
+                str += pass
             }
         }
         if(isPass)
@@ -1081,7 +1095,7 @@ class PassGenActivity : AppCompatActivity() {
         val position = globalPos
         val pdbHelper = PasswordsDataBaseHelper(this, login)
             val pDatabase = pdbHelper.writableDatabase
-            val builder = AlertDialog.Builder(this)
+            val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
             builder.setTitle(getString(R.string.deletePassword))
             builder.setMessage(getString(R.string.passwordDeleteConfirm))
 
