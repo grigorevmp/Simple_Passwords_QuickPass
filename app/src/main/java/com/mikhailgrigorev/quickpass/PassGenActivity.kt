@@ -1190,6 +1190,16 @@ class PassGenActivity : AppCompatActivity() {
                     }
                 } catch (e: SQLException) {
                 }
+
+                if(passwords.size == 0){
+                    correctPasswords.text = resources.getQuantityString(R.plurals.correct_passwords, 0, 0)
+                    negativePasswords.text = resources.getQuantityString(R.plurals.incorrect_password, 0, 0)
+                    fixPasswords.text = resources.getQuantityString(R.plurals.need_fix, 0, 0)
+                    allPassword.visibility = View.GONE
+                    noPasswords.visibility = View.VISIBLE
+                    search.hide()
+                }
+
                 passwordRecycler.adapter = PasswordAdapter(passwords, quality, tags,group,this, clickListener = {
                     passClickListener(it)
                 }, longClickListener = { i: Int, view: View ->  passLongClickListener(i, view)})

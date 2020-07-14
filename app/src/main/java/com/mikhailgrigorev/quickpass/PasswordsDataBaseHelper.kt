@@ -33,7 +33,7 @@ class PasswordsDataBaseHelper(context: Context?, tableName: String) :
                     + KEY_TIME + " date,"
                     + KEY_TAGS + " text," + KEY_GROUPS + " text,"
                     + KEY_LOGIN + " text,"
-                    + KEY_DESC +" text"
+                    + KEY_DESC + " text"
                     + ")"
         )
     }
@@ -48,7 +48,7 @@ class PasswordsDataBaseHelper(context: Context?, tableName: String) :
     }
 
     companion object {
-        const val DATABASE_VERSION = 1
+        const val DATABASE_VERSION = 2
         const val DATABASE_NAME = "PassDatabase"
     }
 }
