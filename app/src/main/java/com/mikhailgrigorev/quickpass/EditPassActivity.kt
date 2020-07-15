@@ -411,7 +411,7 @@ class EditPassActivity : AppCompatActivity() {
         savePass.setOnClickListener {
             val login2 = newNameField.text
             if (login2 != null) {
-                if (login2.isEmpty() || login2.length < 3) {
+                if (login2.isEmpty() || login2.length < 2) {
                     newName.error = getString(R.string.errNumOfText)
                 }
                 else if (genPasswordIdField.text.toString() == "" || genPasswordIdField.text.toString().length < 3){

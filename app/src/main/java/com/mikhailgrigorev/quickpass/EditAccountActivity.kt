@@ -140,6 +140,7 @@ class EditAccountActivity : AppCompatActivity() {
                 val pdbHelper = PasswordsDataBaseHelper(this, login)
                 val pDatabase = pdbHelper.writableDatabase
                 if (login != nameViewField.text.toString()) {
+                    database.execSQL("DROP TABLE IF EXISTS " + nameViewField.text.toString())
                     pDatabase.execSQL("DROP TABLE IF EXISTS " + nameViewField.text.toString())
                     pDatabase.execSQL("ALTER TABLE " + login + " RENAME TO " + nameViewField.text.toString())
                 }
