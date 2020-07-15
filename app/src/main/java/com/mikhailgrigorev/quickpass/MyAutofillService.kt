@@ -12,6 +12,7 @@ import android.view.autofill.AutofillValue
 import android.widget.RemoteViews
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import com.google.android.material.chip.Chip
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -88,19 +89,23 @@ class MyAutofillService : AutofillService() {
             var i = 0
 
             for (mail in emails){
-                if ((mail.contains("@")) or (names[i].toLowerCase(Locale.ROOT).contains(appName.toLowerCase(
-                            Locale.ROOT
-                    )
-                    )) or (appName.toLowerCase(Locale.ROOT).contains(names[i].toLowerCase(Locale.ROOT)))
-                ) {
-                    val remoteView = RemoteViews(packageName, R.layout.autofill_suggestion)
-                    remoteView.setTextViewText(R.id.suggestion_item, mail)
-                    dataSets.add(
-                            Dataset.Builder(remoteView).setValue(
-                                    emailFields[0]?.autofillId!!,
-                                    AutofillValue.forText(mail)
-                            ).build()
-                    )
+                names[i].split("\\s".toRegex()).forEach { partName ->
+                    if ((mail.contains("@")) or (partName.toLowerCase(Locale.ROOT).contains(
+                                appName.toLowerCase(
+                                        Locale.ROOT
+                                )
+                        )) or (appName.toLowerCase(Locale.ROOT)
+                                .contains(partName.toLowerCase(Locale.ROOT)))
+                    ) {
+                        val remoteView = RemoteViews(packageName, R.layout.autofill_suggestion)
+                        remoteView.setTextViewText(R.id.suggestion_item, mail)
+                        dataSets.add(
+                                Dataset.Builder(remoteView).setValue(
+                                        emailFields[0]?.autofillId!!,
+                                        AutofillValue.forText(mail)
+                                ).build()
+                        )
+                    }
                 }
                 i += 1
             }
@@ -112,17 +117,20 @@ class MyAutofillService : AutofillService() {
             val remoteView = RemoteViews(packageName, R.layout.autofill_suggestion)
             remoteView.setTextViewText(R.id.suggestion_item, "Random")
             for (name in names){
-                if ((name.toLowerCase(Locale.ROOT).contains(appName.toLowerCase(Locale.ROOT))) or
-                    (appName.toLowerCase(Locale.ROOT).contains(name.toLowerCase(Locale.ROOT)))){
-                    val remoteView = RemoteViews(packageName, R.layout.autofill_suggestion)
-                    remoteView.setTextViewText(R.id.suggestion_item, passwords[i])
-                    dataSets.add(Dataset.Builder(remoteView).setValue(
-                            passFields[0]?.autofillId!!,
-                            AutofillValue.forText(passwords[i])
-                    ).build())
+                name.split("\\s".toRegex()).forEach { partName ->
+                    if ((partName.toLowerCase(Locale.ROOT).contains(appName.toLowerCase(Locale.ROOT))) or
+                        (appName.toLowerCase(Locale.ROOT).contains(partName.toLowerCase(Locale.ROOT)))){
+                        val remoteView = RemoteViews(packageName, R.layout.autofill_suggestion)
+                        remoteView.setTextViewText(R.id.suggestion_item, passwords[i])
+                        dataSets.add(Dataset.Builder(remoteView).setValue(
+                                passFields[0]?.autofillId!!,
+                                AutofillValue.forText(passwords[i])
+                        ).build())
+                    }
                 }
                 i += 1
-            }
+                }
+
         }
 
         if(dataSets.size != 0){
