@@ -1,6 +1,6 @@
-# QuickPass
+# :lock: QuickPass
 
-##Powerful password manager with autofill framework
+Powerful password manager with autofill framework
 
 ![Project logo](cover.png)
 
