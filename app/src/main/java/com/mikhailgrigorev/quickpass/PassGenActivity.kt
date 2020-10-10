@@ -19,6 +19,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.SeekBar
@@ -450,6 +451,13 @@ class PassGenActivity : AppCompatActivity() {
         if(passwords.size == 0){
             allPassword.visibility = View.GONE
             noPasswords.visibility = View.VISIBLE
+            cardView.visibility = View.GONE
+            cardView2.visibility = View.GONE
+            smile.visibility = View.GONE
+            expand.visibility = View.GONE
+            newPass.visibility = View.GONE
+            extraNewPass.visibility = View.VISIBLE
+            warn_Card.animate().alpha(abs(1F)).start()
         }
 
         correctPasswords.text = resources.getQuantityString(
@@ -1043,6 +1051,19 @@ class PassGenActivity : AppCompatActivity() {
             finish()
         }
 
+        extraNewPass.setOnClickListener {
+            val intent = Intent(this, NewPasswordActivity::class.java)
+            intent.putExtra("login", login)
+            intent.putExtra("pass", genPasswordIdField.text.toString())
+            intent.putExtra("useLetters", useLetters)
+            intent.putExtra("useUC", useUC)
+            intent.putExtra("useNumbers", useNumbers)
+            intent.putExtra("useSymbols", useSymbols)
+            intent.putExtra("length", length)
+            startActivity(intent)
+            finish()
+        }
+
 
         newPass.setOnClickListener {
             val intent = Intent(this, NewPasswordActivity::class.java)
@@ -1091,9 +1112,17 @@ class PassGenActivity : AppCompatActivity() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 menu_up.animate().rotation(180F * slideOffset).start()
                 newPass.animate().scaleX(1 - abs(slideOffset)).scaleY(1 - abs(slideOffset)).setDuration(0).start()
+                searchPassField.clearFocus()
+                searchPassField.hideKeyboard()
+                warn_Card.animate().alpha(abs(slideOffset) + 0.5F).start()
             }
         })
 
+    }
+
+    fun View.hideKeyboard() {
+        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 
     private fun analyzeDataBase() {
@@ -1439,6 +1468,13 @@ class PassGenActivity : AppCompatActivity() {
                     fixPasswords.text = resources.getQuantityString(R.plurals.need_fix, 0, 0)
                     allPassword.visibility = View.GONE
                     noPasswords.visibility = View.VISIBLE
+                    cardView.visibility = View.GONE
+                    cardView2.visibility = View.GONE
+                    smile.visibility = View.GONE
+                    newPass.visibility = View.GONE
+                    expand.visibility = View.GONE
+                    extraNewPass.visibility = View.VISIBLE
+                    warn_Card.animate().alpha(abs(1F)).start()
                 }
 
                 passwordRecycler.adapter = PasswordAdapter(

@@ -145,9 +145,9 @@
     <string name="about_desc">Powerful password manager with friendly UI, secured system, cool password generateor and it\'s own autofill framework</string>
     <string name="up" translatable="false">Up</string>
     <string name="newPassRule">Password rules</string>
-    <string name="newPassRule1">A strong password must be more than 12 characters long and contain three sets of characters: LARGE and small letters, numbers, special characters.</string>
-    <string name="newPassRule2">Do not use publicly available information: parts of the name, phone numbers, dates important to you</string>
-    <string name="newPassRule3">Different passwords for different sites! If a site gets hacked, the first thing they do is check if it fit password to your email, then try to access your social media account and online payment options.</string>
+    <string name="newPassRule1">1. A strong password must be more than 12 characters long and contain three sets of characters: LARGE and small letters, numbers, special characters.</string>
+    <string name="newPassRule2">2. Do not use publicly available information: parts of the name, phone numbers, dates important to you</string>
+    <string name="newPassRule3">3. Different passwords for different sites! If a site gets hacked, the first thing they do is check if it fit password to your email, then try to access your social media account and online payment options.</string>
     <string name="smile">Smile</string>
 
 </resources>

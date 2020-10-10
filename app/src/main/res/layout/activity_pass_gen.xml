@@ -49,6 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:alpha="0.5"
                 android:contentDescription="@string/up"
                 app:srcCompat="@drawable/menu_up_outline"
                 app:tint="@color/black" />
@@ -373,7 +374,8 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            app:cardBackgroundColor="@color/white"
+            android:alpha="0.5"
+            app:cardBackgroundColor="?attr/colorPrimary"
             app:cardCornerRadius="10dp"
             app:cardElevation="20dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -383,8 +385,9 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingBottom="20dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -393,7 +396,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
                     android:text="@string/newPassRule"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
                 <TextView
@@ -403,7 +406,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
                     android:text="@string/newPassRule1"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -416,7 +419,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
                     android:text="@string/newPassRule2"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -430,7 +433,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
                     android:text="@string/newPassRule3"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -447,9 +450,9 @@
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="15dp"
             app:cardElevation="20dp"
-            app:layout_constraintBottom_toBottomOf="@+id/specialInfo"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/specialInfo">
+            app:layout_constraintTop_toTopOf="@+id/cardView2">
 
             <TextView
                 android:id="@+id/allPass"
@@ -464,7 +467,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/specialInfo"
+            android:id="@+id/cardView2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -562,15 +565,30 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_weight="1"
-            android:alpha="0.5"
-            android:translationX="25dp"
-            android:translationY="25dp"
+            android:alpha="0.2"
             android:contentDescription="@string/smile"
             android:rotation="340"
+            android:translationX="25dp"
+            android:translationY="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/emoticon_wink_outline"
             app:tint="@color/black" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/extraNewPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:elevation="25dp"
+            android:visibility="gone"
+            app:backgroundTint="@color/white"
+            app:elevation="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/expand"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/plus"
+            app:tint="?attr/colorPrimary" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
