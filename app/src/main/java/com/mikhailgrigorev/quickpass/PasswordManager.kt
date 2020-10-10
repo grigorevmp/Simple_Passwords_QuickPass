@@ -53,11 +53,11 @@ class PasswordManager {
         val monthCurrent = c.get(Calendar.MONTH)
         val dayCurrent = c.get(Calendar.DAY_OF_MONTH)
 
-        return if(yearCurrent > year)
-            true
-        else if(monthCurrent > month + 4)
-            true
-        else (monthCurrent > month + 3) && (dayCurrent > day)
+        return when {
+            yearCurrent > year -> true
+            monthCurrent > month + 4 -> true
+            else -> (monthCurrent > month + 3) && (dayCurrent > day)
+        }
     }
 
     fun evaluatePassword(passwordToTest: String) : Float {

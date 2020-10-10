@@ -182,8 +182,8 @@
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/edit"
                     android:padding="10dp"
-                    android:tint="@color/black"
-                    app:srcCompat="@drawable/pencil_outline" />
+                    app:srcCompat="@drawable/pencil_outline"
+                    app:tint="@color/black" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView

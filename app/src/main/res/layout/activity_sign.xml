@@ -126,10 +126,10 @@
         android:clickable="false"
         android:contentDescription="@string/fingerUnlock"
         android:visibility="gone"
-        android:tint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputPasswordId"
-        app:srcCompat="@drawable/fingerprint" />
+        app:srcCompat="@drawable/fingerprint"
+        app:tint="@color/black" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

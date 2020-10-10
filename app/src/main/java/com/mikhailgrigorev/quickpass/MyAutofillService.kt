@@ -10,9 +10,7 @@ import android.os.CancellationSignal
 import android.service.autofill.*
 import android.view.autofill.AutofillValue
 import android.widget.RemoteViews
-import android.widget.Toast
 import androidx.annotation.RequiresApi
-import com.google.android.material.chip.Chip
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -114,13 +112,13 @@ class MyAutofillService : AutofillService() {
 
             var i = 0
 
-            val remoteView = RemoteViews(packageName, R.layout.autofill_suggestion)
+            var remoteView = RemoteViews(packageName, R.layout.autofill_suggestion)
             remoteView.setTextViewText(R.id.suggestion_item, "Random")
             for (name in names){
                 name.split("\\s".toRegex()).forEach { partName ->
                     if ((partName.toLowerCase(Locale.ROOT).contains(appName.toLowerCase(Locale.ROOT))) or
                         (appName.toLowerCase(Locale.ROOT).contains(partName.toLowerCase(Locale.ROOT)))){
-                        val remoteView = RemoteViews(packageName, R.layout.autofill_suggestion)
+                        remoteView = RemoteViews(packageName, R.layout.autofill_suggestion)
                         remoteView.setTextViewText(R.id.suggestion_item, passwords[i])
                         dataSets.add(Dataset.Builder(remoteView).setValue(
                                 passFields[0]?.autofillId!!,
@@ -185,8 +183,5 @@ class MyAutofillService : AutofillService() {
 
     override fun onSaveRequest(request: SaveRequest, callback: SaveCallback) {
     }
-
-    private fun toast(message:String)=
-            Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
 
 }

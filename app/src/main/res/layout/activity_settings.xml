@@ -64,7 +64,7 @@
                             android:layout_weight="1"
                             android:text="@string/biometricLogin" />
 
-                        <Switch
+                        <com.google.android.material.switchmaterial.SwitchMaterial
                             android:id="@+id/biometricSwitch"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
                             android:text="@string/auto_copy_password"
                             app:layout_constraintStart_toStartOf="parent" />
 
-                        <Switch
+                        <com.google.android.material.switchmaterial.SwitchMaterial
                             android:id="@+id/autoCopySwitch"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -112,7 +112,7 @@
                             android:layout_weight="1"
                             android:text="@string/set_pin" />
 
-                        <Switch
+                        <com.google.android.material.switchmaterial.SwitchMaterial
                             android:id="@+id/setPinSwitch"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

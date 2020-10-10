@@ -41,10 +41,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="10dp"
-                    android:tint="@color/black"
                     android:paddingEnd="10dp"
                     android:src="@drawable/delete_outline"
-                    android:contentDescription="@string/deletePassword" />
+                    android:contentDescription="@string/deletePassword"
+                    app:tint="@color/black" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -69,11 +69,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
-                    android:tint="@color/black"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     android:src="@drawable/heart_outline"
-                    android:contentDescription="@string/favorite" />
+                    android:contentDescription="@string/favorite"
+                    app:tint="@color/black" />
 
                 <TextView
                     android:layout_width="0dp"
