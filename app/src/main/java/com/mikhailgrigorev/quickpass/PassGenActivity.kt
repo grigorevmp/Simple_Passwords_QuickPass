@@ -49,6 +49,8 @@ class PassGenActivity : AppCompatActivity() {
     private var safePass = 0
     private var unsafePass = 0
     private var fixPass = 0
+    private var faNum = 0
+    private var tlNum = 0
     private val passwords: ArrayList<Pair<String, String>> = ArrayList()
     private var passwordsG: ArrayList<Pair<String, String>> = ArrayList()
     private val realPass: ArrayList<Pair<String, String>> = ArrayList()
@@ -182,7 +184,8 @@ class PassGenActivity : AppCompatActivity() {
                         pdbHelper.TABLE_USERS, arrayOf(
                         pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
                         pdbHelper.KEY_TIME, pdbHelper.KEY_2FA,
-                        pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS
+                        pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS,
+                        pdbHelper.KEY_USE_TIME
                 ),
                         null, null,
                         null, null, null
@@ -207,6 +210,7 @@ class PassGenActivity : AppCompatActivity() {
                     val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
                     val groupIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_GROUPS)
                     val timeIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TIME)
+                    val tIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_USE_TIME)
                     var j = 0
                     do {
                         val pass = pCursor.getString(passIndex).toString()
@@ -246,12 +250,23 @@ class PassGenActivity : AppCompatActivity() {
                             group.add(0, "#favorite")
                         }
 
+                        val fa = pCursor.getString(aIndex).toString()
+                        val tl= pCursor.getString(tIndex).toString()
 
+                        if(fa == "1")
+                            faNum += 1
+
+                        if(tl == "1")
+                            tlNum += 1
                         when (qualityNum) {
                             "1" -> safePass += 1
                             "2" -> unsafePass += 1
                             "3" -> fixPass += 1
                         }
+
+                        allPass.text = (safePass+ unsafePass + fixPass).toString()
+                        afText.text = faNum.toString()
+                        tlText.text = tlNum.toString()
                     } while (pCursor.moveToNext())
                 }
             } catch (e: SQLException) {
@@ -448,7 +463,6 @@ class PassGenActivity : AppCompatActivity() {
                 unsafePass
         )
         fixPasswords.text = resources.getQuantityString(R.plurals.need_fix, fixPass, fixPass)
-
         passwordRecycler.layoutManager = LinearLayoutManager(
                 this,
                 LinearLayoutManager.VERTICAL,
@@ -1043,34 +1057,28 @@ class PassGenActivity : AppCompatActivity() {
             finish()
         }
 
-
-
-        // получение вью нижнего экрана
-
         // получение вью нижнего экрана
         val llBottomSheet = findViewById<LinearLayout>(R.id.allPassword)
 
         allPassword.translationZ = 24F
         newPass.translationZ = 101F
-        // настройка поведения нижнего экрана
 
         // настройка поведения нижнего экрана
         val bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet)
 
         // настройка состояний нижнего экрана
-
-        // настройка состояний нижнего экрана
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        //bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        //bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
 
         expand.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
+        menu_up.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
+
         // настройка максимальной высоты
         bottomSheetBehavior.peekHeight = 600
-
 
         // настройка возможности скрыть элемент при свайпе вниз
         bottomSheetBehavior.isHideable = true
@@ -1280,6 +1288,9 @@ class PassGenActivity : AppCompatActivity() {
                         "2" -> unsafePass += 1
                         "3" -> fixPass += 1
                     }
+                    allPass.text = (safePass+ unsafePass + fixPass).toString()
+                    afText.text = faNum.toString()
+                    tlText.text = tlNum.toString()
                 } while (pCursor.moveToNext())
             }
         } catch (e: SQLException) {
@@ -1391,7 +1402,9 @@ class PassGenActivity : AppCompatActivity() {
                                 "2" -> unsafePass += 1
                                 "3" -> fixPass += 1
                             }
-
+                            allPass.text = (safePass+ unsafePass + fixPass).toString()
+                            afText.text = faNum.toString()
+                            tlText.text = tlNum.toString()
                         } while (pCursor.moveToNext())
                         correctPasswords.text = resources.getQuantityString(
                                 R.plurals.correct_passwords,
