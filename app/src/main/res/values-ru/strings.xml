@@ -88,7 +88,7 @@
     <string name="biometricLogin">Сканер отпечатков</string>
     <string name="logWithBio">Войти с помощью биометрии</string>
     <string name="usePass">Использовать пароль</string>
-    <string name="search_password">Найти пароль</string>
+    <string name="search_password">Поиск</string>
     <string name="auto_copy_password">Авто-копирование пароля</string>
     <string name="about_app">О приложении</string>
     <string name="mikhail_grigorev">Михаил Григорьев</string>
