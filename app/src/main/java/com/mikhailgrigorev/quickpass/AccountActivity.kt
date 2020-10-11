@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_account.*
 
+
 class AccountActivity : AppCompatActivity() {
 
     private val _keyTheme = "themePreference"
@@ -59,7 +60,7 @@ class AccountActivity : AppCompatActivity() {
         // Checking prefs
         val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
 
-        with (sharedPref.edit()) {
+        with(sharedPref.edit()) {
             putString(_keyUsername, login)
             commit()
         }
@@ -67,9 +68,14 @@ class AccountActivity : AppCompatActivity() {
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
         val cursor: Cursor = database.query(
-            dbHelper.TABLE_USERS, arrayOf(dbHelper.KEY_NAME, dbHelper.KEY_PASS, dbHelper.KEY_ID, dbHelper.KEY_IMAGE),
-            "NAME = ?", arrayOf(login),
-            null, null, null
+                dbHelper.TABLE_USERS, arrayOf(
+                dbHelper.KEY_NAME,
+                dbHelper.KEY_PASS,
+                dbHelper.KEY_ID,
+                dbHelper.KEY_IMAGE
+        ),
+                "NAME = ?", arrayOf(login),
+                null, null, null
         )
 
         if (cursor.moveToFirst()) {
@@ -79,30 +85,53 @@ class AccountActivity : AppCompatActivity() {
                 val exInfoPassText = cursor.getString(passIndex).toString()
                 passViewField.setText(exInfoPassText)
                 when(cursor.getString(imageIndex).toString()){
-                    "ic_account" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account)
-                    "ic_account_Pink" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Pink)
-                    "ic_account_Red" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Red)
-                    "ic_account_Purple" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Purple)
-                    "ic_account_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Violet)
-                    "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Dark_Violet)
-                    "ic_account_Blue" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Blue)
-                    "ic_account_Cyan" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Cyan)
-                    "ic_account_Teal" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Teal)
-                    "ic_account_Green" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Green)
-                    "ic_account_lightGreen" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_lightGreen)
+                    "ic_account" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account
+                            )
+                    "ic_account_Pink" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Pink
+                            )
+                    "ic_account_Red" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Red
+                            )
+                    "ic_account_Purple" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Purple
+                            )
+                    "ic_account_Violet" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Violet
+                            )
+                    "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Dark_Violet
+                            )
+                    "ic_account_Blue" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Blue
+                            )
+                    "ic_account_Cyan" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Cyan
+                            )
+                    "ic_account_Teal" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Teal
+                            )
+                    "ic_account_Green" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Green
+                            )
+                    "ic_account_lightGreen" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_lightGreen
+                            )
                     else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account)
+                            this, R.color.ic_account
+                    )
                 }
                 accountAvatarText.text = login[0].toString()
             } while (cursor.moveToNext())
@@ -116,9 +145,15 @@ class AccountActivity : AppCompatActivity() {
         val pDatabase = pdbHelper.writableDatabase
         try {
             val pCursor: Cursor = pDatabase.query(
-                    pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
-                    pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS, pdbHelper.KEY_USE_TIME,
-            pdbHelper.KEY_TIME),
+                    pdbHelper.TABLE_USERS, arrayOf(
+                    pdbHelper.KEY_NAME,
+                    pdbHelper.KEY_PASS,
+                    pdbHelper.KEY_2FA,
+                    pdbHelper.KEY_TAGS,
+                    pdbHelper.KEY_GROUPS,
+                    pdbHelper.KEY_USE_TIME,
+                    pdbHelper.KEY_TIME
+            ),
                     null, null,
                     null, null, null
             )
@@ -181,9 +216,21 @@ class AccountActivity : AppCompatActivity() {
                 } while (pCursor.moveToNext())
             }
 
-            correctPasswords.text = resources.getQuantityString(R.plurals.correct_passwords, correctNum, correctNum)
-            negativePasswords.text = resources.getQuantityString(R.plurals.incorrect_password, inCorrectNum, inCorrectNum)
-            fixPasswords.text = resources.getQuantityString(R.plurals.need_fix, midCorrectNum, midCorrectNum)
+            correctPasswords.text = resources.getQuantityString(
+                    R.plurals.correct_passwords,
+                    correctNum,
+                    correctNum
+            )
+            negativePasswords.text = resources.getQuantityString(
+                    R.plurals.incorrect_password,
+                    inCorrectNum,
+                    inCorrectNum
+            )
+            fixPasswords.text = resources.getQuantityString(
+                    R.plurals.need_fix,
+                    midCorrectNum,
+                    midCorrectNum
+            )
 
             afText.text = faNum.toString()
             tlText.text = tlNum.toString()
@@ -219,8 +266,8 @@ class AccountActivity : AppCompatActivity() {
             intent.putExtra("login", login)
             intent.putExtra("passName", passName)
             intent.putExtra("activity", account)
-            startActivity(intent)
-            finish()
+            startActivityForResult(intent, 1)
+            //finish()
         }
 
         deleteAccount.setOnClickListener {
@@ -229,11 +276,15 @@ class AccountActivity : AppCompatActivity() {
             builder.setMessage(getString(R.string.accountDeleteConfirm))
 
             builder.setPositiveButton(getString(R.string.yes)){ _, _ ->
-                database.delete(dbHelper.TABLE_USERS,
-                    "NAME = ?",
-                    arrayOf(login))
-                pDatabase.delete(pdbHelper.TABLE_USERS,
-                    null, null)
+                database.delete(
+                        dbHelper.TABLE_USERS,
+                        "NAME = ?",
+                        arrayOf(login)
+                )
+                pDatabase.delete(
+                        pdbHelper.TABLE_USERS,
+                        null, null
+                )
                 toast(getString(R.string.accountDeleted))
                 exit(sharedPref)
             }
@@ -271,8 +322,10 @@ class AccountActivity : AppCompatActivity() {
                         startActivity(intent)
                     }
                 }
-                this.overridePendingTransition(R.anim.right_in,
-                    R.anim.right_out)
+                this.overridePendingTransition(
+                        R.anim.right_in,
+                        R.anim.right_out
+                )
                 finish()
             }
         }
@@ -312,7 +365,14 @@ class AccountActivity : AppCompatActivity() {
         }
     }
 
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            if (resultCode == 1) {
+                recreate()
+            }
+        }
+    }
     private fun exit(sharedPref: SharedPreferences) {
         sharedPref.edit().remove(_keyUsername).apply()
         sharedPref.edit().remove(_keyUsePin).apply()
@@ -322,7 +382,7 @@ class AccountActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun Context.toast(message:String)=
-        Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
+    private fun Context.toast(message: String)=
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
 }

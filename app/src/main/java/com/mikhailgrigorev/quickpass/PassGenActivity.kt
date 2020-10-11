@@ -1111,10 +1111,13 @@ class PassGenActivity : AppCompatActivity() {
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 menu_up.animate().rotation(180F * slideOffset).start()
-                newPass.animate().scaleX(1 - abs(slideOffset)).scaleY(1 - abs(slideOffset)).setDuration(0).start()
+                if (slideOffset <= 0){
+                    warn_Card.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0).start()
+                    newPass.animate().scaleX(1 - abs(slideOffset)).scaleY(1 - abs(slideOffset)).setDuration(0).start()
+                }
                 searchPassField.clearFocus()
                 searchPassField.hideKeyboard()
-                warn_Card.animate().alpha(abs(slideOffset) + 0.5F).start()
+
             }
         })
 

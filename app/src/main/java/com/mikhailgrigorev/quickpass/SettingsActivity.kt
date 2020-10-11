@@ -147,13 +147,13 @@ class SettingsActivity : AppCompatActivity() {
 
         autoCopySwitch.setOnCheckedChangeListener { _, _ ->
             if(!autoCopySwitch.isChecked){
-                with (sharedPref.edit()) {
+                with(sharedPref.edit()) {
                     putString(_keyAutoCopy, "dis")
                     commit()
                 }
             }
             else{
-                with (sharedPref.edit()) {
+                with(sharedPref.edit()) {
                     putString(_keyAutoCopy, "none")
                     commit()
                 }
@@ -163,14 +163,14 @@ class SettingsActivity : AppCompatActivity() {
         autoCopy.setOnClickListener {
             if(autoCopySwitch.isChecked){
                 autoCopySwitch.isChecked = false
-                with (sharedPref.edit()) {
+                with(sharedPref.edit()) {
                     putString(_keyAutoCopy, "dis")
                     commit()
                 }
             }
             else{
                 autoCopySwitch.isChecked = true
-                with (sharedPref.edit()) {
+                with(sharedPref.edit()) {
                     putString(_keyAutoCopy, "none")
                     commit()
                 }
@@ -187,7 +187,7 @@ class SettingsActivity : AppCompatActivity() {
                 finish()
             }
             else{
-                with (sharedPref.edit()) {
+                with(sharedPref.edit()) {
                     putString(_keyUsePin, "none")
                     commit()
                 }
@@ -197,7 +197,7 @@ class SettingsActivity : AppCompatActivity() {
         setPin.setOnClickListener {
             if(setPinSwitch.isChecked){
                 setPinSwitch.isChecked = false
-                with (sharedPref.edit()) {
+                with(sharedPref.edit()) {
                     putString(_keyUsePin, "none")
                     commit()
                 }
@@ -214,13 +214,13 @@ class SettingsActivity : AppCompatActivity() {
 
         biometricSwitch.setOnCheckedChangeListener { _, _ ->
             if(biometricSwitch.isChecked){
-                with (sharedPref.edit()) {
+                with(sharedPref.edit()) {
                     putString(_keyBio, "using")
                     commit()
                 }
             }
             else{
-                with (sharedPref.edit()) {
+                with(sharedPref.edit()) {
                     putString(_keyBio, "none")
                     commit()
                 }
@@ -230,14 +230,14 @@ class SettingsActivity : AppCompatActivity() {
         biometricText.setOnClickListener {
             if(!biometricSwitch.isChecked){
                 biometricSwitch.isChecked = true
-                with (sharedPref.edit()) {
+                with(sharedPref.edit()) {
                     putString(_keyBio, "using")
                     commit()
                 }
             }
             else{
                 biometricSwitch.isChecked = false
-                with (sharedPref.edit()) {
+                with(sharedPref.edit()) {
                     putString(_keyBio, "none")
                     commit()
                 }
@@ -263,30 +263,53 @@ class SettingsActivity : AppCompatActivity() {
                 val exInfoImgText = cursor.getString(imageIndex).toString()
                 imageName = exInfoImgText
                 when(cursor.getString(imageIndex).toString()){
-                    "ic_account" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account)
-                    "ic_account_Pink" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Pink)
-                    "ic_account_Red" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Red)
-                    "ic_account_Purple" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Purple)
-                    "ic_account_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Violet)
-                    "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Dark_Violet)
-                    "ic_account_Blue" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Blue)
-                    "ic_account_Cyan" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Cyan)
-                    "ic_account_Teal" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Teal)
-                    "ic_account_Green" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Green)
-                    "ic_account_lightGreen" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_lightGreen)
+                    "ic_account" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account
+                            )
+                    "ic_account_Pink" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Pink
+                            )
+                    "ic_account_Red" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Red
+                            )
+                    "ic_account_Purple" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Purple
+                            )
+                    "ic_account_Violet" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Violet
+                            )
+                    "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Dark_Violet
+                            )
+                    "ic_account_Blue" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Blue
+                            )
+                    "ic_account_Cyan" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Cyan
+                            )
+                    "ic_account_Teal" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Teal
+                            )
+                    "ic_account_Green" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Green
+                            )
+                    "ic_account_lightGreen" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_lightGreen
+                            )
                     else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account)
+                            this, R.color.ic_account
+                    )
                 }
                 accountAvatarText.text = login[0].toString()
             } while (cursor.moveToNext())
@@ -350,62 +373,112 @@ class SettingsActivity : AppCompatActivity() {
                 "ic_account_Pink" -> {
                     turnOffAllIcons()
                     packageManager.setComponentEnabledSetting(
-                            ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityPink"),
-                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+                            ComponentName(
+                                    "com.mikhailgrigorev.quickpass",
+                                    "com.mikhailgrigorev.quickpass.LoginActivityPink"
+                            ),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            PackageManager.DONT_KILL_APP
+                    )
                 }
                 "ic_account_Red" -> {
                     turnOffAllIcons()
                     packageManager.setComponentEnabledSetting(
-                            ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityRed"),
-                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+                            ComponentName(
+                                    "com.mikhailgrigorev.quickpass",
+                                    "com.mikhailgrigorev.quickpass.LoginActivityRed"
+                            ),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            PackageManager.DONT_KILL_APP
+                    )
                 }
                 "ic_account_Purple" -> {
                     turnOffAllIcons()
                     packageManager.setComponentEnabledSetting(
-                            ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityPurple"),
-                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+                            ComponentName(
+                                    "com.mikhailgrigorev.quickpass",
+                                    "com.mikhailgrigorev.quickpass.LoginActivityPurple"
+                            ),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            PackageManager.DONT_KILL_APP
+                    )
                 }
                 "ic_account_Violet" -> {
                     turnOffAllIcons()
-                        packageManager.setComponentEnabledSetting(
-                                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivity"),
-                                PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+                    packageManager.setComponentEnabledSetting(
+                            ComponentName(
+                                    "com.mikhailgrigorev.quickpass",
+                                    "com.mikhailgrigorev.quickpass.LoginActivity"
+                            ),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            PackageManager.DONT_KILL_APP
+                    )
                 }
                 "ic_account_Dark_Violet" -> {
                     turnOffAllIcons()
                     packageManager.setComponentEnabledSetting(
-                            ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivitydViolet"),
-                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+                            ComponentName(
+                                    "com.mikhailgrigorev.quickpass",
+                                    "com.mikhailgrigorev.quickpass.LoginActivitydViolet"
+                            ),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            PackageManager.DONT_KILL_APP
+                    )
                 }
                 "ic_account_Blue" -> {
                     turnOffAllIcons()
                     packageManager.setComponentEnabledSetting(
-                            ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityBlue"),
-                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+                            ComponentName(
+                                    "com.mikhailgrigorev.quickpass",
+                                    "com.mikhailgrigorev.quickpass.LoginActivityBlue"
+                            ),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            PackageManager.DONT_KILL_APP
+                    )
                 }
                 "ic_account_Cyan" -> {
                     turnOffAllIcons()
                     packageManager.setComponentEnabledSetting(
-                            ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityCyan"),
-                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+                            ComponentName(
+                                    "com.mikhailgrigorev.quickpass",
+                                    "com.mikhailgrigorev.quickpass.LoginActivityCyan"
+                            ),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            PackageManager.DONT_KILL_APP
+                    )
                 }
                 "ic_account_Teal" -> {
                     turnOffAllIcons()
                     packageManager.setComponentEnabledSetting(
-                            ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityTeal"),
-                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+                            ComponentName(
+                                    "com.mikhailgrigorev.quickpass",
+                                    "com.mikhailgrigorev.quickpass.LoginActivityTeal"
+                            ),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            PackageManager.DONT_KILL_APP
+                    )
                 }
                 "ic_account_Green" -> {
-                        turnOffAllIcons()
-                        packageManager.setComponentEnabledSetting(
-                                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityGreen"),
-                                PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+                    turnOffAllIcons()
+                    packageManager.setComponentEnabledSetting(
+                            ComponentName(
+                                    "com.mikhailgrigorev.quickpass",
+                                    "com.mikhailgrigorev.quickpass.LoginActivityGreen"
+                            ),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            PackageManager.DONT_KILL_APP
+                    )
                 }
                 "ic_account_lightGreen" -> {
                     turnOffAllIcons()
                     packageManager.setComponentEnabledSetting(
-                            ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivitylGreen"),
-                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+                            ComponentName(
+                                    "com.mikhailgrigorev.quickpass",
+                                    "com.mikhailgrigorev.quickpass.LoginActivitylGreen"
+                            ),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            PackageManager.DONT_KILL_APP
+                    )
                 }
             }
         }
@@ -414,35 +487,75 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun turnOffAllIcons(){
         packageManager.setComponentEnabledSetting(
-                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivity"),
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+                ComponentName(
+                        "com.mikhailgrigorev.quickpass",
+                        "com.mikhailgrigorev.quickpass.LoginActivity"
+                ),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
+        )
         packageManager.setComponentEnabledSetting(
-                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityGreen"),
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+                ComponentName(
+                        "com.mikhailgrigorev.quickpass",
+                        "com.mikhailgrigorev.quickpass.LoginActivityGreen"
+                ),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
+        )
         packageManager.setComponentEnabledSetting(
-                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityTeal"),
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+                ComponentName(
+                        "com.mikhailgrigorev.quickpass",
+                        "com.mikhailgrigorev.quickpass.LoginActivityTeal"
+                ),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
+        )
         packageManager.setComponentEnabledSetting(
-                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivitylGreen"),
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+                ComponentName(
+                        "com.mikhailgrigorev.quickpass",
+                        "com.mikhailgrigorev.quickpass.LoginActivitylGreen"
+                ),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
+        )
         packageManager.setComponentEnabledSetting(
-                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityCyan"),
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+                ComponentName(
+                        "com.mikhailgrigorev.quickpass",
+                        "com.mikhailgrigorev.quickpass.LoginActivityCyan"
+                ),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
+        )
         packageManager.setComponentEnabledSetting(
-                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityBlue"),
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+                ComponentName(
+                        "com.mikhailgrigorev.quickpass",
+                        "com.mikhailgrigorev.quickpass.LoginActivityBlue"
+                ),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
+        )
         packageManager.setComponentEnabledSetting(
-                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivitydViolet"),
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+                ComponentName(
+                        "com.mikhailgrigorev.quickpass",
+                        "com.mikhailgrigorev.quickpass.LoginActivitydViolet"
+                ),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
+        )
         packageManager.setComponentEnabledSetting(
-                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityPurple"),
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+                ComponentName(
+                        "com.mikhailgrigorev.quickpass",
+                        "com.mikhailgrigorev.quickpass.LoginActivityPurple"
+                ),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
+        )
         packageManager.setComponentEnabledSetting(
-                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityPink"),
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+                ComponentName(
+                        "com.mikhailgrigorev.quickpass",
+                        "com.mikhailgrigorev.quickpass.LoginActivityPink"
+                ),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
+        )
         packageManager.setComponentEnabledSetting(
-                ComponentName("com.mikhailgrigorev.quickpass", "com.mikhailgrigorev.quickpass.LoginActivityRed"),
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+                ComponentName(
+                        "com.mikhailgrigorev.quickpass",
+                        "com.mikhailgrigorev.quickpass.LoginActivityRed"
+                ),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
+        )
     }
 
 
@@ -549,10 +662,11 @@ class SettingsActivity : AppCompatActivity() {
         when(imageName){
             "ic_account" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                        this, R.color.ic_account)
+                        this, R.color.ic_account
+                )
                 // Checking prefs
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-                if(sharedPref.getString("themeAccentPreference", "none") != "Violet") {
+                if (sharedPref.getString("themeAccentPreference", "none") != "Violet") {
                     with(sharedPref.edit()) {
                         putString(_keyThemeAccent, "Violet")
                         commit()
@@ -562,9 +676,10 @@ class SettingsActivity : AppCompatActivity() {
             }
             "ic_account_Pink" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                    this, R.color.ic_account_Pink)
+                        this, R.color.ic_account_Pink
+                )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-                if(sharedPref.getString("themeAccentPreference", "none") != "Pink") {
+                if (sharedPref.getString("themeAccentPreference", "none") != "Pink") {
                     with(sharedPref.edit()) {
                         putString(_keyThemeAccent, "Pink")
                         commit()
@@ -574,9 +689,10 @@ class SettingsActivity : AppCompatActivity() {
             }
             "ic_account_Red" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                        this, R.color.ic_account_Red)
+                        this, R.color.ic_account_Red
+                )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-                if(sharedPref.getString("themeAccentPreference", "none") != "Red") {
+                if (sharedPref.getString("themeAccentPreference", "none") != "Red") {
                     with(sharedPref.edit()) {
                         putString(_keyThemeAccent, "Red")
                         commit()
@@ -586,9 +702,10 @@ class SettingsActivity : AppCompatActivity() {
             }
             "ic_account_Purple" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                        this, R.color.ic_account_Purple)
+                        this, R.color.ic_account_Purple
+                )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-                if(sharedPref.getString("themeAccentPreference", "none") != "Purple") {
+                if (sharedPref.getString("themeAccentPreference", "none") != "Purple") {
                     with(sharedPref.edit()) {
                         putString(_keyThemeAccent, "Purple")
                         commit()
@@ -598,91 +715,99 @@ class SettingsActivity : AppCompatActivity() {
             }
             "ic_account_Violet" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                        this, R.color.ic_account_Violet)
+                        this, R.color.ic_account_Violet
+                )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-                if(sharedPref.getString("themeAccentPreference", "none") != "Violet") {
-                with(sharedPref.edit()) {
-                    putString(_keyThemeAccent, "Violet")
-                    commit()
-                }
+                if (sharedPref.getString("themeAccentPreference", "none") != "Violet") {
+                    with(sharedPref.edit()) {
+                        putString(_keyThemeAccent, "Violet")
+                        commit()
+                    }
                     recreate()
                 }
             }
             "ic_account_Dark_Violet" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                        this, R.color.ic_account_Dark_Violet)
+                        this, R.color.ic_account_Dark_Violet
+                )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-                    if(sharedPref.getString("themeAccentPreference", "none") != "DViolet") {
-                with(sharedPref.edit()) {
-                    putString(_keyThemeAccent, "DViolet")
-                    commit()
-                }
-                        recreate()
+                if (sharedPref.getString("themeAccentPreference", "none") != "DViolet") {
+                    with(sharedPref.edit()) {
+                        putString(_keyThemeAccent, "DViolet")
+                        commit()
                     }
+                    recreate()
+                }
             }
             "ic_account_Blue" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                        this, R.color.ic_account_Blue)
+                        this, R.color.ic_account_Blue
+                )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-                    if(sharedPref.getString("themeAccentPreference", "none") != "Blue") {
-                with(sharedPref.edit()) {
-                    putString(_keyThemeAccent, "Blue")
-                    commit()
-                }
-                        recreate()
+                if (sharedPref.getString("themeAccentPreference", "none") != "Blue") {
+                    with(sharedPref.edit()) {
+                        putString(_keyThemeAccent, "Blue")
+                        commit()
                     }
+                    recreate()
+                }
             }
             "ic_account_Cyan" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                        this, R.color.ic_account_Cyan)
+                        this, R.color.ic_account_Cyan
+                )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-                    if(sharedPref.getString("themeAccentPreference", "none") != "Cyan") {
-                with(sharedPref.edit()) {
-                    putString(_keyThemeAccent, "Cyan")
-                    commit()
-                }
-                        recreate()
+                if (sharedPref.getString("themeAccentPreference", "none") != "Cyan") {
+                    with(sharedPref.edit()) {
+                        putString(_keyThemeAccent, "Cyan")
+                        commit()
                     }
+                    recreate()
+                }
             }
             "ic_account_Teal" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                        this, R.color.ic_account_Teal)
+                        this, R.color.ic_account_Teal
+                )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-                    if(sharedPref.getString("themeAccentPreference", "none") != "Teal") {
-                with(sharedPref.edit()) {
-                    putString(_keyThemeAccent, "Teal")
-                    commit()
-                }
-                        recreate()
+                if (sharedPref.getString("themeAccentPreference", "none") != "Teal") {
+                    with(sharedPref.edit()) {
+                        putString(_keyThemeAccent, "Teal")
+                        commit()
                     }
+                    recreate()
+                }
             }
             "ic_account_Green" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                        this, R.color.ic_account_Green)
+                        this, R.color.ic_account_Green
+                )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-                    if(sharedPref.getString("themeAccentPreference", "none") != "Green") {
-                with(sharedPref.edit()) {
-                    putString(_keyThemeAccent, "Green")
-                    commit()
-                }
-                        recreate()
+                if (sharedPref.getString("themeAccentPreference", "none") != "Green") {
+                    with(sharedPref.edit()) {
+                        putString(_keyThemeAccent, "Green")
+                        commit()
                     }
+                    recreate()
+                }
             }
             "ic_account_lightGreen" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                        this, R.color.ic_account_lightGreen)
+                        this, R.color.ic_account_lightGreen
+                )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-                    if(sharedPref.getString("themeAccentPreference", "none") != "LGreen") {
-                with(sharedPref.edit()) {
-                    putString(_keyThemeAccent, "LGreen")
-                    commit()
-                }
-                        recreate()
+                if (sharedPref.getString("themeAccentPreference", "none") != "LGreen") {
+                    with(sharedPref.edit()) {
+                        putString(_keyThemeAccent, "LGreen")
+                        commit()
                     }
+                    recreate()
+                }
             }
             else -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                        this, R.color.ic_account)
+                        this, R.color.ic_account
+                )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
                     if(sharedPref.getString("themeAccentPreference", "none") != "Violet") {
                 with(sharedPref.edit()) {
@@ -712,8 +837,14 @@ class SettingsActivity : AppCompatActivity() {
 
         try {
             val pCursor: Cursor = pDatabase.query(
-                    pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
-                    pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS, pdbHelper.KEY_USE_TIME),
+                    pdbHelper.TABLE_USERS, arrayOf(
+                    pdbHelper.KEY_NAME,
+                    pdbHelper.KEY_PASS,
+                    pdbHelper.KEY_2FA,
+                    pdbHelper.KEY_TAGS,
+                    pdbHelper.KEY_GROUPS,
+                    pdbHelper.KEY_USE_TIME
+            ),
                     null, null,
                     null, null, null
             )
@@ -736,12 +867,16 @@ class SettingsActivity : AppCompatActivity() {
 
         importDB.setOnClickListener {
             try {
-                if (ContextCompat.checkSelfPermission(this@SettingsActivity,
-                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                if (ContextCompat.checkSelfPermission(
+                            this@SettingsActivity,
+                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    )
                     != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this,
+                    ActivityCompat.requestPermissions(
+                            this,
                             arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                            PackageManager.PERMISSION_GRANTED)
+                            PackageManager.PERMISSION_GRANTED
+                    )
                 }
                 val filename = "/MyBackUp.csv"
                 val sdCardDir =
@@ -812,25 +947,26 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         back.setOnClickListener {
-            val intent = Intent(this, AccountActivity::class.java)
+            val intent = Intent()
             intent.putExtra("login", login)
             intent.putExtra("passName", passName)
             intent.putExtra("activity", account)
-            startActivity(intent)
-            this.overridePendingTransition(
-                    R.anim.right_in,
-                    R.anim.right_out
-            )
-            finish() }
+            setResult(1, intent)
+            finish()
+        }
 
         export.setOnClickListener {
             try {
-                if (ContextCompat.checkSelfPermission(this@SettingsActivity,
-                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                if (ContextCompat.checkSelfPermission(
+                            this@SettingsActivity,
+                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    )
                     != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this,
+                    ActivityCompat.requestPermissions(
+                            this,
                             arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                            PackageManager.PERMISSION_GRANTED)
+                            PackageManager.PERMISSION_GRANTED
+                    )
                 }
                 val c = passDataBase.rawQuery("select * from $login", null)
                 val rowcount: Int
@@ -875,8 +1011,8 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    private fun Context.toast(message:String)=
-            Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
+    private fun Context.toast(message: String)=
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     private fun getDateTime(): String? {
         val dateFormat = SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault()
@@ -888,16 +1024,24 @@ class SettingsActivity : AppCompatActivity() {
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
-                val intent = Intent(this, AccountActivity::class.java)
+
+                val intent = Intent()
                 intent.putExtra("login", login)
                 intent.putExtra("passName", passName)
                 intent.putExtra("activity", account)
-                startActivity(intent)
-                this.overridePendingTransition(
-                        R.anim.right_in,
-                        R.anim.right_out
-                )
+                setResult(1, intent)
                 finish()
+
+                //val intent = Intent(this, AccountActivity::class.java)
+                //intent.putExtra("login", login)
+                //intent.putExtra("passName", passName)
+                //intent.putExtra("activity", account)
+                //startActivity(intent)
+                //this.overridePendingTransition(
+                //        R.anim.right_in,
+                //        R.anim.right_out
+                //)
+                //finish()
             }
         }
         return false
