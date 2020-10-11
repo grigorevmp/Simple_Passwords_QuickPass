@@ -16,6 +16,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_settings.*
 import java.io.*
@@ -735,6 +736,13 @@ class SettingsActivity : AppCompatActivity() {
 
         importDB.setOnClickListener {
             try {
+                if (ContextCompat.checkSelfPermission(this@SettingsActivity,
+                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this,
+                            arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                            PackageManager.PERMISSION_GRANTED)
+                }
                 val filename = "/MyBackUp.csv"
                 val sdCardDir =
                         Environment.getExternalStorageDirectory()
@@ -799,17 +807,31 @@ class SettingsActivity : AppCompatActivity() {
                 toast(getString(R.string.imported))
             }
             catch (ex: Exception) {
-                if (passDataBase.isOpen) {
-                    passDataBase.close()
-                    toast(ex.message.toString())
-                    warn_Card.visibility = View.VISIBLE
-                }
             }
 
         }
 
+        back.setOnClickListener {
+            val intent = Intent(this, AccountActivity::class.java)
+            intent.putExtra("login", login)
+            intent.putExtra("passName", passName)
+            intent.putExtra("activity", account)
+            startActivity(intent)
+            this.overridePendingTransition(
+                    R.anim.right_in,
+                    R.anim.right_out
+            )
+            finish() }
+
         export.setOnClickListener {
             try {
+                if (ContextCompat.checkSelfPermission(this@SettingsActivity,
+                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this,
+                            arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                            PackageManager.PERMISSION_GRANTED)
+                }
                 val c = passDataBase.rawQuery("select * from $login", null)
                 val rowcount: Int
                 val colcount: Int
@@ -849,11 +871,6 @@ class SettingsActivity : AppCompatActivity() {
                     toast(getString(R.string.exported))
                 }
             } catch (ex: Exception) {
-                if (passDataBase.isOpen) {
-                    passDataBase.close()
-                    toast(ex.message.toString())
-                    warn_Card.visibility = View.VISIBLE
-                }
             }
         }
     }
