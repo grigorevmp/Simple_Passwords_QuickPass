@@ -13,11 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_edit_account.*
-import kotlinx.android.synthetic.main.activity_edit_account.accountAvatar
-import kotlinx.android.synthetic.main.activity_edit_account.accountAvatarText
-import kotlinx.android.synthetic.main.activity_edit_account.back
-import kotlinx.android.synthetic.main.activity_edit_account.helloTextId
-import kotlinx.android.synthetic.main.activity_settings.*
 
 
 class EditAccountActivity : AppCompatActivity() {
