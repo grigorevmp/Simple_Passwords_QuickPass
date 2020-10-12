@@ -53,6 +53,7 @@
     <string name="passCopied">Password was copied to clipboard</string>
     <string name="noRules">You should choose at least 1 rule</string>
     <string name="add_new_password">Add password</string>
+    <string name="exit_account">Log out</string>
     <string name="name_your_password">Name your password</string>
     <string name="_2fa">2FA</string>
     <string name="set_time_limit">Set time limit</string>
@@ -75,6 +76,7 @@
     <string name="passwordDeleteConfirm">Are you really want to this password?</string>
     <string name="passwordDeleted">You password has been deleted</string>
     <string name="accountDeleteConfirm">Are you really want to delete this account?</string>
+    <string name="accountExitConfirm">Are you really want to log out this account?</string>
     <string name="accountDelete">Delete this account</string>
     <string name="accountDeleted">You account has been deleted</string>
     <string name="low">low</string>

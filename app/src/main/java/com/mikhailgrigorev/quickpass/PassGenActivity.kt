@@ -1098,6 +1098,8 @@ class PassGenActivity : AppCompatActivity() {
         searchPassField.clearFocus()
         searchPassField.hideKeyboard()
 
+        bottomSheetBehavior.expandedOffset = 600
+
         expand.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             with(sharedPref.edit()) {

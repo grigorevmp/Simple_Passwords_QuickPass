@@ -11,6 +11,7 @@
     <string name="errPass">необходимо ввести от 4 до 20 символов</string>
     <string name="log_out">Выйти</string>
     <string name="delete_account">Удалить аккаунт</string>
+    <string name="exit_account">Выйти из аккаунта</string>
     <string name="no_text">Нет информации</string>
     <string name="exists">Этот пользователь уже существует</string>
     <string name="wrong_name">Нет пользователя с таким именем</string>
@@ -75,6 +76,7 @@
     <string name="deletePassword">Удалить пароль</string>
     <string name="passwordDeleteConfirm">Вы уверены, что хотите удалить этот пароль?</string>
     <string name="accountDeleteConfirm">Вы уверены, что хотите удалить этот аккаунт?</string>
+    <string name="accountExitConfirm">Вы уверены, что хотите выйти?</string>
     <string name="accountDelete">Удалить аккаунт</string>
     <string name="passwordDeleted">Ваш пароль удален</string>
     <string name="accountDeleted">Ваш аккаунт удален</string>

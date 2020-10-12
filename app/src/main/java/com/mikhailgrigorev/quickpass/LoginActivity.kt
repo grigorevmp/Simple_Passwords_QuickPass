@@ -173,6 +173,7 @@ class LoginActivity : AppCompatActivity() {
         var dbLogin: String
         var dbPassword: String
 
+
         if (cursor.moveToFirst()) {
             val nameIndex: Int = cursor.getColumnIndex(dbHelper.KEY_NAME)
             val passIndex: Int = cursor.getColumnIndex(dbHelper.KEY_PASS)

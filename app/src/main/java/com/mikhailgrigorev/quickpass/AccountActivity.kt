@@ -252,7 +252,21 @@ class AccountActivity : AppCompatActivity() {
         settings.startAnimation(rotation)
 
         logOut.setOnClickListener {
-            exit(sharedPref)
+            val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
+            builder.setTitle(getString(R.string.exit_account))
+            builder.setMessage(getString(R.string.accountExitConfirm))
+
+            builder.setPositiveButton(getString(R.string.yes)){ _, _ ->
+                exit(sharedPref)
+            }
+
+            builder.setNegativeButton(getString(R.string.no)){ _, _ ->
+            }
+
+            builder.setNeutralButton(getString(R.string.cancel)){ _, _ ->
+            }
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
         }
 
         editAccount.setOnClickListener {
