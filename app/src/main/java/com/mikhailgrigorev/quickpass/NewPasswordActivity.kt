@@ -340,6 +340,13 @@ class NewPasswordActivity : AppCompatActivity() {
 
         }
 
+        back.setOnClickListener {
+            val intent = Intent()
+            intent.putExtra("login", login)
+            setResult(1, intent)
+            finish()
+        }
+
         savePass.setOnClickListener {
             val pdbHelper = PasswordsDataBaseHelper(this, login)
             val passDataBase = pdbHelper.writableDatabase
@@ -391,11 +398,9 @@ class NewPasswordActivity : AppCompatActivity() {
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
-                val intent = Intent(this, PassGenActivity::class.java)
+                val intent = Intent()
                 intent.putExtra("login", login)
-                startActivity(intent)
-                this.overridePendingTransition(R.anim.right_in,
-                        R.anim.right_out)
+                setResult(1, intent)
                 finish()
             }
         }

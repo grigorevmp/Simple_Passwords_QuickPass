@@ -29,6 +29,11 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+
+        with(pref.edit()) {
+            putInt("__BS", com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED)
+            apply()
+        }
         when(pref.getString(_keyTheme, "none")){
             "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)

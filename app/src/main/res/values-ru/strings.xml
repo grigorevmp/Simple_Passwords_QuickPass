@@ -53,7 +53,7 @@
     <string name="upperCaseLetters">ABC…</string>
     <string name="noRules">нужно выбрать как минимум 1 правило</string>
     <string name="passCopied">Пароль скопирован в буфер обмена</string>
-    <string name="add_new_password">Добавить новый пароль</string>
+    <string name="add_new_password">Добавить пароль</string>
     <string name="name_your_password">Введите имя пароля</string>
     <string name="_2fa">2FA</string>
     <string name="set_time_limit">Лимит времени</string>

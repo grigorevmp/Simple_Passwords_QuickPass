@@ -18,13 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
-import kotlinx.android.synthetic.main.activity_account.*
 import kotlinx.android.synthetic.main.activity_edit_pass.*
-import kotlinx.android.synthetic.main.activity_edit_pass.accountAvatar
-import kotlinx.android.synthetic.main.activity_edit_pass.accountAvatarText
-import kotlinx.android.synthetic.main.activity_edit_pass.back
-import kotlinx.android.synthetic.main.activity_edit_pass.helloTextId
-import kotlinx.android.synthetic.main.activity_edit_pass.timeLimit
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -450,7 +444,12 @@ class EditPassActivity : AppCompatActivity() {
                     val intent = Intent(this, PasswordViewActivity::class.java)
                     intent.putExtra("login", login)
                     intent.putExtra("passName", newNameField.text.toString())
-                    startActivity(intent)
+                    val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+                    with(sharedPref.edit()) {
+                        putString("__PASSNAME", newNameField.text.toString())
+                        commit()
+                    }
+                    setResult(1, intent)
                     finish()
                 }
             }

@@ -60,6 +60,9 @@ class PasswordViewActivity : AppCompatActivity() {
         if(newLogin != login)
             login = newLogin.toString()
         passName = args?.get("passName").toString()
+        val newPass = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE).getString("__PASSNAME", passName)
+        if(newPass != passName)
+            passName = newPass.toString()
 
 
 
@@ -302,7 +305,13 @@ class PasswordViewActivity : AppCompatActivity() {
         }
 
 
-
+        back.setOnClickListener {
+            val intent = Intent()
+            intent.putExtra("login", login)
+            intent.putExtra("passName", passName)
+            setResult(1, intent)
+            finish()
+        }
 
         editButton.setOnClickListener {
             val intent = Intent(this, EditPassActivity::class.java)
@@ -349,12 +358,10 @@ class PasswordViewActivity : AppCompatActivity() {
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
-                val intent = Intent(this, PassGenActivity::class.java)
+                val intent = Intent()
                 intent.putExtra("login", login)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                startActivity(intent)
-                this.overridePendingTransition(R.anim.right_in,
-                    R.anim.right_out)
+                intent.putExtra("passName", passName)
+                setResult(1, intent)
                 finish()
             }
         }

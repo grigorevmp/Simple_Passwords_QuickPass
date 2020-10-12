@@ -31,7 +31,18 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
+import kotlinx.android.synthetic.main.activity_edit_pass.*
 import kotlinx.android.synthetic.main.activity_pass_gen.*
+import kotlinx.android.synthetic.main.activity_pass_gen.accountAvatar
+import kotlinx.android.synthetic.main.activity_pass_gen.accountAvatarText
+import kotlinx.android.synthetic.main.activity_pass_gen.cardPass
+import kotlinx.android.synthetic.main.activity_pass_gen.genPasswordId
+import kotlinx.android.synthetic.main.activity_pass_gen.genPasswordIdField
+import kotlinx.android.synthetic.main.activity_pass_gen.generatePassword
+import kotlinx.android.synthetic.main.activity_pass_gen.helloTextId
+import kotlinx.android.synthetic.main.activity_pass_gen.lengthToggle
+import kotlinx.android.synthetic.main.activity_pass_gen.passSettings
+import kotlinx.android.synthetic.main.activity_pass_gen.seekBar
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.abs
@@ -1063,8 +1074,7 @@ class PassGenActivity : AppCompatActivity() {
             intent.putExtra("useNumbers", useNumbers)
             intent.putExtra("useSymbols", useSymbols)
             intent.putExtra("length", length)
-            startActivity(intent)
-            finish()
+            startActivityForResult(intent, 1)
         }
 
 
@@ -1077,8 +1087,7 @@ class PassGenActivity : AppCompatActivity() {
             intent.putExtra("useNumbers", useNumbers)
             intent.putExtra("useSymbols", useSymbols)
             intent.putExtra("length", length)
-            startActivity(intent)
-            finish()
+            startActivityForResult(intent, 1)
         }
 
         // получение вью нижнего экрана
@@ -1091,14 +1100,29 @@ class PassGenActivity : AppCompatActivity() {
         val bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet)
 
         // настройка состояний нижнего экрана
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        //bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+        bottomSheetBehavior.state = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+                .getInt("__BS", BottomSheetBehavior.STATE_COLLAPSED)
+        menu_up.animate().rotation(180F * bottomSheetBehavior.state).setDuration(0).start()
+
+        searchPassField.clearFocus()
+        searchPassField.hideKeyboard()
 
         expand.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            with(sharedPref.edit()) {
+                putInt("__BS", BottomSheetBehavior.STATE_COLLAPSED)
+                apply()
+            }
         }
 
         menu_up.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            with(sharedPref.edit()) {
+                putInt("__BS", BottomSheetBehavior.STATE_EXPANDED)
+                apply()
+            }
         }
 
         // настройка максимальной высоты
@@ -1110,6 +1134,10 @@ class PassGenActivity : AppCompatActivity() {
         // настройка колбэков при изменениях
         bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
+                with(sharedPref.edit()) {
+                    putInt("__BS", newState)
+                    apply()
+                }
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
@@ -1208,6 +1236,11 @@ class PassGenActivity : AppCompatActivity() {
         val intent = Intent(this, PasswordViewActivity::class.java)
         var isPass = false
         intent.putExtra("login", login)
+        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putString("__PASSNAME", passwordsG[position].first)
+            commit()
+        }
         intent.putExtra("passName", passwordsG[position].first)
         var str = getString(R.string.sameParts) + " "
         var j = 0
@@ -1225,8 +1258,7 @@ class PassGenActivity : AppCompatActivity() {
             intent.putExtra("sameWith", str)
         else
             intent.putExtra("sameWith", "none")
-        startActivity(intent)
-        finish()
+        startActivityForResult(intent, 1)
     }
 
     private fun Context.toast(message: String)=
@@ -1519,5 +1551,6 @@ class PassGenActivity : AppCompatActivity() {
             }
         }
     }
+
 
 }
