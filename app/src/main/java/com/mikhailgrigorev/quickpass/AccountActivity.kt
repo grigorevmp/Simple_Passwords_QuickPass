@@ -298,35 +298,26 @@ class AccountActivity : AppCompatActivity() {
             val dialog: AlertDialog = builder.create()
             dialog.show()
         }
+        back.setOnClickListener {
+            val intent = Intent()
+            intent.putExtra("login", login)
+            intent.putExtra("passName", passName)
+            intent.putExtra("activity", account)
+            setResult(1, intent)
+            finish()
+        }
     }
+
 
 
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
-                when (intent.getStringExtra("activity")) {
-                    "menu" -> {
-                        val intent = Intent(this, PassGenActivity::class.java)
-                        intent.putExtra("login", login)
-                        startActivity(intent)
-                    }
-                    "editPass" -> {
-                        val intent = Intent(this, EditPassActivity::class.java)
-                        intent.putExtra("login", login)
-                        intent.putExtra("passName", passName)
-                        startActivity(intent)
-                    }
-                    "viewPass" -> {
-                        val intent = Intent(this, PasswordViewActivity::class.java)
-                        intent.putExtra("login", login)
-                        intent.putExtra("passName", passName)
-                        startActivity(intent)
-                    }
-                }
-                this.overridePendingTransition(
-                        R.anim.right_in,
-                        R.anim.right_out
-                )
+                val intent = Intent()
+                intent.putExtra("login", login)
+                intent.putExtra("passName", passName)
+                intent.putExtra("activity", account)
+                setResult(1, intent)
                 finish()
             }
         }

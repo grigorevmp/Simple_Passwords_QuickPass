@@ -106,6 +106,10 @@ class PassGenActivity : AppCompatActivity() {
 
         val args: Bundle? = intent.extras
         login = args?.get("login").toString()
+        val newLogin = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE).getString(_keyUsername, login)
+        if(newLogin != login)
+            login = newLogin.toString()
+
         val name: String? = getString(R.string.hi) + " " + login
         helloTextId.text = name
 
@@ -918,8 +922,7 @@ class PassGenActivity : AppCompatActivity() {
             val intent = Intent(this, AccountActivity::class.java)
             intent.putExtra("login", login)
             intent.putExtra("activity", "menu")
-            startActivity(intent)
-            finish()
+            startActivityForResult(intent, 1)
         }
 
         val list = mutableListOf<String>()
@@ -1506,6 +1509,15 @@ class PassGenActivity : AppCompatActivity() {
             dialog.show()
         changeStatusPopUp.dismiss()
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            if (resultCode == 1) {
+                recreate()
+            }
+        }
     }
 
 }

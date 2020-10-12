@@ -18,7 +18,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
+import kotlinx.android.synthetic.main.activity_account.*
 import kotlinx.android.synthetic.main.activity_edit_pass.*
+import kotlinx.android.synthetic.main.activity_edit_pass.accountAvatar
+import kotlinx.android.synthetic.main.activity_edit_pass.accountAvatarText
+import kotlinx.android.synthetic.main.activity_edit_pass.back
+import kotlinx.android.synthetic.main.activity_edit_pass.helloTextId
+import kotlinx.android.synthetic.main.activity_edit_pass.timeLimit
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,6 +32,7 @@ import java.util.*
 class EditPassActivity : AppCompatActivity() {
 
     private val _keyTheme = "themePreference"
+    private val _keyUsername = "prefUserNameKey"
     private val _preferenceFile = "quickPassPreference"
     private var length = 20
     private var useSymbols = false
@@ -66,6 +73,9 @@ class EditPassActivity : AppCompatActivity() {
 
         val args: Bundle? = intent.extras
         login = args?.get("login").toString()
+        val newLogin = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE).getString(_keyUsername, login)
+        if(newLogin != login)
+            login = newLogin.toString()
         passName = args?.get("passName").toString()
 
         val dbHelper = DataBaseHelper(this)
@@ -111,11 +121,10 @@ class EditPassActivity : AppCompatActivity() {
         accountAvatar.setOnClickListener {
             val intent = Intent(this, AccountActivity::class.java)
             intent.putExtra("login", login)
-            intent.putExtra("passName", passName)
-            intent.putExtra("activity","editPass")
-            startActivity(intent)
-            finish()
+            intent.putExtra("activity", "menu")
+            startActivityForResult(intent, 1)
         }
+
 
         var dbLogin = ""
         var dbPassword: String
@@ -447,24 +456,37 @@ class EditPassActivity : AppCompatActivity() {
             }
 
         }
+
+        back.setOnClickListener {
+            val intent = Intent()
+            intent.putExtra("login", login)
+            intent.putExtra("passName", passName)
+            setResult(1, intent)
+            finish()
+        }
     }
 
 
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
-                val intent = Intent(this, PasswordViewActivity::class.java)
+                val intent = Intent()
                 intent.putExtra("login", login)
-                intent.putExtra("passName",  passName)
-                startActivity(intent)
-                this.overridePendingTransition(R.anim.right_in,
-                    R.anim.right_out)
+                intent.putExtra("passName", passName)
+                setResult(1, intent)
                 finish()
             }
         }
         return false
     }
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            if (resultCode == 1) {
+                recreate()
+            }
+        }
+    }
     private fun Context.toast(message:String)=
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
 

@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_password_view.*
 class PasswordViewActivity : AppCompatActivity() {
 
     private val _keyTheme = "themePreference"
+    private val _keyUsername = "prefUserNameKey"
     private val _preferenceFile = "quickPassPreference"
     private val _keyAutoCopy = "prefAutoCopyKey"
     private lateinit var login: String
@@ -55,6 +56,9 @@ class PasswordViewActivity : AppCompatActivity() {
 
         val args: Bundle? = intent.extras
         login= args?.get("login").toString()
+        val newLogin = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE).getString(_keyUsername, login)
+        if(newLogin != login)
+            login = newLogin.toString()
         passName = args?.get("passName").toString()
 
 
@@ -274,11 +278,10 @@ class PasswordViewActivity : AppCompatActivity() {
         accountAvatar.setOnClickListener {
             val intent = Intent(this, AccountActivity::class.java)
             intent.putExtra("login", login)
-            intent.putExtra("passName", passName)
-            intent.putExtra("activity","viewPass")
-            startActivity(intent)
-            finish()
+            intent.putExtra("activity", "menu")
+            startActivityForResult(intent, 1)
         }
+
 
         passView.setOnClickListener {
             if(passViewField.text.toString() != ""){
@@ -305,8 +308,7 @@ class PasswordViewActivity : AppCompatActivity() {
             val intent = Intent(this, EditPassActivity::class.java)
             intent.putExtra("login", login)
             intent.putExtra("passName", passName)
-            startActivity(intent)
-            finish()
+            startActivityForResult(intent, 1)
         }
 
         if(dbGroup == "#favorite"){
@@ -358,7 +360,14 @@ class PasswordViewActivity : AppCompatActivity() {
         }
         return false
     }
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            if (resultCode == 1) {
+                recreate()
+            }
+        }
+    }
     private fun Context.toast(message:String)=
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
 

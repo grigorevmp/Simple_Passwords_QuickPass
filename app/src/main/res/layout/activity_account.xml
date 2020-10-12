@@ -22,6 +22,19 @@
             android:layout_height="match_parent"
             android:animateLayoutChanges="true">
 
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:contentDescription="@string/back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/arrow_left"
+                app:tint="@color/black" />
+
+
             <TextView
                 android:id="@+id/helloTextId"
                 android:layout_width="wrap_content"
@@ -67,13 +80,13 @@
                 android:id="@+id/accountAvatar"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:backgroundTint="@color/ic_account"
                 app:cardCornerRadius="35dp"
                 app:cardElevation="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/back">
 
                 <TextView
                     android:id="@+id/accountAvatarText"

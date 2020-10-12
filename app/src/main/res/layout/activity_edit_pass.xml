@@ -20,6 +20,17 @@
             android:animateLayoutChanges="true">
 
 
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:contentDescription="@string/back"
+                app:layout_constraintBottom_toBottomOf="@+id/helloTextId"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/helloTextId"
+                app:srcCompat="@drawable/arrow_left"
+                app:tint="@color/black" />
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout2"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -49,12 +60,12 @@
                 android:id="@+id/helloTextId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:text="@string/add_new_password"
                 android:textColor="@color/textDark"
                 android:textSize="24sp"
-                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintStart_toEndOf="@+id/back"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -128,13 +139,13 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="20dp"
+                android:layout_width="15dp"
                 android:layout_height="20dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="15dp"
                 android:contentDescription="@string/edit"
-                app:layout_constraintBottom_toBottomOf="@+id/helloTextId"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/helloTextId"
+                app:layout_constraintStart_toEndOf="@+id/helloTextId"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/pencil_outline"
                 app:tint="@color/black" />
 

@@ -152,5 +152,6 @@
     <string name="back">Back</string>
     <string name="export">Export</string>
     <string name="importFile">Import</string>
+    <string name="account_info">Account</string>
 
 </resources>
