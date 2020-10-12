@@ -51,14 +51,17 @@ class AccountActivity : AppCompatActivity() {
         setContentView(R.layout.activity_account)
 
         val args: Bundle? = intent.extras
+        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
         login = args?.get("login").toString()
+        val newLogin = sharedPref.getString(_keyUsername, login)
+        if(newLogin != login)
+            login = newLogin.toString()
         passName = args?.get("passName").toString()
         account = args?.get("activity").toString()
         val name: String? = getString(R.string.hi) + " " + login
         helloTextId.text = name
 
         // Checking prefs
-        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
 
         with(sharedPref.edit()) {
             putString(_keyUsername, login)
@@ -257,8 +260,7 @@ class AccountActivity : AppCompatActivity() {
             intent.putExtra("login", login)
             intent.putExtra("passName", passName)
             intent.putExtra("activity", account)
-            startActivity(intent)
-            finish()
+            startActivityForResult(intent, 1)
         }
 
         settings.setOnClickListener {
@@ -267,7 +269,6 @@ class AccountActivity : AppCompatActivity() {
             intent.putExtra("passName", passName)
             intent.putExtra("activity", account)
             startActivityForResult(intent, 1)
-            //finish()
         }
 
         deleteAccount.setOnClickListener {

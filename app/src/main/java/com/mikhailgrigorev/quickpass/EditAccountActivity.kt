@@ -13,6 +13,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_edit_account.*
+import kotlinx.android.synthetic.main.activity_edit_account.accountAvatar
+import kotlinx.android.synthetic.main.activity_edit_account.accountAvatarText
+import kotlinx.android.synthetic.main.activity_edit_account.back
+import kotlinx.android.synthetic.main.activity_edit_account.helloTextId
+import kotlinx.android.synthetic.main.activity_settings.*
 
 
 class EditAccountActivity : AppCompatActivity() {
@@ -41,6 +46,14 @@ class EditAccountActivity : AppCompatActivity() {
         }
         setContentView(R.layout.activity_edit_account)
 
+        back.setOnClickListener {
+            val intent = Intent()
+            intent.putExtra("login", login)
+            intent.putExtra("passName", passName)
+            intent.putExtra("activity", account)
+            setResult(1, intent)
+            finish()
+        }
 
         val args: Bundle? = intent.extras
         login = args?.get("login").toString()
@@ -130,7 +143,6 @@ class EditAccountActivity : AppCompatActivity() {
                     "NAME = ?",
                     arrayOf(login)
                 )
-                val intent = Intent(this, AccountActivity::class.java)
                 // Checking prefs
                 with(sharedPref.edit()) {
                     putString(_keyUsername, nameViewField.text.toString())
@@ -144,10 +156,18 @@ class EditAccountActivity : AppCompatActivity() {
                     pDatabase.execSQL("DROP TABLE IF EXISTS " + nameViewField.text.toString())
                     pDatabase.execSQL("ALTER TABLE " + login + " RENAME TO " + nameViewField.text.toString())
                 }
-                intent.putExtra("login", nameViewField.text)
-                intent.putExtra("passName", passName)
+                val intent = Intent()
+                // Checking prefs
+
+                with(sharedPref.edit()) {
+                    putString(_keyUsername, nameViewField.text.toString())
+                    commit()
+                }
+
+                intent.putExtra("login", nameViewField.text.toString())
+                intent.putExtra("passName", passViewField.text.toString())
                 intent.putExtra("activity", account)
-                startActivity(intent)
+                setResult(1, intent)
                 finish()
             }
         }
@@ -156,15 +176,11 @@ class EditAccountActivity : AppCompatActivity() {
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
-                val intent = Intent(this, AccountActivity::class.java)
+                val intent = Intent()
                 intent.putExtra("login", login)
                 intent.putExtra("passName", passName)
                 intent.putExtra("activity", account)
-                startActivity(intent)
-                this.overridePendingTransition(
-                    R.anim.right_in,
-                    R.anim.right_out
-                )
+                setResult(1, intent)
                 finish()
             }
         }

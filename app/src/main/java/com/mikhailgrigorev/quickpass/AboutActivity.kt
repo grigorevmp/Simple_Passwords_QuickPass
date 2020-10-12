@@ -34,6 +34,10 @@ class AboutActivity : AppCompatActivity() {
         }
         setContentView(R.layout.activity_about)
 
+        back.setOnClickListener {
+            finish()
+        }
+
         if(dark) appIcon.setImageResource(R.drawable.logo_dark)
 
         telegram.setOnClickListener {
