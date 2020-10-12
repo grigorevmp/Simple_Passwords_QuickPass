@@ -1098,7 +1098,6 @@ class PassGenActivity : AppCompatActivity() {
         searchPassField.clearFocus()
         searchPassField.hideKeyboard()
 
-        bottomSheetBehavior.expandedOffset = 600
 
         expand.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -1117,13 +1116,13 @@ class PassGenActivity : AppCompatActivity() {
         }
 
         // настройка максимальной высоты
-        bottomSheetBehavior.peekHeight = 600
+        bottomSheetBehavior.peekHeight =  800 //600
 
         // настройка возможности скрыть элемент при свайпе вниз
         bottomSheetBehavior.isHideable = true
 
         // настройка колбэков при изменениях
-        bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 with(sharedPref.edit()) {
                     putInt("__BS", newState)

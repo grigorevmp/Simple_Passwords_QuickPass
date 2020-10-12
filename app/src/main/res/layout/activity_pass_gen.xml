@@ -25,7 +25,6 @@
         android:id="@+id/allPassword"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
         android:background="@drawable/bc_rounded"
         android:elevation="10dp"
         android:fillViewport="true"
