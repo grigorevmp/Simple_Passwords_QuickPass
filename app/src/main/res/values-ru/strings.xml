@@ -140,4 +140,12 @@
     <string name="export">Export</string>
     <string name="importFile">Import</string>
     <string name="account_info">Аккаунт</string>
+    <string name="e_mail">Резервный e-mail</string>
+    <string name="closeButton">Закрыть</string>
+    <string name="saveButton">Сохранить</string>
+    <string name="newMail">Введите резервный e-mail</string>
+    <string name="sendMail">Забыли пароль?</string>
+    <string name="sendMail1">Введите свой логин, чтобы восстановить пароль</string>
+    <string name="sendMail2">Письмо с паролем отправлено вам на почту</string>
+    <string name="sendMail3">Вы не указали вашу почту =(</string>
 </resources>

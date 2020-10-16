@@ -1,5 +1,6 @@
 package com.mikhailgrigorev.quickpass
 
+import GMailSender
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
@@ -11,6 +12,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -27,11 +29,15 @@ class LoginActivity : AppCompatActivity() {
     private val _keyUsePin = "prefUsePinKey"
     private val _tag = "SignUpActivity"
 
+    @SuppressLint("Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
         val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
 
         with(pref.edit()) {
-            putInt("__BS", com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED)
+            putInt(
+                    "__BS",
+                    com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
+            )
             apply()
         }
         when(pref.getString(_keyTheme, "none")){
@@ -85,11 +91,17 @@ class LoginActivity : AppCompatActivity() {
         // Fab handler
         loginFab.setOnClickListener {
             if (signUpChip.isChecked){
-                if (validate(inputLoginIdField.text.toString(), inputPasswordIdField.text.toString()))
+                if (validate(
+                            inputLoginIdField.text.toString(),
+                            inputPasswordIdField.text.toString()
+                    ))
                     signUp(inputLoginIdField.text.toString(), inputPasswordIdField.text.toString())
             }
             else{
-                if (validate(inputLoginIdField.text.toString(), inputPasswordIdField.text.toString()))
+                if (validate(
+                            inputLoginIdField.text.toString(),
+                            inputPasswordIdField.text.toString()
+                    ))
                     signIn(inputLoginIdField.text.toString(), inputPasswordIdField.text.toString())
             }
         }
@@ -100,19 +112,80 @@ class LoginActivity : AppCompatActivity() {
             signUpChip?.let {
                 if (signUpChip.isChecked){
                     loginFab.hide()
-                    loginFab.text = getString (R.string.sign_up)
+                    loginFab.text = getString(R.string.sign_up)
                     loginFab.show()
                 }
                 else{
                     loginFab.hide()
-                    loginFab.text = getString (R.string.sign_in)
+                    loginFab.text = getString(R.string.sign_in)
                     loginFab.show()
                 }
             }
         }
+
+        sendMail.setOnClickListener {
+            val login = inputLoginIdField.text.toString()
+
+
+            val dbHelper = DataBaseHelper(this)
+            val database = dbHelper.writableDatabase
+            val cursor: Cursor = database.query(
+                    dbHelper.TABLE_USERS, arrayOf(
+                    dbHelper.KEY_NAME,
+                    dbHelper.KEY_MAIL,
+                    dbHelper.KEY_PASS
+            ),
+                    "NAME = ?", arrayOf(login),
+                    null, null, null
+            )
+
+            if (cursor.moveToFirst()) {
+                val mailIndex: Int = cursor.getColumnIndex(dbHelper.KEY_MAIL)
+                val passIndex: Int = cursor.getColumnIndex(dbHelper.KEY_PASS)
+                do {
+                    val dbMail = cursor.getString(mailIndex).toString()
+                    val dbPass = cursor.getString(passIndex).toString()
+                    val sender = GMailSender(
+                            hidden_email, //USE YOUR OWN
+                            hidden_password
+                    )
+                    if (dbMail != "none") {
+                        Thread {
+                            try {
+                                sender.sendMail(
+                                        "QuickPass- Password restoring",
+                                        "Hello! Seems like you forgot your password and decided to restore it.\n\n" +
+                                                "Your password: $dbPass \n\n" +
+                                                "Have a good day, \n" +
+                                                "QuickPass =)",
+                                        "grigorevmp@gmail.com",
+                                        dbMail
+                                )
+
+                            } catch (e: Exception) {
+                                Log.e("SendMail", e.message, e)
+                            }
+                        }.start()
+                        Toast.makeText(
+                                this,
+                                getString(R.string.sendMail2) + "\n ($dbMail)",
+                                Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    else{
+                        Toast.makeText(this, getString(R.string.sendMail3), Toast.LENGTH_SHORT)
+                                .show()
+                    }
+                } while (cursor.moveToNext())
+            } else {
+                Toast.makeText(this, getString(R.string.sendMail1), Toast.LENGTH_SHORT).show()
+            }
+        }
+        
+        
     }
 
-    private fun validate(login: String, password:String): Boolean {
+    private fun validate(login: String, password: String): Boolean {
         var valid = false
         if (login.isEmpty() || login.length < 3) {
             inputLoginId.error = getString(R.string.errNumOfText)
@@ -130,7 +203,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     @SuppressLint("Recycle")
-    private fun signUp (login: String, password:String) {
+    private fun signUp(login: String, password: String) {
 
         Log.d(_tag, "SignUp")
 
@@ -139,9 +212,9 @@ class LoginActivity : AppCompatActivity() {
         val contentValues = ContentValues()
 
         val cursor: Cursor = database.query(
-            dbHelper.TABLE_USERS, arrayOf(dbHelper.KEY_NAME, dbHelper.KEY_PASS),
-            "NAME = ?", arrayOf(login),
-            null, null, null
+                dbHelper.TABLE_USERS, arrayOf(dbHelper.KEY_NAME, dbHelper.KEY_PASS),
+                "NAME = ?", arrayOf(login),
+                null, null, null
         )
 
         if (cursor.moveToFirst()) {
@@ -158,16 +231,16 @@ class LoginActivity : AppCompatActivity() {
         signIn(login, password)
     }
 
-    private fun signIn (login: String, password:String){
+    private fun signIn(login: String, password: String){
 
         Log.d(_tag, "SignIn")
 
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
         val cursor: Cursor = database.query(
-            dbHelper.TABLE_USERS, arrayOf(dbHelper.KEY_NAME, dbHelper.KEY_PASS),
-            "NAME = ?", arrayOf(login),
-            null, null, null
+                dbHelper.TABLE_USERS, arrayOf(dbHelper.KEY_NAME, dbHelper.KEY_PASS),
+                "NAME = ?", arrayOf(login),
+                null, null, null
         )
 
         var dbLogin: String
@@ -202,7 +275,7 @@ class LoginActivity : AppCompatActivity() {
             builder.setPositiveButton(getString(R.string.yes)){ _, _ ->
                 // Checking prefs
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-                with (sharedPref.edit()) {
+                with(sharedPref.edit()) {
                     putString(_keyBio, "using")
                     commit()
                 }
@@ -214,7 +287,7 @@ class LoginActivity : AppCompatActivity() {
 
             builder.setNegativeButton(getString(R.string.no)){ _, _ ->
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-                with (sharedPref.edit()) {
+                with(sharedPref.edit()) {
                     putString(_keyBio, "none")
                     commit()
                 }
@@ -226,7 +299,7 @@ class LoginActivity : AppCompatActivity() {
 
             builder.setNeutralButton(getString(R.string.cancel)){ _, _ ->
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-                with (sharedPref.edit()) {
+                with(sharedPref.edit()) {
                     putString(_keyBio, "none")
                     commit()
                 }

@@ -13,7 +13,9 @@ import android.os.Bundle
 import android.os.Environment
 import android.view.KeyEvent
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
@@ -38,7 +40,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var passName: String
     private lateinit var account: String
     private lateinit var imageName: String
-    @SuppressLint("SetTextI18n", "Recycle")
+    @SuppressLint("SetTextI18n", "Recycle", "RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
         when(pref.getString(_keyTheme, "none")){
@@ -132,6 +134,46 @@ class SettingsActivity : AppCompatActivity() {
         val useAuto = sharedPref.getString(_keyAutoCopy, "none")
         val usePin = sharedPref.getString(_keyUsePin, "none")
 
+        val dbHelper = DataBaseHelper(this)
+        val database = dbHelper.writableDatabase
+        val cursor: Cursor = database.query(
+                dbHelper.TABLE_USERS,
+                arrayOf(
+                        dbHelper.KEY_NAME,
+                        dbHelper.KEY_PASS,
+                        dbHelper.KEY_ID,
+                        dbHelper.KEY_IMAGE,
+                        dbHelper.KEY_MAIL
+                ),
+                "NAME = ?",
+                arrayOf(login),
+                null,
+                null,
+                null
+        )
+
+
+        var dbMail: String
+
+
+        if (cursor.moveToFirst()) {
+            val mailIndex: Int = cursor.getColumnIndex(dbHelper.KEY_MAIL)
+            do {
+                dbMail = cursor.getString(mailIndex).toString()
+            } while (cursor.moveToNext())
+        } else {
+            return
+        }
+
+
+        var mailSet = false
+
+        if(dbMail != "none"){
+            userMailSwitch.isChecked = true
+            mailSet = true
+        }
+
+
         if(useBio == "using"){
             biometricSwitch.isChecked = true
         }
@@ -144,6 +186,87 @@ class SettingsActivity : AppCompatActivity() {
             setPinSwitch.isChecked = true
         }
 
+
+
+        userMail.setOnClickListener {
+            if(userMailSwitch.isChecked){
+                userMailSwitch.isChecked = false
+                mailSet = false
+                val newMail = "none"
+                val contentValues = ContentValues()
+                contentValues.put(dbHelper.KEY_MAIL, newMail)
+                database.update(
+                        dbHelper.TABLE_USERS, contentValues,
+                        "NAME = ?",
+                        arrayOf(login)
+                )
+            }
+            else{
+                var newMail = "none"
+                val inputEditTextField =  EditText(this)
+                inputEditTextField.setSingleLine();
+                val dialog =  AlertDialog.Builder(this, R.style.AlertDialogCustom)
+                        .setTitle(getString(R.string.newMail))
+                        .setView(inputEditTextField, 100, 100, 100, 100)
+                        .setPositiveButton(getString(R.string.saveButton)){ _, _ ->
+                            newMail = inputEditTextField.text.toString()
+                            val contentValues = ContentValues()
+                            contentValues.put(dbHelper.KEY_MAIL, newMail)
+                            database.update(
+                                    dbHelper.TABLE_USERS, contentValues,
+                                    "NAME = ?",
+                                    arrayOf(login)
+                            )
+                            mailSet = true
+                            userMailSwitch.isChecked = true
+                        }
+                        .setNegativeButton(getString(R.string.closeButton), null)
+                        .create()
+                dialog.show()
+            }
+        }
+
+
+        userMailSwitch.setOnCheckedChangeListener { _, _ ->
+            if(!userMailSwitch.isChecked and mailSet){
+                mailSet = false
+                val newMail = "none"
+                val contentValues = ContentValues()
+                contentValues.put(dbHelper.KEY_MAIL, newMail)
+                database.update(
+                        dbHelper.TABLE_USERS, contentValues,
+                        "NAME = ?",
+                        arrayOf(login)
+                )
+            }
+            else if (!mailSet){
+                var newMail = "none"
+                val inputEditTextField =  EditText(this)
+                inputEditTextField.setSingleLine()
+
+
+
+                val dialog =  AlertDialog.Builder(this, R.style.AlertDialogCustom)
+                        .setTitle(getString(R.string.newMail))
+                        .setView(inputEditTextField, 100, 100, 100, 100)
+                        .setPositiveButton(getString(R.string.saveButton)){ _, _ ->
+                            newMail = inputEditTextField.text.toString()
+                            val contentValues = ContentValues()
+                            contentValues.put(dbHelper.KEY_MAIL, newMail)
+                            database.update(
+                                    dbHelper.TABLE_USERS, contentValues,
+                                    "NAME = ?",
+                                    arrayOf(login)
+                            )
+                            mailSet = true
+                            userMailSwitch.isChecked = true
+                        }
+                        .setNegativeButton(getString(R.string.closeButton), null)
+                        .create()
+                dialog.show()
+
+            }
+        }
 
         autoCopySwitch.setOnCheckedChangeListener { _, _ ->
             if(!autoCopySwitch.isChecked){
@@ -159,6 +282,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
         }
+
 
         autoCopy.setOnClickListener {
             if(autoCopySwitch.isChecked){
@@ -245,17 +369,6 @@ class SettingsActivity : AppCompatActivity() {
         }
 
 
-        val dbHelper = DataBaseHelper(this)
-        val database = dbHelper.writableDatabase
-        val cursor: Cursor = database.query(
-                dbHelper.TABLE_USERS,
-                arrayOf(dbHelper.KEY_NAME, dbHelper.KEY_PASS, dbHelper.KEY_ID, dbHelper.KEY_IMAGE),
-                "NAME = ?",
-                arrayOf(login),
-                null,
-                null,
-                null
-        )
 
         if (cursor.moveToFirst()) {
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)

@@ -155,5 +155,12 @@
     <string name="export">Export</string>
     <string name="importFile">Import</string>
     <string name="account_info">Account</string>
-
+    <string name="e_mail">Reserve e-mail</string>
+    <string name="closeButton">Close</string>
+    <string name="saveButton">Save</string>
+    <string name="newMail">Enter your e-mail</string>
+    <string name="sendMail">Forgot password?</string>
+    <string name="sendMail1">Enter your login to restore pass</string>
+    <string name="sendMail2">Email with password sent to your email</string>
+    <string name="sendMail3">You didn\'t set your e-mail =(</string>
 </resources>
