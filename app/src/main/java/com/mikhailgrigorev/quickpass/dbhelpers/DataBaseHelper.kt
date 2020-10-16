@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpass
+package com.mikhailgrigorev.quickpass.dbhelpers
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase

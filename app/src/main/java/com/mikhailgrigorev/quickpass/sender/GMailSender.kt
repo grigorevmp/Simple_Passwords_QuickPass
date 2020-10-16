@@ -1,3 +1,5 @@
+package com.mikhailgrigorev.quickpass.sender
+
 import java.io.ByteArrayInputStream
 import java.io.IOException
 import java.io.InputStream
@@ -33,7 +35,7 @@ class GMailSender(private val user: String, private val password: String) : Auth
     fun sendMail(subject: String?, body: String, sender: String, recipients: String) {
         try {
             val message = MimeMessage(session)
-            val handler: DataHandler = DataHandler(
+            val handler = DataHandler(
                     ByteArrayDataSource(body.toByteArray(), "text/plain")
             )
             message.sender = InternetAddress(sender)

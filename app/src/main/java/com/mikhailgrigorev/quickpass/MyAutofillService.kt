@@ -11,6 +11,7 @@ import android.service.autofill.*
 import android.view.autofill.AutofillValue
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
+import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
 import java.util.*
 import kotlin.collections.ArrayList
 

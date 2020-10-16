@@ -13,6 +13,7 @@ import android.view.KeyEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import kotlinx.android.synthetic.main.activity_set_pin.*
 
 class SetPinActivity : AppCompatActivity() {

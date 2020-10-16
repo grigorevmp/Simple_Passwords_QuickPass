@@ -1,3 +1,5 @@
+package com.mikhailgrigorev.quickpass.sender
+
 import java.security.AccessController
 import java.security.PrivilegedAction
 import java.security.Provider

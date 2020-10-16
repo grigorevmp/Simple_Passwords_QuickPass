@@ -20,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
+import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
 import kotlinx.android.synthetic.main.activity_settings.*
 import java.io.*
 import java.text.SimpleDateFormat
@@ -202,9 +204,9 @@ class SettingsActivity : AppCompatActivity() {
                 )
             }
             else{
-                var newMail = "none"
+                var newMail: String
                 val inputEditTextField =  EditText(this)
-                inputEditTextField.setSingleLine();
+                inputEditTextField.setSingleLine()
                 val dialog =  AlertDialog.Builder(this, R.style.AlertDialogCustom)
                         .setTitle(getString(R.string.newMail))
                         .setView(inputEditTextField, 100, 100, 100, 100)
@@ -240,7 +242,7 @@ class SettingsActivity : AppCompatActivity() {
                 )
             }
             else if (!mailSet){
-                var newMail = "none"
+                var newMail: String
                 val inputEditTextField =  EditText(this)
                 inputEditTextField.setSingleLine()
 

@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
+import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
+import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
 import kotlinx.android.synthetic.main.activity_edit_pass.*
 import java.text.SimpleDateFormat
 import java.util.*

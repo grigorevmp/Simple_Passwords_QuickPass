@@ -1,6 +1,6 @@
 package com.mikhailgrigorev.quickpass
 
-import GMailSender
+import com.mikhailgrigorev.quickpass.sender.GMailSender
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlin.random.Random
 

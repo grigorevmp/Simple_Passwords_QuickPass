@@ -31,6 +31,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
+import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
+import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
 import kotlinx.android.synthetic.main.activity_pass_gen.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -237,7 +239,7 @@ class PassGenActivity : AppCompatActivity() {
                         if (realQuality[j] != "1")
                             qualityNum = "2"
                         j++
-                        if (pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none") {
+                        if (pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(groupIndex) == "null") {
                             dbLogin = pCursor.getString(nameIndex).toString()
                             val fa = pCursor.getString(aIndex).toString()
                             passwords.add(Pair(dbLogin, fa))
@@ -1111,7 +1113,10 @@ class PassGenActivity : AppCompatActivity() {
         }
 
         menu_up.setOnClickListener {
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED)
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            else if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             with(sharedPref.edit()) {
                 putInt("__BS", BottomSheetBehavior.STATE_EXPANDED)
                 apply()
@@ -1323,7 +1328,7 @@ class PassGenActivity : AppCompatActivity() {
                     if(realQuality[j] != "1")
                         qualityNum = "2"
                     j++
-                    if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none") {
+                    if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(groupIndex) == "null") {
                         val dbLogin = pCursor.getString(nameIndex).toString()
                         val fa = pCursor.getString(aIndex).toString()
                         passwords.add(Pair(dbLogin, fa))
@@ -1437,7 +1442,7 @@ class PassGenActivity : AppCompatActivity() {
                             if(realQuality[j] != "1")
                                 qualityNum = "2"
                             j++
-                            if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none") {
+                            if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(groupIndex) == "null") {
                                 val dbLogin = pCursor.getString(nameIndex).toString()
                                 val fa = pCursor.getString(aIndex).toString()
                                 passwords.add(Pair(dbLogin, fa))

@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
+import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import kotlinx.android.synthetic.main.activity_sign.*
 import java.util.concurrent.Executor
 

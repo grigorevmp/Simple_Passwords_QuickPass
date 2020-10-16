@@ -14,6 +14,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
+import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import kotlinx.android.synthetic.main.activity_pin.*
 import java.util.concurrent.Executor
 
