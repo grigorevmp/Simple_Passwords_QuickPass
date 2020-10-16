@@ -1094,10 +1094,13 @@ class PassGenActivity : AppCompatActivity() {
         bottomSheetBehavior.state = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
                 .getInt("__BS", BottomSheetBehavior.STATE_COLLAPSED)
         menu_up.animate().rotation(180F * bottomSheetBehavior.state).setDuration(0).start()
+        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
+            newPass.animate().scaleX(0F).scaleY(0F).setDuration(0).start()
+            warn_Card.animate().alpha(1F).setDuration(0).start()
+        }
 
         searchPassField.clearFocus()
         searchPassField.hideKeyboard()
-
 
         expand.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
