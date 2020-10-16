@@ -116,8 +116,8 @@
     <string name="settings">Settings</string>
     <string name="incorrectPin">Incorrect pin</string>
 
-    <string name="choose_theme">Choose theme</string>
-    <string name="main_settings">Main settings</string>
+    <string name="choose_theme">Theme</string>
+    <string name="main_settings">Main</string>
     <string name="save_pin">Save pin</string>
     <string name="daynight_mode">Dark theme</string>
     <string name="defaultSystem">Default</string>
@@ -163,4 +163,9 @@
     <string name="sendMail1">Enter your login to restore pass</string>
     <string name="sendMail2">Email with password sent to your email</string>
     <string name="sendMail3">You didn\'t set your e-mail =(</string>
+    <string name="crypt">Crypt</string>
+    <string name="cipherInfo">Crypt - your password will be stored encrypted and will only be decrypted when shown </string>
+    <string name="save_password">Save password</string>
+    <string name="add_password">Add password</string>
+    <string name="crypted">Crypted</string>
 </resources>

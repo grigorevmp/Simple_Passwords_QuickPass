@@ -371,7 +371,20 @@ class NewPasswordActivity : AppCompatActivity() {
                 } else {
                     contentValues.put(pdbHelper.KEY_ID, Random.nextInt(0, 10000))
                     contentValues.put(pdbHelper.KEY_NAME, newNameField.text.toString())
-                    contentValues.put(pdbHelper.KEY_PASS, genPasswordIdField.text.toString())
+                    val pm = PasswordManager()
+                    if (cryptToggle.isChecked) {
+                        val dc = pm.encrypt(genPasswordIdField.text.toString())
+                        contentValues.put(
+                                pdbHelper.KEY_PASS,
+                                dc)
+                        contentValues.put(pdbHelper.KEY_CIPHER, "crypted")
+                    }
+                    else{
+                        contentValues.put(pdbHelper.KEY_PASS, genPasswordIdField.text.toString())
+                        contentValues.put(pdbHelper.KEY_CIPHER, "none")
+                    }
+
+
                     contentValues.put(pdbHelper.KEY_TAGS, keyWordsField.text.toString())
                     contentValues.put(pdbHelper.KEY_LOGIN, emailField.text.toString())
                     var keyFA = "0"
@@ -385,11 +398,12 @@ class NewPasswordActivity : AppCompatActivity() {
                     contentValues.put(pdbHelper.KEY_TIME, getDateTime())
                     contentValues.put(pdbHelper.KEY_DESC, noteField.text.toString())
                     passDataBase.insert(pdbHelper.TABLE_USERS, null, contentValues)
-                    val intent = Intent(this, PassGenActivity::class.java)
+
+                    val intent = Intent()
                     intent.putExtra("login", login)
 
-
-                    startActivity(intent)
+                    pdbHelper.close()
+                    setResult(1, intent)
                     finish()
                 }
             }

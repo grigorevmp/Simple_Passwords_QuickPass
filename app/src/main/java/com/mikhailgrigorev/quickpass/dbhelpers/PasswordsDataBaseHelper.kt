@@ -23,6 +23,7 @@ class PasswordsDataBaseHelper(context: Context?, tableName: String) :
     val KEY_TAGS = "tags"
     val KEY_GROUPS = "groups"
     val KEY_LOGIN = "none"
+    val KEY_CIPHER = "cipher"
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(
@@ -43,12 +44,13 @@ class PasswordsDataBaseHelper(context: Context?, tableName: String) :
         oldVersion: Int,
         newVersion: Int
     ) {
-        db.execSQL("drop table if exists $TABLE_USERS")
-        onCreate(db)
+        if (oldVersion < 3) {
+            db.execSQL("ALTER TABLE $TABLE_USERS ADD COLUMN $KEY_CIPHER TEXT DEFAULT 'none'")
+        }
     }
 
     companion object {
-        const val DATABASE_VERSION = 2
+        const val DATABASE_VERSION = 3
         const val DATABASE_NAME = "PassDatabase"
     }
 }

@@ -18,6 +18,7 @@ import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
 import kotlinx.android.synthetic.main.activity_password_view.*
 
+
 class PasswordViewActivity : AppCompatActivity() {
 
     private val _keyTheme = "themePreference"
@@ -58,11 +59,17 @@ class PasswordViewActivity : AppCompatActivity() {
 
         val args: Bundle? = intent.extras
         login= args?.get("login").toString()
-        val newLogin = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE).getString(_keyUsername, login)
+        val newLogin = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE).getString(
+                _keyUsername,
+                login
+        )
         if(newLogin != login)
             login = newLogin.toString()
         passName = args?.get("passName").toString()
-        val newPass = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE).getString("__PASSNAME", passName)
+        val newPass = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE).getString(
+                "__PASSNAME",
+                passName
+        )
         if(newPass != passName)
             passName = newPass.toString()
 
@@ -71,38 +78,61 @@ class PasswordViewActivity : AppCompatActivity() {
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
         val cursor: Cursor = database.query(
-            dbHelper.TABLE_USERS, arrayOf(dbHelper.KEY_IMAGE),
-            "NAME = ?", arrayOf(login),
-            null, null, null
+                dbHelper.TABLE_USERS, arrayOf(dbHelper.KEY_IMAGE),
+                "NAME = ?", arrayOf(login),
+                null, null, null
         )
         if (cursor.moveToFirst()) {
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
             do {
                 when(cursor.getString(imageIndex).toString()){
-                    "ic_account" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account)
-                    "ic_account_Pink" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Pink)
-                    "ic_account_Red" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Red)
-                    "ic_account_Purple" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Purple)
-                    "ic_account_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Violet)
-                    "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Dark_Violet)
-                    "ic_account_Blue" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Blue)
-                    "ic_account_Cyan" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Cyan)
-                    "ic_account_Teal" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Teal)
-                    "ic_account_Green" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Green)
-                    "ic_account_lightGreen" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_lightGreen)
+                    "ic_account" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account
+                            )
+                    "ic_account_Pink" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Pink
+                            )
+                    "ic_account_Red" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Red
+                            )
+                    "ic_account_Purple" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Purple
+                            )
+                    "ic_account_Violet" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Violet
+                            )
+                    "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Dark_Violet
+                            )
+                    "ic_account_Blue" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Blue
+                            )
+                    "ic_account_Cyan" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Cyan
+                            )
+                    "ic_account_Teal" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Teal
+                            )
+                    "ic_account_Green" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Green
+                            )
+                    "ic_account_lightGreen" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_lightGreen
+                            )
                     else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account)
+                            this, R.color.ic_account
+                    )
                 }
                 accountAvatarText.text = login[0].toString()
             } while (cursor.moveToNext())
@@ -117,11 +147,20 @@ class PasswordViewActivity : AppCompatActivity() {
         val pDatabase = pdbHelper.writableDatabase
         try {
             val pCursor: Cursor = pDatabase.query(
-                pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
-                    pdbHelper.KEY_2FA, pdbHelper.KEY_USE_TIME, pdbHelper.KEY_TIME,
-                    pdbHelper.KEY_DESC, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS, pdbHelper.KEY_LOGIN),
-                "NAME = ?", arrayOf(passName),
-                null, null, null
+                    pdbHelper.TABLE_USERS, arrayOf(
+                    pdbHelper.KEY_NAME,
+                    pdbHelper.KEY_PASS,
+                    pdbHelper.KEY_2FA,
+                    pdbHelper.KEY_USE_TIME,
+                    pdbHelper.KEY_TIME,
+                    pdbHelper.KEY_DESC,
+                    pdbHelper.KEY_TAGS,
+                    pdbHelper.KEY_GROUPS,
+                    pdbHelper.KEY_LOGIN,
+                    pdbHelper.KEY_CIPHER
+            ),
+                    "NAME = ?", arrayOf(passName),
+                    null, null, null
             )
 
 
@@ -135,11 +174,29 @@ class PasswordViewActivity : AppCompatActivity() {
                 val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
                 val groupIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_GROUPS)
                 val loginIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_LOGIN)
+                val cryptIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_CIPHER)
                 do {
                     dbLogin = pCursor.getString(nameIndex).toString()
                     helloTextId.text = dbLogin
+
+
+                    val dbCryptIndex = pCursor.getString(cryptIndex).toString()
+
+                    crypt.visibility = View.GONE
+
                     dbPassword = pCursor.getString(passIndex).toString()
-                    passViewField.setText(dbPassword)
+
+                    addSettings.visibility = View.GONE
+                    if (dbCryptIndex == "crypted"){
+                        crypt.isChecked = true
+                        crypt.visibility = View.VISIBLE
+                        addSettings.visibility = View.VISIBLE
+                        val pm = PasswordManager()
+                        dbPassword = pm.decrypt(dbPassword).toString()
+                    }
+
+
+                    passViewFieldView.setText(dbPassword)
                     val myPasswordManager = PasswordManager()
                     var evaluation: String = myPasswordManager.evaluatePasswordString(dbPassword)
 
@@ -162,9 +219,24 @@ class PasswordViewActivity : AppCompatActivity() {
                         else -> passQuality.text = getString(R.string.medium)
                     }
                     when (evaluation) {
-                        "low" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.negative))
-                        "high" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.positive))
-                        else -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.fixable))
+                        "low" -> passQuality.setTextColor(
+                                ContextCompat.getColor(
+                                        applicationContext,
+                                        R.color.negative
+                                )
+                        )
+                        "high" -> passQuality.setTextColor(
+                                ContextCompat.getColor(
+                                        applicationContext,
+                                        R.color.positive
+                                )
+                        )
+                        else -> passQuality.setTextColor(
+                                ContextCompat.getColor(
+                                        applicationContext,
+                                        R.color.fixable
+                                )
+                        )
                     }
 
                     if (evaluation == "high")
@@ -183,8 +255,6 @@ class PasswordViewActivity : AppCompatActivity() {
 
                     authToggle.visibility = View.GONE
                     timeLimit.visibility = View.GONE
-                    addSettings.visibility = View.GONE
-
                     if (db2FAIndex == "1"){
                         authToggle.isChecked = true
                         authToggle.visibility = View.VISIBLE
@@ -246,9 +316,9 @@ class PasswordViewActivity : AppCompatActivity() {
         val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
         val autoCopy = sharedPref.getString(_keyAutoCopy, "none")
 
-        if(autoCopy == "none" && passViewField.text.toString() != ""){
+        if(autoCopy == "none" && passViewFieldView.text.toString() != ""){
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("Password", passViewField.text.toString())
+            val clip = ClipData.newPlainText("Password", passViewFieldView.text.toString())
             clipboard.setPrimaryClip(clip)
             toast(getString(R.string.passCopied))
         }
@@ -260,9 +330,9 @@ class PasswordViewActivity : AppCompatActivity() {
 
             builder.setPositiveButton(getString(R.string.yes)){ _, _ ->
                 pDatabase.delete(
-                    pdbHelper.TABLE_USERS,
-                    "NAME = ?",
-                    arrayOf(dbLogin)
+                        pdbHelper.TABLE_USERS,
+                        "NAME = ?",
+                        arrayOf(dbLogin)
                 )
                 toast(getString(R.string.passwordDeleted))
                 val intent = Intent(this, PassGenActivity::class.java)
@@ -289,18 +359,18 @@ class PasswordViewActivity : AppCompatActivity() {
 
 
         passView.setOnClickListener {
-            if(passViewField.text.toString() != ""){
+            if(passViewFieldView.text.toString() != ""){
                 val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clip = ClipData.newPlainText("Password", passViewField.text.toString())
+                val clip = ClipData.newPlainText("Password", passViewFieldView.text.toString())
                 clipboard.setPrimaryClip(clip)
                 toast(getString(R.string.passCopied))
             }
         }
 
-        passViewField.setOnClickListener {
-            if(passViewField.text.toString() != ""){
+        passViewFieldView.setOnClickListener {
+            if(passViewFieldView.text.toString() != ""){
                 val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clip = ClipData.newPlainText("Password", passViewField.text.toString())
+                val clip = ClipData.newPlainText("Password", passViewFieldView.text.toString())
                 clipboard.setPrimaryClip(clip)
                 toast(getString(R.string.passCopied))
             }
@@ -373,11 +443,13 @@ class PasswordViewActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
             if (resultCode == 1) {
-                recreate()
+                val intent = intent
+                finish()
+                startActivity(intent)
             }
         }
     }
-    private fun Context.toast(message:String)=
-        Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
+    private fun Context.toast(message: String)=
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
 }

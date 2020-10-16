@@ -37,7 +37,6 @@ class EditPassActivity : AppCompatActivity() {
     private var useNumbers = false
     private lateinit var login: String
     private lateinit var passName: String
-
     @SuppressLint("Recycle", "SetTextI18n", "ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -139,6 +138,7 @@ class EditPassActivity : AppCompatActivity() {
                     pdbHelper.KEY_TIME,
                     pdbHelper.KEY_DESC,
                     pdbHelper.KEY_TAGS,
+                    pdbHelper.KEY_CIPHER,
                     pdbHelper.KEY_LOGIN
                 ),
                 "NAME = ?", arrayOf(passName),
@@ -154,11 +154,18 @@ class EditPassActivity : AppCompatActivity() {
                 val descIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_DESC)
                 val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
                 val loginIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_LOGIN)
+                val cryptIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_CIPHER)
                 do {
                     dbLogin = pCursor.getString(nameIndex).toString()
                     helloTextId.text = dbLogin
                     newNameField.setText(dbLogin)
+                    val dbCryptIndex = pCursor.getString(cryptIndex).toString()
                     dbPassword = pCursor.getString(passIndex).toString()
+                    if (dbCryptIndex == "crypted") {
+                        cryptToggle.isChecked = true
+                        val pm = PasswordManager()
+                        dbPassword = pm.decrypt(dbPassword).toString()
+                    }
                     genPasswordIdField.setText(dbPassword)
                     if (dbPassword != "") {
                         length = dbPassword.length
@@ -183,6 +190,7 @@ class EditPassActivity : AppCompatActivity() {
                         symToggles.isChecked = myPasswordManager.isSymbols(genPasswordIdField.text.toString())
                     }
                     val db2FAIndex = pCursor.getString(aIndex).toString()
+
                     if (db2FAIndex == "1") {
                         authToggle.isChecked = true
                     }
@@ -424,8 +432,26 @@ class EditPassActivity : AppCompatActivity() {
                 }
                 else {
                     val contentValues = ContentValues()
-                    contentValues.put(pdbHelper.KEY_NAME, newNameField.text.toString())
                     contentValues.put(pdbHelper.KEY_PASS, genPasswordIdField.text.toString())
+
+                    val pm = PasswordManager()
+
+                    if (cryptToggle.isChecked) {
+                        val dc = pm.encrypt(genPasswordIdField.text.toString())
+                        contentValues.put(
+                                pdbHelper.KEY_PASS,
+                                dc)
+                        contentValues.put(pdbHelper.KEY_CIPHER, "crypted")
+                    }
+                    else{
+                        contentValues.put(pdbHelper.KEY_PASS, genPasswordIdField.text.toString())
+                        contentValues.put(pdbHelper.KEY_CIPHER, "none")
+                    }
+
+
+
+
+                    contentValues.put(pdbHelper.KEY_NAME, newNameField.text.toString())
                     contentValues.put(pdbHelper.KEY_LOGIN, emailField.text.toString())
                     var keyFA = "0"
                     if (authToggle.isChecked)
@@ -451,6 +477,7 @@ class EditPassActivity : AppCompatActivity() {
                         putString("__PASSNAME", newNameField.text.toString())
                         commit()
                     }
+                    pdbHelper.close()
                     setResult(1, intent)
                     finish()
                 }

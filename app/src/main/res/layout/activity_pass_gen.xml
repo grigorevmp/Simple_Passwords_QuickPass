@@ -19,7 +19,8 @@
         app:layout_anchor="@+id/allPassword"
         app:layout_anchorGravity="top|end"
         app:srcCompat="@drawable/plus"
-        app:tint="?attr/colorPrimary" />
+        app:tint="?attr/colorPrimary"
+        android:contentDescription="@string/add_password" />
 
     <LinearLayout
         android:id="@+id/allPassword"
@@ -518,7 +519,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:clickable="false"
-                        android:text="@string/time_notification" />
+                        android:text="@string/crypted" />
 
                     <TextView
                         android:id="@+id/tlText"

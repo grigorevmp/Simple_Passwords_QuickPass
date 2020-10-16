@@ -102,7 +102,7 @@
     <string name="set_pin">Установить пин</string>
     <string name="settings">Настройки</string>
     <string name="incorrectPin">Неверный пин</string>
-    <string name="choose_theme">Выберите тему</string>
+    <string name="choose_theme">Тема</string>
     <string name="main_settings">Основные</string>
     <string name="save_pin">Сохранить пароль</string>
     <string name="daynight_mode">Тёмная тема</string>
@@ -126,7 +126,7 @@
     <string name="InOutMessage">Для экспорта/импорта данных необходимо предоставить разрешение на доступ к файловой системе</string>
     <string name="InOutMessage2">Резервная копия создаётся в начальном каталоге внутренней памяти. Для экспорта данных просим также разместить корректный "MyBackUp.csv" в каталог</string>
     <string name="InOutMessage3">Вы можете самостоятельно создать csv  в формате: (_id,name,password,2fa,useTimeNotifications,time,tags,groups,login(or e-mail), description). Id, time - будут заполнены автоматически, 2fa, usetime принимают 1 или 0 в зависимости от использования. Groups инициализирован \"#favorite\", если пароль в избранном</string>
-    <string name="warning">Предупреждение!</string>
+    <string name="warning">Внимание!</string>
 
     <string name="newPassRule">Правила создания паролей</string>
     <string name="newPassRule1">1. Надёжный пароль должен содержать более 12 символов, а также три набора символов: БОЛЬШИЕ и маленькие буквы, цифры (1,2,3…), специальные символы (./-…)</string>
@@ -148,4 +148,9 @@
     <string name="sendMail1">Введите свой логин, чтобы восстановить пароль</string>
     <string name="sendMail2">Письмо с паролем отправлено вам на почту</string>
     <string name="sendMail3">Вы не указали вашу почту =(</string>
+    <string name="crypt">Шифровать</string>
+    <string name="cipherInfo">Шифровать - ваш пароль будет храниться в зашифрованном виде и расшифрвываться только при показе</string>
+    <string name="save_password">Save password</string>
+    <string name="add_password">Add password</string>
+    <string name="crypted">Crypted</string>
 </resources>

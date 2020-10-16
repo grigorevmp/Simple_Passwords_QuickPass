@@ -104,8 +104,6 @@ class PassGenActivity : AppCompatActivity() {
         }
         setContentView(R.layout.activity_pass_gen)
 
-
-
         val args: Bundle? = intent.extras
         login = args?.get("login").toString()
         val newLogin = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE).getString(_keyUsername, login)
@@ -192,8 +190,8 @@ class PassGenActivity : AppCompatActivity() {
                         pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
                         pdbHelper.KEY_TIME, pdbHelper.KEY_2FA,
                         pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS,
-                        pdbHelper.KEY_USE_TIME
-                ),
+                        pdbHelper.KEY_USE_TIME, pdbHelper.KEY_CIPHER
+            ),
                         null, null,
                         null, null, null
                 )
@@ -217,7 +215,7 @@ class PassGenActivity : AppCompatActivity() {
                     val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
                     val groupIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_GROUPS)
                     val timeIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TIME)
-                    val tIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_USE_TIME)
+                    val cIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_CIPHER)
                     var j = 0
                     do {
                         val pass = pCursor.getString(passIndex).toString()
@@ -258,12 +256,12 @@ class PassGenActivity : AppCompatActivity() {
                         }
 
                         val fa = pCursor.getString(aIndex).toString()
-                        val tl= pCursor.getString(tIndex).toString()
+                        val tl= pCursor.getString(cIndex).toString()
 
                         if(fa == "1")
                             faNum += 1
 
-                        if(tl == "1")
+                        if(tl == "crypted")
                             tlNum += 1
                         when (qualityNum) {
                             "1" -> safePass += 1
