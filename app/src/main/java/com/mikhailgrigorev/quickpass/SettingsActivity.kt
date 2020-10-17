@@ -1048,6 +1048,9 @@ class SettingsActivity : AppCompatActivity() {
                             str[9] = ""
                         contentValues.put(pdbHelper.KEY_DESC, str[9])
 
+                        if (str[10] == "")
+                            str[10] = ""
+                        contentValues.put(pdbHelper.KEY_CIPHER, str[9])
 
                         passDataBase.insert(pdbHelper.TABLE_USERS, null, contentValues)
                     }
@@ -1146,17 +1149,6 @@ class SettingsActivity : AppCompatActivity() {
                 intent.putExtra("activity", account)
                 setResult(1, intent)
                 finish()
-
-                //val intent = Intent(this, AccountActivity::class.java)
-                //intent.putExtra("login", login)
-                //intent.putExtra("passName", passName)
-                //intent.putExtra("activity", account)
-                //startActivity(intent)
-                //this.overridePendingTransition(
-                //        R.anim.right_in,
-                //        R.anim.right_out
-                //)
-                //finish()
             }
         }
         return false

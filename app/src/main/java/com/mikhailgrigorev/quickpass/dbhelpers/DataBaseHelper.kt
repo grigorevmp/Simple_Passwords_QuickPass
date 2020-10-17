@@ -22,7 +22,8 @@ class DataBaseHelper(context: Context?) :
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(
                 "create table " + TABLE_USERS + "(" + KEY_ID
-                        + " integer primary key," + KEY_NAME + " text," + KEY_PASS + " text," + KEY_IMAGE + " text" + ")"
+                        + " integer primary key," + KEY_NAME + " text," + KEY_PASS + " text," + KEY_IMAGE + " text,"
+                        + KEY_MAIL + " text" + ")"
         )
     }
 

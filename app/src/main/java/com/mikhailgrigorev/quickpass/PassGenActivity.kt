@@ -236,6 +236,11 @@ class PassGenActivity : AppCompatActivity() {
 
                         if (realQuality[j] != "1")
                             qualityNum = "2"
+
+                        val dbCipherIndex = pCursor.getString(cIndex).toString()
+                        val pm = PasswordManager()
+                        if (dbCipherIndex == "crypted" && pm.decrypt(pass).toString().length == 4 || pass.length == 4)
+                            qualityNum = "4"
                         j++
                         if (pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(groupIndex) == "null") {
                             dbLogin = pCursor.getString(nameIndex).toString()
@@ -1288,7 +1293,8 @@ class PassGenActivity : AppCompatActivity() {
             val pCursor: Cursor = pDatabase.query(
                     pdbHelper.TABLE_USERS, arrayOf(
                     pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
-                    pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS
+                    pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS,
+                    pdbHelper.KEY_CIPHER
             ),
                     null, null,
                     null, null, null
@@ -1312,6 +1318,7 @@ class PassGenActivity : AppCompatActivity() {
                 val aIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_2FA)
                 val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
                 val groupIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_GROUPS)
+                val cIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_CIPHER)
                 var j = 0
                 do {
                     val pass = pCursor.getString(passIndex).toString()
@@ -1325,6 +1332,11 @@ class PassGenActivity : AppCompatActivity() {
                     }
                     if(realQuality[j] != "1")
                         qualityNum = "2"
+
+                    val dbCipherIndex = pCursor.getString(cIndex).toString()
+                    val pm = PasswordManager()
+                    if (dbCipherIndex == "crypted" && pm.decrypt(pass).toString().length == 4 || pass.length == 4)
+                        qualityNum = "4"
                     j++
                     if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(groupIndex) == "null") {
                         val dbLogin = pCursor.getString(nameIndex).toString()
@@ -1402,7 +1414,8 @@ class PassGenActivity : AppCompatActivity() {
                     val pCursor: Cursor = pDatabase.query(
                             pdbHelper.TABLE_USERS, arrayOf(
                             pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
-                            pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS
+                            pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS,
+                            pdbHelper.KEY_CIPHER
                     ),
                             null, null,
                             null, null, null
@@ -1426,6 +1439,7 @@ class PassGenActivity : AppCompatActivity() {
                         val aIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_2FA)
                         val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
                         val groupIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_GROUPS)
+                        val cIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_CIPHER)
                         var j = 0
                         do {
                             val pass = pCursor.getString(passIndex).toString()
@@ -1439,6 +1453,11 @@ class PassGenActivity : AppCompatActivity() {
                             }
                             if(realQuality[j] != "1")
                                 qualityNum = "2"
+
+                            val dbCipherIndex = pCursor.getString(cIndex).toString()
+                            val pm = PasswordManager()
+                            if (dbCipherIndex == "crypted" && pm.decrypt(pass).toString().length == 4 || pass.length == 4)
+                                qualityNum = "4"
                             j++
                             if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(groupIndex) == "null") {
                                 val dbLogin = pCursor.getString(nameIndex).toString()

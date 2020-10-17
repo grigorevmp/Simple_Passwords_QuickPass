@@ -145,68 +145,109 @@
                 android:textColor="@color/white" />
         </androidx.cardview.widget.CardView>
 
-        <ImageView
-            android:id="@+id/positiveCircle"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="3dp"
-            android:contentDescription="@string/no_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/correctPasswords"
-            app:srcCompat="@drawable/circle_positive" />
-
-        <ImageView
-            android:id="@+id/negativeCircle"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="3dp"
-            android:contentDescription="@string/no_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/negativePasswords"
-            app:srcCompat="@drawable/circle_negative" />
-
-        <ImageView
-            android:id="@+id/negativeCircle2"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="3dp"
-            android:contentDescription="@string/no_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/fixPasswords"
-            app:srcCompat="@drawable/circle_improvement" />
-
-        <TextView
-            android:id="@+id/correctPasswords"
-            android:layout_width="wrap_content"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/correctScan"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="18dp"
-            android:text="@string/no_text"
-            app:layout_constraintStart_toEndOf="@+id/positiveCircle"
-            app:layout_constraintTop_toBottomOf="@+id/helloTextId" />
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/helloTextId">
 
-        <TextView
-            android:id="@+id/negativePasswords"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/no_text"
-            app:layout_constraintStart_toEndOf="@+id/negativeCircle"
-            app:layout_constraintTop_toBottomOf="@+id/correctPasswords" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/fixPasswords"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/no_text"
-            app:layout_constraintStart_toEndOf="@+id/negativeCircle2"
-            app:layout_constraintTop_toBottomOf="@+id/negativePasswords" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:id="@+id/positiveCircle"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="5dp"
+                        android:contentDescription="@string/no_text"
+                        app:srcCompat="@drawable/circle_positive" />
+
+                    <TextView
+                        android:id="@+id/correctPasswords"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="15dp"
+                        android:text="@string/no_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:id="@+id/negativeCircle"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="5dp"
+                        android:contentDescription="@string/no_text"
+                        app:srcCompat="@drawable/circle_negative" />
+
+                    <TextView
+                        android:id="@+id/negativePasswords"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="15dp"
+                        android:text="@string/no_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:id="@+id/negativeCircle2"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="5dp"
+                        android:contentDescription="@string/no_text"
+                        app:srcCompat="@drawable/circle_improvement" />
+
+                    <TextView
+                        android:id="@+id/fixPasswords"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="15dp"
+                        android:text="@string/no_text" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
 
         <androidx.cardview.widget.CardView
@@ -539,7 +580,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="95dp"
             app:boxCornerRadiusBottomEnd="15dp"
             app:boxCornerRadiusBottomStart="15dp"
@@ -548,7 +589,7 @@
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fixPasswords">
+            app:layout_constraintTop_toBottomOf="@+id/correctScan">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/genPasswordIdField"

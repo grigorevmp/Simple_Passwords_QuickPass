@@ -1,6 +1,5 @@
 package com.mikhailgrigorev.quickpass
 
-import com.mikhailgrigorev.quickpass.sender.GMailSender
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
@@ -17,6 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
+import com.mikhailgrigorev.quickpass.sender.GMailSender
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlin.random.Random
 
@@ -226,6 +226,7 @@ class LoginActivity : AppCompatActivity() {
             contentValues.put(dbHelper.KEY_NAME, login)
             contentValues.put(dbHelper.KEY_PASS, password)
             contentValues.put(dbHelper.KEY_IMAGE, "ic_account")
+            contentValues.put(dbHelper.KEY_MAIL, "none")
             database.insert(dbHelper.TABLE_USERS, null, contentValues)
         }
 

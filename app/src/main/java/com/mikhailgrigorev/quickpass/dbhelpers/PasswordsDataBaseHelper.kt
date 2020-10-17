@@ -22,7 +22,7 @@ class PasswordsDataBaseHelper(context: Context?, tableName: String) :
     val KEY_DESC = "description"
     val KEY_TAGS = "tags"
     val KEY_GROUPS = "groups"
-    val KEY_LOGIN = "none"
+    val KEY_LOGIN = "login"
     val KEY_CIPHER = "cipher"
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -34,6 +34,7 @@ class PasswordsDataBaseHelper(context: Context?, tableName: String) :
                     + KEY_TIME + " date,"
                     + KEY_TAGS + " text," + KEY_GROUPS + " text,"
                     + KEY_LOGIN + " text,"
+                    + KEY_CIPHER + " text,"
                     + KEY_DESC + " text"
                     + ")"
         )

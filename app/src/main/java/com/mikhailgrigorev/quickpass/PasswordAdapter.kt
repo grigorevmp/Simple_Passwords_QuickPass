@@ -44,12 +44,6 @@ class PasswordAdapter(private val items: ArrayList<Pair<String, String>>,
         if(group[position] == "#favorite"){
             holder.favorite.visibility = View.VISIBLE
         }
-        // if(tags[position] == ""){
-        //     holder.tags.visibility = View.GONE
-        // }
-        // else{
-        //     holder.tags.text = tags[position]
-        // }
         if(tags[position] != "")
             tags[position] .split("\\s".toRegex()).forEach { item ->
                 val chip = Chip(holder.group.context)
@@ -67,6 +61,10 @@ class PasswordAdapter(private val items: ArrayList<Pair<String, String>>,
             }
             quality[position] == "3" -> {
                 holder.marker.setImageResource(R.drawable.circle_improvement)
+            }
+            quality[position] == "4" -> {
+                holder.credit.visibility = View.VISIBLE
+                holder.marker.visibility = View.GONE
             }
         }
         holder.clickableView.setOnClickListener {
@@ -87,4 +85,5 @@ class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
     val clickableView = view.clickable_view!!
     val marker = view.marker!!
     val group = view.group!!
+    val credit = view.credit!!
 }
