@@ -34,8 +34,8 @@ class PasswordsDataBaseHelper(context: Context?, tableName: String) :
                     + KEY_TIME + " date,"
                     + KEY_TAGS + " text," + KEY_GROUPS + " text,"
                     + KEY_LOGIN + " text,"
-                    + KEY_CIPHER + " text,"
-                    + KEY_DESC + " text"
+                    + KEY_DESC + " text,"
+                    + KEY_CIPHER + " text"
                     + ")"
         )
     }

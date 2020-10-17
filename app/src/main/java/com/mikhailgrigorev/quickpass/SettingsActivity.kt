@@ -1003,8 +1003,22 @@ class SettingsActivity : AppCompatActivity() {
 
                 var count = 0
 
+                var strTemp: Array<String>? = null
                 while (buffer.readLine().also { line = it } != null) {
-                    val str = line!!.split(",".toRegex()).toTypedArray()
+                    var str = line!!.split(",".toRegex()).toTypedArray()
+
+                    if(strTemp != null) {
+                        str = strTemp + str.drop(1)
+                    }
+
+                    if (str.size < 10) {
+                        strTemp = str
+                        continue
+                    }
+                    else{
+                        strTemp = null
+                    }
+
 
                     if (count == 0) {
                         count += 1
@@ -1049,7 +1063,7 @@ class SettingsActivity : AppCompatActivity() {
                         contentValues.put(pdbHelper.KEY_DESC, str[9])
 
                         if (str[10] == "")
-                            str[10] = ""
+                            str[10] = "none"
                         contentValues.put(pdbHelper.KEY_CIPHER, str[9])
 
                         passDataBase.insert(pdbHelper.TABLE_USERS, null, contentValues)

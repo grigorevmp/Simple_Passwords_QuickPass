@@ -1561,9 +1561,7 @@ class PassGenActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
-            if (resultCode == 1) {
-                recreate()
-            }
+            recreate()
         }
     }
 
