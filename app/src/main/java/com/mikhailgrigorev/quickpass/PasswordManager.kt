@@ -133,12 +133,6 @@ class PasswordManager {
 
     private val RANDOM: Random = SecureRandom()
 
-    private fun getNextSalt(): ByteArray? {
-        val salt = ByteArray(16)
-        RANDOM.nextBytes(salt)
-        return salt
-    }
-
     fun encrypt(strToEncrypt: String) :  String?
     {
         try
@@ -169,15 +163,15 @@ class PasswordManager {
 
             val factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
             val spec =  PBEKeySpec(secretKey.toCharArray(), Base64.decode(salt, Base64.DEFAULT), 10000, 256)
-            val tmp = factory.generateSecret(spec);
+            val tmp = factory.generateSecret(spec)
             val secretKey =  SecretKeySpec(tmp.encoded, "AES")
 
-            val cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
-            cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParameterSpec);
+            val cipher = Cipher.getInstance("AES/CBC/PKCS7Padding")
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParameterSpec)
             return  String(cipher.doFinal(Base64.decode(strToDecrypt, Base64.DEFAULT)))
         }
         catch (e : Exception) {
-            println("Error while decrypting: $e");
+            println("Error while decrypting: $e")
         }
         return null
     }
