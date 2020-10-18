@@ -55,12 +55,15 @@ class PasswordAdapter(private val items: ArrayList<Pair<String, String>>,
         when {
             quality[position] == "1" -> {
                 holder.marker.setImageResource(R.drawable.circle_positive)
+                //holder.passFrag.setBackgroundResource(R.drawable.gradient_pos)
             }
             quality[position] == "2" -> {
                 holder.marker.setImageResource(R.drawable.circle_negative)
+                //holder.passFrag.setBackgroundResource(R.drawable.gradient_neg)
             }
             quality[position] == "3" -> {
                 holder.marker.setImageResource(R.drawable.circle_improvement)
+                //holder.passFrag.setBackgroundResource(R.drawable.gradient_med)
             }
             quality[position] == "4" -> {
                 holder.credit.visibility = View.VISIBLE
@@ -86,4 +89,5 @@ class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
     val marker = view.marker!!
     val group = view.group!!
     val credit = view.credit!!
+    val passFrag = view.passFrag!!
 }

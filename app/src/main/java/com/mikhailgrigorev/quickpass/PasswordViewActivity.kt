@@ -249,6 +249,7 @@ class PasswordViewActivity : AppCompatActivity() {
                         passQuality.visibility = View.GONE
                         warning.visibility = View.GONE
                         warning2.visibility = View.VISIBLE
+                        warning2.setImageDrawable(getDrawable(R.drawable.credit_card))
                     }
 
                     val db2FAIndex = pCursor.getString(aIndex).toString()

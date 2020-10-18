@@ -118,7 +118,6 @@
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:background="@android:color/transparent"
                     android:backgroundTint="@color/white"
                     android:text="@string/_1"
                     android:textColor="@color/black" />
