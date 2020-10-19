@@ -153,4 +153,5 @@
     <string name="save_password">Save password</string>
     <string name="add_password">Add password</string>
     <string name="crypted">Crypted</string>
+    <string name="bank_card">Bank Card</string>
 </resources>

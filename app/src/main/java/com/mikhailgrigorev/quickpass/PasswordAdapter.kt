@@ -13,6 +13,7 @@ class PasswordAdapter(private val items: ArrayList<Pair<String, String>>,
                       private val quality: ArrayList<String>,
                       private val tags: ArrayList<String>,
                       private val group: ArrayList<String>,
+                      private val desc: ArrayList<String>,
                       val context: Context,
                       val clickListener: (Int) -> Unit,
                       val longClickListener: (Int, View) -> Unit
@@ -33,6 +34,8 @@ class PasswordAdapter(private val items: ArrayList<Pair<String, String>>,
     @SuppressLint("SetTextI18n", "ClickableViewAccessibility")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.passText.text = items[position].first
+
+
         holder.chip.visibility = View.GONE
         if(items[position].second != "0"){
             val chip = Chip(holder.group.context)
@@ -41,6 +44,9 @@ class PasswordAdapter(private val items: ArrayList<Pair<String, String>>,
             chip.textSize = 12F
             holder.group.addView(chip)
         }
+        if(desc[position]!="")
+            holder.passDesc.visibility = View.VISIBLE
+            holder.passDesc.text = desc[position]
         if(group[position] == "#favorite"){
             holder.favorite.visibility = View.VISIBLE
         }
@@ -54,15 +60,15 @@ class PasswordAdapter(private val items: ArrayList<Pair<String, String>>,
             }
         when {
             quality[position] == "1" -> {
-                holder.marker.setImageResource(R.drawable.circle_positive)
+                holder.marker.setImageResource(R.drawable.circle_positive_fill)
                 //holder.passFrag.setBackgroundResource(R.drawable.gradient_pos)
             }
             quality[position] == "2" -> {
-                holder.marker.setImageResource(R.drawable.circle_negative)
+                holder.marker.setImageResource(R.drawable.circle_negative_fill)
                 //holder.passFrag.setBackgroundResource(R.drawable.gradient_neg)
             }
             quality[position] == "3" -> {
-                holder.marker.setImageResource(R.drawable.circle_improvement)
+                holder.marker.setImageResource(R.drawable.circle_improvement_fill)
                 //holder.passFrag.setBackgroundResource(R.drawable.gradient_med)
             }
             quality[position] == "4" -> {
@@ -82,6 +88,7 @@ class PasswordAdapter(private val items: ArrayList<Pair<String, String>>,
 
 class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
     val passText = view.list_title!!
+    val passDesc = view.list_desc!!
     val chip = view.chip!!
     // // val tags = view.tags!!
     val favorite = view.favorite!!

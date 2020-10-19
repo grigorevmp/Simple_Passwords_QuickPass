@@ -16,7 +16,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
@@ -61,6 +60,7 @@ class PassGenActivity : AppCompatActivity() {
     private val realMap: MutableMap<String, ArrayList<String>> = mutableMapOf()
     private val quality: ArrayList<String> = ArrayList()
     private val tags: ArrayList<String> = ArrayList()
+    private val desc: ArrayList<String> = ArrayList()
     private val group: ArrayList<String> = ArrayList()
     private lateinit var login: String
 
@@ -106,7 +106,10 @@ class PassGenActivity : AppCompatActivity() {
 
         val args: Bundle? = intent.extras
         login = args?.get("login").toString()
-        val newLogin = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE).getString(_keyUsername, login)
+        val newLogin = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE).getString(
+                _keyUsername,
+                login
+        )
         if(newLogin != login)
             login = newLogin.toString()
 
@@ -186,15 +189,16 @@ class PassGenActivity : AppCompatActivity() {
 
         try {
             val pCursor: Cursor = pDatabase.query(
-                        pdbHelper.TABLE_USERS, arrayOf(
-                        pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
-                        pdbHelper.KEY_TIME, pdbHelper.KEY_2FA,
-                        pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS,
-                        pdbHelper.KEY_USE_TIME, pdbHelper.KEY_CIPHER
+                    pdbHelper.TABLE_USERS, arrayOf(
+                    pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
+                    pdbHelper.KEY_TIME, pdbHelper.KEY_2FA,
+                    pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS,
+                    pdbHelper.KEY_USE_TIME, pdbHelper.KEY_CIPHER,
+                    pdbHelper.KEY_DESC
             ),
-                        null, null,
-                        null, null, null
-                )
+                    null, null,
+                    null, null, null
+            )
 
                 if (pCursor.moveToFirst()) {
                     val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
@@ -216,6 +220,7 @@ class PassGenActivity : AppCompatActivity() {
                     val groupIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_GROUPS)
                     val timeIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TIME)
                     val cIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_CIPHER)
+                    val descIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_DESC)
                     var j = 0
                     do {
                         val pass = pCursor.getString(passIndex).toString()
@@ -229,7 +234,7 @@ class PassGenActivity : AppCompatActivity() {
                         }
 
                         val dbTimeIndex = pCursor.getString(timeIndex).toString()
-
+                        val dbdescIndex = pCursor.getString(descIndex).toString()
                         if ((myPasswordManager.evaluateDate(dbTimeIndex)) && (pass.length != 4))
                             qualityNum = "2"
 
@@ -242,10 +247,13 @@ class PassGenActivity : AppCompatActivity() {
                         if (dbCipherIndex == "crypted" && pm.decrypt(pass).toString().length == 4 || pass.length == 4)
                             qualityNum = "4"
                         j++
-                        if (pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(groupIndex) == "null") {
+                        if (pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(
+                                    groupIndex
+                            ) == "null") {
                             dbLogin = pCursor.getString(nameIndex).toString()
                             val fa = pCursor.getString(aIndex).toString()
                             passwords.add(Pair(dbLogin, fa))
+                            desc.add(dbdescIndex)
                             quality.add(qualityNum)
                             val dbTag = pCursor.getString(tagsIndex).toString()
                             tags.add(dbTag)
@@ -254,6 +262,7 @@ class PassGenActivity : AppCompatActivity() {
                             dbLogin = pCursor.getString(nameIndex).toString()
                             val fa = pCursor.getString(aIndex).toString()
                             passwords.add(0, Pair(dbLogin, fa))
+                            desc.add(0, dbdescIndex)
                             quality.add(0, qualityNum)
                             val dbTag = pCursor.getString(tagsIndex).toString()
                             tags.add(0, dbTag)
@@ -487,6 +496,7 @@ class PassGenActivity : AppCompatActivity() {
         )
 
         passwordRecycler.setHasFixedSize(true)
+        passwordRecycler.setHasFixedSize(true)
 
         passwordsG = passwords
         passwordRecycler.adapter = PasswordAdapter(
@@ -494,6 +504,7 @@ class PassGenActivity : AppCompatActivity() {
                 quality,
                 tags,
                 group,
+                desc,
                 this,
                 clickListener = {
                     passClickListener(it)
@@ -510,6 +521,7 @@ class PassGenActivity : AppCompatActivity() {
                         quality,
                         tags,
                         group,
+                        desc,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -532,12 +544,14 @@ class PassGenActivity : AppCompatActivity() {
                 val quality2: ArrayList<String> = ArrayList()
                 val tags2: ArrayList<String> = ArrayList()
                 val group2: ArrayList<String> = ArrayList()
+                val desc2: ArrayList<String> = ArrayList()
                 for ((index, value) in quality.withIndex()) {
                     if (value == "1"){
                         passwords2.add(passwords[index])
                         quality2.add(quality[index])
                         tags2.add(tags[index])
                         group2.add(group[index])
+                        desc2.add(desc[index])
                     }
                 }
 
@@ -547,6 +561,7 @@ class PassGenActivity : AppCompatActivity() {
                         quality2,
                         tags2,
                         group2,
+                        desc2,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -570,6 +585,7 @@ class PassGenActivity : AppCompatActivity() {
                         quality,
                         tags,
                         group,
+                        desc,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -592,12 +608,14 @@ class PassGenActivity : AppCompatActivity() {
                 val quality2: ArrayList<String> = ArrayList()
                 val tags2: ArrayList<String> = ArrayList()
                 val group2: ArrayList<String> = ArrayList()
+                val desc2: ArrayList<String> = ArrayList()
                 for ((index, value) in quality.withIndex()) {
                     if (value == "1"){
                         passwords2.add(passwords[index])
                         quality2.add(quality[index])
                         tags2.add(tags[index])
                         group2.add(group[index])
+                        desc2.add(desc[index])
                     }
                 }
 
@@ -607,6 +625,7 @@ class PassGenActivity : AppCompatActivity() {
                         quality2,
                         tags2,
                         group2,
+                        desc2,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -631,6 +650,7 @@ class PassGenActivity : AppCompatActivity() {
                         quality,
                         tags,
                         group,
+                        desc,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -653,12 +673,14 @@ class PassGenActivity : AppCompatActivity() {
                 val quality2: ArrayList<String> = ArrayList()
                 val tags2: ArrayList<String> = ArrayList()
                 val group2: ArrayList<String> = ArrayList()
+                val desc2: ArrayList<String> = ArrayList()
                 for ((index, value) in quality.withIndex()) {
                     if (value == "2"){
                         passwords2.add(passwords[index])
                         quality2.add(quality[index])
                         tags2.add(tags[index])
                         group2.add(group[index])
+                        desc2.add(desc[index])
                     }
                 }
 
@@ -667,7 +689,8 @@ class PassGenActivity : AppCompatActivity() {
                         passwords2,
                         quality2,
                         tags2,
-                        group,
+                        group2,
+                        desc2,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -692,6 +715,7 @@ class PassGenActivity : AppCompatActivity() {
                         quality,
                         tags,
                         group,
+                        desc,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -714,12 +738,14 @@ class PassGenActivity : AppCompatActivity() {
                 val quality2: ArrayList<String> = ArrayList()
                 val tags2: ArrayList<String> = ArrayList()
                 val group2: ArrayList<String> = ArrayList()
+                val desc2: ArrayList<String> = ArrayList()
                 for ((index, value) in quality.withIndex()) {
                     if (value == "2"){
                         passwords2.add(passwords[index])
                         quality2.add(quality[index])
                         tags2.add(tags[index])
                         group2.add(group[index])
+                        desc2.add(desc[index])
                     }
                 }
 
@@ -728,7 +754,8 @@ class PassGenActivity : AppCompatActivity() {
                         passwords2,
                         quality2,
                         tags2,
-                        group,
+                        group2,
+                        desc2,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -753,6 +780,7 @@ class PassGenActivity : AppCompatActivity() {
                         quality,
                         tags,
                         group,
+                        desc,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -775,12 +803,14 @@ class PassGenActivity : AppCompatActivity() {
                 val quality2: ArrayList<String> = ArrayList()
                 val tags2: ArrayList<String> = ArrayList()
                 val group2: ArrayList<String> = ArrayList()
+                val desc2: ArrayList<String> = ArrayList()
                 for ((index, value) in quality.withIndex()) {
                     if (value == "3"){
                         passwords2.add(passwords[index])
                         quality2.add(quality[index])
                         tags2.add(tags[index])
                         group2.add(group[index])
+                        desc2.add(desc[index])
                     }
                 }
 
@@ -790,6 +820,7 @@ class PassGenActivity : AppCompatActivity() {
                         quality2,
                         tags2,
                         group2,
+                        desc2,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -814,6 +845,7 @@ class PassGenActivity : AppCompatActivity() {
                         quality,
                         tags,
                         group,
+                        desc,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -836,12 +868,14 @@ class PassGenActivity : AppCompatActivity() {
                 val quality2: ArrayList<String> = ArrayList()
                 val tags2: ArrayList<String> = ArrayList()
                 val group2: ArrayList<String> = ArrayList()
+                val desc2: ArrayList<String> = ArrayList()
                 for ((index, value) in quality.withIndex()) {
                     if (value == "3"){
                         passwords2.add(passwords[index])
                         quality2.add(quality[index])
                         tags2.add(tags[index])
                         group2.add(group[index])
+                        desc2.add(desc[index])
                     }
                 }
 
@@ -851,6 +885,7 @@ class PassGenActivity : AppCompatActivity() {
                         quality2,
                         tags2,
                         group2,
+                        desc2,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -873,6 +908,7 @@ class PassGenActivity : AppCompatActivity() {
                 val quality2: ArrayList<String> = ArrayList()
                 val tags2: ArrayList<String> = ArrayList()
                 val group2: ArrayList<String> = ArrayList()
+                val desc2: ArrayList<String> = ArrayList()
                 for ((index, pair) in passwords.withIndex()) {
                     if (pair.first.toLowerCase(Locale.ROOT).contains(
                                 s.toString().toLowerCase(Locale.ROOT)
@@ -887,6 +923,7 @@ class PassGenActivity : AppCompatActivity() {
                         quality2.add(quality[index])
                         tags2.add(tags[index])
                         group2.add(group[index])
+                        desc2.add(desc[index])
                     }
                 }
 
@@ -896,6 +933,7 @@ class PassGenActivity : AppCompatActivity() {
                         quality2,
                         tags2,
                         group2,
+                        desc2,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -1012,21 +1050,21 @@ class PassGenActivity : AppCompatActivity() {
             val deg = 0f
             generatePassword.animate().rotation(deg).interpolator = AccelerateDecelerateInterpolator()
         }
-        generatePassword.setOnTouchListener { v, event ->
-                when (event.action) {
-                    MotionEvent.ACTION_DOWN -> {
-                        cardPass.elevation = 50F
-                        generatePassword.background = ContextCompat.getDrawable(this, R.color.grey)
-                        v.invalidate()
-                    }
-                    MotionEvent.ACTION_UP -> {
-                        generatePassword.background = ContextCompat.getDrawable(this, R.color.white)
-                        cardPass.elevation = 10F
-                        v.invalidate()
-                    }
-                }
-                false
-            }
+        //generatePassword.setOnTouchListener { v, event ->
+        //        when (event.action) {
+        //            MotionEvent.ACTION_DOWN -> {
+        //                cardPass.elevation = 50F
+        //                generatePassword.background = ContextCompat.getDrawable(this, R.color.grey)
+        //                v.invalidate()
+        //            }
+        //            MotionEvent.ACTION_UP -> {
+        //                generatePassword.background = ContextCompat.getDrawable(this, R.color.white)
+        //                cardPass.elevation = 10F
+        //                v.invalidate()
+        //            }
+        //        }
+        //        false
+        //    }
 
         genPasswordId.setOnClickListener {
             if(genPasswordIdField.text.toString() != ""){
@@ -1133,7 +1171,8 @@ class PassGenActivity : AppCompatActivity() {
         bottomSheetBehavior.isHideable = true
 
         // настройка колбэков при изменениях
-        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 with(sharedPref.edit()) {
                     putInt("__BS", newState)
@@ -1143,9 +1182,12 @@ class PassGenActivity : AppCompatActivity() {
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 menu_up.animate().rotation(180F * slideOffset).setDuration(0).start()
-                if (slideOffset <= 0){
+                if (slideOffset <= 0) {
                     warn_Card.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0).start()
-                    newPass.animate().scaleX(1 - abs(slideOffset)).scaleY(1 - abs(slideOffset)).setDuration(0).start()
+                    newPass.animate().scaleX(1 - abs(slideOffset)).scaleY(1 - abs(slideOffset))
+                            .setDuration(
+                                    0
+                            ).start()
                 }
                 searchPassField.clearFocus()
                 searchPassField.hideKeyboard()
@@ -1294,7 +1336,7 @@ class PassGenActivity : AppCompatActivity() {
                     pdbHelper.TABLE_USERS, arrayOf(
                     pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
                     pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS,
-                    pdbHelper.KEY_CIPHER
+                    pdbHelper.KEY_CIPHER, pdbHelper.KEY_DESC
             ),
                     null, null,
                     null, null, null
@@ -1319,9 +1361,12 @@ class PassGenActivity : AppCompatActivity() {
                 val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
                 val groupIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_GROUPS)
                 val cIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_CIPHER)
-                var j = 0
+                val descIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_DESC)
+                var j = descIndex
                 do {
                     val pass = pCursor.getString(passIndex).toString()
+                    val dbdescIndex = pCursor.getString(descIndex).toString()
+                    desc.add(dbdescIndex)
                     val myPasswordManager = PasswordManager()
                     val evaluation: Float =
                             myPasswordManager.evaluatePassword(pass)
@@ -1338,7 +1383,9 @@ class PassGenActivity : AppCompatActivity() {
                     if (dbCipherIndex == "crypted" && pm.decrypt(pass).toString().length == 4 || pass.length == 4)
                         qualityNum = "4"
                     j++
-                    if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(groupIndex) == "null") {
+                    if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(
+                                groupIndex
+                        ) == "null") {
                         val dbLogin = pCursor.getString(nameIndex).toString()
                         val fa = pCursor.getString(aIndex).toString()
                         passwords.add(Pair(dbLogin, fa))
@@ -1375,6 +1422,7 @@ class PassGenActivity : AppCompatActivity() {
                 quality,
                 tags,
                 group,
+                desc,
                 this,
                 clickListener = {
                     passClickListener(it)
@@ -1415,7 +1463,8 @@ class PassGenActivity : AppCompatActivity() {
                             pdbHelper.TABLE_USERS, arrayOf(
                             pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
                             pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS,
-                            pdbHelper.KEY_CIPHER
+                            pdbHelper.KEY_CIPHER,
+                            pdbHelper.KEY_DESC
                     ),
                             null, null,
                             null, null, null
@@ -1440,9 +1489,12 @@ class PassGenActivity : AppCompatActivity() {
                         val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
                         val groupIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_GROUPS)
                         val cIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_CIPHER)
+                        val descIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_DESC)
                         var j = 0
                         do {
                             val pass = pCursor.getString(passIndex).toString()
+                            val dbdescIndex = pCursor.getString(descIndex).toString()
+                            desc.add(dbdescIndex)
                             val myPasswordManager = PasswordManager()
                             val evaluation: Float =
                                     myPasswordManager.evaluatePassword(pass)
@@ -1459,7 +1511,9 @@ class PassGenActivity : AppCompatActivity() {
                             if (dbCipherIndex == "crypted" && pm.decrypt(pass).toString().length == 4 || pass.length == 4)
                                 qualityNum = "4"
                             j++
-                            if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(groupIndex) == "null") {
+                            if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(
+                                        groupIndex
+                                ) == "null") {
                                 val dbLogin = pCursor.getString(nameIndex).toString()
                                 val fa = pCursor.getString(aIndex).toString()
                                 passwords.add(Pair(dbLogin, fa))
@@ -1535,6 +1589,7 @@ class PassGenActivity : AppCompatActivity() {
                         quality,
                         tags,
                         group,
+                        desc,
                         this,
                         clickListener = {
                             passClickListener(it)

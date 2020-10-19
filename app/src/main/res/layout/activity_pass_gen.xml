@@ -154,6 +154,9 @@
             android:layout_marginEnd="20dp"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="15dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             app:cardElevation="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -259,8 +262,11 @@
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="15dp"
             app:cardElevation="10dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/genPasswordId">
+            app:layout_constraintTop_toTopOf="@+id/genPasswordId"
+            android:focusable="true">
 
             <ImageButton
                 android:id="@+id/generatePassword"
@@ -270,6 +276,7 @@
                 android:contentDescription="@string/generate"
                 android:rotation="45"
                 android:tint="@color/textDark"
+                android:foreground="?android:attr/selectableItemBackground"
                 app:srcCompat="@drawable/dice_5_outline" />
 
         </androidx.cardview.widget.CardView>
@@ -353,6 +360,9 @@
             android:visibility="gone"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="20dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             app:cardElevation="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -364,6 +374,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             android:layout_marginEnd="20dp"
             android:visibility="gone"
             app:cardBackgroundColor="?attr/colorPrimary"
@@ -416,6 +429,9 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:alpha="0.5"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             app:cardBackgroundColor="?attr/colorPrimary"
             app:cardCornerRadius="10dp"
             app:cardElevation="20dp"
@@ -491,6 +507,9 @@
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="15dp"
             app:cardElevation="20dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             app:layout_constraintBottom_toBottomOf="@+id/cardView2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/cardView2">
@@ -517,6 +536,10 @@
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="15dp"
             app:cardElevation="20dp"
+
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cardView"
             app:layout_constraintTop_toBottomOf="@+id/noPasswords">
