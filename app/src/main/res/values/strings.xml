@@ -169,4 +169,5 @@
     <string name="add_password">Add password</string>
     <string name="crypted">Crypted</string>
     <string name="bank_card">Bank Card</string>
+    <string name="add_password_plus">Add password</string>
 </resources>

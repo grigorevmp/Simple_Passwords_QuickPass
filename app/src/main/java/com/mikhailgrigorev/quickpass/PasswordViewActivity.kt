@@ -6,6 +6,7 @@ import android.content.res.Configuration
 import android.database.Cursor
 import android.database.SQLException
 import android.os.Bundle
+import android.os.Handler
 import android.view.KeyEvent
 import android.view.View
 import android.widget.Toast
@@ -17,7 +18,6 @@ import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
 import kotlinx.android.synthetic.main.activity_password_view.*
-
 
 class PasswordViewActivity : AppCompatActivity() {
 
@@ -52,6 +52,15 @@ class PasswordViewActivity : AppCompatActivity() {
             else -> setTheme(R.style.AppTheme)
         }
         super.onCreate(savedInstanceState)
+        // Finish app after some time
+        val handler = Handler()
+        val r = Runnable {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+        handler.postDelayed(r, 600000)
+
         when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_NO ->
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
@@ -448,14 +457,13 @@ class PasswordViewActivity : AppCompatActivity() {
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
-                if(from != "short") {
+                if (from != "short") {
                     val intent = Intent()
                     intent.putExtra("login", login)
                     intent.putExtra("passName", passName)
                     setResult(1, intent)
                     finish()
-                }
-                else{
+                } else {
                     val intent = Intent(this, PassGenActivity::class.java)
                     intent.putExtra("login", login)
                     intent.putExtra("passName", passName)

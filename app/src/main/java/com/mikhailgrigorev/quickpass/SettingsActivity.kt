@@ -11,6 +11,7 @@ import android.database.Cursor
 import android.database.SQLException
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
 import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
@@ -65,6 +66,14 @@ class SettingsActivity : AppCompatActivity() {
             else -> setTheme(R.style.AppTheme)
         }
         super.onCreate(savedInstanceState)
+        // Finish app after some time
+        val handler = Handler()
+        val r = Runnable {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+        handler.postDelayed(r, 600000)
 
         when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_NO ->

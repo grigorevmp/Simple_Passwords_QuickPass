@@ -12,6 +12,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
@@ -98,6 +99,16 @@ class PassGenActivity : AppCompatActivity() {
             else -> setTheme(R.style.AppTheme)
         }
         super.onCreate(savedInstanceState)
+
+        // Finish app after some time
+        val handler = Handler()
+        val r = Runnable {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+        handler.postDelayed(r, 600000)
+
         when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_NO ->
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR

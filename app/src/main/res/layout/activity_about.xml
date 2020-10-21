@@ -38,8 +38,7 @@
         android:layout_marginTop="20dp"
         android:text="@string/app_name"
         android:textSize="24sp"
-        android:textStyle="bold"
-        android:typeface="normal"
+        android:fontFamily="@font/bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appIcon" />
@@ -54,8 +53,7 @@
         android:lineSpacingExtra="8sp"
         android:text="@string/about_desc"
         android:textAlignment="center"
-        android:textStyle="italic"
-        android:typeface="normal"
+        android:fontFamily="@font/light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appName" />
