@@ -20,7 +20,7 @@ import com.mikhailgrigorev.quickpass.sender.GMailSender
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlin.random.Random
 
-class LoginActivity : AppCompatActivity() {
+class ReLoginActivity : AppCompatActivity() {
 
     private val _keyTheme = "themePreference"
     private val _preferenceFile = "quickPassPreference"
@@ -75,13 +75,13 @@ class LoginActivity : AppCompatActivity() {
 
         val usePin = sharedPref.getString(_keyUsePin, "none")
         if(usePin != "none"){
-            val intent = Intent(this, PinActivity::class.java)
+            val intent = Intent(this, RePinActivity::class.java)
             intent.putExtra("login", username)
-            startActivity(intent)
+            startActivityForResult(intent, 1)
             finish()
         }
         else if(username != "none"){
-            val intent = Intent(this, SignActivity::class.java)
+            val intent = Intent(this, ReSignActivity::class.java)
             intent.putExtra("login", username)
             startActivity(intent)
             finish()
@@ -280,9 +280,8 @@ class LoginActivity : AppCompatActivity() {
                     putString(_keyBio, "using")
                     commit()
                 }
-                val intent = Intent(this, PassGenActivity::class.java)
-                intent.putExtra("login", dbLogin)
-                startActivity(intent)
+                val intent = intent
+                setResult(2, intent)
                 finish()
             }
 
@@ -292,9 +291,8 @@ class LoginActivity : AppCompatActivity() {
                     putString(_keyBio, "none")
                     commit()
                 }
-                val intent = Intent(this, PassGenActivity::class.java)
-                intent.putExtra("login", dbLogin)
-                startActivity(intent)
+                val intent = intent
+                setResult(2, intent)
                 finish()
             }
 
@@ -304,23 +302,31 @@ class LoginActivity : AppCompatActivity() {
                     putString(_keyBio, "none")
                     commit()
                 }
-                val intent = Intent(this, PassGenActivity::class.java)
-                intent.putExtra("login", dbLogin)
-                startActivity(intent)
+                val intent = intent
+                setResult(2, intent)
                 finish()
             }
             val dialog: AlertDialog = builder.create()
             dialog.show()
         }
         else{
-            val intent = Intent(this, PassGenActivity::class.java)
-            intent.putExtra("login", dbLogin)
-            startActivity(intent)
+            val intent = intent
+            setResult(2, intent)
             finish()
         }
     }
     private fun isAvailable(context: Context): Boolean {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
                 context.packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            if (resultCode == 1) {
+                val intent = intent
+                setResult(2, intent)
+                finish()
+            }
+        }
     }
 }

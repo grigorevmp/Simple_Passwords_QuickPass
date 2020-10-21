@@ -27,6 +27,7 @@ class PasswordViewActivity : AppCompatActivity() {
     private val _keyAutoCopy = "prefAutoCopyKey"
     private lateinit var login: String
     private lateinit var passName: String
+    private lateinit var from: String
 
     @SuppressLint("Recycle", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +60,13 @@ class PasswordViewActivity : AppCompatActivity() {
 
         val args: Bundle? = intent.extras
         login= args?.get("login").toString()
-        val from= args?.get("from").toString()
+        from= args?.get("from").toString()
+
+        if (from == "short"){
+            val intent = Intent(this, ReLoginActivity::class.java)
+            startActivityForResult(intent, 1)
+        }
+
         val newLogin = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE).getString(
                 _keyUsername,
                 login
@@ -380,11 +387,20 @@ class PasswordViewActivity : AppCompatActivity() {
 
 
         back.setOnClickListener {
-            val intent = Intent()
-            intent.putExtra("login", login)
-            intent.putExtra("passName", passName)
-            setResult(1, intent)
-            finish()
+            if(from != "short") {
+                val intent = Intent()
+                intent.putExtra("login", login)
+                intent.putExtra("passName", passName)
+                setResult(1, intent)
+                finish()
+            }
+            else{
+                val intent = Intent(this, PassGenActivity::class.java)
+                intent.putExtra("login", login)
+                intent.putExtra("passName", passName)
+                startActivity(intent)
+                finish()
+            }
         }
 
         editButton.setOnClickListener {
@@ -432,11 +448,20 @@ class PasswordViewActivity : AppCompatActivity() {
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
-                val intent = Intent()
-                intent.putExtra("login", login)
-                intent.putExtra("passName", passName)
-                setResult(1, intent)
-                finish()
+                if(from != "short") {
+                    val intent = Intent()
+                    intent.putExtra("login", login)
+                    intent.putExtra("passName", passName)
+                    setResult(1, intent)
+                    finish()
+                }
+                else{
+                    val intent = Intent(this, PassGenActivity::class.java)
+                    intent.putExtra("login", login)
+                    intent.putExtra("passName", passName)
+                    startActivity(intent)
+                    finish()
+                }
             }
         }
         return false
