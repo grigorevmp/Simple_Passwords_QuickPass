@@ -435,6 +435,10 @@ class PassGenActivity : AppCompatActivity() {
                 else
                     intent3.putExtra("sameWith", "none")
 
+                intent.putExtra("from", "short")
+                intent2.putExtra("from", "short")
+                intent3.putExtra("from", "short")
+
                 val shortcutManager: ShortcutManager
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     shortcutManager =

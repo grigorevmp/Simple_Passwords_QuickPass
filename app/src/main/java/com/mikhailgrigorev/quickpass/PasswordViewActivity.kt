@@ -59,6 +59,7 @@ class PasswordViewActivity : AppCompatActivity() {
 
         val args: Bundle? = intent.extras
         login= args?.get("login").toString()
+        val from= args?.get("from").toString()
         val newLogin = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE).getString(
                 _keyUsername,
                 login
@@ -70,7 +71,7 @@ class PasswordViewActivity : AppCompatActivity() {
                 "__PASSNAME",
                 passName
         )
-        if(newPass != passName)
+        if(newPass != passName && from != "short")
             passName = newPass.toString()
 
 
