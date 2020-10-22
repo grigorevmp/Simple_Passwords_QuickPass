@@ -218,6 +218,7 @@ class SettingsActivity : AppCompatActivity() {
                 inputEditTextField.setSingleLine()
                 val dialog =  AlertDialog.Builder(this, R.style.AlertDialogCustom)
                         .setTitle(getString(R.string.newMail))
+                        .setMessage(getString(R.string.mail_description))
                         .setView(inputEditTextField, 100, 100, 100, 100)
                         .setPositiveButton(getString(R.string.saveButton)){ _, _ ->
                             newMail = inputEditTextField.text.toString()
@@ -259,6 +260,7 @@ class SettingsActivity : AppCompatActivity() {
 
                 val dialog =  AlertDialog.Builder(this, R.style.AlertDialogCustom)
                         .setTitle(getString(R.string.newMail))
+                        .setMessage(getString(R.string.mail_description))
                         .setView(inputEditTextField, 100, 100, 100, 100)
                         .setPositiveButton(getString(R.string.saveButton)){ _, _ ->
                             newMail = inputEditTextField.text.toString()

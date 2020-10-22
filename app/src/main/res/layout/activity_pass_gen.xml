@@ -116,6 +116,22 @@
             android:focusable="true"
             android:contentDescription="@string/add_password_plus" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/extraNewPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:contentDescription="@string/add_password_plus"
+            android:elevation="25dp"
+            android:visibility="gone"
+            app:backgroundTint="@color/white"
+            app:elevation="25dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/plus"
+            app:tint="?attr/colorPrimary" />
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -670,21 +686,7 @@
                 app:srcCompat="@drawable/emoticon_wink_outline"
                 app:tint="@color/black" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/extraNewPass"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:contentDescription="@string/add_password_plus"
-                android:elevation="25dp"
-                android:visibility="gone"
-                app:backgroundTint="@color/white"
-                app:elevation="25dp"
-                app:layout_constraintBottom_toBottomOf="@+id/expand2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/plus"
-                app:tint="?attr/colorPrimary" />
+
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline"

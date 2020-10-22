@@ -155,4 +155,6 @@
     <string name="crypted">Crypted</string>
     <string name="bank_card">Bank Card</string>
     <string name="add_password_plus">Add password</string>
+    <string name="set_pin_helper">Вам необходимо ввести 4 цифры</string>
+    <string name="mail_description">Если вы забудете пароль, он будет отправлен на вашу электронную почту</string>
 </resources>

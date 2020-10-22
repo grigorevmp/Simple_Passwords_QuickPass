@@ -214,10 +214,16 @@ class PassGenActivity : AppCompatActivity() {
                 if (pCursor.moveToFirst()) {
                     val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
                     val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
+                    val cIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_CIPHER)
                     do {
                         val pass = pCursor.getString(passIndex).toString()
                         val login = pCursor.getString(nameIndex).toString()
-                        realPass.add(Pair(login, pass))
+                        val dbCipherIndex = pCursor.getString(cIndex).toString()
+                        val pm = PasswordManager()
+                        if (dbCipherIndex == "crypted" )
+                            realPass.add(Pair(login, pm.decrypt(pass).toString()))
+                        else
+                            realPass.add(Pair(login, pass))
                     } while (pCursor.moveToNext())
                 }
 
@@ -1224,6 +1230,7 @@ class PassGenActivity : AppCompatActivity() {
             subContains = false
             gSubContains = false
             for (pass2 in realPass){
+
                 if(pass.first != pass2.first){
                     for(i in 0..(pass.second.length - 4)){
                         if (pass2.second.contains(pass.second.subSequence(i, i + 3))){
@@ -1345,6 +1352,7 @@ class PassGenActivity : AppCompatActivity() {
         realPass.clear()
         realQuality.clear()
         realMap.clear()
+        desc.clear()
 
         try {
             val pCursor: Cursor = pDatabase.query(
@@ -1360,10 +1368,16 @@ class PassGenActivity : AppCompatActivity() {
             if (pCursor.moveToFirst()) {
                 val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
                 val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
+                val cIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_CIPHER)
                 do {
                     val pass = pCursor.getString(passIndex).toString()
                     val login = pCursor.getString(nameIndex).toString()
-                    realPass.add(Pair(login, pass))
+                    val dbCipherIndex = pCursor.getString(cIndex).toString()
+                    val pm = PasswordManager()
+                    if (dbCipherIndex == "crypted" )
+                        realPass.add(Pair(login, pm.decrypt(pass).toString()))
+                    else
+                        realPass.add(Pair(login, pass))
                 } while (pCursor.moveToNext())
             }
 
@@ -1381,7 +1395,6 @@ class PassGenActivity : AppCompatActivity() {
                 do {
                     val pass = pCursor.getString(passIndex).toString()
                     val dbdescIndex = pCursor.getString(descIndex).toString()
-                    desc.add(dbdescIndex)
                     val myPasswordManager = PasswordManager()
                     val evaluation: Float =
                             myPasswordManager.evaluatePassword(pass)
@@ -1408,6 +1421,7 @@ class PassGenActivity : AppCompatActivity() {
                         val dbTag = pCursor.getString(tagsIndex).toString()
                         tags.add(dbTag)
                         group.add("none")
+                        desc.add(dbdescIndex)
                     }
                     else {
                         val dbLogin = pCursor.getString(nameIndex).toString()
@@ -1417,6 +1431,7 @@ class PassGenActivity : AppCompatActivity() {
                         val dbTag = pCursor.getString(tagsIndex).toString()
                         tags.add(0, dbTag)
                         group.add(0, "#favorite")
+                        desc.add(0, dbdescIndex)
                     }
 
 
@@ -1468,6 +1483,7 @@ class PassGenActivity : AppCompatActivity() {
                 realPass.clear()
                 realQuality.clear()
                 realMap.clear()
+                desc.clear()
 
                 safePass = 0
                 unsafePass = 0
@@ -1488,10 +1504,16 @@ class PassGenActivity : AppCompatActivity() {
                     if (pCursor.moveToFirst()) {
                         val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
                         val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
+                        val cIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_CIPHER)
                         do {
                             val pass = pCursor.getString(passIndex).toString()
                             val login = pCursor.getString(nameIndex).toString()
-                            realPass.add(Pair(login, pass))
+                            val dbCipherIndex = pCursor.getString(cIndex).toString()
+                            val pm = PasswordManager()
+                            if (dbCipherIndex == "crypted" )
+                                realPass.add(Pair(login, pm.decrypt(pass).toString()))
+                            else
+                                realPass.add(Pair(login, pass))
                         } while (pCursor.moveToNext())
                     }
 
@@ -1509,7 +1531,6 @@ class PassGenActivity : AppCompatActivity() {
                         do {
                             val pass = pCursor.getString(passIndex).toString()
                             val dbdescIndex = pCursor.getString(descIndex).toString()
-                            desc.add(dbdescIndex)
                             val myPasswordManager = PasswordManager()
                             val evaluation: Float =
                                     myPasswordManager.evaluatePassword(pass)
@@ -1536,6 +1557,7 @@ class PassGenActivity : AppCompatActivity() {
                                 val dbTag = pCursor.getString(tagsIndex).toString()
                                 tags.add(dbTag)
                                 group.add("none")
+                                desc.add(dbdescIndex)
                             }
                             else {
                                 val dbLogin = pCursor.getString(nameIndex).toString()
@@ -1545,6 +1567,7 @@ class PassGenActivity : AppCompatActivity() {
                                 val dbTag = pCursor.getString(tagsIndex).toString()
                                 tags.add(0, dbTag)
                                 group.add(0, "#favorite")
+                                desc.add(0, dbdescIndex)
                             }
 
 

@@ -170,4 +170,6 @@
     <string name="crypted">Crypted</string>
     <string name="bank_card">Bank Card</string>
     <string name="add_password_plus">Add password</string>
+    <string name="set_pin_helper">You should input 4 numbers</string>
+    <string name="mail_description">If you forget your password, it will be sent to your email</string>
 </resources>
