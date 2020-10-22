@@ -12,9 +12,13 @@ Powerful password manager with autofill framework
 
 ### Friendly main screen
 
-<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/main_screen.png" width="50%" width="50%">
+<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/main_screen.png" width="40%" width="40%">
 
 ### Many option to create your password
 
-![Project logo](add_screen.png)
+<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/add_screen.png" width="40%" width="40%">
+
+### Clear statistic
+
+<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/about_screen.png" width="40%" width="40%">
 
