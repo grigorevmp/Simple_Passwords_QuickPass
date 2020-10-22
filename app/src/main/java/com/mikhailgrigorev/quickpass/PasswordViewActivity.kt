@@ -55,7 +55,7 @@ class PasswordViewActivity : AppCompatActivity() {
         // Finish app after some time
         val handler = Handler()
         val r = Runnable {
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this, LoginAfterSplashActivity::class.java)
             startActivity(intent)
             finish()
         }

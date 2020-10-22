@@ -234,7 +234,7 @@ class RePinActivity : AppCompatActivity() {
         sharedPref.edit().remove(_keyUsername).apply()
         sharedPref.edit().remove(_keyUsePin).apply()
         sharedPref.edit().remove(_keyBio).apply()
-        val intent = Intent(this, LoginActivity::class.java)
+        val intent = Intent(this, LoginAfterSplashActivity::class.java)
         startActivity(intent)
         finish()
     }
