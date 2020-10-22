@@ -1377,7 +1377,7 @@ class PassGenActivity : AppCompatActivity() {
                 val groupIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_GROUPS)
                 val cIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_CIPHER)
                 val descIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_DESC)
-                var j = descIndex
+                var j = 0
                 do {
                     val pass = pCursor.getString(passIndex).toString()
                     val dbdescIndex = pCursor.getString(descIndex).toString()
