@@ -217,7 +217,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout4"
                 app:layout_constraintVertical_bias="1.0"
                 app:srcCompat="@drawable/content_save_outline"
-                app:tint="@color/black" />
+                app:tint="@color/black"
+                android:contentDescription="@string/save_password" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/newName"

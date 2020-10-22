@@ -131,8 +131,6 @@ class PasswordManager {
         return passwordToTest.matches(Regex(".*[" + this.special + "].*"))
     }
 
-    private val RANDOM: Random = SecureRandom()
-
     fun encrypt(strToEncrypt: String) :  String?
     {
         try

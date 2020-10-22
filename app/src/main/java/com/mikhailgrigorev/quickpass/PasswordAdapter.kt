@@ -96,5 +96,4 @@ class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
     val marker = view.marker!!
     val group = view.group!!
     val credit = view.credit!!
-    val passFrag = view.passFrag!!
 }

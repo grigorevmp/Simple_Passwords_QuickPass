@@ -29,7 +29,7 @@ class PasswordViewActivity : AppCompatActivity() {
     private lateinit var passName: String
     private lateinit var from: String
 
-    @SuppressLint("Recycle", "SetTextI18n")
+    @SuppressLint("Recycle", "SetTextI18n", "UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
         when(pref.getString(_keyTheme, "none")){
