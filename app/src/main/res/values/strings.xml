@@ -172,4 +172,5 @@
     <string name="add_password_plus">Add password</string>
     <string name="set_pin_helper">You should input 4 numbers</string>
     <string name="mail_description">If you forget your password, it will be sent to your email</string>
+    <string name="slowloading">Enabling encryption slows down the loading of the password list</string>
 </resources>

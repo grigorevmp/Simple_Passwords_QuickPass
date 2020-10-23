@@ -20,6 +20,12 @@ import androidx.core.content.ContextCompat
 import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
 import kotlinx.android.synthetic.main.activity_account.*
+import kotlinx.android.synthetic.main.activity_account.accountAvatar
+import kotlinx.android.synthetic.main.activity_account.accountAvatarText
+import kotlinx.android.synthetic.main.activity_account.back
+import kotlinx.android.synthetic.main.activity_account.helloTextId
+import kotlinx.android.synthetic.main.activity_account.logo
+import kotlinx.android.synthetic.main.activity_password_view.*
 
 
 class AccountActivity : AppCompatActivity() {
@@ -324,6 +330,10 @@ class AccountActivity : AppCompatActivity() {
             dialog.show()
         }
         back.setOnClickListener {
+            logo.visibility = View.VISIBLE
+            val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_splash)
+            rotation.fillAfter = true
+            logo.startAnimation(rotation)
             val intent = Intent()
             intent.putExtra("login", login)
             intent.putExtra("passName", passName)
@@ -338,6 +348,10 @@ class AccountActivity : AppCompatActivity() {
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
+                logo.visibility = View.VISIBLE
+                val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_splash)
+                rotation.fillAfter = true
+                logo.startAnimation(rotation)
                 val intent = Intent()
                 intent.putExtra("login", login)
                 intent.putExtra("passName", passName)

@@ -72,10 +72,11 @@ class PassGenActivity : AppCompatActivity() {
     private var xTouch = 500
     private var changeStatusPopUp: PopupWindow = PopupWindow()
     private var globalPos: Int = -1
+    var pm = PasswordManager()
 
     @SuppressLint(
             "Recycle", "ClickableViewAccessibility", "ResourceAsColor", "RestrictedApi",
-            "SetTextI18n"
+            "SetTextI18n", "ServiceCast"
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -190,7 +191,7 @@ class PassGenActivity : AppCompatActivity() {
             } while (cursor.moveToNext())
         }
 
-
+        cursor.close()
         var dbLogin: String
 
         val pdbHelper = PasswordsDataBaseHelper(this, login)
@@ -199,7 +200,7 @@ class PassGenActivity : AppCompatActivity() {
 
 
         try {
-            val pCursor: Cursor = pDatabase.query(
+            var pCursor: Cursor = pDatabase.query(
                     pdbHelper.TABLE_USERS, arrayOf(
                     pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
                     pdbHelper.KEY_TIME, pdbHelper.KEY_2FA,
@@ -211,6 +212,7 @@ class PassGenActivity : AppCompatActivity() {
                     null, null, null
             )
 
+
                 if (pCursor.moveToFirst()) {
                     val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
                     val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
@@ -219,16 +221,26 @@ class PassGenActivity : AppCompatActivity() {
                         val pass = pCursor.getString(passIndex).toString()
                         val login = pCursor.getString(nameIndex).toString()
                         val dbCipherIndex = pCursor.getString(cIndex).toString()
-                        val pm = PasswordManager()
                         if (dbCipherIndex == "crypted" )
                             realPass.add(Pair(login, pm.decrypt(pass).toString()))
                         else
                             realPass.add(Pair(login, pass))
+                        realPass.add(Pair(login, pass))
                     } while (pCursor.moveToNext())
                 }
 
-                analyzeDataBase()
-
+            analyzeDataBase()
+            pCursor = pDatabase.query(
+                    pdbHelper.TABLE_USERS, arrayOf(
+                    pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
+                    pdbHelper.KEY_TIME, pdbHelper.KEY_2FA,
+                    pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS,
+                    pdbHelper.KEY_USE_TIME, pdbHelper.KEY_CIPHER,
+                    pdbHelper.KEY_DESC
+            ),
+                    null, null,
+                    null, null, null
+            )
                 if (pCursor.moveToFirst()) {
                     val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
                     val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
@@ -241,72 +253,81 @@ class PassGenActivity : AppCompatActivity() {
                     var j = 0
                     do {
                         val pass = pCursor.getString(passIndex).toString()
-                        val myPasswordManager = PasswordManager()
-                        val evaluation: Float =
-                                myPasswordManager.evaluatePassword(pass)
-                        var qualityNum = when {
-                            evaluation < 0.33 -> "2"
-                            evaluation < 0.66 -> "3"
-                            else -> "1"
-                        }
-
-                        val dbTimeIndex = pCursor.getString(timeIndex).toString()
-                        val dbdescIndex = pCursor.getString(descIndex).toString()
-                        if ((myPasswordManager.evaluateDate(dbTimeIndex)) && (pass.length != 4))
-                            qualityNum = "2"
-
-
-                        if (realQuality[j] != "1")
-                            qualityNum = "2"
-
                         val dbCipherIndex = pCursor.getString(cIndex).toString()
-                        val pm = PasswordManager()
-                        if (dbCipherIndex == "crypted" && pm.decrypt(pass).toString().length == 4 || pass.length == 4)
-                            qualityNum = "4"
-                        j++
-                        if (pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(
-                                    groupIndex
-                            ) == "null") {
-                            dbLogin = pCursor.getString(nameIndex).toString()
-                            val fa = pCursor.getString(aIndex).toString()
-                            passwords.add(Pair(dbLogin, fa))
-                            desc.add(dbdescIndex)
-                            quality.add(qualityNum)
-                            val dbTag = pCursor.getString(tagsIndex).toString()
-                            tags.add(dbTag)
-                            group.add("none")
-                        } else {
-                            dbLogin = pCursor.getString(nameIndex).toString()
-                            val fa = pCursor.getString(aIndex).toString()
-                            passwords.add(0, Pair(dbLogin, fa))
-                            desc.add(0, dbdescIndex)
-                            quality.add(0, qualityNum)
-                            val dbTag = pCursor.getString(tagsIndex).toString()
-                            tags.add(0, dbTag)
-                            group.add(0, "#favorite")
-                        }
 
-                        val fa = pCursor.getString(aIndex).toString()
-                        val tl= pCursor.getString(cIndex).toString()
+                            var evaluation: Float = 0F
+                        evaluation = if (dbCipherIndex == "crypted" ) {
+                            val passDecrypdted = pm.decrypt(pass).toString()
+                            pm.evaluatePassword(passDecrypdted)
+                        } else
+                            pm.evaluatePassword(pass)
 
-                        if(fa == "1")
-                            faNum += 1
 
-                        if(tl == "crypted")
-                            tlNum += 1
-                        when (qualityNum) {
-                            "1" -> safePass += 1
-                            "2" -> unsafePass += 1
-                            "3" -> fixPass += 1
-                        }
+                            var qualityNum = when {
+                                evaluation < 0.33 -> "2"
+                                evaluation < 0.66 -> "3"
+                                else -> "1"
+                            }
 
-                        allPass.text = (safePass+ unsafePass + fixPass).toString()
-                        afText.text = faNum.toString()
-                        tlText.text = tlNum.toString()
-                    } while (pCursor.moveToNext())
+                            val dbTimeIndex = pCursor.getString(timeIndex).toString()
+                            val dbdescIndex = pCursor.getString(descIndex).toString()
+                            if (pm.evaluateDate(dbTimeIndex))
+                                qualityNum = "2"
+
+
+                            if (realQuality[j] != "1")
+                                qualityNum = "2"
+
+
+                            if (dbCipherIndex == "crypted" && ((pm.decrypt(pass)).toString()).length == 4 || pass.length == 4)
+                                qualityNum = "4"
+                            j++
+                            if (pCursor.getString(groupIndex) == null || pCursor.getString(
+                                        groupIndex
+                                ) == "none"|| pCursor.getString(
+                                        groupIndex
+                                ) == "null") {
+                                dbLogin = pCursor.getString(nameIndex).toString()
+                                val fa = pCursor.getString(aIndex).toString()
+                                if(fa == "1")
+                                    faNum += 1
+                                passwords.add(Pair(dbLogin, fa))
+                                desc.add(dbdescIndex)
+                                quality.add(qualityNum)
+                                val dbTag = pCursor.getString(tagsIndex).toString()
+                                tags.add(dbTag)
+                                group.add("none")
+                            } else {
+                                dbLogin = pCursor.getString(nameIndex).toString()
+                                val fa = pCursor.getString(aIndex).toString()
+                                if(fa == "1")
+                                    faNum += 1
+                                passwords.add(0, Pair(dbLogin, fa))
+                                desc.add(0, dbdescIndex)
+                                quality.add(0, qualityNum)
+                                val dbTag = pCursor.getString(tagsIndex).toString()
+                                tags.add(0, dbTag)
+                                group.add(0, "#favorite")
+                            }
+
+                            if(dbCipherIndex == "crypted")
+                                tlNum += 1
+                            when (qualityNum) {
+                                "1" -> safePass += 1
+                                "2" -> unsafePass += 1
+                                "3" -> fixPass += 1
+                            }
+
+                            allPass.text = (safePass+ unsafePass + fixPass).toString()
+                            afText.text = faNum.toString()
+                            tlText.text = tlNum.toString()
+
+                        } while (pCursor.moveToNext())
                 }
+            pCursor.close()
             } catch (e: SQLException) {
         }
+
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
@@ -924,8 +945,6 @@ class PassGenActivity : AppCompatActivity() {
             }
         }
 
-
-
         searchPassField.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 val passwords2: ArrayList<Pair<String, String>> = ArrayList()
@@ -1054,7 +1073,6 @@ class PassGenActivity : AppCompatActivity() {
         })
 
         generatePassword.setOnClickListener {
-            val myPasswordManager = PasswordManager()
             //Create a password with letters, uppercase letters, numbers but not special chars with 17 chars
             if(list.size == 0 || (list.size == 1 && lengthToggle.isChecked)){
                 genPasswordId.error = getString(R.string.noRules)
@@ -1062,13 +1080,13 @@ class PassGenActivity : AppCompatActivity() {
             else {
                 genPasswordId.error = null
                 val newPassword: String =
-                    myPasswordManager.generatePassword(
-                            useLetters,
-                            useUC,
-                            useNumbers,
-                            useSymbols,
-                            length
-                    )
+                        pm.generatePassword(
+                                useLetters,
+                                useUC,
+                                useNumbers,
+                                useSymbols,
+                                length
+                        )
                 genPasswordIdField.setText(newPassword)
             }
             val deg = 0f
@@ -1377,7 +1395,6 @@ class PassGenActivity : AppCompatActivity() {
                     val pass = pCursor.getString(passIndex).toString()
                     val login = pCursor.getString(nameIndex).toString()
                     val dbCipherIndex = pCursor.getString(cIndex).toString()
-                    val pm = PasswordManager()
                     if (dbCipherIndex == "crypted" )
                         realPass.add(Pair(login, pm.decrypt(pass).toString()))
                     else
@@ -1399,9 +1416,12 @@ class PassGenActivity : AppCompatActivity() {
                 do {
                     val pass = pCursor.getString(passIndex).toString()
                     val dbdescIndex = pCursor.getString(descIndex).toString()
-                    val myPasswordManager = PasswordManager()
+                    val dbCipherIndex = pCursor.getString(cIndex).toString()
                     val evaluation: Float =
-                            myPasswordManager.evaluatePassword(pass)
+                    if (dbCipherIndex == "crypted" )
+                        pm.evaluatePassword(pm.decrypt(pass).toString())
+                    else
+                        pm.evaluatePassword(pass)
                     var qualityNum = when {
                         evaluation < 0.33 -> "2"
                         evaluation < 0.66 -> "3"
@@ -1410,8 +1430,6 @@ class PassGenActivity : AppCompatActivity() {
                     if(realQuality[j] != "1")
                         qualityNum = "2"
 
-                    val dbCipherIndex = pCursor.getString(cIndex).toString()
-                    val pm = PasswordManager()
                     if (dbCipherIndex == "crypted" && pm.decrypt(pass).toString().length == 4 || pass.length == 4)
                         qualityNum = "4"
                     j++
@@ -1449,6 +1467,7 @@ class PassGenActivity : AppCompatActivity() {
                     tlText.text = tlNum.toString()
                 } while (pCursor.moveToNext())
             }
+            pCursor.close()
         } catch (e: SQLException) {
         }
         passwordsG = passwords
@@ -1514,7 +1533,6 @@ class PassGenActivity : AppCompatActivity() {
                             val pass = pCursor.getString(passIndex).toString()
                             val login = pCursor.getString(nameIndex).toString()
                             val dbCipherIndex = pCursor.getString(cIndex).toString()
-                            val pm = PasswordManager()
                             if (dbCipherIndex == "crypted" )
                                 realPass.add(Pair(login, pm.decrypt(pass).toString()))
                             else
@@ -1536,9 +1554,12 @@ class PassGenActivity : AppCompatActivity() {
                         do {
                             val pass = pCursor.getString(passIndex).toString()
                             val dbdescIndex = pCursor.getString(descIndex).toString()
-                            val myPasswordManager = PasswordManager()
+                            val dbCipherIndex = pCursor.getString(cIndex).toString()
                             val evaluation: Float =
-                                    myPasswordManager.evaluatePassword(pass)
+                            if (dbCipherIndex == "crypted" )
+                                pm.evaluatePassword(pm.decrypt(pass).toString())
+                            else
+                                pm.evaluatePassword(pass)
                             var qualityNum = when {
                                 evaluation < 0.33 -> "2"
                                 evaluation < 0.66 -> "3"
@@ -1547,8 +1568,6 @@ class PassGenActivity : AppCompatActivity() {
                             if(realQuality[j] != "1")
                                 qualityNum = "2"
 
-                            val dbCipherIndex = pCursor.getString(cIndex).toString()
-                            val pm = PasswordManager()
                             if (dbCipherIndex == "crypted" && pm.decrypt(pass).toString().length == 4 || pass.length == 4)
                                 qualityNum = "4"
                             j++
@@ -1601,6 +1620,7 @@ class PassGenActivity : AppCompatActivity() {
                                 fixPass
                         )
                     }
+                    pCursor.close()
                 } catch (e: SQLException) {
                 }
 
@@ -1660,7 +1680,17 @@ class PassGenActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
-            recreate()
+            passwords.clear()
+            quality.clear()
+            tags.clear()
+            group.clear()
+            realPass.clear()
+            realQuality.clear()
+            realMap.clear()
+            desc.clear()
+            //recreate()
+            startActivity(intent);
+            finish();
         }
     }
 
