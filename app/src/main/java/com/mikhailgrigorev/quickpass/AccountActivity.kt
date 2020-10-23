@@ -39,6 +39,9 @@ class AccountActivity : AppCompatActivity() {
 
     @SuppressLint("Recycle", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        // Set Theme
+
         val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
         when(pref.getString(_keyTheme, "none")){
             "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
