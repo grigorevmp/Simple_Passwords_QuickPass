@@ -20,9 +20,13 @@
         android:theme="@style/AppTheme"
         tools:targetApi="q">
 
-        <service
+        <!--service
             android:name=".MyAutofillService"
             android:label="QuickPass"
+            android:enabled="true"
+            android:process=":process_description"
+            android:exported="false"
+            tools:node="replace"
             android:permission="android.permission.BIND_AUTOFILL_SERVICE">
             <intent-filter>
                 <action android:name="android.service.autofill.AutofillService" />
@@ -31,7 +35,7 @@
             <meta-data
                 android:name="android.autofill"
                 android:resource="@xml/service_configuration" />
-        </service>
+        </service-->
 
         <activity
             android:name=".SettingsActivity"
@@ -70,6 +74,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".PassGenActivity"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ReSignActivity"

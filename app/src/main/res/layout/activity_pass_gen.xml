@@ -363,12 +363,14 @@
                     <com.google.android.material.chip.Chip
                         android:id="@+id/lettersToggle"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:textAlignment="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/chipLetters" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/upperCaseToggle"
+                        android:textAlignment="center"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -376,6 +378,7 @@
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/numbersToggle"
+                        android:textAlignment="center"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -383,6 +386,7 @@
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/symToggles"
+                        android:textAlignment="center"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -390,6 +394,7 @@
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/lengthToggle"
+                        android:textAlignment="center"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

@@ -308,6 +308,7 @@ class PassGenActivity : AppCompatActivity() {
             } catch (e: SQLException) {
         }
 
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             if (passwords.size > 0) {
                 val intent = Intent(this, PasswordViewActivity::class.java)
@@ -487,6 +488,9 @@ class PassGenActivity : AppCompatActivity() {
                 }
             }
         }
+
+
+
         if(passwords.size == 0){
             allPassword.visibility = View.GONE
             noPasswords.visibility = View.VISIBLE
@@ -516,7 +520,6 @@ class PassGenActivity : AppCompatActivity() {
                 false
         )
 
-        passwordRecycler.setHasFixedSize(true)
         passwordRecycler.setHasFixedSize(true)
 
         passwordsG = passwords
@@ -1192,6 +1195,7 @@ class PassGenActivity : AppCompatActivity() {
         bottomSheetBehavior.isHideable = true
 
         // настройка колбэков при изменениях
+
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -1447,6 +1451,7 @@ class PassGenActivity : AppCompatActivity() {
             }
         } catch (e: SQLException) {
         }
+        passwordsG = passwords
         passwordRecycler.adapter = PasswordAdapter(
                 passwords,
                 quality,
@@ -1622,6 +1627,7 @@ class PassGenActivity : AppCompatActivity() {
                     warn_Card.animate().alpha(abs(1F)).start()
                 }
 
+                passwordsG = passwords
                 passwordRecycler.adapter = PasswordAdapter(
                         passwords,
                         quality,
