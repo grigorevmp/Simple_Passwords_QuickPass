@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.KeyEvent
 import android.view.View
-import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -398,10 +397,10 @@ class PasswordViewActivity : AppCompatActivity() {
 
 
         back.setOnClickListener {
-            logo.visibility = View.VISIBLE
-            val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_splash)
-            rotation.fillAfter = true
-            logo.startAnimation(rotation)
+            //logo.visibility = View.VISIBLE
+            //val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_splash)
+            //rotation.fillAfter = true
+            //logo.startAnimation(rotation)
             if(from != "short") {
                 val intent = Intent()
                 intent.putExtra("login", login)
@@ -463,10 +462,10 @@ class PasswordViewActivity : AppCompatActivity() {
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
-                logo.visibility = View.VISIBLE
-                val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_splash)
-                rotation.fillAfter = true
-                logo.startAnimation(rotation)
+                //logo.visibility = View.VISIBLE
+                //val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_splash)
+                //rotation.fillAfter = true
+                //logo.startAnimation(rotation)
                 if (from != "short") {
                     val intent = Intent()
                     intent.putExtra("login", login)

@@ -21,14 +21,6 @@ import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
 import kotlinx.android.synthetic.main.activity_new_password.*
-import kotlinx.android.synthetic.main.activity_new_password.accountAvatar
-import kotlinx.android.synthetic.main.activity_new_password.accountAvatarText
-import kotlinx.android.synthetic.main.activity_new_password.authToggle
-import kotlinx.android.synthetic.main.activity_new_password.back
-import kotlinx.android.synthetic.main.activity_new_password.logo
-import kotlinx.android.synthetic.main.activity_new_password.passQuality
-import kotlinx.android.synthetic.main.activity_new_password.timeLimit
-import kotlinx.android.synthetic.main.activity_password_view.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.random.Random
@@ -352,10 +344,10 @@ class NewPasswordActivity : AppCompatActivity() {
         }
 
         back.setOnClickListener {
-            logo.visibility = View.VISIBLE
-            val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_splash)
-            rotation.fillAfter = true
-            logo.startAnimation(rotation)
+            //logo.visibility = View.VISIBLE
+            //val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_splash)
+            //rotation.fillAfter = true
+            //logo.startAnimation(rotation)
             val intent = Intent()
             intent.putExtra("login", login)
             setResult(1, intent)
@@ -427,10 +419,10 @@ class NewPasswordActivity : AppCompatActivity() {
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
-                logo.visibility = View.VISIBLE
-                val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_splash)
-                rotation.fillAfter = true
-                logo.startAnimation(rotation)
+                //logo.visibility = View.VISIBLE
+                //val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_splash)
+                //rotation.fillAfter = true
+                //logo.startAnimation(rotation)
                 val intent = Intent()
                 intent.putExtra("login", login)
                 setResult(1, intent)

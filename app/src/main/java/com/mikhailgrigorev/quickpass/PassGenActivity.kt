@@ -68,6 +68,7 @@ class PassGenActivity : AppCompatActivity() {
     private var searchPos: Boolean = false
     private var searchNeg: Boolean = false
     private var searchMId: Boolean = false
+    val handler = Handler()
 
     private var xTouch = 500
     private var changeStatusPopUp: PopupWindow = PopupWindow()
@@ -102,7 +103,6 @@ class PassGenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // Finish app after some time
-        val handler = Handler()
         val r = Runnable {
             val intent = Intent(this, LoginAfterSplashActivity::class.java)
             startActivity(intent)
@@ -221,10 +221,7 @@ class PassGenActivity : AppCompatActivity() {
                         val pass = pCursor.getString(passIndex).toString()
                         val login = pCursor.getString(nameIndex).toString()
                         val dbCipherIndex = pCursor.getString(cIndex).toString()
-                        if (dbCipherIndex == "crypted" )
-                            realPass.add(Pair(login, pm.decrypt(pass).toString()))
-                        else
-                            realPass.add(Pair(login, pass))
+                        realPass.add(Pair(login, pass))
                         realPass.add(Pair(login, pass))
                     } while (pCursor.moveToNext())
                 }
@@ -255,19 +252,16 @@ class PassGenActivity : AppCompatActivity() {
                         val pass = pCursor.getString(passIndex).toString()
                         val dbCipherIndex = pCursor.getString(cIndex).toString()
 
-                            var evaluation: Float = 0F
-                        evaluation = if (dbCipherIndex == "crypted" ) {
-                            val passDecrypdted = pm.decrypt(pass).toString()
-                            pm.evaluatePassword(passDecrypdted)
-                        } else
-                            pm.evaluatePassword(pass)
+                        val evaluation: Float = pm.evaluatePassword(pass)
 
+                        var qualityNum = when {
+                            evaluation < 0.33 -> "2"
+                            evaluation < 0.66 -> "3"
+                            else -> "1"
+                        }
 
-                            var qualityNum = when {
-                                evaluation < 0.33 -> "2"
-                                evaluation < 0.66 -> "3"
-                                else -> "1"
-                            }
+                        if (dbCipherIndex == "crypted" )
+                            qualityNum = "6"
 
                             val dbTimeIndex = pCursor.getString(timeIndex).toString()
                             val dbdescIndex = pCursor.getString(descIndex).toString()
@@ -279,7 +273,7 @@ class PassGenActivity : AppCompatActivity() {
                                 qualityNum = "2"
 
 
-                            if (dbCipherIndex == "crypted" && ((pm.decrypt(pass)).toString()).length == 4 || pass.length == 4)
+                            if (dbCipherIndex != "crypted" && pass.length == 4)
                                 qualityNum = "4"
                             j++
                             if (pCursor.getString(groupIndex) == null || pCursor.getString(
@@ -1333,12 +1327,14 @@ class PassGenActivity : AppCompatActivity() {
         var j = 0
         if (realMap.containsKey(passwordsG[position].first)){
             for(pass in realMap[passwordsG[position].first]!!) {
-                if (j == 0)
-                    j += 1
-                else
-                    str += ", "
-                isPass = true
-                str += pass
+                if (pass !in str) {
+                    if (j == 0)
+                        j += 1
+                    else
+                        str += ", "
+                    isPass = true
+                    str += pass
+                }
             }
         }
         if(isPass)
@@ -1395,10 +1391,7 @@ class PassGenActivity : AppCompatActivity() {
                     val pass = pCursor.getString(passIndex).toString()
                     val login = pCursor.getString(nameIndex).toString()
                     val dbCipherIndex = pCursor.getString(cIndex).toString()
-                    if (dbCipherIndex == "crypted" )
-                        realPass.add(Pair(login, pm.decrypt(pass).toString()))
-                    else
-                        realPass.add(Pair(login, pass))
+                    realPass.add(Pair(login, pass))
                 } while (pCursor.moveToNext())
             }
 
@@ -1417,20 +1410,21 @@ class PassGenActivity : AppCompatActivity() {
                     val pass = pCursor.getString(passIndex).toString()
                     val dbdescIndex = pCursor.getString(descIndex).toString()
                     val dbCipherIndex = pCursor.getString(cIndex).toString()
-                    val evaluation: Float =
-                    if (dbCipherIndex == "crypted" )
-                        pm.evaluatePassword(pm.decrypt(pass).toString())
-                    else
-                        pm.evaluatePassword(pass)
+                    val evaluation: Float = pm.evaluatePassword(pass)
+
                     var qualityNum = when {
                         evaluation < 0.33 -> "2"
                         evaluation < 0.66 -> "3"
                         else -> "1"
                     }
+
+                    if (dbCipherIndex == "crypted" )
+                        qualityNum = "6"
+
                     if(realQuality[j] != "1")
                         qualityNum = "2"
 
-                    if (dbCipherIndex == "crypted" && pm.decrypt(pass).toString().length == 4 || pass.length == 4)
+                    if (dbCipherIndex != "crypted" &&  pass.length == 4)
                         qualityNum = "4"
                     j++
                     if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(
@@ -1533,10 +1527,7 @@ class PassGenActivity : AppCompatActivity() {
                             val pass = pCursor.getString(passIndex).toString()
                             val login = pCursor.getString(nameIndex).toString()
                             val dbCipherIndex = pCursor.getString(cIndex).toString()
-                            if (dbCipherIndex == "crypted" )
-                                realPass.add(Pair(login, pm.decrypt(pass).toString()))
-                            else
-                                realPass.add(Pair(login, pass))
+                            realPass.add(Pair(login, pass))
                         } while (pCursor.moveToNext())
                     }
 
@@ -1555,20 +1546,20 @@ class PassGenActivity : AppCompatActivity() {
                             val pass = pCursor.getString(passIndex).toString()
                             val dbdescIndex = pCursor.getString(descIndex).toString()
                             val dbCipherIndex = pCursor.getString(cIndex).toString()
-                            val evaluation: Float =
-                            if (dbCipherIndex == "crypted" )
-                                pm.evaluatePassword(pm.decrypt(pass).toString())
-                            else
-                                pm.evaluatePassword(pass)
+                            val evaluation: Float = pm.evaluatePassword(pass)
+
                             var qualityNum = when {
                                 evaluation < 0.33 -> "2"
                                 evaluation < 0.66 -> "3"
                                 else -> "1"
                             }
+
+                            if (dbCipherIndex == "crypted" )
+                                qualityNum = "6"
                             if(realQuality[j] != "1")
                                 qualityNum = "2"
 
-                            if (dbCipherIndex == "crypted" && pm.decrypt(pass).toString().length == 4 || pass.length == 4)
+                            if (dbCipherIndex != "crypted" && pass.length == 4)
                                 qualityNum = "4"
                             j++
                             if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(
@@ -1688,9 +1679,9 @@ class PassGenActivity : AppCompatActivity() {
             realQuality.clear()
             realMap.clear()
             desc.clear()
-            //recreate()
-            startActivity(intent);
-            finish();
+            recreate()
+            //startActivity(intent)
+            //finish()
         }
     }
 

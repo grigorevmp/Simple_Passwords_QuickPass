@@ -4,24 +4,23 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_below="@+id/rel1"
-    android:id="@+id/clickable_view"
     android:layout_height="wrap_content"
-    android:clickable="true"
     android:orientation="vertical"
-    android:focusable="true"
     android:layout_width="match_parent">
 
     <androidx.cardview.widget.CardView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center|end"
-    android:layout_marginLeft="20dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginRight="20dp"
-    android:layout_marginBottom="10dp"
-    android:foreground="?android:attr/selectableItemBackground"
-    card_view:cardCornerRadius="15dp"
-    card_view:cardElevation="3dp">
+        android:id="@+id/clickable_view" android:clickable="true"
+        android:focusable="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|end"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        card_view:cardCornerRadius="15dp"
+        card_view:cardElevation="3dp">
 
         <LinearLayout
         android:id="@+id/passFrag"
@@ -75,7 +74,15 @@
                     android:visibility="gone" />
 
             </LinearLayout>
-
+            <ImageView
+                android:id="@+id/lock"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="top"
+                android:contentDescription="@string/bank_card"
+                android:visibility="gone"
+                card_view:srcCompat="@drawable/database_lock_outline"
+                card_view:tint="@color/black" />
             <ImageView
                 android:id="@+id/credit"
                 android:layout_width="15dp"
