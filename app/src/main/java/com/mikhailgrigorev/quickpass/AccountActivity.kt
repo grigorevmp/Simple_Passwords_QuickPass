@@ -193,6 +193,7 @@ class AccountActivity : AppCompatActivity() {
             var crNum = 0
             var faNum = 0
             var tlNum = 0
+            var pinNum = 0
 
             // First scan to analyze same passes
             if (pCursor.moveToFirst()) {
@@ -240,9 +241,10 @@ class AccountActivity : AppCompatActivity() {
                     if (realQuality[j] != "1")
                         qualityNum = "2"
 
-
-                    if (dbCipherIndex != "crypted" && pass.length == 4)
+                    if (dbCipherIndex != "crypted" && pass.length == 4) {
                         qualityNum = "4"
+                        pinNum += 1
+                    }
 
                     j++
 
@@ -285,6 +287,7 @@ class AccountActivity : AppCompatActivity() {
             afText.text = faNum.toString()
             tlText.text = tlNum.toString()
             crText.text = crNum.toString()
+            pinText.text = pinNum.toString()
             allPass.text = (correctNum+ inCorrectNum + midCorrectNum).toString()
 
             realPoints.text = ((correctNum.toFloat() + midCorrectNum.toFloat()/2 + inCorrectNum.toFloat()*0 + tlNum.toFloat() + faNum.toFloat())

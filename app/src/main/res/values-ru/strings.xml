@@ -158,4 +158,5 @@
     <string name="set_pin_helper">Вам необходимо ввести 4 цифры</string>
     <string name="mail_description">Если вы забудете пароль, он будет отправлен на вашу электронную почту</string>
     <string name="slowloading">Включение шифрования замедляет загрузку списка паролей</string>
+    <string name="pin">PIN</string>
 </resources>

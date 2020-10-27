@@ -35,13 +35,13 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/crypted"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
+
                 android:clickable="true"
                 android:focusable="true"
-
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="15dp"
@@ -84,6 +84,22 @@
                                 android:layout_marginStart="15dp"
                                 android:text="@string/no_text" />
 
+                            <com.google.android.material.chip.Chip
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:clickable="false"
+                                android:text="@string/pin" />
+
+                            <TextView
+                                android:id="@+id/pinText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="15dp"
+                                android:layout_marginEnd="15dp"
+                                android:text="@string/crypted" />
+
                         </LinearLayout>
 
                     </LinearLayout>
@@ -121,7 +137,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 app:boxCornerRadiusBottomEnd="15dp"
                 app:boxCornerRadiusBottomStart="15dp"

@@ -89,6 +89,11 @@ class PasswordManager {
         return (factor*length)/(maxPasswordFactor*max(maxPasswordLength, length.toFloat()))
     }
 
+    fun evaluatePin(passwordToTest: String) : Float {
+
+        return 0F
+    }
+
     fun evaluatePasswordString(passwordToTest: String) : String {
 
         var factor = 0
