@@ -169,6 +169,7 @@ class AccountActivity : AppCompatActivity() {
                     pdbHelper.KEY_TAGS,
                     pdbHelper.KEY_GROUPS,
                     pdbHelper.KEY_USE_TIME,
+                    pdbHelper.KEY_CIPHER,
                     pdbHelper.KEY_TIME
             ),
                     null, null,
@@ -198,28 +199,36 @@ class AccountActivity : AppCompatActivity() {
                 val aIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_2FA)
                 val tIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_USE_TIME)
                 val timeIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TIME)
+                val cIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_CIPHER)
                 var j = 0
                 do {
                     val pass = pCursor.getString(passIndex).toString()
                     val myPasswordManager = PasswordManager()
-                    var evaluation: Float =
-                            myPasswordManager.evaluatePassword(pass)
+                    val evaluation: Float = myPasswordManager.evaluatePassword(pass)
+                    val dbCipherIndex = pCursor.getString(cIndex).toString()
 
+                    var qualityNum = when {
+                        evaluation < 0.33 -> "2"
+                        evaluation < 0.66 -> "3"
+                        else -> "1"
+                    }
+
+
+                    if (dbCipherIndex == "crypted" )
+                        qualityNum = "6"
 
                     val dbTimeIndex = pCursor.getString(timeIndex).toString()
+                    if (myPasswordManager.evaluateDate(dbTimeIndex))
+                        qualityNum = "2"
 
-                    if((myPasswordManager.evaluateDate(dbTimeIndex)) && (pass.length!= 4))
-                        evaluation = 0F
+                    if (realQuality[j] != "1")
+                        qualityNum = "2"
 
 
-                    if(realQuality[j] != "1")
-                        evaluation = 0F
+                    if (dbCipherIndex != "crypted" && pass.length == 4)
+                        qualityNum = "4"
+
                     j++
-                    when{
-                        evaluation < 0.33 -> inCorrectNum += 1
-                        evaluation < 0.66 -> midCorrectNum += 1
-                        else -> correctNum += 1
-                    }
 
                     val fa = pCursor.getString(aIndex).toString()
                     val tl= pCursor.getString(tIndex).toString()
@@ -229,6 +238,14 @@ class AccountActivity : AppCompatActivity() {
 
                     if(tl == "1")
                         tlNum += 1
+
+                    when (qualityNum) {
+                        "1" -> correctNum += 1
+                        "2" -> inCorrectNum += 1
+                        "3" -> midCorrectNum += 1
+                        "4" -> correctNum += 1
+                        "6" -> correctNum += 1
+                    }
 
                 } while (pCursor.moveToNext())
             }

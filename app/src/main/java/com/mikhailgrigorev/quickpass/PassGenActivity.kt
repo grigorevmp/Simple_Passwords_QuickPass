@@ -16,6 +16,7 @@ import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -216,12 +217,9 @@ class PassGenActivity : AppCompatActivity() {
                 if (pCursor.moveToFirst()) {
                     val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
                     val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
-                    val cIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_CIPHER)
                     do {
                         val pass = pCursor.getString(passIndex).toString()
                         val login = pCursor.getString(nameIndex).toString()
-                        val dbCipherIndex = pCursor.getString(cIndex).toString()
-                        realPass.add(Pair(login, pass))
                         realPass.add(Pair(login, pass))
                     } while (pCursor.moveToNext())
                 }
@@ -310,9 +308,11 @@ class PassGenActivity : AppCompatActivity() {
                                 "1" -> safePass += 1
                                 "2" -> unsafePass += 1
                                 "3" -> fixPass += 1
+                                "4" -> safePass += 1
+                                "6" -> safePass += 1
                             }
 
-                            allPass.text = (safePass+ unsafePass + fixPass).toString()
+                            allPass.text = (safePass + unsafePass + fixPass).toString()
                             afText.text = faNum.toString()
                             tlText.text = tlNum.toString()
 
@@ -1455,6 +1455,8 @@ class PassGenActivity : AppCompatActivity() {
                         "1" -> safePass += 1
                         "2" -> unsafePass += 1
                         "3" -> fixPass += 1
+                        "4" -> safePass += 1
+                        "6" -> safePass += 1
                     }
                     allPass.text = (safePass+ unsafePass + fixPass).toString()
                     afText.text = faNum.toString()
@@ -1590,6 +1592,8 @@ class PassGenActivity : AppCompatActivity() {
                                 "1" -> safePass += 1
                                 "2" -> unsafePass += 1
                                 "3" -> fixPass += 1
+                                "4" -> safePass += 1
+                                "6" -> safePass += 1
                             }
                             allPass.text = (safePass+ unsafePass + fixPass).toString()
                             afText.text = faNum.toString()
@@ -1667,6 +1671,27 @@ class PassGenActivity : AppCompatActivity() {
         changeStatusPopUp.dismiss()
 
     }
+
+
+
+    override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
+        when (keyCode) {
+            KeyEvent.KEYCODE_BACK -> {
+                val llBottomSheet = allPassword
+
+
+                val bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet)
+
+                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED)
+                    finish()
+                else
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
+        }
+        return false
+    }
+
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

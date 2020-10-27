@@ -57,7 +57,7 @@ class AboutActivity : AppCompatActivity() {
 
         // My link to Telegram
         telegram.setOnClickListener {
-            val i = Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/mikhail_grigorev"))
+            val i = Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/grigorevmp"))
             startActivity(i)
         }
 
@@ -69,7 +69,7 @@ class AboutActivity : AppCompatActivity() {
 
         // My link to GitHub
         gitHub.setOnClickListener {
-            val i = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/"))
+            val i = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/grigorevmp/QuickPass-Mobile-Password-manager/"))
             startActivity(i)
         }
 
