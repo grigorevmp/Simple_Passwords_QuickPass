@@ -31,7 +31,6 @@ class AccountActivity : AppCompatActivity() {
     private val _keyUsePin = "prefUsePinKey"
     private lateinit var login: String
     private lateinit var passName: String
-    private lateinit var account: String
 
     private val realPass: ArrayList<Pair<String, String>> = ArrayList()
     private val realQuality: ArrayList<String> = ArrayList()
@@ -50,6 +49,12 @@ class AccountActivity : AppCompatActivity() {
             "battery" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
         }
         super.onCreate(savedInstanceState)
+
+        when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_NO ->
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+
         // Finish app after some time
         val handler = Handler()
         val r = Runnable {
@@ -58,20 +63,23 @@ class AccountActivity : AppCompatActivity() {
             finish()
         }
         handler.postDelayed(r, 600000)
-        when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-            Configuration.UI_MODE_NIGHT_NO ->
-                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
+
         setContentView(R.layout.activity_account)
 
+        // Get Extras
         val args: Bundle? = intent.extras
         val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
         login = args?.get("login").toString()
+
+        // Set login
         val newLogin = sharedPref.getString(_keyUsername, login)
         if(newLogin != login)
             login = newLogin.toString()
+
+        //Set pass
         passName = args?.get("passName").toString()
-        account = args?.get("activity").toString()
+
+        // Set greeting
         val name: String? = getString(R.string.hi) + " " + login
         helloTextId.text = name
 
@@ -82,6 +90,7 @@ class AccountActivity : AppCompatActivity() {
             commit()
         }
 
+        // Open users database
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
         val cursor: Cursor = database.query(
@@ -157,7 +166,9 @@ class AccountActivity : AppCompatActivity() {
             val intent = Intent(this, AboutActivity::class.java)
             startActivity(intent)
         }
+        cursor.close()
 
+        // Open passwords database
         val pdbHelper = PasswordsDataBaseHelper(this, login)
         val pDatabase = pdbHelper.writableDatabase
         try {
@@ -179,9 +190,11 @@ class AccountActivity : AppCompatActivity() {
             var correctNum = 0
             var inCorrectNum = 0
             var midCorrectNum = 0
+            var crNum = 0
             var faNum = 0
             var tlNum = 0
 
+            // First scan to analyze same passes
             if (pCursor.moveToFirst()) {
                 val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
                 val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
@@ -194,6 +207,7 @@ class AccountActivity : AppCompatActivity() {
 
             analyzeDataBase()
 
+            // Second scan to set quality
             if (pCursor.moveToFirst()) {
                 val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
                 val aIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_2FA)
@@ -214,8 +228,10 @@ class AccountActivity : AppCompatActivity() {
                     }
 
 
-                    if (dbCipherIndex == "crypted" )
+                    if (dbCipherIndex == "crypted" ) {
                         qualityNum = "6"
+                        crNum += 1
+                    }
 
                     val dbTimeIndex = pCursor.getString(timeIndex).toString()
                     if (myPasswordManager.evaluateDate(dbTimeIndex))
@@ -268,29 +284,29 @@ class AccountActivity : AppCompatActivity() {
 
             afText.text = faNum.toString()
             tlText.text = tlNum.toString()
-
+            crText.text = crNum.toString()
             allPass.text = (correctNum+ inCorrectNum + midCorrectNum).toString()
 
             realPoints.text = ((correctNum.toFloat() + midCorrectNum.toFloat()/2 + inCorrectNum.toFloat()*0 + tlNum.toFloat() + faNum.toFloat())
                     /(7/3*(correctNum.toFloat() + inCorrectNum.toFloat() + midCorrectNum.toFloat())))
                     .toString()
-
+            pCursor.close()
         } catch (e: SQLException) {
         }
 
+        // Settings button animation
         val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate)
         rotation.fillAfter = true
         settings.startAnimation(rotation)
 
+        // Log out button
         logOut.setOnClickListener {
             val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
             builder.setTitle(getString(R.string.exit_account))
             builder.setMessage(getString(R.string.accountExitConfirm))
-
             builder.setPositiveButton(getString(R.string.yes)){ _, _ ->
                 exit(sharedPref)
             }
-
             builder.setNegativeButton(getString(R.string.no)){ _, _ ->
             }
 
@@ -300,22 +316,24 @@ class AccountActivity : AppCompatActivity() {
             dialog.show()
         }
 
+
+        // Edit button
         editAccount.setOnClickListener {
             val intent = Intent(this, EditAccountActivity::class.java)
             intent.putExtra("login", login)
             intent.putExtra("passName", passName)
-            intent.putExtra("activity", account)
             startActivityForResult(intent, 1)
         }
 
+        // Settings button
         settings.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
             intent.putExtra("login", login)
             intent.putExtra("passName", passName)
-            intent.putExtra("activity", account)
             startActivityForResult(intent, 1)
         }
 
+        // Delete button
         deleteAccount.setOnClickListener {
             val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
             builder.setTitle(getString(R.string.accountDelete))
@@ -351,7 +369,6 @@ class AccountActivity : AppCompatActivity() {
             val intent = Intent()
             intent.putExtra("login", login)
             intent.putExtra("passName", passName)
-            intent.putExtra("activity", account)
             setResult(1, intent)
             finish()
         }
@@ -369,7 +386,6 @@ class AccountActivity : AppCompatActivity() {
                 val intent = Intent()
                 intent.putExtra("login", login)
                 intent.putExtra("passName", passName)
-                intent.putExtra("activity", account)
                 setResult(1, intent)
                 finish()
             }

@@ -81,6 +81,9 @@ class PassGenActivity : AppCompatActivity() {
             "SetTextI18n", "ServiceCast"
     )
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        // Set theme
+
         val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
         when(pref.getString(_keyTheme, "none")){
             "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -103,7 +106,13 @@ class PassGenActivity : AppCompatActivity() {
         }
         super.onCreate(savedInstanceState)
 
+        when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_NO ->
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+
         // Finish app after some time
+
         val r = Runnable {
             val intent = Intent(this, LoginAfterSplashActivity::class.java)
             startActivity(intent)
@@ -111,24 +120,25 @@ class PassGenActivity : AppCompatActivity() {
         }
         handler.postDelayed(r, 600000)
 
-        when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-            Configuration.UI_MODE_NIGHT_NO ->
-                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
         setContentView(R.layout.activity_pass_gen)
 
+        // Get Extras
         val args: Bundle? = intent.extras
         login = args?.get("login").toString()
         val newLogin = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE).getString(
                 _keyUsername,
                 login
         )
+
+        // Set login
         if(newLogin != login)
             login = newLogin.toString()
 
+        // Set greeting
         val name: String? = getString(R.string.hi) + " " + login
         helloTextId.text = name
 
+        // Open users database
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
         val cursor: Cursor = database.query(
@@ -191,14 +201,14 @@ class PassGenActivity : AppCompatActivity() {
                 accountAvatarText.text = login[0].toString()
             } while (cursor.moveToNext())
         }
-
         cursor.close()
+
+
         var dbLogin: String
 
+        // Open passwords database
         val pdbHelper = PasswordsDataBaseHelper(this, login)
         val pDatabase = pdbHelper.writableDatabase
-
-
 
         try {
             var pCursor: Cursor = pDatabase.query(
@@ -213,7 +223,7 @@ class PassGenActivity : AppCompatActivity() {
                     null, null, null
             )
 
-
+                // First scan to analyze same passes
                 if (pCursor.moveToFirst()) {
                     val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
                     val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
@@ -225,6 +235,8 @@ class PassGenActivity : AppCompatActivity() {
                 }
 
             analyzeDataBase()
+
+            // Second scan to set quality
             pCursor = pDatabase.query(
                     pdbHelper.TABLE_USERS, arrayOf(
                     pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
@@ -323,7 +335,7 @@ class PassGenActivity : AppCompatActivity() {
         }
 
 
-
+        // Shotcuts
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             if (passwords.size > 0) {
                 val intent = Intent(this, PasswordViewActivity::class.java)
@@ -504,8 +516,7 @@ class PassGenActivity : AppCompatActivity() {
             }
         }
 
-
-
+        // First greeting
         if(passwords.size == 0){
             allPassword.visibility = View.GONE
             noPasswords.visibility = View.VISIBLE
@@ -518,6 +529,7 @@ class PassGenActivity : AppCompatActivity() {
             warn_Card.animate().alpha(abs(1F)).start()
         }
 
+        // Set stats
         correctPasswords.text = resources.getQuantityString(
                 R.plurals.correct_passwords,
                 safePass,
@@ -537,6 +549,7 @@ class PassGenActivity : AppCompatActivity() {
 
         passwordRecycler.setHasFixedSize(true)
 
+        // Set passwords adapter
         passwordsG = passwords
         passwordRecycler.adapter = PasswordAdapter(
                 passwords,
@@ -549,6 +562,8 @@ class PassGenActivity : AppCompatActivity() {
                     passClickListener(it)
                 },
                 longClickListener = { i: Int, view: View -> passLongClickListener(i, view) })
+
+        // Set stat clicker to filter passes by quality
 
         positiveCircle.setOnClickListener {
             if(searchPos){
@@ -939,6 +954,7 @@ class PassGenActivity : AppCompatActivity() {
             }
         }
 
+        // Search passwords
         searchPassField.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 val passwords2: ArrayList<Pair<String, String>> = ArrayList()
@@ -998,6 +1014,7 @@ class PassGenActivity : AppCompatActivity() {
             commit()
         }
 
+        // Go to accout
         accountAvatar.setOnClickListener {
             val intent = Intent(this, AccountActivity::class.java)
             intent.putExtra("login", login)
@@ -1005,6 +1022,7 @@ class PassGenActivity : AppCompatActivity() {
             startActivityForResult(intent, 1)
         }
 
+        // Password generation system
         val list = mutableListOf<String>()
         // Loop through the chips
         for (index in 0 until passSettings.childCount) {
@@ -1066,6 +1084,7 @@ class PassGenActivity : AppCompatActivity() {
             }
         })
 
+        // Generate random password
         generatePassword.setOnClickListener {
             //Create a password with letters, uppercase letters, numbers but not special chars with 17 chars
             if(list.size == 0 || (list.size == 1 && lengthToggle.isChecked)){
@@ -1086,6 +1105,7 @@ class PassGenActivity : AppCompatActivity() {
             val deg = 0f
             generatePassword.animate().rotation(deg).interpolator = AccelerateDecelerateInterpolator()
         }
+
         //generatePassword.setOnTouchListener { v, event ->
         //        when (event.action) {
         //            MotionEvent.ACTION_DOWN -> {
@@ -1119,6 +1139,8 @@ class PassGenActivity : AppCompatActivity() {
                 toast(getString(R.string.passCopied))
             }
         }
+
+        // Additinal add new password buttons
 
         noPasswords.setOnClickListener {
             val intent = Intent(this, NewPasswordActivity::class.java)
@@ -1390,7 +1412,6 @@ class PassGenActivity : AppCompatActivity() {
                 do {
                     val pass = pCursor.getString(passIndex).toString()
                     val login = pCursor.getString(nameIndex).toString()
-                    val dbCipherIndex = pCursor.getString(cIndex).toString()
                     realPass.add(Pair(login, pass))
                 } while (pCursor.moveToNext())
             }
@@ -1528,7 +1549,6 @@ class PassGenActivity : AppCompatActivity() {
                         do {
                             val pass = pCursor.getString(passIndex).toString()
                             val login = pCursor.getString(nameIndex).toString()
-                            val dbCipherIndex = pCursor.getString(cIndex).toString()
                             realPass.add(Pair(login, pass))
                         } while (pCursor.moveToNext())
                     }

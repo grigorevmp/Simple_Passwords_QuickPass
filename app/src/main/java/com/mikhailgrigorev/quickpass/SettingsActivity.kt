@@ -41,7 +41,6 @@ class SettingsActivity : AppCompatActivity() {
     private val _keyUsePin = "prefUsePinKey"
     private lateinit var login: String
     private lateinit var passName: String
-    private lateinit var account: String
     private lateinit var imageName: String
     @SuppressLint("SetTextI18n", "Recycle", "RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,7 +93,6 @@ class SettingsActivity : AppCompatActivity() {
         val args: Bundle? = intent.extras
         login = args?.get("login").toString()
         passName = args?.get("passName").toString()
-        account = args?.get("activity").toString()
 
         // Checking prefs
         val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -319,7 +317,6 @@ class SettingsActivity : AppCompatActivity() {
                 val intent = Intent(this, SetPinActivity::class.java)
                 intent.putExtra("login", login)
                 intent.putExtra("passName", passName)
-                intent.putExtra("activity", account)
                 startActivity(intent)
                 finish()
             }
@@ -343,7 +340,6 @@ class SettingsActivity : AppCompatActivity() {
                 val intent = Intent(this, SetPinActivity::class.java)
                 intent.putExtra("login", login)
                 intent.putExtra("passName", passName)
-                intent.putExtra("activity", account)
                 startActivity(intent)
                 finish()
             }
@@ -1093,7 +1089,6 @@ class SettingsActivity : AppCompatActivity() {
             val intent = Intent()
             intent.putExtra("login", login)
             intent.putExtra("passName", passName)
-            intent.putExtra("activity", account)
             setResult(1, intent)
             finish()
         }
@@ -1171,7 +1166,6 @@ class SettingsActivity : AppCompatActivity() {
                 val intent = Intent()
                 intent.putExtra("login", login)
                 intent.putExtra("passName", passName)
-                intent.putExtra("activity", account)
                 setResult(1, intent)
                 finish()
             }

@@ -24,7 +24,6 @@ class EditAccountActivity : AppCompatActivity() {
     private val _keyUsername = "prefUserNameKey"
     private lateinit var login: String
     private lateinit var passName: String
-    private lateinit var account: String
     private lateinit var imageName: String
 
     @SuppressLint("Recycle")
@@ -47,7 +46,6 @@ class EditAccountActivity : AppCompatActivity() {
             val intent = Intent()
             intent.putExtra("login", login)
             intent.putExtra("passName", passName)
-            intent.putExtra("activity", account)
             setResult(1, intent)
             finish()
         }
@@ -55,7 +53,6 @@ class EditAccountActivity : AppCompatActivity() {
         val args: Bundle? = intent.extras
         login = args?.get("login").toString()
         passName = args?.get("passName").toString()
-        account = args?.get("activity").toString()
         val name: String? = getString(R.string.hi) + " " + login
         helloTextId.text = name
         nameViewField.setText(login)
@@ -163,7 +160,6 @@ class EditAccountActivity : AppCompatActivity() {
 
                 intent.putExtra("login", nameViewField.text.toString())
                 intent.putExtra("passName", passViewField.text.toString())
-                intent.putExtra("activity", account)
                 setResult(1, intent)
                 finish()
             }
@@ -176,7 +172,6 @@ class EditAccountActivity : AppCompatActivity() {
                 val intent = Intent()
                 intent.putExtra("login", login)
                 intent.putExtra("passName", passName)
-                intent.putExtra("activity", account)
                 setResult(1, intent)
                 finish()
             }

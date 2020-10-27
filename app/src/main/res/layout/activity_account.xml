@@ -33,6 +33,63 @@
             android:layout_height="match_parent"
             android:animateLayoutChanges="true">
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/crypted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:clickable="true"
+                android:focusable="true"
+
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+                <HorizontalScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:scrollIndicators="none"
+                    android:scrollbarThumbHorizontal="@null">
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_margin="10dp"
+                            android:orientation="horizontal"
+                            tools:ignore="UselessParent">
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:clickable="false"
+                                android:text="@string/crypted" />
+
+                            <TextView
+                                android:id="@+id/crText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="15dp"
+                                android:text="@string/no_text" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </androidx.cardview.widget.CardView>
+
             <ImageView
                 android:id="@+id/back"
                 android:layout_width="wrap_content"
@@ -110,7 +167,6 @@
             </androidx.cardview.widget.CardView>
 
 
-
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -122,7 +178,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/specialInfo"
+                app:layout_constraintTop_toBottomOf="@+id/crypted"
                 app:layout_constraintVertical_bias="1.0">
 
                 <LinearLayout
@@ -139,8 +195,8 @@
                         android:background="@android:color/transparent"
                         android:contentDescription="@string/delete_account"
                         android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
                         android:paddingTop="10dp"
+                        android:paddingEnd="20dp"
                         android:paddingBottom="10dp"
                         android:src="@drawable/delete_outline"
                         android:tint="@color/quitAccent" />
@@ -152,8 +208,8 @@
                         android:background="@android:color/transparent"
                         android:contentDescription="@string/log_out"
                         android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
                         android:paddingTop="10dp"
+                        android:paddingEnd="20dp"
                         android:paddingBottom="10dp"
                         android:src="@drawable/exit_to_app"
                         android:tint="@color/black" />
@@ -165,8 +221,8 @@
                         android:background="@android:color/transparent"
                         android:contentDescription="@string/settings"
                         android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
                         android:paddingTop="10dp"
+                        android:paddingEnd="20dp"
                         android:paddingBottom="10dp"
                         android:src="@drawable/cog_outline"
                         android:tint="@color/black" />
@@ -178,8 +234,8 @@
                         android:background="@android:color/transparent"
                         android:contentDescription="@string/about_app"
                         android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
                         android:paddingTop="10dp"
+                        android:paddingEnd="20dp"
                         android:paddingBottom="10dp"
                         android:src="@drawable/information_outline"
                         android:tint="@color/black" />
@@ -440,6 +496,7 @@
                     android:paddingEnd="20dp"
                     android:text="@string/no_text" />
             </androidx.cardview.widget.CardView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
