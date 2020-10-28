@@ -42,7 +42,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var login: String
     private lateinit var passName: String
     private lateinit var imageName: String
-    var condition = false
+    var condition = true
     @SuppressLint("SetTextI18n", "Recycle", "RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)

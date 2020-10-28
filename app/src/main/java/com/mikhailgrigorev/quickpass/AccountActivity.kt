@@ -36,7 +36,7 @@ class AccountActivity : AppCompatActivity() {
     private val realQuality: ArrayList<String> = ArrayList()
     private val realMap: MutableMap<String, ArrayList<String>> = mutableMapOf()
 
-    var condition = false
+    var condition = true
 
     @SuppressLint("Recycle", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -28,7 +28,7 @@ class PasswordViewActivity : AppCompatActivity() {
     private lateinit var login: String
     private lateinit var passName: String
     private lateinit var from: String
-    var condition = false
+    var condition = true
 
     @SuppressLint("Recycle", "SetTextI18n", "UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
