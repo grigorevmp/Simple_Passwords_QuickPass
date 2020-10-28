@@ -42,6 +42,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var login: String
     private lateinit var passName: String
     private lateinit var imageName: String
+    var condition = false
     @SuppressLint("SetTextI18n", "Recycle", "RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -68,9 +69,12 @@ class SettingsActivity : AppCompatActivity() {
         // Finish app after some time
         val handler = Handler()
         val r = Runnable {
-            val intent = Intent(this, LoginAfterSplashActivity::class.java)
-            startActivity(intent)
-            finish()
+            if(condition) {
+                condition=false
+                val intent = Intent(this, LoginAfterSplashActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
         handler.postDelayed(r, 600000)
 
@@ -314,6 +318,7 @@ class SettingsActivity : AppCompatActivity() {
 
         setPinSwitch.setOnCheckedChangeListener { _, _ ->
             if(setPinSwitch.isChecked){
+                condition=false
                 val intent = Intent(this, SetPinActivity::class.java)
                 intent.putExtra("login", login)
                 intent.putExtra("passName", passName)
@@ -321,6 +326,7 @@ class SettingsActivity : AppCompatActivity() {
                 finish()
             }
             else{
+                condition=false
                 with(sharedPref.edit()) {
                     putString(_keyUsePin, "none")
                     commit()
@@ -337,6 +343,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             else{
+                condition=false
                 val intent = Intent(this, SetPinActivity::class.java)
                 intent.putExtra("login", login)
                 intent.putExtra("passName", passName)
@@ -1086,6 +1093,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         back.setOnClickListener {
+            condition=false
             val intent = Intent()
             intent.putExtra("login", login)
             intent.putExtra("passName", passName)
@@ -1162,7 +1170,7 @@ class SettingsActivity : AppCompatActivity() {
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
-
+                condition=false
                 val intent = Intent()
                 intent.putExtra("login", login)
                 intent.putExtra("passName", passName)

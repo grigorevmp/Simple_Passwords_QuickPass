@@ -75,6 +75,7 @@ class PassGenActivity : AppCompatActivity() {
     private var changeStatusPopUp: PopupWindow = PopupWindow()
     private var globalPos: Int = -1
     var pm = PasswordManager()
+    var condition = false
 
     @SuppressLint(
             "Recycle", "ClickableViewAccessibility", "ResourceAsColor", "RestrictedApi",
@@ -114,9 +115,12 @@ class PassGenActivity : AppCompatActivity() {
         // Finish app after some time
 
         val r = Runnable {
-            val intent = Intent(this, LoginAfterSplashActivity::class.java)
-            startActivity(intent)
-            finish()
+            if(condition) {
+                condition=false
+                val intent = Intent(this, LoginAfterSplashActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
         handler.postDelayed(r, 600000)
 
@@ -1025,6 +1029,7 @@ class PassGenActivity : AppCompatActivity() {
 
         // Go to accout
         accountAvatar.setOnClickListener {
+            condition=false
             val intent = Intent(this, AccountActivity::class.java)
             intent.putExtra("login", login)
             intent.putExtra("activity", "menu")
@@ -1152,6 +1157,7 @@ class PassGenActivity : AppCompatActivity() {
         // Additinal add new password buttons
 
         noPasswords.setOnClickListener {
+            condition=false
             val intent = Intent(this, NewPasswordActivity::class.java)
             intent.putExtra("login", login)
             intent.putExtra("pass", genPasswordIdField.text.toString())
@@ -1165,6 +1171,7 @@ class PassGenActivity : AppCompatActivity() {
         }
 
         extraNewPass.setOnClickListener {
+            condition=false
             val intent = Intent(this, NewPasswordActivity::class.java)
             intent.putExtra("login", login)
             intent.putExtra("pass", genPasswordIdField.text.toString())
@@ -1178,6 +1185,7 @@ class PassGenActivity : AppCompatActivity() {
 
 
         newPass.setOnClickListener {
+            condition=false
             val intent = Intent(this, NewPasswordActivity::class.java)
             intent.putExtra("login", login)
             intent.putExtra("pass", genPasswordIdField.text.toString())
@@ -1345,6 +1353,7 @@ class PassGenActivity : AppCompatActivity() {
     }
 
     private fun passClickListener(position: Int) {
+        condition=false
         val intent = Intent(this, PasswordViewActivity::class.java)
         var isPass = false
         intent.putExtra("login", login)
@@ -1741,6 +1750,7 @@ class PassGenActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
+            condition=false
             passwords.clear()
             quality.clear()
             tags.clear()

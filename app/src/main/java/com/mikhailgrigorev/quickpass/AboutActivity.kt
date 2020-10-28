@@ -17,6 +17,7 @@ class AboutActivity : AppCompatActivity() {
     private val _keyTHEME = "themePreference"
     private val _preferenceFile = "quickPassPreference"
 
+    var condition = false
     override fun onCreate(savedInstanceState: Bundle?) {
 
         // Set Theme
@@ -41,9 +42,12 @@ class AboutActivity : AppCompatActivity() {
 
         val handler = Handler()
         val r = Runnable {
-            val intent = Intent(this, LoginAfterSplashActivity::class.java)
-            startActivity(intent)
-            finish()
+            if(condition) {
+                condition=false
+                val intent = Intent(this, LoginAfterSplashActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
         handler.postDelayed(r, 600000)
 
@@ -57,18 +61,21 @@ class AboutActivity : AppCompatActivity() {
 
         // My link to Telegram
         telegram.setOnClickListener {
+            condition=false
             val i = Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/grigorevmp"))
             startActivity(i)
         }
 
         // My link to VK
         vkontakte.setOnClickListener {
+            condition=false
             val i = Intent(Intent.ACTION_VIEW, Uri.parse("https://vk.com/grigorevmp"))
             startActivity(i)
         }
 
         // My link to GitHub
         gitHub.setOnClickListener {
+            condition=false
             val i = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/grigorevmp/QuickPass-Mobile-Password-manager/"))
             startActivity(i)
         }
@@ -81,6 +88,7 @@ class AboutActivity : AppCompatActivity() {
     }
 
     private fun sendEmail() {
+        condition=false
         val recipient = "16112000m@gmai.com"
         val subject = "Quick password app"
         val message = "Hello, Mikhail \n"

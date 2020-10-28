@@ -36,6 +36,8 @@ class AccountActivity : AppCompatActivity() {
     private val realQuality: ArrayList<String> = ArrayList()
     private val realMap: MutableMap<String, ArrayList<String>> = mutableMapOf()
 
+    var condition = false
+
     @SuppressLint("Recycle", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -58,9 +60,12 @@ class AccountActivity : AppCompatActivity() {
         // Finish app after some time
         val handler = Handler()
         val r = Runnable {
-            val intent = Intent(this, LoginAfterSplashActivity::class.java)
-            startActivity(intent)
-            finish()
+            if(condition) {
+                condition=false
+                val intent = Intent(this, LoginAfterSplashActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
         handler.postDelayed(r, 600000)
 
@@ -163,6 +168,7 @@ class AccountActivity : AppCompatActivity() {
             } while (cursor.moveToNext())
         }
         aboutApp.setOnClickListener {
+            condition=false
             val intent = Intent(this, AboutActivity::class.java)
             startActivity(intent)
         }
@@ -322,6 +328,7 @@ class AccountActivity : AppCompatActivity() {
 
         // Edit button
         editAccount.setOnClickListener {
+            condition=false
             val intent = Intent(this, EditAccountActivity::class.java)
             intent.putExtra("login", login)
             intent.putExtra("passName", passName)
@@ -330,6 +337,7 @@ class AccountActivity : AppCompatActivity() {
 
         // Settings button
         settings.setOnClickListener {
+            condition=false
             val intent = Intent(this, SettingsActivity::class.java)
             intent.putExtra("login", login)
             intent.putExtra("passName", passName)
@@ -369,6 +377,7 @@ class AccountActivity : AppCompatActivity() {
             //val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_splash)
             //rotation.fillAfter = true
             //logo.startAnimation(rotation)
+            condition=false
             val intent = Intent()
             intent.putExtra("login", login)
             intent.putExtra("passName", passName)
@@ -386,6 +395,7 @@ class AccountActivity : AppCompatActivity() {
                 //val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_splash)
                 //rotation.fillAfter = true
                 //logo.startAnimation(rotation)
+                condition=false
                 val intent = Intent()
                 intent.putExtra("login", login)
                 intent.putExtra("passName", passName)
@@ -438,6 +448,7 @@ class AccountActivity : AppCompatActivity() {
         }
     }
     private fun exit(sharedPref: SharedPreferences) {
+        condition=false
         sharedPref.edit().remove(_keyUsername).apply()
         sharedPref.edit().remove(_keyUsePin).apply()
         sharedPref.edit().remove(_keyBio).apply()

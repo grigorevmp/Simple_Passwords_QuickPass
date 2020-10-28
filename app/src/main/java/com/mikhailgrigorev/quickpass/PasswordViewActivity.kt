@@ -28,6 +28,7 @@ class PasswordViewActivity : AppCompatActivity() {
     private lateinit var login: String
     private lateinit var passName: String
     private lateinit var from: String
+    var condition = false
 
     @SuppressLint("Recycle", "SetTextI18n", "UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,9 +56,12 @@ class PasswordViewActivity : AppCompatActivity() {
         // Finish app after some time
         val handler = Handler()
         val r = Runnable {
-            val intent = Intent(this, LoginAfterSplashActivity::class.java)
-            startActivity(intent)
-            finish()
+            if(condition) {
+                condition=false
+                val intent = Intent(this, LoginAfterSplashActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
         handler.postDelayed(r, 600000)
 
@@ -72,6 +76,7 @@ class PasswordViewActivity : AppCompatActivity() {
         from= args?.get("from").toString()
 
         if (from == "short"){
+            condition=false
             val intent = Intent(this, ReLoginActivity::class.java)
             startActivityForResult(intent, 1)
         }
@@ -367,6 +372,7 @@ class PasswordViewActivity : AppCompatActivity() {
                 toast(getString(R.string.passwordDeleted))
                 val intent = Intent(this, PassGenActivity::class.java)
                 intent.putExtra("login", login)
+                condition=false
                 startActivity(intent)
                 finish()
             }
@@ -381,6 +387,7 @@ class PasswordViewActivity : AppCompatActivity() {
         }
 
         accountAvatar.setOnClickListener {
+            condition=false
             val intent = Intent(this, AccountActivity::class.java)
             intent.putExtra("login", login)
             intent.putExtra("activity", "menu")
@@ -413,6 +420,7 @@ class PasswordViewActivity : AppCompatActivity() {
             //rotation.fillAfter = true
             //logo.startAnimation(rotation)
             if(from != "short") {
+                condition=false
                 val intent = Intent()
                 intent.putExtra("login", login)
                 intent.putExtra("passName", passName)
@@ -420,6 +428,7 @@ class PasswordViewActivity : AppCompatActivity() {
                 finish()
             }
             else{
+                condition=false
                 val intent = Intent(this, PassGenActivity::class.java)
                 intent.putExtra("login", login)
                 intent.putExtra("passName", passName)
@@ -429,6 +438,7 @@ class PasswordViewActivity : AppCompatActivity() {
         }
 
         editButton.setOnClickListener {
+            condition=false
             val intent = Intent(this, EditPassActivity::class.java)
             intent.putExtra("login", login)
             intent.putExtra("passName", passName)
@@ -478,12 +488,14 @@ class PasswordViewActivity : AppCompatActivity() {
                 //rotation.fillAfter = true
                 //logo.startAnimation(rotation)
                 if (from != "short") {
+                    condition=false
                     val intent = Intent()
                     intent.putExtra("login", login)
                     intent.putExtra("passName", passName)
                     setResult(1, intent)
                     finish()
                 } else {
+                    condition=false
                     val intent = Intent(this, PassGenActivity::class.java)
                     intent.putExtra("login", login)
                     intent.putExtra("passName", passName)
@@ -498,6 +510,7 @@ class PasswordViewActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
             if (resultCode == 1) {
+                condition=false
                 val intent = intent
                 finish()
                 startActivity(intent)
