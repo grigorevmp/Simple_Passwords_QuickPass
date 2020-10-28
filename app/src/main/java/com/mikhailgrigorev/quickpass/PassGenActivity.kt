@@ -74,8 +74,8 @@ class PassGenActivity : AppCompatActivity() {
     private var xTouch = 500
     private var changeStatusPopUp: PopupWindow = PopupWindow()
     private var globalPos: Int = -1
-    var pm = PasswordManager()
-    var condition = true
+    private var pm = PasswordManager()
+    private var condition = true
 
     @SuppressLint(
             "Recycle", "ClickableViewAccessibility", "ResourceAsColor", "RestrictedApi",
