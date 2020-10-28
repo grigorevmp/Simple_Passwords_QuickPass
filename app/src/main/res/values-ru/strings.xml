@@ -149,7 +149,7 @@
     <string name="sendMail2">Письмо с паролем отправлено вам на почту</string>
     <string name="sendMail3">Вы не указали вашу почту =(</string>
     <string name="crypt">Шифровать</string>
-    <string name="cipherInfo">Шифровать - ваш пароль будет храниться в зашифрованном виде и расшифрвываться только при показе</string>
+    <string name="cipherInfo">Шифровать - ваш пароль будет храниться в зашифрованном виде и расшифровываться только при показе</string>
     <string name="save_password">Save password</string>
     <string name="add_password">Add password</string>
     <string name="crypted">Crypted</string>
@@ -159,4 +159,9 @@
     <string name="mail_description">Если вы забудете пароль, он будет отправлен на вашу электронную почту</string>
     <string name="slowloading">Включение шифрования замедляет загрузку списка паролей</string>
     <string name="pin">PIN</string>
+    <string name="newPassIdea"> Идея создания пароля</string>
+    <string name="newPassIdea1"> Придумайте ключевое слово, например, kitten. Создавайте пароль, не указывая ключ в приложении, добавляйте ключевое слово в конец пароля на сервисе. Например, "Sup3rP4s55kitten"
+    Так, даже если эту базу данных получит злоумышленник, он не узнает ваш пароль.</string>
+    <string name="warnQuality"> Качество защищённых паролей не будет анализироваться вне этого экрана</string>
+    <string name="tooEasyText"> Ваш пароль/пин входит в число самых популярных</string>
 </resources>

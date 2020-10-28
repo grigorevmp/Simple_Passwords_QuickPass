@@ -75,6 +75,10 @@ class PasswordAdapter(private val items: ArrayList<Pair<String, String>>,
                 holder.credit.visibility = View.VISIBLE
                 holder.marker.visibility = View.GONE
             }
+            quality[position] == "5" -> {
+                holder.creditNeg.visibility = View.VISIBLE
+                holder.marker.visibility = View.GONE
+            }
             quality[position] == "6" -> {
                 holder.lock.visibility = View.VISIBLE
                 holder.marker.visibility = View.GONE
@@ -100,5 +104,6 @@ class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
     val marker = view.marker!!
     val group = view.group!!
     val credit = view.credit!!
+    val creditNeg = view.credit2!!
     val lock = view.lock!!
 }

@@ -285,6 +285,15 @@ class PassGenActivity : AppCompatActivity() {
 
                             if (dbCipherIndex != "crypted" && pass.length == 4)
                                 qualityNum = "4"
+
+                        if (pm.popularPasswords(pass)
+                            or ((pass.length == 4)
+                                    and pm.popularPin(pass))){
+                            qualityNum = if (qualityNum == "4")
+                                "5"
+                            else
+                                "2"
+                        }
                             j++
                             if (pCursor.getString(groupIndex) == null || pCursor.getString(
                                         groupIndex
@@ -1447,6 +1456,14 @@ class PassGenActivity : AppCompatActivity() {
 
                     if (dbCipherIndex != "crypted" &&  pass.length == 4)
                         qualityNum = "4"
+                    if (pm.popularPasswords(pass)
+                        or ((pass.length == 4)
+                                and pm.popularPin(pass))){
+                        qualityNum = if (qualityNum == "4")
+                            "5"
+                        else
+                            "2"
+                    }
                     j++
                     if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(
                                 groupIndex
@@ -1583,6 +1600,14 @@ class PassGenActivity : AppCompatActivity() {
 
                             if (dbCipherIndex != "crypted" && pass.length == 4)
                                 qualityNum = "4"
+                            if (pm.popularPasswords(pass)
+                                or ((pass.length == 4)
+                                        and pm.popularPin(pass))){
+                                qualityNum = if (qualityNum == "4")
+                                    "5"
+                                else
+                                    "2"
+                            }
                             j++
                             if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(
                                         groupIndex

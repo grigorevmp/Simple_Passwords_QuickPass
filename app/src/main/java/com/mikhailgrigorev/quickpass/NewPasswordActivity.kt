@@ -11,7 +11,6 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -118,7 +117,13 @@ class NewPasswordActivity : AppCompatActivity() {
         genPasswordIdField.setText(pass)
         if(pass!="") {
             val myPasswordManager = PasswordManager()
-            val evaluation: String = myPasswordManager.evaluatePasswordString(genPasswordIdField.text.toString())
+            var evaluation: String = myPasswordManager.evaluatePasswordString(genPasswordIdField.text.toString())
+            if (myPasswordManager.popularPasswords(genPasswordIdField.text.toString())){
+                evaluation = "low"
+            }
+            if (genPasswordIdField.text.toString().length == 4)
+                if (myPasswordManager.popularPin(genPasswordIdField.text.toString()))
+                    evaluation = "low"
             passQuality.text = evaluation
             when (evaluation) {
                 "low" -> passQuality.text = getString(R.string.low)
@@ -235,8 +240,15 @@ class NewPasswordActivity : AppCompatActivity() {
                             myPasswordManager.isNumbers(genPasswordIdField.text.toString())
                     symToggles.isChecked =
                             myPasswordManager.isSymbols(genPasswordIdField.text.toString())
-                    val evaluation: String =
+                    var evaluation: String =
                             myPasswordManager.evaluatePasswordString(genPasswordIdField.text.toString())
+                    if (myPasswordManager.popularPasswords(genPasswordIdField.text.toString())){
+                        evaluation = "low"
+                    }
+                    if (genPasswordIdField.text.toString().length == 4)
+                        if (myPasswordManager.popularPin(genPasswordIdField.text.toString()))
+                            evaluation = "low"
+
                     when (evaluation) {
                         "low" -> passQuality.text = getString(R.string.low)
                         "high" -> passQuality.text = getString(R.string.high)
@@ -287,7 +299,13 @@ class NewPasswordActivity : AppCompatActivity() {
                     myPasswordManager.generatePassword(useLetters, useUC, useNumbers, useSymbols, length)
                 genPasswordIdField.setText(newPassword)
 
-                val evaluation: String = myPasswordManager.evaluatePasswordString(genPasswordIdField.text.toString())
+                var evaluation: String = myPasswordManager.evaluatePasswordString(genPasswordIdField.text.toString())
+                if (myPasswordManager.popularPasswords(genPasswordIdField.text.toString())){
+                    evaluation = "low"
+                }
+                if (genPasswordIdField.text.toString().length == 4)
+                    if (myPasswordManager.popularPin(genPasswordIdField.text.toString()))
+                        evaluation = "low"
                 passQuality.text = evaluation
                 when (evaluation) {
                     "low" -> passQuality.text = getString(R.string.low)

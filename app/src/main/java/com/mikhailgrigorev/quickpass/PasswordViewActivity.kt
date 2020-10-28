@@ -203,12 +203,15 @@ class PasswordViewActivity : AppCompatActivity() {
 
                     dbPassword = pCursor.getString(passIndex).toString()
 
+                    val pm = PasswordManager()
+
                     addSettings.visibility = View.GONE
                     if (dbCryptIndex == "crypted"){
                         crypt.isChecked = true
                         crypt.visibility = View.VISIBLE
                         addSettings.visibility = View.VISIBLE
-                        val pm = PasswordManager()
+                        cypheredWarn.visibility = View.VISIBLE
+                        cypheredWarnImg.visibility = View.VISIBLE
                         dbPassword = pm.decrypt(dbPassword).toString()
                     }
 
@@ -228,6 +231,12 @@ class PasswordViewActivity : AppCompatActivity() {
 
                     if((myPasswordManager.evaluateDate(dbTimeIndex)) && (dbPassword.length!= 4)){
                         warnCard.visibility = View.VISIBLE
+                        evaluation = "low"
+                    }
+
+                    if (pm.popularPasswords(dbPassword) or ((dbPassword.length == 4) and pm.popularPin(dbPassword))){
+                        tooEasy.visibility = View.VISIBLE
+                        tooEasyImg.visibility = View.VISIBLE
                         evaluation = "low"
                     }
 
@@ -261,6 +270,8 @@ class PasswordViewActivity : AppCompatActivity() {
                         warning.visibility = View.GONE
                     else
                         warning2.visibility = View.GONE
+
+
 
                     if((dbPassword.length == 4) and (evaluation == "high")){
                         passQualityText.text = getString(R.string.showPin)

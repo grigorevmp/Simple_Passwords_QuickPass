@@ -174,4 +174,9 @@
     <string name="mail_description">If you forget your password, it will be sent to your email</string>
     <string name="slowloading">Enabling encryption slows down the loading of the password list</string>
     <string name="pin">PIN</string>
+    <string name="newPassIdea"> Password creation idea</string>
+    <string name="newPassIdea1"> Come up with a keyword like kitten. Create a password without specifying it in the application, add a keyword to the end of the password on the service. "Sup3rP4s55kitten"
+     So, even if an attacker gets this database, he will not get access to services.</string>
+    <string name="warnQuality"> Quality of encrypted passwords won\'t be analyzed on the main screen</string>
+    <string name="tooEasyText"> Your password/pin is one of the most popular</string>
 </resources>

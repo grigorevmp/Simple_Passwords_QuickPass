@@ -92,7 +92,15 @@
                 android:visibility="gone"
                 card_view:srcCompat="@drawable/credit_card"
                 card_view:tint="@color/black" />
-
+            <ImageView
+                android:id="@+id/credit2"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="top"
+                android:contentDescription="@string/bank_card"
+                android:visibility="gone"
+                card_view:srcCompat="@drawable/credit_card"
+                card_view:tint="@color/negative" />
             <ImageView
                 android:id="@+id/marker"
                 android:layout_width="10dp"

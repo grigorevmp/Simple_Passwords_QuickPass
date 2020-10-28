@@ -8,6 +8,7 @@ import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
+import kotlin.math.abs
 import kotlin.math.max
 
 class PasswordManager {
@@ -89,9 +90,58 @@ class PasswordManager {
         return (factor*length)/(maxPasswordFactor*max(maxPasswordLength, length.toFloat()))
     }
 
-    fun evaluatePin(passwordToTest: String) : Float {
+    fun popularPasswords(passwordToTest: String): Boolean {
+        val list = listOf(
+        "123456",
+        "password",
+        "123456789",
+        "12345",
+        "12345678",
+        "qwerty",
+        "1234567",
+        "111111",
+        "1234567890",
+        "123123",
+        "abc123",
+        "1234",
+        "password1",
+        "iloveyou",
+        "1q2w3e4r",
+        "000000",
+        "qwerty123",
+        "zaq12wsx",
+        "dragon",
+        "sunshine",
+        "princess",
+        "letmein",
+        "654321",
+        "monkey",
+        "27653",
+        "1qaz2wsx",
+        "123321",
+        "qwertyuiop",
+        "superman",
+        "asdfghjkl")
+        return passwordToTest in list
+    }
 
-        return 0F
+    fun popularPin(passwordToTest: String) : Boolean {
+        var popular = false
+
+        if(((abs(passwordToTest[0].toInt() - passwordToTest[1].toInt()) < 2 )
+            and (abs(passwordToTest[1].toInt() - passwordToTest[2].toInt()) < 2))
+            or
+            ((abs(passwordToTest[1].toInt() - passwordToTest[2].toInt()) < 2 )
+            and (abs(passwordToTest[2].toInt() - passwordToTest [3].toInt()) < 2 ))
+            or
+            ((abs(passwordToTest[0].toInt() - passwordToTest[3].toInt()) < 2 )
+            and (abs(passwordToTest[2].toInt() - passwordToTest [3].toInt()) < 2 ))
+            or
+            ((abs(passwordToTest[0].toInt() - passwordToTest[1].toInt()) < 2 )
+            and (abs(passwordToTest[1].toInt() - passwordToTest [3].toInt()) < 2 )))
+            popular = true
+
+        return popular
     }
 
     fun evaluatePasswordString(passwordToTest: String) : String {
