@@ -106,15 +106,9 @@ class SignActivity : AppCompatActivity() {
         // Start animation
         loginFab.show()
 
-        // Checking prefs
-        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-        val username = sharedPref.getString(_keyBio, "none")
-        if(username != "none"){
-            finger.visibility = View.VISIBLE
-            finger.isClickable = true
-            val intent = Intent(this, PassGenActivity::class.java)
-            executor = ContextCompat.getMainExecutor(this)
-            biometricPrompt = BiometricPrompt(this, executor,
+        val intent = Intent(this, PassGenActivity::class.java)
+        executor = ContextCompat.getMainExecutor(this)
+        biometricPrompt = BiometricPrompt(this, executor,
                 object : BiometricPrompt.AuthenticationCallback() {
 
                     override fun onAuthenticationSucceeded(
@@ -127,11 +121,19 @@ class SignActivity : AppCompatActivity() {
 
                 })
 
-            promptInfo = BiometricPrompt.PromptInfo.Builder()
-                    .setTitle(getString(R.string.biometricLogin))
-                    .setSubtitle(getString(R.string.logWithBio))
-                    .setNegativeButtonText(getString(R.string.usePass))
-                    .build()
+        promptInfo = BiometricPrompt.PromptInfo.Builder()
+                .setTitle(getString(R.string.biometricLogin))
+                .setSubtitle(getString(R.string.logWithBio))
+                .setNegativeButtonText(getString(R.string.usePass))
+                .build()
+
+
+        // Checking prefs
+        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+        val username = sharedPref.getString(_keyBio, "none")
+        if(username != "none"){
+            finger.visibility = View.VISIBLE
+            finger.isClickable = true
 
             // Prompt appears when user clicks "Log in".
             // Consider integrating with the keystore to unlock cryptographic operations,
