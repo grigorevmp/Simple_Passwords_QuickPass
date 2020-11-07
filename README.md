@@ -2,6 +2,8 @@
 
 Powerful password manager with autofill framework
 
+[Google Play](https://play.google.com/store/apps/details?id=com.mikhailgrigorev.quickpass)
+
 ## App features
 
 - Generate passwords
@@ -9,6 +11,17 @@ Powerful password manager with autofill framework
 - Autofill passwords and login in android editText
 - Notify when you need to change password
 - Adaptive Pin-code storing
+- Two-factor authentication label
+- Bank card recognition
+- Recognition of matching passwords
+- Recognition of the most popular passwords
+- Powerful generator
+- Database encryption
+- Support for themes
+- Export / Import of data
+
+##
+The program complies with the latest Material design guidelines
 
 ### Friendly main screen
 
