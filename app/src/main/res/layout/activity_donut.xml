@@ -42,7 +42,6 @@
         android:layout_marginTop="40dp"
         android:layout_marginEnd="20dp"
         android:clickable="true"
-
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@color/white"
@@ -62,7 +61,7 @@
                     tools:ignore="UselessParent">
 
                     <ImageView
-                        android:id="@+id/imageView5"
+                        android:id="@+id/imageCoffee"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -80,7 +79,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/afText"
+                            android:id="@+id/CoffeeText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -149,7 +148,7 @@
                         android:layout_marginStart="20dp"
                         android:orientation="vertical">
                         <TextView
-                            android:id="@+id/afText2"
+                            android:id="@+id/appleText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -217,7 +216,7 @@
                         android:layout_marginStart="20dp"
                         android:orientation="vertical">
                         <TextView
-                            android:id="@+id/afText3"
+                            android:id="@+id/burgerText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -284,7 +283,7 @@
                         android:layout_marginStart="20dp"
                         android:orientation="vertical">
                         <TextView
-                            android:id="@+id/afText4"
+                            android:id="@+id/dinnerText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"

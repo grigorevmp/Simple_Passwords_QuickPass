@@ -6,9 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.anjlab.android.iab.v3.BillingProcessor
 import com.anjlab.android.iab.v3.PurchaseInfo
 import com.anjlab.android.iab.v3.TransactionDetails
-import kotlinx.android.synthetic.main.activity_about.back
 import kotlinx.android.synthetic.main.activity_donut.*
 
+lateinit var mBillingProcessor: BillingProcessor
 
 class DonutActivity : AppCompatActivity(), BillingProcessor.IBillingHandler {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +54,30 @@ class DonutActivity : AppCompatActivity(), BillingProcessor.IBillingHandler {
     }
 
     override fun onPurchaseHistoryRestored() {
+        showMsg("onPurchaseHistoryRestored")
+        handleLoadedItems()
+    }
+
+    private fun handleLoadedItems() {
+
+        val isOneTimePurchaseSupported: Boolean = mBillingProcessor.isOneTimePurchaseSupported
+
+        if (mBillingProcessor.listOwnedProducts().contains("cup_of_coffee")){
+            CoffeeText.text = CoffeeText.text.toString() + " =)"
+            coffeeDonut.isClickable = false
+        }
+        if (mBillingProcessor.listOwnedProducts().contains("apple_pack")){
+            appleText.text = appleText.text.toString() + " =)"
+            appleDonut.isClickable = false
+        }
+        if (mBillingProcessor.listOwnedProducts().contains("burger")){
+            burgerText.text = burgerText.text.toString() + " =)"
+            burgerDonut.isClickable = false
+        }
+        if (mBillingProcessor.listOwnedProducts().contains("dinner")){
+            dinnerText.text = dinnerText.text.toString() + " =)"
+            foodDonut.isClickable = false
+        }
     }
 
     override fun onBillingError(errorCode: Int, error: Throwable?) {
