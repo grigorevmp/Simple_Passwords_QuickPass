@@ -310,6 +310,7 @@ class LoginAfterSplashActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }
+            builder.setCancelable(false)
             val dialog: AlertDialog = builder.create()
             dialog.show()
         }

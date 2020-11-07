@@ -534,7 +534,7 @@ class PassGenActivity : AppCompatActivity() {
             allPassword.visibility = View.GONE
             noPasswords.visibility = View.VISIBLE
             cardView.visibility = View.GONE
-            cardView2.visibility = View.GONE
+            cardCup.visibility = View.GONE
             smile.visibility = View.GONE
             expand.visibility = View.GONE
             newPass.visibility = View.GONE
@@ -1688,7 +1688,7 @@ class PassGenActivity : AppCompatActivity() {
                     allPassword.visibility = View.GONE
                     noPasswords.visibility = View.VISIBLE
                     cardView.visibility = View.GONE
-                    cardView2.visibility = View.GONE
+                    cardCup.visibility = View.GONE
                     smile.visibility = View.GONE
                     newPass.visibility = View.GONE
                     expand.visibility = View.GONE

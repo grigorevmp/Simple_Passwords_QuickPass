@@ -164,4 +164,16 @@
     Так, даже если эту базу данных получит злоумышленник, он не узнает ваш пароль.</string>
     <string name="warnQuality"> Качество защищённых паролей не будет анализироваться вне этого экрана</string>
     <string name="tooEasyText"> Ваш пароль/пин входит в число самых популярных</string>
+    <string name="donut">Donut</string>
+    <string name="donutMe">Купите мне…</string>
+    <string name="coffee">Кофе</string>
+    <string name="apple">Яблочко</string>
+    <string name="burger">Бургер</string>
+    <string name="dinner">Обед</string>
+    <string name="buyMe">Это бесплатный, открытый проект. Без рекламы. Без внутренних покупок.
+    Если вы хотите поддержать продукт, купите мне что-нибудь</string>
+    <string name="dinnerDesc">Вам действительно нравится это приложение =)</string>
+    <string name="coffeeDesc">Просто чашечка кофе для вашего разработчика</string>
+    <string name="appleDesc">Я не могу жить без фруктов</string>
+    <string name="burgerDesc">Вкусный, сочный, мясной бургер</string>
 </resources>

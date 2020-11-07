@@ -34,18 +34,46 @@
             android:animateLayoutChanges="true">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardCup"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="20dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/colorPrimary"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/crypted"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/crypted">
+
+                <ImageView
+                    android:id="@+id/cup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="20dp"
+                    android:contentDescription="@string/donut"
+                    app:srcCompat="@drawable/cup"
+                    app:tint="@color/colorLight" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:id="@+id/crypted"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
 
+                android:layout_marginEnd="20dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="20dp"
+                app:layout_constraintEnd_toStartOf="@+id/cardCup"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView">
 

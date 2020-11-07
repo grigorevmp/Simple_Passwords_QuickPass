@@ -10,8 +10,8 @@ android {
         applicationId "com.mikhailgrigorev.quickpass"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 2
-        versionName "2.0"
+        versionCode 5
+        versionName '2.0.1'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -29,8 +29,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'android.arch.work:work-runtime-ktx:1.0.1'
+    implementation 'com.anjlab.android.iab.v3:library:1.0.44'
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.biometric:biometric:1.0.1'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

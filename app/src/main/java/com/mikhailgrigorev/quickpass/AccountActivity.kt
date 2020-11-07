@@ -1,5 +1,7 @@
 package com.mikhailgrigorev.quickpass
 
+//import com.anjlab.android.iab.v3.BillingProcessor
+//import com.anjlab.android.iab.v3.TransactionDetails
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -20,7 +22,6 @@ import androidx.core.content.ContextCompat
 import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
 import kotlinx.android.synthetic.main.activity_account.*
-
 
 class AccountActivity : AppCompatActivity() {
 
@@ -172,6 +173,11 @@ class AccountActivity : AppCompatActivity() {
             val intent = Intent(this, AboutActivity::class.java)
             startActivity(intent)
         }
+        cardCup.setOnClickListener {
+            condition=false
+            val intent = Intent(this, DonutActivity::class.java)
+            startActivity(intent)
+        }
         cursor.close()
 
         // Open passwords database
@@ -307,6 +313,9 @@ class AccountActivity : AppCompatActivity() {
         val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate)
         rotation.fillAfter = true
         settings.startAnimation(rotation)
+
+
+
 
         // Log out button
         logOut.setOnClickListener {

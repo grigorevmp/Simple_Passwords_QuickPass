@@ -560,9 +560,9 @@
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="20dp"
-                app:layout_constraintBottom_toBottomOf="@+id/cardView2"
+                app:layout_constraintBottom_toBottomOf="@+id/cardCup"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/cardView2">
+                app:layout_constraintTop_toTopOf="@+id/cardCup">
 
                 <TextView
                     android:id="@+id/allPass"
@@ -577,7 +577,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView2"
+                android:id="@+id/cardCup"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"

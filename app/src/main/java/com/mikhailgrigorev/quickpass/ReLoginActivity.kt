@@ -306,6 +306,7 @@ class ReLoginActivity : AppCompatActivity() {
                 setResult(2, intent)
                 finish()
             }
+            builder.setCancelable(false)
             val dialog: AlertDialog = builder.create()
             dialog.show()
         }
