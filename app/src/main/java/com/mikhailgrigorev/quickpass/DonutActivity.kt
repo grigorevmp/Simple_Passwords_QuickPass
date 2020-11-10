@@ -1,5 +1,6 @@
 package com.mikhailgrigorev.quickpass
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_donut.*
 lateinit var mBillingProcessor: BillingProcessor
 
 class DonutActivity : AppCompatActivity(), BillingProcessor.IBillingHandler {
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_donut)
@@ -19,7 +21,8 @@ class DonutActivity : AppCompatActivity(), BillingProcessor.IBillingHandler {
         back.setOnClickListener {
             finish()
         }
-
+        mBillingProcessor.initialize()
+        mBillingProcessor.loadOwnedPurchasesFromGoogle()
 
         coffeeDonut.setOnClickListener {
             mBillingProcessor.purchase(this, "cup_of_coffee")
@@ -33,6 +36,28 @@ class DonutActivity : AppCompatActivity(), BillingProcessor.IBillingHandler {
         foodDonut.setOnClickListener {
             mBillingProcessor.purchase(this, "dinner")
         }
+
+        if (mBillingProcessor.isPurchased("cup_of_coffee")){
+            CoffeeText.text = CoffeeText.text.toString() + " " +  getString(R.string.thx)
+            coffeeDonut.isClickable = false
+            coffeeDonut.isFocusable = false
+        }
+        if (mBillingProcessor.isPurchased("apple_pack")){
+            appleText.text = appleText.text.toString() + " " +  getString(R.string.thx)
+            appleDonut.isClickable = false
+            appleDonut.isFocusable = false
+        }
+        if (mBillingProcessor.isPurchased("burger")){
+            burgerText.text = burgerText.text.toString() + " " +  getString(R.string.thx)
+            burgerDonut.isClickable = false
+            burgerDonut.isFocusable = false
+        }
+        if (mBillingProcessor.isPurchased("dinner")){
+            dinnerText.text = dinnerText.text.toString() + " " + getString(R.string.thx)
+            foodDonut.isClickable = false
+            foodDonut.isFocusable = false
+        }
+
 
     }
 
@@ -58,26 +83,9 @@ class DonutActivity : AppCompatActivity(), BillingProcessor.IBillingHandler {
         handleLoadedItems()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun handleLoadedItems() {
 
-        val isOneTimePurchaseSupported: Boolean = mBillingProcessor.isOneTimePurchaseSupported
-
-        if (mBillingProcessor.listOwnedProducts().contains("cup_of_coffee")){
-            CoffeeText.text = CoffeeText.text.toString() + " =)"
-            coffeeDonut.isClickable = false
-        }
-        if (mBillingProcessor.listOwnedProducts().contains("apple_pack")){
-            appleText.text = appleText.text.toString() + " =)"
-            appleDonut.isClickable = false
-        }
-        if (mBillingProcessor.listOwnedProducts().contains("burger")){
-            burgerText.text = burgerText.text.toString() + " =)"
-            burgerDonut.isClickable = false
-        }
-        if (mBillingProcessor.listOwnedProducts().contains("dinner")){
-            dinnerText.text = dinnerText.text.toString() + " =)"
-            foodDonut.isClickable = false
-        }
     }
 
     override fun onBillingError(errorCode: Int, error: Throwable?) {

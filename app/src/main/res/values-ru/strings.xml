@@ -176,4 +176,6 @@
     <string name="coffeeDesc">Просто чашечка кофе для вашего разработчика</string>
     <string name="appleDesc">Я не могу жить без фруктов</string>
     <string name="burgerDesc">Вкусный, сочный, мясной бургер</string>
+    <string name="password">Пароль</string>
+    <string name="thx"> (Спасибо =))</string>
 </resources>

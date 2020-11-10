@@ -315,9 +315,15 @@ class AccountActivity : AppCompatActivity() {
             pinText.text = pinNum.toString()
             allPass.text = (correctNum+ inCorrectNum + midCorrectNum).toString()
 
-            realPoints.text = ((correctNum.toFloat() + midCorrectNum.toFloat()/2 + inCorrectNum.toFloat()*0 + tlNum.toFloat() + faNum.toFloat())
-                    /(7/3*(correctNum.toFloat() + inCorrectNum.toFloat() + midCorrectNum.toFloat())))
-                    .toString()
+            if(allPass.text.toString() != "0") {
+                realPoints.text =
+                        ((correctNum.toFloat() + midCorrectNum.toFloat() / 2 + inCorrectNum.toFloat() * 0 + tlNum.toFloat() + faNum.toFloat())
+                                / (7 / 3 * (correctNum.toFloat() + inCorrectNum.toFloat() + midCorrectNum.toFloat())))
+                                .toString()
+            }
+            else{
+                realPoints.text = "0"
+            }
             pCursor.close()
         } catch (e: SQLException) {
         }

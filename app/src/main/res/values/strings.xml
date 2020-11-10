@@ -93,7 +93,7 @@
     <string name="auto_copy_password">Auto-copy password</string>
     <string name="about_app">About app</string>
     <string name="mikhail_grigorev">Mikhail Grigorev</string>
-    <string name="_2020" translatable="false">"2.0.0 • 2020 "</string>
+    <string name="_2020" translatable="false">"2.0.3 • 2020 "</string>
     <string name="telegram" translatable="false">Telegram</string>
     <string name="vkontakte" translatable="false">Vkontakte</string>
     <string name="sen_email" translatable="false">Send email</string>
@@ -190,4 +190,6 @@
     <string name="dinner">Dinner</string>
     <string name="dinnerDesc">You are really like this app =)</string>
     <string name="buyMe">This is free open source project. No ads. No in-app purchase. If you want to support this app, you can buy me something</string>
+    <string name="password">Password</string>
+    <string name="thx"> (Thanks =))</string>
 </resources>

@@ -229,6 +229,9 @@ class NewPasswordActivity : AppCompatActivity() {
         genPasswordIdField.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(s: Editable?) {
                 if (genPasswordIdField.hasFocus()) {
+                    length = s.toString().length
+                    lengthToggle.text = getString(R.string.length)  + ": " + length
+                    seekBar.progress = length
                     val deg = generatePassword.rotation + 10f
                     generatePassword.animate().rotation(deg).interpolator = AccelerateDecelerateInterpolator()
                     val myPasswordManager = PasswordManager()
