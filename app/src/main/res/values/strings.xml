@@ -69,8 +69,8 @@
     <string name="get_info">Info</string>
     <string name="_2fa_you_use_multi_factor_authentication_in_this_app">2FA - you use multi-factor authentication in this app</string>
     <string name="time_limit_we_will_remember_you_to_change_your_password_in_4_months">Time Limit - we will remember you to change your password in 4 months</string>
-    <string name="yes">YES</string>
-    <string name="no">Np</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="cancel">Cancel</string>
     <string name="deletePassword">Delete this password</string>
     <string name="passwordDeleteConfirm">Are you really want to this password?</string>
