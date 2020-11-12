@@ -156,6 +156,8 @@ class SettingsActivity : AppCompatActivity() {
         val useAuto = sharedPref.getString(_keyAutoCopy, "none")
         val usePin = sharedPref.getString(_keyUsePin, "none")
 
+        val useAnalyze = sharedPref.getString("useAnalyze", "none")
+
         val lockTime = sharedPref.getString("appLockTime", "none")
         appLockTime.text = "6m"
         if(lockTime != null)
@@ -221,7 +223,42 @@ class SettingsActivity : AppCompatActivity() {
             setPinSwitch.isChecked = true
         }
 
+        if(useAnalyze != "none"){
+            userAnalyzerSwitch.isChecked = true
+        }
 
+        userAnalyzerSwitch.setOnCheckedChangeListener { _, _ ->
+            if(!userAnalyzerSwitch.isChecked){
+                with(sharedPref.edit()) {
+                    putString("useAnalyze", "none")
+                    commit()
+                }
+            }
+            else{
+                with(sharedPref.edit()) {
+                    putString("useAnalyze", "yes")
+                    commit()
+                }
+            }
+        }
+
+
+        userAnalyzer.setOnClickListener {
+            if(userAnalyzerSwitch.isChecked){
+                userAnalyzerSwitch.isChecked = false
+                with(sharedPref.edit()) {
+                    putString("useAnalyze", "none")
+                    commit()
+                }
+            }
+            else{
+                userAnalyzerSwitch.isChecked = true
+                with(sharedPref.edit()) {
+                    putString("useAnalyze", "yes")
+                    commit()
+                }
+            }
+        }
 
         userMail.setOnClickListener {
             if(userMailSwitch.isChecked){

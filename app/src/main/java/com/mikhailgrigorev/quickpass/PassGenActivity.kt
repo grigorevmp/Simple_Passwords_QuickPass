@@ -65,6 +65,7 @@ class PassGenActivity : AppCompatActivity() {
     private val desc: ArrayList<String> = ArrayList()
     private val group: ArrayList<String> = ArrayList()
     private lateinit var login: String
+    var useAnalyze: String? = null
 
     private var searchPos: Boolean = false
     private var searchNeg: Boolean = false
@@ -107,6 +108,7 @@ class PassGenActivity : AppCompatActivity() {
         }
         super.onCreate(savedInstanceState)
 
+
         when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_NO ->
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
@@ -133,6 +135,16 @@ class PassGenActivity : AppCompatActivity() {
             handler.postDelayed(r, time*6L)
 
         setContentView(R.layout.activity_pass_gen)
+
+
+        useAnalyze = sharedPref.getString("useAnalyze", "none")
+        if (useAnalyze != null)
+            if (useAnalyze != "none"){
+                correctScan.visibility = View.GONE
+                cardCup.visibility = View.GONE
+                cardView.visibility = View.GONE
+            }
+
 
         // Get Extras
         val args: Bundle? = intent.extras
@@ -578,6 +590,7 @@ class PassGenActivity : AppCompatActivity() {
                 tags,
                 group,
                 desc,
+                useAnalyze,
                 this,
                 clickListener = {
                     passClickListener(it)
@@ -597,6 +610,7 @@ class PassGenActivity : AppCompatActivity() {
                         tags,
                         group,
                         desc,
+                        useAnalyze,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -637,6 +651,7 @@ class PassGenActivity : AppCompatActivity() {
                         tags2,
                         group2,
                         desc2,
+                        useAnalyze,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -661,6 +676,7 @@ class PassGenActivity : AppCompatActivity() {
                         tags,
                         group,
                         desc,
+                        useAnalyze,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -701,6 +717,7 @@ class PassGenActivity : AppCompatActivity() {
                         tags2,
                         group2,
                         desc2,
+                        useAnalyze,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -726,6 +743,7 @@ class PassGenActivity : AppCompatActivity() {
                         tags,
                         group,
                         desc,
+                        useAnalyze,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -766,6 +784,7 @@ class PassGenActivity : AppCompatActivity() {
                         tags2,
                         group2,
                         desc2,
+                        useAnalyze,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -791,6 +810,7 @@ class PassGenActivity : AppCompatActivity() {
                         tags,
                         group,
                         desc,
+                        useAnalyze,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -831,6 +851,7 @@ class PassGenActivity : AppCompatActivity() {
                         tags2,
                         group2,
                         desc2,
+                        useAnalyze,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -856,6 +877,7 @@ class PassGenActivity : AppCompatActivity() {
                         tags,
                         group,
                         desc,
+                        useAnalyze,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -896,6 +918,7 @@ class PassGenActivity : AppCompatActivity() {
                         tags2,
                         group2,
                         desc2,
+                        useAnalyze,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -921,6 +944,7 @@ class PassGenActivity : AppCompatActivity() {
                         tags,
                         group,
                         desc,
+                        useAnalyze,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -961,6 +985,7 @@ class PassGenActivity : AppCompatActivity() {
                         tags2,
                         group2,
                         desc2,
+                        useAnalyze,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -1008,6 +1033,7 @@ class PassGenActivity : AppCompatActivity() {
                         tags2,
                         group2,
                         desc2,
+                        useAnalyze,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -1246,6 +1272,12 @@ class PassGenActivity : AppCompatActivity() {
 
         // настройка максимальной высоты
         bottomSheetBehavior.peekHeight =  800 //600
+
+        if (useAnalyze != null)
+            if (useAnalyze != "none") {
+                bottomSheetBehavior.peekHeight =  1200
+            }
+
 
         // настройка возможности скрыть элемент при свайпе вниз
         bottomSheetBehavior.isHideable = true
@@ -1525,6 +1557,7 @@ class PassGenActivity : AppCompatActivity() {
                 tags,
                 group,
                 desc,
+                useAnalyze,
                 this,
                 clickListener = {
                     passClickListener(it)
@@ -1708,6 +1741,7 @@ class PassGenActivity : AppCompatActivity() {
                         tags,
                         group,
                         desc,
+                        useAnalyze,
                         this,
                         clickListener = {
                             passClickListener(it)

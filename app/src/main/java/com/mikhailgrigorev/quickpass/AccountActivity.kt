@@ -1,7 +1,5 @@
 package com.mikhailgrigorev.quickpass
 
-//import com.anjlab.android.iab.v3.BillingProcessor
-//import com.anjlab.android.iab.v3.TransactionDetails
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -83,6 +81,7 @@ class AccountActivity : AppCompatActivity() {
         }
         val time: Long =  100000
         val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+
         val lockTime = sharedPref.getString("appLockTime", "6")
         if(lockTime != null) {
             if (lockTime != "0")
@@ -92,6 +91,19 @@ class AccountActivity : AppCompatActivity() {
             handler.postDelayed(r, time*6L)
 
         setContentView(R.layout.activity_account)
+
+
+        val useAnalyze = sharedPref.getString("useAnalyze", "none")
+        if (useAnalyze != null)
+            if (useAnalyze != "none"){
+                totalPoints.visibility = View.GONE
+                realPoints.visibility = View.GONE
+                correctScan.visibility = View.GONE
+                cardView.visibility = View.GONE
+                specialInfo.visibility = View.GONE
+                crypted.visibility = View.GONE
+            }
+
 
         // Get Extras
         val args: Bundle? = intent.extras

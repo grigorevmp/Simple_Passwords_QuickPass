@@ -14,6 +14,7 @@ class PasswordAdapter(private val items: ArrayList<Pair<String, String>>,
                       private val tags: ArrayList<String>,
                       private val group: ArrayList<String>,
                       private val desc: ArrayList<String>,
+                      private val useAnalyze: String?,
                       val context: Context,
                       val clickListener: (Int) -> Unit,
                       val longClickListener: (Int, View) -> Unit
@@ -91,6 +92,13 @@ class PasswordAdapter(private val items: ArrayList<Pair<String, String>>,
             longClickListener(position, it)
             return@setOnLongClickListener (true)
         }
+
+        if (useAnalyze != null)
+            if (useAnalyze != "none"){
+                holder.marker.visibility = View.GONE
+                holder.credit.visibility = View.GONE
+                holder.creditNeg.visibility = View.GONE
+            }
     }
 }
 

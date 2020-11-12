@@ -180,4 +180,5 @@
     <string name="thx"> (Спасибо =))</string>
     <string name="app_lock_time">Время блокировки приложения</string>
     <string name="dontlock">Не блокировать</string>
+    <string name="password_analyze">Скрыть анализ пароля</string>
 </resources>
