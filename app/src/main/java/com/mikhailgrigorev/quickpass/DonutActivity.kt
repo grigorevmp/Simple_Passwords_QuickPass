@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.TypedValue
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -65,6 +66,17 @@ class DonutActivity : AppCompatActivity(), BillingProcessor.IBillingHandler {
 
 
         setContentView(R.layout.activity_donut)
+
+
+        val cardRadius = sharedPref.getString("cardRadius", "none")
+        if(cardRadius != null)
+            if(cardRadius != "none") {
+                coffeeDonut.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                appleDonut.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                burgerDonut.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                foodDonut.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+            }
+
         val mBillingProcessor = BillingProcessor(this, GPLAY_LICENSE, this)
 
         back.setOnClickListener {

@@ -6,6 +6,7 @@ import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -61,6 +62,14 @@ class AboutActivity : AppCompatActivity() {
             handler.postDelayed(r, time*6L)
 
         setContentView(R.layout.activity_about)
+
+        val cardRadius = sharedPref.getString("cardRadius", "none")
+        if(cardRadius != null)
+            if(cardRadius != "none") {
+                gitHub.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                social.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+            }
+
 
         // Exit from activity
 

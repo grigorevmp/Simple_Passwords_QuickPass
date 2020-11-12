@@ -181,4 +181,5 @@
     <string name="app_lock_time">Время блокировки приложения</string>
     <string name="dontlock">Не блокировать</string>
     <string name="password_analyze">Скрыть анализ пароля</string>
+    <string name="card_corners_radius">Радиус углов карточки</string>
 </resources>

@@ -195,4 +195,5 @@
     <string name="app_lock_time">App lock time</string>
     <string name="dontlock">Don\'t lock</string>
     <string name="password_analyze">Hide password analyze</string>
+    <string name="card_corners_radius">Card corners radius</string>
 </resources>

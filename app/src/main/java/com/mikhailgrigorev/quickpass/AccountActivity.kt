@@ -9,6 +9,7 @@ import android.database.Cursor
 import android.database.SQLException
 import android.os.Bundle
 import android.os.Handler
+import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -91,6 +92,19 @@ class AccountActivity : AppCompatActivity() {
             handler.postDelayed(r, time*6L)
 
         setContentView(R.layout.activity_account)
+
+
+        val cardRadius = sharedPref.getString("cardRadius", "none")
+        if(cardRadius != null)
+            if(cardRadius != "none") {
+                cardCup.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                crypted.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                warn_Card.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                settingsCard.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                specialInfo.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                correctScan.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                cardView.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+            }
 
 
         val useAnalyze = sharedPref.getString("useAnalyze", "none")

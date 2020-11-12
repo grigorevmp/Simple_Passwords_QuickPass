@@ -12,6 +12,7 @@ import android.database.SQLException
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
+import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
@@ -159,6 +160,17 @@ class SettingsActivity : AppCompatActivity() {
         val useAnalyze = sharedPref.getString("useAnalyze", "none")
 
         val lockTime = sharedPref.getString("appLockTime", "none")
+
+        val cardRadius = sharedPref.getString("cardRadius", "none")
+        if(cardRadius != null)
+            if(cardRadius != "none") {
+                info_card.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                themeSettings.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                warn_Card.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                exportCrad.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+            }
+
+
         appLockTime.text = "6m"
         if(lockTime != null)
             if(lockTime != "none") {
@@ -167,6 +179,13 @@ class SettingsActivity : AppCompatActivity() {
             if (lockTime.toInt() == 0){
                 appLockTime.text = getString(R.string.dontlock)
             }
+        }
+
+        cardRadiusVal.text = "10"
+        if(cardRadius != null)
+            if(cardRadius != "none") {
+                cardRadiusBar.progress = cardRadius.toInt()
+                cardRadiusVal.text = cardRadius.toInt().toString()
         }
 
 
@@ -433,6 +452,31 @@ class SettingsActivity : AppCompatActivity() {
                 // Do something
             }
         })
+
+        cardRadiusBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
+                // Display the current progress of SeekBar
+                cardRadiusVal.text = i.toString()
+                info_card.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, i.toFloat(), resources.displayMetrics)
+                themeSettings.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, i.toFloat(), resources.displayMetrics)
+                warn_Card.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, i.toFloat(), resources.displayMetrics)
+                exportCrad.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, i.toFloat(), resources.displayMetrics)
+                with(sharedPref.edit()) {
+                    putString("cardRadius", i.toString())
+                    commit()
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                // Do something
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                // Do something
+            }
+        })
+
 
         biometricSwitch.setOnCheckedChangeListener { _, _ ->
             if(biometricSwitch.isChecked){
