@@ -79,6 +79,7 @@ class PasswordViewActivity : AppCompatActivity() {
         }
         setContentView(R.layout.activity_password_view)
 
+
         val args: Bundle? = intent.extras
         login= args?.get("login").toString()
         from= args?.get("from").toString()
@@ -482,6 +483,19 @@ class PasswordViewActivity : AppCompatActivity() {
                     arrayOf(passName)
             )
         }
+
+
+        val useAnalyze = sharedPref.getString("useAnalyze", "none")
+        if (useAnalyze != null)
+            if (useAnalyze != "none"){
+                passQualityText.visibility = View.GONE
+                warning.visibility = View.GONE
+                passQualityText.visibility = View.GONE
+                passQuality.visibility = View.GONE
+                warning2.visibility = View.GONE
+                sameParts.visibility = View.GONE
+                warning0.visibility = View.GONE
+            }
 
     }
 
