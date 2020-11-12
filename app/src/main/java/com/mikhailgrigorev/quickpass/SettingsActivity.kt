@@ -15,6 +15,7 @@ import android.os.Handler
 import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
+import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -76,7 +77,14 @@ class SettingsActivity : AppCompatActivity() {
                 finish()
             }
         }
-        handler.postDelayed(r, 600000)
+        val time: Long =  100000
+        val sharedPref2 = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+        val lockTime2 = sharedPref2.getString("appLockTime", "6")
+        if(lockTime2 != null)
+            if(lockTime2 != "0")
+                handler.postDelayed(r, time*lockTime2.toLong())
+            else
+                handler.postDelayed(r, time*6L)
 
         when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_NO ->
@@ -146,6 +154,19 @@ class SettingsActivity : AppCompatActivity() {
         val useBio = sharedPref.getString(_keyBio, "none")
         val useAuto = sharedPref.getString(_keyAutoCopy, "none")
         val usePin = sharedPref.getString(_keyUsePin, "none")
+
+        val lockTime = sharedPref.getString("appLockTime", "none")
+        appLockTime.text = "6m"
+        if(lockTime != null)
+            if(lockTime != "none") {
+            appLockBar.progress = lockTime.toInt()
+            appLockTime.text = lockTime.toInt().toString() + "m"
+            if (lockTime.toInt() == 0){
+                appLockTime.text = getString(R.string.dontlock)
+            }
+        }
+
+
 
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
@@ -351,6 +372,29 @@ class SettingsActivity : AppCompatActivity() {
                 finish()
             }
         }
+
+        appLockBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
+                // Display the current progress of SeekBar
+                appLockTime.text = i.toString() + "m"
+                if (i == 0){
+                    appLockTime.text = getString(R.string.dontlock)
+                }
+                with(sharedPref.edit()) {
+                    putString("appLockTime", i.toString())
+                    commit()
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                // Do something
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                // Do something
+            }
+        })
 
         biometricSwitch.setOnCheckedChangeListener { _, _ ->
             if(biometricSwitch.isChecked){

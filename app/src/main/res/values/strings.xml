@@ -192,4 +192,6 @@
     <string name="buyMe">This is free open source project. No ads. No in-app purchase. If you want to support this app, you can buy me something</string>
     <string name="password">Password</string>
     <string name="thx"> (Thanks =))</string>
+    <string name="app_lock_time">App lock time</string>
+    <string name="dontlock">Don\'t lock</string>
 </resources>

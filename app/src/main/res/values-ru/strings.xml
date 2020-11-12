@@ -178,4 +178,6 @@
     <string name="burgerDesc">Вкусный, сочный, мясной бургер</string>
     <string name="password">Пароль</string>
     <string name="thx"> (Спасибо =))</string>
+    <string name="app_lock_time">Время блокировки приложения</string>
+    <string name="dontlock">Не блокировать</string>
 </resources>

@@ -81,13 +81,19 @@ class AccountActivity : AppCompatActivity() {
                 finish()
             }
         }
-        handler.postDelayed(r, 600000)
+        val time: Long =  100000
+        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+        val lockTime = sharedPref.getString("appLockTime", "6")
+        if(lockTime != null)
+            if(lockTime != "0")
+                handler.postDelayed(r, time*lockTime.toLong())
+            else
+                handler.postDelayed(r, time*6L)
 
         setContentView(R.layout.activity_account)
 
         // Get Extras
         val args: Bundle? = intent.extras
-        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
         login = args?.get("login").toString()
 
         // Set login

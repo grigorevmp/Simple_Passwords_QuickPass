@@ -122,7 +122,14 @@ class PassGenActivity : AppCompatActivity() {
                 finish()
             }
         }
-        handler.postDelayed(r, 600000)
+        val time: Long =  100000
+        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+        val lockTime = sharedPref.getString("appLockTime", "6")
+        if(lockTime != null)
+            if(lockTime != "0")
+                handler.postDelayed(r, time*lockTime.toLong())
+            else
+                handler.postDelayed(r, time*6L)
 
         setContentView(R.layout.activity_pass_gen)
 
@@ -1018,9 +1025,6 @@ class PassGenActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
         })
-
-        // Checking prefs
-        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
 
         with(sharedPref.edit()) {
             putString(_keyUsername, login)
