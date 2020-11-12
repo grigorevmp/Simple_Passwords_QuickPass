@@ -111,7 +111,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/genPasswordIdField"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:inputType="textFilter"
+                    android:importantForAutofill="no"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/password" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.cardview.widget.CardView
