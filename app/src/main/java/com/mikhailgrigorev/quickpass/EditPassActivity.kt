@@ -6,6 +6,7 @@ import android.content.res.Configuration
 import android.database.Cursor
 import android.database.SQLException
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
@@ -64,6 +65,26 @@ class EditPassActivity : AppCompatActivity() {
             Configuration.UI_MODE_NIGHT_NO ->
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
+
+        val handler = Handler()
+        val r = Runnable {
+            if(condition) {
+                condition=false
+                val intent = Intent(this, LoginAfterSplashActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+        val time: Long =  100000
+        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+        val lockTime = sharedPref.getString("appLockTime", "6")
+        if(lockTime != null) {
+            if (lockTime != "0")
+                handler.postDelayed(r, time * lockTime.toLong())
+        }
+        else
+            handler.postDelayed(r, time*6L)
+
         setContentView(R.layout.activity_edit_pass)
 
         val args: Bundle? = intent.extras

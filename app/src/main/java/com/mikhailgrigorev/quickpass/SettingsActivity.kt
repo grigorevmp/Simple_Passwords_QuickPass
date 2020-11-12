@@ -80,11 +80,12 @@ class SettingsActivity : AppCompatActivity() {
         val time: Long =  100000
         val sharedPref2 = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
         val lockTime2 = sharedPref2.getString("appLockTime", "6")
-        if(lockTime2 != null)
-            if(lockTime2 != "0")
-                handler.postDelayed(r, time*lockTime2.toLong())
-            else
-                handler.postDelayed(r, time*6L)
+        if(lockTime2 != null) {
+            if (lockTime2 != "0")
+                handler.postDelayed(r, time * lockTime2.toLong())
+        }
+        else
+            handler.postDelayed(r, time*6L)
 
         when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_NO ->

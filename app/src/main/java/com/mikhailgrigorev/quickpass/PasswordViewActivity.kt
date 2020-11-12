@@ -66,11 +66,12 @@ class PasswordViewActivity : AppCompatActivity() {
         val time: Long =  100000
         val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
         val lockTime = sharedPref.getString("appLockTime", "6")
-        if(lockTime != null)
-            if(lockTime != "0")
-                handler.postDelayed(r, time*lockTime.toLong())
-            else
-                handler.postDelayed(r, time*6L)
+        if(lockTime != null) {
+            if (lockTime != "0")
+                handler.postDelayed(r, time * lockTime.toLong())
+        }
+        else
+            handler.postDelayed(r, time*6L)
 
         when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_NO ->

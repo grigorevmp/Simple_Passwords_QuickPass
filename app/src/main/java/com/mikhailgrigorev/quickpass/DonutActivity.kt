@@ -1,9 +1,13 @@
 package com.mikhailgrigorev.quickpass
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.anjlab.android.iab.v3.BillingProcessor
 import com.anjlab.android.iab.v3.PurchaseInfo
 import com.anjlab.android.iab.v3.TransactionDetails
@@ -11,10 +15,55 @@ import kotlinx.android.synthetic.main.activity_donut.*
 
 lateinit var mBillingProcessor: BillingProcessor
 
+private val _preferenceFile = "quickPassPreference"
+var condition = true
+private val _keyTheme = "themePreference"
+
 class DonutActivity : AppCompatActivity(), BillingProcessor.IBillingHandler {
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
+        val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+        when(pref.getString(_keyTheme, "none")){
+            "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            "none", "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            "battery" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+        }
+        when(pref.getString("themeAccentPreference", "none")){
+            "Red" -> setTheme(R.style.AppThemeRed)
+            "Pink" -> setTheme(R.style.AppThemePink)
+            "Purple" -> setTheme(R.style.AppThemePurple)
+            "Violet" -> setTheme(R.style.AppThemeViolet)
+            "DViolet" -> setTheme(R.style.AppThemeDarkViolet)
+            "Blue" -> setTheme(R.style.AppThemeBlue)
+            "Cyan" -> setTheme(R.style.AppThemeCyan)
+            "Teal" -> setTheme(R.style.AppThemeTeal)
+            "Green" -> setTheme(R.style.AppThemeGreen)
+            "LGreen" -> setTheme(R.style.AppThemeLightGreen)
+            else -> setTheme(R.style.AppTheme)
+        }
         super.onCreate(savedInstanceState)
+        // Finish app after some time
+        val handler = Handler()
+        val r = Runnable {
+            if(condition) {
+                condition=false
+                val intent = Intent(this, LoginAfterSplashActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+        val time: Long =  100000
+        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+        val lockTime = sharedPref.getString("appLockTime", "6")
+        if(lockTime != null) {
+            if (lockTime != "0")
+                handler.postDelayed(r, time * lockTime.toLong())
+        }
+        else
+            handler.postDelayed(r, time*6L)
+
+
         setContentView(R.layout.activity_donut)
         val mBillingProcessor = BillingProcessor(this, GPLAY_LICENSE, this)
 
