@@ -9,6 +9,7 @@ import android.database.Cursor
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -61,6 +62,13 @@ class RePinActivity : AppCompatActivity() {
         }
         setContentView(R.layout.activity_pin)
 
+        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+        val cardRadius = sharedPref.getString("cardRadius", "none")
+        if(cardRadius != null)
+            if(cardRadius != "none") {
+                cardNums.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+            }
+
         val args: Bundle? = intent.extras
         login = args?.get("login").toString()
         passName = args?.get("passName").toString()
@@ -111,7 +119,6 @@ class RePinActivity : AppCompatActivity() {
         }
 
         // Checking prefs
-        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
 
         val useBio = sharedPref.getString(_keyBio, "none")
         val usePin = sharedPref.getString(_keyUsePin, "none")

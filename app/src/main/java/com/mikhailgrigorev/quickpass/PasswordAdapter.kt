@@ -2,6 +2,8 @@ package com.mikhailgrigorev.quickpass
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.DisplayMetrics
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +17,8 @@ class PasswordAdapter(private val items: ArrayList<Pair<String, String>>,
                       private val group: ArrayList<String>,
                       private val desc: ArrayList<String>,
                       private val useAnalyze: String?,
+                      private val cardRadius: String?,
+                      private val metrics: DisplayMetrics?,
                       val context: Context,
                       val clickListener: (Int) -> Unit,
                       val longClickListener: (Int, View) -> Unit
@@ -98,6 +102,11 @@ class PasswordAdapter(private val items: ArrayList<Pair<String, String>>,
                 holder.marker.visibility = View.GONE
                 holder.credit.visibility = View.GONE
                 holder.creditNeg.visibility = View.GONE
+            }
+
+        if(cardRadius != null)
+            if(cardRadius != "none") {
+                holder.clickableView.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), metrics)
             }
     }
 }

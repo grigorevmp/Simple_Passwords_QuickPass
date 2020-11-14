@@ -15,6 +15,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -66,6 +67,7 @@ class PassGenActivity : AppCompatActivity() {
     private val group: ArrayList<String> = ArrayList()
     private lateinit var login: String
     var useAnalyze: String? = null
+    var cardRadius: String? = null
 
     private var searchPos: Boolean = false
     private var searchNeg: Boolean = false
@@ -135,6 +137,18 @@ class PassGenActivity : AppCompatActivity() {
             handler.postDelayed(r, time*6L)
 
         setContentView(R.layout.activity_pass_gen)
+
+
+        cardRadius = sharedPref.getString("cardRadius", "none")
+        if(cardRadius != null)
+            if(cardRadius != "none") {
+                correctScan.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius!!.toFloat(), resources.displayMetrics)
+                cardPass.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius!!.toFloat(), resources.displayMetrics)
+                noPasswords.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius!!.toFloat(), resources.displayMetrics)
+                warn_Card.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius!!.toFloat(), resources.displayMetrics)
+                cardView.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius!!.toFloat(), resources.displayMetrics)
+                cardCup.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius!!.toFloat(), resources.displayMetrics)
+            }
 
 
         useAnalyze = sharedPref.getString("useAnalyze", "none")
@@ -591,6 +605,8 @@ class PassGenActivity : AppCompatActivity() {
                 group,
                 desc,
                 useAnalyze,
+                cardRadius,
+                resources.displayMetrics,
                 this,
                 clickListener = {
                     passClickListener(it)
@@ -611,6 +627,8 @@ class PassGenActivity : AppCompatActivity() {
                         group,
                         desc,
                         useAnalyze,
+                        cardRadius,
+                        resources.displayMetrics,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -652,6 +670,8 @@ class PassGenActivity : AppCompatActivity() {
                         group2,
                         desc2,
                         useAnalyze,
+                        cardRadius,
+                        resources.displayMetrics,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -677,6 +697,8 @@ class PassGenActivity : AppCompatActivity() {
                         group,
                         desc,
                         useAnalyze,
+                        cardRadius,
+                        resources.displayMetrics,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -718,6 +740,8 @@ class PassGenActivity : AppCompatActivity() {
                         group2,
                         desc2,
                         useAnalyze,
+                        cardRadius,
+                        resources.displayMetrics,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -744,6 +768,8 @@ class PassGenActivity : AppCompatActivity() {
                         group,
                         desc,
                         useAnalyze,
+                        cardRadius,
+                        resources.displayMetrics,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -785,6 +811,8 @@ class PassGenActivity : AppCompatActivity() {
                         group2,
                         desc2,
                         useAnalyze,
+                        cardRadius,
+                        resources.displayMetrics,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -811,6 +839,8 @@ class PassGenActivity : AppCompatActivity() {
                         group,
                         desc,
                         useAnalyze,
+                        cardRadius,
+                        resources.displayMetrics,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -852,6 +882,8 @@ class PassGenActivity : AppCompatActivity() {
                         group2,
                         desc2,
                         useAnalyze,
+                        cardRadius,
+                        resources.displayMetrics,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -878,6 +910,8 @@ class PassGenActivity : AppCompatActivity() {
                         group,
                         desc,
                         useAnalyze,
+                        cardRadius,
+                        resources.displayMetrics,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -919,6 +953,8 @@ class PassGenActivity : AppCompatActivity() {
                         group2,
                         desc2,
                         useAnalyze,
+                        cardRadius,
+                        resources.displayMetrics,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -945,6 +981,8 @@ class PassGenActivity : AppCompatActivity() {
                         group,
                         desc,
                         useAnalyze,
+                        cardRadius,
+                        resources.displayMetrics,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -986,6 +1024,8 @@ class PassGenActivity : AppCompatActivity() {
                         group2,
                         desc2,
                         useAnalyze,
+                        cardRadius,
+                        resources.displayMetrics,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -1034,6 +1074,8 @@ class PassGenActivity : AppCompatActivity() {
                         group2,
                         desc2,
                         useAnalyze,
+                        cardRadius,
+                        resources.displayMetrics,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -1558,6 +1600,8 @@ class PassGenActivity : AppCompatActivity() {
                 group,
                 desc,
                 useAnalyze,
+                cardRadius,
+                resources.displayMetrics,
                 this,
                 clickListener = {
                     passClickListener(it)
@@ -1742,6 +1786,8 @@ class PassGenActivity : AppCompatActivity() {
                         group,
                         desc,
                         useAnalyze,
+                        cardRadius,
+                        resources.displayMetrics,
                         this,
                         clickListener = {
                             passClickListener(it)

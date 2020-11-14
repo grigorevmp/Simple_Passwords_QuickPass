@@ -7,6 +7,7 @@ import android.database.Cursor
 import android.database.SQLException
 import android.os.Bundle
 import android.os.Handler
+import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.View
 import android.widget.Toast
@@ -17,7 +18,9 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
+import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.activity_password_view.*
+import kotlinx.android.synthetic.main.activity_password_view.back
 
 class PasswordViewActivity : AppCompatActivity() {
 
@@ -78,6 +81,14 @@ class PasswordViewActivity : AppCompatActivity() {
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
         setContentView(R.layout.activity_password_view)
+
+
+        val cardRadius = sharedPref.getString("cardRadius", "none")
+        if(cardRadius != null)
+            if(cardRadius != "none") {
+                warnCard.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                cardView3.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+            }
 
 
         val args: Bundle? = intent.extras

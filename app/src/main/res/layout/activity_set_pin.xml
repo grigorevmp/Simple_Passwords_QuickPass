@@ -81,6 +81,7 @@
         app:layout_constraintTop_toBottomOf="@+id/helloTextId" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardNums"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -112,6 +113,7 @@
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
+                    app:rippleColor="?attr/colorPrimary"
                     android:text="@string/_1"
                     android:textColor="@color/black" />
 
@@ -121,6 +123,7 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
+                    app:rippleColor="?attr/colorPrimary"
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
                     android:text="@string/_2"
@@ -135,6 +138,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
                     android:text="@string/_3"
+                    app:rippleColor="?attr/colorPrimary"
                     android:textColor="@color/black" />
             </LinearLayout>
 
@@ -152,6 +156,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
                     android:text="@string/_4"
+                    app:rippleColor="?attr/colorPrimary"
                     android:textColor="@color/black" />
 
                 <Button
@@ -163,6 +168,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
                     android:text="@string/_5"
+                    app:rippleColor="?attr/colorPrimary"
                     android:textColor="@color/black" />
 
                 <Button
@@ -174,6 +180,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
                     android:text="@string/_6"
+                    app:rippleColor="?attr/colorPrimary"
                     android:textColor="@color/black" />
             </LinearLayout>
 
@@ -191,6 +198,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
                     android:text="@string/_7"
+                    app:rippleColor="?attr/colorPrimary"
                     android:textColor="@color/black" />
 
                 <Button
@@ -202,6 +210,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
                     android:text="@string/_8"
+                    app:rippleColor="?attr/colorPrimary"
                     android:textColor="@color/black" />
 
                 <Button
@@ -213,6 +222,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
                     android:text="@string/_9"
+                    app:rippleColor="?attr/colorPrimary"
                     android:textColor="@color/black" />
             </LinearLayout>
 
@@ -228,6 +238,7 @@
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
+                    app:rippleColor="?attr/colorPrimary"
                     android:contentDescription="@string/fingerUnlock"
                     android:src="@drawable/chevron_left"
                     android:tint="@color/black" />
@@ -241,6 +252,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
                     android:text="@string/_0"
+                    app:rippleColor="?attr/colorPrimary"
                     android:textColor="@color/black" />
 
                 <ImageButton
@@ -251,6 +263,7 @@
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:alpha="0"
+                    app:rippleColor="?attr/colorPrimary"
                     android:contentDescription="@string/save_pin"
                     android:src="@drawable/content_save_outline"
                     android:tint="@color/black" />
