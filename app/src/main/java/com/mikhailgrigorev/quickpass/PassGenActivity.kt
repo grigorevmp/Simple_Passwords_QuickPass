@@ -287,7 +287,8 @@ class PassGenActivity : AppCompatActivity() {
                     pdbHelper.KEY_DESC
             ),
                     null, null,
-                    null, null, null
+                    null, null, pdbHelper.KEY_NAME
+            #TODO
             )
                 if (pCursor.moveToFirst()) {
                     val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)

@@ -93,7 +93,7 @@
     <string name="auto_copy_password">Auto-copy password</string>
     <string name="about_app">About app</string>
     <string name="mikhail_grigorev">Mikhail Grigorev</string>
-    <string name="_2020" translatable="false">"2.1.1 • 2020 "</string>
+    <string name="_2020" translatable="false">"2.2.0 • 2020 "</string>
     <string name="telegram" translatable="false">Telegram</string>
     <string name="vkontakte" translatable="false">Vkontakte</string>
     <string name="sen_email" translatable="false">Send email</string>

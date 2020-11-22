@@ -60,7 +60,7 @@ class PasswordAdapter(private val items: ArrayList<Pair<String, String>>,
             tags[position] .split("\\s".toRegex()).forEach { item ->
                 val chip = Chip(holder.group.context)
                 chip.text= item
-                chip.isClickable = false
+                chip.isClickable = true
                 chip.textSize = 12F
                 holder.group.addView(chip)
             }
