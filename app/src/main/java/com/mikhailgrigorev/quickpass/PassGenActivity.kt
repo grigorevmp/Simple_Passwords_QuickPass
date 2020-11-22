@@ -68,6 +68,7 @@ class PassGenActivity : AppCompatActivity() {
     private lateinit var login: String
     var useAnalyze: String? = null
     var cardRadius: String? = null
+    private var sorting: String? = "none"
 
     private var searchPos: Boolean = false
     private var searchNeg: Boolean = false
@@ -149,6 +150,8 @@ class PassGenActivity : AppCompatActivity() {
                 cardView.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius!!.toFloat(), resources.displayMetrics)
                 cardCup.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius!!.toFloat(), resources.displayMetrics)
             }
+
+
 
 
         useAnalyze = sharedPref.getString("useAnalyze", "none")
@@ -382,6 +385,33 @@ class PassGenActivity : AppCompatActivity() {
         }
 
 
+        sorting = sharedPref.getString("sort", "none")
+        if (sorting == "alpha") {
+            alphaSort.isChecked = true
+            for (i in 0 until passwords.size){
+                for (j in 0 until passwords.size){
+                    if(group[i].contains("favorite") == group[j].contains("favorite"))
+                        if(passwords[i].first < passwords[j].first){
+                            val temp = passwords[j]
+                            passwords[j] = passwords[i]
+                            passwords[i] = temp
+                            var temp2 = quality[j]
+                            quality[j] = quality[i]
+                            quality[i]  = temp2
+                            temp2 = tags[j]
+                            tags[j] = tags[i]
+                            tags[i]  = temp2
+                            temp2 = group[j]
+                            group[j] = group[i]
+                            group[i]  = temp2
+                            temp2 = desc[j]
+                            desc[j] = desc[i]
+                            desc[i]  = temp2
+                        }
+                }
+
+            }
+        }
         // Shotcuts
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             if (passwords.size > 0) {
@@ -596,6 +626,358 @@ class PassGenActivity : AppCompatActivity() {
 
         passwordRecycler.setHasFixedSize(true)
 
+
+        //Alpha Sorting
+
+
+        alphaSort.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked){
+                with(sharedPref.edit()) {
+                    putString("sort", "alpha")
+                    commit()
+                }
+                passwordsG = passwords
+
+                for (i in 0 until passwords.size){
+                    for (j in 0 until passwords.size){
+                        if(group[i].contains("favorite") == group[j].contains("favorite"))
+                        if(passwords[i].first < passwords[j].first){
+                            val temp = passwords[j]
+                            passwords[j] = passwords[i]
+                            passwords[i] = temp
+                            var temp2 = quality[j]
+                            quality[j] = quality[i]
+                            quality[i]  = temp2
+                            temp2 = tags[j]
+                            tags[j] = tags[i]
+                            tags[i]  = temp2
+                            temp2 = group[j]
+                            group[j] = group[i]
+                            group[i]  = temp2
+                            temp2 = desc[j]
+                            desc[j] = desc[i]
+                            desc[i]  = temp2
+                        }
+                    }
+
+                }
+
+
+                when {
+                    searchPos -> {
+                        negativeCircle.setImageResource(R.drawable.circle_negative)
+                        negativeCircle2.setImageResource(R.drawable.circle_improvement)
+                        positiveCircle.setImageResource(R.drawable.circle_positive_fill)
+                        val passwords2: ArrayList<Pair<String, String>> = ArrayList()
+                        val quality2: ArrayList<String> = ArrayList()
+                        val tags2: ArrayList<String> = ArrayList()
+                        val group2: ArrayList<String> = ArrayList()
+                        val desc2: ArrayList<String> = ArrayList()
+                        for ((index, value) in quality.withIndex()) {
+                            if (value == "1") {
+                                passwords2.add(passwords[index])
+                                quality2.add(quality[index])
+                                tags2.add(tags[index])
+                                group2.add(group[index])
+                                desc2.add(desc[index])
+                            }
+                        }
+
+                        passwordsG = passwords2
+                        passwordRecycler.adapter = PasswordAdapter(
+                                passwords2,
+                                quality2,
+                                tags2,
+                                group2,
+                                desc2,
+                                useAnalyze,
+                                cardRadius,
+                                resources.displayMetrics,
+                                sorting,
+                                this@PassGenActivity,
+                                clickListener = {
+                                    passClickListener(it)
+                                },
+                                longClickListener = { i: Int, view: View ->
+                                    passLongClickListener(
+                                            i,
+                                            view
+                                    )
+                                })
+                    }
+                    searchNeg -> {
+                        positiveCircle.setImageResource(R.drawable.circle_positive)
+                        negativeCircle2.setImageResource(R.drawable.circle_improvement)
+                        negativeCircle.setImageResource(R.drawable.circle_negative_fill)
+                        val passwords2: ArrayList<Pair<String, String>> = ArrayList()
+                        val quality2: ArrayList<String> = ArrayList()
+                        val tags2: ArrayList<String> = ArrayList()
+                        val group2: ArrayList<String> = ArrayList()
+                        val desc2: ArrayList<String> = ArrayList()
+                        for ((index, value) in quality.withIndex()) {
+                            if (value == "2"){
+                                passwords2.add(passwords[index])
+                                quality2.add(quality[index])
+                                tags2.add(tags[index])
+                                group2.add(group[index])
+                                desc2.add(desc[index])
+                            }
+                        }
+
+                        passwordsG = passwords2
+                        passwordRecycler.adapter = PasswordAdapter(
+                                passwords2,
+                                quality2,
+                                tags2,
+                                group2,
+                                desc2,
+                                useAnalyze,
+                                cardRadius,
+                                resources.displayMetrics,
+                                sorting,
+                                this@PassGenActivity,
+                                clickListener = {
+                                    passClickListener(it)
+                                },
+                                longClickListener = { i: Int, view: View ->
+                                    passLongClickListener(
+                                            i,
+                                            view
+                                    )
+                                })
+                    }
+                    searchMId -> {
+                        positiveCircle.setImageResource(R.drawable.circle_positive)
+                        negativeCircle.setImageResource(R.drawable.circle_negative)
+                        negativeCircle2.setImageResource(R.drawable.circle_improvement_fill)
+                        val passwords2: ArrayList<Pair<String, String>> = ArrayList()
+                        val quality2: ArrayList<String> = ArrayList()
+                        val tags2: ArrayList<String> = ArrayList()
+                        val group2: ArrayList<String> = ArrayList()
+                        val desc2: ArrayList<String> = ArrayList()
+                        for ((index, value) in quality.withIndex()) {
+                            if (value == "3"){
+                                passwords2.add(passwords[index])
+                                quality2.add(quality[index])
+                                tags2.add(tags[index])
+                                group2.add(group[index])
+                                desc2.add(desc[index])
+                            }
+                        }
+
+                        passwordsG = passwords2
+                        passwordRecycler.adapter = PasswordAdapter(
+                                passwords2,
+                                quality2,
+                                tags2,
+                                group2,
+                                desc2,
+                                useAnalyze,
+                                cardRadius,
+                                resources.displayMetrics,
+                                sorting,
+                                this@PassGenActivity,
+                                clickListener = {
+                                    passClickListener(it)
+                                },
+                                longClickListener = { i: Int, view: View ->
+                                    passLongClickListener(
+                                            i,
+                                            view
+                                    )
+                                })
+                    }
+                    searchPassField.text.toString() != "" -> {
+                        searchPassField.text = searchPassField.text
+                    }
+                    else -> {
+                        passwordRecycler.adapter = PasswordAdapter(
+                                passwords,
+                                quality,
+                                tags,
+                                group,
+                                desc,
+                                useAnalyze,
+                                cardRadius,
+                                resources.displayMetrics,
+                                sorting,
+                                this,
+                                clickListener = {
+                                    passClickListener(it)
+                                },
+                                longClickListener = { i: Int, view: View ->
+                                    passLongClickListener(
+                                            i,
+                                            view
+                                    )
+                                })
+                    }
+                }
+
+
+
+
+            }
+            else{
+                with(sharedPref.edit()) {
+                    putString("sort", "none")
+                    commit()
+                }
+                when {
+                    searchPos -> {
+                        negativeCircle.setImageResource(R.drawable.circle_negative)
+                        negativeCircle2.setImageResource(R.drawable.circle_improvement)
+                        positiveCircle.setImageResource(R.drawable.circle_positive_fill)
+                        val passwords2: ArrayList<Pair<String, String>> = ArrayList()
+                        val quality2: ArrayList<String> = ArrayList()
+                        val tags2: ArrayList<String> = ArrayList()
+                        val group2: ArrayList<String> = ArrayList()
+                        val desc2: ArrayList<String> = ArrayList()
+                        for ((index, value) in quality.withIndex()) {
+                            if (value == "1") {
+                                passwords2.add(passwords[index])
+                                quality2.add(quality[index])
+                                tags2.add(tags[index])
+                                group2.add(group[index])
+                                desc2.add(desc[index])
+                            }
+                        }
+
+                        passwordsG = passwords2
+                        passwordRecycler.adapter = PasswordAdapter(
+                                passwords2,
+                                quality2,
+                                tags2,
+                                group2,
+                                desc2,
+                                useAnalyze,
+                                cardRadius,
+                                resources.displayMetrics,
+                                sorting,
+                                this@PassGenActivity,
+                                clickListener = {
+                                    passClickListener(it)
+                                },
+                                longClickListener = { i: Int, view: View ->
+                                    passLongClickListener(
+                                            i,
+                                            view
+                                    )
+                                })
+                    }
+                    searchNeg -> {
+                        positiveCircle.setImageResource(R.drawable.circle_positive)
+                        negativeCircle2.setImageResource(R.drawable.circle_improvement)
+                        negativeCircle.setImageResource(R.drawable.circle_negative_fill)
+                        val passwords2: ArrayList<Pair<String, String>> = ArrayList()
+                        val quality2: ArrayList<String> = ArrayList()
+                        val tags2: ArrayList<String> = ArrayList()
+                        val group2: ArrayList<String> = ArrayList()
+                        val desc2: ArrayList<String> = ArrayList()
+                        for ((index, value) in quality.withIndex()) {
+                            if (value == "2"){
+                                passwords2.add(passwords[index])
+                                quality2.add(quality[index])
+                                tags2.add(tags[index])
+                                group2.add(group[index])
+                                desc2.add(desc[index])
+                            }
+                        }
+
+                        passwordsG = passwords2
+                        passwordRecycler.adapter = PasswordAdapter(
+                                passwords2,
+                                quality2,
+                                tags2,
+                                group2,
+                                desc2,
+                                useAnalyze,
+                                cardRadius,
+                                resources.displayMetrics,
+                                sorting,
+                                this@PassGenActivity,
+                                clickListener = {
+                                    passClickListener(it)
+                                },
+                                longClickListener = { i: Int, view: View ->
+                                    passLongClickListener(
+                                            i,
+                                            view
+                                    )
+                                })
+                    }
+                    searchMId -> {
+                        positiveCircle.setImageResource(R.drawable.circle_positive)
+                        negativeCircle.setImageResource(R.drawable.circle_negative)
+                        negativeCircle2.setImageResource(R.drawable.circle_improvement_fill)
+                        val passwords2: ArrayList<Pair<String, String>> = ArrayList()
+                        val quality2: ArrayList<String> = ArrayList()
+                        val tags2: ArrayList<String> = ArrayList()
+                        val group2: ArrayList<String> = ArrayList()
+                        val desc2: ArrayList<String> = ArrayList()
+                        for ((index, value) in quality.withIndex()) {
+                            if (value == "3"){
+                                passwords2.add(passwords[index])
+                                quality2.add(quality[index])
+                                tags2.add(tags[index])
+                                group2.add(group[index])
+                                desc2.add(desc[index])
+                            }
+                        }
+
+                        passwordsG = passwords2
+                        passwordRecycler.adapter = PasswordAdapter(
+                                passwords2,
+                                quality2,
+                                tags2,
+                                group2,
+                                desc2,
+                                useAnalyze,
+                                cardRadius,
+                                resources.displayMetrics,
+                                sorting,
+                                this@PassGenActivity,
+                                clickListener = {
+                                    passClickListener(it)
+                                },
+                                longClickListener = { i: Int, view: View ->
+                                    passLongClickListener(
+                                            i,
+                                            view
+                                    )
+                                })
+                    }
+                    searchPassField.text.toString() != "" -> {
+                        searchPassField.text = searchPassField.text
+                    }
+                    else -> {
+                        passwordsG = passwords
+                        passwordRecycler.adapter = PasswordAdapter(
+                                passwords,
+                                quality,
+                                tags,
+                                group,
+                                desc,
+                                useAnalyze,
+                                cardRadius,
+                                resources.displayMetrics,
+                                sorting,
+                                this,
+                                clickListener = {
+                                    passClickListener(it)
+                                },
+                                longClickListener = { i: Int, view: View ->
+                                    passLongClickListener(
+                                            i,
+                                            view
+                                    )
+                                })
+                    }
+                }
+            }
+        }
+
+
         // Set passwords adapter
         passwordsG = passwords
         passwordRecycler.adapter = PasswordAdapter(
@@ -607,6 +989,7 @@ class PassGenActivity : AppCompatActivity() {
                 useAnalyze,
                 cardRadius,
                 resources.displayMetrics,
+                sorting,
                 this,
                 clickListener = {
                     passClickListener(it)
@@ -629,6 +1012,7 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
+                        sorting,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -672,6 +1056,7 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
+                        sorting,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -699,6 +1084,7 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
+                        sorting,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -742,6 +1128,7 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
+                        sorting,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -770,6 +1157,7 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
+                        sorting,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -813,6 +1201,7 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
+                        sorting,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -841,6 +1230,7 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
+                        sorting,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -884,6 +1274,7 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
+                        sorting,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -912,6 +1303,7 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
+                        sorting,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -955,6 +1347,7 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
+                        sorting,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -983,6 +1376,7 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
+                        sorting,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -1026,6 +1420,7 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
+                        sorting,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -1076,6 +1471,7 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
+                        sorting,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -1592,6 +1988,33 @@ class PassGenActivity : AppCompatActivity() {
             pCursor.close()
         } catch (e: SQLException) {
         }
+
+        if(sorting == "alpha"){
+            for (i in 0 until passwords.size){
+                for (j in 0 until passwords.size){
+                    if(group[i].contains("favorite") == group[j].contains("favorite"))
+                        if(passwords[i].first < passwords[j].first){
+                            val temp = passwords[j]
+                            passwords[j] = passwords[i]
+                            passwords[i] = temp
+                            var temp2 = quality[j]
+                            quality[j] = quality[i]
+                            quality[i]  = temp2
+                            temp2 = tags[j]
+                            tags[j] = tags[i]
+                            tags[i]  = temp2
+                            temp2 = group[j]
+                            group[j] = group[i]
+                            group[i]  = temp2
+                            temp2 = desc[j]
+                            desc[j] = desc[i]
+                            desc[i]  = temp2
+                        }
+                }
+
+            }
+        }
+
         passwordsG = passwords
         passwordRecycler.adapter = PasswordAdapter(
                 passwords,
@@ -1602,6 +2025,7 @@ class PassGenActivity : AppCompatActivity() {
                 useAnalyze,
                 cardRadius,
                 resources.displayMetrics,
+                sorting,
                 this,
                 clickListener = {
                     passClickListener(it)
@@ -1778,6 +2202,32 @@ class PassGenActivity : AppCompatActivity() {
                     warn_Card.animate().alpha(abs(1F)).start()
                 }
 
+                if(sorting == "alpha"){
+                    for (i in 0 until passwords.size){
+                        for (j in 0 until passwords.size){
+                            if(group[i].contains("favorite") == group[j].contains("favorite"))
+                                if(passwords[i].first < passwords[j].first){
+                                    val temp = passwords[j]
+                                    passwords[j] = passwords[i]
+                                    passwords[i] = temp
+                                    var temp2 = quality[j]
+                                    quality[j] = quality[i]
+                                    quality[i]  = temp2
+                                    temp2 = tags[j]
+                                    tags[j] = tags[i]
+                                    tags[i]  = temp2
+                                    temp2 = group[j]
+                                    group[j] = group[i]
+                                    group[i]  = temp2
+                                    temp2 = desc[j]
+                                    desc[j] = desc[i]
+                                    desc[i]  = temp2
+                                }
+                        }
+
+                    }
+                }
+
                 passwordsG = passwords
                 passwordRecycler.adapter = PasswordAdapter(
                         passwords,
@@ -1788,6 +2238,7 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
+                        sorting,
                         this,
                         clickListener = {
                             passClickListener(it)
