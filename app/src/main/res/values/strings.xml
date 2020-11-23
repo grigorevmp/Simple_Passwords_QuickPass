@@ -140,7 +140,6 @@
     <string name="imported">Imported successfully from sdcard.</string>
     <string name="inOut">Export/Import info</string>
     <string name="InOutMessage">To export / import data, you should grant permission to access the file system</string>
-    <string name="InOutMessage2">A backup is created in the initial directory of the internal memory. To export data, we also ask you to place the correct "MyBackUp.csv" in the directory</string>
     <string name="InOutMessage3">You can create csv yourself in the format: (_id, name, password, 2fa, useTimeNotifications, time, tags, groups, login (or e-mail), description). Id, time - will be filled automatically, 2fa, usetime take 1 or 0 depending on usage. Groups initialized to \"#favorite\" if the password is in the favorites</string>
     <string name="warning">Warning!</string>
     <string name="latest_updates_on_my_github_page">Latest updates on my GitHub page</string>

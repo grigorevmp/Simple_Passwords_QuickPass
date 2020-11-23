@@ -10,7 +10,6 @@ import android.content.res.Configuration
 import android.database.Cursor
 import android.database.SQLException
 import android.os.Bundle
-import android.os.Environment
 import android.os.Handler
 import android.util.TypedValue
 import android.view.KeyEvent
@@ -45,16 +44,17 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var passName: String
     private lateinit var imageName: String
     private var condition = true
+
     @SuppressLint("SetTextI18n", "Recycle", "RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-        when(pref.getString(_keyTheme, "none")){
+        when (pref.getString(_keyTheme, "none")) {
             "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             "none", "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
             "battery" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
         }
-        when(pref.getString("themeAccentPreference", "none")){
+        when (pref.getString("themeAccentPreference", "none")) {
             "Red" -> setTheme(R.style.AppThemeRed)
             "Pink" -> setTheme(R.style.AppThemePink)
             "Purple" -> setTheme(R.style.AppThemePurple)
@@ -71,21 +71,20 @@ class SettingsActivity : AppCompatActivity() {
         // Finish app after some time
         val handler = Handler()
         val r = Runnable {
-            if(condition) {
-                condition=false
+            if (condition) {
+                condition = false
                 val intent = Intent(this, LoginAfterSplashActivity::class.java)
                 startActivity(intent)
                 finish()
             }
         }
-        val time: Long =  100000
+        val time: Long = 100000
         val sharedPref2 = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
         val lockTime2 = sharedPref2.getString("appLockTime", "6")
-        if(lockTime2 != null) {
+        if (lockTime2 != null) {
             if (lockTime2 != "0")
                 handler.postDelayed(r, time * lockTime2.toLong())
-        }
-        else
+        } else
             handler.postDelayed(r, time * 6L)
 
         when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
@@ -94,13 +93,13 @@ class SettingsActivity : AppCompatActivity() {
         }
         setContentView(R.layout.activity_settings)
 
-        when(AppCompatDelegate.getDefaultNightMode()){
+        when (AppCompatDelegate.getDefaultNightMode()) {
             AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> defaultSystem.isChecked = true
             AppCompatDelegate.MODE_NIGHT_NO -> light.isChecked = true
             AppCompatDelegate.MODE_NIGHT_YES -> dark.isChecked = true
             AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY -> autoBattery.isChecked = true
             AppCompatDelegate.MODE_NIGHT_UNSPECIFIED -> defaultSystem.isChecked = true
-            else-> defaultSystem.isChecked = true
+            else -> defaultSystem.isChecked = true
         }
 
 
@@ -162,8 +161,8 @@ class SettingsActivity : AppCompatActivity() {
         val lockTime = sharedPref.getString("appLockTime", "none")
 
         val cardRadius = sharedPref.getString("cardRadius", "none")
-        if(cardRadius != null)
-            if(cardRadius != "none") {
+        if (cardRadius != null)
+            if (cardRadius != "none") {
                 info_card.radius = TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
                         cardRadius.toFloat(),
@@ -188,22 +187,21 @@ class SettingsActivity : AppCompatActivity() {
 
 
         appLockTime.text = "6m"
-        if(lockTime != null)
-            if(lockTime != "none") {
-            appLockBar.progress = lockTime.toInt()
-            appLockTime.text = lockTime.toInt().toString() + "m"
-            if (lockTime.toInt() == 0){
-                appLockTime.text = getString(R.string.dontlock)
+        if (lockTime != null)
+            if (lockTime != "none") {
+                appLockBar.progress = lockTime.toInt()
+                appLockTime.text = lockTime.toInt().toString() + "m"
+                if (lockTime.toInt() == 0) {
+                    appLockTime.text = getString(R.string.dontlock)
+                }
             }
-        }
 
         cardRadiusVal.text = "10"
-        if(cardRadius != null)
-            if(cardRadius != "none") {
+        if (cardRadius != null)
+            if (cardRadius != "none") {
                 cardRadiusBar.progress = cardRadius.toInt()
                 cardRadiusVal.text = cardRadius.toInt().toString()
-        }
-
+            }
 
 
         val dbHelper = DataBaseHelper(this)
@@ -240,36 +238,35 @@ class SettingsActivity : AppCompatActivity() {
 
         var mailSet = false
 
-        if(dbMail != "none"){
+        if (dbMail != "none") {
             userMailSwitch.isChecked = true
             mailSet = true
         }
 
 
-        if(useBio == "using"){
+        if (useBio == "using") {
             biometricSwitch.isChecked = true
         }
 
-        if(useAuto == "dis"){
+        if (useAuto == "dis") {
             autoCopySwitch.isChecked = false
         }
 
-        if(usePin != "none"){
+        if (usePin != "none") {
             setPinSwitch.isChecked = true
         }
 
-        if(useAnalyze != "none"){
+        if (useAnalyze != "none") {
             userAnalyzerSwitch.isChecked = true
         }
 
         userAnalyzerSwitch.setOnCheckedChangeListener { _, _ ->
-            if(!userAnalyzerSwitch.isChecked){
+            if (!userAnalyzerSwitch.isChecked) {
                 with(sharedPref.edit()) {
                     putString("useAnalyze", "none")
                     commit()
                 }
-            }
-            else{
+            } else {
                 with(sharedPref.edit()) {
                     putString("useAnalyze", "yes")
                     commit()
@@ -279,14 +276,13 @@ class SettingsActivity : AppCompatActivity() {
 
 
         userAnalyzer.setOnClickListener {
-            if(userAnalyzerSwitch.isChecked){
+            if (userAnalyzerSwitch.isChecked) {
                 userAnalyzerSwitch.isChecked = false
                 with(sharedPref.edit()) {
                     putString("useAnalyze", "none")
                     commit()
                 }
-            }
-            else{
+            } else {
                 userAnalyzerSwitch.isChecked = true
                 with(sharedPref.edit()) {
                     putString("useAnalyze", "yes")
@@ -296,7 +292,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         userMail.setOnClickListener {
-            if(userMailSwitch.isChecked){
+            if (userMailSwitch.isChecked) {
                 userMailSwitch.isChecked = false
                 mailSet = false
                 val newMail = "none"
@@ -307,15 +303,14 @@ class SettingsActivity : AppCompatActivity() {
                         "NAME = ?",
                         arrayOf(login)
                 )
-            }
-            else{
+            } else {
                 var newMail: String
-                val inputEditTextField =  EditText(this)
+                val inputEditTextField = EditText(this)
                 inputEditTextField.setSingleLine()
-                val dialog =  AlertDialog.Builder(this, R.style.AlertDialogCustom)
+                val dialog = AlertDialog.Builder(this, R.style.AlertDialogCustom)
                         .setTitle(getString(R.string.newMail))
                         .setMessage(getString(R.string.mail_description))
-                        .setPositiveButton(getString(R.string.saveButton)){ _, _ ->
+                        .setPositiveButton(getString(R.string.saveButton)) { _, _ ->
                             newMail = inputEditTextField.text.toString()
                             val contentValues = ContentValues()
                             contentValues.put(dbHelper.KEY_MAIL, newMail)
@@ -327,7 +322,7 @@ class SettingsActivity : AppCompatActivity() {
                             mailSet = true
                             userMailSwitch.isChecked = true
                         }
-                        .setNegativeButton(getString(R.string.closeButton)){_, _ ->
+                        .setNegativeButton(getString(R.string.closeButton)) { _, _ ->
                             userMailSwitch.isChecked = false
                         }
                         .setCancelable(false)
@@ -339,7 +334,7 @@ class SettingsActivity : AppCompatActivity() {
 
 
         userMailSwitch.setOnCheckedChangeListener { _, _ ->
-            if(!userMailSwitch.isChecked and mailSet){
+            if (!userMailSwitch.isChecked and mailSet) {
                 mailSet = false
                 val newMail = "none"
                 val contentValues = ContentValues()
@@ -349,17 +344,16 @@ class SettingsActivity : AppCompatActivity() {
                         "NAME = ?",
                         arrayOf(login)
                 )
-            }
-            else if (!mailSet){
+            } else if (!mailSet) {
                 userMailSwitch.isChecked = false
                 var newMail: String
-                val inputEditTextField =  EditText(this)
+                val inputEditTextField = EditText(this)
                 inputEditTextField.setSingleLine()
-                val dialog =  AlertDialog.Builder(this, R.style.AlertDialogCustom)
+                val dialog = AlertDialog.Builder(this, R.style.AlertDialogCustom)
                         .setTitle(getString(R.string.newMail))
                         .setMessage(getString(R.string.mail_description))
                         //.setView(inputEditTextField, 100, 100, 100, 100)
-                        .setPositiveButton(getString(R.string.saveButton)){ _, _ ->
+                        .setPositiveButton(getString(R.string.saveButton)) { _, _ ->
                             newMail = inputEditTextField.text.toString()
                             val contentValues = ContentValues()
                             contentValues.put(dbHelper.KEY_MAIL, newMail)
@@ -371,7 +365,7 @@ class SettingsActivity : AppCompatActivity() {
                             mailSet = true
                             userMailSwitch.isChecked = true
                         }
-                        .setNegativeButton(getString(R.string.closeButton)){_, _ ->
+                        .setNegativeButton(getString(R.string.closeButton)) { _, _ ->
                             userMailSwitch.isChecked = false
                         }
                         .create()
@@ -382,13 +376,12 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         autoCopySwitch.setOnCheckedChangeListener { _, _ ->
-            if(!autoCopySwitch.isChecked){
+            if (!autoCopySwitch.isChecked) {
                 with(sharedPref.edit()) {
                     putString(_keyAutoCopy, "dis")
                     commit()
                 }
-            }
-            else{
+            } else {
                 with(sharedPref.edit()) {
                     putString(_keyAutoCopy, "none")
                     commit()
@@ -398,14 +391,13 @@ class SettingsActivity : AppCompatActivity() {
 
 
         autoCopy.setOnClickListener {
-            if(autoCopySwitch.isChecked){
+            if (autoCopySwitch.isChecked) {
                 autoCopySwitch.isChecked = false
                 with(sharedPref.edit()) {
                     putString(_keyAutoCopy, "dis")
                     commit()
                 }
-            }
-            else{
+            } else {
                 autoCopySwitch.isChecked = true
                 with(sharedPref.edit()) {
                     putString(_keyAutoCopy, "none")
@@ -415,16 +407,15 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         setPinSwitch.setOnCheckedChangeListener { _, _ ->
-            if(setPinSwitch.isChecked){
-                condition=false
+            if (setPinSwitch.isChecked) {
+                condition = false
                 val intent = Intent(this, SetPinActivity::class.java)
                 intent.putExtra("login", login)
                 intent.putExtra("passName", passName)
                 startActivity(intent)
                 finish()
-            }
-            else{
-                condition=false
+            } else {
+                condition = false
                 with(sharedPref.edit()) {
                     putString(_keyUsePin, "none")
                     commit()
@@ -433,15 +424,14 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         setPin.setOnClickListener {
-            if(setPinSwitch.isChecked){
+            if (setPinSwitch.isChecked) {
                 setPinSwitch.isChecked = false
                 with(sharedPref.edit()) {
                     putString(_keyUsePin, "none")
                     commit()
                 }
-            }
-            else{
-                condition=false
+            } else {
+                condition = false
                 val intent = Intent(this, SetPinActivity::class.java)
                 intent.putExtra("login", login)
                 intent.putExtra("passName", passName)
@@ -515,13 +505,12 @@ class SettingsActivity : AppCompatActivity() {
 
 
         biometricSwitch.setOnCheckedChangeListener { _, _ ->
-            if(biometricSwitch.isChecked){
+            if (biometricSwitch.isChecked) {
                 with(sharedPref.edit()) {
                     putString(_keyBio, "using")
                     commit()
                 }
-            }
-            else{
+            } else {
                 with(sharedPref.edit()) {
                     putString(_keyBio, "none")
                     commit()
@@ -530,14 +519,13 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         biometricText.setOnClickListener {
-            if(!biometricSwitch.isChecked){
+            if (!biometricSwitch.isChecked) {
                 biometricSwitch.isChecked = true
                 with(sharedPref.edit()) {
                     putString(_keyBio, "using")
                     commit()
                 }
-            }
-            else{
+            } else {
                 biometricSwitch.isChecked = false
                 with(sharedPref.edit()) {
                     putString(_keyBio, "none")
@@ -553,7 +541,7 @@ class SettingsActivity : AppCompatActivity() {
             do {
                 val exInfoImgText = cursor.getString(imageIndex).toString()
                 imageName = exInfoImgText
-                when(cursor.getString(imageIndex).toString()){
+                when (cursor.getString(imageIndex).toString()) {
                     "ic_account" -> accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account
@@ -659,8 +647,8 @@ class SettingsActivity : AppCompatActivity() {
             updateChooser(imageName)
         }
 
-        iconTheme.setOnClickListener{
-            when(imageName){
+        iconTheme.setOnClickListener {
+            when (imageName) {
                 "ic_account_Pink" -> {
                     turnOffAllIcons()
                     packageManager.setComponentEnabledSetting(
@@ -776,7 +764,7 @@ class SettingsActivity : AppCompatActivity() {
 
     }
 
-    private fun turnOffAllIcons(){
+    private fun turnOffAllIcons() {
         packageManager.setComponentEnabledSetting(
                 ComponentName(
                         "com.mikhailgrigorev.quickpass",
@@ -850,7 +838,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
 
-    private fun updateChooser(imageName: String){
+    private fun updateChooser(imageName: String) {
         when (imageName) {
             "ic_account_Red" -> {
                 clearCE()
@@ -912,7 +900,7 @@ class SettingsActivity : AppCompatActivity() {
                 lightGreenColor.alpha = 1F
                 lightGreenColor.cardElevation = 20F
             }
-            else ->  {
+            else -> {
                 clearCE()
                 setAlpha()
                 purpleColor.alpha = 1F
@@ -934,6 +922,7 @@ class SettingsActivity : AppCompatActivity() {
         greenColor.cardElevation = 0F
         lightGreenColor.cardElevation = 0F
     }
+
     private fun setAlpha() {
         redColor.alpha = 0.7F
         pinkColor.alpha = 0.7F
@@ -950,7 +939,7 @@ class SettingsActivity : AppCompatActivity() {
     @SuppressLint("Recycle")
     private fun updateAvatar(imageName: String) {
 
-        when(imageName){
+        when (imageName) {
             "ic_account" -> {
                 accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account
@@ -1100,15 +1089,144 @@ class SettingsActivity : AppCompatActivity() {
                         this, R.color.ic_account
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-                    if(sharedPref.getString("themeAccentPreference", "none") != "Violet") {
-                with(sharedPref.edit()) {
-                    putString(_keyThemeAccent, "Violet")
-                    commit()
-                }
-                        recreate()
+                if (sharedPref.getString("themeAccentPreference", "none") != "Violet") {
+                    with(sharedPref.edit()) {
+                        putString(_keyThemeAccent, "Violet")
+                        commit()
                     }
+                    recreate()
+                }
             }
         }
+
+        val dbHelper = DataBaseHelper(this)
+        val database = dbHelper.writableDatabase
+
+        val contentValues = ContentValues()
+        contentValues.put(dbHelper.KEY_IMAGE, imageName)
+        database.update(
+                dbHelper.TABLE_USERS, contentValues,
+                "NAME = ?",
+                arrayOf(login)
+        )
+
+        val pdbHelper = PasswordsDataBaseHelper(this, login)
+        val pDatabase = pdbHelper.writableDatabase
+
+        var names = ""
+
+        try {
+            val pCursor: Cursor = pDatabase.query(
+                    pdbHelper.TABLE_USERS, arrayOf(
+                    pdbHelper.KEY_NAME,
+                    pdbHelper.KEY_PASS,
+                    pdbHelper.KEY_2FA,
+                    pdbHelper.KEY_TAGS,
+                    pdbHelper.KEY_GROUPS,
+                    pdbHelper.KEY_USE_TIME
+            ),
+                    null, null,
+                    null, null, null
+            )
+
+            if (pCursor.moveToFirst()) {
+                val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
+                do {
+                    val login = pCursor.getString(nameIndex).toString()
+                    names += login
+                } while (pCursor.moveToNext())
+            }
+
+        } catch (e: SQLException) {
+        }
+
+        importDB.setOnClickListener {
+            try {
+                if (ContextCompat.checkSelfPermission(
+                            this@SettingsActivity,
+                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    )
+                    != PackageManager.PERMISSION_GRANTED
+                ) {
+                    ActivityCompat.requestPermissions(
+                            this,
+                            arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                            PackageManager.PERMISSION_GRANTED
+                    )
+                }
+                val intent = Intent()
+                        .setAction(Intent.ACTION_GET_CONTENT)
+                        .addCategory(Intent.CATEGORY_OPENABLE)
+                        .setType("text/*")
+
+                startActivityForResult(Intent.createChooser(intent, "Select a file"), 111)
+            } catch (ex: Exception) {
+            }
+        }
+
+        back.setOnClickListener {
+            condition = false
+            val intent = Intent()
+            intent.putExtra("login", login)
+            intent.putExtra("passName", passName)
+            setResult(1, intent)
+            finish()
+        }
+
+        export.setOnClickListener {
+            try {
+                if (ContextCompat.checkSelfPermission(
+                            this@SettingsActivity,
+                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    )
+                    != PackageManager.PERMISSION_GRANTED
+                ) {
+                    ActivityCompat.requestPermissions(
+                            this,
+                            arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                            PackageManager.PERMISSION_GRANTED
+                    )
+                }
+                val intent = Intent()
+                        .setAction(Intent.ACTION_CREATE_DOCUMENT)
+                        .addCategory(Intent.CATEGORY_OPENABLE)
+                        .setType("text/csv")
+
+                startActivityForResult(Intent.createChooser(intent, "Select a file"), 222)
+            } catch (ex: Exception) {
+            }
+
+
+        }
+    }
+
+    private fun Context.toast(message: String) =
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+
+    private fun getDateTime(): String? {
+        val dateFormat = SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault()
+        )
+        val date = Date()
+        return dateFormat.format(date)
+    }
+
+    override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
+        when (keyCode) {
+            KeyEvent.KEYCODE_BACK -> {
+                condition = false
+                val intent = Intent()
+                intent.putExtra("login", login)
+                intent.putExtra("passName", passName)
+                setResult(1, intent)
+                finish()
+            }
+        }
+        return false
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
@@ -1147,7 +1265,7 @@ class SettingsActivity : AppCompatActivity() {
                     names += login
                 } while (pCursor.moveToNext())
             }
-
+            pCursor.close()
         } catch (e: SQLException) {
         }
 
@@ -1155,191 +1273,139 @@ class SettingsActivity : AppCompatActivity() {
         pdbHelper = PasswordsDataBaseHelper(this, login)
         val passDataBase = pdbHelper.writableDatabase
         contentValues = ContentValues()
-
-        importDB.setOnClickListener {
+        if (requestCode == 111 && resultCode == RESULT_OK) {
             try {
-                if (ContextCompat.checkSelfPermission(
-                            this@SettingsActivity,
-                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    )
-                    != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(
-                            this,
-                            arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                            PackageManager.PERMISSION_GRANTED
-                    )
-                }
-                val filename = "/MyBackUp.csv"
-                val sdCardDir =
-                        Environment.getExternalStorageDirectory()
-                val saveFile = File(sdCardDir, filename)
-                val file = FileReader(saveFile)
-                val buffer = BufferedReader(file)
-                var line: String?
+                data?.data?.let {
+                    contentResolver.openInputStream(it)
+                }?.let {
+                    val buffer = BufferedReader(InputStreamReader(it))
+                    var line: String?
 
-                var count = 0
+                    var count = 0
 
-                var strTemp: Array<String>? = null
-                while (buffer.readLine().also { line = it } != null) {
-                    var str = line!!.split(",".toRegex()).toTypedArray()
+                    var strTemp: Array<String>? = null
+                    while (buffer.readLine().also { it2 -> line = it2 } != null) {
+                        var str = line!!.split(",".toRegex()).toTypedArray()
 
-                    if(strTemp != null) {
-                        str = strTemp + str.drop(1)
-                    }
+                        if (strTemp != null) {
+                            str = strTemp + str.drop(1)
+                        }
 
-                    if (str.size < 10) {
-                        strTemp = str
-                        continue
-                    }
-                    else{
-                        strTemp = null
-                    }
-
-
-                    if (count == 0) {
-                        count += 1
-                        continue
-                    }
-
-                    if (!names.contains(str[1])) {
-                        contentValues.put(pdbHelper.KEY_ID, Random.nextInt(0, 10000))
-
-                        if (str[1] == "")
-                            str[1] = "None"
-                        contentValues.put(pdbHelper.KEY_NAME, str[1])
-
-                        if (str[2] == "")
-                            str[2] = "None"
-                        contentValues.put(pdbHelper.KEY_PASS, str[2])
-
-                        if (str[3] == "")
-                            str[3] = "0"
-                        contentValues.put(pdbHelper.KEY_2FA, str[3])
-
-                        if (str[4] == "")
-                            str[4] = "0"
-                        contentValues.put(pdbHelper.KEY_USE_TIME, str[4])
-
-                        contentValues.put(pdbHelper.KEY_TIME, getDateTime())
-
-                        if (str[6] == "")
-                            str[6] = ""
-                        contentValues.put(pdbHelper.KEY_TAGS, str[6])
-
-                        if (str[7] == "")
-                            str[7] = ""
-                        contentValues.put(pdbHelper.KEY_GROUPS, str[7])
-
-                        if (str[8] == "")
-                            str[8] = ""
-                        contentValues.put(pdbHelper.KEY_LOGIN, str[8])
-
-                        if (str[9] == "")
-                            str[9] = ""
-                        contentValues.put(pdbHelper.KEY_DESC, str[9])
-
-                        if (str[10] == "")
-                            str[10] = "none"
-                        contentValues.put(pdbHelper.KEY_CIPHER, str[9])
-
-                        passDataBase.insert(pdbHelper.TABLE_USERS, null, contentValues)
-                    }
-
-
-                }
-                toast(getString(R.string.imported))
-            }
-            catch (ex: Exception) {
-            }
-
-        }
-
-        back.setOnClickListener {
-            condition=false
-            val intent = Intent()
-            intent.putExtra("login", login)
-            intent.putExtra("passName", passName)
-            setResult(1, intent)
-            finish()
-        }
-
-        export.setOnClickListener {
-            try {
-                if (ContextCompat.checkSelfPermission(
-                            this@SettingsActivity,
-                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    )
-                    != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(
-                            this,
-                            arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                            PackageManager.PERMISSION_GRANTED
-                    )
-                }
-                val c = passDataBase.rawQuery("select * from $login", null)
-                val rowcount: Int
-                val colcount: Int
-                val sdCardDir =
-                        Environment.getExternalStorageDirectory()
-                val filename =  "/MyBackUp.csv"
-                val saveFile = File(sdCardDir, filename)
-                val bw = BufferedWriter(
-                        OutputStreamWriter(
-                                FileOutputStream(saveFile), "UTF-8"
-                        )
-                )
-
-                //val bw = BufferedWriter(fw)
-                rowcount = c.count
-                colcount = c.columnCount
-                if (rowcount > 0) {
-                    c.moveToFirst()
-                    for (i in 0 until colcount) {
-                        if (i != colcount - 1) {
-                            bw.write(c.getColumnName(i) + ",")
+                        if (str.size < 10) {
+                            strTemp = str
+                            continue
                         } else {
-                            bw.write(c.getColumnName(i))
+                            strTemp = null
+                        }
+
+
+                        if (count == 0) {
+                            count += 1
+                            continue
+                        }
+
+                        if (!names.contains(str[1])) {
+                            contentValues.put(pdbHelper.KEY_ID, Random.nextInt(0, 10000))
+
+                            if (str[1] == "")
+                                str[1] = "None"
+                            contentValues.put(pdbHelper.KEY_NAME, str[1])
+
+                            if (str[2] == "")
+                                str[2] = "None"
+                            contentValues.put(pdbHelper.KEY_PASS, str[2])
+
+                            if (str[3] == "")
+                                str[3] = "0"
+                            contentValues.put(pdbHelper.KEY_2FA, str[3])
+
+                            if (str[4] == "")
+                                str[4] = "0"
+                            contentValues.put(pdbHelper.KEY_USE_TIME, str[4])
+
+                            contentValues.put(pdbHelper.KEY_TIME, getDateTime())
+
+                            if (str[6] == "")
+                                str[6] = ""
+                            contentValues.put(pdbHelper.KEY_TAGS, str[6])
+
+                            if (str[7] == "")
+                                str[7] = ""
+                            contentValues.put(pdbHelper.KEY_GROUPS, str[7])
+
+                            if (str[8] == "")
+                                str[8] = ""
+                            contentValues.put(pdbHelper.KEY_LOGIN, str[8])
+
+                            if (str[9] == "")
+                                str[9] = ""
+                            contentValues.put(pdbHelper.KEY_DESC, str[9])
+
+                            if (str[10] == "")
+                                str[10] = "none"
+                            contentValues.put(pdbHelper.KEY_CIPHER, str[9])
+
+                            passDataBase.insert(pdbHelper.TABLE_USERS, null, contentValues)
                         }
                     }
-                    bw.newLine()
-                    for (i in 0 until rowcount) {
-                        c.moveToPosition(i)
-                        for (j in 0 until colcount) {
-                            if (j != colcount - 1) bw.write(c.getString(j) + ",") else bw.write(
-                                    c.getString(j)
-                            )
+                }
+            } catch (e: Exception) { // If the app failed to attempt to retrieve the error file, throw an error alert
+                Toast.makeText(
+                        this,
+                        "Sorry, but there was an error reading in the file",
+                        Toast.LENGTH_SHORT
+                ).show()
+            }
+            toast(getString(R.string.imported))
+        }
+        if (requestCode == 222 && resultCode == RESULT_OK) {
+            try {
+                data?.data?.let {
+                    contentResolver.openOutputStream(it)
+                }?.let {
+                    val c = passDataBase.rawQuery("select * from $login", null)
+                    val rowcount: Int
+                    val colcount: Int
+
+                    val bw = BufferedWriter(OutputStreamWriter(it))
+
+                    //val bw = BufferedWriter(fw)
+                    rowcount = c.count
+                    colcount = c.columnCount
+                    if (rowcount > 0) {
+                        c.moveToFirst()
+                        for (i in 0 until colcount) {
+                            if (i != colcount - 1) {
+                                bw.write(c.getColumnName(i) + ",")
+                            } else {
+                                bw.write(c.getColumnName(i))
+                            }
                         }
                         bw.newLine()
+                        for (i in 0 until rowcount) {
+                            c.moveToPosition(i)
+                            for (j in 0 until colcount) {
+                                if (j != colcount - 1) bw.write(c.getString(j) + ",") else bw.write(
+                                        c.getString(j)
+                                )
+                            }
+                            bw.newLine()
+                        }
+                        bw.flush()
+                        c.close()
+
                     }
-                    bw.flush()
-                    toast(getString(R.string.exported))
                 }
-            } catch (ex: Exception) {
+            } catch (e: Exception) { // If the app failed to attempt to retrieve the error file, throw an error alert
+                Toast.makeText(
+                        this,
+                        "Sorry, but there was an error writing in the file",
+                        Toast.LENGTH_SHORT
+                ).show()
             }
+            toast(getString(R.string.exported))
         }
-    }
 
-    private fun Context.toast(message: String)=
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    private fun getDateTime(): String? {
-        val dateFormat = SimpleDateFormat(
-                "yyyy-MM-dd HH:mm:ss", Locale.getDefault()
-        )
-        val date = Date()
-        return dateFormat.format(date)
-    }
 
-    override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
-        when (keyCode) {
-            KeyEvent.KEYCODE_BACK -> {
-                condition = false
-                val intent = Intent()
-                intent.putExtra("login", login)
-                intent.putExtra("passName", passName)
-                setResult(1, intent)
-                finish()
-            }
-        }
-        return false
     }
 }

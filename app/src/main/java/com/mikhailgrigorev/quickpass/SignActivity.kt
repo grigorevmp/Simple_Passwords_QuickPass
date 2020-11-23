@@ -99,7 +99,7 @@ class SignActivity : AppCompatActivity() {
                     else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account)
                 }
-                accountAvatarText.text = login.get(0).toString()
+                accountAvatarText.text = login[0].toString()
             } while (cursor.moveToNext())
         }
 
