@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.util.TypedValue
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -134,6 +135,7 @@ class DonutActivity : AppCompatActivity(), BillingProcessor.IBillingHandler {
     }
 
     private fun checkIfPurchaseIsValid(purchaseInfo: PurchaseInfo): Boolean {
+        Log.d("Valid", purchaseInfo.purchaseData.orderId)
         return true
     }
 
