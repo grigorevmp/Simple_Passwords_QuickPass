@@ -8,7 +8,6 @@ import android.content.res.Configuration
 import android.database.Cursor
 import android.database.SQLException
 import android.graphics.Point
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.Bundle
@@ -176,7 +175,7 @@ class PassGenActivity : AppCompatActivity() {
             login = newLogin.toString()
 
         // Set greeting
-        val name: String? = getString(R.string.hi) + " " + login
+        val name: String = getString(R.string.hi) + " " + login
         helloTextId.text = name
 
         // Open users database
@@ -288,7 +287,6 @@ class PassGenActivity : AppCompatActivity() {
             ),
                     null, null,
                     null, null, pdbHelper.KEY_NAME
-            #TODO
             )
                 if (pCursor.moveToFirst()) {
                     val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
@@ -704,7 +702,11 @@ class PassGenActivity : AppCompatActivity() {
                                             i,
                                             view
                                     )
-                                })
+                                },
+                                tagsClickListener = {
+                                    tagSearchClicker(it)
+                                }
+                        )
                     }
                     searchNeg -> {
                         positiveCircle.setImageResource(R.drawable.circle_positive)
@@ -745,7 +747,11 @@ class PassGenActivity : AppCompatActivity() {
                                             i,
                                             view
                                     )
-                                })
+                                },
+                                tagsClickListener = {
+                                    tagSearchClicker(it)
+                                }
+                        )
                     }
                     searchMId -> {
                         positiveCircle.setImageResource(R.drawable.circle_positive)
@@ -786,7 +792,11 @@ class PassGenActivity : AppCompatActivity() {
                                             i,
                                             view
                                     )
-                                })
+                                },
+                                tagsClickListener = {
+                                    tagSearchClicker(it)
+                                }
+                        )
                     }
                     searchPassField.text.toString() != "" -> {
                         searchPassField.text = searchPassField.text
@@ -811,7 +821,11 @@ class PassGenActivity : AppCompatActivity() {
                                             i,
                                             view
                                     )
-                                })
+                                },
+                                tagsClickListener = {
+                                    tagSearchClicker(it)
+                                }
+                        )
                     }
                 }
 
@@ -864,7 +878,11 @@ class PassGenActivity : AppCompatActivity() {
                                             i,
                                             view
                                     )
-                                })
+                                },
+                                tagsClickListener = {
+                                    tagSearchClicker(it)
+                                }
+                        )
                     }
                     searchNeg -> {
                         positiveCircle.setImageResource(R.drawable.circle_positive)
@@ -905,7 +923,11 @@ class PassGenActivity : AppCompatActivity() {
                                             i,
                                             view
                                     )
-                                })
+                                },
+                                tagsClickListener = {
+                                    tagSearchClicker(it)
+                                }
+                        )
                     }
                     searchMId -> {
                         positiveCircle.setImageResource(R.drawable.circle_positive)
@@ -946,7 +968,11 @@ class PassGenActivity : AppCompatActivity() {
                                             i,
                                             view
                                     )
-                                })
+                                },
+                                tagsClickListener = {
+                                    tagSearchClicker(it)
+                                }
+                        )
                     }
                     searchPassField.text.toString() != "" -> {
                         searchPassField.text = searchPassField.text
@@ -972,7 +998,11 @@ class PassGenActivity : AppCompatActivity() {
                                             i,
                                             view
                                     )
-                                })
+                                },
+                                tagsClickListener = {
+                                    tagSearchClicker(it)
+                                }
+                        )
                     }
                 }
             }
@@ -995,7 +1025,11 @@ class PassGenActivity : AppCompatActivity() {
                 clickListener = {
                     passClickListener(it)
                 },
-                longClickListener = { i: Int, view: View -> passLongClickListener(i, view) })
+                longClickListener = { i: Int, view: View -> passLongClickListener(i, view) },
+                tagsClickListener = {
+                    tagSearchClicker(it)
+                }
+        )
 
         // Set stat clicker to filter passes by quality
 
@@ -1023,7 +1057,11 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        })
+                        },
+                        tagsClickListener = {
+                            tagSearchClicker(it)
+                        }
+                )
                 searchPos = false
             }
             else{
@@ -1067,7 +1105,11 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        })
+                        },
+                        tagsClickListener = {
+                            tagSearchClicker(it)
+                        }
+                )
                 searchPos = true
             }
         }
@@ -1095,7 +1137,11 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        })
+                        },
+                        tagsClickListener = {
+                            tagSearchClicker(it)
+                        }
+                )
                 searchPos = false
             }
             else{
@@ -1139,7 +1185,11 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        })
+                        },
+                        tagsClickListener = {
+                            tagSearchClicker(it)
+                        }
+                )
                 searchPos = true
             }
         }
@@ -1168,7 +1218,11 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        })
+                        },
+                        tagsClickListener = {
+                            tagSearchClicker(it)
+                        }
+                )
                 searchNeg = false
             }
             else{
@@ -1212,7 +1266,11 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        })
+                        },
+                        tagsClickListener = {
+                            tagSearchClicker(it)
+                        }
+                )
                 searchNeg = true
             }
         }
@@ -1241,7 +1299,11 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        })
+                        },
+                        tagsClickListener = {
+                            tagSearchClicker(it)
+                        }
+                )
                 searchNeg = false
             }
             else{
@@ -1285,7 +1347,11 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        })
+                        },
+                        tagsClickListener = {
+                            tagSearchClicker(it)
+                        }
+                )
                 searchNeg = true
             }
         }
@@ -1314,7 +1380,11 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        })
+                        },
+                        tagsClickListener = {
+                            tagSearchClicker(it)
+                        }
+                )
                 searchMId = false
             }
             else{
@@ -1358,7 +1428,11 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        })
+                        },
+                        tagsClickListener = {
+                            tagSearchClicker(it)
+                        }
+                )
                 searchMId = true
             }
         }
@@ -1387,7 +1461,11 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        })
+                        },
+                        tagsClickListener = {
+                            tagSearchClicker(it)
+                        }
+                )
                 searchMId = false
             }
             else{
@@ -1431,7 +1509,11 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        })
+                        },
+                        tagsClickListener = {
+                            tagSearchClicker(it)
+                        }
+                )
                 searchMId = true
             }
         }
@@ -1448,12 +1530,16 @@ class PassGenActivity : AppCompatActivity() {
                     if (pair.first.toLowerCase(Locale.ROOT).contains(
                                 s.toString().toLowerCase(Locale.ROOT)
                         ) ||
-                        tags[index].toLowerCase(Locale.ROOT).contains(
+                        (tags[index].toLowerCase(Locale.ROOT).contains(
                                 s.toString().toLowerCase(
                                         Locale.ROOT
                                 )
-                        )
-                    ) {
+                        ))
+                        ||
+                        ((pair.second != "0") && ("2fa".toLowerCase(Locale.ROOT).contains(
+                                s.toString().toLowerCase(Locale.ROOT))))
+                    )
+                     {
                         passwords2.add(pair)
                         quality2.add(quality[index])
                         tags2.add(tags[index])
@@ -1482,7 +1568,11 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        })
+                        },
+                        tagsClickListener = {
+                            tagSearchClicker(it)
+                        }
+                )
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -1790,6 +1880,11 @@ class PassGenActivity : AppCompatActivity() {
 
 
     @SuppressLint("ClickableViewAccessibility")
+    private fun tagSearchClicker(name: String) {
+        searchPassField.setText(name)
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     private fun passLongClickListener(position: Int, view: View) {
         view.setOnTouchListener { _, event ->
             xTouch = event.x.toInt()
@@ -1818,7 +1913,7 @@ class PassGenActivity : AppCompatActivity() {
         changeStatusPopUp.isFocusable = true
         val offsetX = -50
         val offsetY = 0
-        changeStatusPopUp.setBackgroundDrawable(BitmapDrawable())
+        changeStatusPopUp.setBackgroundDrawable(null)
         changeStatusPopUp.animationStyle = R.style.popUpAnim
         changeStatusPopUp.showAtLocation(
                 layout,
@@ -2031,7 +2126,11 @@ class PassGenActivity : AppCompatActivity() {
                 clickListener = {
                     passClickListener(it)
                 },
-                longClickListener = { i: Int, _view: View -> passLongClickListener(i, _view) })
+                longClickListener = { i: Int, _view: View -> passLongClickListener(i, _view) },
+                tagsClickListener = {
+                    tagSearchClicker(it)
+                }
+        )
 
         changeStatusPopUp.dismiss()
     }
@@ -2249,7 +2348,11 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        })
+                        },
+                        tagsClickListener = {
+                            tagSearchClicker(it)
+                        }
+                )
             }
 
             builder.setNegativeButton(getString(R.string.no)){ _, _ ->

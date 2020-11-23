@@ -22,7 +22,8 @@ class PasswordAdapter(private val items: ArrayList<Pair<String, String>>,
                       private val sorting: String?,
                       val context: Context,
                       val clickListener: (Int) -> Unit,
-                      val longClickListener: (Int, View) -> Unit
+                      val longClickListener: (Int, View) -> Unit,
+                      val tagsClickListener: (String) -> Unit,
 ): RecyclerView.Adapter<ViewHolder>()
 {
 
@@ -48,6 +49,9 @@ class PasswordAdapter(private val items: ArrayList<Pair<String, String>>,
             chip.text= "2FA"
             chip.isClickable = false
             chip.textSize = 12F
+            chip.setOnClickListener {
+                tagsClickListener("2FA")
+            }
             holder.group.addView(chip)
         }
         if(desc[position]!="")
@@ -62,6 +66,9 @@ class PasswordAdapter(private val items: ArrayList<Pair<String, String>>,
                 chip.text= item
                 chip.isClickable = true
                 chip.textSize = 12F
+                chip.setOnClickListener {
+                    tagsClickListener(item)
+                }
                 holder.group.addView(chip)
             }
         when {
