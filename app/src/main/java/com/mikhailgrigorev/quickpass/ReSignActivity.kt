@@ -59,8 +59,8 @@ class ReSignActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sign)
 
         val args: Bundle? = intent.extras
-        val login: String? = args?.get("login").toString()
-        val name: String? = getString(R.string.hi) + " " + login
+        val login: String = args?.get("login").toString()
+        val name: String = getString(R.string.hi) + " " + login
         helloTextId.text = name
 
         val dbHelper = DataBaseHelper(this)
@@ -99,7 +99,7 @@ class ReSignActivity : AppCompatActivity() {
                     else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account)
                 }
-                accountAvatarText.text = login?.get(0).toString()
+                accountAvatarText.text = login.get(0).toString()
             } while (cursor.moveToNext())
         }
 
@@ -147,7 +147,7 @@ class ReSignActivity : AppCompatActivity() {
         // Fab handler
         loginFab.setOnClickListener {
             if (validate(inputPasswordIdField.text.toString()))
-                    signIn(login.toString(), inputPasswordIdField.text.toString())
+                    signIn(login, inputPasswordIdField.text.toString())
 
         }
 
@@ -187,14 +187,12 @@ class ReSignActivity : AppCompatActivity() {
             null, null, null
         )
 
-        var dbLogin: String
         var dbPassword: String
 
         if (cursor.moveToFirst()) {
-            val nameIndex: Int = cursor.getColumnIndex(dbHelper.KEY_NAME)
+            cursor.getColumnIndex(dbHelper.KEY_NAME)
             val passIndex: Int = cursor.getColumnIndex(dbHelper.KEY_PASS)
             do {
-                dbLogin = cursor.getString(nameIndex).toString()
                 dbPassword = cursor.getString(passIndex).toString()
                 if(dbPassword != password){
                     inputPasswordId.error = getString(R.string.wrong_pass)

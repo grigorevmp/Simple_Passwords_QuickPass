@@ -14,11 +14,9 @@ import com.anjlab.android.iab.v3.PurchaseInfo
 import com.anjlab.android.iab.v3.TransactionDetails
 import kotlinx.android.synthetic.main.activity_donut.*
 
-lateinit var mBillingProcessor: BillingProcessor
-
-private val _preferenceFile = "quickPassPreference"
+private const val _preferenceFile = "quickPassPreference"
 var condition = true
-private val _keyTheme = "themePreference"
+private const val _keyTheme = "themePreference"
 
 class DonutActivity : AppCompatActivity(), BillingProcessor.IBillingHandler {
     @SuppressLint("SetTextI18n")

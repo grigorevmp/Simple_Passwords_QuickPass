@@ -21,9 +21,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
-import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.activity_new_password.*
-import kotlinx.android.synthetic.main.activity_new_password.back
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.random.Random
@@ -143,7 +141,7 @@ class NewPasswordActivity : AppCompatActivity() {
         }
 
         val list = mutableListOf<String>()
-        val pass: String? = args?.get("pass").toString()
+        val pass: String = args?.get("pass").toString()
         genPasswordIdField.setText(pass)
         if(pass!="") {
             val myPasswordManager = PasswordManager()

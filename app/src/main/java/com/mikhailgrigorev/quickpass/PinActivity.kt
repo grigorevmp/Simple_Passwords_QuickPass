@@ -73,7 +73,7 @@ class PinActivity : AppCompatActivity() {
         login = args?.get("login").toString()
         passName = args?.get("passName").toString()
         account = args?.get("activity").toString()
-        val name: String? = getString(R.string.hi) + " " + login
+        val name: String = getString(R.string.hi) + " " + login
         helloTextId.text = name
 
 

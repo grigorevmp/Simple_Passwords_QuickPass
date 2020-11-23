@@ -11,19 +11,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.pass_fragment.view.*
 
-class PasswordAdapter(private val items: ArrayList<Pair<String, String>>,
-                      private val quality: ArrayList<String>,
-                      private val tags: ArrayList<String>,
-                      private val group: ArrayList<String>,
-                      private val desc: ArrayList<String>,
-                      private val useAnalyze: String?,
-                      private val cardRadius: String?,
-                      private val metrics: DisplayMetrics?,
-                      private val sorting: String?,
-                      val context: Context,
-                      val clickListener: (Int) -> Unit,
-                      val longClickListener: (Int, View) -> Unit,
-                      val tagsClickListener: (String) -> Unit,
+class PasswordAdapter(
+    private val items: ArrayList<Pair<String, String>>,
+    private val quality: ArrayList<String>,
+    private val tags: ArrayList<String>,
+    private val group: ArrayList<String>,
+    private val desc: ArrayList<String>,
+    private val useAnalyze: String?,
+    private val cardRadius: String?,
+    private val metrics: DisplayMetrics?,
+    val context: Context,
+    val clickListener: (Int) -> Unit,
+    val longClickListener: (Int, View) -> Unit,
+    val tagsClickListener: (String) -> Unit,
 ): RecyclerView.Adapter<ViewHolder>()
 {
 

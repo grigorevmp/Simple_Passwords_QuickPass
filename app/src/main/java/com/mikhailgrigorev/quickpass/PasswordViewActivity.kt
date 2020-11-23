@@ -18,9 +18,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
-import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.activity_password_view.*
-import kotlinx.android.synthetic.main.activity_password_view.back
 
 class PasswordViewActivity : AppCompatActivity() {
 
@@ -31,7 +29,7 @@ class PasswordViewActivity : AppCompatActivity() {
     private lateinit var login: String
     private lateinit var passName: String
     private lateinit var from: String
-    var condition = true
+    private var condition = true
 
     @SuppressLint("Recycle", "SetTextI18n", "UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {

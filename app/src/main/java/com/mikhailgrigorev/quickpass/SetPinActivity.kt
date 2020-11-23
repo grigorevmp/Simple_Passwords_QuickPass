@@ -65,7 +65,7 @@ class SetPinActivity : AppCompatActivity() {
         login = args?.get("login").toString()
         passName = args?.get("passName").toString()
         account = args?.get("activity").toString()
-        val name: String? = getString(R.string.hi) + " " + login
+        val name: String = getString(R.string.hi) + " " + login
         helloTextId.text = name
 
 
@@ -172,8 +172,8 @@ class SetPinActivity : AppCompatActivity() {
         })
 
         savePin.setOnClickListener {
-            val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-            with (sharedPref.edit()) {
+            val sharedPref2 = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+            with (sharedPref2.edit()) {
                 putString(_keyUsePin, inputPinIdField.text.toString())
                 commit()
             }

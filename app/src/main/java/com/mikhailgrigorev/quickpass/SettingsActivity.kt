@@ -44,7 +44,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var login: String
     private lateinit var passName: String
     private lateinit var imageName: String
-    var condition = true
+    private var condition = true
     @SuppressLint("SetTextI18n", "Recycle", "RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -86,7 +86,7 @@ class SettingsActivity : AppCompatActivity() {
                 handler.postDelayed(r, time * lockTime2.toLong())
         }
         else
-            handler.postDelayed(r, time*6L)
+            handler.postDelayed(r, time * 6L)
 
         when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_NO ->
@@ -164,10 +164,26 @@ class SettingsActivity : AppCompatActivity() {
         val cardRadius = sharedPref.getString("cardRadius", "none")
         if(cardRadius != null)
             if(cardRadius != "none") {
-                info_card.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
-                themeSettings.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
-                warn_Card.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
-                exportCrad.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                info_card.radius = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        cardRadius.toFloat(),
+                        resources.displayMetrics
+                )
+                themeSettings.radius = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        cardRadius.toFloat(),
+                        resources.displayMetrics
+                )
+                warn_Card.radius = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        cardRadius.toFloat(),
+                        resources.displayMetrics
+                )
+                exportCrad.radius = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        cardRadius.toFloat(),
+                        resources.displayMetrics
+                )
             }
 
 
@@ -299,7 +315,6 @@ class SettingsActivity : AppCompatActivity() {
                 val dialog =  AlertDialog.Builder(this, R.style.AlertDialogCustom)
                         .setTitle(getString(R.string.newMail))
                         .setMessage(getString(R.string.mail_description))
-                        .setView(inputEditTextField, 100, 100, 100, 100)
                         .setPositiveButton(getString(R.string.saveButton)){ _, _ ->
                             newMail = inputEditTextField.text.toString()
                             val contentValues = ContentValues()
@@ -312,8 +327,12 @@ class SettingsActivity : AppCompatActivity() {
                             mailSet = true
                             userMailSwitch.isChecked = true
                         }
-                        .setNegativeButton(getString(R.string.closeButton), null)
+                        .setNegativeButton(getString(R.string.closeButton)){_, _ ->
+                            userMailSwitch.isChecked = false
+                        }
+                        .setCancelable(false)
                         .create()
+                dialog.setView(inputEditTextField, 50, 50, 50, 50)
                 dialog.show()
             }
         }
@@ -332,16 +351,14 @@ class SettingsActivity : AppCompatActivity() {
                 )
             }
             else if (!mailSet){
+                userMailSwitch.isChecked = false
                 var newMail: String
                 val inputEditTextField =  EditText(this)
                 inputEditTextField.setSingleLine()
-
-
-
                 val dialog =  AlertDialog.Builder(this, R.style.AlertDialogCustom)
                         .setTitle(getString(R.string.newMail))
                         .setMessage(getString(R.string.mail_description))
-                        .setView(inputEditTextField, 100, 100, 100, 100)
+                        //.setView(inputEditTextField, 100, 100, 100, 100)
                         .setPositiveButton(getString(R.string.saveButton)){ _, _ ->
                             newMail = inputEditTextField.text.toString()
                             val contentValues = ContentValues()
@@ -354,8 +371,11 @@ class SettingsActivity : AppCompatActivity() {
                             mailSet = true
                             userMailSwitch.isChecked = true
                         }
-                        .setNegativeButton(getString(R.string.closeButton), null)
+                        .setNegativeButton(getString(R.string.closeButton)){_, _ ->
+                            userMailSwitch.isChecked = false
+                        }
                         .create()
+                dialog.setView(inputEditTextField, 50, 50, 50, 50)
                 dialog.show()
 
             }
@@ -435,7 +455,7 @@ class SettingsActivity : AppCompatActivity() {
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                 // Display the current progress of SeekBar
                 appLockTime.text = i.toString() + "m"
-                if (i == 0){
+                if (i == 0) {
                     appLockTime.text = getString(R.string.dontlock)
                 }
                 with(sharedPref.edit()) {
@@ -458,10 +478,26 @@ class SettingsActivity : AppCompatActivity() {
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                 // Display the current progress of SeekBar
                 cardRadiusVal.text = i.toString()
-                info_card.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, i.toFloat(), resources.displayMetrics)
-                themeSettings.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, i.toFloat(), resources.displayMetrics)
-                warn_Card.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, i.toFloat(), resources.displayMetrics)
-                exportCrad.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, i.toFloat(), resources.displayMetrics)
+                info_card.radius = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        i.toFloat(),
+                        resources.displayMetrics
+                )
+                themeSettings.radius = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        i.toFloat(),
+                        resources.displayMetrics
+                )
+                warn_Card.radius = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        i.toFloat(),
+                        resources.displayMetrics
+                )
+                exportCrad.radius = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        i.toFloat(),
+                        resources.displayMetrics
+                )
                 with(sharedPref.edit()) {
                     putString("cardRadius", i.toString())
                     commit()
@@ -1296,7 +1332,7 @@ class SettingsActivity : AppCompatActivity() {
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
-                condition=false
+                condition = false
                 val intent = Intent()
                 intent.putExtra("login", login)
                 intent.putExtra("passName", passName)

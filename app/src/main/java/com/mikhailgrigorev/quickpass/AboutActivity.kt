@@ -18,7 +18,7 @@ class AboutActivity : AppCompatActivity() {
     private val _keyTHEME = "themePreference"
     private val _preferenceFile = "quickPassPreference"
 
-    var condition = true
+    private var condition = true
     override fun onCreate(savedInstanceState: Bundle?) {
 
         // Set Theme

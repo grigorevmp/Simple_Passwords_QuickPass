@@ -36,7 +36,7 @@ class AccountActivity : AppCompatActivity() {
     private val realQuality: ArrayList<String> = ArrayList()
     private val realMap: MutableMap<String, ArrayList<String>> = mutableMapOf()
 
-    var condition = true
+    private var condition = true
 
     @SuppressLint("Recycle", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -132,7 +132,7 @@ class AccountActivity : AppCompatActivity() {
         passName = args?.get("passName").toString()
 
         // Set greeting
-        val name: String? = getString(R.string.hi) + " " + login
+        val name: String = getString(R.string.hi) + " " + login
         helloTextId.text = name
 
         // Checking prefs

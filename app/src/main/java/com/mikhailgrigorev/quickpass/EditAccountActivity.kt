@@ -74,7 +74,7 @@ class EditAccountActivity : AppCompatActivity() {
         val args: Bundle? = intent.extras
         login = args?.get("login").toString()
         passName = args?.get("passName").toString()
-        val name: String? = getString(R.string.hi) + " " + login
+        val name: String = getString(R.string.hi) + " " + login
         helloTextId.text = name
         nameViewField.setText(login)
 

@@ -59,8 +59,8 @@ class SignActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sign)
 
         val args: Bundle? = intent.extras
-        val login: String? = args?.get("login").toString()
-        val name: String? = getString(R.string.hi) + " " + login
+        val login: String = args?.get("login").toString()
+        val name: String = getString(R.string.hi) + " " + login
         helloTextId.text = name
 
         val dbHelper = DataBaseHelper(this)
@@ -99,7 +99,7 @@ class SignActivity : AppCompatActivity() {
                     else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account)
                 }
-                accountAvatarText.text = login?.get(0).toString()
+                accountAvatarText.text = login.get(0).toString()
             } while (cursor.moveToNext())
         }
 
@@ -150,7 +150,7 @@ class SignActivity : AppCompatActivity() {
         // Fab handler
         loginFab.setOnClickListener {
             if (validate(inputPasswordIdField.text.toString()))
-                    signIn(login.toString(), inputPasswordIdField.text.toString())
+                    signIn(login, inputPasswordIdField.text.toString())
 
         }
 

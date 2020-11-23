@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.KeyEvent
@@ -692,7 +693,6 @@ class PassGenActivity : AppCompatActivity() {
                                 useAnalyze,
                                 cardRadius,
                                 resources.displayMetrics,
-                                sorting,
                                 this@PassGenActivity,
                                 clickListener = {
                                     passClickListener(it)
@@ -702,11 +702,10 @@ class PassGenActivity : AppCompatActivity() {
                                             i,
                                             view
                                     )
-                                },
-                                tagsClickListener = {
-                                    tagSearchClicker(it)
                                 }
-                        )
+                        ) {
+                            tagSearchClicker(it)
+                        }
                     }
                     searchNeg -> {
                         positiveCircle.setImageResource(R.drawable.circle_positive)
@@ -737,7 +736,6 @@ class PassGenActivity : AppCompatActivity() {
                                 useAnalyze,
                                 cardRadius,
                                 resources.displayMetrics,
-                                sorting,
                                 this@PassGenActivity,
                                 clickListener = {
                                     passClickListener(it)
@@ -747,11 +745,10 @@ class PassGenActivity : AppCompatActivity() {
                                             i,
                                             view
                                     )
-                                },
-                                tagsClickListener = {
-                                    tagSearchClicker(it)
                                 }
-                        )
+                        ) {
+                            tagSearchClicker(it)
+                        }
                     }
                     searchMId -> {
                         positiveCircle.setImageResource(R.drawable.circle_positive)
@@ -782,7 +779,6 @@ class PassGenActivity : AppCompatActivity() {
                                 useAnalyze,
                                 cardRadius,
                                 resources.displayMetrics,
-                                sorting,
                                 this@PassGenActivity,
                                 clickListener = {
                                     passClickListener(it)
@@ -792,11 +788,10 @@ class PassGenActivity : AppCompatActivity() {
                                             i,
                                             view
                                     )
-                                },
-                                tagsClickListener = {
-                                    tagSearchClicker(it)
                                 }
-                        )
+                        ) {
+                            tagSearchClicker(it)
+                        }
                     }
                     searchPassField.text.toString() != "" -> {
                         searchPassField.text = searchPassField.text
@@ -811,7 +806,6 @@ class PassGenActivity : AppCompatActivity() {
                                 useAnalyze,
                                 cardRadius,
                                 resources.displayMetrics,
-                                sorting,
                                 this,
                                 clickListener = {
                                     passClickListener(it)
@@ -821,11 +815,10 @@ class PassGenActivity : AppCompatActivity() {
                                             i,
                                             view
                                     )
-                                },
-                                tagsClickListener = {
-                                    tagSearchClicker(it)
                                 }
-                        )
+                        ) {
+                            tagSearchClicker(it)
+                        }
                     }
                 }
 
@@ -868,7 +861,6 @@ class PassGenActivity : AppCompatActivity() {
                                 useAnalyze,
                                 cardRadius,
                                 resources.displayMetrics,
-                                sorting,
                                 this@PassGenActivity,
                                 clickListener = {
                                     passClickListener(it)
@@ -878,11 +870,10 @@ class PassGenActivity : AppCompatActivity() {
                                             i,
                                             view
                                     )
-                                },
-                                tagsClickListener = {
-                                    tagSearchClicker(it)
                                 }
-                        )
+                        ) {
+                            tagSearchClicker(it)
+                        }
                     }
                     searchNeg -> {
                         positiveCircle.setImageResource(R.drawable.circle_positive)
@@ -913,7 +904,6 @@ class PassGenActivity : AppCompatActivity() {
                                 useAnalyze,
                                 cardRadius,
                                 resources.displayMetrics,
-                                sorting,
                                 this@PassGenActivity,
                                 clickListener = {
                                     passClickListener(it)
@@ -923,11 +913,10 @@ class PassGenActivity : AppCompatActivity() {
                                             i,
                                             view
                                     )
-                                },
-                                tagsClickListener = {
-                                    tagSearchClicker(it)
                                 }
-                        )
+                        ) {
+                            tagSearchClicker(it)
+                        }
                     }
                     searchMId -> {
                         positiveCircle.setImageResource(R.drawable.circle_positive)
@@ -958,7 +947,6 @@ class PassGenActivity : AppCompatActivity() {
                                 useAnalyze,
                                 cardRadius,
                                 resources.displayMetrics,
-                                sorting,
                                 this@PassGenActivity,
                                 clickListener = {
                                     passClickListener(it)
@@ -968,11 +956,10 @@ class PassGenActivity : AppCompatActivity() {
                                             i,
                                             view
                                     )
-                                },
-                                tagsClickListener = {
-                                    tagSearchClicker(it)
                                 }
-                        )
+                        ) {
+                            tagSearchClicker(it)
+                        }
                     }
                     searchPassField.text.toString() != "" -> {
                         searchPassField.text = searchPassField.text
@@ -988,7 +975,6 @@ class PassGenActivity : AppCompatActivity() {
                                 useAnalyze,
                                 cardRadius,
                                 resources.displayMetrics,
-                                sorting,
                                 this,
                                 clickListener = {
                                     passClickListener(it)
@@ -998,11 +984,10 @@ class PassGenActivity : AppCompatActivity() {
                                             i,
                                             view
                                     )
-                                },
-                                tagsClickListener = {
-                                    tagSearchClicker(it)
                                 }
-                        )
+                        ) {
+                            tagSearchClicker(it)
+                        }
                     }
                 }
             }
@@ -1020,16 +1005,14 @@ class PassGenActivity : AppCompatActivity() {
                 useAnalyze,
                 cardRadius,
                 resources.displayMetrics,
-                sorting,
                 this,
                 clickListener = {
                     passClickListener(it)
                 },
-                longClickListener = { i: Int, view: View -> passLongClickListener(i, view) },
-                tagsClickListener = {
-                    tagSearchClicker(it)
-                }
-        )
+                longClickListener = { i: Int, view: View -> passLongClickListener(i, view) }
+        ) {
+            tagSearchClicker(it)
+        }
 
         // Set stat clicker to filter passes by quality
 
@@ -1047,7 +1030,6 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
-                        sorting,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -1057,11 +1039,10 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        },
-                        tagsClickListener = {
-                            tagSearchClicker(it)
                         }
-                )
+                ) {
+                    tagSearchClicker(it)
+                }
                 searchPos = false
             }
             else{
@@ -1095,7 +1076,6 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
-                        sorting,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -1105,11 +1085,10 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        },
-                        tagsClickListener = {
-                            tagSearchClicker(it)
                         }
-                )
+                ) {
+                    tagSearchClicker(it)
+                }
                 searchPos = true
             }
         }
@@ -1127,7 +1106,6 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
-                        sorting,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -1137,11 +1115,10 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        },
-                        tagsClickListener = {
-                            tagSearchClicker(it)
                         }
-                )
+                ) {
+                    tagSearchClicker(it)
+                }
                 searchPos = false
             }
             else{
@@ -1175,7 +1152,6 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
-                        sorting,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -1185,11 +1161,10 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        },
-                        tagsClickListener = {
-                            tagSearchClicker(it)
                         }
-                )
+                ) {
+                    tagSearchClicker(it)
+                }
                 searchPos = true
             }
         }
@@ -1208,7 +1183,6 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
-                        sorting,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -1218,11 +1192,10 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        },
-                        tagsClickListener = {
-                            tagSearchClicker(it)
                         }
-                )
+                ) {
+                    tagSearchClicker(it)
+                }
                 searchNeg = false
             }
             else{
@@ -1256,7 +1229,6 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
-                        sorting,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -1266,11 +1238,10 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        },
-                        tagsClickListener = {
-                            tagSearchClicker(it)
                         }
-                )
+                ) {
+                    tagSearchClicker(it)
+                }
                 searchNeg = true
             }
         }
@@ -1289,7 +1260,6 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
-                        sorting,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -1299,11 +1269,10 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        },
-                        tagsClickListener = {
-                            tagSearchClicker(it)
                         }
-                )
+                ) {
+                    tagSearchClicker(it)
+                }
                 searchNeg = false
             }
             else{
@@ -1337,7 +1306,6 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
-                        sorting,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -1347,11 +1315,10 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        },
-                        tagsClickListener = {
-                            tagSearchClicker(it)
                         }
-                )
+                ) {
+                    tagSearchClicker(it)
+                }
                 searchNeg = true
             }
         }
@@ -1370,7 +1337,6 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
-                        sorting,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -1380,11 +1346,10 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        },
-                        tagsClickListener = {
-                            tagSearchClicker(it)
                         }
-                )
+                ) {
+                    tagSearchClicker(it)
+                }
                 searchMId = false
             }
             else{
@@ -1418,7 +1383,6 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
-                        sorting,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -1428,11 +1392,10 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        },
-                        tagsClickListener = {
-                            tagSearchClicker(it)
                         }
-                )
+                ) {
+                    tagSearchClicker(it)
+                }
                 searchMId = true
             }
         }
@@ -1451,7 +1414,6 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
-                        sorting,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -1461,11 +1423,10 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        },
-                        tagsClickListener = {
-                            tagSearchClicker(it)
                         }
-                )
+                ) {
+                    tagSearchClicker(it)
+                }
                 searchMId = false
             }
             else{
@@ -1499,7 +1460,6 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
-                        sorting,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -1509,11 +1469,10 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        },
-                        tagsClickListener = {
-                            tagSearchClicker(it)
                         }
-                )
+                ) {
+                    tagSearchClicker(it)
+                }
                 searchMId = true
             }
         }
@@ -1558,7 +1517,6 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
-                        sorting,
                         this@PassGenActivity,
                         clickListener = {
                             passClickListener(it)
@@ -1568,11 +1526,10 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        },
-                        tagsClickListener = {
-                            tagSearchClicker(it)
                         }
-                )
+                ) {
+                    tagSearchClicker(it)
+                }
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -1960,6 +1917,7 @@ class PassGenActivity : AppCompatActivity() {
 
     @SuppressLint("Recycle")
     fun favorite(view: View) {
+        Log.d("favorite", view.id.toString())
         val position = globalPos
         val pdbHelper = PasswordsDataBaseHelper(this, login)
         val pDatabase = pdbHelper.writableDatabase
@@ -1997,7 +1955,6 @@ class PassGenActivity : AppCompatActivity() {
             if (pCursor.moveToFirst()) {
                 val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
                 val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
-                val cIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_CIPHER)
                 do {
                     val pass = pCursor.getString(passIndex).toString()
                     val login = pCursor.getString(nameIndex).toString()
@@ -2121,21 +2078,20 @@ class PassGenActivity : AppCompatActivity() {
                 useAnalyze,
                 cardRadius,
                 resources.displayMetrics,
-                sorting,
                 this,
                 clickListener = {
                     passClickListener(it)
                 },
-                longClickListener = { i: Int, _view: View -> passLongClickListener(i, _view) },
-                tagsClickListener = {
-                    tagSearchClicker(it)
-                }
-        )
+                longClickListener = { i: Int, _view: View -> passLongClickListener(i, _view) }
+        ) {
+            tagSearchClicker(it)
+        }
 
         changeStatusPopUp.dismiss()
     }
     @SuppressLint("Recycle")
     fun delete(view: View) {
+        Log.d("deleted", view.id.toString())
         val position = globalPos
         val pdbHelper = PasswordsDataBaseHelper(this, login)
             val pDatabase = pdbHelper.writableDatabase
@@ -2177,7 +2133,6 @@ class PassGenActivity : AppCompatActivity() {
                     if (pCursor.moveToFirst()) {
                         val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
                         val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
-                        val cIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_CIPHER)
                         do {
                             val pass = pCursor.getString(passIndex).toString()
                             val login = pCursor.getString(nameIndex).toString()
@@ -2338,7 +2293,6 @@ class PassGenActivity : AppCompatActivity() {
                         useAnalyze,
                         cardRadius,
                         resources.displayMetrics,
-                        sorting,
                         this,
                         clickListener = {
                             passClickListener(it)
@@ -2348,11 +2302,10 @@ class PassGenActivity : AppCompatActivity() {
                                     i,
                                     view
                             )
-                        },
-                        tagsClickListener = {
-                            tagSearchClicker(it)
                         }
-                )
+                ) {
+                    tagSearchClicker(it)
+                }
             }
 
             builder.setNegativeButton(getString(R.string.no)){ _, _ ->
