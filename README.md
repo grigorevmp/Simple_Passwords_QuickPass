@@ -19,6 +19,7 @@ Powerful password manager with autofill framework
 - Database encryption
 - Support for themes
 - Export / Import of data
+- Sorting
 
 ##
 The program complies with the latest Material design guidelines
