@@ -337,8 +337,22 @@ class PassGenActivity : AppCompatActivity() {
                         }
                             j++
 
-                            if((pCursor.getString(groupIndex) != null) &&
-                                (pCursor.getString(groupIndex).contains("favorite"))) {
+                        var groupNone = false
+                        var groupFavorite = false
+                        if (pCursor.getString(groupIndex) == null)
+                            groupNone = true
+                        if (!groupNone)
+                            if (pCursor.getString(groupIndex) == "null")
+                                    groupNone = true
+                        if (!groupNone)
+                            if (pCursor.getString(groupIndex) == "none")
+                                groupNone = true
+                        if(!groupNone){
+                            if(pCursor.getString(groupIndex).contains("favorite"))
+                                groupFavorite = true
+                        }
+
+                        if(groupFavorite) {
                                     Log.d("favorite - ", pCursor.getString(groupIndex))
                                 dbLogin = pCursor.getString(nameIndex).toString()
                                 val fa = pCursor.getString(aIndex).toString()
@@ -2468,9 +2482,22 @@ class PassGenActivity : AppCompatActivity() {
                             "2"
                     }
                     j++
-                    if((pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(
-                                groupIndex
-                        ) == "null")and !(pCursor.getString(groupIndex).contains("favorite"))) {
+                    var groupNone = false
+                    var groupFavorite = false
+                    if (pCursor.getString(groupIndex) == null)
+                        groupNone = true
+                    if (!groupNone)
+                        if (pCursor.getString(groupIndex) == "null")
+                            groupNone = true
+                    if (!groupNone)
+                        if (pCursor.getString(groupIndex) == "none")
+                            groupNone = true
+                    if(!groupNone){
+                        if(pCursor.getString(groupIndex).contains("favorite"))
+                            groupFavorite = true
+                    }
+
+                    if(!groupFavorite) {
                         val dbLogin = pCursor.getString(nameIndex).toString()
                         val fa = pCursor.getString(aIndex).toString()
                         passwords.add(Pair(dbLogin, fa))
@@ -2710,20 +2737,22 @@ class PassGenActivity : AppCompatActivity() {
                                     "2"
                             }
                             j++
-                            if((pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(
-                                        groupIndex
-                                ) == "null")and !(pCursor.getString(groupIndex).contains("favorite"))) {
-                                val dbLogin = pCursor.getString(nameIndex).toString()
-                                val fa = pCursor.getString(aIndex).toString()
-                                passwords.add(Pair(dbLogin, fa))
-                                quality.add(qualityNum)
-                                val dbTag = pCursor.getString(tagsIndex).toString()
-                                tags.add(dbTag)
-                                group.add("none")
-                                desc.add(dbdescIndex)
-                                dates.add(pCursor.getString(timeIndex).toString())
+                            var groupNone = false
+                            var groupFavorite = false
+                            if (pCursor.getString(groupIndex) == null)
+                                groupNone = true
+                            if (!groupNone)
+                                if (pCursor.getString(groupIndex) == "null")
+                                    groupNone = true
+                            if (!groupNone)
+                                if (pCursor.getString(groupIndex) == "none")
+                                    groupNone = true
+                            if(!groupNone){
+                                if(pCursor.getString(groupIndex).contains("favorite"))
+                                    groupFavorite = true
                             }
-                            else {
+
+                            if(groupFavorite) {
                                 val dbLogin = pCursor.getString(nameIndex).toString()
                                 val fa = pCursor.getString(aIndex).toString()
                                 passwords.add(0, Pair(dbLogin, fa))
@@ -2733,6 +2762,17 @@ class PassGenActivity : AppCompatActivity() {
                                 group.add(0, "#favorite")
                                 desc.add(0, dbdescIndex)
                                 dates.add(0, pCursor.getString(timeIndex).toString())
+                            }
+                            else {
+                                val dbLogin = pCursor.getString(nameIndex).toString()
+                                val fa = pCursor.getString(aIndex).toString()
+                                passwords.add(Pair(dbLogin, fa))
+                                quality.add(qualityNum)
+                                val dbTag = pCursor.getString(tagsIndex).toString()
+                                tags.add(dbTag)
+                                group.add("none")
+                                desc.add(dbdescIndex)
+                                dates.add(pCursor.getString(timeIndex).toString())
                             }
 
 

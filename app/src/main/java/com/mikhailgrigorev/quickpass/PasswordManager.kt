@@ -127,19 +127,22 @@ class PasswordManager {
 
     fun popularPin(passwordToTest: String) : Boolean {
         var popular = false
+        if (passwordToTest.length == 4) {
 
-        if(((abs(passwordToTest[0].toInt() - passwordToTest[1].toInt()) < 2 )
-            and (abs(passwordToTest[1].toInt() - passwordToTest[2].toInt()) < 2))
-            or
-            ((abs(passwordToTest[1].toInt() - passwordToTest[2].toInt()) < 2 )
-            and (abs(passwordToTest[2].toInt() - passwordToTest [3].toInt()) < 2 ))
-            or
-            ((abs(passwordToTest[0].toInt() - passwordToTest[3].toInt()) < 2 )
-            and (abs(passwordToTest[2].toInt() - passwordToTest [3].toInt()) < 2 ))
-            or
-            ((abs(passwordToTest[0].toInt() - passwordToTest[1].toInt()) < 2 )
-            and (abs(passwordToTest[1].toInt() - passwordToTest [3].toInt()) < 2 )))
-            popular = true
+            if (((abs(passwordToTest[0].toInt() - passwordToTest[1].toInt()) < 2)
+                        and (abs(passwordToTest[1].toInt() - passwordToTest[2].toInt()) < 2))
+                or
+                ((abs(passwordToTest[1].toInt() - passwordToTest[2].toInt()) < 2)
+                        and (abs(passwordToTest[2].toInt() - passwordToTest[3].toInt()) < 2))
+                or
+                ((abs(passwordToTest[0].toInt() - passwordToTest[3].toInt()) < 2)
+                        and (abs(passwordToTest[2].toInt() - passwordToTest[3].toInt()) < 2))
+                or
+                ((abs(passwordToTest[0].toInt() - passwordToTest[1].toInt()) < 2)
+                        and (abs(passwordToTest[1].toInt() - passwordToTest[3].toInt()) < 2))
+            )
+                popular = true
+        }
 
         return popular
     }

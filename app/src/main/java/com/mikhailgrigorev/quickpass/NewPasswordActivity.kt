@@ -420,7 +420,7 @@ class NewPasswordActivity : AppCompatActivity() {
             } else if (login2 != null) {
                 if (login2.isEmpty() || login2.length < 2) {
                     newName.error = getString(R.string.errNumOfText)
-                } else if (genPasswordIdField.text.toString() == "" || genPasswordIdField.text.toString().length < 3) {
+                } else if (genPasswordIdField.text.toString() == "" || genPasswordIdField.text.toString().length < 4) {
                     genPasswordId.error = getString(R.string.errPass)
                 } else {
                     contentValues.put(pdbHelper.KEY_ID, Random.nextInt(0, 10000))

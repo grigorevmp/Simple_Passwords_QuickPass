@@ -32,9 +32,19 @@ class PasswordAdapter(
         return items.size
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
     // Inflates the item views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.pass_fragment, parent, false))
+        return ViewHolder(
+                LayoutInflater.from(context).inflate(
+                        R.layout.pass_fragment,
+                        parent,
+                        false
+                )
+        )
     }
 
     // Binds each animal in the ArrayList to a view
@@ -114,12 +124,16 @@ class PasswordAdapter(
 
         if(cardRadius != null)
             if(cardRadius != "none") {
-                holder.clickableView.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), metrics)
+                holder.clickableView.radius = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        cardRadius.toFloat(),
+                        metrics
+                )
             }
     }
 }
 
-class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
+class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val passText = view.list_title!!
     val passDesc = view.list_desc!!
     val chip = view.chip!!
