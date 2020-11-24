@@ -80,9 +80,22 @@
                     android:visibility="visible" />
             </com.google.android.material.textfield.TextInputLayout>
 
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="20dp"
+    android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/sortOrder"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/menu_up_outline"
+                app:tint="@color/black"
+                android:contentDescription="@string/up" />
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/sorting"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
                 android:layout_width="match_parent"
@@ -94,7 +107,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/a_z"/>
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/dateSort"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/date"/>
             </com.google.android.material.chip.ChipGroup>
+</LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/passwordRecycler"
@@ -105,7 +125,6 @@
                 android:scrollbars="vertical" />
 
         </LinearLayout>
-
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

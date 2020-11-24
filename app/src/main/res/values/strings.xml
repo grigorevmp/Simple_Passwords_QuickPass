@@ -144,7 +144,6 @@
     <string name="warning">Warning!</string>
     <string name="latest_updates_on_my_github_page">Latest updates on my GitHub page</string>
     <string name="about_desc">Powerful password manager with friendly UI, secured system, cool password generator and it\'s own auto-fill framework</string>
-    <string name="up" translatable="false">Up</string>
     <string name="newPassRule">Password creation rules</string>
     <string name="newPassRule1">1. A strong password must be more than 12 characters long and contain three sets of characters: LARGE and small letters, numbers (1,2,3…), special characters (./-…)</string>
     <string name="newPassRule2">2. Do not use publicly available information: parts of the name, phone numbers, dates important to you</string>
@@ -196,4 +195,6 @@
     <string name="password_analyze">Hide password analyze</string>
     <string name="card_corners_radius">Card corners radius</string>
     <string name="a_z">A-Z</string>
+    <string name="up">Up</string>
+    <string name="date">Date</string>
 </resources>

@@ -182,4 +182,6 @@
     <string name="password_analyze">Скрыть анализ пароля</string>
     <string name="card_corners_radius">Радиус углов карточки</string>
     <string name="a_z">A-Z</string>
+    <string name="up">Up</string>
+    <string name="date">Дата</string>
 </resources>

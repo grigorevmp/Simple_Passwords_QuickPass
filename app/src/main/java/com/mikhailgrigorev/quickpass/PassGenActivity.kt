@@ -62,6 +62,7 @@ class PassGenActivity : AppCompatActivity() {
     private val realQuality: ArrayList<String> = ArrayList()
     private val realMap: MutableMap<String, ArrayList<String>> = mutableMapOf()
     private val quality: ArrayList<String> = ArrayList()
+    private val dates: ArrayList<String> = ArrayList()
     private val tags: ArrayList<String> = ArrayList()
     private val desc: ArrayList<String> = ArrayList()
     private val group: ArrayList<String> = ArrayList()
@@ -319,7 +320,6 @@ class PassGenActivity : AppCompatActivity() {
                             if (pm.evaluateDate(dbTimeIndex))
                                 qualityNum = "2"
 
-
                             if (realQuality[j] != "1")
                                 qualityNum = "2"
 
@@ -336,22 +336,10 @@ class PassGenActivity : AppCompatActivity() {
                                 "2"
                         }
                             j++
-                            if (pCursor.getString(groupIndex) == null || pCursor.getString(
-                                        groupIndex
-                                ) == "none"|| pCursor.getString(
-                                        groupIndex
-                                ) == "null") {
-                                dbLogin = pCursor.getString(nameIndex).toString()
-                                val fa = pCursor.getString(aIndex).toString()
-                                if(fa == "1")
-                                    faNum += 1
-                                passwords.add(Pair(dbLogin, fa))
-                                desc.add(dbdescIndex)
-                                quality.add(qualityNum)
-                                val dbTag = pCursor.getString(tagsIndex).toString()
-                                tags.add(dbTag)
-                                group.add("none")
-                            } else {
+
+                            if((pCursor.getString(groupIndex) != null) &&
+                                (pCursor.getString(groupIndex).contains("favorite"))) {
+                                    Log.d("favorite - ", pCursor.getString(groupIndex))
                                 dbLogin = pCursor.getString(nameIndex).toString()
                                 val fa = pCursor.getString(aIndex).toString()
                                 if(fa == "1")
@@ -362,6 +350,20 @@ class PassGenActivity : AppCompatActivity() {
                                 val dbTag = pCursor.getString(tagsIndex).toString()
                                 tags.add(0, dbTag)
                                 group.add(0, "#favorite")
+                                dates.add(0, dbTimeIndex)
+                            }
+                            else{
+                                dbLogin = pCursor.getString(nameIndex).toString()
+                                val fa = pCursor.getString(aIndex).toString()
+                                if(fa == "1")
+                                    faNum += 1
+                                passwords.add(Pair(dbLogin, fa))
+                                desc.add(dbdescIndex)
+                                quality.add(qualityNum)
+                                val dbTag = pCursor.getString(tagsIndex).toString()
+                                tags.add(dbTag)
+                                group.add("none")
+                                dates.add(dbTimeIndex)
                             }
 
                             if(dbCipherIndex == "crypted")
@@ -384,32 +386,94 @@ class PassGenActivity : AppCompatActivity() {
             } catch (e: SQLException) {
         }
 
-
+        // Sorting
         sorting = sharedPref.getString("sort", "none")
-        if (sorting == "alpha") {
-            alphaSort.isChecked = true
-            for (i in 0 until passwords.size){
-                for (j in 0 until passwords.size){
-                    if(group[i].contains("favorite") == group[j].contains("favorite"))
-                        if(passwords[i].first < passwords[j].first){
-                            val temp = passwords[j]
-                            passwords[j] = passwords[i]
-                            passwords[i] = temp
-                            var temp2 = quality[j]
-                            quality[j] = quality[i]
-                            quality[i]  = temp2
-                            temp2 = tags[j]
-                            tags[j] = tags[i]
-                            tags[i]  = temp2
-                            temp2 = group[j]
-                            group[j] = group[i]
-                            group[i]  = temp2
-                            temp2 = desc[j]
-                            desc[j] = desc[i]
-                            desc[i]  = temp2
-                        }
+        when (sorting) {
+            "alpha" -> {
+                sortOrder.animate().rotation(180F).setDuration(500).start()
+                alphaSort.isChecked = true
+                for (i in 0 until passwords.size){
+                    for (j in 0 until passwords.size){
+                        if(group[i].contains("favorite") == group[j].contains("favorite"))
+                            if(passwords[i].first < passwords[j].first){
+                                val temp = passwords[j]
+                                passwords[j] = passwords[i]
+                                passwords[i] = temp
+                                var temp2 = quality[j]
+                                quality[j] = quality[i]
+                                quality[i]  = temp2
+                                temp2 = tags[j]
+                                tags[j] = tags[i]
+                                tags[i]  = temp2
+                                temp2 = group[j]
+                                group[j] = group[i]
+                                group[i]  = temp2
+                                temp2 = desc[j]
+                                desc[j] = desc[i]
+                                desc[i]  = temp2
+                                temp2 = dates[j]
+                                dates[j] = dates[i]
+                                dates[i]  = temp2
+                            }
+                    }
                 }
-
+            }
+            "date" -> {
+                sortOrder.animate().rotation(180F).setDuration(500).start()
+                dateSort.isChecked = true
+                for (i in 0 until passwords.size){
+                    for (j in 0 until passwords.size){
+                        if(group[i].contains("favorite") == group[j].contains("favorite"))
+                            if(dates[i] > dates[j]){
+                                val temp = passwords[j]
+                                passwords[j] = passwords[i]
+                                passwords[i] = temp
+                                var temp2 = quality[j]
+                                quality[j] = quality[i]
+                                quality[i]  = temp2
+                                temp2 = tags[j]
+                                tags[j] = tags[i]
+                                tags[i]  = temp2
+                                temp2 = group[j]
+                                group[j] = group[i]
+                                group[i]  = temp2
+                                temp2 = desc[j]
+                                desc[j] = desc[i]
+                                desc[i]  = temp2
+                                temp2 = dates[j]
+                                dates[j] = dates[i]
+                                dates[i]  = temp2
+                            }
+                    }
+                }
+            }
+            else -> {
+                sortOrder.animate().rotation(0F).setDuration(500).start()
+                for (i in 0 until passwords.size){
+                    for (j in 0 until passwords.size){
+                        if(group[i].contains("favorite") == group[j].contains("favorite"))
+                            if(passwords[i].first > passwords[j].first){
+                                val temp = passwords[j]
+                                passwords[j] = passwords[i]
+                                passwords[i] = temp
+                                var temp2 = quality[j]
+                                quality[j] = quality[i]
+                                quality[i]  = temp2
+                                temp2 = tags[j]
+                                tags[j] = tags[i]
+                                tags[i]  = temp2
+                                temp2 = group[j]
+                                group[j] = group[i]
+                                group[i]  = temp2
+                                temp2 = desc[j]
+                                desc[j] = desc[i]
+                                desc[i]  = temp2
+                                temp2 = dates[j]
+                                dates[j] = dates[i]
+                                dates[i]  = temp2
+                            }
+                    }
+                }
             }
         }
         // Shotcuts
@@ -629,40 +693,38 @@ class PassGenActivity : AppCompatActivity() {
 
         //Alpha Sorting
 
-
-        alphaSort.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(isChecked){
+        alphaSort.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked) {
+                dateSort.isChecked = false
+                sortOrder.animate().rotation(180F).setDuration(500).start()
                 with(sharedPref.edit()) {
                     putString("sort", "alpha")
                     commit()
                 }
                 passwordsG = passwords
-
-                for (i in 0 until passwords.size){
-                    for (j in 0 until passwords.size){
-                        if(group[i].contains("favorite") == group[j].contains("favorite"))
-                        if(passwords[i].first < passwords[j].first){
-                            val temp = passwords[j]
-                            passwords[j] = passwords[i]
-                            passwords[i] = temp
-                            var temp2 = quality[j]
-                            quality[j] = quality[i]
-                            quality[i]  = temp2
-                            temp2 = tags[j]
-                            tags[j] = tags[i]
-                            tags[i]  = temp2
-                            temp2 = group[j]
-                            group[j] = group[i]
-                            group[i]  = temp2
-                            temp2 = desc[j]
-                            desc[j] = desc[i]
-                            desc[i]  = temp2
-                        }
+                for (i in 0 until passwords.size) {
+                    for (j in 0 until passwords.size) {
+                        if (group[i].contains("favorite") == group[j].contains("favorite"))
+                            if (passwords[i].first < passwords[j].first) {
+                                val temp = passwords[j]
+                                passwords[j] = passwords[i]
+                                passwords[i] = temp
+                                var temp2 = quality[j]
+                                quality[j] = quality[i]
+                                quality[i] = temp2
+                                temp2 = tags[j]
+                                tags[j] = tags[i]
+                                tags[i] = temp2
+                                temp2 = group[j]
+                                group[j] = group[i]
+                                group[i] = temp2
+                                temp2 = desc[j]
+                                desc[j] = desc[i]
+                                desc[i] = temp2
+                            }
                     }
 
                 }
-
-
                 when {
                     searchPos -> {
                         negativeCircle.setImageResource(R.drawable.circle_negative)
@@ -717,7 +779,7 @@ class PassGenActivity : AppCompatActivity() {
                         val group2: ArrayList<String> = ArrayList()
                         val desc2: ArrayList<String> = ArrayList()
                         for ((index, value) in quality.withIndex()) {
-                            if (value == "2"){
+                            if (value == "2") {
                                 passwords2.add(passwords[index])
                                 quality2.add(quality[index])
                                 tags2.add(tags[index])
@@ -760,7 +822,7 @@ class PassGenActivity : AppCompatActivity() {
                         val group2: ArrayList<String> = ArrayList()
                         val desc2: ArrayList<String> = ArrayList()
                         for ((index, value) in quality.withIndex()) {
-                            if (value == "3"){
+                            if (value == "3") {
                                 passwords2.add(passwords[index])
                                 quality2.add(quality[index])
                                 tags2.add(tags[index])
@@ -822,14 +884,38 @@ class PassGenActivity : AppCompatActivity() {
                     }
                 }
 
-
-
-
             }
             else{
+                sortOrder.animate().rotation(0F).setDuration(500).start()
                 with(sharedPref.edit()) {
                     putString("sort", "none")
                     commit()
+                }
+                for (i in 0 until passwords.size){
+                    for (j in 0 until passwords.size){
+                        if(group[i].contains("favorite") == group[j].contains("favorite"))
+                            if(passwords[i].first > passwords[j].first){
+                                val temp = passwords[j]
+                                passwords[j] = passwords[i]
+                                passwords[i] = temp
+                                var temp2 = quality[j]
+                                quality[j] = quality[i]
+                                quality[i]  = temp2
+                                temp2 = tags[j]
+                                tags[j] = tags[i]
+                                tags[i]  = temp2
+                                temp2 = group[j]
+                                group[j] = group[i]
+                                group[i]  = temp2
+                                temp2 = desc[j]
+                                desc[j] = desc[i]
+                                desc[i]  = temp2
+                                temp2 = dates[j]
+                                dates[j] = dates[i]
+                                dates[i]  = temp2
+                            }
+                    }
+
                 }
                 when {
                     searchPos -> {
@@ -993,6 +1079,392 @@ class PassGenActivity : AppCompatActivity() {
             }
         }
 
+        dateSort.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked) {
+                alphaSort.isChecked = false
+                sortOrder.animate().rotation(180F).setDuration(500).start()
+                with(sharedPref.edit()) {
+                    putString("sort", "date")
+                    commit()
+                }
+                passwordsG = passwords
+                for (i in 0 until passwords.size) {
+                    for (j in 0 until passwords.size) {
+                        if (group[i].contains("favorite") == group[j].contains("favorite")) {
+                            if (dates[i] > dates[j]) {
+                                val temp = passwords[j]
+                                passwords[j] = passwords[i]
+                                passwords[i] = temp
+                                var temp2 = quality[j]
+                                quality[j] = quality[i]
+                                quality[i] = temp2
+                                temp2 = tags[j]
+                                tags[j] = tags[i]
+                                tags[i] = temp2
+                                temp2 = group[j]
+                                group[j] = group[i]
+                                group[i] = temp2
+                                temp2 = desc[j]
+                                desc[j] = desc[i]
+                                desc[i] = temp2
+                            }
+                        }
+                    }
+
+                }
+                when {
+                    searchPos -> {
+                        negativeCircle.setImageResource(R.drawable.circle_negative)
+                        negativeCircle2.setImageResource(R.drawable.circle_improvement)
+                        positiveCircle.setImageResource(R.drawable.circle_positive_fill)
+                        val passwords2: ArrayList<Pair<String, String>> = ArrayList()
+                        val quality2: ArrayList<String> = ArrayList()
+                        val tags2: ArrayList<String> = ArrayList()
+                        val group2: ArrayList<String> = ArrayList()
+                        val desc2: ArrayList<String> = ArrayList()
+                        for ((index, value) in quality.withIndex()) {
+                            if (value == "1") {
+                                passwords2.add(passwords[index])
+                                quality2.add(quality[index])
+                                tags2.add(tags[index])
+                                group2.add(group[index])
+                                desc2.add(desc[index])
+                            }
+                        }
+
+                        passwordsG = passwords2
+                        passwordRecycler.adapter = PasswordAdapter(
+                                passwords2,
+                                quality2,
+                                tags2,
+                                group2,
+                                desc2,
+                                useAnalyze,
+                                cardRadius,
+                                resources.displayMetrics,
+                                this@PassGenActivity,
+                                clickListener = {
+                                    passClickListener(it)
+                                },
+                                longClickListener = { i: Int, view: View ->
+                                    passLongClickListener(
+                                            i,
+                                            view
+                                    )
+                                }
+                        ) {
+                            tagSearchClicker(it)
+                        }
+                    }
+                    searchNeg -> {
+                        positiveCircle.setImageResource(R.drawable.circle_positive)
+                        negativeCircle2.setImageResource(R.drawable.circle_improvement)
+                        negativeCircle.setImageResource(R.drawable.circle_negative_fill)
+                        val passwords2: ArrayList<Pair<String, String>> = ArrayList()
+                        val quality2: ArrayList<String> = ArrayList()
+                        val tags2: ArrayList<String> = ArrayList()
+                        val group2: ArrayList<String> = ArrayList()
+                        val desc2: ArrayList<String> = ArrayList()
+                        for ((index, value) in quality.withIndex()) {
+                            if (value == "2") {
+                                passwords2.add(passwords[index])
+                                quality2.add(quality[index])
+                                tags2.add(tags[index])
+                                group2.add(group[index])
+                                desc2.add(desc[index])
+                            }
+                        }
+
+                        passwordsG = passwords2
+                        passwordRecycler.adapter = PasswordAdapter(
+                                passwords2,
+                                quality2,
+                                tags2,
+                                group2,
+                                desc2,
+                                useAnalyze,
+                                cardRadius,
+                                resources.displayMetrics,
+                                this@PassGenActivity,
+                                clickListener = {
+                                    passClickListener(it)
+                                },
+                                longClickListener = { i: Int, view: View ->
+                                    passLongClickListener(
+                                            i,
+                                            view
+                                    )
+                                }
+                        ) {
+                            tagSearchClicker(it)
+                        }
+                    }
+                    searchMId -> {
+                        positiveCircle.setImageResource(R.drawable.circle_positive)
+                        negativeCircle.setImageResource(R.drawable.circle_negative)
+                        negativeCircle2.setImageResource(R.drawable.circle_improvement_fill)
+                        val passwords2: ArrayList<Pair<String, String>> = ArrayList()
+                        val quality2: ArrayList<String> = ArrayList()
+                        val tags2: ArrayList<String> = ArrayList()
+                        val group2: ArrayList<String> = ArrayList()
+                        val desc2: ArrayList<String> = ArrayList()
+                        for ((index, value) in quality.withIndex()) {
+                            if (value == "3") {
+                                passwords2.add(passwords[index])
+                                quality2.add(quality[index])
+                                tags2.add(tags[index])
+                                group2.add(group[index])
+                                desc2.add(desc[index])
+                            }
+                        }
+
+                        passwordsG = passwords2
+                        passwordRecycler.adapter = PasswordAdapter(
+                                passwords2,
+                                quality2,
+                                tags2,
+                                group2,
+                                desc2,
+                                useAnalyze,
+                                cardRadius,
+                                resources.displayMetrics,
+                                this@PassGenActivity,
+                                clickListener = {
+                                    passClickListener(it)
+                                },
+                                longClickListener = { i: Int, view: View ->
+                                    passLongClickListener(
+                                            i,
+                                            view
+                                    )
+                                }
+                        ) {
+                            tagSearchClicker(it)
+                        }
+                    }
+                    searchPassField.text.toString() != "" -> {
+                        searchPassField.text = searchPassField.text
+                    }
+                    else -> {
+                        passwordRecycler.adapter = PasswordAdapter(
+                                passwords,
+                                quality,
+                                tags,
+                                group,
+                                desc,
+                                useAnalyze,
+                                cardRadius,
+                                resources.displayMetrics,
+                                this,
+                                clickListener = {
+                                    passClickListener(it)
+                                },
+                                longClickListener = { i: Int, view: View ->
+                                    passLongClickListener(
+                                            i,
+                                            view
+                                    )
+                                }
+                        ) {
+                            tagSearchClicker(it)
+                        }
+                    }
+                }
+
+            }
+            else{
+                sortOrder.animate().rotation(0F).setDuration(500).start()
+                with(sharedPref.edit()) {
+                    putString("sort", "none")
+                    commit()
+                }
+                for (i in 0 until passwords.size){
+                    for (j in 0 until passwords.size){
+                        if(group[i].contains("favorite") == group[j].contains("favorite"))
+                            if(passwords[i].first > passwords[j].first){
+                                val temp = passwords[j]
+                                passwords[j] = passwords[i]
+                                passwords[i] = temp
+                                var temp2 = quality[j]
+                                quality[j] = quality[i]
+                                quality[i]  = temp2
+                                temp2 = tags[j]
+                                tags[j] = tags[i]
+                                tags[i]  = temp2
+                                temp2 = group[j]
+                                group[j] = group[i]
+                                group[i]  = temp2
+                                temp2 = desc[j]
+                                desc[j] = desc[i]
+                                desc[i]  = temp2
+                                temp2 = dates[j]
+                                dates[j] = dates[i]
+                                dates[i]  = temp2
+                            }
+                    }
+
+                }
+                when {
+                    searchPos -> {
+                        negativeCircle.setImageResource(R.drawable.circle_negative)
+                        negativeCircle2.setImageResource(R.drawable.circle_improvement)
+                        positiveCircle.setImageResource(R.drawable.circle_positive_fill)
+                        val passwords2: ArrayList<Pair<String, String>> = ArrayList()
+                        val quality2: ArrayList<String> = ArrayList()
+                        val tags2: ArrayList<String> = ArrayList()
+                        val group2: ArrayList<String> = ArrayList()
+                        val desc2: ArrayList<String> = ArrayList()
+                        for ((index, value) in quality.withIndex()) {
+                            if (value == "1") {
+                                passwords2.add(passwords[index])
+                                quality2.add(quality[index])
+                                tags2.add(tags[index])
+                                group2.add(group[index])
+                                desc2.add(desc[index])
+                            }
+                        }
+
+                        passwordsG = passwords2
+                        passwordRecycler.adapter = PasswordAdapter(
+                                passwords2,
+                                quality2,
+                                tags2,
+                                group2,
+                                desc2,
+                                useAnalyze,
+                                cardRadius,
+                                resources.displayMetrics,
+                                this@PassGenActivity,
+                                clickListener = {
+                                    passClickListener(it)
+                                },
+                                longClickListener = { i: Int, view: View ->
+                                    passLongClickListener(
+                                            i,
+                                            view
+                                    )
+                                }
+                        ) {
+                            tagSearchClicker(it)
+                        }
+                    }
+                    searchNeg -> {
+                        positiveCircle.setImageResource(R.drawable.circle_positive)
+                        negativeCircle2.setImageResource(R.drawable.circle_improvement)
+                        negativeCircle.setImageResource(R.drawable.circle_negative_fill)
+                        val passwords2: ArrayList<Pair<String, String>> = ArrayList()
+                        val quality2: ArrayList<String> = ArrayList()
+                        val tags2: ArrayList<String> = ArrayList()
+                        val group2: ArrayList<String> = ArrayList()
+                        val desc2: ArrayList<String> = ArrayList()
+                        for ((index, value) in quality.withIndex()) {
+                            if (value == "2"){
+                                passwords2.add(passwords[index])
+                                quality2.add(quality[index])
+                                tags2.add(tags[index])
+                                group2.add(group[index])
+                                desc2.add(desc[index])
+                            }
+                        }
+
+                        passwordsG = passwords2
+                        passwordRecycler.adapter = PasswordAdapter(
+                                passwords2,
+                                quality2,
+                                tags2,
+                                group2,
+                                desc2,
+                                useAnalyze,
+                                cardRadius,
+                                resources.displayMetrics,
+                                this@PassGenActivity,
+                                clickListener = {
+                                    passClickListener(it)
+                                },
+                                longClickListener = { i: Int, view: View ->
+                                    passLongClickListener(
+                                            i,
+                                            view
+                                    )
+                                }
+                        ) {
+                            tagSearchClicker(it)
+                        }
+                    }
+                    searchMId -> {
+                        positiveCircle.setImageResource(R.drawable.circle_positive)
+                        negativeCircle.setImageResource(R.drawable.circle_negative)
+                        negativeCircle2.setImageResource(R.drawable.circle_improvement_fill)
+                        val passwords2: ArrayList<Pair<String, String>> = ArrayList()
+                        val quality2: ArrayList<String> = ArrayList()
+                        val tags2: ArrayList<String> = ArrayList()
+                        val group2: ArrayList<String> = ArrayList()
+                        val desc2: ArrayList<String> = ArrayList()
+                        for ((index, value) in quality.withIndex()) {
+                            if (value == "3"){
+                                passwords2.add(passwords[index])
+                                quality2.add(quality[index])
+                                tags2.add(tags[index])
+                                group2.add(group[index])
+                                desc2.add(desc[index])
+                            }
+                        }
+
+                        passwordsG = passwords2
+                        passwordRecycler.adapter = PasswordAdapter(
+                                passwords2,
+                                quality2,
+                                tags2,
+                                group2,
+                                desc2,
+                                useAnalyze,
+                                cardRadius,
+                                resources.displayMetrics,
+                                this@PassGenActivity,
+                                clickListener = {
+                                    passClickListener(it)
+                                },
+                                longClickListener = { i: Int, view: View ->
+                                    passLongClickListener(
+                                            i,
+                                            view
+                                    )
+                                }
+                        ) {
+                            tagSearchClicker(it)
+                        }
+                    }
+                    searchPassField.text.toString() != "" -> {
+                        searchPassField.text = searchPassField.text
+                    }
+                    else -> {
+                        passwordsG = passwords
+                        passwordRecycler.adapter = PasswordAdapter(
+                                passwords,
+                                quality,
+                                tags,
+                                group,
+                                desc,
+                                useAnalyze,
+                                cardRadius,
+                                resources.displayMetrics,
+                                this,
+                                clickListener = {
+                                    passClickListener(it)
+                                },
+                                longClickListener = { i: Int, view: View ->
+                                    passLongClickListener(
+                                            i,
+                                            view
+                                    )
+                                }
+                        ) {
+                            tagSearchClicker(it)
+                        }
+                    }
+                }
+            }
+        }
 
         // Set passwords adapter
         passwordsG = passwords
@@ -1802,29 +2274,21 @@ class PassGenActivity : AppCompatActivity() {
     }
 
     private fun analyzeDataBase() {
-        var subContains: Boolean
         var gSubContains: Boolean
         for (pass in realPass){
-            subContains = false
             gSubContains = false
             for (pass2 in realPass){
-
                 if(pass.first != pass2.first){
-                    for(i in 0..(pass.second.length - 4)){
-                        if (pass2.second.contains(pass.second.subSequence(i, i + 3))){
-                            subContains = true
+                    if (pass2.second.contains(pass.second)){
                             gSubContains = true
+                            if (realMap.containsKey(pass.first))
+                                realMap[pass.first]?.add(pass2.first)
+                            else {
+                                val c = arrayListOf(pass2.first)
+                                realMap[pass.first] = c
+                            }
                             break
                         }
-                    }
-                    if (subContains)
-                        if (realMap.containsKey(pass.first))
-                            realMap[pass.first]?.add(pass2.first)
-                        else {
-                            val c = arrayListOf(pass2.first)
-                            realMap[pass.first] = c
-                        }
-                        subContains = false
                 }
             }
             if (gSubContains) {
@@ -1940,13 +2404,14 @@ class PassGenActivity : AppCompatActivity() {
         realQuality.clear()
         realMap.clear()
         desc.clear()
+        dates.clear()
 
         try {
             val pCursor: Cursor = pDatabase.query(
                     pdbHelper.TABLE_USERS, arrayOf(
                     pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
                     pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS,
-                    pdbHelper.KEY_CIPHER, pdbHelper.KEY_DESC
+                    pdbHelper.KEY_CIPHER, pdbHelper.KEY_DESC, pdbHelper.KEY_TIME
             ),
                     null, null,
                     null, null, null
@@ -1972,6 +2437,7 @@ class PassGenActivity : AppCompatActivity() {
                 val groupIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_GROUPS)
                 val cIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_CIPHER)
                 val descIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_DESC)
+                val timeIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TIME)
                 var j = 0
                 do {
                     val pass = pCursor.getString(passIndex).toString()
@@ -2002,9 +2468,9 @@ class PassGenActivity : AppCompatActivity() {
                             "2"
                     }
                     j++
-                    if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(
+                    if((pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(
                                 groupIndex
-                        ) == "null") {
+                        ) == "null")and !(pCursor.getString(groupIndex).contains("favorite"))) {
                         val dbLogin = pCursor.getString(nameIndex).toString()
                         val fa = pCursor.getString(aIndex).toString()
                         passwords.add(Pair(dbLogin, fa))
@@ -2013,6 +2479,7 @@ class PassGenActivity : AppCompatActivity() {
                         tags.add(dbTag)
                         group.add("none")
                         desc.add(dbdescIndex)
+                        dates.add(pCursor.getString(timeIndex).toString())
                     }
                     else {
                         val dbLogin = pCursor.getString(nameIndex).toString()
@@ -2023,6 +2490,7 @@ class PassGenActivity : AppCompatActivity() {
                         tags.add(0, dbTag)
                         group.add(0, "#favorite")
                         desc.add(0, dbdescIndex)
+                        dates.add(0, pCursor.getString(timeIndex).toString())
                     }
 
 
@@ -2042,29 +2510,90 @@ class PassGenActivity : AppCompatActivity() {
         } catch (e: SQLException) {
         }
 
-        if(sorting == "alpha"){
-            for (i in 0 until passwords.size){
-                for (j in 0 until passwords.size){
-                    if(group[i].contains("favorite") == group[j].contains("favorite"))
-                        if(passwords[i].first < passwords[j].first){
-                            val temp = passwords[j]
-                            passwords[j] = passwords[i]
-                            passwords[i] = temp
-                            var temp2 = quality[j]
-                            quality[j] = quality[i]
-                            quality[i]  = temp2
-                            temp2 = tags[j]
-                            tags[j] = tags[i]
-                            tags[i]  = temp2
-                            temp2 = group[j]
-                            group[j] = group[i]
-                            group[i]  = temp2
-                            temp2 = desc[j]
-                            desc[j] = desc[i]
-                            desc[i]  = temp2
-                        }
-                }
+        when (sorting) {
+            "alpha" -> {
+                for (i in 0 until passwords.size){
+                    for (j in 0 until passwords.size){
+                        if(group[i].contains("favorite") == group[j].contains("favorite"))
+                            if(passwords[i].first < passwords[j].first){
+                                val temp = passwords[j]
+                                passwords[j] = passwords[i]
+                                passwords[i] = temp
+                                var temp2 = quality[j]
+                                quality[j] = quality[i]
+                                quality[i]  = temp2
+                                temp2 = tags[j]
+                                tags[j] = tags[i]
+                                tags[i]  = temp2
+                                temp2 = group[j]
+                                group[j] = group[i]
+                                group[i]  = temp2
+                                temp2 = desc[j]
+                                desc[j] = desc[i]
+                                desc[i]  = temp2
+                                temp2 = dates[j]
+                                dates[j] = dates[i]
+                                dates[i]  = temp2
+                            }
+                    }
 
+                }
+            }
+            "none" -> {
+                for (i in 0 until passwords.size){
+                    for (j in 0 until passwords.size){
+                        if(group[i].contains("favorite") == group[j].contains("favorite"))
+                            if(passwords[i].first > passwords[j].first){
+                                val temp = passwords[j]
+                                passwords[j] = passwords[i]
+                                passwords[i] = temp
+                                var temp2 = quality[j]
+                                quality[j] = quality[i]
+                                quality[i]  = temp2
+                                temp2 = tags[j]
+                                tags[j] = tags[i]
+                                tags[i]  = temp2
+                                temp2 = group[j]
+                                group[j] = group[i]
+                                group[i]  = temp2
+                                temp2 = desc[j]
+                                desc[j] = desc[i]
+                                desc[i]  = temp2
+                                temp2 = dates[j]
+                                dates[j] = dates[i]
+                                dates[i]  = temp2
+                            }
+                    }
+
+                }
+            }
+            "date" -> {
+                for (i in 0 until passwords.size){
+                    for (j in 0 until passwords.size){
+                        if(group[i].contains("favorite") == group[j].contains("favorite"))
+                            if(dates[i] > dates[j]){
+                                val temp = passwords[j]
+                                passwords[j] = passwords[i]
+                                passwords[i] = temp
+                                var temp2 = quality[j]
+                                quality[j] = quality[i]
+                                quality[i]  = temp2
+                                temp2 = tags[j]
+                                tags[j] = tags[i]
+                                tags[i]  = temp2
+                                temp2 = group[j]
+                                group[j] = group[i]
+                                group[i]  = temp2
+                                temp2 = desc[j]
+                                desc[j] = desc[i]
+                                desc[i]  = temp2
+                                temp2 = dates[j]
+                                dates[j] = dates[i]
+                                dates[i]  = temp2
+                            }
+                    }
+
+                }
             }
         }
 
@@ -2113,6 +2642,7 @@ class PassGenActivity : AppCompatActivity() {
                 realQuality.clear()
                 realMap.clear()
                 desc.clear()
+                dates.clear()
 
                 safePass = 0
                 unsafePass = 0
@@ -2124,7 +2654,7 @@ class PassGenActivity : AppCompatActivity() {
                             pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
                             pdbHelper.KEY_2FA, pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS,
                             pdbHelper.KEY_CIPHER,
-                            pdbHelper.KEY_DESC
+                            pdbHelper.KEY_DESC, pdbHelper.KEY_TIME
                     ),
                             null, null,
                             null, null, null
@@ -2150,6 +2680,7 @@ class PassGenActivity : AppCompatActivity() {
                         val groupIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_GROUPS)
                         val cIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_CIPHER)
                         val descIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_DESC)
+                        val timeIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TIME)
                         var j = 0
                         do {
                             val pass = pCursor.getString(passIndex).toString()
@@ -2179,9 +2710,9 @@ class PassGenActivity : AppCompatActivity() {
                                     "2"
                             }
                             j++
-                            if(pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(
+                            if((pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "none"|| pCursor.getString(
                                         groupIndex
-                                ) == "null") {
+                                ) == "null")and !(pCursor.getString(groupIndex).contains("favorite"))) {
                                 val dbLogin = pCursor.getString(nameIndex).toString()
                                 val fa = pCursor.getString(aIndex).toString()
                                 passwords.add(Pair(dbLogin, fa))
@@ -2190,6 +2721,7 @@ class PassGenActivity : AppCompatActivity() {
                                 tags.add(dbTag)
                                 group.add("none")
                                 desc.add(dbdescIndex)
+                                dates.add(pCursor.getString(timeIndex).toString())
                             }
                             else {
                                 val dbLogin = pCursor.getString(nameIndex).toString()
@@ -2200,6 +2732,7 @@ class PassGenActivity : AppCompatActivity() {
                                 tags.add(0, dbTag)
                                 group.add(0, "#favorite")
                                 desc.add(0, dbdescIndex)
+                                dates.add(0, pCursor.getString(timeIndex).toString())
                             }
 
 
@@ -2257,29 +2790,90 @@ class PassGenActivity : AppCompatActivity() {
                     warn_Card.animate().alpha(abs(1F)).start()
                 }
 
-                if(sorting == "alpha"){
-                    for (i in 0 until passwords.size){
-                        for (j in 0 until passwords.size){
-                            if(group[i].contains("favorite") == group[j].contains("favorite"))
-                                if(passwords[i].first < passwords[j].first){
-                                    val temp = passwords[j]
-                                    passwords[j] = passwords[i]
-                                    passwords[i] = temp
-                                    var temp2 = quality[j]
-                                    quality[j] = quality[i]
-                                    quality[i]  = temp2
-                                    temp2 = tags[j]
-                                    tags[j] = tags[i]
-                                    tags[i]  = temp2
-                                    temp2 = group[j]
-                                    group[j] = group[i]
-                                    group[i]  = temp2
-                                    temp2 = desc[j]
-                                    desc[j] = desc[i]
-                                    desc[i]  = temp2
-                                }
-                        }
+                when (sorting) {
+                    "alpha" -> {
+                        for (i in 0 until passwords.size){
+                            for (j in 0 until passwords.size){
+                                if(group[i].contains("favorite") == group[j].contains("favorite"))
+                                    if(passwords[i].first < passwords[j].first){
+                                        val temp = passwords[j]
+                                        passwords[j] = passwords[i]
+                                        passwords[i] = temp
+                                        var temp2 = quality[j]
+                                        quality[j] = quality[i]
+                                        quality[i]  = temp2
+                                        temp2 = tags[j]
+                                        tags[j] = tags[i]
+                                        tags[i]  = temp2
+                                        temp2 = group[j]
+                                        group[j] = group[i]
+                                        group[i]  = temp2
+                                        temp2 = desc[j]
+                                        desc[j] = desc[i]
+                                        desc[i]  = temp2
+                                        temp2 = dates[j]
+                                        dates[j] = dates[i]
+                                        dates[i]  = temp2
+                                    }
+                            }
 
+                        }
+                    }
+                    "none" -> {
+                        for (i in 0 until passwords.size){
+                            for (j in 0 until passwords.size){
+                                if(group[i].contains("favorite") == group[j].contains("favorite"))
+                                    if(passwords[i].first > passwords[j].first){
+                                        val temp = passwords[j]
+                                        passwords[j] = passwords[i]
+                                        passwords[i] = temp
+                                        var temp2 = quality[j]
+                                        quality[j] = quality[i]
+                                        quality[i]  = temp2
+                                        temp2 = tags[j]
+                                        tags[j] = tags[i]
+                                        tags[i]  = temp2
+                                        temp2 = group[j]
+                                        group[j] = group[i]
+                                        group[i]  = temp2
+                                        temp2 = desc[j]
+                                        desc[j] = desc[i]
+                                        desc[i]  = temp2
+                                        temp2 = dates[j]
+                                        dates[j] = dates[i]
+                                        dates[i]  = temp2
+                                    }
+                            }
+
+                        }
+                    }
+                    "date" -> {
+                        for (i in 0 until passwords.size){
+                            for (j in 0 until passwords.size){
+                                if(group[i].contains("favorite") == group[j].contains("favorite"))
+                                    if(dates[i] > dates[j]){
+                                        val temp = passwords[j]
+                                        passwords[j] = passwords[i]
+                                        passwords[i] = temp
+                                        var temp2 = quality[j]
+                                        quality[j] = quality[i]
+                                        quality[i]  = temp2
+                                        temp2 = tags[j]
+                                        tags[j] = tags[i]
+                                        tags[i]  = temp2
+                                        temp2 = group[j]
+                                        group[j] = group[i]
+                                        group[i]  = temp2
+                                        temp2 = desc[j]
+                                        desc[j] = desc[i]
+                                        desc[i]  = temp2
+                                        temp2 = dates[j]
+                                        dates[j] = dates[i]
+                                        dates[i]  = temp2
+                                    }
+                            }
+
+                        }
                     }
                 }
 
@@ -2352,6 +2946,7 @@ class PassGenActivity : AppCompatActivity() {
             realQuality.clear()
             realMap.clear()
             desc.clear()
+            dates.clear()
             recreate()
             //startActivity(intent)
             //finish()
