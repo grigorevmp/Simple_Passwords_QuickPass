@@ -619,9 +619,29 @@ class EditPassActivity : AppCompatActivity() {
             }
         }
 
-        val file = File(mediaStorageDir, "file_name.jpg")
-        val uri = Uri.fromFile(file)
-        imageView5.setImageURI(uri)
+        val file = File(mediaStorageDir, "$passName.jpg")
+        if (file.exists()){
+            val uri = Uri.fromFile(file)
+            attachedImage.setImageURI(uri)
+
+            attachedImage.setOnClickListener {
+                if (imageHolder.scaleX == 0.5f) {
+                    imageHolder.animate()
+                            .scaleY(1f)
+                            .scaleX(1f)
+                            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 400
+                    //imageHolder.scaleX = 1f
+                    //imageHolder.scaleY = 1f
+                } else {
+                    imageHolder.animate()
+                            .scaleY(0.5f)
+                            .scaleX(0.5f)
+                            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 400
+                    //imageHolder.scaleX = 0.5f
+                    //imageHolder.scaleY = 0.5f
+                }
+            }
+        }
 
     }
 
@@ -706,7 +726,7 @@ class EditPassActivity : AppCompatActivity() {
         }
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             // I'M GETTING THE URI OF THE IMAGE AS DATA AND SETTING IT TO THE IMAGEVIEW
-            imageView5.setImageURI(data?.data)
+            attachedImage.setImageURI(data?.data)
             if (ContextCompat.checkSelfPermission(
                         this,
                         android.Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -736,7 +756,7 @@ class EditPassActivity : AppCompatActivity() {
                 }
             }
 
-            val file = File(mediaStorageDir, "file_name.jpg")
+            val file = File(mediaStorageDir, "$passName.jpg")
 
             copyFile(File(getRealPathFromURI(selectedImageURI)), file)
 

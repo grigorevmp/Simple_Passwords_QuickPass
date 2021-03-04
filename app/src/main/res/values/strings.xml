@@ -197,4 +197,6 @@
     <string name="a_z">A-Z</string>
     <string name="up">Up</string>
     <string name="date">Date</string>
+    <string name="attach_image">Attach image</string>
+    <string name="attached_image">Attached image:</string>
 </resources>

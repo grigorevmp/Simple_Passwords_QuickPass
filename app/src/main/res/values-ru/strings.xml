@@ -184,4 +184,6 @@
     <string name="a_z">A-Z</string>
     <string name="up">Up</string>
     <string name="date">Дата</string>
+    <string name="attach_image">Прикрепить изображение</string>
+    <string name="attached_image">Прикрепленное изображение:</string>
 </resources>

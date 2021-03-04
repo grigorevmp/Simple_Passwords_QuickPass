@@ -5,11 +5,14 @@ import android.content.*
 import android.content.res.Configuration
 import android.database.Cursor
 import android.database.SQLException
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +22,8 @@ import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
 import kotlinx.android.synthetic.main.activity_password_view.*
+import java.io.File
+
 
 class PasswordViewActivity : AppCompatActivity() {
 
@@ -72,7 +77,7 @@ class PasswordViewActivity : AppCompatActivity() {
                 handler.postDelayed(r, time * lockTime.toLong())
         }
         else
-            handler.postDelayed(r, time*6L)
+            handler.postDelayed(r, time * 6L)
 
         when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_NO ->
@@ -84,8 +89,16 @@ class PasswordViewActivity : AppCompatActivity() {
         val cardRadius = sharedPref.getString("cardRadius", "none")
         if(cardRadius != null)
             if(cardRadius != "none") {
-                warnCard.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
-                cardView3.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                warnCard.radius = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        cardRadius.toFloat(),
+                        resources.displayMetrics
+                )
+                cardView3.radius = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        cardRadius.toFloat(),
+                        resources.displayMetrics
+                )
             }
 
 
@@ -257,7 +270,9 @@ class PasswordViewActivity : AppCompatActivity() {
                         evaluation = "low"
                     }
 
-                    if (pm.popularPasswords(dbPassword) or ((dbPassword.length == 4) and pm.popularPin(dbPassword))){
+                    if (pm.popularPasswords(dbPassword) or ((dbPassword.length == 4) and pm.popularPin(
+                                dbPassword
+                        ))){
                         tooEasy.visibility = View.VISIBLE
                         tooEasyImg.visibility = View.VISIBLE
                         evaluation = "low"
@@ -505,6 +520,49 @@ class PasswordViewActivity : AppCompatActivity() {
                 sameParts.visibility = View.GONE
                 warning0.visibility = View.GONE
             }
+        val mediaStorageDir = File(
+                applicationContext.getExternalFilesDir("QuickPassPhotos")!!.absolutePath
+        )
+        if (!mediaStorageDir.exists()) {
+            mediaStorageDir.mkdirs()
+            Toast.makeText(applicationContext, "Directory Created", Toast.LENGTH_LONG).show()
+        }
+
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Log.d("App", "failed to create directory")
+            }
+        }
+        val file = File(mediaStorageDir, "$passName.jpg")
+        if (file.exists()){
+            val uri = Uri.fromFile(file)
+            attachedImage.setImageURI(uri)
+
+            attachedImage.setOnClickListener {
+                if (imageHolder.scaleX == 0.3f) {
+                    imageHolder.pivotX = 0f
+                    imageHolder.pivotY = 0f
+                    imageHolder.animate()
+                            .scaleY(0.8f)
+                            .scaleX(0.8f)
+                            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 400
+                    //imageHolder.scaleX = 1f
+                    //imageHolder.scaleY = 1f
+                } else {
+                    imageHolder.pivotX = 0f
+                    imageHolder.pivotY = 0f
+                    imageHolder.animate()
+                            .scaleY(0.3f)
+                            .scaleX(0.3f)
+                            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 400
+                    //imageHolder.scaleX = 0.5f
+                    //imageHolder.scaleY = 0.5f
+                }
+            }
+        }
+
+
+
 
     }
 
@@ -518,14 +576,14 @@ class PasswordViewActivity : AppCompatActivity() {
                 //rotation.fillAfter = true
                 //logo.startAnimation(rotation)
                 if (from != "short") {
-                    condition=false
+                    condition = false
                     val intent = Intent()
                     intent.putExtra("login", login)
                     intent.putExtra("passName", passName)
                     setResult(1, intent)
                     finish()
                 } else {
-                    condition=false
+                    condition = false
                     val intent = Intent(this, PassGenActivity::class.java)
                     intent.putExtra("login", login)
                     intent.putExtra("passName", passName)
