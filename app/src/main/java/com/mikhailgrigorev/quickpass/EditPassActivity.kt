@@ -1,14 +1,21 @@
 package com.mikhailgrigorev.quickpass
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.*
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.database.Cursor
 import android.database.SQLException
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
@@ -17,11 +24,17 @@ import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
 import kotlinx.android.synthetic.main.activity_edit_pass.*
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
+import java.nio.channels.FileChannel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -83,13 +96,16 @@ class EditPassActivity : AppCompatActivity() {
                 handler.postDelayed(r, time * lockTime.toLong())
         }
         else
-            handler.postDelayed(r, time*6L)
+            handler.postDelayed(r, time * 6L)
 
         setContentView(R.layout.activity_edit_pass)
 
         val args: Bundle? = intent.extras
         login = args?.get("login").toString()
-        val newLogin = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE).getString(_keyUsername, login)
+        val newLogin = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE).getString(
+                _keyUsername,
+                login
+        )
         if(newLogin != login)
             login = newLogin.toString()
         passName = args?.get("passName").toString()
@@ -97,38 +113,61 @@ class EditPassActivity : AppCompatActivity() {
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
         val cursor: Cursor = database.query(
-            dbHelper.TABLE_USERS, arrayOf(dbHelper.KEY_IMAGE),
-            "NAME = ?", arrayOf(login),
-            null, null, null
+                dbHelper.TABLE_USERS, arrayOf(dbHelper.KEY_IMAGE),
+                "NAME = ?", arrayOf(login),
+                null, null, null
         )
         if (cursor.moveToFirst()) {
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
             do {
                 when(cursor.getString(imageIndex).toString()){
-                    "ic_account" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account)
-                    "ic_account_Pink" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Pink)
-                    "ic_account_Red" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Red)
-                    "ic_account_Purple" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Purple)
-                    "ic_account_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Violet)
-                    "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Dark_Violet)
-                    "ic_account_Blue" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Blue)
-                    "ic_account_Cyan" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Cyan)
-                    "ic_account_Teal" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Teal)
-                    "ic_account_Green" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Green)
-                    "ic_account_lightGreen" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_lightGreen)
+                    "ic_account" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account
+                            )
+                    "ic_account_Pink" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Pink
+                            )
+                    "ic_account_Red" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Red
+                            )
+                    "ic_account_Purple" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Purple
+                            )
+                    "ic_account_Violet" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Violet
+                            )
+                    "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Dark_Violet
+                            )
+                    "ic_account_Blue" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Blue
+                            )
+                    "ic_account_Cyan" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Cyan
+                            )
+                    "ic_account_Teal" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Teal
+                            )
+                    "ic_account_Green" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Green
+                            )
+                    "ic_account_lightGreen" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_lightGreen
+                            )
                     else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account)
+                            this, R.color.ic_account
+                    )
                 }
                 accountAvatarText.text = login[0].toString()
             } while (cursor.moveToNext())
@@ -151,7 +190,7 @@ class EditPassActivity : AppCompatActivity() {
         val pDatabase = pdbHelper.writableDatabase
         try {
             val pCursor: Cursor = pDatabase.query(
-                pdbHelper.TABLE_USERS, arrayOf(
+                    pdbHelper.TABLE_USERS, arrayOf(
                     pdbHelper.KEY_NAME,
                     pdbHelper.KEY_PASS,
                     pdbHelper.KEY_2FA,
@@ -161,9 +200,9 @@ class EditPassActivity : AppCompatActivity() {
                     pdbHelper.KEY_TAGS,
                     pdbHelper.KEY_CIPHER,
                     pdbHelper.KEY_LOGIN
-                ),
-                "NAME = ?", arrayOf(passName),
-                null, null, null
+            ),
+                    "NAME = ?", arrayOf(passName),
+                    null, null, null
             )
 
 
@@ -193,7 +232,9 @@ class EditPassActivity : AppCompatActivity() {
                         seekBar.progress = length
                         lengthToggle.text = getString(R.string.length) + ": " + length
                         val myPasswordManager = PasswordManager()
-                        val evaluation: String = myPasswordManager.evaluatePasswordString(genPasswordIdField.text.toString())
+                        val evaluation: String = myPasswordManager.evaluatePasswordString(
+                                genPasswordIdField.text.toString()
+                        )
                         passQuality.text = evaluation
                         when (evaluation) {
                             "low" -> passQuality.text = getString(R.string.low)
@@ -201,9 +242,24 @@ class EditPassActivity : AppCompatActivity() {
                             else -> passQuality.text = getString(R.string.medium)
                         }
                         when (evaluation) {
-                            "low" -> passQuality.setTextColor(ContextCompat.getColor(this, R.color.negative))
-                            "high" -> passQuality.setTextColor(ContextCompat.getColor(this, R.color.positive))
-                            else -> passQuality.setTextColor(ContextCompat.getColor(this, R.color.fixable))
+                            "low" -> passQuality.setTextColor(
+                                    ContextCompat.getColor(
+                                            this,
+                                            R.color.negative
+                                    )
+                            )
+                            "high" -> passQuality.setTextColor(
+                                    ContextCompat.getColor(
+                                            this,
+                                            R.color.positive
+                                    )
+                            )
+                            else -> passQuality.setTextColor(
+                                    ContextCompat.getColor(
+                                            this,
+                                            R.color.fixable
+                                    )
+                            )
                         }
                         lettersToggle.isChecked = myPasswordManager.isLetters(genPasswordIdField.text.toString())
                         upperCaseToggle.isChecked = myPasswordManager.isUpperCase(genPasswordIdField.text.toString())
@@ -322,7 +378,7 @@ class EditPassActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 if (genPasswordIdField.hasFocus()) {
                     length = s.toString().length
-                    lengthToggle.text = getString(R.string.length)  + ": " + length
+                    lengthToggle.text = getString(R.string.length) + ": " + length
                     seekBar.progress = length
                     val deg = generatePassword.rotation + 10f
                     generatePassword.animate().rotation(deg).interpolator =
@@ -380,12 +436,22 @@ class EditPassActivity : AppCompatActivity() {
             genPasswordIdField.clearFocus()
             val myPasswordManager = PasswordManager()
             //Create a password with letters, uppercase letters, numbers but not special chars with 17 chars
-            if(list.size == 0 || (list.size == 1 && lengthToggle.isChecked)|| (list.size == 1 && list[0].contains(getString(R.string.length)))){
+            if(list.size == 0 || (list.size == 1 && lengthToggle.isChecked)|| (list.size == 1 && list[0].contains(
+                        getString(
+                                R.string.length
+                        )
+                ))){
                 genPasswordId.error = getString(R.string.noRules)
             } else {
                 genPasswordId.error = null
                 val newPassword: String =
-                    myPasswordManager.generatePassword(useLetters, useUC, useNumbers, useSymbols, length)
+                    myPasswordManager.generatePassword(
+                            useLetters,
+                            useUC,
+                            useNumbers,
+                            useSymbols,
+                            length
+                    )
                 genPasswordIdField.setText(newPassword)
 
                 val evaluation: String = myPasswordManager.evaluatePasswordString(genPasswordIdField.text.toString())
@@ -395,9 +461,24 @@ class EditPassActivity : AppCompatActivity() {
                     else -> passQuality.text = getString(R.string.medium)
                 }
                 when (evaluation) {
-                    "low" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.negative))
-                    "high" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.positive))
-                    else -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.fixable))
+                    "low" -> passQuality.setTextColor(
+                            ContextCompat.getColor(
+                                    applicationContext,
+                                    R.color.negative
+                            )
+                    )
+                    "high" -> passQuality.setTextColor(
+                            ContextCompat.getColor(
+                                    applicationContext,
+                                    R.color.positive
+                            )
+                    )
+                    else -> passQuality.setTextColor(
+                            ContextCompat.getColor(
+                                    applicationContext,
+                                    R.color.fixable
+                            )
+                    )
                 }
             }
         }
@@ -464,7 +545,8 @@ class EditPassActivity : AppCompatActivity() {
                         val dc = pm.encrypt(genPasswordIdField.text.toString())
                         contentValues.put(
                                 pdbHelper.KEY_PASS,
-                                dc)
+                                dc
+                        )
                         contentValues.put(pdbHelper.KEY_CIPHER, "crypted")
                     }
                     else{
@@ -516,8 +598,60 @@ class EditPassActivity : AppCompatActivity() {
             setResult(1, intent)
             finish()
         }
+
+        upload.setOnClickListener{
+            checkPermissionForImage()
+        }
+
+
+
+        val mediaStorageDir = File(
+                applicationContext.getExternalFilesDir("QuickPassPhotos")!!.absolutePath
+        )
+        if (!mediaStorageDir.exists()) {
+            mediaStorageDir.mkdirs()
+            Toast.makeText(applicationContext, "Directory Created", Toast.LENGTH_LONG).show()
+        }
+
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Log.d("App", "failed to create directory")
+            }
+        }
+
+        val file = File(mediaStorageDir, "file_name.jpg")
+        val uri = Uri.fromFile(file)
+        imageView5.setImageURI(uri)
+
     }
 
+
+    val PERMISSION_CODE_READ = 1001
+    val PERMISSION_CODE_WRITE = 1002
+    val IMAGE_PICK_CODE = 1000
+
+    private fun checkPermissionForImage() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if ((checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
+                && (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
+            ) {
+                val permission = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+                val permissionCoarse = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+                requestPermissions(permission, PERMISSION_CODE_READ) // GIVE AN INTEGER VALUE FOR PERMISSION_CODE_READ LIKE 1001
+                requestPermissions(permissionCoarse, PERMISSION_CODE_WRITE) // GIVE AN INTEGER VALUE FOR PERMISSION_CODE_WRITE LIKE 1002
+            } else {
+                pickImageFromGallery()
+            }
+        }
+    }
+
+
+    private fun pickImageFromGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, IMAGE_PICK_CODE) // GIVE AN INTEGER VALUE FOR IMAGE_PICK_CODE LIKE 1000
+    }
 
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
@@ -531,6 +665,38 @@ class EditPassActivity : AppCompatActivity() {
         }
         return false
     }
+
+    @Throws(IOException::class)
+    private fun copyFile(sourceFile: File, destFile: File) {
+        if (!sourceFile.exists()) {
+            return
+        }
+        var source: FileChannel? = null
+        var destination: FileChannel? = null
+        source = FileInputStream(sourceFile).channel
+        destination = FileOutputStream(destFile).channel
+        if (destination != null && source != null) {
+            destination.transferFrom(source, 0, source.size())
+        }
+        source?.close()
+        destination?.close()
+    }
+
+    private fun getRealPathFromURI(contentURI: Uri): String? {
+        val result: String?
+        val cursor = contentResolver.query(contentURI, null, null, null, null)
+        if (cursor == null) { // Source is Dropbox or other similar local file path
+            result = contentURI.path
+        } else {
+            cursor.moveToFirst()
+            val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+            result = cursor.getString(idx)
+            cursor.close()
+        }
+        return result
+    }
+
+    @SuppressLint("SdCardPath")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
@@ -538,13 +704,50 @@ class EditPassActivity : AppCompatActivity() {
                 recreate()
             }
         }
+        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
+            // I'M GETTING THE URI OF THE IMAGE AS DATA AND SETTING IT TO THE IMAGEVIEW
+            imageView5.setImageURI(data?.data)
+            if (ContextCompat.checkSelfPermission(
+                        this,
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                        PackageManager.PERMISSION_GRANTED
+                )
+            }
+
+            val selectedImageURI: Uri = data?.data!!
+
+            val mediaStorageDir = File(
+                    applicationContext.getExternalFilesDir("QuickPassPhotos")!!.absolutePath
+            )
+            if (!mediaStorageDir.exists()) {
+                mediaStorageDir.mkdirs()
+                Toast.makeText(applicationContext, "Directory Created", Toast.LENGTH_LONG).show()
+            }
+
+            if (!mediaStorageDir.exists()) {
+                if (!mediaStorageDir.mkdirs()) {
+                    Log.d("App", "failed to create directory")
+                }
+            }
+
+            val file = File(mediaStorageDir, "file_name.jpg")
+
+            copyFile(File(getRealPathFromURI(selectedImageURI)), file)
+
+        }
     }
-    private fun Context.toast(message:String)=
-        Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
+    private fun Context.toast(message: String)=
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
     private fun getDateTime(): String? {
         val dateFormat = SimpleDateFormat(
-            "yyyy-MM-dd HH:mm:ss", Locale.getDefault()
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault()
         )
         val date = Date()
         return dateFormat.format(date)

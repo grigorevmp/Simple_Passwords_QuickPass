@@ -1,6 +1,0 @@
-var hidden_email = "email"
-var hidden_password = "password"
-const val secretKey = "key"
-const val salt = "salt="
-const val iv = "iv=="
-const val GPLAY_LICENSE  = "GOOGLE PLAY LICENSE"
