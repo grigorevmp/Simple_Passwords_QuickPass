@@ -93,7 +93,7 @@
     <string name="auto_copy_password">Auto-copy password</string>
     <string name="about_app">About app</string>
     <string name="mikhail_grigorev">Mikhail Grigorev</string>
-    <string name="_2020" translatable="false">"2.3.0 • 2020 "</string>
+    <string name="_2020" translatable="false">"2.4.0 • 2021 "</string>
     <string name="telegram" translatable="false">Telegram</string>
     <string name="vkontakte" translatable="false">Vkontakte</string>
     <string name="sen_email" translatable="false">Send email</string>
@@ -199,4 +199,5 @@
     <string name="date">Date</string>
     <string name="attach_image">Attach image</string>
     <string name="attached_image">Attached image:</string>
+    <string name="clear_image">Clear image</string>
 </resources>

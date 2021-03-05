@@ -1,5 +1,6 @@
 package com.mikhailgrigorev.quickpass
 
+import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.content.*
 import android.content.res.Configuration
@@ -12,12 +13,12 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
@@ -533,33 +534,37 @@ class PasswordViewActivity : AppCompatActivity() {
                 Log.d("App", "failed to create directory")
             }
         }
+
+        val layoutTransition = mainLinearLayout.layoutTransition
+        layoutTransition.setDuration(5000) // Change duration
+        layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+
+
         val file = File(mediaStorageDir, "$passName.jpg")
         if (file.exists()){
             val uri = Uri.fromFile(file)
             attachedImage.setImageURI(uri)
+            attachedImageText.visibility = View.VISIBLE
+            val width = attachedImage.drawable.minimumWidth/3
+            val height = attachedImage.drawable.minimumHeight/3
+            attachedImage.layoutParams.height = height
+            attachedImage.layoutParams.width = width
 
             attachedImage.setOnClickListener {
-                if (imageHolder.scaleX == 0.3f) {
-                    imageHolder.pivotX = 0f
-                    imageHolder.pivotY = 0f
-                    imageHolder.animate()
-                            .scaleY(0.8f)
-                            .scaleX(0.8f)
-                            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 400
-                    //imageHolder.scaleX = 1f
-                    //imageHolder.scaleY = 1f
-                } else {
-                    imageHolder.pivotX = 0f
-                    imageHolder.pivotY = 0f
-                    imageHolder.animate()
-                            .scaleY(0.3f)
-                            .scaleX(0.3f)
-                            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 400
-                    //imageHolder.scaleX = 0.5f
-                    //imageHolder.scaleY = 0.5f
-                }
+                val uriForOpen = FileProvider.getUriForFile(
+                        this,
+                        this.applicationContext.packageName.toString() + ".provider",
+                        file
+                )
+                val intent = Intent()
+                intent.action = Intent.ACTION_VIEW
+                intent.setDataAndType(uriForOpen, "image/*")
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                startActivity(intent)
             }
         }
+
+
 
 
 
