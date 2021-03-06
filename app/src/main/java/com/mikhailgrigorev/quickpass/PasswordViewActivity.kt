@@ -6,6 +6,7 @@ import android.content.*
 import android.content.res.Configuration
 import android.database.Cursor
 import android.database.SQLException
+import android.graphics.Point
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -539,14 +540,28 @@ class PasswordViewActivity : AppCompatActivity() {
         layoutTransition.setDuration(5000) // Change duration
         layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
-
         val file = File(mediaStorageDir, "$passName.jpg")
         if (file.exists()){
             val uri = Uri.fromFile(file)
             attachedImage.setImageURI(uri)
             attachedImageText.visibility = View.VISIBLE
-            val width = attachedImage.drawable.minimumWidth/3
-            val height = attachedImage.drawable.minimumHeight/3
+            //var width = attachedImage.drawable.minimumWidth/3
+            //var height = attachedImage.drawable.minimumHeight/3
+            //val display = windowManager.defaultDisplay
+            //val size = Point()
+            //display.getSize(size)
+            //val widthMax: Int = size.x
+            //val heightMax: Int = size.y
+            //if (width >= widthMax)
+            //    width = widthMax - 100
+            //if (height >= heightMax)
+            //    height = heightMax - 100
+            val display = windowManager.defaultDisplay
+            val size = Point()
+            display.getSize(size)
+            val widthMax: Int = size.x
+            val width = (widthMax/2.4).toInt()
+            val height = attachedImage.drawable.minimumHeight * width /  attachedImage.drawable.minimumWidth
             attachedImage.layoutParams.height = height
             attachedImage.layoutParams.width = width
 
@@ -563,23 +578,11 @@ class PasswordViewActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-
-
-
-
-
-
     }
-
-
 
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
-                //logo.visibility = View.VISIBLE
-                //val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_splash)
-                //rotation.fillAfter = true
-                //logo.startAnimation(rotation)
                 if (from != "short") {
                     condition = false
                     val intent = Intent()

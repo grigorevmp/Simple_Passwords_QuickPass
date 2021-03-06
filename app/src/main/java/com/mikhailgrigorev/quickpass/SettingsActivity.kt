@@ -9,8 +9,11 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.database.Cursor
 import android.database.SQLException
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.provider.MediaStore
+import android.util.Log
 import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.View
@@ -26,6 +29,7 @@ import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
 import kotlinx.android.synthetic.main.activity_settings.*
 import java.io.*
+import java.nio.channels.FileChannel
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.random.Random
@@ -1200,6 +1204,22 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
+    @Throws(IOException::class)
+    private fun copyFile(sourceFile: File, destFile: File) {
+        if (!sourceFile.exists()) {
+            return
+        }
+        var source: FileChannel? = null
+        var destination: FileChannel? = null
+        source = FileInputStream(sourceFile).channel
+        destination = FileOutputStream(destFile).channel
+        if (destination != null && source != null) {
+            destination.transferFrom(source, 0, source.size())
+        }
+        source?.close()
+        destination?.close()
+    }
+
     private fun Context.toast(message: String) =
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
@@ -1348,6 +1368,34 @@ class SettingsActivity : AppCompatActivity() {
                             passDataBase.insert(pdbHelper.TABLE_USERS, null, contentValues)
                         }
                     }
+
+
+                    val mediaStorageDir = File(
+                            applicationContext.getExternalFilesDir("QuickPassPhotos")!!.absolutePath
+                    )
+                    if (!mediaStorageDir.exists()) {
+                        mediaStorageDir.mkdirs()
+                        Toast.makeText(
+                                applicationContext,
+                                "Directory Created",
+                                Toast.LENGTH_LONG
+                        ).show()
+                    }
+
+                    if (!mediaStorageDir.exists()) {
+                        if (!mediaStorageDir.mkdirs()) {
+                            Log.d("App", "failed to create directory")
+                        }
+                    }
+
+
+
+
+                    val to = getAbsoluteDir(this, "QuickPass")
+                    if (to != null) {
+                        copyFolder(to, mediaStorageDir)
+                    }
+
                 }
             } catch (e: Exception) { // If the app failed to attempt to retrieve the error file, throw an error alert
                 Toast.makeText(
@@ -1360,6 +1408,7 @@ class SettingsActivity : AppCompatActivity() {
         }
         if (requestCode == 222 && resultCode == RESULT_OK) {
             try {
+
                 data?.data?.let {
                     contentResolver.openOutputStream(it)
                 }?.let {
@@ -1394,6 +1443,32 @@ class SettingsActivity : AppCompatActivity() {
                         bw.flush()
                         c.close()
 
+                        val mediaStorageDir = File(
+                                applicationContext.getExternalFilesDir("QuickPassPhotos")!!.absolutePath
+                        )
+                        if (!mediaStorageDir.exists()) {
+                            mediaStorageDir.mkdirs()
+                            Toast.makeText(
+                                    applicationContext,
+                                    "Directory Created",
+                                    Toast.LENGTH_LONG
+                            ).show()
+                        }
+
+                        if (!mediaStorageDir.exists()) {
+                            if (!mediaStorageDir.mkdirs()) {
+                                Log.d("App", "failed to create directory")
+                            }
+                        }
+
+
+
+
+                        val to = getAbsoluteDir(this, "QuickPass")
+                        if (to != null) {
+                            copyFolder(mediaStorageDir, to)
+                        }
+
                     }
                 }
             } catch (e: Exception) { // If the app failed to attempt to retrieve the error file, throw an error alert
@@ -1407,5 +1482,72 @@ class SettingsActivity : AppCompatActivity() {
         }
 
 
+    }
+
+
+    private fun copyFolder(source: File, destination: File) {
+        if (source.isDirectory) {
+            if (!destination.exists()) {
+                destination.mkdirs()
+            }
+            val files = source.list()
+            for (file in files) {
+                val srcFile = File(source, file)
+                val destFile = File(destination, file)
+                copyFolder(srcFile, destFile)
+            }
+        } else {
+            var `in`: InputStream? = null
+            var out: OutputStream? = null
+            try {
+                `in` = FileInputStream(source)
+                out = FileOutputStream(destination)
+                val buffer = ByteArray(1024)
+                var length: Int
+                while (`in`.read(buffer).also { length = it } > 0) {
+                    out.write(buffer, 0, length)
+                }
+            } catch (e: java.lang.Exception) {
+                try {
+                    `in`!!.close()
+                } catch (e1: IOException) {
+                    e1.printStackTrace()
+                }
+                try {
+                    out!!.close()
+                } catch (e1: IOException) {
+                    e1.printStackTrace()
+                }
+            }
+        }
+    }
+
+    fun getAbsoluteDir(ctx: Context, optionalPath: String?): File? {
+        var rootPath: String
+        rootPath = if (optionalPath != null && optionalPath != "") {
+            ctx.getExternalFilesDir(optionalPath)!!.absolutePath
+        } else {
+            ctx.getExternalFilesDir(null)!!.absolutePath
+        }
+        // extraPortion is extra part of file path
+        val extraPortion = ("Android/data/" + BuildConfig.APPLICATION_ID
+                + File.separator + "files" + File.separator)
+        // Remove extraPortion
+        rootPath = rootPath.replace(extraPortion, "")
+        return File(rootPath)
+    }
+
+    private fun getRealPathFromURI(contentURI: Uri): String? {
+        val result: String?
+        val cursor = contentResolver.query(contentURI, null, null, null, null)
+        if (cursor == null) { // Source is Dropbox or other similar local file path
+            result = contentURI.path
+        } else {
+            cursor.moveToFirst()
+            val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+            result = cursor.getString(idx)
+            cursor.close()
+        }
+        return result
     }
 }

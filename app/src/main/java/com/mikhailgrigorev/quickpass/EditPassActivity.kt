@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.database.Cursor
 import android.database.SQLException
+import android.graphics.Point
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -53,6 +54,7 @@ class EditPassActivity : AppCompatActivity() {
     private var useNumbers = false
     private lateinit var login: String
     private lateinit var passName: String
+    private var imageName: String = ""
     @SuppressLint("Recycle", "SetTextI18n", "ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -587,6 +589,29 @@ class EditPassActivity : AppCompatActivity() {
                     }
                     pdbHelper.close()
                     setResult(1, intent)
+
+                    val mediaStorageDir = File(
+                            applicationContext.getExternalFilesDir("QuickPassPhotos")!!.absolutePath
+                    )
+                    if (!mediaStorageDir.exists()) {
+                        mediaStorageDir.mkdirs()
+                        Toast.makeText(applicationContext, "Directory Created", Toast.LENGTH_LONG).show()
+                    }
+
+                    if (!mediaStorageDir.exists()) {
+                        if (!mediaStorageDir.mkdirs()) {
+                            Log.d("App", "failed to create directory")
+                        }
+                    }
+
+                    if (mediaStorageDir.exists()) {
+                        if(imageName != "") {
+                            val from = File(mediaStorageDir, "$imageName.jpg")
+                            val to = File(mediaStorageDir, "${newNameField.text}.jpg")
+                            if (from.exists()) from.renameTo(to)
+                        }
+                    }
+
                     finish()
                 }
             }
@@ -623,12 +648,19 @@ class EditPassActivity : AppCompatActivity() {
 
         val file = File(mediaStorageDir, "$passName.jpg")
         if (file.exists()){
+            imageName = passName
             val uri = Uri.fromFile(file)
             attachedImage.setImageURI(uri)
             clearImage.visibility = View.VISIBLE
 
-            val width = attachedImage.drawable.minimumWidth/2
-            val height = attachedImage.drawable.minimumHeight/2
+            val display = windowManager.defaultDisplay
+            val size = Point()
+            display.getSize(size)
+            val widthMax: Int = size.x
+            val width = (widthMax/1.3).toInt()
+            val height = attachedImage.drawable.minimumHeight * width /  attachedImage.drawable.minimumWidth
+            attachedImage.layoutParams.height = height
+            attachedImage.layoutParams.width = width
             attachedImage.layoutParams.height = height
             attachedImage.layoutParams.width = width
 
@@ -735,8 +767,14 @@ class EditPassActivity : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             // I'M GETTING THE URI OF THE IMAGE AS DATA AND SETTING IT TO THE IMAGEVIEW
             attachedImage.setImageURI(data?.data)
-            val width = attachedImage.drawable.minimumWidth/2
-            val height = attachedImage.drawable.minimumHeight/2
+            val display = windowManager.defaultDisplay
+            val size = Point()
+            display.getSize(size)
+            val widthMax: Int = size.x
+            val width = (widthMax/1.3).toInt()
+            val height = attachedImage.drawable.minimumHeight * width /  attachedImage.drawable.minimumWidth
+            attachedImage.layoutParams.height = height
+            attachedImage.layoutParams.width = width
             attachedImage.layoutParams.height = height
             attachedImage.layoutParams.width = width
             if (ContextCompat.checkSelfPermission(
@@ -767,6 +805,8 @@ class EditPassActivity : AppCompatActivity() {
                     Log.d("App", "failed to create directory")
                 }
             }
+
+            imageName = passName
 
             val file = File(mediaStorageDir, "$passName.jpg")
 

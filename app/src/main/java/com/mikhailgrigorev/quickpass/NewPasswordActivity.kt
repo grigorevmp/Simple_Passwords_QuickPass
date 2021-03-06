@@ -7,6 +7,7 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.database.Cursor
+import android.graphics.Point
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -26,40 +27,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
-import kotlinx.android.synthetic.main.activity_edit_pass.*
 import kotlinx.android.synthetic.main.activity_new_password.*
-import kotlinx.android.synthetic.main.activity_new_password.accountAvatar
-import kotlinx.android.synthetic.main.activity_new_password.accountAvatarText
-import kotlinx.android.synthetic.main.activity_new_password.attachedImage
-import kotlinx.android.synthetic.main.activity_new_password.authToggle
-import kotlinx.android.synthetic.main.activity_new_password.back
-import kotlinx.android.synthetic.main.activity_new_password.cardPass
-import kotlinx.android.synthetic.main.activity_new_password.cryptToggle
-import kotlinx.android.synthetic.main.activity_new_password.email
-import kotlinx.android.synthetic.main.activity_new_password.emailField
-import kotlinx.android.synthetic.main.activity_new_password.emailSwitch
-import kotlinx.android.synthetic.main.activity_new_password.genPasswordId
-import kotlinx.android.synthetic.main.activity_new_password.genPasswordIdField
-import kotlinx.android.synthetic.main.activity_new_password.generatePassword
-import kotlinx.android.synthetic.main.activity_new_password.keyWordsField
-import kotlinx.android.synthetic.main.activity_new_password.lengthToggle
-import kotlinx.android.synthetic.main.activity_new_password.lettersToggle
-import kotlinx.android.synthetic.main.activity_new_password.newName
-import kotlinx.android.synthetic.main.activity_new_password.newNameField
-import kotlinx.android.synthetic.main.activity_new_password.noteField
-import kotlinx.android.synthetic.main.activity_new_password.numbersToggle
-import kotlinx.android.synthetic.main.activity_new_password.passQuality
-import kotlinx.android.synthetic.main.activity_new_password.passSettings
-import kotlinx.android.synthetic.main.activity_new_password.savePass
-import kotlinx.android.synthetic.main.activity_new_password.seekBar
-import kotlinx.android.synthetic.main.activity_new_password.symToggles
-import kotlinx.android.synthetic.main.activity_new_password.timeLimit
-import kotlinx.android.synthetic.main.activity_new_password.upload
-import kotlinx.android.synthetic.main.activity_new_password.upperCaseToggle
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -80,6 +51,7 @@ class NewPasswordActivity : AppCompatActivity() {
     private var useUC = false
     private var useLetters = false
     private var useNumbers = false
+    private var imageName: String = ""
 
     private lateinit var login: String
 
@@ -498,6 +470,30 @@ class NewPasswordActivity : AppCompatActivity() {
 
                     pdbHelper.close()
                     setResult(1, intent)
+
+
+                    val mediaStorageDir = File(
+                            applicationContext.getExternalFilesDir("QuickPassPhotos")!!.absolutePath
+                    )
+                    if (!mediaStorageDir.exists()) {
+                        mediaStorageDir.mkdirs()
+                        Toast.makeText(applicationContext, "Directory Created", Toast.LENGTH_LONG).show()
+                    }
+
+                    if (!mediaStorageDir.exists()) {
+                        if (!mediaStorageDir.mkdirs()) {
+                            Log.d("App", "failed to create directory")
+                        }
+                    }
+
+                    if (mediaStorageDir.exists()) {
+                        if(imageName != "") {
+                            val from = File(mediaStorageDir, "$imageName.jpg")
+                            val to = File(mediaStorageDir, "${newNameField.text}.jpg")
+                            if (from.exists())
+                                from.renameTo(to)
+                        }
+                    }
                     finish()
                 }
             }
@@ -506,48 +502,6 @@ class NewPasswordActivity : AppCompatActivity() {
         upload.setOnClickListener{
             checkPermissionForImage()
         }
-
-
-
-        val mediaStorageDir = File(
-                applicationContext.getExternalFilesDir("QuickPassPhotos")!!.absolutePath
-        )
-        if (!mediaStorageDir.exists()) {
-            mediaStorageDir.mkdirs()
-            Toast.makeText(applicationContext, "Directory Created", Toast.LENGTH_LONG).show()
-        }
-
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                Log.d("App", "failed to create directory")
-            }
-        }
-
-        val file = File(mediaStorageDir, "${newNameField.text}.jpg")
-        if (file.exists()){
-            val uri = Uri.fromFile(file)
-            attachedImage.setImageURI(uri)
-            clearImage.visibility = View.VISIBLE
-
-            val width = attachedImage.drawable.minimumWidth/2
-            val height = attachedImage.drawable.minimumHeight/2
-            attachedImage.layoutParams.height = height
-            attachedImage.layoutParams.width = width
-
-            attachedImage.setOnClickListener {
-                val uriForOpen = FileProvider.getUriForFile(
-                        this,
-                        this.applicationContext.packageName.toString() + ".provider",
-                        file
-                )
-                val intent = Intent()
-                intent.action = Intent.ACTION_VIEW
-                intent.setDataAndType(uriForOpen, "image/*")
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                startActivity(intent)
-            }
-        }
-
 
     }
 
@@ -648,19 +602,25 @@ class NewPasswordActivity : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             // I'M GETTING THE URI OF THE IMAGE AS DATA AND SETTING IT TO THE IMAGEVIEW
             attachedImage.setImageURI(data?.data)
-            val width = attachedImage.drawable.minimumWidth/2
-            val height = attachedImage.drawable.minimumHeight/2
+            val display = windowManager.defaultDisplay
+            val size = Point()
+            display.getSize(size)
+            val widthMax: Int = size.x
+            val width = (widthMax/1.3).toInt()
+            val height = attachedImage.drawable.minimumHeight * width /  attachedImage.drawable.minimumWidth
+            attachedImage.layoutParams.height = height
+            attachedImage.layoutParams.width = width
             attachedImage.layoutParams.height = height
             attachedImage.layoutParams.width = width
             if (ContextCompat.checkSelfPermission(
                         this,
-                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
                 != PackageManager.PERMISSION_GRANTED
             ) {
                 ActivityCompat.requestPermissions(
                         this,
-                        arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
                         PackageManager.PERMISSION_GRANTED
                 )
             }
@@ -681,7 +641,11 @@ class NewPasswordActivity : AppCompatActivity() {
                 }
             }
 
-            val file = File(mediaStorageDir, "${newNameField.text}.jpg")
+            imageName = if(newNameField.text.toString() == ""){
+                "000000001tmp000000001"
+            } else
+                newNameField.text.toString()
+            val file = File(mediaStorageDir, "${imageName}.jpg")
 
             copyFile(File(getRealPathFromURI(selectedImageURI)), file)
             isImage = true
