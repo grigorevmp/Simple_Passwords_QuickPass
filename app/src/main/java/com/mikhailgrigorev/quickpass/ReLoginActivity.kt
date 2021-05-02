@@ -244,15 +244,12 @@ class ReLoginActivity : AppCompatActivity() {
                 null, null, null
         )
 
-        var dbLogin: String
         var dbPassword: String
 
 
         if (cursor.moveToFirst()) {
-            val nameIndex: Int = cursor.getColumnIndex(dbHelper.KEY_NAME)
             val passIndex: Int = cursor.getColumnIndex(dbHelper.KEY_PASS)
             do {
-                dbLogin = cursor.getString(nameIndex).toString()
                 dbPassword = cursor.getString(passIndex).toString()
                 if(dbPassword != password){
                     inputPasswordId.error = getString(R.string.wrong_pass)

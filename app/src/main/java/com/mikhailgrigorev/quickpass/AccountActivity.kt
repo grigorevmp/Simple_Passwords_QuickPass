@@ -336,7 +336,7 @@ class AccountActivity : AppCompatActivity() {
                     inCorrectNum,
                     inCorrectNum
             )
-            fixPasswords.text = resources.getQuantityString(
+            notSafePasswords.text = resources.getQuantityString(
                     R.plurals.need_fix,
                     midCorrectNum,
                     midCorrectNum

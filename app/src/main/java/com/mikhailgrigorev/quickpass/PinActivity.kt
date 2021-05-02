@@ -126,7 +126,7 @@ class PinActivity : AppCompatActivity() {
         if(useBio != "none"){
             finger.visibility = View.VISIBLE
             finger.isClickable = true
-            val intent = Intent(this, PassGenActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             executor = ContextCompat.getMainExecutor(this)
             biometricPrompt = BiometricPrompt(this, executor,
                     object : BiometricPrompt.AuthenticationCallback() {
@@ -208,7 +208,7 @@ class PinActivity : AppCompatActivity() {
             exit(sharedPref)
         }
 
-        val intent = Intent(this, PassGenActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         inputPinIdField.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if(inputPinIdField.text.toString().length == 4){

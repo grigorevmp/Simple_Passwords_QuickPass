@@ -106,7 +106,7 @@ class SignActivity : AppCompatActivity() {
         // Start animation
         loginFab.show()
 
-        val intent = Intent(this, PassGenActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         executor = ContextCompat.getMainExecutor(this)
         biometricPrompt = BiometricPrompt(this, executor,
                 object : BiometricPrompt.AuthenticationCallback() {
@@ -211,7 +211,7 @@ class SignActivity : AppCompatActivity() {
 
         cursor.close()
 
-        val intent = Intent(this, PassGenActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("login", dbLogin)
         startActivity(intent)
         finish()

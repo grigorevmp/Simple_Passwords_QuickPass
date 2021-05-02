@@ -281,7 +281,7 @@ class LoginAfterSplashActivity : AppCompatActivity() {
                     putString(_keyBio, "using")
                     commit()
                 }
-                val intent = Intent(this, PassGenActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("login", dbLogin)
                 startActivity(intent)
                 finish()
@@ -293,7 +293,7 @@ class LoginAfterSplashActivity : AppCompatActivity() {
                     putString(_keyBio, "none")
                     commit()
                 }
-                val intent = Intent(this, PassGenActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("login", dbLogin)
                 startActivity(intent)
                 finish()
@@ -305,7 +305,7 @@ class LoginAfterSplashActivity : AppCompatActivity() {
                     putString(_keyBio, "none")
                     commit()
                 }
-                val intent = Intent(this, PassGenActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("login", dbLogin)
                 startActivity(intent)
                 finish()
@@ -315,7 +315,7 @@ class LoginAfterSplashActivity : AppCompatActivity() {
             dialog.show()
         }
         else{
-            val intent = Intent(this, PassGenActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("login", dbLogin)
             startActivity(intent)
             finish()

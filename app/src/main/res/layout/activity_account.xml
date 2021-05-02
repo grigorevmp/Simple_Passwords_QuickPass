@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    tools:context=".PassGenActivity">
+    tools:context=".MainActivity">
 
     <ImageView
         android:id="@+id/logo"
@@ -470,7 +470,7 @@
                         tools:ignore="UseCompoundDrawables">
 
                         <ImageView
-                            android:id="@+id/positiveCircle"
+                            android:id="@+id/correctPasswordsCircle"
                             android:layout_width="14dp"
                             android:layout_height="14dp"
                             android:layout_gravity="center"
@@ -496,7 +496,7 @@
                         tools:ignore="UseCompoundDrawables">
 
                         <ImageView
-                            android:id="@+id/negativeCircle"
+                            android:id="@+id/negativePasswordsCircle"
                             android:layout_width="14dp"
                             android:layout_height="14dp"
                             android:layout_gravity="center"
@@ -524,7 +524,7 @@
                         tools:ignore="UseCompoundDrawables">
 
                         <ImageView
-                            android:id="@+id/negativeCircle2"
+                            android:id="@+id/notSafePasswordsCircle"
                             android:layout_width="14dp"
                             android:layout_height="14dp"
                             android:layout_gravity="center"
@@ -533,7 +533,7 @@
                             app:srcCompat="@drawable/circle_improvement" />
 
                         <TextView
-                            android:id="@+id/fixPasswords"
+                            android:id="@+id/notSafePasswords"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"

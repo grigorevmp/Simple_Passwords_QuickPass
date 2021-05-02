@@ -73,6 +73,7 @@ class PasswordViewActivity : AppCompatActivity() {
         }
         val time: Long =  100000
         val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+
         val lockTime = sharedPref.getString("appLockTime", "6")
         if(lockTime != null) {
             if (lockTime != "0")
@@ -106,9 +107,12 @@ class PasswordViewActivity : AppCompatActivity() {
 
         val args: Bundle? = intent.extras
         login= args?.get("login").toString()
-        from= args?.get("from").toString()
 
-        if (from == "short"){
+        from= args?.get("openedFrom").toString()
+
+        if (from == "shortcut"){
+            intent.putExtra("login", login)
+            intent.putExtra("passName", args?.get("passName").toString())
             condition=false
             val intent = Intent(this, ReLoginActivity::class.java)
             startActivityForResult(intent, 1)
@@ -125,7 +129,7 @@ class PasswordViewActivity : AppCompatActivity() {
                 "__PASSNAME",
                 passName
         )
-        if(newPass != passName && from != "short")
+        if(newPass != passName && from != "shortcut")
             passName = newPass.toString()
 
 
@@ -404,7 +408,7 @@ class PasswordViewActivity : AppCompatActivity() {
                         arrayOf(dbLogin)
                 )
                 toast(getString(R.string.passwordDeleted))
-                val intent = Intent(this, PassGenActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("login", login)
                 condition=false
                 startActivity(intent)
@@ -463,7 +467,7 @@ class PasswordViewActivity : AppCompatActivity() {
             }
             else{
                 condition=false
-                val intent = Intent(this, PassGenActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("login", login)
                 intent.putExtra("passName", passName)
                 startActivity(intent)
@@ -592,7 +596,7 @@ class PasswordViewActivity : AppCompatActivity() {
                     finish()
                 } else {
                     condition = false
-                    val intent = Intent(this, PassGenActivity::class.java)
+                    val intent = Intent(this, MainActivity::class.java)
                     intent.putExtra("login", login)
                     intent.putExtra("passName", passName)
                     startActivity(intent)
