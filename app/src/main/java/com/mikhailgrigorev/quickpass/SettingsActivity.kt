@@ -9,10 +9,8 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.database.Cursor
 import android.database.SQLException
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.provider.MediaStore
 import android.util.Log
 import android.util.TypedValue
 import android.view.KeyEvent
@@ -1209,8 +1207,8 @@ class SettingsActivity : AppCompatActivity() {
         if (!sourceFile.exists()) {
             return
         }
-        var source: FileChannel? = FileInputStream(sourceFile).channel
-        var destination: FileChannel? = FileOutputStream(destFile).channel
+        val source: FileChannel? = FileInputStream(sourceFile).channel
+        val destination: FileChannel? = FileOutputStream(destFile).channel
         if (destination != null && source != null) {
             destination.transferFrom(source, 0, source.size())
         }
@@ -1389,10 +1387,8 @@ class SettingsActivity : AppCompatActivity() {
 
 
 
-                    val to = getAbsoluteDir(this, "QuickPass")
-                    if (to != null) {
-                        copyFolder(to, mediaStorageDir)
-                    }
+                    val to = getAbsoluteDir(this)
+                    copyFolder(to, mediaStorageDir)
 
                 }
             } catch (e: Exception) { // If the app failed to attempt to retrieve the error file, throw an error alert
@@ -1460,10 +1456,8 @@ class SettingsActivity : AppCompatActivity() {
 
 
 
-                        val to = getAbsoluteDir(this, "QuickPass")
-                        if (to != null) {
-                            copyFolder(mediaStorageDir, to)
-                        }
+                        val to = getAbsoluteDir(this)
+                        copyFolder(mediaStorageDir, to)
 
                     }
                 }
@@ -1487,11 +1481,12 @@ class SettingsActivity : AppCompatActivity() {
                 destination.mkdirs()
             }
             val files = source.list()
-            for (file in files) {
-                val srcFile = File(source, file)
-                val destFile = File(destination, file)
-                copyFolder(srcFile, destFile)
-            }
+            if (files != null)
+                for (file in files) {
+                    val srcFile = File(source, file)
+                    val destFile = File(destination, file)
+                    copyFolder(srcFile, destFile)
+                }
         } else {
             var `in`: InputStream? = null
             var out: OutputStream? = null
@@ -1518,8 +1513,9 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    private fun getAbsoluteDir(ctx: Context, optionalPath: String?): File? {
-        var rootPath: String = if (optionalPath != null && optionalPath != "") {
+    private fun getAbsoluteDir(ctx: Context): File {
+        val optionalPath = "QuickPass"
+        var rootPath: String = if (optionalPath != "") {
             ctx.getExternalFilesDir(optionalPath)!!.absolutePath
         } else {
             ctx.getExternalFilesDir(null)!!.absolutePath
@@ -1532,17 +1528,4 @@ class SettingsActivity : AppCompatActivity() {
         return File(rootPath)
     }
 
-    private fun getRealPathFromURI(contentURI: Uri): String? {
-        val result: String?
-        val cursor = contentResolver.query(contentURI, null, null, null, null)
-        if (cursor == null) { // Source is Dropbox or other similar local file path
-            result = contentURI.path
-        } else {
-            cursor.moveToFirst()
-            val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-            result = cursor.getString(idx)
-            cursor.close()
-        }
-        return result
-    }
 }

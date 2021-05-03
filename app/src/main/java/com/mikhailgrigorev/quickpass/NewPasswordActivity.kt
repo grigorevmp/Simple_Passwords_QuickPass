@@ -12,6 +12,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
@@ -55,8 +56,9 @@ class NewPasswordActivity : AppCompatActivity() {
 
     private lateinit var login: String
 
-    @SuppressLint("Recycle", "ClickableViewAccessibility", "ResourceAsColor", "RestrictedApi",
-        "SetTextI18n"
+    @SuppressLint(
+            "Recycle", "ClickableViewAccessibility", "ResourceAsColor", "RestrictedApi",
+            "SetTextI18n"
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -102,14 +104,18 @@ class NewPasswordActivity : AppCompatActivity() {
                 handler.postDelayed(r, time * lockTime.toLong())
         }
         else
-            handler.postDelayed(r, time*6L)
+            handler.postDelayed(r, time * 6L)
 
         setContentView(R.layout.activity_new_password)
 
         val cardRadius = sharedPref.getString("cardRadius", "none")
         if(cardRadius != null)
             if(cardRadius != "none") {
-                info_card.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                info_card.radius = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        cardRadius.toFloat(),
+                        resources.displayMetrics
+                )
             }
 
 
@@ -119,38 +125,61 @@ class NewPasswordActivity : AppCompatActivity() {
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
         val cursor: Cursor = database.query(
-            dbHelper.TABLE_USERS, arrayOf(dbHelper.KEY_IMAGE),
-            "NAME = ?", arrayOf(login),
-            null, null, null
+                dbHelper.TABLE_USERS, arrayOf(dbHelper.KEY_IMAGE),
+                "NAME = ?", arrayOf(login),
+                null, null, null
         )
         if (cursor.moveToFirst()) {
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
             do {
                 when(cursor.getString(imageIndex).toString()){
-                    "ic_account" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account)
-                    "ic_account_Pink" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Pink)
-                    "ic_account_Red" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Red)
-                    "ic_account_Purple" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Purple)
-                    "ic_account_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Violet)
-                    "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Dark_Violet)
-                    "ic_account_Blue" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Blue)
-                    "ic_account_Cyan" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Cyan)
-                    "ic_account_Teal" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Teal)
-                    "ic_account_Green" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_Green)
-                    "ic_account_lightGreen" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account_lightGreen)
+                    "ic_account" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account
+                            )
+                    "ic_account_Pink" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Pink
+                            )
+                    "ic_account_Red" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Red
+                            )
+                    "ic_account_Purple" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Purple
+                            )
+                    "ic_account_Violet" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Violet
+                            )
+                    "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Dark_Violet
+                            )
+                    "ic_account_Blue" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Blue
+                            )
+                    "ic_account_Cyan" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Cyan
+                            )
+                    "ic_account_Teal" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Teal
+                            )
+                    "ic_account_Green" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_Green
+                            )
+                    "ic_account_lightGreen" -> accountAvatar.backgroundTintList =
+                            ContextCompat.getColorStateList(
+                                    this, R.color.ic_account_lightGreen
+                            )
                     else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account)
+                            this, R.color.ic_account
+                    )
                 }
                 accountAvatarText.text = login[0].toString()
             } while (cursor.moveToNext())
@@ -175,9 +204,24 @@ class NewPasswordActivity : AppCompatActivity() {
                 else -> passQuality.text = getString(R.string.medium)
             }
             when (evaluation) {
-                "low" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.negative))
-                "high" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.positive))
-                else -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.fixable))
+                "low" -> passQuality.setTextColor(
+                        ContextCompat.getColor(
+                                applicationContext,
+                                R.color.negative
+                        )
+                )
+                "high" -> passQuality.setTextColor(
+                        ContextCompat.getColor(
+                                applicationContext,
+                                R.color.positive
+                        )
+                )
+                else -> passQuality.setTextColor(
+                        ContextCompat.getColor(
+                                applicationContext,
+                                R.color.fixable
+                        )
+                )
             }
         }
         useLetters = args?.get("useLetters") as Boolean
@@ -227,7 +271,7 @@ class NewPasswordActivity : AppCompatActivity() {
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                 // Display the current progress of SeekBar
                 length = i
-                lengthToggle.text = getString(R.string.length)  + ": " + length
+                lengthToggle.text = getString(R.string.length) + ": " + length
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -243,7 +287,7 @@ class NewPasswordActivity : AppCompatActivity() {
         for (index in 0 until passSettings.childCount) {
             val chip: Chip = passSettings.getChildAt(index) as Chip
             // Set the chip checked change listener
-            chip.setOnCheckedChangeListener{view, isChecked ->
+            chip.setOnCheckedChangeListener{ view, isChecked ->
                 val deg = generatePassword.rotation + 30f
                 generatePassword.animate().rotation(deg).interpolator = AccelerateDecelerateInterpolator()
                 if (isChecked){
@@ -270,14 +314,15 @@ class NewPasswordActivity : AppCompatActivity() {
             }
         }
 
-        genPasswordIdField.addTextChangedListener(object: TextWatcher{
+        genPasswordIdField.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (genPasswordIdField.hasFocus()) {
                     length = s.toString().length
-                    lengthToggle.text = getString(R.string.length)  + ": " + length
+                    lengthToggle.text = getString(R.string.length) + ": " + length
                     seekBar.progress = length
                     val deg = generatePassword.rotation + 10f
-                    generatePassword.animate().rotation(deg).interpolator = AccelerateDecelerateInterpolator()
+                    generatePassword.animate().rotation(deg).interpolator =
+                            AccelerateDecelerateInterpolator()
                     val myPasswordManager = PasswordManager()
                     lettersToggle.isChecked =
                             myPasswordManager.isLetters(genPasswordIdField.text.toString())
@@ -289,7 +334,7 @@ class NewPasswordActivity : AppCompatActivity() {
                             myPasswordManager.isSymbols(genPasswordIdField.text.toString())
                     var evaluation: String =
                             myPasswordManager.evaluatePasswordString(genPasswordIdField.text.toString())
-                    if (myPasswordManager.popularPasswords(genPasswordIdField.text.toString())){
+                    if (myPasswordManager.popularPasswords(genPasswordIdField.text.toString())) {
                         evaluation = "low"
                     }
                     if (genPasswordIdField.text.toString().length == 4)
@@ -337,13 +382,23 @@ class NewPasswordActivity : AppCompatActivity() {
             generatePassword.animate().rotation(deg).interpolator = AccelerateDecelerateInterpolator()
             val myPasswordManager = PasswordManager()
             //Create a password with letters, uppercase letters, numbers but not special chars with 17 chars
-            if(list.size == 0 || (list.size == 1 && lengthToggle.isChecked)|| (list.size == 1 && list[0].contains(getString(R.string.length)))){
+            if(list.size == 0 || (list.size == 1 && lengthToggle.isChecked)|| (list.size == 1 && list[0].contains(
+                        getString(
+                                R.string.length
+                        )
+                ))){
                 genPasswordId.error = getString(R.string.noRules)
             }
             else {
                 genPasswordId.error = null
                 val newPassword: String =
-                    myPasswordManager.generatePassword(useLetters, useUC, useNumbers, useSymbols, length)
+                    myPasswordManager.generatePassword(
+                            useLetters,
+                            useUC,
+                            useNumbers,
+                            useSymbols,
+                            length
+                    )
                 genPasswordIdField.setText(newPassword)
 
                 var evaluation: String = myPasswordManager.evaluatePasswordString(genPasswordIdField.text.toString())
@@ -360,9 +415,24 @@ class NewPasswordActivity : AppCompatActivity() {
                     else -> passQuality.text = getString(R.string.medium)
                 }
                 when (evaluation) {
-                    "low" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.negative))
-                    "high" -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.positive))
-                    else -> passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.fixable))
+                    "low" -> passQuality.setTextColor(
+                            ContextCompat.getColor(
+                                    applicationContext,
+                                    R.color.negative
+                            )
+                    )
+                    "high" -> passQuality.setTextColor(
+                            ContextCompat.getColor(
+                                    applicationContext,
+                                    R.color.positive
+                            )
+                    )
+                    else -> passQuality.setTextColor(
+                            ContextCompat.getColor(
+                                    applicationContext,
+                                    R.color.fixable
+                            )
+                    )
                 }
             }
         }
@@ -442,7 +512,8 @@ class NewPasswordActivity : AppCompatActivity() {
                         val dc = pm.encrypt(genPasswordIdField.text.toString())
                         contentValues.put(
                                 pdbHelper.KEY_PASS,
-                                dc)
+                                dc
+                        )
                         contentValues.put(pdbHelper.KEY_CIPHER, "crypted")
                     }
                     else{
@@ -539,8 +610,8 @@ class NewPasswordActivity : AppCompatActivity() {
         if (!sourceFile.exists()) {
             return
         }
-        var source: FileChannel? = FileInputStream(sourceFile).channel
-        var destination: FileChannel? = FileOutputStream(destFile).channel
+        val source: FileChannel? = FileInputStream(sourceFile).channel
+        val destination: FileChannel? = FileOutputStream(destFile).channel
         if (destination != null && source != null) {
             destination.transferFrom(source, 0, source.size())
         }
@@ -548,27 +619,108 @@ class NewPasswordActivity : AppCompatActivity() {
         destination?.close()
     }
 
-    private fun getRealPathFromURI(contentURI: Uri): String? {
-        val result: String?
-        val cursor = contentResolver.query(contentURI, null, null, null, null)
-        if (cursor == null) { // Source is Dropbox or other similar local file path
-            result = contentURI.path
-        } else {
-            cursor.moveToFirst()
-            val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-            result = cursor.getString(idx)
-            cursor.close()
+
+
+    private fun getImagePath(context: Context, uri: Uri): String? {
+        var filePath = ""
+        try {
+            if (DocumentsContract.isDocumentUri(context, uri)) {
+                if (isExternalStorageDocument(uri)) {
+                    val docId = DocumentsContract.getDocumentId(uri)
+                    val split = docId.split(":").toTypedArray()
+                    val type = split[0]
+                    if ("primary".equals(type, ignoreCase = true)) {
+                        return context.getExternalFilesDir(null).toString() + "/" + split[1]
+                    }
+                } else if (isDownloadsDocument(uri)) {
+                    val id = DocumentsContract.getDocumentId(uri)
+                    val contentUri = ContentUris.withAppendedId(
+                            Uri.parse("content://downloads/public_downloads"),
+                            java.lang.Long.valueOf(id)
+                    )
+                    return getDataColumn(context, contentUri, null, null)
+                } else if (isMediaDocument(uri)) {
+                    val docId = DocumentsContract.getDocumentId(uri)
+                    val split = docId.split(":").toTypedArray()
+                    val type = split[0]
+                    var contentUri: Uri? = null
+                    if ("image" == type) {
+                        contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                    } else if ("video" == type) {
+                        contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                    } else if ("audio" == type) {
+                        contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                    }
+                    val selection = "_id=?"
+                    val selectionArgs = arrayOf<String?>(
+                            split[1]
+                    )
+                    return getDataColumn(context, contentUri, selection, selectionArgs)
+                }
+            } else if ("content".equals(uri.scheme, ignoreCase = true)) {
+
+                // Return the remote address
+                return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(
+                        context,
+                        uri,
+                        null,
+                        null
+                )
+            } else if ("file".equals(uri.scheme, ignoreCase = true)) {
+                return uri.path
+            }
+
+        } catch (e: java.lang.Exception) {
+            filePath = ""
         }
-        return result
+        return filePath
     }
+
+    private fun getDataColumn(
+        context: Context, uri: Uri?, selection: String?,
+        selectionArgs: Array<String?>?
+    ): String? {
+        var cursor: Cursor? = null
+        val column = "_data"
+        val projection = arrayOf(
+                column
+        )
+        try {
+            cursor = context.contentResolver.query(
+                    uri!!, projection, selection, selectionArgs,
+                    null
+            )
+            if (cursor != null && cursor.moveToFirst()) {
+                val index = cursor.getColumnIndexOrThrow(column)
+                return cursor.getString(index)
+            }
+        } finally {
+            cursor?.close()
+        }
+        return null
+    }
+
+
+    private fun isExternalStorageDocument(uri: Uri): Boolean {
+        return "com.android.externalstorage.documents" == uri.authority
+    }
+
+    private fun isDownloadsDocument(uri: Uri): Boolean {
+        return "com.android.providers.downloads.documents" == uri.authority
+    }
+
+    private fun isMediaDocument(uri: Uri): Boolean {
+        return "com.android.providers.media.documents" == uri.authority
+    }
+
+    private fun isGooglePhotosUri(uri: Uri): Boolean {
+        return "com.google.android.apps.photos.content" == uri.authority
+    }
+
 
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
-                //logo.visibility = View.VISIBLE
-                //val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_splash)
-                //rotation.fillAfter = true
-                //logo.startAnimation(rotation)
                 val intent = Intent()
                 intent.putExtra("login", login)
                 setResult(1, intent)
@@ -580,14 +732,14 @@ class NewPasswordActivity : AppCompatActivity() {
 
     private fun getDateTime(): String? {
         val dateFormat = SimpleDateFormat(
-            "yyyy-MM-dd HH:mm:ss", Locale.getDefault()
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault()
         )
         val date = Date()
         return dateFormat.format(date)
     }
 
-    private fun Context.toast(message:String)=
-        Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
+    private fun Context.toast(message: String)=
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
     @SuppressLint("SdCardPath")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -645,7 +797,11 @@ class NewPasswordActivity : AppCompatActivity() {
                 newNameField.text.toString()
             val file = File(mediaStorageDir, "${imageName}.jpg")
 
-            copyFile(File(getRealPathFromURI(selectedImageURI)), file)
+            val resultURI = getImagePath(this, selectedImageURI)
+            if (resultURI != null){
+                copyFile(File(resultURI), file)
+            }
+
             isImage = true
         }
     }
