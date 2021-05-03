@@ -1,16 +1,19 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
+    buildFeatures {
+        viewBinding true
+    }
+
     defaultConfig {
         applicationId "com.mikhailgrigorev.quickpass"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 17
+        versionCode 19
         versionName '2.5.0'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

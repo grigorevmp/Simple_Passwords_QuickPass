@@ -5,16 +5,19 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_splash.*
+import com.mikhailgrigorev.quickpass.databinding.ActivitySplashBinding
 
 class LoginActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySplashBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_splash)
         rotation.fillAfter = true
-        logo.startAnimation(rotation)
+        binding.logo.startAnimation(rotation)
 
         Handler().postDelayed({
             val intent = Intent(this, LoginAfterSplashActivity::class.java)

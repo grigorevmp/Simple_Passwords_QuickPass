@@ -21,9 +21,9 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.google.android.material.chip.Chip
+import com.mikhailgrigorev.quickpass.databinding.ActivityPasswordViewBinding
 import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
-import kotlinx.android.synthetic.main.activity_password_view.*
 import java.io.File
 
 
@@ -37,6 +37,7 @@ class PasswordViewActivity : AppCompatActivity() {
     private lateinit var passName: String
     private lateinit var from: String
     private var condition = true
+    private lateinit var binding: ActivityPasswordViewBinding
 
     @SuppressLint("Recycle", "SetTextI18n", "UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,18 +87,19 @@ class PasswordViewActivity : AppCompatActivity() {
             Configuration.UI_MODE_NIGHT_NO ->
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
-        setContentView(R.layout.activity_password_view)
+        binding = ActivityPasswordViewBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
 
         val cardRadius = sharedPref.getString("cardRadius", "none")
         if(cardRadius != null)
             if(cardRadius != "none") {
-                warnCard.radius = TypedValue.applyDimension(
+                binding.warnCard.radius = TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
                         cardRadius.toFloat(),
                         resources.displayMetrics
                 )
-                cardView3.radius = TypedValue.applyDimension(
+                binding.cardView3.radius = TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
                         cardRadius.toFloat(),
                         resources.displayMetrics
@@ -145,55 +147,55 @@ class PasswordViewActivity : AppCompatActivity() {
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
             do {
                 when(cursor.getString(imageIndex).toString()){
-                    "ic_account" -> accountAvatar.backgroundTintList =
+                    "ic_account" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account
                             )
-                    "ic_account_Pink" -> accountAvatar.backgroundTintList =
+                    "ic_account_Pink" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Pink
                             )
-                    "ic_account_Red" -> accountAvatar.backgroundTintList =
+                    "ic_account_Red" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Red
                             )
-                    "ic_account_Purple" -> accountAvatar.backgroundTintList =
+                    "ic_account_Purple" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Purple
                             )
-                    "ic_account_Violet" -> accountAvatar.backgroundTintList =
+                    "ic_account_Violet" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Violet
                             )
-                    "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList =
+                    "ic_account_Dark_Violet" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Dark_Violet
                             )
-                    "ic_account_Blue" -> accountAvatar.backgroundTintList =
+                    "ic_account_Blue" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Blue
                             )
-                    "ic_account_Cyan" -> accountAvatar.backgroundTintList =
+                    "ic_account_Cyan" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Cyan
                             )
-                    "ic_account_Teal" -> accountAvatar.backgroundTintList =
+                    "ic_account_Teal" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Teal
                             )
-                    "ic_account_Green" -> accountAvatar.backgroundTintList =
+                    "ic_account_Green" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Green
                             )
-                    "ic_account_lightGreen" -> accountAvatar.backgroundTintList =
+                    "ic_account_lightGreen" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_lightGreen
                             )
-                    else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    else -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account
                     )
                 }
-                accountAvatarText.text = login[0].toString()
+                binding.accountAvatarText.text = login[0].toString()
             } while (cursor.moveToNext())
         }
 
@@ -236,35 +238,35 @@ class PasswordViewActivity : AppCompatActivity() {
                 val cryptIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_CIPHER)
                 do {
                     dbLogin = pCursor.getString(nameIndex).toString()
-                    helloTextId.text = dbLogin
+                    binding.helloTextId.text = dbLogin
 
 
                     val dbCryptIndex = pCursor.getString(cryptIndex).toString()
 
-                    crypt.visibility = View.GONE
+                    binding.crypt.visibility = View.GONE
 
                     dbPassword = pCursor.getString(passIndex).toString()
 
                     val pm = PasswordManager()
 
-                    addSettings.visibility = View.GONE
+                    binding.addSettings.visibility = View.GONE
                     if (dbCryptIndex == "crypted"){
-                        crypt.isChecked = true
-                        crypt.visibility = View.VISIBLE
-                        addSettings.visibility = View.VISIBLE
-                        cypheredWarn.visibility = View.VISIBLE
-                        cypheredWarnImg.visibility = View.VISIBLE
+                        binding.crypt.isChecked = true
+                        binding.crypt.visibility = View.VISIBLE
+                        binding.addSettings.visibility = View.VISIBLE
+                        binding.cypheredWarn.visibility = View.VISIBLE
+                        binding.cypheredWarnImg.visibility = View.VISIBLE
                         dbPassword = pm.decrypt(dbPassword).toString()
                     }
 
 
-                    passViewFieldView.setText(dbPassword)
+                    binding.passViewFieldView.setText(dbPassword)
                     val myPasswordManager = PasswordManager()
                     var evaluation: String = myPasswordManager.evaluatePasswordString(dbPassword)
 
 
                     val dbTimeIndex = pCursor.getString(timeIndex).toString()
-                    passwordTime.text = getString(R.string.time_lim) + " " + dbTimeIndex
+                    binding.passwordTime.text = getString(R.string.time_lim) + " " + dbTimeIndex
 
                     dbGroup = if(pCursor.getString(groupIndex) == null)
                         "none"
@@ -272,37 +274,37 @@ class PasswordViewActivity : AppCompatActivity() {
                         pCursor.getString(groupIndex).toString()
 
                     if((myPasswordManager.evaluateDate(dbTimeIndex)) && (dbPassword.length!= 4)){
-                        warnCard.visibility = View.VISIBLE
+                        binding.warnCard.visibility = View.VISIBLE
                         evaluation = "low"
                     }
 
                     if (pm.popularPasswords(dbPassword) or ((dbPassword.length == 4) and pm.popularPin(
                                 dbPassword
                         ))){
-                        tooEasy.visibility = View.VISIBLE
-                        tooEasyImg.visibility = View.VISIBLE
+                        binding.tooEasy.visibility = View.VISIBLE
+                        binding.tooEasyImg.visibility = View.VISIBLE
                         evaluation = "low"
                     }
 
                     when (evaluation) {
-                        "low" -> passQuality.text = getString(R.string.low)
-                        "high" -> passQuality.text = getString(R.string.high)
-                        else -> passQuality.text = getString(R.string.medium)
+                        "low" -> binding.passQuality.text = getString(R.string.low)
+                        "high" -> binding.passQuality.text = getString(R.string.high)
+                        else -> binding.passQuality.text = getString(R.string.medium)
                     }
                     when (evaluation) {
-                        "low" -> passQuality.setTextColor(
+                        "low" -> binding.passQuality.setTextColor(
                                 ContextCompat.getColor(
                                         applicationContext,
                                         R.color.negative
                                 )
                         )
-                        "high" -> passQuality.setTextColor(
+                        "high" -> binding.passQuality.setTextColor(
                                 ContextCompat.getColor(
                                         applicationContext,
                                         R.color.positive
                                 )
                         )
-                        else -> passQuality.setTextColor(
+                        else -> binding.passQuality.setTextColor(
                                 ContextCompat.getColor(
                                         applicationContext,
                                         R.color.fixable
@@ -311,34 +313,34 @@ class PasswordViewActivity : AppCompatActivity() {
                     }
 
                     if (evaluation == "high")
-                        warning.visibility = View.GONE
+                        binding.warning.visibility = View.GONE
                     else
-                        warning2.visibility = View.GONE
+                        binding.warning2.visibility = View.GONE
 
 
 
                     if((dbPassword.length == 4) and (evaluation == "high")){
-                        passQualityText.text = getString(R.string.showPin)
-                        passQuality.visibility = View.GONE
-                        warning.visibility = View.GONE
-                        warning2.visibility = View.VISIBLE
-                        warning2.setImageDrawable(getDrawable(R.drawable.credit_card))
+                        binding.passQualityText.text = getString(R.string.showPin)
+                        binding.passQuality.visibility = View.GONE
+                        binding.warning.visibility = View.GONE
+                        binding.warning2.visibility = View.VISIBLE
+                        binding.warning2.setImageDrawable(getDrawable(R.drawable.credit_card))
                     }
 
                     val db2FAIndex = pCursor.getString(aIndex).toString()
 
-                    authToggle.visibility = View.GONE
-                    timeLimit.visibility = View.GONE
+                    binding.authToggle.visibility = View.GONE
+                    binding.timeLimit.visibility = View.GONE
                     if (db2FAIndex == "1"){
-                        authToggle.isChecked = true
-                        authToggle.visibility = View.VISIBLE
-                        addSettings.visibility = View.VISIBLE
+                        binding.authToggle.isChecked = true
+                        binding.authToggle.visibility = View.VISIBLE
+                        binding.addSettings.visibility = View.VISIBLE
                     }
                     val dbUTIndex = pCursor.getString(uTIndex).toString()
                     if (dbUTIndex == "1"){
-                        timeLimit.isChecked = true
-                        timeLimit.visibility = View.VISIBLE
-                        addSettings.visibility = View.VISIBLE
+                        binding.timeLimit.isChecked = true
+                        binding.timeLimit.visibility = View.VISIBLE
+                        binding.addSettings.visibility = View.VISIBLE
                     }
 
 
@@ -346,57 +348,57 @@ class PasswordViewActivity : AppCompatActivity() {
 
                     val dbDescIndex = pCursor.getString(descIndex).toString()
                     if (dbDescIndex != "")
-                        noteViewField.setText(dbDescIndex)
+                        binding.noteViewField.setText(dbDescIndex)
                     else
-                        noteView.visibility = View.GONE
+                        binding.noteView.visibility = View.GONE
 
 
                     val dbEmailIndex = pCursor.getString(loginIndex).toString()
                     if (dbEmailIndex != "")
-                        emailViewField.setText(dbEmailIndex)
+                        binding.emailViewField.setText(dbEmailIndex)
                     else
-                        emailView.visibility = View.GONE
+                        binding.emailView.visibility = View.GONE
 
                     val dbTagsIndex = pCursor.getString(tagsIndex).toString()
                     if(dbTagsIndex != "") {
                         dbTagsIndex.split("\\s".toRegex()).forEach { item ->
-                            val chip = Chip(group.context)
+                            val chip = Chip(binding.group.context)
                             chip.text= item
                             chip.isClickable = false
-                            group.addView(chip)
+                            binding.group.addView(chip)
                         }
                     }
                     else{
-                        kwInfo.visibility = View.GONE
+                        binding.kwInfo.visibility = View.GONE
                     }
 
                 } while (pCursor.moveToNext())
             } else {
-                helloTextId.text = getString(R.string.no_text)
+                binding.helloTextId.text = getString(R.string.no_text)
             }
 
         } catch (e: SQLException) {
-            helloTextId.text = getString(R.string.no_text)
+            binding.helloTextId.text = getString(R.string.no_text)
         }
 
         if((args?.get("sameWith") != null) and (args?.get("sameWith").toString() != "none")){
-            warning0.visibility = View.VISIBLE
-            sameParts.visibility = View.VISIBLE
-            sameParts.text = args?.get("sameWith").toString()
-            passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.negative))
-            passQuality.text = getString(R.string.low)
+            binding.warning0.visibility = View.VISIBLE
+            binding.sameParts.visibility = View.VISIBLE
+            binding.sameParts.text = args?.get("sameWith").toString()
+            binding.passQuality.setTextColor(ContextCompat.getColor(applicationContext, R.color.negative))
+            binding.passQuality.text = getString(R.string.low)
         }
 
         val autoCopy = sharedPref.getString(_keyAutoCopy, "none")
 
-        if(autoCopy == "none" && passViewFieldView.text.toString() != ""){
+        if(autoCopy == "none" && binding.passViewFieldView.text.toString() != ""){
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("Password", passViewFieldView.text.toString())
+            val clip = ClipData.newPlainText("Password", binding.passViewFieldView.text.toString())
             clipboard.setPrimaryClip(clip)
             toast(getString(R.string.passCopied))
         }
 
-        deletePassword.setOnClickListener {
+        binding.deletePassword.setOnClickListener {
             val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
             builder.setTitle(getString(R.string.deletePassword))
             builder.setMessage(getString(R.string.passwordDeleteConfirm))
@@ -424,7 +426,7 @@ class PasswordViewActivity : AppCompatActivity() {
             dialog.show()
         }
 
-        accountAvatar.setOnClickListener {
+        binding.accountAvatar.setOnClickListener {
             condition=false
             val intent = Intent(this, AccountActivity::class.java)
             intent.putExtra("login", login)
@@ -433,30 +435,26 @@ class PasswordViewActivity : AppCompatActivity() {
         }
 
 
-        passView.setOnClickListener {
-            if(passViewFieldView.text.toString() != ""){
+        binding.passView.setOnClickListener {
+            if(binding.passViewFieldView.text.toString() != ""){
                 val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clip = ClipData.newPlainText("Password", passViewFieldView.text.toString())
+                val clip = ClipData.newPlainText("Password", binding.passViewFieldView.text.toString())
                 clipboard.setPrimaryClip(clip)
                 toast(getString(R.string.passCopied))
             }
         }
 
-        passViewFieldView.setOnClickListener {
-            if(passViewFieldView.text.toString() != ""){
+        binding.passViewFieldView.setOnClickListener {
+            if(binding.passViewFieldView.text.toString() != ""){
                 val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clip = ClipData.newPlainText("Password", passViewFieldView.text.toString())
+                val clip = ClipData.newPlainText("Password", binding.passViewFieldView.text.toString())
                 clipboard.setPrimaryClip(clip)
                 toast(getString(R.string.passCopied))
             }
         }
 
 
-        back.setOnClickListener {
-            //logo.visibility = View.VISIBLE
-            //val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_splash)
-            //rotation.fillAfter = true
-            //logo.startAnimation(rotation)
+        binding.back.setOnClickListener {
             if(from != "short") {
                 condition=false
                 val intent = Intent()
@@ -475,7 +473,7 @@ class PasswordViewActivity : AppCompatActivity() {
             }
         }
 
-        editButton.setOnClickListener {
+        binding.editButton.setOnClickListener {
             condition=false
             val intent = Intent(this, EditPassActivity::class.java)
             intent.putExtra("login", login)
@@ -484,14 +482,14 @@ class PasswordViewActivity : AppCompatActivity() {
         }
 
         if(dbGroup == "#favorite"){
-            favButton.visibility = View.GONE
-            favButton2.visibility = View.VISIBLE
+            binding.favButton.visibility = View.GONE
+            binding.favButton2.visibility = View.VISIBLE
         }
 
 
-        favButton.setOnClickListener {
-            favButton.visibility = View.GONE
-            favButton2.visibility = View.VISIBLE
+        binding.favButton.setOnClickListener {
+            binding.favButton.visibility = View.GONE
+            binding.favButton2.visibility = View.VISIBLE
             val contentValues = ContentValues()
             contentValues.put(pdbHelper.KEY_GROUPS, "#favorite")
             pDatabase.update(
@@ -501,9 +499,9 @@ class PasswordViewActivity : AppCompatActivity() {
             )
         }
 
-        favButton2.setOnClickListener {
-            favButton.visibility = View.VISIBLE
-            favButton2.visibility = View.GONE
+        binding.favButton2.setOnClickListener {
+            binding.favButton.visibility = View.VISIBLE
+            binding.favButton2.visibility = View.GONE
 
             val contentValues = ContentValues()
             contentValues.put(pdbHelper.KEY_GROUPS, "none")
@@ -518,13 +516,13 @@ class PasswordViewActivity : AppCompatActivity() {
         val useAnalyze = sharedPref.getString("useAnalyze", "none")
         if (useAnalyze != null)
             if (useAnalyze != "none"){
-                passQualityText.visibility = View.GONE
-                warning.visibility = View.GONE
-                passQualityText.visibility = View.GONE
-                passQuality.visibility = View.GONE
-                warning2.visibility = View.GONE
-                sameParts.visibility = View.GONE
-                warning0.visibility = View.GONE
+                binding.passQualityText.visibility = View.GONE
+                binding.warning.visibility = View.GONE
+                binding.passQualityText.visibility = View.GONE
+                binding.passQuality.visibility = View.GONE
+                binding.warning2.visibility = View.GONE
+                binding.sameParts.visibility = View.GONE
+                binding.warning0.visibility = View.GONE
             }
         val mediaStorageDir = File(
                 applicationContext.getExternalFilesDir("QuickPassPhotos")!!.absolutePath
@@ -540,36 +538,25 @@ class PasswordViewActivity : AppCompatActivity() {
             }
         }
 
-        val layoutTransition = mainLinearLayout.layoutTransition
+        val layoutTransition = binding.mainLinearLayout.layoutTransition
         layoutTransition.setDuration(5000) // Change duration
         layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
         val file = File(mediaStorageDir, "$passName.jpg")
         if (file.exists()){
             val uri = Uri.fromFile(file)
-            attachedImage.setImageURI(uri)
-            attachedImageText.visibility = View.VISIBLE
-            //var width = attachedImage.drawable.minimumWidth/3
-            //var height = attachedImage.drawable.minimumHeight/3
-            //val display = windowManager.defaultDisplay
-            //val size = Point()
-            //display.getSize(size)
-            //val widthMax: Int = size.x
-            //val heightMax: Int = size.y
-            //if (width >= widthMax)
-            //    width = widthMax - 100
-            //if (height >= heightMax)
-            //    height = heightMax - 100
+            binding.attachedImage.setImageURI(uri)
+            binding.attachedImageText.visibility = View.VISIBLE
             val display = windowManager.defaultDisplay
             val size = Point()
             display.getSize(size)
             val widthMax: Int = size.x
             val width = (widthMax/2.4).toInt()
-            val height = attachedImage.drawable.minimumHeight * width /  attachedImage.drawable.minimumWidth
-            attachedImage.layoutParams.height = height
-            attachedImage.layoutParams.width = width
+            val height = binding.attachedImage.drawable.minimumHeight * width /  binding.attachedImage.drawable.minimumWidth
+            binding.attachedImage.layoutParams.height = height
+            binding.attachedImage.layoutParams.width = width
 
-            attachedImage.setOnClickListener {
+            binding.attachedImage.setOnClickListener {
                 val uriForOpen = FileProvider.getUriForFile(
                         this,
                         this.applicationContext.packageName.toString() + ".provider",

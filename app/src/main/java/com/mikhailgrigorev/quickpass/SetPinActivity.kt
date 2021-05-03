@@ -14,8 +14,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import com.mikhailgrigorev.quickpass.databinding.ActivitySetPinBinding
 import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
-import kotlinx.android.synthetic.main.activity_set_pin.*
 
 class SetPinActivity : AppCompatActivity() {
     private val _keyTheme = "themePreference"
@@ -24,6 +24,7 @@ class SetPinActivity : AppCompatActivity() {
     private lateinit var login: String
     private lateinit var passName: String
     private lateinit var account: String
+    private lateinit var binding: ActivitySetPinBinding
 
     @SuppressLint("SetTextI18n", "Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,13 +53,14 @@ class SetPinActivity : AppCompatActivity() {
             Configuration.UI_MODE_NIGHT_NO ->
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
-        setContentView(R.layout.activity_set_pin)
+        binding = ActivitySetPinBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
         val cardRadius = sharedPref.getString("cardRadius", "none")
         if(cardRadius != null)
             if(cardRadius != "none") {
-                cardNums.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                binding.cardNums.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
             }
 
         val args: Bundle? = intent.extras
@@ -66,7 +68,7 @@ class SetPinActivity : AppCompatActivity() {
         passName = args?.get("passName").toString()
         account = args?.get("activity").toString()
         val name: String = getString(R.string.hi) + " " + login
-        helloTextId.text = name
+        binding.helloTextId.text = name
 
 
         val dbHelper = DataBaseHelper(this)
@@ -80,87 +82,90 @@ class SetPinActivity : AppCompatActivity() {
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
             do {
                 when(cursor.getString(imageIndex).toString()){
-                    "ic_account" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account)
-                    "ic_account_Pink" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Pink" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Pink)
-                    "ic_account_Red" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Red" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Red)
-                    "ic_account_Purple" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Purple" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Purple)
-                    "ic_account_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Violet" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Violet)
-                    "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Dark_Violet" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Dark_Violet)
-                    "ic_account_Blue" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Blue" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Blue)
-                    "ic_account_Cyan" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Cyan" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Cyan)
-                    "ic_account_Teal" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Teal" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Teal)
-                    "ic_account_Green" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Green" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Green)
-                    "ic_account_lightGreen" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_lightGreen" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_lightGreen)
-                    else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    else -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account)
                 }
-                accountAvatarText.text = login[0].toString()
+                binding.accountAvatarText.text = login[0].toString()
             } while (cursor.moveToNext())
         }
 
-        num0.setOnClickListener {
-            if(inputPinIdField.text.toString().length < 4)
-                inputPinIdField.setText(inputPinIdField.text.toString() + "0")
+
+        binding.num0.setOnClickListener {
+            if(binding.inputPinIdField.text.toString().length < 4)
+                binding.inputPinIdField.setText(binding.inputPinIdField.text.toString() + "0")
         }
-        num1.setOnClickListener {
-            if(inputPinIdField.text.toString().length < 4)
-                inputPinIdField.setText(inputPinIdField.text.toString() + "1")
+        binding.num1.setOnClickListener {
+            if(binding.inputPinIdField.text.toString().length < 4)
+                binding.inputPinIdField.setText(binding.inputPinIdField.text.toString() + "1")
         }
-        num2.setOnClickListener {
-            if(inputPinIdField.text.toString().length < 4)
-                inputPinIdField.setText(inputPinIdField.text.toString() + "2")
+        binding.num2.setOnClickListener {
+            if(binding.inputPinIdField.text.toString().length < 4)
+                binding.inputPinIdField.setText(binding.inputPinIdField.text.toString() + "2")
         }
-        num3.setOnClickListener {
-            if(inputPinIdField.text.toString().length < 4)
-                inputPinIdField.setText(inputPinIdField.text.toString() + "3")
+        binding.num3.setOnClickListener {
+            if(binding.inputPinIdField.text.toString().length < 4)
+                binding.inputPinIdField.setText(binding.inputPinIdField.text.toString() + "3")
         }
-        num4.setOnClickListener {
-            if(inputPinIdField.text.toString().length < 4)
-                inputPinIdField.setText(inputPinIdField.text.toString() + "4")
+        binding.num4.setOnClickListener {
+            if(binding.inputPinIdField.text.toString().length < 4)
+                binding.inputPinIdField.setText(binding.inputPinIdField.text.toString() + "4")
         }
-        num5.setOnClickListener {
-            if(inputPinIdField.text.toString().length < 4)
-                inputPinIdField.setText(inputPinIdField.text.toString() + "5")
+        binding.num5.setOnClickListener {
+            if(binding.inputPinIdField.text.toString().length < 4)
+                binding.inputPinIdField.setText(binding.inputPinIdField.text.toString() + "5")
         }
-        num6.setOnClickListener {
-            if(inputPinIdField.text.toString().length < 4)
-                inputPinIdField.setText(inputPinIdField.text.toString() + "6")
+        binding.num6.setOnClickListener {
+            if(binding.inputPinIdField.text.toString().length < 4)
+                binding.inputPinIdField.setText(binding.inputPinIdField.text.toString() + "6")
         }
-        num7.setOnClickListener {
-            if(inputPinIdField.text.toString().length < 4)
-                inputPinIdField.setText(inputPinIdField.text.toString() + "7")
+        binding.num7.setOnClickListener {
+            if(binding.inputPinIdField.text.toString().length < 4)
+                binding.inputPinIdField.setText(binding.inputPinIdField.text.toString() + "7")
         }
-        num8.setOnClickListener {
-            if(inputPinIdField.text.toString().length < 4)
-                inputPinIdField.setText(inputPinIdField.text.toString() + "8")
+        binding.num8.setOnClickListener {
+            if(binding.inputPinIdField.text.toString().length < 4)
+                binding.inputPinIdField.setText(binding.inputPinIdField.text.toString() + "8")
         }
-        num9.setOnClickListener {
-            if(inputPinIdField.text.toString().length < 4)
-                inputPinIdField.setText(inputPinIdField.text.toString() + "9")
+        binding.num9.setOnClickListener {
+            if(binding.inputPinIdField.text.toString().length < 4)
+                binding.inputPinIdField.setText(binding.inputPinIdField.text.toString() + "9")
         }
-        erase.setOnClickListener {
-            if(inputPinIdField.text.toString().isNotEmpty())
-                inputPinIdField.setText(inputPinIdField.text.toString().substring(0, inputPinIdField.text.toString().length - 1))
+        binding.erase.setOnClickListener {
+            if(binding.inputPinIdField.text.toString().isNotEmpty())
+                binding.inputPinIdField.setText(binding.inputPinIdField.text.toString().substring(0, binding.inputPinIdField.text.toString().length - 1))
         }
 
-        inputPinIdField.addTextChangedListener(object :TextWatcher{
+
+
+        binding.inputPinIdField.addTextChangedListener(object :TextWatcher{
             override fun afterTextChanged(s: Editable?) {
-                if(inputPinIdField.text.toString().length == 4){
-                    savePin.alpha = 1F
+                if(binding.inputPinIdField.text.toString().length == 4){
+                    binding.savePin.alpha = 1F
                 }
                 else{
-                    savePin.alpha = 0F
+                    binding.savePin.alpha = 0F
                 }
             }
 
@@ -171,10 +176,10 @@ class SetPinActivity : AppCompatActivity() {
             }
         })
 
-        savePin.setOnClickListener {
+        binding.savePin.setOnClickListener {
             val sharedPref2 = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
             with (sharedPref2.edit()) {
-                putString(_keyUsePin, inputPinIdField.text.toString())
+                putString(_keyUsePin, binding.inputPinIdField.text.toString())
                 commit()
             }
             val intent = Intent(this, SettingsActivity::class.java)

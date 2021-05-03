@@ -13,17 +13,18 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.anjlab.android.iab.v3.BillingProcessor
 import com.anjlab.android.iab.v3.PurchaseInfo
 import com.anjlab.android.iab.v3.TransactionDetails
-import kotlinx.android.synthetic.main.activity_donut.*
+import com.mikhailgrigorev.quickpass.databinding.ActivityDonutBinding
 
-private const val _preferenceFile = "quickPassPreference"
+private const val preferenceFile = "quickPassPreference"
 var condition = true
-private const val _keyTheme = "themePreference"
+private const val keyTheme = "themePreference"
 
 class DonutActivity : AppCompatActivity(), BillingProcessor.IBillingHandler {
+    private lateinit var binding: ActivityDonutBinding
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
-        val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-        when(pref.getString(_keyTheme, "none")){
+        val pref = getSharedPreferences(preferenceFile, Context.MODE_PRIVATE)
+        when(pref.getString(keyTheme, "none")){
             "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             "none", "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
@@ -54,7 +55,7 @@ class DonutActivity : AppCompatActivity(), BillingProcessor.IBillingHandler {
             }
         }
         val time: Long =  100000
-        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences(preferenceFile, Context.MODE_PRIVATE)
         val lockTime = sharedPref.getString("appLockTime", "6")
         if(lockTime != null) {
             if (lockTime != "0")
@@ -64,65 +65,66 @@ class DonutActivity : AppCompatActivity(), BillingProcessor.IBillingHandler {
             handler.postDelayed(r, time*6L)
 
 
-        setContentView(R.layout.activity_donut)
+        binding = ActivityDonutBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
 
         val cardRadius = sharedPref.getString("cardRadius", "none")
         if(cardRadius != null)
             if(cardRadius != "none") {
-                coffeeDonut.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
-                appleDonut.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
-                burgerDonut.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
-                foodDonut.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                binding.coffeeDonut.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                binding.appleDonut.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                binding.burgerDonut.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                binding.foodDonut.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
             }
 
         val mBillingProcessor = BillingProcessor(this, GPLAY_LICENSE, this)
 
-        back.setOnClickListener {
+        binding.back.setOnClickListener {
             finish()
         }
         mBillingProcessor.initialize()
         mBillingProcessor.loadOwnedPurchasesFromGoogle()
 
-        coffeeDonut.setOnClickListener {
+        binding.coffeeDonut.setOnClickListener {
             mBillingProcessor.purchase(this, "cup_of_coffee")
         }
-        appleDonut.setOnClickListener {
+        binding.appleDonut.setOnClickListener {
             mBillingProcessor.purchase(this, "apple_pack")
         }
-        burgerDonut.setOnClickListener {
+        binding.burgerDonut.setOnClickListener {
             mBillingProcessor.purchase(this, "burger")
         }
-        foodDonut.setOnClickListener {
+        binding.foodDonut.setOnClickListener {
             mBillingProcessor.purchase(this, "dinner")
         }
 
         if (mBillingProcessor.isPurchased("cup_of_coffee")){
-            CoffeeText.text = CoffeeText.text.toString() + " " +  getString(R.string.thx)
-            coffeeDonut.isClickable = false
-            coffeeDonut.isFocusable = false
+            binding.CoffeeText.text = binding.CoffeeText.text.toString() + " " +  getString(R.string.thx)
+            binding.coffeeDonut.isClickable = false
+            binding.coffeeDonut.isFocusable = false
         }
         if (mBillingProcessor.isPurchased("apple_pack")){
-            appleText.text = appleText.text.toString() + " " +  getString(R.string.thx)
-            appleDonut.isClickable = false
-            appleDonut.isFocusable = false
+            binding.appleText.text = binding.appleText.text.toString() + " " +  getString(R.string.thx)
+            binding.appleDonut.isClickable = false
+            binding.appleDonut.isFocusable = false
         }
         if (mBillingProcessor.isPurchased("burger")){
-            burgerText.text = burgerText.text.toString() + " " +  getString(R.string.thx)
-            burgerDonut.isClickable = false
-            burgerDonut.isFocusable = false
+            binding.burgerText.text = binding.burgerText.text.toString() + " " +  getString(R.string.thx)
+            binding.burgerDonut.isClickable = false
+            binding.burgerDonut.isFocusable = false
         }
         if (mBillingProcessor.isPurchased("dinner")){
-            dinnerText.text = dinnerText.text.toString() + " " + getString(R.string.thx)
-            foodDonut.isClickable = false
-            foodDonut.isFocusable = false
+            binding.dinnerText.text = binding.dinnerText.text.toString() + " " + getString(R.string.thx)
+            binding.foodDonut.isClickable = false
+            binding.foodDonut.isFocusable = false
         }
 
 
     }
 
     override fun onProductPurchased(productId: String, details: TransactionDetails?) {
-        showMsg("onProductPurchased")
+        //showMsg("П")
         if (checkIfPurchaseIsValid(details!!.purchaseInfo)) {
             showMsg("purchase: $productId COMPLETED")
             //when (productId) {
@@ -140,7 +142,7 @@ class DonutActivity : AppCompatActivity(), BillingProcessor.IBillingHandler {
     }
 
     override fun onPurchaseHistoryRestored() {
-        showMsg("onPurchaseHistoryRestored")
+        //showMsg("onPurchaseHistoryRestored")
         handleLoadedItems()
     }
 

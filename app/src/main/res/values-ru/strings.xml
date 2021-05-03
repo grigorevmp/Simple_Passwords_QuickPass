@@ -186,8 +186,9 @@
     <string name="date">Дата</string>
     <string name="attach_image">Прикрепить изображение</string>
     <string name="attached_image">Прикрепленное изображение:</string>
-    <string name="clear_image">Удалить изображение</string>
+    <string name="clear_image">Удалить</string>
     <string name="autofill_service">Сервис автозаполнения</string>
     <string name="checkautofillsettings">Проверить настройки автозаполнения</string>
     <string name="autofill_Desc">На текущий момент QuickPass поддерживает только приложения, чьи имена имеют общие части с названием вашего пароля</string>
+    <string name="attach_image_mini">Прикрепить</string>
 </resources>

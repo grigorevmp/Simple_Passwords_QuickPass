@@ -30,9 +30,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.google.android.material.chip.Chip
+import com.mikhailgrigorev.quickpass.databinding.ActivityEditPassBinding
 import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
-import kotlinx.android.synthetic.main.activity_edit_pass.*
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -56,6 +56,8 @@ class EditPassActivity : AppCompatActivity() {
     private lateinit var login: String
     private lateinit var passName: String
     private var imageName: String = ""
+    private lateinit var binding: ActivityEditPassBinding
+
     @SuppressLint("Recycle", "SetTextI18n", "ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -103,7 +105,9 @@ class EditPassActivity : AppCompatActivity() {
         else
             handler.postDelayed(r, time * 6L)
 
-        setContentView(R.layout.activity_edit_pass)
+        binding = ActivityEditPassBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
 
         val args: Bundle? = intent.extras
         login = args?.get("login").toString()
@@ -126,59 +130,59 @@ class EditPassActivity : AppCompatActivity() {
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
             do {
                 when(cursor.getString(imageIndex).toString()){
-                    "ic_account" -> accountAvatar.backgroundTintList =
+                    "ic_account" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account
                             )
-                    "ic_account_Pink" -> accountAvatar.backgroundTintList =
+                    "ic_account_Pink" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Pink
                             )
-                    "ic_account_Red" -> accountAvatar.backgroundTintList =
+                    "ic_account_Red" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Red
                             )
-                    "ic_account_Purple" -> accountAvatar.backgroundTintList =
+                    "ic_account_Purple" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Purple
                             )
-                    "ic_account_Violet" -> accountAvatar.backgroundTintList =
+                    "ic_account_Violet" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Violet
                             )
-                    "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList =
+                    "ic_account_Dark_Violet" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Dark_Violet
                             )
-                    "ic_account_Blue" -> accountAvatar.backgroundTintList =
+                    "ic_account_Blue" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Blue
                             )
-                    "ic_account_Cyan" -> accountAvatar.backgroundTintList =
+                    "ic_account_Cyan" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Cyan
                             )
-                    "ic_account_Teal" -> accountAvatar.backgroundTintList =
+                    "ic_account_Teal" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Teal
                             )
-                    "ic_account_Green" -> accountAvatar.backgroundTintList =
+                    "ic_account_Green" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Green
                             )
-                    "ic_account_lightGreen" -> accountAvatar.backgroundTintList =
+                    "ic_account_lightGreen" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_lightGreen
                             )
-                    else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    else -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account
                     )
                 }
-                accountAvatarText.text = login[0].toString()
+                binding.accountAvatarText.text = login[0].toString()
             } while (cursor.moveToNext())
         }
 
-        accountAvatar.setOnClickListener {
+        binding.accountAvatar.setOnClickListener {
             val intent = Intent(this, AccountActivity::class.java)
             intent.putExtra("login", login)
             intent.putExtra("activity", "menu")
@@ -222,119 +226,119 @@ class EditPassActivity : AppCompatActivity() {
                 val cryptIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_CIPHER)
                 do {
                     dbLogin = pCursor.getString(nameIndex).toString()
-                    helloTextId.text = dbLogin
-                    newNameField.setText(dbLogin)
+                    binding.helloTextId.text = dbLogin
+                    binding.newNameField.setText(dbLogin)
                     val dbCryptIndex = pCursor.getString(cryptIndex).toString()
                     dbPassword = pCursor.getString(passIndex).toString()
                     if (dbCryptIndex == "crypted") {
-                        cryptToggle.isChecked = true
+                        binding.cryptToggle.isChecked = true
                         val pm = PasswordManager()
                         dbPassword = pm.decrypt(dbPassword).toString()
                     }
-                    genPasswordIdField.setText(dbPassword)
+                    binding.genPasswordIdField.setText(dbPassword)
                     if (dbPassword != "") {
                         length = dbPassword.length
-                        seekBar.progress = length
-                        lengthToggle.text = getString(R.string.length) + ": " + length
+                        binding.seekBar.progress = length
+                        binding.lengthToggle.text = getString(R.string.length) + ": " + length
                         val myPasswordManager = PasswordManager()
                         val evaluation: String = myPasswordManager.evaluatePasswordString(
-                                genPasswordIdField.text.toString()
+                                binding.genPasswordIdField.text.toString()
                         )
-                        passQuality.text = evaluation
+                        binding.passQuality.text = evaluation
                         when (evaluation) {
-                            "low" -> passQuality.text = getString(R.string.low)
-                            "high" -> passQuality.text = getString(R.string.high)
-                            else -> passQuality.text = getString(R.string.medium)
+                            "low" -> binding.passQuality.text = getString(R.string.low)
+                            "high" -> binding.passQuality.text = getString(R.string.high)
+                            else -> binding.passQuality.text = getString(R.string.medium)
                         }
                         when (evaluation) {
-                            "low" -> passQuality.setTextColor(
+                            "low" -> binding.passQuality.setTextColor(
                                     ContextCompat.getColor(
                                             this,
                                             R.color.negative
                                     )
                             )
-                            "high" -> passQuality.setTextColor(
+                            "high" -> binding.passQuality.setTextColor(
                                     ContextCompat.getColor(
                                             this,
                                             R.color.positive
                                     )
                             )
-                            else -> passQuality.setTextColor(
+                            else -> binding.passQuality.setTextColor(
                                     ContextCompat.getColor(
                                             this,
                                             R.color.fixable
                                     )
                             )
                         }
-                        lettersToggle.isChecked = myPasswordManager.isLetters(genPasswordIdField.text.toString())
-                        upperCaseToggle.isChecked = myPasswordManager.isUpperCase(genPasswordIdField.text.toString())
-                        numbersToggle.isChecked = myPasswordManager.isNumbers(genPasswordIdField.text.toString())
-                        symToggles.isChecked = myPasswordManager.isSymbols(genPasswordIdField.text.toString())
+                        binding.lettersToggle.isChecked = myPasswordManager.isLetters(binding.genPasswordIdField.text.toString())
+                        binding.upperCaseToggle.isChecked = myPasswordManager.isUpperCase(binding.genPasswordIdField.text.toString())
+                        binding.numbersToggle.isChecked = myPasswordManager.isNumbers(binding.genPasswordIdField.text.toString())
+                        binding.symToggles.isChecked = myPasswordManager.isSymbols(binding.genPasswordIdField.text.toString())
                     }
                     val db2FAIndex = pCursor.getString(aIndex).toString()
 
                     if (db2FAIndex == "1") {
-                        authToggle.isChecked = true
+                        binding.authToggle.isChecked = true
                     }
                     val dbUTIndex = pCursor.getString(uTIndex).toString()
                     if (dbUTIndex == "1") {
-                        timeLimit.isChecked = true
+                        binding.timeLimit.isChecked = true
                     }
                     val dbDescIndex = pCursor.getString(descIndex).toString()
-                    noteField.setText(dbDescIndex)
+                    binding.noteField.setText(dbDescIndex)
                     val dbTagsIndex = pCursor.getString(tagsIndex).toString()
-                    keyWordsField.setText(dbTagsIndex)
+                    binding.keyWordsField.setText(dbTagsIndex)
 
                     val dbEmailIndex = pCursor.getString(loginIndex).toString()
                     if (dbEmailIndex != "") {
-                        email.visibility = View.VISIBLE
-                        emailSwitch.isChecked = true
-                        emailField.setText(dbEmailIndex)
+                        binding.email.visibility = View.VISIBLE
+                        binding.emailSwitch.isChecked = true
+                        binding.emailField.setText(dbEmailIndex)
                     }
 
                 } while (pCursor.moveToNext())
-                if(lettersToggle.isChecked ){
+                if(binding.lettersToggle.isChecked ){
                     useLetters = true
-                    list.add(lettersToggle.text.toString())
+                    list.add(binding.lettersToggle.text.toString())
                 }
-                if(upperCaseToggle.isChecked){
-                    list.add(upperCaseToggle.text.toString())
+                if(binding.upperCaseToggle.isChecked){
+                    list.add(binding.upperCaseToggle.text.toString())
                     useUC = true
                 }
-                if(numbersToggle.isChecked ){
-                    list.add(numbersToggle.text.toString())
+                if(binding.numbersToggle.isChecked ){
+                    list.add(binding.numbersToggle.text.toString())
                     useNumbers = true
                 }
-                if( symToggles.isChecked ){
-                    list.add(symToggles.text.toString())
+                if( binding.symToggles.isChecked ){
+                    list.add(binding.symToggles.text.toString())
                     useSymbols = true
                 }
             } else {
-                helloTextId.text = getString(R.string.no_text)
+                binding.helloTextId.text = getString(R.string.no_text)
             }
 
         } catch (e: SQLException) {
-            helloTextId.text = getString(R.string.no_text)
+            binding.helloTextId.text = getString(R.string.no_text)
         }
 
 
 
 
-        lengthToggle.setOnClickListener {
-            if (seekBar.visibility == View.GONE) {
-                seekBar.visibility = View.VISIBLE
+        binding.lengthToggle.setOnClickListener {
+            if (binding.seekBar.visibility == View.GONE) {
+                binding.seekBar.visibility = View.VISIBLE
             } else {
-                seekBar.visibility = View.GONE
+                binding.seekBar.visibility = View.GONE
             }
         }
 
         // Set a SeekBar change listener
-        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                 // Display the current progress of SeekBar
                 length = i
-                lengthToggle.text = getString(R.string.length) + ": " + length
+                binding.lengthToggle.text = getString(R.string.length) + ": " + length
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -347,13 +351,13 @@ class EditPassActivity : AppCompatActivity() {
         })
 
         // Loop through the chips
-        for (index in 0 until passSettings.childCount) {
-            val chip: Chip = passSettings.getChildAt(index) as Chip
+        for (index in 0 until binding.passSettings.childCount) {
+            val chip: Chip = binding.passSettings.getChildAt(index) as Chip
 
             // Set the chip checked change listener
             chip.setOnCheckedChangeListener { view, isChecked ->
-                val deg = generatePassword.rotation + 30f
-                generatePassword.animate().rotation(deg).interpolator = AccelerateDecelerateInterpolator()
+                val deg = binding.generatePassword.rotation + 30f
+                binding.generatePassword.animate().rotation(deg).interpolator = AccelerateDecelerateInterpolator()
                 if (isChecked) {
                     if (view.id == R.id.lettersToggle)
                         useLetters = true
@@ -378,47 +382,47 @@ class EditPassActivity : AppCompatActivity() {
             }
         }
 
-        genPasswordIdField.addTextChangedListener(object : TextWatcher {
+        binding.genPasswordIdField.addTextChangedListener(object : TextWatcher {
             @SuppressLint("ResourceAsColor")
             override fun afterTextChanged(s: Editable?) {
-                if (genPasswordIdField.hasFocus()) {
+                if (binding.genPasswordIdField.hasFocus()) {
                     length = s.toString().length
-                    lengthToggle.text = getString(R.string.length) + ": " + length
-                    seekBar.progress = length
-                    val deg = generatePassword.rotation + 10f
-                    generatePassword.animate().rotation(deg).interpolator =
+                    binding.lengthToggle.text = getString(R.string.length) + ": " + length
+                    binding.seekBar.progress = length
+                    val deg = binding.generatePassword.rotation + 10f
+                    binding.generatePassword.animate().rotation(deg).interpolator =
                             AccelerateDecelerateInterpolator()
                     val myPasswordManager = PasswordManager()
-                    lettersToggle.isChecked =
-                            myPasswordManager.isLetters(genPasswordIdField.text.toString())
-                    upperCaseToggle.isChecked =
-                            myPasswordManager.isUpperCase(genPasswordIdField.text.toString())
-                    numbersToggle.isChecked =
-                            myPasswordManager.isNumbers(genPasswordIdField.text.toString())
-                    symToggles.isChecked =
-                            myPasswordManager.isSymbols(genPasswordIdField.text.toString())
+                    binding.lettersToggle.isChecked =
+                            myPasswordManager.isLetters(binding.genPasswordIdField.text.toString())
+                    binding.upperCaseToggle.isChecked =
+                            myPasswordManager.isUpperCase(binding.genPasswordIdField.text.toString())
+                    binding.numbersToggle.isChecked =
+                            myPasswordManager.isNumbers(binding.genPasswordIdField.text.toString())
+                    binding.symToggles.isChecked =
+                            myPasswordManager.isSymbols(binding.genPasswordIdField.text.toString())
                     val evaluation: String =
-                            myPasswordManager.evaluatePasswordString(genPasswordIdField.text.toString())
-                    passQuality.text = evaluation
+                            myPasswordManager.evaluatePasswordString(binding.genPasswordIdField.text.toString())
+                    binding.passQuality.text = evaluation
                     when (evaluation) {
-                        "low" -> passQuality.text = getString(R.string.low)
-                        "high" -> passQuality.text = getString(R.string.high)
-                        else -> passQuality.text = getString(R.string.medium)
+                        "low" -> binding.passQuality.text = getString(R.string.low)
+                        "high" -> binding.passQuality.text = getString(R.string.high)
+                        else -> binding.passQuality.text = getString(R.string.medium)
                     }
                     when (evaluation) {
-                        "low" -> passQuality.setTextColor(
+                        "low" -> binding.passQuality.setTextColor(
                                 ContextCompat.getColor(
                                         applicationContext,
                                         R.color.negative
                                 )
                         )
-                        "high" -> passQuality.setTextColor(
+                        "high" -> binding.passQuality.setTextColor(
                                 ContextCompat.getColor(
                                         applicationContext,
                                         R.color.positive
                                 )
                         )
-                        else -> passQuality.setTextColor(
+                        else -> binding.passQuality.setTextColor(
                                 ContextCompat.getColor(
                                         applicationContext,
                                         R.color.fixable
@@ -435,20 +439,20 @@ class EditPassActivity : AppCompatActivity() {
             }
         })
 
-        generatePassword.setOnClickListener {
+        binding.generatePassword.setOnClickListener {
             val deg = 0f
-            generatePassword.animate().rotation(deg).interpolator = AccelerateDecelerateInterpolator()
-            genPasswordIdField.clearFocus()
+            binding.generatePassword.animate().rotation(deg).interpolator = AccelerateDecelerateInterpolator()
+            binding.genPasswordIdField.clearFocus()
             val myPasswordManager = PasswordManager()
             //Create a password with letters, uppercase letters, numbers but not special chars with 17 chars
-            if(list.size == 0 || (list.size == 1 && lengthToggle.isChecked)|| (list.size == 1 && list[0].contains(
+            if(list.size == 0 || (list.size == 1 && binding.lengthToggle.isChecked)|| (list.size == 1 && list[0].contains(
                         getString(
                                 R.string.length
                         )
                 ))){
-                genPasswordId.error = getString(R.string.noRules)
+                binding.genPasswordId.error = getString(R.string.noRules)
             } else {
-                genPasswordId.error = null
+                binding.genPasswordId.error = null
                 val newPassword: String =
                     myPasswordManager.generatePassword(
                             useLetters,
@@ -457,28 +461,28 @@ class EditPassActivity : AppCompatActivity() {
                             useSymbols,
                             length
                     )
-                genPasswordIdField.setText(newPassword)
+                binding.genPasswordIdField.setText(newPassword)
 
-                val evaluation: String = myPasswordManager.evaluatePasswordString(genPasswordIdField.text.toString())
+                val evaluation: String = myPasswordManager.evaluatePasswordString(binding.genPasswordIdField.text.toString())
                 when (evaluation) {
-                    "low" -> passQuality.text = getString(R.string.low)
-                    "high" -> passQuality.text = getString(R.string.high)
-                    else -> passQuality.text = getString(R.string.medium)
+                    "low" -> binding.passQuality.text = getString(R.string.low)
+                    "high" -> binding.passQuality.text = getString(R.string.high)
+                    else -> binding.passQuality.text = getString(R.string.medium)
                 }
                 when (evaluation) {
-                    "low" -> passQuality.setTextColor(
+                    "low" -> binding.passQuality.setTextColor(
                             ContextCompat.getColor(
                                     applicationContext,
                                     R.color.negative
                             )
                     )
-                    "high" -> passQuality.setTextColor(
+                    "high" -> binding.passQuality.setTextColor(
                             ContextCompat.getColor(
                                     applicationContext,
                                     R.color.positive
                             )
                     )
-                    else -> passQuality.setTextColor(
+                    else -> binding.passQuality.setTextColor(
                             ContextCompat.getColor(
                                     applicationContext,
                                     R.color.fixable
@@ -487,16 +491,16 @@ class EditPassActivity : AppCompatActivity() {
                 }
             }
         }
-        generatePassword.setOnTouchListener { v, event ->
+        binding. generatePassword.setOnTouchListener { v, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    cardPass.elevation = 50F
-                    generatePassword.background = ContextCompat.getDrawable(this, R.color.grey)
+                    binding.cardPass.elevation = 50F
+                    binding.generatePassword.background = ContextCompat.getDrawable(this, R.color.grey)
                     v.invalidate()
                 }
                 MotionEvent.ACTION_UP -> {
-                    generatePassword.background = ContextCompat.getDrawable(this, R.color.white)
-                    cardPass.elevation = 10F
+                    binding.generatePassword.background = ContextCompat.getDrawable(this, R.color.white)
+                    binding.cardPass.elevation = 10F
                     v.invalidate()
                 }
             }
@@ -505,49 +509,49 @@ class EditPassActivity : AppCompatActivity() {
 
 
 
-        genPasswordId.setOnClickListener {
-            if (genPasswordIdField.text.toString() != "") {
+        binding.genPasswordId.setOnClickListener {
+            if (binding.genPasswordIdField.text.toString() != "") {
                 val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clip = ClipData.newPlainText("Password", genPasswordIdField.text.toString())
+                val clip = ClipData.newPlainText("Password", binding.genPasswordIdField.text.toString())
                 clipboard.setPrimaryClip(clip)
                 toast(getString(R.string.passCopied))
             }
         }
 
-        genPasswordIdField.setOnClickListener {
-            if (genPasswordIdField.text.toString() != "") {
+        binding.genPasswordIdField.setOnClickListener {
+            if (binding.genPasswordIdField.text.toString() != "") {
                 val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clip = ClipData.newPlainText("Password", genPasswordIdField.text.toString())
+                val clip = ClipData.newPlainText("Password", binding.genPasswordIdField.text.toString())
                 clipboard.setPrimaryClip(clip)
                 toast(getString(R.string.passCopied))
             }
         }
 
-        emailSwitch.setOnClickListener {
-            if (emailSwitch.isChecked)
-                email.visibility = View.VISIBLE
+        binding.emailSwitch.setOnClickListener {
+            if (binding.emailSwitch.isChecked)
+                binding.email.visibility = View.VISIBLE
             else
-                email.visibility = View.GONE
+                binding.email.visibility = View.GONE
 
         }
 
-        savePass.setOnClickListener {
-            val login2 = newNameField.text
+        binding.savePass.setOnClickListener {
+            val login2 = binding.newNameField.text
             if (login2 != null) {
                 if (login2.isEmpty() || login2.length < 2) {
-                    newName.error = getString(R.string.errNumOfText)
+                    binding.newName.error = getString(R.string.errNumOfText)
                 }
-                else if (genPasswordIdField.text.toString() == "" || genPasswordIdField.text.toString().length < 3){
-                    genPasswordId.error = getString(R.string.errPass)
+                else if (binding.genPasswordIdField.text.toString() == "" || binding.genPasswordIdField.text.toString().length < 3){
+                    binding.genPasswordId.error = getString(R.string.errPass)
                 }
                 else {
                     val contentValues = ContentValues()
-                    contentValues.put(pdbHelper.KEY_PASS, genPasswordIdField.text.toString())
+                    contentValues.put(pdbHelper.KEY_PASS, binding.genPasswordIdField.text.toString())
 
                     val pm = PasswordManager()
 
-                    if (cryptToggle.isChecked) {
-                        val dc = pm.encrypt(genPasswordIdField.text.toString())
+                    if (binding.cryptToggle.isChecked) {
+                        val dc = pm.encrypt(binding.genPasswordIdField.text.toString())
                         contentValues.put(
                                 pdbHelper.KEY_PASS,
                                 dc
@@ -555,26 +559,26 @@ class EditPassActivity : AppCompatActivity() {
                         contentValues.put(pdbHelper.KEY_CIPHER, "crypted")
                     }
                     else{
-                        contentValues.put(pdbHelper.KEY_PASS, genPasswordIdField.text.toString())
+                        contentValues.put(pdbHelper.KEY_PASS, binding.genPasswordIdField.text.toString())
                         contentValues.put(pdbHelper.KEY_CIPHER, "none")
                     }
 
 
 
 
-                    contentValues.put(pdbHelper.KEY_NAME, newNameField.text.toString())
-                    contentValues.put(pdbHelper.KEY_LOGIN, emailField.text.toString())
+                    contentValues.put(pdbHelper.KEY_NAME, binding.newNameField.text.toString())
+                    contentValues.put(pdbHelper.KEY_LOGIN, binding.emailField.text.toString())
                     var keyFA = "0"
-                    if (authToggle.isChecked)
+                    if (binding.authToggle.isChecked)
                         keyFA = "1"
                     var keyTimeLimit = "0"
-                    if (timeLimit.isChecked)
+                    if (binding.timeLimit.isChecked)
                         keyTimeLimit = "1"
                     contentValues.put(pdbHelper.KEY_2FA, keyFA)
                     contentValues.put(pdbHelper.KEY_USE_TIME, keyTimeLimit)
                     contentValues.put(pdbHelper.KEY_TIME, getDateTime())
-                    contentValues.put(pdbHelper.KEY_DESC, noteField.text.toString())
-                    contentValues.put(pdbHelper.KEY_TAGS, keyWordsField.text.toString())
+                    contentValues.put(pdbHelper.KEY_DESC, binding.noteField.text.toString())
+                    contentValues.put(pdbHelper.KEY_TAGS, binding.keyWordsField.text.toString())
                     pDatabase.update(
                             pdbHelper.TABLE_USERS, contentValues,
                             "NAME = ?",
@@ -582,9 +586,9 @@ class EditPassActivity : AppCompatActivity() {
                     )
                     val intent = Intent(this, PasswordViewActivity::class.java)
                     intent.putExtra("login", login)
-                    intent.putExtra("passName", newNameField.text.toString())
+                    intent.putExtra("passName", binding.newNameField.text.toString())
                     with(sharedPref.edit()) {
-                        putString("__PASSNAME", newNameField.text.toString())
+                        putString("__PASSNAME", binding.newNameField.text.toString())
                         commit()
                     }
                     pdbHelper.close()
@@ -607,7 +611,7 @@ class EditPassActivity : AppCompatActivity() {
                     if (mediaStorageDir.exists()) {
                         if(imageName != "") {
                             val from = File(mediaStorageDir, "$imageName.jpg")
-                            val to = File(mediaStorageDir, "${newNameField.text}.jpg")
+                            val to = File(mediaStorageDir, "${binding.newNameField.text}.jpg")
                             if (from.exists()) from.renameTo(to)
                         }
                     }
@@ -618,7 +622,7 @@ class EditPassActivity : AppCompatActivity() {
 
         }
 
-        back.setOnClickListener {
+        binding.back.setOnClickListener {
             val intent = Intent()
             intent.putExtra("login", login)
             intent.putExtra("passName", passName)
@@ -626,7 +630,7 @@ class EditPassActivity : AppCompatActivity() {
             finish()
         }
 
-        upload.setOnClickListener{
+        binding.upload.setOnClickListener{
             checkPermissionForImage()
         }
 
@@ -650,21 +654,21 @@ class EditPassActivity : AppCompatActivity() {
         if (file.exists()){
             imageName = passName
             val uri = Uri.fromFile(file)
-            attachedImage.setImageURI(uri)
-            clearImage.visibility = View.VISIBLE
+            binding.attachedImage.setImageURI(uri)
+            binding.clearImage.visibility = View.VISIBLE
 
             val display = windowManager.defaultDisplay
             val size = Point()
             display.getSize(size)
             val widthMax: Int = size.x
             val width = (widthMax/1.3).toInt()
-            val height = attachedImage.drawable.minimumHeight * width /  attachedImage.drawable.minimumWidth
-            attachedImage.layoutParams.height = height
-            attachedImage.layoutParams.width = width
-            attachedImage.layoutParams.height = height
-            attachedImage.layoutParams.width = width
+            val height = binding.attachedImage.drawable.minimumHeight * width / binding.attachedImage.drawable.minimumWidth
+            binding.attachedImage.layoutParams.height = height
+            binding.attachedImage.layoutParams.width = width
+            binding.attachedImage.layoutParams.height = height
+            binding.attachedImage.layoutParams.width = width
 
-            attachedImage.setOnClickListener {
+            binding.attachedImage.setOnClickListener {
                 val uriForOpen = FileProvider.getUriForFile(
                         this,
                         this.applicationContext.packageName.toString() + ".provider",
@@ -678,9 +682,9 @@ class EditPassActivity : AppCompatActivity() {
             }
         }
 
-        clearImage.setOnClickListener {
+        binding.clearImage.setOnClickListener {
             file.delete()
-            attachedImage.setImageURI(null)
+            binding.attachedImage.setImageURI(null)
         }
 
     }
@@ -763,12 +767,16 @@ class EditPassActivity : AppCompatActivity() {
                     val split = docId.split(":").toTypedArray()
                     val type = split[0]
                     var contentUri: Uri? = null
-                    if ("image" == type) {
-                        contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                    } else if ("video" == type) {
-                        contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-                    } else if ("audio" == type) {
-                        contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                    when (type) {
+                        "image" -> {
+                            contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                        }
+                        "video" -> {
+                            contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                        }
+                        "audio" -> {
+                            contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                        }
                     }
                     val selection = "_id=?"
                     val selectionArgs = arrayOf<String?>(
@@ -846,17 +854,17 @@ class EditPassActivity : AppCompatActivity() {
         }
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             // I'M GETTING THE URI OF THE IMAGE AS DATA AND SETTING IT TO THE IMAGEVIEW
-            attachedImage.setImageURI(data?.data)
+            binding.attachedImage.setImageURI(data?.data)
             val display = windowManager.defaultDisplay
             val size = Point()
             display.getSize(size)
             val widthMax: Int = size.x
             val width = (widthMax/1.3).toInt()
-            val height = attachedImage.drawable.minimumHeight * width /  attachedImage.drawable.minimumWidth
-            attachedImage.layoutParams.height = height
-            attachedImage.layoutParams.width = width
-            attachedImage.layoutParams.height = height
-            attachedImage.layoutParams.width = width
+            val height = binding.attachedImage.drawable.minimumHeight * width /  binding.attachedImage.drawable.minimumWidth
+            binding.attachedImage.layoutParams.height = height
+            binding.attachedImage.layoutParams.width = width
+            binding.attachedImage.layoutParams.height = height
+            binding.attachedImage.layoutParams.width = width
             if (ContextCompat.checkSelfPermission(
                         this,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE

@@ -633,7 +633,7 @@
                         android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/_2faInfo" />
+                        app:layout_constraintTop_toBottomOf="@+id/doubleFAInfo" />
 
 
                     <TextView
@@ -648,7 +648,7 @@
                         android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/_2faInfo" />
+                        app:layout_constraintTop_toBottomOf="@+id/doubleFAInfo" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

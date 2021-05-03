@@ -199,8 +199,9 @@
     <string name="date">Date</string>
     <string name="attach_image">Attach image</string>
     <string name="attached_image">Attached image:</string>
-    <string name="clear_image">Clear image</string>
+    <string name="clear_image">Clear</string>
     <string name="autofill_service">Autofill service</string>
     <string name="checkautofillsettings">Check autofill settings</string>
     <string name="autofill_Desc">At this moment QuickPass support only app with same name with passwords.</string>
+    <string name="attach_image_mini">Attach</string>
 </resources>

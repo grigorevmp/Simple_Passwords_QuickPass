@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.database.Cursor
 import android.os.Bundle
@@ -13,8 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
+import com.mikhailgrigorev.quickpass.databinding.ActivitySignBinding
 import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
-import kotlinx.android.synthetic.main.activity_sign.*
 import java.util.concurrent.Executor
 
 class ReSignActivity : AppCompatActivity() {
@@ -28,6 +29,7 @@ class ReSignActivity : AppCompatActivity() {
     private lateinit var executor: Executor
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
+    private lateinit var binding: ActivitySignBinding
 
     @SuppressLint("Recycle", "ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,12 +58,13 @@ class ReSignActivity : AppCompatActivity() {
             Configuration.UI_MODE_NIGHT_NO ->
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
-        setContentView(R.layout.activity_sign)
+        binding = ActivitySignBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val args: Bundle? = intent.extras
         val login: String = args?.get("login").toString()
         val name: String = getString(R.string.hi) + " " + login
-        helloTextId.text = name
+        binding.helloTextId.text = name
 
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
@@ -74,84 +77,89 @@ class ReSignActivity : AppCompatActivity() {
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
             do {
                 when(cursor.getString(imageIndex).toString()){
-                    "ic_account" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account)
-                    "ic_account_Pink" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Pink" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Pink)
-                    "ic_account_Red" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Red" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Red)
-                    "ic_account_Purple" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Purple" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Purple)
-                    "ic_account_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Violet" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Violet)
-                    "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Dark_Violet" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Dark_Violet)
-                    "ic_account_Blue" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Blue" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Blue)
-                    "ic_account_Cyan" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Cyan" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Cyan)
-                    "ic_account_Teal" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Teal" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Teal)
-                    "ic_account_Green" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Green" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Green)
-                    "ic_account_lightGreen" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_lightGreen" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_lightGreen)
-                    else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    else -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account)
                 }
-                accountAvatarText.text = login[0].toString()
+                binding.accountAvatarText.text = login[0].toString()
             } while (cursor.moveToNext())
         }
 
         // Start animation
-        loginFab.show()
+        binding.loginFab.show()
+
+        val hasBiometricFeature :Boolean = this.packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)
 
         // Checking prefs
         val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
         val username = sharedPref.getString(_keyBio, "none")
-        if(username != "none"){
-            finger.visibility = View.VISIBLE
-            finger.isClickable = true
-            executor = ContextCompat.getMainExecutor(this)
-            biometricPrompt = BiometricPrompt(this, executor,
-                object : BiometricPrompt.AuthenticationCallback() {
+        if(hasBiometricFeature) {
+            if (username != "none") {
+                binding.finger.visibility = View.VISIBLE
+                binding.finger.isClickable = true
+                executor = ContextCompat.getMainExecutor(this)
+                biometricPrompt = BiometricPrompt(this, executor,
+                        object : BiometricPrompt.AuthenticationCallback() {
 
-                    override fun onAuthenticationSucceeded(
-                        result: BiometricPrompt.AuthenticationResult) {
-                        super.onAuthenticationSucceeded(result)
-                        val intent = intent
-                        setResult(2, intent)
-                        finish()
-                    }
+                            override fun onAuthenticationSucceeded(
+                                result: BiometricPrompt.AuthenticationResult
+                            ) {
+                                super.onAuthenticationSucceeded(result)
+                                val intent = intent
+                                setResult(2, intent)
+                                finish()
+                            }
 
-                })
+                        })
 
-            promptInfo = BiometricPrompt.PromptInfo.Builder()
-                    .setTitle(getString(R.string.biometricLogin))
-                    .setSubtitle(getString(R.string.logWithBio))
-                    .setNegativeButtonText(getString(R.string.usePass))
-                    .build()
+                promptInfo = BiometricPrompt.PromptInfo.Builder()
+                        .setTitle(getString(R.string.biometricLogin))
+                        .setSubtitle(getString(R.string.logWithBio))
+                        .setNegativeButtonText(getString(R.string.usePass))
+                        .build()
 
-            // Prompt appears when user clicks "Log in".
-            // Consider integrating with the keystore to unlock cryptographic operations,
-            // if needed by your app.
-            biometricPrompt.authenticate(promptInfo)
+                // Prompt appears when user clicks "Log in".
+                // Consider integrating with the keystore to unlock cryptographic operations,
+                // if needed by your app.
+                biometricPrompt.authenticate(promptInfo)
 
-        }
+            }
 
-        finger.setOnClickListener {
-            biometricPrompt.authenticate(promptInfo)
+            binding.finger.setOnClickListener {
+                biometricPrompt.authenticate(promptInfo)
+            }
         }
 
 
         // Fab handler
-        loginFab.setOnClickListener {
-            if (validate(inputPasswordIdField.text.toString()))
-                    signIn(login, inputPasswordIdField.text.toString())
+        binding.loginFab.setOnClickListener {
+            if (validate(binding.inputPasswordIdField.text.toString()))
+                    signIn(login, binding.inputPasswordIdField.text.toString())
 
         }
 
-        logOutFab.setOnClickListener {
+        binding.logOutFab.setOnClickListener {
             exit(sharedPref)
         }
     }
@@ -167,10 +175,10 @@ class ReSignActivity : AppCompatActivity() {
     private fun validate(password:String): Boolean {
         var valid = true
         if (password.isEmpty() || password.length < 4 || password.length > 20) {
-            inputPasswordId.error = getString(R.string.errPass)
+            binding.inputPasswordId.error = getString(R.string.errPass)
             valid = false
         } else {
-            inputPasswordId.error = null
+            binding.inputPasswordId.error = null
         }
         return valid
     }
@@ -195,12 +203,12 @@ class ReSignActivity : AppCompatActivity() {
             do {
                 dbPassword = cursor.getString(passIndex).toString()
                 if(dbPassword != password){
-                    inputPasswordId.error = getString(R.string.wrong_pass)
+                    binding.inputPasswordId.error = getString(R.string.wrong_pass)
                     return
                 }
             } while (cursor.moveToNext())
         } else {
-            inputPasswordId.error = getString(R.string.wrong_name)
+            binding.inputPasswordId.error = getString(R.string.wrong_name)
             return
         }
 

@@ -15,9 +15,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.mikhailgrigorev.quickpass.databinding.ActivityLoginBinding
 import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpass.sender.GMailSender
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlin.random.Random
 
 class LoginAfterSplashActivity : AppCompatActivity() {
@@ -28,6 +28,7 @@ class LoginAfterSplashActivity : AppCompatActivity() {
     private val _keyBio = "prefUserBioKey"
     private val _keyUsePin = "prefUsePinKey"
     private val _tag = "SignUpActivity"
+    private lateinit var binding: ActivityLoginBinding
 
     @SuppressLint("Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,10 +66,11 @@ class LoginAfterSplashActivity : AppCompatActivity() {
             Configuration.UI_MODE_NIGHT_NO ->
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
-        setContentView(R.layout.activity_login)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Start animation
-        loginFab.show()
+        binding.loginFab.show()
 
         // Checking prefs
         val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -90,42 +92,41 @@ class LoginAfterSplashActivity : AppCompatActivity() {
 
 
         // Fab handler
-        loginFab.setOnClickListener {
-            if (signUpChip.isChecked){
+        binding.loginFab.setOnClickListener {
+            if (binding.signUpChip.isChecked){
                 if (validate(
-                            inputLoginIdField.text.toString(),
-                            inputPasswordIdField.text.toString()
+                            binding.inputLoginIdField.text.toString(),
+                            binding.inputPasswordIdField.text.toString()
                     ))
-                    signUp(inputLoginIdField.text.toString(), inputPasswordIdField.text.toString())
+                    signUp(binding.inputLoginIdField.text.toString(), binding.inputPasswordIdField.text.toString())
             }
             else{
                 if (validate(
-                            inputLoginIdField.text.toString(),
-                            inputPasswordIdField.text.toString()
+                            binding.inputLoginIdField.text.toString(),
+                            binding.inputPasswordIdField.text.toString()
                     ))
-                    signIn(inputLoginIdField.text.toString(), inputPasswordIdField.text.toString())
+                    signIn(binding.inputLoginIdField.text.toString(), binding.inputPasswordIdField.text.toString())
             }
         }
 
         // Chip handler
-        signUpChipGroup.setOnCheckedChangeListener{ _, _ ->
+        binding.signUpChipGroup.setOnCheckedChangeListener{ _, _ ->
             // Get the checked chip instance from chip group
-            signUpChip?.let {
-                if (signUpChip.isChecked){
-                    loginFab.hide()
-                    loginFab.text = getString(R.string.sign_up)
-                    loginFab.show()
-                }
-                else{
-                    loginFab.hide()
-                    loginFab.text = getString(R.string.sign_in)
-                    loginFab.show()
+            binding.signUpChip.let {
+                if (binding.signUpChip.isChecked){
+                    binding.loginFab.hide()
+                    binding.loginFab.text = getString(R.string.sign_up)
+                    binding.loginFab.show()
+                } else{
+                    binding.loginFab.hide()
+                    binding.loginFab.text = getString(R.string.sign_in)
+                    binding.loginFab.show()
                 }
             }
         }
 
-        sendMail.setOnClickListener {
-            val login = inputLoginIdField.text.toString()
+        binding.sendMail.setOnClickListener {
+            val login = binding.inputLoginIdField.text.toString()
 
 
             val dbHelper = DataBaseHelper(this)
@@ -189,16 +190,16 @@ class LoginAfterSplashActivity : AppCompatActivity() {
     private fun validate(login: String, password: String): Boolean {
         var valid = false
         if (login.isEmpty() || login.length < 3) {
-            inputLoginId.error = getString(R.string.errNumOfText)
+            binding.inputLoginId.error = getString(R.string.errNumOfText)
         } else {
-            inputLoginId.error = null
+            binding.inputLoginId.error = null
             valid = true
         }
         if (password.isEmpty() || password.length < 4 || password.length > 20) {
-            inputPasswordId.error = getString(R.string.errPass)
+            binding.inputPasswordId.error = getString(R.string.errPass)
             valid = false
         } else {
-            inputPasswordId.error = null
+            binding.inputPasswordId.error = null
         }
         return valid
     }
@@ -219,7 +220,7 @@ class LoginAfterSplashActivity : AppCompatActivity() {
         )
 
         if (cursor.moveToFirst()) {
-            inputLoginId.error = getString(R.string.exists)
+            binding.inputLoginId.error = getString(R.string.exists)
             return
         } else {
             contentValues.put(dbHelper.KEY_ID, Random.nextInt(0, 100))
@@ -256,12 +257,12 @@ class LoginAfterSplashActivity : AppCompatActivity() {
                 dbLogin = cursor.getString(nameIndex).toString()
                 dbPassword = cursor.getString(passIndex).toString()
                 if(dbPassword != password){
-                    inputPasswordId.error = getString(R.string.wrong_pass)
+                    binding.inputPasswordId.error = getString(R.string.wrong_pass)
                     return
                 }
             } while (cursor.moveToNext())
         } else {
-            inputLoginId.error = getString(R.string.wrong_name)
+            binding.inputLoginId.error = getString(R.string.wrong_name)
             return
         }
 

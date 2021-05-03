@@ -11,7 +11,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import kotlinx.android.synthetic.main.activity_about.*
+import com.mikhailgrigorev.quickpass.databinding.ActivityAboutBinding
 
 class AboutActivity : AppCompatActivity() {
 
@@ -19,6 +19,8 @@ class AboutActivity : AppCompatActivity() {
     private val _preferenceFile = "quickPassPreference"
 
     private var condition = true
+    private lateinit var binding: ActivityAboutBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         // Set Theme
@@ -61,45 +63,46 @@ class AboutActivity : AppCompatActivity() {
         else
             handler.postDelayed(r, time*6L)
 
-        setContentView(R.layout.activity_about)
+        binding = ActivityAboutBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val cardRadius = sharedPref.getString("cardRadius", "none")
         if(cardRadius != null)
             if(cardRadius != "none") {
-                gitHub.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
-                social.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                binding.gitHub.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                binding.social.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
             }
 
 
         // Exit from activity
 
-        back.setOnClickListener {
+        binding.back.setOnClickListener {
             finish()
         }
 
         // My link to Telegram
-        telegram.setOnClickListener {
+        binding.telegram.setOnClickListener {
             condition=false
             val i = Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/grigorevmp"))
             startActivity(i)
         }
 
         // My link to VK
-        vkontakte.setOnClickListener {
+        binding.vkontakte.setOnClickListener {
             condition=false
             val i = Intent(Intent.ACTION_VIEW, Uri.parse("https://vk.com/grigorevmp"))
             startActivity(i)
         }
 
         // My link to GitHub
-        gitHub.setOnClickListener {
+        binding.gitHub.setOnClickListener {
             condition=false
             val i = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/grigorevmp/QuickPass-Mobile-Password-manager/"))
             startActivity(i)
         }
 
         // Direct Mail sending
-        mail.setOnClickListener {
+        binding.mail.setOnClickListener {
             sendEmail()
         }
 

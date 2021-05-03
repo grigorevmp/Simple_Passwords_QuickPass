@@ -13,9 +13,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import com.mikhailgrigorev.quickpass.databinding.ActivityEditAccountBinding
 import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
-import kotlinx.android.synthetic.main.activity_edit_account.*
 
 
 class EditAccountActivity : AppCompatActivity() {
@@ -26,6 +26,7 @@ class EditAccountActivity : AppCompatActivity() {
     private lateinit var login: String
     private lateinit var passName: String
     private lateinit var imageName: String
+    private lateinit var binding: ActivityEditAccountBinding
 
     @SuppressLint("Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,12 +59,14 @@ class EditAccountActivity : AppCompatActivity() {
             if (lockTime != "0")
                 handler.postDelayed(r, time * lockTime.toLong())
         }
-        else
-            handler.postDelayed(r, time*6L)
+        else {
+            handler.postDelayed(r, time * 6L)
+        }
 
-        setContentView(R.layout.activity_edit_account)
+        binding = ActivityEditAccountBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        back.setOnClickListener {
+        binding.back.setOnClickListener {
             val intent = Intent()
             intent.putExtra("login", login)
             intent.putExtra("passName", passName)
@@ -75,8 +78,8 @@ class EditAccountActivity : AppCompatActivity() {
         login = args?.get("login").toString()
         passName = args?.get("passName").toString()
         val name: String = getString(R.string.hi) + " " + login
-        helloTextId.text = name
-        nameViewField.setText(login)
+        binding.helloTextId.text = name
+        binding.nameViewField.setText(login)
 
         // Checking prefs
         val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -105,53 +108,53 @@ class EditAccountActivity : AppCompatActivity() {
                 val exInfoPassText = cursor.getString(passIndex).toString()
                 val exInfoImgText = cursor.getString(imageIndex).toString()
                 imageName = exInfoImgText
-                passViewField.setText(exInfoPassText)
+                binding.passViewField.setText(exInfoPassText)
                 when(cursor.getString(imageIndex).toString()){
-                    "ic_account" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account)
-                    "ic_account_Pink" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Pink" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Pink)
-                    "ic_account_Red" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Red" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Red)
-                    "ic_account_Purple" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Purple" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Purple)
-                    "ic_account_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Violet" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Violet)
-                    "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Dark_Violet" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Dark_Violet)
-                    "ic_account_Blue" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Blue" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Blue)
-                    "ic_account_Cyan" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Cyan" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Cyan)
-                    "ic_account_Teal" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Teal" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Teal)
-                    "ic_account_Green" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Green" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Green)
-                    "ic_account_lightGreen" -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_lightGreen" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_lightGreen)
-                    else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    else -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account)
                 }
-                accountAvatarText.text = login[0].toString()
+                binding.accountAvatarText.text = login[0].toString()
             } while (cursor.moveToNext())
         }
 
 
-        savePass.setOnClickListener {
-            nameView.error = null
-            passView.error = null
-            if (nameViewField.text.toString()
-                        .isEmpty() || nameViewField.text.toString().length < 3
+        binding.savePass.setOnClickListener {
+            binding.nameView.error = null
+            binding.passView.error = null
+            if (binding.nameViewField.text.toString()
+                        .isEmpty() || binding.nameViewField.text.toString().length < 3
             ) {
-                nameView.error = getString(R.string.errNumOfText)
-            } else if (passViewField.text.toString()
-                        .isEmpty() || passViewField.text.toString().length < 4 || passViewField.text.toString().length > 20
+                binding.nameView.error = getString(R.string.errNumOfText)
+            } else if (binding.passViewField.text.toString()
+                        .isEmpty() || binding.passViewField.text.toString().length < 4 || binding.passViewField.text.toString().length > 20
             ) {
-                passView.error = getString(R.string.errPass)
+                binding.passView.error = getString(R.string.errPass)
             } else {
                 val contentValues = ContentValues()
-                contentValues.put(dbHelper.KEY_NAME, nameViewField.text.toString())
-                contentValues.put(dbHelper.KEY_PASS, passViewField.text.toString())
+                contentValues.put(dbHelper.KEY_NAME, binding.nameViewField.text.toString())
+                contentValues.put(dbHelper.KEY_PASS, binding.passViewField.text.toString())
                 contentValues.put(dbHelper.KEY_IMAGE, imageName)
                 database.update(
                     dbHelper.TABLE_USERS, contentValues,
@@ -160,27 +163,27 @@ class EditAccountActivity : AppCompatActivity() {
                 )
                 // Checking prefs
                 with(sharedPref.edit()) {
-                    putString(_keyUsername, nameViewField.text.toString())
+                    putString(_keyUsername, binding.nameViewField.text.toString())
                     commit()
                 }
 
                 val pdbHelper = PasswordsDataBaseHelper(this, login)
                 val pDatabase = pdbHelper.writableDatabase
-                if (login != nameViewField.text.toString()) {
-                    database.execSQL("DROP TABLE IF EXISTS " + nameViewField.text.toString())
-                    pDatabase.execSQL("DROP TABLE IF EXISTS " + nameViewField.text.toString())
-                    pDatabase.execSQL("ALTER TABLE " + login + " RENAME TO " + nameViewField.text.toString())
+                if (login != binding.nameViewField.text.toString()) {
+                    database.execSQL("DROP TABLE IF EXISTS " + binding.nameViewField.text.toString())
+                    pDatabase.execSQL("DROP TABLE IF EXISTS " + binding.nameViewField.text.toString())
+                    pDatabase.execSQL("ALTER TABLE " + login + " RENAME TO " + binding.nameViewField.text.toString())
                 }
                 val intent = Intent()
                 // Checking prefs
 
                 with(sharedPref.edit()) {
-                    putString(_keyUsername, nameViewField.text.toString())
+                    putString(_keyUsername, binding.nameViewField.text.toString())
                     commit()
                 }
 
-                intent.putExtra("login", nameViewField.text.toString())
-                intent.putExtra("passName", passViewField.text.toString())
+                intent.putExtra("login", binding.nameViewField.text.toString())
+                intent.putExtra("passName", binding.passViewField.text.toString())
                 setResult(1, intent)
                 finish()
             }

@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
-import kotlinx.android.synthetic.main.pass_fragment.view.*
+import com.mikhailgrigorev.quickpass.databinding.PassFragmentBinding
 
 class PasswordAdapter(
     private val items: ArrayList<Pair<String, String>>,
@@ -36,22 +36,17 @@ class PasswordAdapter(
         return position
     }
 
+
     // Inflates the item views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-                LayoutInflater.from(context).inflate(
-                        R.layout.pass_fragment,
-                        parent,
-                        false
-                )
-        )
+        val binding = PassFragmentBinding.inflate(LayoutInflater.from(context), parent, false)
+        return ViewHolder(binding)
     }
 
     // Binds each animal in the ArrayList to a view
     @SuppressLint("SetTextI18n", "ClickableViewAccessibility")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.passText.text = items[position].first
-
 
         holder.chip.visibility = View.GONE
         if(items[position].second != "0"){
@@ -133,16 +128,16 @@ class PasswordAdapter(
     }
 }
 
-class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val passText = view.list_title!!
-    val passDesc = view.list_desc!!
-    val chip = view.chip!!
+class ViewHolder(binding: PassFragmentBinding) : RecyclerView.ViewHolder(binding.root) {
+    val passText = binding.listTitle
+    val passDesc = binding.listDesc
+    val chip = binding.chip
     // // val tags = view.tags!!
-    val favorite = view.favorite!!
-    val clickableView = view.clickable_view!!
-    val marker = view.marker!!
-    val group = view.group!!
-    val credit = view.credit!!
-    val creditNeg = view.credit2!!
-    val lock = view.lock!!
+    val favorite = binding.favorite
+    val clickableView = binding.clickableView
+    val marker = binding.marker
+    val group = binding.group
+    val credit = binding.credit
+    val creditNeg = binding.credit2
+    val lock = binding.lock
 }

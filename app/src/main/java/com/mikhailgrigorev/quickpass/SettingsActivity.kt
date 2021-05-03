@@ -27,11 +27,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.mikhailgrigorev.quickpass.databinding.ActivitySettingsBinding
 import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
-import kotlinx.android.synthetic.main.activity_settings.*
 import java.io.*
-import java.nio.channels.FileChannel
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.random.Random
@@ -50,6 +49,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var passName: String
     private lateinit var imageName: String
     private var condition = true
+    private lateinit var binding: ActivitySettingsBinding
 
     @SuppressLint("SetTextI18n", "Recycle", "RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,15 +97,16 @@ class SettingsActivity : AppCompatActivity() {
             Configuration.UI_MODE_NIGHT_NO ->
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
-        setContentView(R.layout.activity_settings)
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         when (AppCompatDelegate.getDefaultNightMode()) {
-            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> defaultSystem.isChecked = true
-            AppCompatDelegate.MODE_NIGHT_NO -> light.isChecked = true
-            AppCompatDelegate.MODE_NIGHT_YES -> dark.isChecked = true
-            AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY -> autoBattery.isChecked = true
-            AppCompatDelegate.MODE_NIGHT_UNSPECIFIED -> defaultSystem.isChecked = true
-            else -> defaultSystem.isChecked = true
+            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> binding.defaultSystem.isChecked = true
+            AppCompatDelegate.MODE_NIGHT_NO -> binding.light.isChecked = true
+            AppCompatDelegate.MODE_NIGHT_YES -> binding.dark.isChecked = true
+            AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY -> binding.autoBattery.isChecked = true
+            AppCompatDelegate.MODE_NIGHT_UNSPECIFIED -> binding.defaultSystem.isChecked = true
+            else -> binding.defaultSystem.isChecked = true
         }
 
 
@@ -124,36 +125,36 @@ class SettingsActivity : AppCompatActivity() {
         //THEME
         // Получаем экземпляр элемента Spinner
 
-        light.setOnClickListener {
+        binding.light.setOnClickListener {
             with(sharedPref.edit()) {
                 putString(_keyTheme, "no")
                 commit()
             }
-            light.isChecked = true
+            binding.light.isChecked = true
             recreate()
         }
-        dark.setOnClickListener {
+        binding.dark.setOnClickListener {
             with(sharedPref.edit()) {
                 putString(_keyTheme, "yes")
                 commit()
             }
-            dark.isChecked = true
+            binding.dark.isChecked = true
             recreate()
         }
-        autoBattery.setOnClickListener {
+        binding.autoBattery.setOnClickListener {
             with(sharedPref.edit()) {
                 putString(_keyTheme, "battery")
                 commit()
             }
-            autoBattery.isChecked = true
+            binding.autoBattery.isChecked = true
             recreate()
         }
-        defaultSystem.setOnClickListener {
+        binding.defaultSystem.setOnClickListener {
             with(sharedPref.edit()) {
                 putString(_keyTheme, "default")
                 commit()
             }
-            defaultSystem.isChecked = true
+            binding.defaultSystem.isChecked = true
             recreate()
         }
 
@@ -168,22 +169,22 @@ class SettingsActivity : AppCompatActivity() {
         val cardRadius = sharedPref.getString("cardRadius", "none")
         if (cardRadius != null)
             if (cardRadius != "none") {
-                info_card.radius = TypedValue.applyDimension(
+                binding.infoCard.radius = TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
                         cardRadius.toFloat(),
                         resources.displayMetrics
                 )
-                themeSettings.radius = TypedValue.applyDimension(
+                binding.themeSettings.radius = TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
                         cardRadius.toFloat(),
                         resources.displayMetrics
                 )
-                warn_Card.radius = TypedValue.applyDimension(
+                binding.warnCard.radius = TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
                         cardRadius.toFloat(),
                         resources.displayMetrics
                 )
-                exportCrad.radius = TypedValue.applyDimension(
+                binding.exportCrad.radius = TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
                         cardRadius.toFloat(),
                         resources.displayMetrics
@@ -191,21 +192,21 @@ class SettingsActivity : AppCompatActivity() {
             }
 
 
-        appLockTime.text = "6m"
+        binding.appLockTime.text = "6m"
         if (lockTime != null)
             if (lockTime != "none") {
-                appLockBar.progress = lockTime.toInt()
-                appLockTime.text = lockTime.toInt().toString() + "m"
+                binding.appLockBar.progress = lockTime.toInt()
+                binding.appLockTime.text = lockTime.toInt().toString() + "m"
                 if (lockTime.toInt() == 0) {
-                    appLockTime.text = getString(R.string.dontlock)
+                    binding.appLockTime.text = getString(R.string.dontlock)
                 }
             }
 
-        cardRadiusVal.text = "10"
+        binding.cardRadiusVal.text = "10"
         if (cardRadius != null)
             if (cardRadius != "none") {
-                cardRadiusBar.progress = cardRadius.toInt()
-                cardRadiusVal.text = cardRadius.toInt().toString()
+                binding.cardRadiusBar.progress = cardRadius.toInt()
+                binding.cardRadiusVal.text = cardRadius.toInt().toString()
             }
 
 
@@ -244,29 +245,35 @@ class SettingsActivity : AppCompatActivity() {
         var mailSet = false
 
         if (dbMail != "none") {
-            userMailSwitch.isChecked = true
+            binding.userMailSwitch.isChecked = true
             mailSet = true
+        }
+
+        val hasBiometricFeature :Boolean = this.packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)
+        if (!hasBiometricFeature){
+            binding.biometricSwitch.visibility = View.GONE
+            binding.biometricText.visibility = View.GONE
         }
 
 
         if (useBio == "using") {
-            biometricSwitch.isChecked = true
+            binding.biometricSwitch.isChecked = true
         }
 
         if (useAuto == "dis") {
-            autoCopySwitch.isChecked = false
+            binding.autoCopySwitch.isChecked = false
         }
 
         if (usePin != "none") {
-            setPinSwitch.isChecked = true
+            binding.setPinSwitch.isChecked = true
         }
 
         if (useAnalyze != "none") {
-            userAnalyzerSwitch.isChecked = true
+            binding.userAnalyzerSwitch.isChecked = true
         }
 
-        userAnalyzerSwitch.setOnCheckedChangeListener { _, _ ->
-            if (!userAnalyzerSwitch.isChecked) {
+        binding.userAnalyzerSwitch.setOnCheckedChangeListener { _, _ ->
+            if (!binding.userAnalyzerSwitch.isChecked) {
                 with(sharedPref.edit()) {
                     putString("useAnalyze", "none")
                     commit()
@@ -280,15 +287,15 @@ class SettingsActivity : AppCompatActivity() {
         }
 
 
-        userAnalyzer.setOnClickListener {
-            if (userAnalyzerSwitch.isChecked) {
-                userAnalyzerSwitch.isChecked = false
+        binding.userAnalyzer.setOnClickListener {
+            if (binding.userAnalyzerSwitch.isChecked) {
+                binding.userAnalyzerSwitch.isChecked = false
                 with(sharedPref.edit()) {
                     putString("useAnalyze", "none")
                     commit()
                 }
             } else {
-                userAnalyzerSwitch.isChecked = true
+                binding.userAnalyzerSwitch.isChecked = true
                 with(sharedPref.edit()) {
                     putString("useAnalyze", "yes")
                     commit()
@@ -298,18 +305,18 @@ class SettingsActivity : AppCompatActivity() {
 
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            autoFillSettings.visibility = View.GONE
+            binding.autoFillSettings.visibility = View.GONE
 
         }
-        checkAutoFillSettings.setOnClickListener {
+        binding.checkAutoFillSettings.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 testAutoFill(this)
             }
         }
 
-        userMail.setOnClickListener {
-            if (userMailSwitch.isChecked) {
-                userMailSwitch.isChecked = false
+        binding.userMail.setOnClickListener {
+            if (binding.userMailSwitch.isChecked) {
+                binding.userMailSwitch.isChecked = false
                 mailSet = false
                 val newMail = "none"
                 val contentValues = ContentValues()
@@ -336,10 +343,10 @@ class SettingsActivity : AppCompatActivity() {
                                     arrayOf(login)
                             )
                             mailSet = true
-                            userMailSwitch.isChecked = true
+                            binding.userMailSwitch.isChecked = true
                         }
                         .setNegativeButton(getString(R.string.closeButton)) { _, _ ->
-                            userMailSwitch.isChecked = false
+                            binding.userMailSwitch.isChecked = false
                         }
                         .setCancelable(false)
                         .create()
@@ -349,8 +356,8 @@ class SettingsActivity : AppCompatActivity() {
         }
 
 
-        userMailSwitch.setOnCheckedChangeListener { _, _ ->
-            if (!userMailSwitch.isChecked and mailSet) {
+        binding.userMailSwitch.setOnCheckedChangeListener { _, _ ->
+            if (!binding.userMailSwitch.isChecked and mailSet) {
                 mailSet = false
                 val newMail = "none"
                 val contentValues = ContentValues()
@@ -361,7 +368,7 @@ class SettingsActivity : AppCompatActivity() {
                         arrayOf(login)
                 )
             } else if (!mailSet) {
-                userMailSwitch.isChecked = false
+                binding.userMailSwitch.isChecked = false
                 var newMail: String
                 val inputEditTextField = EditText(this)
                 inputEditTextField.setSingleLine()
@@ -379,10 +386,10 @@ class SettingsActivity : AppCompatActivity() {
                                     arrayOf(login)
                             )
                             mailSet = true
-                            userMailSwitch.isChecked = true
+                            binding.userMailSwitch.isChecked = true
                         }
                         .setNegativeButton(getString(R.string.closeButton)) { _, _ ->
-                            userMailSwitch.isChecked = false
+                            binding.userMailSwitch.isChecked = false
                         }
                         .create()
                 dialog.setView(inputEditTextField, 50, 50, 50, 50)
@@ -391,8 +398,8 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        autoCopySwitch.setOnCheckedChangeListener { _, _ ->
-            if (!autoCopySwitch.isChecked) {
+        binding.autoCopySwitch.setOnCheckedChangeListener { _, _ ->
+            if (!binding.autoCopySwitch.isChecked) {
                 with(sharedPref.edit()) {
                     putString(_keyAutoCopy, "dis")
                     commit()
@@ -406,15 +413,15 @@ class SettingsActivity : AppCompatActivity() {
         }
 
 
-        autoCopy.setOnClickListener {
-            if (autoCopySwitch.isChecked) {
-                autoCopySwitch.isChecked = false
+        binding.autoCopy.setOnClickListener {
+            if (binding.autoCopySwitch.isChecked) {
+                binding.autoCopySwitch.isChecked = false
                 with(sharedPref.edit()) {
                     putString(_keyAutoCopy, "dis")
                     commit()
                 }
             } else {
-                autoCopySwitch.isChecked = true
+                binding.autoCopySwitch.isChecked = true
                 with(sharedPref.edit()) {
                     putString(_keyAutoCopy, "none")
                     commit()
@@ -422,8 +429,8 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        setPinSwitch.setOnCheckedChangeListener { _, _ ->
-            if (setPinSwitch.isChecked) {
+        binding.setPinSwitch.setOnCheckedChangeListener { _, _ ->
+            if (binding.setPinSwitch.isChecked) {
                 condition = false
                 val intent = Intent(this, SetPinActivity::class.java)
                 intent.putExtra("login", login)
@@ -439,9 +446,9 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        setPin.setOnClickListener {
-            if (setPinSwitch.isChecked) {
-                setPinSwitch.isChecked = false
+        binding.setPin.setOnClickListener {
+            if (binding.setPinSwitch.isChecked) {
+                binding.setPinSwitch.isChecked = false
                 with(sharedPref.edit()) {
                     putString(_keyUsePin, "none")
                     commit()
@@ -456,13 +463,13 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        appLockBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        binding.appLockBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                 // Display the current progress of SeekBar
-                appLockTime.text = i.toString() + "m"
+                binding.appLockTime.text = i.toString() + "m"
                 if (i == 0) {
-                    appLockTime.text = getString(R.string.dontlock)
+                    binding.appLockTime.text = getString(R.string.dontlock)
                 }
                 with(sharedPref.edit()) {
                     putString("appLockTime", i.toString())
@@ -479,27 +486,27 @@ class SettingsActivity : AppCompatActivity() {
             }
         })
 
-        cardRadiusBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        binding.cardRadiusBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                 // Display the current progress of SeekBar
-                cardRadiusVal.text = i.toString()
-                info_card.radius = TypedValue.applyDimension(
+                binding.cardRadiusVal.text = i.toString()
+                binding.infoCard.radius = TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
                         i.toFloat(),
                         resources.displayMetrics
                 )
-                themeSettings.radius = TypedValue.applyDimension(
+                binding.themeSettings.radius = TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
                         i.toFloat(),
                         resources.displayMetrics
                 )
-                warn_Card.radius = TypedValue.applyDimension(
+                binding.warnCard.radius = TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
                         i.toFloat(),
                         resources.displayMetrics
                 )
-                exportCrad.radius = TypedValue.applyDimension(
+                binding.exportCrad.radius = TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
                         i.toFloat(),
                         resources.displayMetrics
@@ -520,8 +527,8 @@ class SettingsActivity : AppCompatActivity() {
         })
 
 
-        biometricSwitch.setOnCheckedChangeListener { _, _ ->
-            if (biometricSwitch.isChecked) {
+        binding.biometricSwitch.setOnCheckedChangeListener { _, _ ->
+            if (binding.biometricSwitch.isChecked) {
                 with(sharedPref.edit()) {
                     putString(_keyBio, "using")
                     commit()
@@ -534,15 +541,15 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        biometricText.setOnClickListener {
-            if (!biometricSwitch.isChecked) {
-                biometricSwitch.isChecked = true
+        binding.biometricText.setOnClickListener {
+            if (!binding.biometricSwitch.isChecked) {
+                binding.biometricSwitch.isChecked = true
                 with(sharedPref.edit()) {
                     putString(_keyBio, "using")
                     commit()
                 }
             } else {
-                biometricSwitch.isChecked = false
+                binding.biometricSwitch.isChecked = false
                 with(sharedPref.edit()) {
                     putString(_keyBio, "none")
                     commit()
@@ -558,55 +565,55 @@ class SettingsActivity : AppCompatActivity() {
                 val exInfoImgText = cursor.getString(imageIndex).toString()
                 imageName = exInfoImgText
                 when (cursor.getString(imageIndex).toString()) {
-                    "ic_account" -> accountAvatar.backgroundTintList =
+                    "ic_account" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account
                             )
-                    "ic_account_Pink" -> accountAvatar.backgroundTintList =
+                    "ic_account_Pink" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Pink
                             )
-                    "ic_account_Red" -> accountAvatar.backgroundTintList =
+                    "ic_account_Red" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Red
                             )
-                    "ic_account_Purple" -> accountAvatar.backgroundTintList =
+                    "ic_account_Purple" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Purple
                             )
-                    "ic_account_Violet" -> accountAvatar.backgroundTintList =
+                    "ic_account_Violet" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Violet
                             )
-                    "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList =
+                    "ic_account_Dark_Violet" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Dark_Violet
                             )
-                    "ic_account_Blue" -> accountAvatar.backgroundTintList =
+                    "ic_account_Blue" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Blue
                             )
-                    "ic_account_Cyan" -> accountAvatar.backgroundTintList =
+                    "ic_account_Cyan" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Cyan
                             )
-                    "ic_account_Teal" -> accountAvatar.backgroundTintList =
+                    "ic_account_Teal" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Teal
                             )
-                    "ic_account_Green" -> accountAvatar.backgroundTintList =
+                    "ic_account_Green" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Green
                             )
-                    "ic_account_lightGreen" -> accountAvatar.backgroundTintList =
+                    "ic_account_lightGreen" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_lightGreen
                             )
-                    else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    else -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account
                     )
                 }
-                accountAvatarText.text = login[0].toString()
+                binding.accountAvatarText.text = login[0].toString()
             } while (cursor.moveToNext())
         }
 
@@ -615,55 +622,55 @@ class SettingsActivity : AppCompatActivity() {
         updateChooser(imageName)
 
 
-        redColor.setOnClickListener {
+        binding.redColor.setOnClickListener {
             imageName = "ic_account_Red"
             updateChooser(imageName)
         }
 
-        pinkColor.setOnClickListener {
+        binding.pinkColor.setOnClickListener {
             imageName = "ic_account_Pink"
             updateChooser(imageName)
         }
 
-        purpleColor.setOnClickListener {
+        binding.purpleColor.setOnClickListener {
             imageName = "ic_account_Purple"
             updateChooser(imageName)
         }
 
-        violetColor.setOnClickListener {
+        binding.violetColor.setOnClickListener {
             imageName = "ic_account_Violet"
             updateChooser(imageName)
         }
 
-        darkVioletColor.setOnClickListener {
+        binding.darkVioletColor.setOnClickListener {
             imageName = "ic_account_Dark_Violet"
             updateChooser(imageName)
         }
 
-        blueColor.setOnClickListener {
+        binding.blueColor.setOnClickListener {
             imageName = "ic_account_Blue"
             updateChooser(imageName)
         }
 
-        cyanColor.setOnClickListener {
+        binding.cyanColor.setOnClickListener {
             imageName = "ic_account_Cyan"
             updateChooser(imageName)
         }
 
-        tealColor.setOnClickListener {
+        binding.tealColor.setOnClickListener {
             imageName = "ic_account_Teal"
             updateChooser(imageName)
         }
-        greenColor.setOnClickListener {
+        binding.greenColor.setOnClickListener {
             imageName = "ic_account_Green"
             updateChooser(imageName)
         }
-        lightGreenColor.setOnClickListener {
+        binding.lightGreenColor.setOnClickListener {
             imageName = "ic_account_lightGreen"
             updateChooser(imageName)
         }
 
-        iconTheme.setOnClickListener {
+        binding.iconTheme.setOnClickListener {
             when (imageName) {
                 "ic_account_Pink" -> {
                     turnOffAllIcons()
@@ -859,97 +866,97 @@ class SettingsActivity : AppCompatActivity() {
             "ic_account_Red" -> {
                 clearCE()
                 setAlpha()
-                redColor.alpha = 1F
-                redColor.cardElevation = 20F
+                binding.redColor.alpha = 1F
+                binding.redColor.cardElevation = 20F
             }
             "ic_account_Pink" -> {
                 clearCE()
                 setAlpha()
-                pinkColor.alpha = 1F
-                pinkColor.cardElevation = 20F
+                binding.pinkColor.alpha = 1F
+                binding.pinkColor.cardElevation = 20F
             }
             "ic_account_Purple" -> {
                 clearCE()
                 setAlpha()
-                purpleColor.alpha = 1F
-                purpleColor.cardElevation = 20F
+                binding.purpleColor.alpha = 1F
+                binding.purpleColor.cardElevation = 20F
             }
             "ic_account_Violet" -> {
                 clearCE()
                 setAlpha()
-                violetColor.alpha = 1F
-                violetColor.cardElevation = 20F
+                binding.violetColor.alpha = 1F
+                binding.violetColor.cardElevation = 20F
             }
             "ic_account_Dark_Violet" -> {
                 clearCE()
                 setAlpha()
-                darkVioletColor.alpha = 1F
-                darkVioletColor.cardElevation = 20F
+                binding.darkVioletColor.alpha = 1F
+                binding.darkVioletColor.cardElevation = 20F
             }
             "ic_account_Blue" -> {
                 clearCE()
                 setAlpha()
-                blueColor.alpha = 1F
-                blueColor.cardElevation = 20F
+                binding.blueColor.alpha = 1F
+                binding.blueColor.cardElevation = 20F
             }
             "ic_account_Cyan" -> {
                 clearCE()
                 setAlpha()
-                cyanColor.alpha = 1F
-                cyanColor.cardElevation = 20F
+                binding.cyanColor.alpha = 1F
+                binding.cyanColor.cardElevation = 20F
             }
             "ic_account_Teal" -> {
                 clearCE()
                 setAlpha()
-                tealColor.alpha = 1F
-                tealColor.cardElevation = 20F
+                binding.tealColor.alpha = 1F
+                binding.tealColor.cardElevation = 20F
             }
             "ic_account_Green" -> {
                 clearCE()
                 setAlpha()
-                greenColor.alpha = 1F
-                greenColor.cardElevation = 20F
+                binding.greenColor.alpha = 1F
+                binding.greenColor.cardElevation = 20F
             }
             "ic_account_lightGreen" -> {
                 clearCE()
                 setAlpha()
-                lightGreenColor.alpha = 1F
-                lightGreenColor.cardElevation = 20F
+                binding.lightGreenColor.alpha = 1F
+                binding.lightGreenColor.cardElevation = 20F
             }
             else -> {
                 clearCE()
                 setAlpha()
-                purpleColor.alpha = 1F
-                purpleColor.cardElevation = 20F
+                binding.purpleColor.alpha = 1F
+                binding.purpleColor.cardElevation = 20F
             }
         }
         updateAvatar(imageName)
     }
 
     private fun clearCE() {
-        redColor.cardElevation = 0F
-        pinkColor.cardElevation = 0F
-        purpleColor.cardElevation = 0F
-        violetColor.cardElevation = 0F
-        darkVioletColor.cardElevation = 0F
-        blueColor.cardElevation = 0F
-        cyanColor.cardElevation = 0F
-        tealColor.cardElevation = 0F
-        greenColor.cardElevation = 0F
-        lightGreenColor.cardElevation = 0F
+        binding.redColor.cardElevation = 0F
+        binding.pinkColor.cardElevation = 0F
+        binding.purpleColor.cardElevation = 0F
+        binding.violetColor.cardElevation = 0F
+        binding.darkVioletColor.cardElevation = 0F
+        binding.blueColor.cardElevation = 0F
+        binding.cyanColor.cardElevation = 0F
+        binding.tealColor.cardElevation = 0F
+        binding.greenColor.cardElevation = 0F
+        binding.lightGreenColor.cardElevation = 0F
     }
 
     private fun setAlpha() {
-        redColor.alpha = 0.7F
-        pinkColor.alpha = 0.7F
-        purpleColor.alpha = 0.7F
-        violetColor.alpha = 0.7F
-        darkVioletColor.alpha = 0.7F
-        blueColor.alpha = 0.7F
-        cyanColor.alpha = 0.7F
-        tealColor.alpha = 0.7F
-        greenColor.alpha = 0.7F
-        lightGreenColor.alpha = 0.7F
+        binding.redColor.alpha = 0.7F
+        binding.pinkColor.alpha = 0.7F
+        binding.purpleColor.alpha = 0.7F
+        binding.violetColor.alpha = 0.7F
+        binding.darkVioletColor.alpha = 0.7F
+        binding.blueColor.alpha = 0.7F
+        binding.cyanColor.alpha = 0.7F
+        binding.tealColor.alpha = 0.7F
+        binding.greenColor.alpha = 0.7F
+        binding.lightGreenColor.alpha = 0.7F
     }
 
     @SuppressLint("Recycle")
@@ -957,7 +964,7 @@ class SettingsActivity : AppCompatActivity() {
 
         when (imageName) {
             "ic_account" -> {
-                accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account
                 )
                 // Checking prefs
@@ -971,7 +978,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             "ic_account_Pink" -> {
-                accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Pink
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -984,7 +991,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             "ic_account_Red" -> {
-                accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Red
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -997,7 +1004,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             "ic_account_Purple" -> {
-                accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Purple
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -1010,7 +1017,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             "ic_account_Violet" -> {
-                accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Violet
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -1023,7 +1030,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             "ic_account_Dark_Violet" -> {
-                accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Dark_Violet
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -1036,7 +1043,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             "ic_account_Blue" -> {
-                accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Blue
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -1049,7 +1056,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             "ic_account_Cyan" -> {
-                accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Cyan
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -1062,7 +1069,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             "ic_account_Teal" -> {
-                accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Teal
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -1075,7 +1082,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             "ic_account_Green" -> {
-                accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Green
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -1088,7 +1095,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             "ic_account_lightGreen" -> {
-                accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_lightGreen
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -1101,7 +1108,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             else -> {
-                accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -1156,7 +1163,7 @@ class SettingsActivity : AppCompatActivity() {
         } catch (e: SQLException) {
         }
 
-        importDB.setOnClickListener {
+        binding.importDB.setOnClickListener {
             try {
                 if (ContextCompat.checkSelfPermission(
                             this@SettingsActivity,
@@ -1180,7 +1187,7 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        back.setOnClickListener {
+        binding.back.setOnClickListener {
             condition = false
             val intent = Intent()
             intent.putExtra("login", login)
@@ -1189,7 +1196,7 @@ class SettingsActivity : AppCompatActivity() {
             finish()
         }
 
-        export.setOnClickListener {
+        binding.export.setOnClickListener {
             try {
                 if (ContextCompat.checkSelfPermission(
                             this@SettingsActivity,
@@ -1214,20 +1221,6 @@ class SettingsActivity : AppCompatActivity() {
 
 
         }
-    }
-
-    @Throws(IOException::class)
-    private fun copyFile(sourceFile: File, destFile: File) {
-        if (!sourceFile.exists()) {
-            return
-        }
-        val source: FileChannel? = FileInputStream(sourceFile).channel
-        val destination: FileChannel? = FileOutputStream(destFile).channel
-        if (destination != null && source != null) {
-            destination.transferFrom(source, 0, source.size())
-        }
-        source?.close()
-        destination?.close()
     }
 
     private fun Context.toast(message: String) =
@@ -1529,8 +1522,8 @@ class SettingsActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun testAutoFill(context: Context){
-        val autofillManager: AutofillManager = context.getSystemService(AutofillManager::class.java)
-        if (!autofillManager.hasEnabledAutofillServices()) {
+        val autoFillManager: AutofillManager = context.getSystemService(AutofillManager::class.java)
+        if (!autoFillManager.hasEnabledAutofillServices()) {
             val intent = Intent(android.provider.Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE)
             intent.data = Uri.parse("package:com.mikhailgrigorev.quickpass")
             startActivityForResult(intent, 0)

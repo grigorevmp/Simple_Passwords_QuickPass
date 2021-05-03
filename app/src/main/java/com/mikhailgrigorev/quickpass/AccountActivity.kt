@@ -18,9 +18,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import com.mikhailgrigorev.quickpass.databinding.ActivityAccountBinding
 import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
-import kotlinx.android.synthetic.main.activity_account.*
 
 class AccountActivity : AppCompatActivity() {
 
@@ -37,6 +37,7 @@ class AccountActivity : AppCompatActivity() {
     private val realMap: MutableMap<String, ArrayList<String>> = mutableMapOf()
 
     private var condition = true
+    private lateinit var binding: ActivityAccountBinding
 
     @SuppressLint("Recycle", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,31 +92,32 @@ class AccountActivity : AppCompatActivity() {
         else
             handler.postDelayed(r, time*6L)
 
-        setContentView(R.layout.activity_account)
+        binding = ActivityAccountBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
 
         val cardRadius = sharedPref.getString("cardRadius", "none")
         if(cardRadius != null)
             if(cardRadius != "none") {
-                cardCup.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
-                crypted.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
-                warn_Card.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
-                settingsCard.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
-                specialInfo.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
-                correctScan.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
-                cardView.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                binding.cardCup.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                binding.crypted.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                binding.warnCard.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                binding.settingsCard.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                binding.specialInfo.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                binding.correctScan.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                binding.cardView.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
             }
 
 
         val useAnalyze = sharedPref.getString("useAnalyze", "none")
         if (useAnalyze != null)
             if (useAnalyze != "none"){
-                totalPoints.visibility = View.GONE
-                realPoints.visibility = View.GONE
-                correctScan.visibility = View.GONE
-                cardView.visibility = View.GONE
-                specialInfo.visibility = View.GONE
-                crypted.visibility = View.GONE
+                binding.totalPoints.visibility = View.GONE
+                binding.realPoints.visibility = View.GONE
+                binding.correctScan.visibility = View.GONE
+                binding.cardView.visibility = View.GONE
+                binding.specialInfo.visibility = View.GONE
+                binding.crypted.visibility = View.GONE
             }
 
 
@@ -133,7 +135,7 @@ class AccountActivity : AppCompatActivity() {
 
         // Set greeting
         val name: String = getString(R.string.hi) + " " + login
-        helloTextId.text = name
+        binding.helloTextId.text = name
 
         // Checking prefs
 
@@ -161,65 +163,65 @@ class AccountActivity : AppCompatActivity() {
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
             do {
                 val exInfoPassText = cursor.getString(passIndex).toString()
-                passViewField.setText(exInfoPassText)
+                binding.passViewField.setText(exInfoPassText)
                 when(cursor.getString(imageIndex).toString()){
-                    "ic_account" -> accountAvatar.backgroundTintList =
+                    "ic_account" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account
                             )
-                    "ic_account_Pink" -> accountAvatar.backgroundTintList =
+                    "ic_account_Pink" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Pink
                             )
-                    "ic_account_Red" -> accountAvatar.backgroundTintList =
+                    "ic_account_Red" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Red
                             )
-                    "ic_account_Purple" -> accountAvatar.backgroundTintList =
+                    "ic_account_Purple" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Purple
                             )
-                    "ic_account_Violet" -> accountAvatar.backgroundTintList =
+                    "ic_account_Violet" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Violet
                             )
-                    "ic_account_Dark_Violet" -> accountAvatar.backgroundTintList =
+                    "ic_account_Dark_Violet" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Dark_Violet
                             )
-                    "ic_account_Blue" -> accountAvatar.backgroundTintList =
+                    "ic_account_Blue" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Blue
                             )
-                    "ic_account_Cyan" -> accountAvatar.backgroundTintList =
+                    "ic_account_Cyan" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Cyan
                             )
-                    "ic_account_Teal" -> accountAvatar.backgroundTintList =
+                    "ic_account_Teal" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Teal
                             )
-                    "ic_account_Green" -> accountAvatar.backgroundTintList =
+                    "ic_account_Green" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Green
                             )
-                    "ic_account_lightGreen" -> accountAvatar.backgroundTintList =
+                    "ic_account_lightGreen" -> binding.accountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_lightGreen
                             )
-                    else -> accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    else -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account
                     )
                 }
-                accountAvatarText.text = login[0].toString()
+                binding.accountAvatarText.text = login[0].toString()
             } while (cursor.moveToNext())
         }
-        aboutApp.setOnClickListener {
+        binding.aboutApp.setOnClickListener {
             condition=false
             val intent = Intent(this, AboutActivity::class.java)
             startActivity(intent)
         }
-        cardCup.setOnClickListener {
+        binding.cardCup.setOnClickListener {
             condition=false
             val intent = Intent(this, DonutActivity::class.java)
             startActivity(intent)
@@ -326,36 +328,36 @@ class AccountActivity : AppCompatActivity() {
                 } while (pCursor.moveToNext())
             }
 
-            correctPasswords.text = resources.getQuantityString(
+            binding.correctPasswords.text = resources.getQuantityString(
                     R.plurals.correct_passwords,
                     correctNum,
                     correctNum
             )
-            negativePasswords.text = resources.getQuantityString(
+            binding.negativePasswords.text = resources.getQuantityString(
                     R.plurals.incorrect_password,
                     inCorrectNum,
                     inCorrectNum
             )
-            notSafePasswords.text = resources.getQuantityString(
+            binding.notSafePasswords.text = resources.getQuantityString(
                     R.plurals.need_fix,
                     midCorrectNum,
                     midCorrectNum
             )
 
-            afText.text = faNum.toString()
-            tlText.text = tlNum.toString()
-            crText.text = crNum.toString()
-            pinText.text = pinNum.toString()
-            allPass.text = (correctNum+ inCorrectNum + midCorrectNum).toString()
+            binding.afText.text = faNum.toString()
+            binding.tlText.text = tlNum.toString()
+            binding.crText.text = crNum.toString()
+            binding.pinText.text = pinNum.toString()
+            binding.allPass.text = (correctNum+ inCorrectNum + midCorrectNum).toString()
 
-            if(allPass.text.toString() != "0") {
-                realPoints.text =
+            if(binding.allPass.text.toString() != "0") {
+                binding.realPoints.text =
                         ((correctNum.toFloat() + midCorrectNum.toFloat() / 2 + inCorrectNum.toFloat() * 0 + tlNum.toFloat() + faNum.toFloat())
                                 / (7 / 3 * (correctNum.toFloat() + inCorrectNum.toFloat() + midCorrectNum.toFloat())))
                                 .toString()
             }
             else{
-                realPoints.text = "0"
+                binding.realPoints.text = "0"
             }
             pCursor.close()
         } catch (e: SQLException) {
@@ -364,13 +366,13 @@ class AccountActivity : AppCompatActivity() {
         // Settings button animation
         val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate)
         rotation.fillAfter = true
-        settings.startAnimation(rotation)
+        binding.settings.startAnimation(rotation)
 
 
 
 
         // Log out button
-        logOut.setOnClickListener {
+        binding.logOut.setOnClickListener {
             val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
             builder.setTitle(getString(R.string.exit_account))
             builder.setMessage(getString(R.string.accountExitConfirm))
@@ -388,7 +390,7 @@ class AccountActivity : AppCompatActivity() {
 
 
         // Edit button
-        editAccount.setOnClickListener {
+        binding.editAccount.setOnClickListener {
             condition=false
             val intent = Intent(this, EditAccountActivity::class.java)
             intent.putExtra("login", login)
@@ -397,7 +399,7 @@ class AccountActivity : AppCompatActivity() {
         }
 
         // Settings button
-        settings.setOnClickListener {
+        binding.settings.setOnClickListener {
             condition=false
             val intent = Intent(this, SettingsActivity::class.java)
             intent.putExtra("login", login)
@@ -406,7 +408,7 @@ class AccountActivity : AppCompatActivity() {
         }
 
         // Delete button
-        deleteAccount.setOnClickListener {
+        binding.deleteAccount.setOnClickListener {
             val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
             builder.setTitle(getString(R.string.accountDelete))
             builder.setMessage(getString(R.string.accountDeleteConfirm))
@@ -433,11 +435,7 @@ class AccountActivity : AppCompatActivity() {
             val dialog: AlertDialog = builder.create()
             dialog.show()
         }
-        back.setOnClickListener {
-            //logo.visibility = View.VISIBLE
-            //val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_splash)
-            //rotation.fillAfter = true
-            //logo.startAnimation(rotation)
+        binding.back.setOnClickListener {
             condition=false
             val intent = Intent()
             intent.putExtra("login", login)
