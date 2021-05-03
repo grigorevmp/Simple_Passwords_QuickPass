@@ -10,9 +10,8 @@ android {
         applicationId "com.mikhailgrigorev.quickpass"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 16
+        versionCode 17
         versionName '2.5.0'
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -51,6 +50,7 @@ dependencies {
     implementation 'androidx.preference:preference-ktx:1.1.1'
     implementation 'com.sun.mail:android-mail:1.6.6'
     implementation 'com.sun.mail:android-activation:1.6.6'
+    implementation 'com.android.billingclient:billing:3.0.3'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

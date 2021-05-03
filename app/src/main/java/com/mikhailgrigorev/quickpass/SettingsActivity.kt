@@ -1209,10 +1209,8 @@ class SettingsActivity : AppCompatActivity() {
         if (!sourceFile.exists()) {
             return
         }
-        var source: FileChannel? = null
-        var destination: FileChannel? = null
-        source = FileInputStream(sourceFile).channel
-        destination = FileOutputStream(destFile).channel
+        var source: FileChannel? = FileInputStream(sourceFile).channel
+        var destination: FileChannel? = FileOutputStream(destFile).channel
         if (destination != null && source != null) {
             destination.transferFrom(source, 0, source.size())
         }
@@ -1413,14 +1411,12 @@ class SettingsActivity : AppCompatActivity() {
                     contentResolver.openOutputStream(it)
                 }?.let {
                     val c = passDataBase.rawQuery("select * from $login", null)
-                    val rowcount: Int
-                    val colcount: Int
 
                     val bw = BufferedWriter(OutputStreamWriter(it))
 
                     //val bw = BufferedWriter(fw)
-                    rowcount = c.count
-                    colcount = c.columnCount
+                    val rowcount: Int = c.count
+                    val colcount: Int = c.columnCount
                     if (rowcount > 0) {
                         c.moveToFirst()
                         for (i in 0 until colcount) {
@@ -1522,9 +1518,8 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    fun getAbsoluteDir(ctx: Context, optionalPath: String?): File? {
-        var rootPath: String
-        rootPath = if (optionalPath != null && optionalPath != "") {
+    private fun getAbsoluteDir(ctx: Context, optionalPath: String?): File? {
+        var rootPath: String = if (optionalPath != null && optionalPath != "") {
             ctx.getExternalFilesDir(optionalPath)!!.absolutePath
         } else {
             ctx.getExternalFilesDir(null)!!.absolutePath

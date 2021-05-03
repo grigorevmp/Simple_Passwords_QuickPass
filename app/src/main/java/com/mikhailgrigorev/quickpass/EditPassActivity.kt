@@ -582,7 +582,6 @@ class EditPassActivity : AppCompatActivity() {
                     val intent = Intent(this, PasswordViewActivity::class.java)
                     intent.putExtra("login", login)
                     intent.putExtra("passName", newNameField.text.toString())
-                    val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
                     with(sharedPref.edit()) {
                         putString("__PASSNAME", newNameField.text.toString())
                         commit()
@@ -686,9 +685,9 @@ class EditPassActivity : AppCompatActivity() {
     }
 
 
-    val PERMISSION_CODE_READ = 1001
-    val PERMISSION_CODE_WRITE = 1002
-    val IMAGE_PICK_CODE = 1000
+    private val PERMISSION_CODE_READ = 1001
+    private val PERMISSION_CODE_WRITE = 1002
+    private val IMAGE_PICK_CODE = 1000
 
     private fun checkPermissionForImage() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -731,10 +730,8 @@ class EditPassActivity : AppCompatActivity() {
         if (!sourceFile.exists()) {
             return
         }
-        var source: FileChannel? = null
-        var destination: FileChannel? = null
-        source = FileInputStream(sourceFile).channel
-        destination = FileOutputStream(destFile).channel
+        var source: FileChannel? = FileInputStream(sourceFile).channel
+        var destination: FileChannel? = FileOutputStream(destFile).channel
         if (destination != null && source != null) {
             destination.transferFrom(source, 0, source.size())
         }
@@ -745,7 +742,7 @@ class EditPassActivity : AppCompatActivity() {
     private fun getRealPathFromURI(contentURI: Uri): String? {
         val result: String?
         val cursor = contentResolver.query(contentURI, null, null, null, null)
-        if (cursor == null) { // Source is Dropbox or other similar local file path
+        if (cursor == null) {
             result = contentURI.path
         } else {
             cursor.moveToFirst()
@@ -779,13 +776,13 @@ class EditPassActivity : AppCompatActivity() {
             attachedImage.layoutParams.width = width
             if (ContextCompat.checkSelfPermission(
                         this,
-                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
                 != PackageManager.PERMISSION_GRANTED
             ) {
                 ActivityCompat.requestPermissions(
                         this,
-                        arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
                         PackageManager.PERMISSION_GRANTED
                 )
             }

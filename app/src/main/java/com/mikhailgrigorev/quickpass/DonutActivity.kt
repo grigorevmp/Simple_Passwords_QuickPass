@@ -14,6 +14,7 @@ import com.anjlab.android.iab.v3.BillingProcessor
 import com.anjlab.android.iab.v3.PurchaseInfo
 import com.anjlab.android.iab.v3.TransactionDetails
 import kotlinx.android.synthetic.main.activity_donut.*
+import com.android.vending.billing.IInAppBillingService
 
 private const val _preferenceFile = "quickPassPreference"
 var condition = true
