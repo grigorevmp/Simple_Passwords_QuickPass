@@ -16,7 +16,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 @RequiresApi(Build.VERSION_CODES.O)
-class MyAutofillService : AutofillService() {
+class QuickPassAutoFillService : AutofillService() {
 
     private val _preferenceFile = "quickPassPreference"
     private val _keyUsername = "prefUserNameKey"
@@ -28,16 +28,13 @@ class MyAutofillService : AutofillService() {
     ) {
         val structure =
                 request.fillContexts[request.fillContexts.size - 1].structure
-        // Создаем пустой список
         val emailFields: MutableList<ViewNode?> = ArrayList()
         val passFields: MutableList<ViewNode?> = ArrayList()
         val appName = structure.activityComponent.packageName
 
-        // Checking prefs
         val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
         val username = sharedPref.getString(_keyUsername, "none")
 
-        // Arrays
         val emails: ArrayList<String> = ArrayList()
         val passwords: ArrayList<String> = ArrayList()
         val names: ArrayList<String> = ArrayList()
@@ -77,7 +74,6 @@ class MyAutofillService : AutofillService() {
             }
         }
 
-        // Заполняем список
         identifyEmailFields(structure.getWindowNodeAt(0).rootViewNode, emailFields)
         identifyPassFields(structure.getWindowNodeAt(0).rootViewNode, passFields)
 
@@ -129,7 +125,6 @@ class MyAutofillService : AutofillService() {
                 }
                 i += 1
                 }
-
         }
 
         if(dataSets.size != 0){

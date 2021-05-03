@@ -9,15 +9,19 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.database.Cursor
 import android.database.SQLException
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.View
+import android.view.autofill.AutofillManager
 import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -152,7 +156,6 @@ class SettingsActivity : AppCompatActivity() {
             defaultSystem.isChecked = true
             recreate()
         }
-
 
         val useBio = sharedPref.getString(_keyBio, "none")
         val useAuto = sharedPref.getString(_keyAutoCopy, "none")
@@ -290,6 +293,17 @@ class SettingsActivity : AppCompatActivity() {
                     putString("useAnalyze", "yes")
                     commit()
                 }
+            }
+        }
+
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            autoFillSettings.visibility = View.GONE
+
+        }
+        checkAutoFillSettings.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                testAutoFill(this)
             }
         }
 
@@ -1511,6 +1525,20 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun testAutoFill(context: Context){
+        val autofillManager: AutofillManager = context.getSystemService(AutofillManager::class.java)
+        if (!autofillManager.hasEnabledAutofillServices()) {
+            val intent = Intent(android.provider.Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE)
+            intent.data = Uri.parse("package:com.mikhailgrigorev.quickpass")
+            startActivityForResult(intent, 0)
+        }
+        else{
+            toast("Already enabled")
+        }
+
     }
 
     private fun getAbsoluteDir(ctx: Context): File {
