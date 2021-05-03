@@ -1536,7 +1536,9 @@ class SettingsActivity : AppCompatActivity() {
             startActivityForResult(intent, 0)
         }
         else{
-            toast("Already enabled")
+            val intent = Intent(android.provider.Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE)
+            intent.data = Uri.parse("package:none")
+            startActivityForResult(intent, 0)
         }
 
     }
