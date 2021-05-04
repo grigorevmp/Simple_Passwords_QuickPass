@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +29,7 @@ class ReLoginActivity : AppCompatActivity() {
     private val _keyBio = "prefUserBioKey"
     private val _keyUsePin = "prefUsePinKey"
     private val _tag = "SignUpActivity"
+    private val DEFAULT_ROTATION = 45F
     private lateinit var binding: ActivityLoginBinding
 
     @SuppressLint("Recycle")
@@ -123,6 +125,23 @@ class ReLoginActivity : AppCompatActivity() {
                     binding.loginFab.show()
                 }
             }
+        }
+
+        // Generate random password
+        val pm = PasswordManager()
+        binding.generatePassword.setOnClickListener {
+            binding.inputPasswordId.error = null
+            val newPassword: String =
+                    pm.generatePassword(
+                            isWithLetters = true,
+                            isWithUppercase = true,
+                            isWithNumbers = true,
+                            isWithSpecial = false,
+                            length = 12
+                    )
+            binding.inputPasswordIdField.setText(newPassword)
+
+            binding.generatePassword.animate().rotation( (binding.generatePassword.rotation + DEFAULT_ROTATION)%360F).interpolator = AccelerateDecelerateInterpolator()
         }
 
         binding.sendMail.setOnClickListener {
