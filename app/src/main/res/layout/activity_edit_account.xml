@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="95dp"
         app:boxCornerRadiusBottomEnd="15dp"
         app:boxCornerRadiusBottomStart="15dp"
         app:boxCornerRadiusTopEnd="15dp"
@@ -67,7 +67,33 @@
             android:hint="@string/pass"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardPass"
+        android:layout_width="@dimen/box_size"
+        android:layout_height="@dimen/box_size"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/passView">
 
+        <ImageButton
+            android:id="@+id/generatePassword"
+            android:layout_width="@dimen/box_size"
+            android:layout_height="@dimen/box_size"
+            android:background="@color/white"
+            android:contentDescription="@string/generate"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:rotation="45"
+            android:tint="@color/textDark"
+            app:srcCompat="@drawable/dice_5_outline" />
+
+    </androidx.cardview.widget.CardView>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/nameView"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

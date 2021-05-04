@@ -219,8 +219,6 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:clickable="true"
-                android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardBackgroundColor="?attr/colorPrimary"
                 app:cardCornerRadius="10dp"
@@ -443,8 +441,6 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:clickable="true"
-                android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
 
                 app:cardBackgroundColor="@color/white"
@@ -575,8 +571,6 @@
                 app:cardElevation="20dp"
 
                 android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
                 app:layout_constraintBottom_toBottomOf="@+id/specialInfo"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/specialInfo">

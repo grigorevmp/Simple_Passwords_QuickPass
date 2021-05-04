@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.KeyEvent
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -139,6 +140,23 @@ class EditAccountActivity : AppCompatActivity() {
             } while (cursor.moveToNext())
         }
 
+
+        // Generate random password
+        val pm = PasswordManager()
+        binding.generatePassword.setOnClickListener {
+            binding.passView.error = null
+            val newPassword: String =
+                    pm.generatePassword(
+                            isWithLetters = true,
+                            isWithUppercase = true,
+                            isWithNumbers = true,
+                            isWithSpecial = false,
+                            length = 12
+                    )
+            binding.passViewField.setText(newPassword)
+
+            binding.generatePassword.animate().rotation( (binding.generatePassword.rotation + 45F)%360F).interpolator = AccelerateDecelerateInterpolator()
+        }
 
         binding.savePass.setOnClickListener {
             binding.nameView.error = null
