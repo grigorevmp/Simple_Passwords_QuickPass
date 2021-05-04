@@ -426,12 +426,37 @@ class PasswordViewActivity : AppCompatActivity() {
             dialog.show()
         }
 
+        binding.helloTextId.setOnClickListener {
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Name", binding.helloTextId.text.toString())
+            clipboard.setPrimaryClip(clip)
+            toast(getString(R.string.nameCopied))
+        }
+
         binding.accountAvatar.setOnClickListener {
             condition=false
             val intent = Intent(this, AccountActivity::class.java)
             intent.putExtra("login", login)
             intent.putExtra("activity", "menu")
             startActivityForResult(intent, 1)
+        }
+
+        binding.emailView.setOnClickListener {
+            if(binding.emailViewField.text.toString() != ""){
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("Login", binding.emailViewField.text.toString())
+                clipboard.setPrimaryClip(clip)
+                toast(getString(R.string.loginCopied))
+            }
+        }
+
+        binding.emailViewField.setOnClickListener {
+            if(binding.emailViewField.text.toString() != ""){
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("Login", binding.emailViewField.text.toString())
+                clipboard.setPrimaryClip(clip)
+                toast(getString(R.string.loginCopied))
+            }
         }
 
 

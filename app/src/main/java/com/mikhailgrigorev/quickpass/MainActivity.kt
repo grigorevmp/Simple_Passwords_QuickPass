@@ -34,7 +34,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
-import com.mikhailgrigorev.quickpass.databinding.ActivityPassGenBinding
+import com.mikhailgrigorev.quickpass.databinding.ActivityMainBinding
 import com.mikhailgrigorev.quickpass.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpass.dbhelpers.PasswordsDataBaseHelper
 import java.util.*
@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
     private var pm = PasswordManager()
     private var condition = true
 
-    private lateinit var binding: ActivityPassGenBinding
+    private lateinit var binding: ActivityMainBinding
 
     @SuppressLint(
             "Recycle", "ClickableViewAccessibility", "ResourceAsColor", "RestrictedApi",
@@ -149,7 +149,7 @@ class MainActivity : AppCompatActivity() {
             handler.postDelayed(r, time*6L)
 
 
-        binding = ActivityPassGenBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 

@@ -51,6 +51,8 @@
     <string name="length">Length</string>
     <string name="generate">+</string>
     <string name="passCopied">Password was copied to clipboard</string>
+    <string name="loginCopied">Login was copied to clipboard</string>
+    <string name="nameCopied">Name was copied to clipboard</string>
     <string name="noRules">You should choose at least 1 rule</string>
     <string name="add_new_password">Add password</string>
     <string name="exit_account">Log out</string>
