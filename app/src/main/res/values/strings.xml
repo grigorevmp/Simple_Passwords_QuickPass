@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QuickPass</string>
+    <string name="app_name" translatable="false">QuickPass</string>
     <string name="hi_username">Hi,</string>
     <string name="inputLogin">Login</string>
     <string name="inputPassword">Password</string>
@@ -44,12 +44,12 @@
         <item quantity="other">You should improve %1$d passwords</item>
     </plurals>
 
-    <string name="chipLetters">abc…</string>
-    <string name="upperCaseLetters">ABC…</string>
-    <string name="chipNumbers">123…</string>
-    <string name="chipSym">*/#…</string>
+    <string name="chipLetters" translatable="false">abc…</string>
+    <string name="upperCaseLetters" translatable="false">ABC…</string>
+    <string name="chipNumbers" translatable="false">123…</string>
+    <string name="chipSym" translatable="false">./-…</string>
     <string name="length">Length</string>
-    <string name="generate">+</string>
+    <string name="generate" translatable="false">+</string>
     <string name="passCopied">Password was copied to clipboard</string>
     <string name="loginCopied">Login was copied to clipboard</string>
     <string name="nameCopied">Name was copied to clipboard</string>
@@ -57,7 +57,7 @@
     <string name="add_new_password">Add password</string>
     <string name="exit_account">Log out</string>
     <string name="name_your_password">Name your password</string>
-    <string name="_2fa">2FA</string>
+    <string name="_2fa" translatable="false">2FA</string>
     <string name="set_time_limit">Set time limit</string>
     <string name="add_some_description">Add some description</string>
     <string name="desc">Description:</string>

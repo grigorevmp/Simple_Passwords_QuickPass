@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">QuickPass</string>
     <string name="hi_username">Привет,</string>
     <string name="inputLogin">Логин</string>
     <string name="inputPassword">Пароль</string>
@@ -46,19 +45,13 @@
         <item quantity="other">Вам следует изменить %1$d паролей</item>
     </plurals>
 
-    <string name="chipLetters">abc…</string>
-    <string name="chipSym">./-…</string>
     <string name="length">Длина</string>
-    <string name="generate">+</string>
-    <string name="chipNumbers">123…</string>
-    <string name="upperCaseLetters">ABC…</string>
     <string name="noRules">нужно выбрать как минимум 1 правило</string>
     <string name="passCopied">Пароль скопирован в буфер обмена</string>
     <string name="loginCopied">Логин скопирован в буфер обмена</string>
     <string name="nameCopied">Название скопировано в буфер обмена</string>
     <string name="add_new_password">Добавить пароль</string>
     <string name="name_your_password">Введите имя пароля</string>
-    <string name="_2fa">2FA</string>
     <string name="set_time_limit">Лимит времени</string>
     <string name="add_some_description">Добавить описание</string>
     <string name="desc">Описание:</string>
