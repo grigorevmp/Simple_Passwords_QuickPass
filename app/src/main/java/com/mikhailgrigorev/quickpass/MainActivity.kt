@@ -160,6 +160,7 @@ class MainActivity : AppCompatActivity() {
                 binding.cardPass.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius!!.toFloat(), resources.displayMetrics)
                 binding.noPasswords.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius!!.toFloat(), resources.displayMetrics)
                 binding.warnCard.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius!!.toFloat(), resources.displayMetrics)
+                binding.backupCard.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius!!.toFloat(), resources.displayMetrics)
                 binding.cardView.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius!!.toFloat(), resources.displayMetrics)
                 binding.cardCup.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius!!.toFloat(), resources.displayMetrics)
             }
@@ -712,6 +713,7 @@ class MainActivity : AppCompatActivity() {
         if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
             binding.newPass.animate().scaleX(0F).scaleY(0F).setDuration(0).start()
             binding.warnCard.animate().alpha(1F).setDuration(0).start()
+            binding.backupCard.animate().alpha(1F).setDuration(0).start()
         }
 
         binding.searchPassField.clearFocus()
@@ -763,6 +765,7 @@ class MainActivity : AppCompatActivity() {
                 binding.menuUp.animate().rotation(180F * slideOffset).setDuration(0).start()
                 if (slideOffset <= 0) {
                     binding.warnCard.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0).start()
+                    binding.backupCard.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0).start()
                     binding.newPass.animate().scaleX(1 - abs(slideOffset)).scaleY(1 - abs(slideOffset))
                             .setDuration(
                                     0
@@ -1152,6 +1155,7 @@ class MainActivity : AppCompatActivity() {
         binding.newPass.visibility = View.GONE
         binding.extraNewPass.visibility = View.VISIBLE
         binding.warnCard.animate().alpha(abs(START_ALPHA)).start()
+        binding.backupCard.animate().alpha(abs(START_ALPHA)).start()
     }
 
     private fun createIntentForShortcut(passwordIndex: Int): Intent{

@@ -95,7 +95,7 @@
     <string name="auto_copy_password">Auto-copy password</string>
     <string name="about_app">About app</string>
     <string name="mikhail_grigorev">Mikhail Grigorev</string>
-    <string name="_2020" translatable="false">"2.5.0 test • 2021 "</string>
+    <string name="_2020" translatable="false">"2.5.0 • 2021 "</string>
     <string name="telegram" translatable="false">Telegram</string>
     <string name="vkontakte" translatable="false">Vkontakte</string>
     <string name="sen_email" translatable="false">Send email</string>
@@ -147,6 +147,11 @@
     <string name="latest_updates_on_my_github_page">Latest updates on my GitHub page</string>
     <string name="about_desc">Powerful password manager with friendly UI, secured system, cool password generator and it\'s own auto-fill framework</string>
     <string name="newPassRule">Password creation rules</string>
+
+
+    <string name="backupRule">Don\'t forget about backup</string>
+    <string name="backupRule1">All your data is stored only on this device. Don\'t forget about a backup (go to Settings)</string>
+
     <string name="newPassRule1">1. A strong password must be more than 12 characters long and contain three sets of characters: LARGE and small letters, numbers (1,2,3…), special characters (./-…)</string>
     <string name="newPassRule2">2. Do not use publicly available information: parts of the name, phone numbers, dates important to you</string>
     <string name="newPassRule3">3. Use different passwords. If any password is publicly available, hackers can gain access to your other accounts.</string>
