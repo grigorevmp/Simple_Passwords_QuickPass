@@ -21,6 +21,10 @@
         <item name="android:useDefaultMargins"> true</item>
     </style>
 
+    <style name="MySeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressTint">@color/colorAccent</item>
+    </style>
+
 
     <style name="AppThemeRed" parent="AppTheme">
         <item name="colorPrimary">@color/ic_account_Red</item>

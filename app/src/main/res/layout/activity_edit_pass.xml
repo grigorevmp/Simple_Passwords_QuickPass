@@ -307,6 +307,8 @@
 
             <SeekBar
                 android:id="@+id/seekBar"
+                android:thumbTint="?attr/colorPrimary"
+                android:progressTint="?attr/colorPrimary"
                 style="@style/Widget.AppCompat.SeekBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -315,8 +317,6 @@
                 android:layout_marginEnd="20dp"
                 android:max="40"
                 android:progress="20"
-                android:progressTint="?attr/colorPrimary"
-                android:thumbTint="?attr/colorPrimary"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -347,6 +347,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.switchmaterial.SwitchMaterial
+                android:theme="@style/ThemeOverlay.MySwitch"
                 android:id="@+id/emailSwitch"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -355,7 +356,6 @@
                 android:layout_marginEnd="20dp"
                 android:text="@string/email_login"
                 android:textColor="@color/textDark"
-                android:theme="@style/ThemeOverlay.MySwitch"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/helloTextId" />

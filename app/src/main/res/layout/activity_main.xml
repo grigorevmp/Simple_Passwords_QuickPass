@@ -360,8 +360,10 @@
             </androidx.cardview.widget.CardView>
 
             <SeekBar
-                android:id="@+id/seekBar"
+                android:thumbTint="?attr/colorPrimary"
+                android:progressTint="?attr/colorPrimary"
                 style="@style/Widget.AppCompat.SeekBar"
+                android:id="@+id/seekBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -369,8 +371,6 @@
                 android:layout_marginEnd="20dp"
                 android:max="40"
                 android:progress="20"
-                android:progressTint="?attr/colorAccent"
-                android:thumbTint="?attr/colorPrimary"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -198,6 +198,9 @@
 
                         </LinearLayout>
                             <SeekBar
+                                android:thumbTint="?attr/colorPrimary"
+                                android:progressTint="?attr/colorPrimary"
+                                style="@style/Widget.AppCompat.SeekBar"
                                 android:id="@+id/appLockBar"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -373,6 +376,9 @@
 
                         </LinearLayout>
                         <SeekBar
+                            android:thumbTint="?attr/colorPrimary"
+                            android:progressTint="?attr/colorPrimary"
+                            style="@style/Widget.AppCompat.SeekBar"
                             android:id="@+id/cardRadiusBar"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
