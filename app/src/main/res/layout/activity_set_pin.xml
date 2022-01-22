@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    tools:context=".SetPinActivity">
+    tools:context=".ui.pin_code.set.SetPinActivity">
 
     <TextView
         android:id="@+id/helloTextId"

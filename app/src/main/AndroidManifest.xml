@@ -23,7 +23,7 @@
         tools:targetApi="q">
         <activity android:name="com.mikhailgrigorev.quickpassword.DonutActivity" />
         <service
-            android:name="com.mikhailgrigorev.quickpassword.QuickPassAutoFillService"
+            android:name="com.mikhailgrigorev.quickpassword.service.QuickPassAutoFillService"
             android:label="QuickPass"
             android:enabled="true"
             android:process=":process_description"
@@ -39,56 +39,56 @@
                 android:resource="@xml/service_configuration" />
         </service>
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.SettingsActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.settings.SettingsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.SetPinActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.pin_code.set.SetPinActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.RePinActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.pin_code.re.RePinActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.PinActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.pin_code.view.PinActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.AboutActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.about.AboutActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.EditAccountActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.account.edit.EditAccountActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.EditPassActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.password_card.edit.EditPassActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.PasswordViewActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.password_card.view.PasswordViewActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.NewPasswordActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.password_card.add.NewPasswordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.AccountActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.account.view.AccountActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.SignActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.auth.sign.SignActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.MainActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.ReSignActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.auth.re.sign.ReSignActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.ReLoginActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.auth.re.login.ReLoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.LoginAfterSplashActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.auth.login.LoginAfterSplashActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.LoginActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity"
             android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -102,7 +102,7 @@
             android:icon="@mipmap/ic_launcher_violet"
             android:windowSoftInputMode="adjustResize"
             android:label="@string/app_name"
-            android:targetActivity="com.mikhailgrigorev.quickpassword.LoginActivity">
+            android:targetActivity="com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -114,7 +114,7 @@
             android:icon="@mipmap/ic_launcher_green"
             android:windowSoftInputMode="adjustResize"
             android:label="@string/app_name"
-            android:targetActivity="com.mikhailgrigorev.quickpassword.LoginActivity">
+            android:targetActivity="com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -127,7 +127,7 @@
             android:icon="@mipmap/ic_launcher_lgreen"
             android:windowSoftInputMode="adjustResize"
             android:label="@string/app_name"
-            android:targetActivity="com.mikhailgrigorev.quickpassword.LoginActivity">
+            android:targetActivity="com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -140,7 +140,7 @@
             android:icon="@mipmap/ic_launcher_teal"
             android:windowSoftInputMode="adjustResize"
             android:label="@string/app_name"
-            android:targetActivity="com.mikhailgrigorev.quickpassword.LoginActivity">
+            android:targetActivity="com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -153,7 +153,7 @@
             android:icon="@mipmap/ic_launcher_cyan"
             android:windowSoftInputMode="adjustResize"
             android:label="@string/app_name"
-            android:targetActivity="com.mikhailgrigorev.quickpassword.LoginActivity">
+            android:targetActivity="com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -166,7 +166,7 @@
             android:icon="@mipmap/ic_launcher_blue"
             android:windowSoftInputMode="adjustResize"
             android:label="@string/app_name"
-            android:targetActivity="com.mikhailgrigorev.quickpassword.LoginActivity">
+            android:targetActivity="com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -179,7 +179,7 @@
             android:icon="@mipmap/ic_launcher_dviole"
             android:windowSoftInputMode="adjustResize"
             android:label="@string/app_name"
-            android:targetActivity="com.mikhailgrigorev.quickpassword.LoginActivity">
+            android:targetActivity="com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -192,7 +192,7 @@
             android:icon="@mipmap/ic_launcher_purple"
             android:windowSoftInputMode="adjustResize"
             android:label="@string/app_name"
-            android:targetActivity="com.mikhailgrigorev.quickpassword.LoginActivity">
+            android:targetActivity="com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -205,7 +205,7 @@
             android:icon="@mipmap/ic_launcher_pink"
             android:windowSoftInputMode="adjustResize"
             android:label="@string/app_name"
-            android:targetActivity="com.mikhailgrigorev.quickpassword.LoginActivity">
+            android:targetActivity="com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -218,7 +218,7 @@
             android:icon="@mipmap/ic_launcher_red"
             android:windowSoftInputMode="adjustResize"
             android:label="@string/app_name"
-            android:targetActivity="com.mikhailgrigorev.quickpassword.LoginActivity">
+            android:targetActivity="com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
