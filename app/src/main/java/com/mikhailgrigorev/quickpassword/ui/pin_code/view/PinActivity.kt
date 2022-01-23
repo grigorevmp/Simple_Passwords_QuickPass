@@ -20,7 +20,7 @@ import androidx.core.content.ContextCompat
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.databinding.ActivityPinBinding
 import com.mikhailgrigorev.quickpassword.dbhelpers.DataBaseHelper
-import com.mikhailgrigorev.quickpassword.ui.MainActivity
+import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
 import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginAfterSplashActivity
 import java.util.concurrent.Executor
 

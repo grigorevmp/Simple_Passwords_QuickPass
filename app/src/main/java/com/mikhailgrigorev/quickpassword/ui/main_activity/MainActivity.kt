@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.ui
+package com.mikhailgrigorev.quickpassword.ui.main_activity
 
 import android.annotation.SuppressLint
 import android.content.*
@@ -31,6 +31,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
@@ -41,7 +43,7 @@ import com.mikhailgrigorev.quickpassword.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpassword.dbhelpers.PasswordsDataBaseHelper
 import com.mikhailgrigorev.quickpassword.ui.account.view.AccountActivity
 import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginAfterSplashActivity
-import com.mikhailgrigorev.quickpassword.ui.password_card.add.NewPasswordActivity
+import com.mikhailgrigorev.quickpassword.ui.password_card.create.CreatePasswordActivity
 import com.mikhailgrigorev.quickpassword.ui.password_card.view.PasswordViewActivity
 import java.util.*
 import kotlin.collections.ArrayList
@@ -53,6 +55,7 @@ class MainActivity : AppCompatActivity() {
 
     private val START_ALPHA = 1F
     private val DEFAULT_ROTATION = 0F
+    private lateinit var viewModel: ViewModel
 
     enum class CATEGORY(val value: String) {
         CORRECT("1"), NEGATIVE("2"), NOT_SAFE("3")
@@ -140,8 +143,6 @@ class MainActivity : AppCompatActivity() {
                     window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                 }
         }
-
-        // Finish app after some time
 
         val r = Runnable {
             if(condition) {
@@ -322,7 +323,6 @@ class MainActivity : AppCompatActivity() {
         if(passwords.size == 0) {
             showInterfaceIfNoPasswords()
         }
-
 
         // Set stats
         binding.correctPasswords.text = resources.getQuantityString(
@@ -1107,7 +1107,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun goToNewPasswordActivity() {
-        val intent = Intent(this, NewPasswordActivity::class.java)
+        val intent = Intent(this, CreatePasswordActivity::class.java)
         intent.putExtra("login", login)
         intent.putExtra("pass", binding.genPasswordIdField.text.toString())
         intent.putExtra("useLetters", useLetters)
@@ -1360,8 +1360,6 @@ class MainActivity : AppCompatActivity() {
     private fun Context.toast(message: String)=
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
-
-
     @SuppressLint("Recycle")
     fun favorite(view: View) {
         Log.d("favorite", view.id.toString())
@@ -1550,10 +1548,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume(){
+    override fun onResume() {
         super.onResume()
         if (binding.lengthToggle.isChecked)
-            binding.seekBar.visibility =  View.VISIBLE
+            binding.seekBar.visibility = View.VISIBLE
+    }
+
+    fun initViewModel() {
+        viewModel = ViewModelProvider(
+                this,
+                MainViewModelFactory(application)
+        )[MainViewModel::class.java]
     }
 
 }

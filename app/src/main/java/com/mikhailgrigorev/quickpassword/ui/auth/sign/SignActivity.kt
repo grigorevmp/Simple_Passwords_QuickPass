@@ -21,7 +21,7 @@ import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginAfterSplashActivity
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.databinding.ActivitySignBinding
 import com.mikhailgrigorev.quickpassword.dbhelpers.DataBaseHelper
-import com.mikhailgrigorev.quickpassword.ui.MainActivity
+import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
 import java.util.concurrent.Executor
 
 class SignActivity : AppCompatActivity() {

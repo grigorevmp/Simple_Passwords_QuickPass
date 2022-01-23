@@ -1,11 +1,10 @@
-package com.mikhailgrigorev.quickpassword.ui.password_card.add
+package com.mikhailgrigorev.quickpassword.ui.password_card.create
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.*
 import android.content.pm.PackageManager
-import android.content.res.Configuration
 import android.database.Cursor
 import android.graphics.Point
 import android.net.Uri
@@ -18,196 +17,108 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.SeekBar
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
+import com.mikhailgrigorev.quickpassword.common.utils.Utils
+import com.mikhailgrigorev.quickpassword.data.entity.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityNewPasswordBinding
-import com.mikhailgrigorev.quickpassword.dbhelpers.DataBaseHelper
-import com.mikhailgrigorev.quickpassword.dbhelpers.PasswordsDataBaseHelper
 import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginAfterSplashActivity
-import com.mikhailgrigorev.quickpassword.ui.donut.condition
+import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModel
+import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModelFactory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import java.nio.channels.FileChannel
-import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.random.Random
 
 
-class NewPasswordActivity : AppCompatActivity() {
+class CreatePasswordActivity : AppCompatActivity() {
 
     private var isImage = false
-    private val _keyTheme = "themePreference"
-    private val _preferenceFile = "quickPassPreference"
     private var length = 20
     private var useSymbols = false
     private var useUC = false
     private var useLetters = false
     private var useNumbers = false
     private var imageName: String = ""
+    private lateinit var viewModel: PasswordViewModel
 
     private lateinit var login: String
     private lateinit var binding: ActivityNewPasswordBinding
 
-    @SuppressLint(
-            "Recycle", "ClickableViewAccessibility", "ResourceAsColor", "RestrictedApi",
-            "SetTextI18n"
-    )
     override fun onCreate(savedInstanceState: Bundle?) {
-        val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-        when(pref.getString(_keyTheme, "none")){
-            "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            "none", "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-            "battery" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
-        }
-        when(pref.getString("themeAccentPreference", "none")){
-            "Red" -> setTheme(R.style.AppThemeRed)
-            "Pink" -> setTheme(R.style.AppThemePink)
-            "Purple" -> setTheme(R.style.AppThemePurple)
-            "Violet" -> setTheme(R.style.AppThemeViolet)
-            "DViolet" -> setTheme(R.style.AppThemeDarkViolet)
-            "Blue" -> setTheme(R.style.AppThemeBlue)
-            "Cyan" -> setTheme(R.style.AppThemeCyan)
-            "Teal" -> setTheme(R.style.AppThemeTeal)
-            "Green" -> setTheme(R.style.AppThemeGreen)
-            "LGreen" -> setTheme(R.style.AppThemeLightGreen)
-            else -> setTheme(R.style.AppTheme)
-        }
         super.onCreate(savedInstanceState)
-        when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-            Configuration.UI_MODE_NIGHT_NO ->
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    window.setDecorFitsSystemWindows(false)
-                }
-                else{
-                    window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                }
-        }
+        binding = ActivityNewPasswordBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
+        // App Quit Timer
+        setQuitTimer()
+
+        val args: Bundle? = intent.extras
+        login = args?.get("login").toString()
+
+        val list = mutableListOf<String>()
+        val pass: String = args?.get("pass").toString()
+
+        initViewModel()
+        loadFirstConfig(list, pass, args)
+        setListeners(list)
+
+    }
+
+    private fun initViewModel() {
+        viewModel = ViewModelProvider(
+                this,
+                PasswordViewModelFactory(application)
+        )[PasswordViewModel::class.java]
+    }
+
+    private fun setQuitTimer() {
+        var condition = true
         val handler = Handler(Looper.getMainLooper())
         val r = Runnable {
-            if(condition) {
-                condition=false
+            if (condition) {
+                condition = false
                 val intent = Intent(this, LoginAfterSplashActivity::class.java)
                 startActivity(intent)
                 finish()
             }
         }
-        val time: Long =  100000
-        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-        val lockTime = sharedPref.getString("appLockTime", "6")
-        if(lockTime != null) {
-            if (lockTime != "0")
-                handler.postDelayed(r, time * lockTime.toLong())
+
+        val lockTime = Utils.lock_time
+        if (lockTime != "0") {
+            handler.postDelayed(
+                    r, Utils.lock_default_interval * lockTime!!.toLong()
+            )
         }
-        else
-            handler.postDelayed(r, time * 6L)
+    }
 
-        binding = ActivityNewPasswordBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        val cardRadius = sharedPref.getString("cardRadius", "none")
-        if(cardRadius != null)
-            if(cardRadius != "none") {
-                binding.infoCard.radius = TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        cardRadius.toFloat(),
-                        resources.displayMetrics
-                )
-            }
-
-
-        val args: Bundle? = intent.extras
-        login = args?.get("login").toString()
-
-        val dbHelper = DataBaseHelper(this)
-        val database = dbHelper.writableDatabase
-        val cursor: Cursor = database.query(
-                dbHelper.TABLE_USERS, arrayOf(dbHelper.KEY_IMAGE),
-                "NAME = ?", arrayOf(login),
-                null, null, null
-        )
-        if (cursor.moveToFirst()) {
-            val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
-            do {
-                when(cursor.getString(imageIndex).toString()){
-                    "ic_account" -> binding.accountAvatar.backgroundTintList =
-                            ContextCompat.getColorStateList(
-                                    this, R.color.ic_account
-                            )
-                    "ic_account_Pink" -> binding.accountAvatar.backgroundTintList =
-                            ContextCompat.getColorStateList(
-                                    this, R.color.ic_account_Pink
-                            )
-                    "ic_account_Red" -> binding.accountAvatar.backgroundTintList =
-                            ContextCompat.getColorStateList(
-                                    this, R.color.ic_account_Red
-                            )
-                    "ic_account_Purple" -> binding.accountAvatar.backgroundTintList =
-                            ContextCompat.getColorStateList(
-                                    this, R.color.ic_account_Purple
-                            )
-                    "ic_account_Violet" -> binding.accountAvatar.backgroundTintList =
-                            ContextCompat.getColorStateList(
-                                    this, R.color.ic_account_Violet
-                            )
-                    "ic_account_Dark_Violet" -> binding.accountAvatar.backgroundTintList =
-                            ContextCompat.getColorStateList(
-                                    this, R.color.ic_account_Dark_Violet
-                            )
-                    "ic_account_Blue" -> binding.accountAvatar.backgroundTintList =
-                            ContextCompat.getColorStateList(
-                                    this, R.color.ic_account_Blue
-                            )
-                    "ic_account_Cyan" -> binding.accountAvatar.backgroundTintList =
-                            ContextCompat.getColorStateList(
-                                    this, R.color.ic_account_Cyan
-                            )
-                    "ic_account_Teal" -> binding.accountAvatar.backgroundTintList =
-                            ContextCompat.getColorStateList(
-                                    this, R.color.ic_account_Teal
-                            )
-                    "ic_account_Green" -> binding.accountAvatar.backgroundTintList =
-                            ContextCompat.getColorStateList(
-                                    this, R.color.ic_account_Green
-                            )
-                    "ic_account_lightGreen" -> binding.accountAvatar.backgroundTintList =
-                            ContextCompat.getColorStateList(
-                                    this, R.color.ic_account_lightGreen
-                            )
-                    else -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account
-                    )
-                }
-                binding.accountAvatarText.text = login[0].toString()
-            } while (cursor.moveToNext())
-        }
-
-        val list = mutableListOf<String>()
-        val pass: String = args?.get("pass").toString()
+    private fun loadFirstConfig(list: MutableList<String>, pass: String, args: Bundle?) {
         binding.genPasswordIdField.setText(pass)
-        if(pass!="") {
-            val myPasswordManager = PasswordManager()
-            var evaluation: String = myPasswordManager.evaluatePasswordString(binding.genPasswordIdField.text.toString())
-            if (myPasswordManager.popularPasswords(binding.genPasswordIdField.text.toString())){
+
+        if (pass != "") {
+            val passwordManager = Utils.password_manager
+            var evaluation: String =
+                    passwordManager.evaluatePasswordString(binding.genPasswordIdField.text.toString())
+            if (passwordManager.popularPasswords(binding.genPasswordIdField.text.toString())) {
                 evaluation = "low"
             }
             if (binding.genPasswordIdField.text.toString().length == 4)
-                if (myPasswordManager.popularPin(binding.genPasswordIdField.text.toString()))
+                if (passwordManager.popularPin(binding.genPasswordIdField.text.toString()))
                     evaluation = "low"
             binding.passQuality.text = evaluation
             when (evaluation) {
@@ -236,6 +147,7 @@ class NewPasswordActivity : AppCompatActivity() {
                 )
             }
         }
+
         useLetters = args?.get("useLetters") as Boolean
         if(useLetters){
             binding.lettersToggle.isChecked = true
@@ -247,62 +159,55 @@ class NewPasswordActivity : AppCompatActivity() {
             list.add(binding.upperCaseToggle.text.toString())
         }
         useNumbers = args.get("useNumbers") as Boolean
-        if(useNumbers){
+        if (useNumbers) {
             binding.numbersToggle.isChecked = true
             list.add(binding.numbersToggle.text.toString())
         }
         useSymbols = args.get("useSymbols") as Boolean
-        if(useSymbols){
+        if (useSymbols) {
             binding.symToggles.isChecked = true
             list.add(binding.symToggles.text.toString())
         }
         length = args.get("length") as Int
-        binding.lengthToggle.text = getString(R.string.length)  + ": " +  length
+        binding.lengthToggle.text = getString(R.string.length) + ": " + length
+    }
 
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setListeners(list: MutableList<String>) {
         binding.getInfo.setOnClickListener {
-            if(binding.infoCard.visibility ==  View.GONE){
-                binding.infoCard.visibility =  View.VISIBLE
-            }
-            else{
-                binding.infoCard.visibility =  View.GONE
+            if (binding.infoCard.visibility == View.GONE) {
+                binding.infoCard.visibility = View.VISIBLE
+            } else {
+                binding.infoCard.visibility = View.GONE
             }
         }
 
         binding.lengthToggle.setOnClickListener {
-            if(binding.seekBar.visibility ==  View.GONE){
-                binding.seekBar.visibility =  View.VISIBLE
-            }
-            else{
-                binding.seekBar.visibility =  View.GONE
+            if (binding.seekBar.visibility == View.GONE) {
+                binding.seekBar.visibility = View.VISIBLE
+            } else {
+                binding.seekBar.visibility = View.GONE
             }
         }
 
-        // Set a SeekBar change listener
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
-                // Display the current progress of SeekBar
                 length = i
                 binding.lengthToggle.text = getString(R.string.length) + ": " + length
             }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                // Do something
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                // Do something
-            }
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
         })
 
-        // Loop through the chips
         for (index in 0 until binding.passSettings.childCount) {
             val chip: Chip = binding.passSettings.getChildAt(index) as Chip
-            // Set the chip checked change listener
-            chip.setOnCheckedChangeListener{ view, isChecked ->
+            chip.setOnCheckedChangeListener { view, isChecked ->
                 val deg = binding.generatePassword.rotation + 30f
-                binding.generatePassword.animate().rotation(deg).interpolator = AccelerateDecelerateInterpolator()
-                if (isChecked){
+                binding.generatePassword.animate().rotation(deg).interpolator =
+                        AccelerateDecelerateInterpolator()
+                if (isChecked) {
                     if (view.id == R.id.lettersToggle)
                         useLetters = true
                     if (view.id == R.id.symToggles)
@@ -312,7 +217,7 @@ class NewPasswordActivity : AppCompatActivity() {
                     if (view.id == R.id.upperCaseToggle)
                         useUC = true
                     list.add(view.text.toString())
-                }else{
+                } else {
                     if (view.id == R.id.lettersToggle)
                         useLetters = false
                     if (view.id == R.id.symToggles)
@@ -391,30 +296,32 @@ class NewPasswordActivity : AppCompatActivity() {
         binding.generatePassword.setOnClickListener {
             binding.genPasswordIdField.clearFocus()
             val deg = 0f
-            binding.generatePassword.animate().rotation(deg).interpolator = AccelerateDecelerateInterpolator()
+            binding.generatePassword.animate().rotation(deg).interpolator =
+                    AccelerateDecelerateInterpolator()
             val myPasswordManager = PasswordManager()
             //Create a password with letters, uppercase letters, numbers but not special chars with 17 chars
-            if(list.size == 0 || (list.size == 1 && binding.lengthToggle.isChecked)|| (list.size == 1 && list[0].contains(
+            if (list.size == 0 || (list.size == 1 && binding.lengthToggle.isChecked) || (list.size == 1 && list[0].contains(
                         getString(
                                 R.string.length
                         )
-                ))){
+                ))
+            ) {
                 binding.genPasswordId.error = getString(R.string.noRules)
-            }
-            else {
+            } else {
                 binding.genPasswordId.error = null
                 val newPassword: String =
-                    myPasswordManager.generatePassword(
-                            useLetters,
-                            useUC,
-                            useNumbers,
-                            useSymbols,
-                            length
-                    )
+                        myPasswordManager.generatePassword(
+                                useLetters,
+                                useUC,
+                                useNumbers,
+                                useSymbols,
+                                length
+                        )
                 binding.genPasswordIdField.setText(newPassword)
 
-                var evaluation: String = myPasswordManager.evaluatePasswordString(binding.genPasswordIdField.text.toString())
-                if (myPasswordManager.popularPasswords(binding.genPasswordIdField.text.toString())){
+                var evaluation: String =
+                        myPasswordManager.evaluatePasswordString(binding.genPasswordIdField.text.toString())
+                if (myPasswordManager.popularPasswords(binding.genPasswordIdField.text.toString())) {
                     evaluation = "low"
                 }
                 if (binding.genPasswordIdField.text.toString().length == 4)
@@ -448,17 +355,20 @@ class NewPasswordActivity : AppCompatActivity() {
                 }
             }
         }
+
         binding.generatePassword.setOnTouchListener { v, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     binding.cardPass.elevation = 50F
-                    binding.generatePassword.background = ContextCompat.getDrawable(this,
+                    binding.generatePassword.background = ContextCompat.getDrawable(
+                            this,
                             R.color.grey
                     )
                     v.invalidate()
                 }
                 MotionEvent.ACTION_UP -> {
-                    binding.generatePassword.background = ContextCompat.getDrawable(this,
+                    binding.generatePassword.background = ContextCompat.getDrawable(
+                            this,
                             R.color.white
                     )
                     binding.cardPass.elevation = 10F
@@ -469,20 +379,26 @@ class NewPasswordActivity : AppCompatActivity() {
         }
 
         binding.genPasswordId.setOnClickListener {
-            if(binding.genPasswordIdField.text.toString() != ""){
+            if (binding.genPasswordIdField.text.toString() != "") {
                 val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clip = ClipData.newPlainText("Password", binding.genPasswordIdField.text.toString())
+                val clip = ClipData.newPlainText(
+                        "Password",
+                        binding.genPasswordIdField.text.toString()
+                )
                 clipboard.setPrimaryClip(clip)
-                toast(getString(R.string.passCopied))
+                Utils.makeToast(applicationContext, getString(R.string.passCopied))
             }
         }
 
         binding.genPasswordIdField.setOnClickListener {
-            if(binding.genPasswordIdField.text.toString() != ""){
+            if (binding.genPasswordIdField.text.toString() != "") {
                 val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clip = ClipData.newPlainText("Password", binding.genPasswordIdField.text.toString())
+                val clip = ClipData.newPlainText(
+                        "Password",
+                        binding.genPasswordIdField.text.toString()
+                )
                 clipboard.setPrimaryClip(clip)
-                toast(getString(R.string.passCopied))
+                Utils.makeToast(applicationContext, getString(R.string.passCopied))
             }
         }
 
@@ -491,7 +407,6 @@ class NewPasswordActivity : AppCompatActivity() {
                 binding.email.visibility = View.VISIBLE
             else
                 binding.email.visibility = View.GONE
-
         }
 
         binding.back.setOnClickListener {
@@ -502,79 +417,56 @@ class NewPasswordActivity : AppCompatActivity() {
         }
 
         binding.savePass.setOnClickListener {
-            val pdbHelper = PasswordsDataBaseHelper(this, login)
-            val passDataBase = pdbHelper.writableDatabase
-            val contentValues = ContentValues()
-
-            val newCursor: Cursor = passDataBase.query(
-                    pdbHelper.TABLE_USERS, arrayOf(pdbHelper.KEY_NAME),
-                    "NAME = ?", arrayOf(binding.newNameField.text.toString()),
-                    null, null, null
-            )
-
             val login2 = binding.newNameField.text
-            if (newCursor.moveToFirst()) {
-                binding.newName.error = getString(R.string.exists)
-            } else if (login2 != null) {
+
+            if (login2 != null) {
                 if (login2.isEmpty() || login2.length < 2) {
                     binding.newName.error = getString(R.string.errNumOfText)
                 } else if (binding.genPasswordIdField.text.toString() == "" || binding.genPasswordIdField.text.toString().length < 4) {
                     binding.genPasswordId.error = getString(R.string.errPass)
                 } else {
-                    contentValues.put(pdbHelper.KEY_ID, Random.nextInt(0, 10000))
-                    contentValues.put(pdbHelper.KEY_NAME, binding.newNameField.text.toString())
-                    val pm = PasswordManager()
-                    if (binding.cryptToggle.isChecked) {
-                        val dc = pm.encrypt(binding.genPasswordIdField.text.toString())
-                        contentValues.put(
-                                pdbHelper.KEY_PASS,
-                                dc
-                        )
-                        contentValues.put(pdbHelper.KEY_CIPHER, "crypted")
-                    }
-                    else{
-                        contentValues.put(pdbHelper.KEY_PASS, binding.genPasswordIdField.text.toString())
-                        contentValues.put(pdbHelper.KEY_CIPHER, "none")
-                    }
+                    val password = if (binding.cryptToggle.isChecked)
+                        Utils.password_manager.encrypt(binding.genPasswordIdField.text.toString())
+                    else
+                        binding.genPasswordIdField.text.toString()
 
+                    val newPassword = PasswordCard(
+                            name = binding.newNameField.text.toString(),
+                            password = password!!,
+                            use_2fa = binding.authToggle.isChecked,
+                            use_time = binding.timeLimit.isChecked,
+                            time = Date(),
+                            description = binding.noteField.text.toString(),
+                            tags = binding.keyWordsField.text.toString(),
+                            groups = "",
+                            login = binding.emailField.text.toString(),
+                            encrypted = binding.cryptToggle.isChecked
+                    )
 
-                    contentValues.put(pdbHelper.KEY_TAGS, binding.keyWordsField.text.toString())
-                    contentValues.put(pdbHelper.KEY_LOGIN, binding.emailField.text.toString())
-                    var keyFA = "0"
-                    if (binding.authToggle.isChecked)
-                        keyFA = "1"
-                    var keyTimeLimit = "0"
-                    if (binding.timeLimit.isChecked)
-                        keyTimeLimit = "1"
-                    contentValues.put(pdbHelper.KEY_2FA, keyFA)
-                    contentValues.put(pdbHelper.KEY_USE_TIME, keyTimeLimit)
-                    contentValues.put(pdbHelper.KEY_TIME, getDateTime())
-                    contentValues.put(pdbHelper.KEY_DESC, binding.noteField.text.toString())
-                    passDataBase.insert(pdbHelper.TABLE_USERS, null, contentValues)
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        viewModel.addPassword(newPassword)
+                    }
 
                     val intent = Intent()
                     intent.putExtra("login", login)
-
-                    pdbHelper.close()
                     setResult(1, intent)
-
 
                     val mediaStorageDir = File(
                             applicationContext.getExternalFilesDir("QuickPassPhotos")!!.absolutePath
                     )
                     if (!mediaStorageDir.exists()) {
                         mediaStorageDir.mkdirs()
-                        Toast.makeText(applicationContext, "Directory Created", Toast.LENGTH_LONG).show()
+                        Utils.makeToast(applicationContext, "Directory Created")
                     }
 
                     if (!mediaStorageDir.exists()) {
                         if (!mediaStorageDir.mkdirs()) {
-                            Log.d("App", "failed to create directory")
+                            Utils.makeToast(applicationContext, "Failed to create directory")
                         }
                     }
 
                     if (mediaStorageDir.exists()) {
-                        if(imageName != "") {
+                        if (imageName != "") {
                             val from = File(mediaStorageDir, "$imageName.jpg")
                             val to = File(mediaStorageDir, "${binding.newNameField.text}.jpg")
                             if (from.exists())
@@ -586,12 +478,10 @@ class NewPasswordActivity : AppCompatActivity() {
             }
         }
 
-        binding.upload.setOnClickListener{
+        binding.upload.setOnClickListener {
             checkPermissionForImage()
         }
-
     }
-
 
     private val PERMISSION_CODE_READ = 1001
     private val PERMISSION_CODE_WRITE = 1002
@@ -613,13 +503,12 @@ class NewPasswordActivity : AppCompatActivity() {
         }
     }
 
-
     private fun pickImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-        startActivityForResult(intent, IMAGE_PICK_CODE) // GIVE AN INTEGER VALUE FOR IMAGE_PICK_CODE LIKE 1000
+        // DEPRECATED
+        startActivityForResult(intent, IMAGE_PICK_CODE)
     }
-
 
     @Throws(IOException::class)
     private fun copyFile(sourceFile: File, destFile: File) {
@@ -634,8 +523,6 @@ class NewPasswordActivity : AppCompatActivity() {
         source?.close()
         destination?.close()
     }
-
-
 
     private fun getImagePath(context: Context, uri: Uri): String? {
         var filePath = ""
@@ -750,17 +637,6 @@ class NewPasswordActivity : AppCompatActivity() {
         return false
     }
 
-    private fun getDateTime(): String? {
-        val dateFormat = SimpleDateFormat(
-                "yyyy-MM-dd HH:mm:ss", Locale.getDefault()
-        )
-        val date = Date()
-        return dateFormat.format(date)
-    }
-
-    private fun Context.toast(message: String)=
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-
     @SuppressLint("SdCardPath")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -776,8 +652,9 @@ class NewPasswordActivity : AppCompatActivity() {
             val size = Point()
             display.getSize(size)
             val widthMax: Int = size.x
-            val width = (widthMax/1.3).toInt()
-            val height = binding.attachedImage.drawable.minimumHeight * width /  binding.attachedImage.drawable.minimumWidth
+            val width = (widthMax / 1.3).toInt()
+            val height =
+                    binding.attachedImage.drawable.minimumHeight * width / binding.attachedImage.drawable.minimumWidth
             binding.attachedImage.layoutParams.height = height
             binding.attachedImage.layoutParams.width = width
             binding.attachedImage.layoutParams.height = height
@@ -802,7 +679,7 @@ class NewPasswordActivity : AppCompatActivity() {
             )
             if (!mediaStorageDir.exists()) {
                 mediaStorageDir.mkdirs()
-                Toast.makeText(applicationContext, "Directory Created", Toast.LENGTH_LONG).show()
+                Utils.makeToast(applicationContext, "Directory Created")
             }
 
             if (!mediaStorageDir.exists()) {

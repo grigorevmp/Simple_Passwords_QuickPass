@@ -11,25 +11,27 @@ data class PasswordCard(
         Password card database class
      */
     @PrimaryKey(autoGenerate = true)
-    var _id: Int,
+    val _id: Int = 0,
     @SerializedName("name")
-    val name: String,
-    @SerializedName("pass")
-    val pass: String,
-    @SerializedName("_2fa")
-    val _2fa: Boolean,
-    @SerializedName("utime")
-    val utime: Boolean,
+    var name: String,
+    @SerializedName("password")
+    var password: String,
+    @SerializedName("use_2fa")
+    var use_2fa: Boolean,
+    @SerializedName("use_time")
+    var use_time: Boolean,
     @SerializedName("time")
-    val time: Date,
+    var time: Date,
     @SerializedName("description")
-    val description: String,
+    var description: String,
     @SerializedName("tags")
-    val tags: String,
+    var tags: String,
     @SerializedName("groups")
-    val groups: String,
+    var groups: String,
     @SerializedName("login")
-    val login: String,
-    @SerializedName("cipher")
-    val cipher: String
+    var login: String,
+    @SerializedName("encrypted")
+    var encrypted: Boolean,
+    @SerializedName("favorite")
+    var favorite: Boolean = false
 )

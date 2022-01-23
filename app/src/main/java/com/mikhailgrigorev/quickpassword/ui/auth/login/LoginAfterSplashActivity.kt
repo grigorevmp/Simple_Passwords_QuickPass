@@ -24,7 +24,7 @@ import com.mikhailgrigorev.quickpassword.common.utils.hidden_password
 import com.mikhailgrigorev.quickpassword.common.utils.senders.GMailSender
 import com.mikhailgrigorev.quickpassword.databinding.ActivityLoginBinding
 import com.mikhailgrigorev.quickpassword.dbhelpers.DataBaseHelper
-import com.mikhailgrigorev.quickpassword.ui.MainActivity
+import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
 import com.mikhailgrigorev.quickpassword.ui.auth.sign.SignActivity
 import kotlin.random.Random
 

@@ -65,7 +65,7 @@
             android:name="com.mikhailgrigorev.quickpassword.ui.password_card.view.PasswordViewActivity"
             android:screenOrientation="fullSensor" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.ui.password_card.add.NewPasswordActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.password_card.create.CreatePasswordActivity"
             android:screenOrientation="fullSensor" />
         <activity
             android:name="com.mikhailgrigorev.quickpassword.ui.account.view.AccountActivity"
@@ -80,6 +80,7 @@
             android:windowSoftInputMode="adjustResize"
             android:exported="true">
             <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
@@ -99,7 +100,6 @@
             android:screenOrientation="fullSensor"
             android:exported="false">
             <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
