@@ -86,12 +86,12 @@ class QuickPassAutoFillService : AutofillService() {
 
             for (mail in emails){
                 names[i].split("\\s".toRegex()).forEach { partName ->
-                    if ((mail.contains("@")) or (partName.toLowerCase(Locale.ROOT).contains(
-                                appName.toLowerCase(
+                    if ((mail.contains("@")) or (partName.lowercase(Locale.ROOT).contains(
+                                appName.lowercase(
                                         Locale.ROOT
                                 )
-                        )) or (appName.toLowerCase(Locale.ROOT)
-                                .contains(partName.toLowerCase(Locale.ROOT)))
+                        )) or (appName.lowercase(Locale.ROOT)
+                                .contains(partName.lowercase(Locale.ROOT)))
                     ) {
                         val remoteView = RemoteViews(packageName, R.layout.autofill_suggestion)
                         remoteView.setTextViewText(R.id.suggestion_item, mail)
@@ -114,8 +114,8 @@ class QuickPassAutoFillService : AutofillService() {
             remoteView.setTextViewText(R.id.suggestion_item, "Random")
             for (name in names){
                 name.split("\\s".toRegex()).forEach { partName ->
-                    if ((partName.toLowerCase(Locale.ROOT).contains(appName.toLowerCase(Locale.ROOT))) or
-                        (appName.toLowerCase(Locale.ROOT).contains(partName.toLowerCase(Locale.ROOT)))){
+                    if ((partName.lowercase(Locale.ROOT).contains(appName.lowercase(Locale.ROOT))) or
+                        (appName.lowercase(Locale.ROOT).contains(partName.lowercase(Locale.ROOT)))){
                         remoteView = RemoteViews(packageName, R.layout.autofill_suggestion)
                         remoteView.setTextViewText(R.id.suggestion_item, passwords[i])
                         dataSets.add(Dataset.Builder(remoteView).setValue(
