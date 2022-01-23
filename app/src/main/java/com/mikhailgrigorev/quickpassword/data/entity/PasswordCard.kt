@@ -3,7 +3,6 @@ package com.mikhailgrigorev.quickpassword.data.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
 @Entity(tableName = "password_card")
 data class PasswordCard(
@@ -21,7 +20,7 @@ data class PasswordCard(
     @SerializedName("use_time")
     var use_time: Boolean,
     @SerializedName("time")
-    var time: Date,
+    var time: String,
     @SerializedName("description")
     var description: String,
     @SerializedName("tags")

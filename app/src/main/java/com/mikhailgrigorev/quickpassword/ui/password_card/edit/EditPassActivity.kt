@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Point
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -73,7 +72,7 @@ class EditPassActivity : AppCompatActivity() {
             }
         }
 
-        val lockTime = Utils.lock_time
+        val lockTime = Utils.lockTime()
         if (lockTime != "0") {
             handler.postDelayed(
                     r, Utils.lock_default_interval * lockTime!!.toLong()
@@ -499,7 +498,7 @@ class EditPassActivity : AppCompatActivity() {
                         viewModel.currentPassword!!.password = password!!
                         viewModel.currentPassword!!.use_2fa = binding.authToggle.isChecked
                         viewModel.currentPassword!!.use_time = binding.timeLimit.isChecked
-                        viewModel.currentPassword!!.time = Date()
+                        viewModel.currentPassword!!.time = Date().toString()
                         viewModel.currentPassword!!.description = binding.noteField.text.toString()
                         viewModel.currentPassword!!.tags = binding.keyWordsField.text.toString()
                         viewModel.currentPassword!!.groups = ""
@@ -561,18 +560,16 @@ class EditPassActivity : AppCompatActivity() {
     private val IMAGE_PICK_CODE = 1000
 
     private fun checkPermissionForImage() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if ((checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
-                && (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
-            ) {
-                val permission = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
-                val permissionCoarse = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if ((checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
+            && (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
+        ) {
+            val permission = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+            val permissionCoarse = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-                requestPermissions(permission, PERMISSION_CODE_READ) // GIVE AN INTEGER VALUE FOR PERMISSION_CODE_READ LIKE 1001
-                requestPermissions(permissionCoarse, PERMISSION_CODE_WRITE) // GIVE AN INTEGER VALUE FOR PERMISSION_CODE_WRITE LIKE 1002
-            } else {
-                pickImageFromGallery()
-            }
+            requestPermissions(permission, PERMISSION_CODE_READ) // GIVE AN INTEGER VALUE FOR PERMISSION_CODE_READ LIKE 1001
+            requestPermissions(permissionCoarse, PERMISSION_CODE_WRITE) // GIVE AN INTEGER VALUE FOR PERMISSION_CODE_WRITE LIKE 1002
+        } else {
+            pickImageFromGallery()
         }
     }
 

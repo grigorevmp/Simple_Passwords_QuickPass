@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword
+package com.mikhailgrigorev.quickpassword.ui.main_activity
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,10 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
+import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.databinding.PassFragmentBinding
 
 class PasswordAdapter(
-    private val items: ArrayList<Pair<String, String>>,
+    private val items: ArrayList<Pair<String, Boolean>>,
     private val quality: ArrayList<String>,
     private val tags: ArrayList<String>,
     private val group: ArrayList<String>,
@@ -49,7 +50,7 @@ class PasswordAdapter(
         holder.passText.text = items[position].first
 
         holder.chip.visibility = View.GONE
-        if(items[position].second != "0"){
+        if(items[position].second){
             val chip = Chip(holder.group.context)
             chip.text= "2FA"
             chip.isClickable = false

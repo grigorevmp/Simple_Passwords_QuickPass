@@ -16,7 +16,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import com.mikhailgrigorev.quickpassword.ui.pin_code.view.PinActivity
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
 import com.mikhailgrigorev.quickpassword.common.utils.hidden_email
@@ -24,8 +23,9 @@ import com.mikhailgrigorev.quickpassword.common.utils.hidden_password
 import com.mikhailgrigorev.quickpassword.common.utils.senders.GMailSender
 import com.mikhailgrigorev.quickpassword.databinding.ActivityLoginBinding
 import com.mikhailgrigorev.quickpassword.dbhelpers.DataBaseHelper
-import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
 import com.mikhailgrigorev.quickpassword.ui.auth.sign.SignActivity
+import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
+import com.mikhailgrigorev.quickpassword.ui.pin_code.view.PinActivity
 import kotlin.random.Random
 
 class LoginAfterSplashActivity : AppCompatActivity() {
@@ -68,7 +68,7 @@ class LoginAfterSplashActivity : AppCompatActivity() {
             "Teal" -> setTheme(R.style.AppThemeTeal)
             "Green" -> setTheme(R.style.AppThemeGreen)
             "LGreen" -> setTheme(R.style.AppThemeLightGreen)
-            else -> setTheme(R.style.AppTheme)
+            else -> setTheme(R.style.Theme_QP)
         }
         super.onCreate(savedInstanceState)
         when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {

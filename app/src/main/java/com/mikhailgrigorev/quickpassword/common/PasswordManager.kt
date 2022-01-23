@@ -52,6 +52,7 @@ PasswordManager {
     }
 
     fun evaluateDate(date: String): Boolean{
+        return false
 
         // YYYY-MM-DD HH:MM:SS
 
@@ -72,6 +73,8 @@ PasswordManager {
             monthCurrent > month + 4 -> true
             else -> (monthCurrent > month + 3) && (dayCurrent > day)
         }
+
+
     }
 
     fun evaluatePassword(passwordToTest: String) : Float {
@@ -133,17 +136,17 @@ PasswordManager {
         var popular = false
         if (passwordToTest.length == 4) {
 
-            if (((abs(passwordToTest[0].toInt() - passwordToTest[1].toInt()) < 2)
-                        and (abs(passwordToTest[1].toInt() - passwordToTest[2].toInt()) < 2))
+            if (((abs(passwordToTest[0].code - passwordToTest[1].code) < 2)
+                        and (abs(passwordToTest[1].code - passwordToTest[2].code) < 2))
                 or
-                ((abs(passwordToTest[1].toInt() - passwordToTest[2].toInt()) < 2)
-                        and (abs(passwordToTest[2].toInt() - passwordToTest[3].toInt()) < 2))
+                ((abs(passwordToTest[1].code - passwordToTest[2].code) < 2)
+                        and (abs(passwordToTest[2].code - passwordToTest[3].code) < 2))
                 or
-                ((abs(passwordToTest[0].toInt() - passwordToTest[3].toInt()) < 2)
-                        and (abs(passwordToTest[2].toInt() - passwordToTest[3].toInt()) < 2))
+                ((abs(passwordToTest[0].code - passwordToTest[3].code) < 2)
+                        and (abs(passwordToTest[2].code - passwordToTest[3].code) < 2))
                 or
-                ((abs(passwordToTest[0].toInt() - passwordToTest[1].toInt()) < 2)
-                        and (abs(passwordToTest[1].toInt() - passwordToTest[3].toInt()) < 2))
+                ((abs(passwordToTest[0].code - passwordToTest[1].code) < 2)
+                        and (abs(passwordToTest[1].code - passwordToTest[3].code) < 2))
             )
                 popular = true
         }

@@ -99,7 +99,7 @@ class CreatePasswordActivity : AppCompatActivity() {
             }
         }
 
-        val lockTime = Utils.lock_time
+        val lockTime = Utils.lockTime()
         if (lockTime != "0") {
             handler.postDelayed(
                     r, Utils.lock_default_interval * lockTime!!.toLong()
@@ -435,7 +435,7 @@ class CreatePasswordActivity : AppCompatActivity() {
                             password = password!!,
                             use_2fa = binding.authToggle.isChecked,
                             use_time = binding.timeLimit.isChecked,
-                            time = Date(),
+                            time = Date().toString(),
                             description = binding.noteField.text.toString(),
                             tags = binding.keyWordsField.text.toString(),
                             groups = "",

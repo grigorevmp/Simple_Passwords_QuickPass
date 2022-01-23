@@ -55,7 +55,7 @@ class PasswordViewActivity : AppCompatActivity() {
             }
         }
 
-        val lockTime = Utils.lock_time
+        val lockTime = Utils.lockTime()
         if (lockTime != "0") {
             handler.postDelayed(
                     r, Utils.lock_default_interval * lockTime!!.toLong()
@@ -109,7 +109,7 @@ class PasswordViewActivity : AppCompatActivity() {
             binding.passQuality.text = getString(R.string.low)
         }
 
-        if (Utils.autoCopy == "none" && binding.passViewFieldView.text.toString() != "") {
+        if (Utils.autoCopy() == "none" && binding.passViewFieldView.text.toString() != "") {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("Password", binding.passViewFieldView.text.toString())
             clipboard.setPrimaryClip(clip)
@@ -138,7 +138,7 @@ class PasswordViewActivity : AppCompatActivity() {
 
             binding.passwordTime.text = getString(R.string.time_lim) + " " + passwordCard.time
 
-            if ((Utils.password_manager.evaluateDate(passwordCard.time.toString())) && (dbPassword.length != 4)) {
+            if ((Utils.password_manager.evaluateDate(passwordCard.time)) && (dbPassword.length != 4)) {
                 binding.warnCard.visibility = View.VISIBLE
                 evaluation = "low"
             }
@@ -359,8 +359,8 @@ class PasswordViewActivity : AppCompatActivity() {
             }
         }
 
-        if (Utils.useAnalyze != null)
-            if (Utils.useAnalyze != "none") {
+        if (Utils.useAnalyze() != null)
+            if (Utils.useAnalyze() != "none") {
                 binding.passQualityText.visibility = View.GONE
                 binding.warning.visibility = View.GONE
                 binding.passQualityText.visibility = View.GONE

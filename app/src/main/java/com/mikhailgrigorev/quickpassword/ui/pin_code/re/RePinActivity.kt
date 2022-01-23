@@ -59,7 +59,7 @@ class RePinActivity : AppCompatActivity() {
             "Teal" -> setTheme(R.style.AppThemeTeal)
             "Green" -> setTheme(R.style.AppThemeGreen)
             "LGreen" -> setTheme(R.style.AppThemeLightGreen)
-            else -> setTheme(R.style.AppTheme)
+            else -> setTheme(R.style.Theme_QP)
         }
         super.onCreate(savedInstanceState)
         when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {

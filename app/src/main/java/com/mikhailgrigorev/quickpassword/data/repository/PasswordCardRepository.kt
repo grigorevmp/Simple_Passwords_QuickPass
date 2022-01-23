@@ -12,7 +12,7 @@ class PasswordCardRepository {
 
     fun getItem(id: Int) = pcDao.getByID(id)
 
-    suspend fun insert(pcItem: PasswordCard) {
+    fun insert(pcItem: PasswordCard) {
         pcDao.insert(pcItem)
     }
 
@@ -20,7 +20,7 @@ class PasswordCardRepository {
         pcDao.update(pcItem)
     }
 
-    suspend fun delete(pcItem: PasswordCard) {
+    fun delete(pcItem: PasswordCard) {
         pcDao.delete(pcItem)
     }
 

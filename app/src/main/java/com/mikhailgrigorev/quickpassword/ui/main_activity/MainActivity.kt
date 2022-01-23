@@ -4,19 +4,15 @@ import android.annotation.SuppressLint
 import android.content.*
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
-import android.content.res.Configuration
-import android.database.Cursor
-import android.database.SQLException
-import android.database.sqlite.SQLiteDatabase
 import android.graphics.Point
 import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.util.TypedValue
 import android.view.Gravity
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -29,22 +25,23 @@ import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpassword.*
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
+import com.mikhailgrigorev.quickpassword.common.utils.Utils
+import com.mikhailgrigorev.quickpassword.data.entity.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityMainBinding
-import com.mikhailgrigorev.quickpassword.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpassword.dbhelpers.PasswordsDataBaseHelper
 import com.mikhailgrigorev.quickpassword.ui.account.view.AccountActivity
 import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginAfterSplashActivity
 import com.mikhailgrigorev.quickpassword.ui.password_card.create.CreatePasswordActivity
 import com.mikhailgrigorev.quickpassword.ui.password_card.view.PasswordViewActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.abs
@@ -55,16 +52,13 @@ class MainActivity : AppCompatActivity() {
 
     private val START_ALPHA = 1F
     private val DEFAULT_ROTATION = 0F
-    private lateinit var viewModel: ViewModel
+    private lateinit var viewModel: MainViewModel
 
     enum class CATEGORY(val value: String) {
         CORRECT("1"), NEGATIVE("2"), NOT_SAFE("3")
     }
 
-    private val _keyThemeAccent = "themeAccentPreference"
-    private val _keyTheme = "themePreference"
     private val _preferenceFile = "quickPassPreference"
-    private val _keyUsername = "prefUserNameKey"
     private var passwordLength = 20
     private var useSymbols = false
     private var useUC = false
@@ -75,8 +69,8 @@ class MainActivity : AppCompatActivity() {
     private var fixPass = 0
     private var faNum = 0
     private var tlNum = 0
-    private val passwords: ArrayList<Pair<String, String>> = ArrayList()
-    private var passwordsG: ArrayList<Pair<String, String>> = ArrayList()
+    private val passwords: ArrayList<Pair<String, Boolean>> = ArrayList()
+    private var passwordsG: ArrayList<Pair<String, Boolean>> = ArrayList()
     private val realPass: ArrayList<Pair<String, String>> = ArrayList()
     private val realQuality: ArrayList<String> = ArrayList()
     private val realMap: MutableMap<String, ArrayList<String>> = mutableMapOf()
@@ -103,207 +97,66 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    @SuppressLint(
-            "Recycle", "ClickableViewAccessibility", "ResourceAsColor", "RestrictedApi",
-            "SetTextI18n", "ServiceCast"
-    )
-    override fun onCreate(savedInstanceState: Bundle?) {
-
-        val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-        when(pref.getString(_keyTheme, "none")){
-            "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            "none", "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-            "battery" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
-        }
-        when(pref.getString("themeAccentPreference", "none")){
-            "Red" -> setTheme(R.style.AppThemeRed)
-            "Pink" -> setTheme(R.style.AppThemePink)
-            "Purple" -> setTheme(R.style.AppThemePurple)
-            "Violet" -> setTheme(R.style.AppThemeViolet)
-            "DViolet" -> setTheme(R.style.AppThemeDarkViolet)
-            "Blue" -> setTheme(R.style.AppThemeBlue)
-            "Cyan" -> setTheme(R.style.AppThemeCyan)
-            "Teal" -> setTheme(R.style.AppThemeTeal)
-            "Green" -> setTheme(R.style.AppThemeGreen)
-            "LGreen" -> setTheme(R.style.AppThemeLightGreen)
-            else -> setTheme(R.style.AppTheme)
-        }
-
-        super.onCreate(savedInstanceState)
-
-
-
-        when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-            Configuration.UI_MODE_NIGHT_NO ->
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    window.setDecorFitsSystemWindows(false)
-                }
-                else{
-                    window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                }
-        }
-
+    private fun setQuitTimer() {
+        var condition = true
+        val handler = Handler(Looper.getMainLooper())
         val r = Runnable {
-            if(condition) {
-                condition=false
+            if (condition) {
+                condition = false
                 val intent = Intent(this, LoginAfterSplashActivity::class.java)
                 startActivity(intent)
                 finish()
             }
         }
-        val time: Long =  100000
-        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-        val lockTime = sharedPref.getString("appLockTime", "6")
-        if(lockTime != null) {
-            if (lockTime != "0")
-                handler.postDelayed(r, time * lockTime.toLong())
+
+        val lockTime = Utils.lockTime()
+        if (lockTime != "0") {
+            handler.postDelayed(
+                    r, Utils.lock_default_interval * lockTime!!.toLong()
+            )
         }
-        else
-            handler.postDelayed(r, time*6L)
+    }
 
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initViewModel()
+        setQuitTimer()
 
-        cardRadius = sharedPref.getString("cardRadius", "none")
-        if(cardRadius != null)
-            if(cardRadius != "none") {
-                binding.correctScan.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius!!.toFloat(), resources.displayMetrics)
-                binding.cardPass.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius!!.toFloat(), resources.displayMetrics)
-                binding.noPasswords.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius!!.toFloat(), resources.displayMetrics)
-                binding.warnCard.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius!!.toFloat(), resources.displayMetrics)
-                binding.backupCard.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius!!.toFloat(), resources.displayMetrics)
-                binding.cardView.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius!!.toFloat(), resources.displayMetrics)
-                binding.cardCup.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius!!.toFloat(), resources.displayMetrics)
-            }
-
-        useAnalyze = sharedPref.getString("useAnalyze", "none")
-        if (useAnalyze != null)
-            if (useAnalyze != "none"){
+        if (Utils.useAnalyze() != null)
+            if (Utils.useAnalyze() != "none") {
                 binding.correctScan.visibility = View.GONE
                 binding.cardCup.visibility = View.GONE
                 binding.cardView.visibility = View.GONE
             }
 
-        if (sharedPref.getString("themeAccentPreference", "none") == "none") {
-            with(sharedPref.edit()) {
-                putString(_keyThemeAccent, "Violet")
-                commit()
-            }
-            recreate()
-        }
 
         // Get Extras
         val args: Bundle? = intent.extras
         login = args?.get("login").toString()
-        val newLogin = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE).getString(
-                _keyUsername,
-                login
-        )
+        val newLogin = Utils.userName()
 
         // Set login
-        if(newLogin != login)
+        if (newLogin != login)
             login = newLogin.toString()
 
         // Set greeting
         val name: String = getString(R.string.hi) + " " + login
         binding.helloTextId.text = name
 
-        // Open users database
-        val dbHelper = DataBaseHelper(this)
-        val database = dbHelper.writableDatabase
-        val cursor: Cursor = database.query(
-                dbHelper.TABLE_USERS, arrayOf(dbHelper.KEY_IMAGE),
-                "NAME = ?", arrayOf(login),
-                null, null, null
-        )
-        if (cursor.moveToFirst()) {
-            val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
-            do {
-                when(cursor.getString(imageIndex).toString()){
-                    "ic_account" -> binding.accountAvatar.backgroundTintList =
-                            ContextCompat.getColorStateList(
-                                    this, R.color.ic_account
-                            )
-                    "ic_account_Pink" -> binding.accountAvatar.backgroundTintList =
-                            ContextCompat.getColorStateList(
-                                    this, R.color.ic_account_Pink
-                            )
-                    "ic_account_Red" -> binding.accountAvatar.backgroundTintList =
-                            ContextCompat.getColorStateList(
-                                    this, R.color.ic_account_Red
-                            )
-                    "ic_account_Purple" -> binding.accountAvatar.backgroundTintList =
-                            ContextCompat.getColorStateList(
-                                    this, R.color.ic_account_Purple
-                            )
-                    "ic_account_Violet" -> binding.accountAvatar.backgroundTintList =
-                            ContextCompat.getColorStateList(
-                                    this, R.color.ic_account_Violet
-                            )
-                    "ic_account_Dark_Violet" -> binding.accountAvatar.backgroundTintList =
-                            ContextCompat.getColorStateList(
-                                    this, R.color.ic_account_Dark_Violet
-                            )
-                    "ic_account_Blue" -> binding.accountAvatar.backgroundTintList =
-                            ContextCompat.getColorStateList(
-                                    this, R.color.ic_account_Blue
-                            )
-                    "ic_account_Cyan" -> binding.accountAvatar.backgroundTintList =
-                            ContextCompat.getColorStateList(
-                                    this, R.color.ic_account_Cyan
-                            )
-                    "ic_account_Teal" -> binding.accountAvatar.backgroundTintList =
-                            ContextCompat.getColorStateList(
-                                    this, R.color.ic_account_Teal
-                            )
-                    "ic_account_Green" -> binding.accountAvatar.backgroundTintList =
-                            ContextCompat.getColorStateList(
-                                    this, R.color.ic_account_Green
-                            )
-                    "ic_account_lightGreen" -> binding.accountAvatar.backgroundTintList =
-                            ContextCompat.getColorStateList(
-                                    this, R.color.ic_account_lightGreen
-                            )
-                    else -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
-                            this, R.color.ic_account
-                    )
-                }
-                binding.accountAvatarText.text = login[0].toString()
-            } while (cursor.moveToNext())
-        }
-        cursor.close()
-
-
         // Open passwords database
-        val pdbHelper = PasswordsDataBaseHelper(this, login)
-        val pDatabase = pdbHelper.writableDatabase
-
-        try {
-            var pCursor: Cursor = getDataBase(pdbHelper, pDatabase, null)
-            if (pCursor.moveToFirst()) {
-                val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
-                val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
-                do {
-                    val pass = pCursor.getString(passIndex).toString()
-                    val login = pCursor.getString(nameIndex).toString()
-                    realPass.add(Pair(login, pass))
-                } while (pCursor.moveToNext())
+        viewModel.passwords.observe(this) { passwords ->
+            for (password in passwords) {
+                realPass.add(Pair(password.name, password.password))
             }
-
             analyzeDataBase()
-            // Second scan to set quality
-            pCursor = getDataBase(pdbHelper, pDatabase, pdbHelper.KEY_NAME)
-            loadPasswords(pCursor, pdbHelper)
-
-            } catch (e: SQLException) {
+            loadPasswords(passwords!!)
         }
 
         // Sorting
-        sorting = sharedPref.getString("sort", "none")
-        when (sorting) {
+        when (Utils.sortingType()!!) {
             "alpha" -> {
                 sortByAlphaDown()
             }
@@ -350,10 +203,7 @@ class MainActivity : AppCompatActivity() {
             if(isChecked) {
                 binding.dateSort.isChecked = false
                 binding.sortOrder.animate().rotation(180F).setDuration(500).start()
-                with(sharedPref.edit()) {
-                    putString("sort", "alpha")
-                    commit()
-                }
+                Utils.setSortingType("alpha")
                 sortByAlphaDown()
                 when {
                     searchCorrect -> {
@@ -391,10 +241,7 @@ class MainActivity : AppCompatActivity() {
             }
             else{
                 binding.sortOrder.animate().rotation(0F).setDuration(500).start()
-                with(sharedPref.edit()) {
-                    putString("sort", "none")
-                    commit()
-                }
+                Utils.setSortingType("none")
                 sortByAlphaUp()
                 when {
                     searchCorrect -> {
@@ -436,10 +283,7 @@ class MainActivity : AppCompatActivity() {
             if(isChecked) {
                 binding.alphaSort.isChecked = false
                 binding.sortOrder.animate().rotation(180F).setDuration(500).start()
-                with(sharedPref.edit()) {
-                    putString("sort", "date")
-                    commit()
-                }
+                Utils.setSortingType("date")
                 sortByDateUp()
                 when {
                     searchCorrect -> {
@@ -477,10 +321,7 @@ class MainActivity : AppCompatActivity() {
             }
             else{
                 binding.sortOrder.animate().rotation(0F).setDuration(500).start()
-                with(sharedPref.edit()) {
-                    putString("sort", "none")
-                    commit()
-                }
+                Utils.setSortingType("none")
                 sortByAlphaUp()
                 when {
                     searchCorrect -> {
@@ -520,52 +361,29 @@ class MainActivity : AppCompatActivity() {
         // Set passwords adapter
         setDefaultPasswordAdapter()
 
-        // Set stat clicker to filter passes by quality
-
-        binding.correctPasswordsCircle.setOnClickListener {
-            correctPasswordsClickedAction()
-        }
-
-        binding.correctPasswords.setOnClickListener{
-            correctPasswordsClickedAction()
-        }
-
-        binding.negativePasswordsCircle.setOnClickListener {
-            negativePasswordsClickedAction()
-        }
-
-        binding.negativePasswords.setOnClickListener{
-            negativePasswordsClickedAction()
-        }
-
-        binding.notSafePasswordsCircle.setOnClickListener{
-            notSafePasswordsClickedAction()
-        }
-
-        binding.notSafePasswords.setOnClickListener {
-            notSafePasswordsClickedAction()
-        }
+        setListeners()
 
         // Search passwords
         binding.searchPassField.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                val passwords2: ArrayList<Pair<String, String>> = ArrayList()
+                val passwords2: ArrayList<Pair<String, Boolean>> = ArrayList()
                 val quality2: ArrayList<String> = ArrayList()
                 val tags2: ArrayList<String> = ArrayList()
                 val group2: ArrayList<String> = ArrayList()
                 val desc2: ArrayList<String> = ArrayList()
                 for ((index, pair) in passwords.withIndex()) {
-                    if (pair.first.toLowerCase(Locale.ROOT).contains(
-                                s.toString().toLowerCase(Locale.ROOT)
+                    if (pair.first.lowercase(Locale.ROOT).contains(
+                                s.toString().lowercase(Locale.ROOT)
                         ) ||
-                        (tags[index].toLowerCase(Locale.ROOT).contains(
-                                s.toString().toLowerCase(
+                        (tags[index].lowercase(Locale.ROOT).contains(
+                                s.toString().lowercase(
                                         Locale.ROOT
                                 )
                         ))
                         ||
-                        ((pair.second != "0") && ("2fa".toLowerCase(Locale.ROOT).contains(
-                                s.toString().toLowerCase(Locale.ROOT))))
+                        ((pair.second) && ("2fa".lowercase(Locale.ROOT).contains(
+                                s.toString().lowercase(Locale.ROOT)
+                        )))
                     )
                      {
                         passwords2.add(pair)
@@ -608,60 +426,84 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        with(sharedPref.edit()) {
-            putString(_keyUsername, login)
-            commit()
+        Utils.setUserName(login)
+
+        bottomSheetBehavior()
+
+    }
+
+    private fun bottomSheetBehavior() {
+        // получение вью нижнего экрана
+        binding.allPassword.translationZ = 24F
+        binding.newPass.translationZ = 101F
+
+        // настройка поведения нижнего экрана
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.allPassword)
+
+        // настройка состояний нижнего экрана
+        //bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+        bottomSheetBehavior.state = Utils.bottomBarState()
+        binding.menuUp.animate().rotation(180F * bottomSheetBehavior.state).setDuration(0).start()
+        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
+            binding.newPass.animate().scaleX(0F).scaleY(0F).setDuration(0).start()
+            binding.warnCard.animate().alpha(1F).setDuration(0).start()
+            binding.backupCard.animate().alpha(1F).setDuration(0).start()
         }
 
-        // Go to accout
-        binding.accountAvatar.setOnClickListener {
-            condition=false
-            goToAccountActivity()
-        }
+        binding.searchPassField.clearFocus()
+        binding.searchPassField.hideKeyboard()
 
-        // Password generation system
-        val passwordGeneratorRules = mutableListOf<String>()
-        // Loop through the chips
-        for (index in 0 until binding.passSettings.childCount) {
-            val chip: Chip = binding.passSettings.getChildAt(index) as Chip
 
-            // Set the chip checked change listener
-            chip.setOnCheckedChangeListener{ view, isChecked ->
-                val deg = binding.generatePassword.rotation + 30f
-                binding.generatePassword.animate().rotation(deg).interpolator = AccelerateDecelerateInterpolator()
-                if (isChecked){
-                    if (view.id == R.id.lettersToggle)
-                        useLetters = true
-                    if (view.id == R.id.symToggles)
-                        useSymbols = true
-                    if (view.id == R.id.numbersToggle)
-                        useNumbers = true
-                    if (view.id == R.id.upperCaseToggle)
-                        useUC = true
-                    passwordGeneratorRules.add(view.text.toString())
-                }else{
-                    if (view.id == R.id.lettersToggle)
-                        useLetters = false
-                    if (view.id == R.id.symToggles)
-                        useSymbols = false
-                    if (view.id == R.id.numbersToggle)
-                        useNumbers = false
-                    if (view.id == R.id.upperCaseToggle)
-                        useUC = false
-                    passwordGeneratorRules.remove(view.text.toString())
+        // настройка максимальной высоты
+        bottomSheetBehavior.peekHeight = 800 //600
+
+        if (useAnalyze != null)
+            if (useAnalyze != "none") {
+                bottomSheetBehavior.peekHeight = 1200
+            }
+
+
+        // настройка возможности скрыть элемент при свайпе вниз
+        bottomSheetBehavior.isHideable = true
+
+        // настройка колбэков при изменениях
+
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                with(Utils.sharedPreferences!!.edit()) {
+                    putInt("__BS", newState)
+                    apply()
                 }
             }
-        }
 
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                binding.menuUp.animate().rotation(180F * slideOffset).setDuration(0).start()
+                if (slideOffset <= 0) {
+                    binding.warnCard.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0).start()
+                    binding.backupCard.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0)
+                            .start()
+                    binding.newPass.animate().scaleX(1 - abs(slideOffset))
+                            .scaleY(1 - abs(slideOffset))
+                            .setDuration(
+                                    0
+                            ).start()
+                }
+                binding.searchPassField.clearFocus()
+                binding.searchPassField.hideKeyboard()
 
-
-        binding.lengthToggle.text = getString(R.string.length)  + ": " +  passwordLength
-        binding.lengthToggle.setOnClickListener {
-            if(binding.seekBar.visibility ==  View.GONE){
-                binding.seekBar.visibility =  View.VISIBLE
             }
-            else{
-                binding.seekBar.visibility =  View.GONE
+        })
+    }
+
+    private fun setListeners() {
+        binding.lengthToggle.text = getString(R.string.length) + ": " + passwordLength
+        binding.lengthToggle.setOnClickListener {
+            if (binding.seekBar.visibility == View.GONE) {
+                binding.seekBar.visibility = View.VISIBLE
+            } else {
+                binding.seekBar.visibility = View.GONE
             }
         }
 
@@ -683,12 +525,68 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        // Generate random password
-        binding.generatePassword.setOnClickListener {
-            if(passwordGeneratorRules.size == 0 || (passwordGeneratorRules.size == 1 && binding.lengthToggle.isChecked)){
-                binding.genPasswordId.error = getString(R.string.noRules)
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.allPassword)
+
+        binding.expand.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            with(Utils.sharedPreferences!!.edit()) {
+                putInt("__BS", BottomSheetBehavior.STATE_COLLAPSED)
+                apply()
             }
-            else {
+        }
+
+        binding.menuUp.setOnClickListener {
+            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED)
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            else if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            with(Utils.sharedPreferences!!.edit()) {
+                putInt("__BS", BottomSheetBehavior.STATE_EXPANDED)
+                apply()
+            }
+        }
+
+        // Generate random password
+
+        // Password generation system
+        val passwordGeneratorRules = mutableListOf<String>()
+        // Loop through the chips
+        for (index in 0 until binding.passSettings.childCount) {
+            val chip: Chip = binding.passSettings.getChildAt(index) as Chip
+
+            // Set the chip checked change listener
+            chip.setOnCheckedChangeListener { view, isChecked ->
+                val deg = binding.generatePassword.rotation + 30f
+                binding.generatePassword.animate().rotation(deg).interpolator =
+                        AccelerateDecelerateInterpolator()
+                if (isChecked) {
+                    if (view.id == R.id.lettersToggle)
+                        useLetters = true
+                    if (view.id == R.id.symToggles)
+                        useSymbols = true
+                    if (view.id == R.id.numbersToggle)
+                        useNumbers = true
+                    if (view.id == R.id.upperCaseToggle)
+                        useUC = true
+                    passwordGeneratorRules.add(view.text.toString())
+                } else {
+                    if (view.id == R.id.lettersToggle)
+                        useLetters = false
+                    if (view.id == R.id.symToggles)
+                        useSymbols = false
+                    if (view.id == R.id.numbersToggle)
+                        useNumbers = false
+                    if (view.id == R.id.upperCaseToggle)
+                        useUC = false
+                    passwordGeneratorRules.remove(view.text.toString())
+                }
+            }
+        }
+
+        binding.generatePassword.setOnClickListener {
+            if (passwordGeneratorRules.size == 0 || (passwordGeneratorRules.size == 1 && binding.lengthToggle.isChecked)) {
+                binding.genPasswordId.error = getString(R.string.noRules)
+            } else {
                 binding.genPasswordId.error = null
                 val newPassword: String =
                         pm.generatePassword(
@@ -700,7 +598,8 @@ class MainActivity : AppCompatActivity() {
                         )
                 binding.genPasswordIdField.setText(newPassword)
             }
-            binding.generatePassword.animate().rotation(DEFAULT_ROTATION).interpolator = AccelerateDecelerateInterpolator()
+            binding.generatePassword.animate().rotation(DEFAULT_ROTATION).interpolator =
+                    AccelerateDecelerateInterpolator()
         }
 
         binding.genPasswordId.setOnClickListener {
@@ -711,189 +610,97 @@ class MainActivity : AppCompatActivity() {
             copyPassword()
         }
 
-        // Additinal add new password buttons
-
         binding.noPasswords.setOnClickListener {
-            condition=false
+            condition = false
             goToNewPasswordActivity()
         }
 
         binding.extraNewPass.setOnClickListener {
-            condition=false
+            condition = false
             goToNewPasswordActivity()
         }
 
 
         binding.newPass.setOnClickListener {
-            condition=false
+            condition = false
             goToNewPasswordActivity()
         }
 
-        // получение вью нижнего экрана
-        val llBottomSheet = findViewById<LinearLayout>(R.id.allPassword)
-
-        binding.allPassword.translationZ = 24F
-        binding.newPass.translationZ = 101F
-
-        // настройка поведения нижнего экрана
-        val bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet)
-
-        // настройка состояний нижнего экрана
-        //bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-
-        bottomSheetBehavior.state = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-                .getInt("__BS", BottomSheetBehavior.STATE_COLLAPSED)
-        binding.menuUp.animate().rotation(180F * bottomSheetBehavior.state).setDuration(0).start()
-        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
-            binding.newPass.animate().scaleX(0F).scaleY(0F).setDuration(0).start()
-            binding.warnCard.animate().alpha(1F).setDuration(0).start()
-            binding.backupCard.animate().alpha(1F).setDuration(0).start()
+        binding.accountAvatar.setOnClickListener {
+            condition = false
+            goToAccountActivity()
         }
 
-        binding.searchPassField.clearFocus()
-        binding.searchPassField.hideKeyboard()
-
-        binding.expand.setOnClickListener {
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            with(sharedPref.edit()) {
-                putInt("__BS", BottomSheetBehavior.STATE_COLLAPSED)
-                apply()
-            }
+        binding.correctPasswordsCircle.setOnClickListener {
+            correctPasswordsClickedAction()
         }
 
-        binding.menuUp.setOnClickListener {
-            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED)
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-            else if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            with(sharedPref.edit()) {
-                putInt("__BS", BottomSheetBehavior.STATE_EXPANDED)
-                apply()
-            }
+        binding.correctPasswords.setOnClickListener {
+            correctPasswordsClickedAction()
         }
 
-        // настройка максимальной высоты
-        bottomSheetBehavior.peekHeight =  800 //600
+        binding.negativePasswordsCircle.setOnClickListener {
+            negativePasswordsClickedAction()
+        }
 
-        if (useAnalyze != null)
-            if (useAnalyze != "none") {
-                bottomSheetBehavior.peekHeight =  1200
-            }
+        binding.negativePasswords.setOnClickListener {
+            negativePasswordsClickedAction()
+        }
 
+        binding.notSafePasswordsCircle.setOnClickListener {
+            notSafePasswordsClickedAction()
+        }
 
-        // настройка возможности скрыть элемент при свайпе вниз
-        bottomSheetBehavior.isHideable = true
-
-        // настройка колбэков при изменениях
-
-        bottomSheetBehavior.addBottomSheetCallback(object :
-            BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                with(sharedPref.edit()) {
-                    putInt("__BS", newState)
-                    apply()
-                }
-            }
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                binding.menuUp.animate().rotation(180F * slideOffset).setDuration(0).start()
-                if (slideOffset <= 0) {
-                    binding.warnCard.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0).start()
-                    binding.backupCard.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0).start()
-                    binding.newPass.animate().scaleX(1 - abs(slideOffset)).scaleY(1 - abs(slideOffset))
-                            .setDuration(
-                                    0
-                            ).start()
-                }
-                binding.searchPassField.clearFocus()
-                binding.searchPassField.hideKeyboard()
-
-            }
-        })
-
+        binding.notSafePasswords.setOnClickListener {
+            notSafePasswordsClickedAction()
+        }
     }
 
-    private fun loadPasswords(pCursor: Cursor, pdbHelper: PasswordsDataBaseHelper) {
+    private fun loadPasswords(passwordList: List<PasswordCard>) {
+        /*
+        Load main password configuration
+         */
+        for (password in passwordList) {
 
-        var dbLogin: String
+            val qualityNum = evaluatePassword(password)
 
-        if (pCursor.moveToFirst()) {
-            val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
-            val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
-            val aIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_2FA)
-            val tagsIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TAGS)
-            val groupIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_GROUPS)
-            val timeIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_TIME)
-            val cIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_CIPHER)
-            val descIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_DESC)
-            var passwordNumInArray = 0
-            do {
-                val pass = pCursor.getString(passIndex).toString()
-                val dbCipherIndex = pCursor.getString(cIndex).toString()
-                val dbTimeIndex = pCursor.getString(timeIndex).toString()
-                val dbdescIndex = pCursor.getString(descIndex).toString()
+            if (password.use_2fa)
+                faNum += 1
+            passwords.add(0, Pair(password.name, password.use_2fa))
+            desc.add(0, password.description)
 
-                val qualityNum = evaluatePassword(pass, passwordNumInArray, dbCipherIndex, dbTimeIndex)
+            if (password.favorite) {
+                quality.add(0, qualityNum)
+                val dbTag = password.tags
+                tags.add(0, dbTag)
+                group.add(0, "#favorite")
+                dates.add(0, password.time.toString())
+            } else {
+                val dbTag = password.tags
+                tags.add(dbTag)
+                group.add("none")
+                dates.add(0, password.time.toString())
+            }
+            if (password.encrypted)
+                tlNum += 1
 
-                passwordNumInArray++
+            when (qualityNum) {
+                "1" -> safePass += 1
+                "2" -> unsafePass += 1
+                "3" -> fixPass += 1
+                "4" -> safePass += 1
+                "6" -> safePass += 1
+            }
 
-                var groupNone = false
-                var groupFavorite = false
-                if (pCursor.getString(groupIndex) == null || pCursor.getString(groupIndex) == "null" || pCursor.getString(groupIndex) == "none")
-                    groupNone = true
-                if(!groupNone){
-                    if(pCursor.getString(groupIndex).contains("favorite"))
-                        groupFavorite = true
-                }
-
-                if(groupFavorite) {
-                    Log.d("favorite - ", pCursor.getString(groupIndex))
-                    dbLogin = pCursor.getString(nameIndex).toString()
-                    val fa = pCursor.getString(aIndex).toString()
-                    if(fa == "1")
-                        faNum += 1
-                    passwords.add(0, Pair(dbLogin, fa))
-                    desc.add(0, dbdescIndex)
-                    quality.add(0, qualityNum)
-                    val dbTag = pCursor.getString(tagsIndex).toString()
-                    tags.add(0, dbTag)
-                    group.add(0, "#favorite")
-                    dates.add(0, dbTimeIndex)
-                }
-                else{
-                    dbLogin = pCursor.getString(nameIndex).toString()
-                    val fa = pCursor.getString(aIndex).toString()
-                    if(fa == "1")
-                        faNum += 1
-                    passwords.add(Pair(dbLogin, fa))
-                    desc.add(dbdescIndex)
-                    quality.add(qualityNum)
-                    val dbTag = pCursor.getString(tagsIndex).toString()
-                    tags.add(dbTag)
-                    group.add("none")
-                    dates.add(dbTimeIndex)
-                }
-                if(dbCipherIndex == "crypted")
-                    tlNum += 1
-                when (qualityNum) {
-                    "1" -> safePass += 1
-                    "2" -> unsafePass += 1
-                    "3" -> fixPass += 1
-                    "4" -> safePass += 1
-                    "6" -> safePass += 1
-                }
-
-                binding.allPass.text = (safePass + unsafePass + fixPass).toString()
-                binding.afText.text = faNum.toString()
-                binding.tlText.text = tlNum.toString()
-            } while (pCursor.moveToNext())
+            binding.allPass.text = (safePass + unsafePass + fixPass).toString()
+            binding.afText.text = faNum.toString()
+            binding.tlText.text = tlNum.toString()
         }
-        pCursor.close()
     }
 
     private fun sortByAlphaUp() {
         binding.sortOrder.animate().rotation(0F).setDuration(500).start()
-        for (i in 0 until passwords.size){
+        for (i in 0 until passwords.size) {
             for (j in 0 until passwords.size){
                 if(group[i].contains("favorite") == group[j].contains("favorite"))
                     if(passwords[i].first > passwords[j].first){
@@ -1013,7 +820,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun searchPasswordByCategory(passwordType: String) {
-        val passwords2: ArrayList<Pair<String, String>> = ArrayList()
+        val passwords2: ArrayList<Pair<String, Boolean>> = ArrayList()
         val quality2: ArrayList<String> = ArrayList()
         val tags2: ArrayList<String> = ArrayList()
         val group2: ArrayList<String> = ArrayList()
@@ -1053,48 +860,35 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun evaluatePassword(password: String, passwordNum: Int, dbCipherIndex: String, dbTimeIndex: String): String{
-        val evaluation: Float = pm.evaluatePassword(password)
+    private fun evaluatePassword(password: PasswordCard): String {
+        val evaluation: Float = Utils.password_manager.evaluatePassword(password.password)
 
-        var qualityNum = when {
+        var qualityScore = when {
             evaluation < 0.33 -> "2"
             evaluation < 0.66 -> "3"
             else -> "1"
         }
 
-        if (dbCipherIndex == "crypted" )
-            qualityNum = "6"
+        if (password.encrypted)
+            qualityScore = "6"
 
-        if (pm.evaluateDate(dbTimeIndex) || realQuality[passwordNum] != "1")
-            qualityNum = "2"
+        if (Utils.password_manager.evaluateDate(password.time.toString()))
+            qualityScore = "2"
 
-        if (dbCipherIndex != "crypted" && password.length == 4)
-            qualityNum = "4"
+        if (!password.encrypted && password.password.length == 4)
+            qualityScore = "4"
 
-        if (pm.popularPasswords(password)
-            or ((password.length == 4)
-                    and pm.popularPin(password))){
-            qualityNum = if (qualityNum == "4")
+        if (Utils.password_manager.popularPasswords(password.password)
+            or ((password.password.length == 4)
+                    and Utils.password_manager.popularPin(password.password))
+        ) {
+            qualityScore = if (qualityScore == "4")
                 "5"
             else
                 "2"
         }
 
-        return qualityNum
-    }
-
-    private fun getDataBase(pdbHelper: PasswordsDataBaseHelper, pDatabase: SQLiteDatabase, orderBy: String?): Cursor {
-        return pDatabase.query(
-                pdbHelper.TABLE_USERS, arrayOf(
-                pdbHelper.KEY_NAME, pdbHelper.KEY_PASS,
-                pdbHelper.KEY_TIME, pdbHelper.KEY_2FA,
-                pdbHelper.KEY_TAGS, pdbHelper.KEY_GROUPS,
-                pdbHelper.KEY_USE_TIME, pdbHelper.KEY_CIPHER,
-                pdbHelper.KEY_DESC
-        ),
-                null, null,
-                null, null, orderBy
-        )
+        return qualityScore
     }
 
     private fun copyPassword() {
@@ -1364,43 +1158,19 @@ class MainActivity : AppCompatActivity() {
     fun favorite(view: View) {
         Log.d("favorite", view.id.toString())
         val position = globalPos
-        val pdbHelper = PasswordsDataBaseHelper(this, login)
-        val pDatabase = pdbHelper.writableDatabase
-        val contentValues = ContentValues()
-        if(group[position]=="#favorite")
-            contentValues.put(pdbHelper.KEY_GROUPS, "none")
-        else
-            contentValues.put(pdbHelper.KEY_GROUPS, "#favorite")
-        pDatabase.update(
-                pdbHelper.TABLE_USERS, contentValues,
-                "NAME = ?",
-                arrayOf(passwordsG[position].first)
-        )
 
+        lifecycleScope.launch(Dispatchers.IO) {
+            // viewModel.favPassword(passwordsG[position])
+        }
         clearContainers()
 
 
-
-        try {
-            var pCursor: Cursor = getDataBase(pdbHelper, pDatabase, null)
-
-            if (pCursor.moveToFirst()) {
-                val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
-                val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
-                do {
-                    val pass = pCursor.getString(passIndex).toString()
-                    val login = pCursor.getString(nameIndex).toString()
-                    realPass.add(Pair(login, pass))
-                } while (pCursor.moveToNext())
+        viewModel.passwords.observe(this) { passwords ->
+            for (password in passwords) {
+                realPass.add(Pair(password.name, password.password))
             }
-
             analyzeDataBase()
-
-            // Second scan to set quality
-            pCursor = getDataBase(pdbHelper, pDatabase, pdbHelper.KEY_NAME)
-            loadPasswords(pCursor, pdbHelper)
-
-        } catch (e: SQLException) {
+            loadPasswords(passwords!!)
         }
 
         when (sorting) {
@@ -1455,29 +1225,14 @@ class MainActivity : AppCompatActivity() {
                 unsafePass = 0
                 fixPass = 0
 
-                try {
-                    var pCursor: Cursor = getDataBase(pdbHelper, pDatabase, null)
-
-                    if (pCursor.moveToFirst()) {
-                        val nameIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_NAME)
-                        val passIndex: Int = pCursor.getColumnIndex(pdbHelper.KEY_PASS)
-                        do {
-                            val pass = pCursor.getString(passIndex).toString()
-                            val login = pCursor.getString(nameIndex).toString()
-                            realPass.add(Pair(login, pass))
-                        } while (pCursor.moveToNext())
+                viewModel.passwords.observe(this) { passwords ->
+                    for (password in passwords) {
+                        realPass.add(Pair(password.name, password.password))
                     }
-
                     analyzeDataBase()
-
-                    // Second scan to set quality
-                    pCursor = getDataBase(pdbHelper, pDatabase, pdbHelper.KEY_NAME)
-                    loadPasswords(pCursor, pdbHelper)
-
-                } catch (e: SQLException) {
+                    loadPasswords(passwords!!)
                 }
-
-                if(passwords.size == 0){
+                if (passwords.size == 0) {
                     binding.correctPasswords.text = resources.getQuantityString(
                             R.plurals.correct_passwords,
                             0,
@@ -1518,16 +1273,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
-
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
                 val llBottomSheet = binding.allPassword
-
-
                 val bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet)
-
                 if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED)
                     finish()
                 else
@@ -1536,8 +1286,6 @@ class MainActivity : AppCompatActivity() {
         }
         return false
     }
-
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -1554,7 +1302,7 @@ class MainActivity : AppCompatActivity() {
             binding.seekBar.visibility = View.VISIBLE
     }
 
-    fun initViewModel() {
+    private fun initViewModel() {
         viewModel = ViewModelProvider(
                 this,
                 MainViewModelFactory(application)

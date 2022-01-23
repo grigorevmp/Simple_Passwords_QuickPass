@@ -16,43 +16,43 @@
     </style>
 
 
-    <style name="AppThemeRed" parent="AppTheme">
+    <style name="AppThemeRed" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ic_account_Red</item>
         <item name="colorAccent">@color/ic_account_Red_Tr</item>
     </style>
-    <style name="AppThemePink" parent="AppTheme">
+    <style name="AppThemePink" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ic_account_Pink</item>
         <item name="colorAccent">@color/ic_account_Pink_Tr</item>
     </style>
-    <style name="AppThemePurple" parent="AppTheme">
+    <style name="AppThemePurple" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ic_account_Purple</item>
         <item name="colorAccent">@color/ic_account_Purple_Tr</item>
     </style>
-    <style name="AppThemeViolet" parent="AppTheme">
+    <style name="AppThemeViolet" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ic_account_Violet</item>
         <item name="colorAccent">@color/ic_account_Violet_Tr</item>
     </style>
-    <style name="AppThemeDarkViolet" parent="AppTheme">
+    <style name="AppThemeDarkViolet" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ic_account_Dark_Violet</item>
         <item name="colorAccent">@color/ic_account_Dark_Violet_Tr</item>
     </style>
-    <style name="AppThemeBlue" parent="AppTheme">
+    <style name="AppThemeBlue" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ic_account_Blue</item>
         <item name="colorAccent">@color/ic_account_Blue_Tr</item>
     </style>
-    <style name="AppThemeCyan" parent="AppTheme">
+    <style name="AppThemeCyan" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ic_account_Cyan</item>
         <item name="colorAccent">@color/ic_account_Cyan_Tr</item>
     </style>
-    <style name="AppThemeTeal" parent="AppTheme">
+    <style name="AppThemeTeal" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ic_account_Teal</item>
         <item name="colorAccent">@color/ic_account_Teal_Tr</item>
     </style>
-    <style name="AppThemeGreen" parent="AppTheme">
+    <style name="AppThemeGreen" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ic_account_Green</item>
         <item name="colorAccent">@color/ic_account_Green_Tr</item>
     </style>
-    <style name="AppThemeLightGreen" parent="AppTheme">
+    <style name="AppThemeLightGreen" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ic_account_lightGreen</item>
         <item name="colorAccent">@color/ic_account_lightGreen_Tr</item>
     </style>

@@ -13,6 +13,7 @@ class Application : Application() {
 
         PasswordCardDatabase.setInstance(this)
         Utils.init(this)
+        Utils.setSharedPreferences()
 
         if (BuildConfig.DEBUG) {
             StrictMode.setThreadPolicy(
