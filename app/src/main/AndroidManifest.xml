@@ -99,8 +99,6 @@
             android:windowSoftInputMode="adjustResize"
             android:screenOrientation="fullSensor"
             android:exported="false">
-            <intent-filter>
-            </intent-filter>
         </activity>
 
         <provider

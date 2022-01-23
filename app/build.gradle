@@ -13,8 +13,9 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.1.0-beta01"
+        kotlinCompilerExtensionVersion = "1.2.0-alpha01"
     }
+
     defaultConfig {
         applicationId "com.mikhailgrigorev.quickpass"
         minSdkVersion 23
