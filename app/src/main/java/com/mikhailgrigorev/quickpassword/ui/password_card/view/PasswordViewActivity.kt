@@ -85,7 +85,7 @@ class PasswordViewActivity : AppCompatActivity() {
         from = args?.get("openedFrom").toString()
         if (from == "shortcut") {
             intent.putExtra("login", login)
-            intent.putExtra("passName", args?.get("passName").toString())
+            intent.putExtra("password_id", args?.get("password_id").toString())
             condition = false
             val intent = Intent(this, ReLoginActivity::class.java)
             startActivityForResult(intent, 1)
@@ -120,6 +120,12 @@ class PasswordViewActivity : AppCompatActivity() {
     private fun loadPassword(passwordId: Int) {
         viewModel.getPasswordById(passwordId).observe(this) { passwordCard ->
             viewModel.currentPassword = passwordCard
+
+            if (viewModel.currentPassword!!.favorite) {
+                binding.favButton.visibility = View.GONE
+                binding.favButton2.visibility = View.VISIBLE
+            }
+
             binding.helloTextId.text = passwordCard.name
             var dbPassword = passwordCard.password
 
@@ -221,13 +227,56 @@ class PasswordViewActivity : AppCompatActivity() {
 
             if (passwordCard.tags != "") {
                 passwordCard.tags.split("\\s".toRegex()).forEach { item ->
-                    val chip = Chip(binding.group.context)
+                    val chip = Chip(binding.cgPasswordChipGroup.context)
                     chip.text = item
                     chip.isClickable = false
-                    binding.group.addView(chip)
+                    binding.cgPasswordChipGroup.addView(chip)
                 }
             } else {
                 binding.kwInfo.visibility = View.GONE
+            }
+
+            val mediaStorageDir = File(
+                    applicationContext.getExternalFilesDir("QuickPassPhotos")!!.absolutePath
+            )
+            if (!mediaStorageDir.exists()) {
+                mediaStorageDir.mkdirs()
+                Utils.makeToast(applicationContext, "Directory Created")
+            }
+
+            if (!mediaStorageDir.exists()) {
+                if (!mediaStorageDir.mkdirs()) {
+                    Log.d("App", "failed to create directory")
+                }
+            }
+
+            val file = File(mediaStorageDir, "${viewModel.currentPassword!!.name}.jpg")
+            if (file.exists()) {
+                val uri = Uri.fromFile(file)
+                binding.attachedImage.setImageURI(uri)
+                binding.attachedImageText.visibility = View.VISIBLE
+                val display = windowManager.defaultDisplay
+                val size = Point()
+                display.getSize(size)
+                val widthMax: Int = size.x
+                val width = (widthMax / 2.4).toInt()
+                val height =
+                        binding.attachedImage.drawable.minimumHeight * width / binding.attachedImage.drawable.minimumWidth
+                binding.attachedImage.layoutParams.height = height
+                binding.attachedImage.layoutParams.width = width
+
+                binding.attachedImage.setOnClickListener {
+                    val uriForOpen = FileProvider.getUriForFile(
+                            this,
+                            this.applicationContext.packageName.toString() + ".provider",
+                            file
+                    )
+                    val intent = Intent()
+                    intent.action = Intent.ACTION_VIEW
+                    intent.setDataAndType(uriForOpen, "image/*")
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    startActivity(intent)
+                }
             }
         }
     }
@@ -338,11 +387,6 @@ class PasswordViewActivity : AppCompatActivity() {
             startActivityForResult(intent, 1)
         }
 
-        if (viewModel.currentPassword!!.favorite) {
-            binding.favButton.visibility = View.GONE
-            binding.favButton2.visibility = View.VISIBLE
-        }
-
         binding.favButton.setOnClickListener {
             binding.favButton.visibility = View.GONE
             binding.favButton2.visibility = View.VISIBLE
@@ -369,52 +413,12 @@ class PasswordViewActivity : AppCompatActivity() {
                 binding.sameParts.visibility = View.GONE
                 binding.warning0.visibility = View.GONE
             }
-        val mediaStorageDir = File(
-                applicationContext.getExternalFilesDir("QuickPassPhotos")!!.absolutePath
-        )
-        if (!mediaStorageDir.exists()) {
-            mediaStorageDir.mkdirs()
-            Utils.makeToast(applicationContext, "Directory Created")
-        }
 
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                Log.d("App", "failed to create directory")
-            }
-        }
 
         val layoutTransition = binding.mainLinearLayout.layoutTransition
         layoutTransition.setDuration(5000) // Change duration
         layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
-        val file = File(mediaStorageDir, "${viewModel.currentPassword!!.name}.jpg")
-        if (file.exists()) {
-            val uri = Uri.fromFile(file)
-            binding.attachedImage.setImageURI(uri)
-            binding.attachedImageText.visibility = View.VISIBLE
-            val display = windowManager.defaultDisplay
-            val size = Point()
-            display.getSize(size)
-            val widthMax: Int = size.x
-            val width = (widthMax / 2.4).toInt()
-            val height =
-                    binding.attachedImage.drawable.minimumHeight * width / binding.attachedImage.drawable.minimumWidth
-            binding.attachedImage.layoutParams.height = height
-            binding.attachedImage.layoutParams.width = width
-
-            binding.attachedImage.setOnClickListener {
-                val uriForOpen = FileProvider.getUriForFile(
-                        this,
-                        this.applicationContext.packageName.toString() + ".provider",
-                        file
-                )
-                val intent = Intent()
-                intent.action = Intent.ACTION_VIEW
-                intent.setDataAndType(uriForOpen, "image/*")
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                startActivity(intent)
-            }
-        }
     }
 
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {

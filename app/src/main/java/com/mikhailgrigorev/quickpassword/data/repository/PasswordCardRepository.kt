@@ -12,6 +12,14 @@ class PasswordCardRepository {
 
     fun getItem(id: Int) = pcDao.getByID(id)
 
+    fun getItemByName(name: String) = pcDao.getByName(name)
+
+    fun getItemByQuality(value: Int) = pcDao.getByQuality(value)
+
+    fun getItemsNumberWithQuality(value: Int) = pcDao.getItemsNumberWithQuality(value)
+
+    fun getFavoriteItems() = pcDao.getFavorite()
+
     fun insert(pcItem: PasswordCard) {
         pcDao.insert(pcItem)
     }

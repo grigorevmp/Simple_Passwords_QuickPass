@@ -354,8 +354,8 @@
                     android:contentDescription="@string/generate"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:rotation="45"
-                    android:tint="@color/textDark"
-                    app:srcCompat="@drawable/dice_5_outline" />
+                    app:srcCompat="@drawable/dice_5_outline"
+                    app:tint="@color/textDark" />
 
             </androidx.cardview.widget.CardView>
 

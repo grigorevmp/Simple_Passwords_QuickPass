@@ -15,7 +15,19 @@ interface PasswordCardDao {
     @Query("select * from password_card where _id = :id")
     fun getByID(id: Int): LiveData<PasswordCard>
 
-    @Query("select * from password_card")
+    @Query("SELECT * FROM password_card WHERE name LIKE :search order by favorite")
+    fun getByName(search: String): LiveData<List<PasswordCard>>
+
+    @Query("SELECT * FROM password_card WHERE quality = :value order by favorite")
+    fun getByQuality(value: Int): LiveData<List<PasswordCard>>
+
+    @Query("SELECT COUNT(*) FROM password_card WHERE quality = :value")
+    fun getItemsNumberWithQuality(value: Int): LiveData<Int>
+
+    @Query("SELECT * FROM password_card WHERE favorite = 1")
+    fun getFavorite(): LiveData<List<PasswordCard>>
+
+    @Query("select * from password_card order by favorite")
     fun getAll(): LiveData<List<PasswordCard>>
 
     @Update

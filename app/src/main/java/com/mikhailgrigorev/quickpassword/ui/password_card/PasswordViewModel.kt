@@ -12,7 +12,7 @@ class PasswordViewModel(application: Application) : ViewModel() {
     private val passwords = passwordCardRepo.allData
     var currentPassword: PasswordCard? = null
 
-    suspend fun addPassword(password: PasswordCard){
+    fun addPassword(password: PasswordCard){
         passwordCardRepo.insert(password)
     }
 
@@ -20,7 +20,7 @@ class PasswordViewModel(application: Application) : ViewModel() {
         passwordCardRepo.update(password)
     }
 
-    suspend fun deletePassword(){
+    fun deletePassword(){
         if(currentPassword != null) {
             passwordCardRepo.delete(currentPassword!!)
         }

@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/QuickPass/app/src/main/res/layout/activity_main.xml" value="0.25769927536231885" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/activity_new_password.xml" value="0.23641304347826086" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/activity_password_view.xml" value="0.25679347826086957" />
+        <entry key="..\:/QuickPass/app/src/main/res/layout/pass_fragment.xml" value="0.25769927536231885" />
       </map>
     </option>
   </component>

@@ -440,8 +440,10 @@ class CreatePasswordActivity : AppCompatActivity() {
                             tags = binding.keyWordsField.text.toString(),
                             groups = "",
                             login = binding.emailField.text.toString(),
-                            encrypted = binding.cryptToggle.isChecked
+                            encrypted = binding.cryptToggle.isChecked,
                     )
+                    val quality = Utils.evaluatePassword(newPassword)
+                    newPassword.quality = quality
 
                     lifecycleScope.launch(Dispatchers.IO) {
                         viewModel.addPassword(newPassword)

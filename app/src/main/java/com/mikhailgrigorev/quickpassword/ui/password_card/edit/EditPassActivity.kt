@@ -504,6 +504,9 @@ class EditPassActivity : AppCompatActivity() {
                         viewModel.currentPassword!!.groups = ""
                         viewModel.currentPassword!!.login = binding.emailField.text.toString()
                         viewModel.currentPassword!!.encrypted = binding.cryptToggle.isChecked
+                        viewModel.currentPassword!!.quality = Utils.evaluatePassword(
+                                viewModel.currentPassword!!
+                        )
 
                         lifecycleScope.launch(Dispatchers.IO) {
                             viewModel.updatePassword(viewModel.currentPassword!!)

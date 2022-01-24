@@ -5,6 +5,7 @@ import com.mikhailgrigorev.quickpassword.common.utils.iv
 import com.mikhailgrigorev.quickpassword.common.utils.salt
 import com.mikhailgrigorev.quickpassword.common.utils.secretKey
 import java.security.SecureRandom
+import java.text.SimpleDateFormat
 import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.SecretKeyFactory
@@ -43,7 +44,7 @@ PasswordManager {
         val sb = StringBuilder(length)
 
         while (i < length) {
-            val randomInt : Int = rnd.nextInt(result.length)
+            val randomInt: Int = rnd.nextInt(result.length)
             sb.append(result[randomInt])
             i++
         }
@@ -51,27 +52,33 @@ PasswordManager {
         return sb.toString()
     }
 
-    fun evaluateDate(date: String): Boolean{
-        return false
+    fun evaluateDate(date: String): Boolean {
+        val sdf3 = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
 
-        // YYYY-MM-DD HH:MM:SS
+        try {
+            val sameDate = sdf3.parse(date)
 
-        val year = date.substring(0, 4).toInt()
-        val month = date.substring(5, 7).toInt()
-        val day = date.substring(8, 10).toInt()
-        // val hour = date.substring(11, 13).toInt()
-        // val minute = date.substring(14, 16).toInt()
-        // val second = date.substring(17, 19).toInt()
+            val calendar = Calendar.getInstance()
+            calendar.time = sameDate!!
 
-        val c = Calendar.getInstance()
-        val yearCurrent = c.get(Calendar.YEAR)
-        val monthCurrent = c.get(Calendar.MONTH)
-        val dayCurrent = c.get(Calendar.DAY_OF_MONTH)
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DATE)
 
-        return when {
-            yearCurrent > year -> true
-            monthCurrent > month + 4 -> true
-            else -> (monthCurrent > month + 3) && (dayCurrent > day)
+            val current = Calendar.getInstance()
+            val yearCurrent = current.get(Calendar.YEAR)
+            val monthCurrent = current.get(Calendar.MONTH)
+            val dayCurrent = current.get(Calendar.DAY_OF_MONTH)
+
+            return when {
+                yearCurrent > year -> true
+                monthCurrent > month + 4 -> true
+                else -> (monthCurrent > month + 3) && (dayCurrent > day)
+            }
+
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+            return false
         }
 
 

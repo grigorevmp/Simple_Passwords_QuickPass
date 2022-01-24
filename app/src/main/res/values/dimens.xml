@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="base_card_radius">15dp</dimen>
+    <dimen name="base_card_elevation">3dp</dimen>
+    <dimen name="base_card_vertical_margin">10dp</dimen>
+    <dimen name="base_card_horizontal_margin">20dp</dimen>
+    <dimen name="image_button_size_20">20dp</dimen>
+    <dimen name="image_button_size_15">15dp</dimen>
+    <dimen name="image_button_size_10">10dp</dimen>
+    <dimen name="medium_padding">15dp</dimen>
+</resources>

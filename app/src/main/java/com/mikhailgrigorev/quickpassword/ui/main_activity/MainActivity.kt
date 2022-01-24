@@ -1,7 +1,10 @@
 package com.mikhailgrigorev.quickpassword.ui.main_activity
 
 import android.annotation.SuppressLint
-import android.content.*
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.graphics.Point
@@ -22,7 +25,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.SeekBar
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -30,20 +32,18 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
-import com.mikhailgrigorev.quickpassword.*
+import com.mikhailgrigorev.quickpassword.R
+import com.mikhailgrigorev.quickpassword.common.PasswordCategory
+import com.mikhailgrigorev.quickpassword.common.PasswordGettingType
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.entity.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityMainBinding
-import com.mikhailgrigorev.quickpassword.dbhelpers.PasswordsDataBaseHelper
 import com.mikhailgrigorev.quickpassword.ui.account.view.AccountActivity
-import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginAfterSplashActivity
 import com.mikhailgrigorev.quickpassword.ui.password_card.create.CreatePasswordActivity
 import com.mikhailgrigorev.quickpassword.ui.password_card.view.PasswordViewActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.math.abs
 import kotlin.math.min
 
@@ -54,11 +54,6 @@ class MainActivity : AppCompatActivity() {
     private val DEFAULT_ROTATION = 0F
     private lateinit var viewModel: MainViewModel
 
-    enum class CATEGORY(val value: String) {
-        CORRECT("1"), NEGATIVE("2"), NOT_SAFE("3")
-    }
-
-    private val _preferenceFile = "quickPassPreference"
     private var passwordLength = 20
     private var useSymbols = false
     private var useUC = false
@@ -67,31 +62,17 @@ class MainActivity : AppCompatActivity() {
     private var safePass = 0
     private var unsafePass = 0
     private var fixPass = 0
-    private var faNum = 0
-    private var tlNum = 0
-    private val passwords: ArrayList<Pair<String, Boolean>> = ArrayList()
-    private var passwordsG: ArrayList<Pair<String, Boolean>> = ArrayList()
-    private val realPass: ArrayList<Pair<String, String>> = ArrayList()
-    private val realQuality: ArrayList<String> = ArrayList()
-    private val realMap: MutableMap<String, ArrayList<String>> = mutableMapOf()
-    private val quality: ArrayList<String> = ArrayList()
-    private val dates: ArrayList<String> = ArrayList()
-    private val tags: ArrayList<String> = ArrayList()
-    private val desc: ArrayList<String> = ArrayList()
-    private val group: ArrayList<String> = ArrayList()
     private lateinit var login: String
-    var useAnalyze: String? = null
-    var cardRadius: String? = null
     private var sorting: String? = "none"
 
     private var searchCorrect: Boolean = false
     private var searchNegative: Boolean = false
     private var searchNotSafe: Boolean = false
-    val handler = Handler()
 
     private var xTouch = 500
     private var changeStatusPopUp: PopupWindow = PopupWindow()
     private var globalPos: Int = -1
+    private lateinit var passwordCards: List<PasswordCard>
     private var pm = PasswordManager()
     private var condition = true
 
@@ -103,9 +84,9 @@ class MainActivity : AppCompatActivity() {
         val r = Runnable {
             if (condition) {
                 condition = false
-                val intent = Intent(this, LoginAfterSplashActivity::class.java)
-                startActivity(intent)
-                finish()
+                //val intent = Intent(this, LoginAfterSplashActivity::class.java)
+                //startActivity(intent)
+                //finish()
             }
         }
 
@@ -125,13 +106,7 @@ class MainActivity : AppCompatActivity() {
         initViewModel()
         setQuitTimer()
 
-        if (Utils.useAnalyze() != null)
-            if (Utils.useAnalyze() != "none") {
-                binding.correctScan.visibility = View.GONE
-                binding.cardCup.visibility = View.GONE
-                binding.cardView.visibility = View.GONE
-            }
-
+        checkAnalytics()
 
         // Get Extras
         val args: Bundle? = intent.extras
@@ -142,58 +117,26 @@ class MainActivity : AppCompatActivity() {
         if (newLogin != login)
             login = newLogin.toString()
 
-        // Set greeting
-        val name: String = getString(R.string.hi) + " " + login
-        binding.helloTextId.text = name
+        initLayouts()
+        setPasswordQualityText()
+        setObservers()
 
-        // Open passwords database
-        viewModel.passwords.observe(this) { passwords ->
-            for (password in passwords) {
-                realPass.add(Pair(password.name, password.password))
-            }
-            analyzeDataBase()
-            loadPasswords(passwords!!)
-        }
-
-        // Sorting
-        when (Utils.sortingType()!!) {
-            "alpha" -> {
-                sortByAlphaDown()
-            }
-            "date" -> {
-                sortByDateUp()
-            }
-            else -> {
-                sortByAlphaUp()
-            }
-        }
+        //when (Utils.sortingType()!!) {
+        //    "alpha" -> {
+        //        sortByAlphaDown()
+        //    }
+        //    "date" -> {
+        //        sortByDateUp()
+        //    }
+        //    else -> {
+        //        sortByAlphaUp()
+        //    }
+        //}
 
         // Shortcuts
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1)
             generateShortcuts()
 
-        // First greeting
-        if(passwords.size == 0) {
-            showInterfaceIfNoPasswords()
-        }
-
-        // Set stats
-        binding.correctPasswords.text = resources.getQuantityString(
-                R.plurals.correct_passwords,
-                safePass,
-                safePass
-        )
-        binding.negativePasswords.text = resources.getQuantityString(
-                R.plurals.incorrect_password,
-                unsafePass,
-                unsafePass
-        )
-        binding.notSafePasswords.text = resources.getQuantityString(R.plurals.need_fix, fixPass, fixPass)
-        binding.passwordRecycler.layoutManager = LinearLayoutManager(
-                this,
-                LinearLayoutManager.VERTICAL,
-                false
-        )
 
         binding.passwordRecycler.setHasFixedSize(true)
 
@@ -204,7 +147,7 @@ class MainActivity : AppCompatActivity() {
                 binding.dateSort.isChecked = false
                 binding.sortOrder.animate().rotation(180F).setDuration(500).start()
                 Utils.setSortingType("alpha")
-                sortByAlphaDown()
+                // sortByAlphaDown()
                 when {
                     searchCorrect -> {
                         updatePasswordQualityCirclesColor(
@@ -212,7 +155,10 @@ class MainActivity : AppCompatActivity() {
                                 circleImprovement = R.drawable.circle_improvement,
                                 circlePositive = R.drawable.circle_positive_fill
                         )
-                        searchPasswordByCategory(CATEGORY.CORRECT.value)
+                        setObservers(
+                                type = PasswordGettingType.ByQuality,
+                                value = PasswordCategory.CORRECT.value
+                        )
                     }
                     searchNegative -> {
                         updatePasswordQualityCirclesColor(
@@ -220,7 +166,10 @@ class MainActivity : AppCompatActivity() {
                                 circleImprovement = R.drawable.circle_improvement,
                                 circlePositive = R.drawable.circle_positive
                         )
-                        searchPasswordByCategory(CATEGORY.NEGATIVE.value)
+                        setObservers(
+                                type = PasswordGettingType.ByQuality,
+                                value = PasswordCategory.NEGATIVE.value
+                        )
                     }
                     searchNotSafe -> {
                         updatePasswordQualityCirclesColor(
@@ -228,13 +177,16 @@ class MainActivity : AppCompatActivity() {
                                 circleImprovement = R.drawable.circle_improvement_fill,
                                 circlePositive = R.drawable.circle_positive
                         )
-                        searchPasswordByCategory(CATEGORY.NOT_SAFE.value)
+                        setObservers(
+                                type = PasswordGettingType.ByQuality,
+                                value = PasswordCategory.NOT_SAFE.value
+                        )
                     }
                     binding.searchPassField.text.toString() != "" -> {
                         binding.searchPassField.text = binding.searchPassField.text
                     }
                     else -> {
-                        setDefaultPasswordAdapter()
+                        setObservers()
                     }
                 }
 
@@ -242,7 +194,7 @@ class MainActivity : AppCompatActivity() {
             else{
                 binding.sortOrder.animate().rotation(0F).setDuration(500).start()
                 Utils.setSortingType("none")
-                sortByAlphaUp()
+                // sortByAlphaUp()
                 when {
                     searchCorrect -> {
                         updatePasswordQualityCirclesColor(
@@ -250,7 +202,10 @@ class MainActivity : AppCompatActivity() {
                                 circleImprovement = R.drawable.circle_improvement,
                                 circlePositive = R.drawable.circle_positive_fill
                         )
-                        searchPasswordByCategory(CATEGORY.CORRECT.value)
+                        setObservers(
+                                type = PasswordGettingType.ByQuality,
+                                value = PasswordCategory.CORRECT.value
+                        )
                     }
                     searchNegative -> {
                         updatePasswordQualityCirclesColor(
@@ -258,7 +213,10 @@ class MainActivity : AppCompatActivity() {
                                 circleImprovement = R.drawable.circle_improvement,
                                 circlePositive = R.drawable.circle_positive
                         )
-                        searchPasswordByCategory(CATEGORY.NEGATIVE.value)
+                        setObservers(
+                                type = PasswordGettingType.ByQuality,
+                                value = PasswordCategory.NEGATIVE.value
+                        )
                     }
                     searchNotSafe -> {
                         updatePasswordQualityCirclesColor(
@@ -266,14 +224,17 @@ class MainActivity : AppCompatActivity() {
                                 circleImprovement = R.drawable.circle_improvement_fill,
                                 circlePositive = R.drawable.circle_positive
                         )
-                        searchPasswordByCategory(CATEGORY.NOT_SAFE.value)
+                        setObservers(
+                                type = PasswordGettingType.ByQuality,
+                                value = PasswordCategory.NOT_SAFE.value
+                        )
 
                     }
                     binding.searchPassField.text.toString() != "" -> {
                         binding.searchPassField.text = binding.searchPassField.text
                     }
                     else -> {
-                        setDefaultPasswordAdapter()
+                        setObservers()
                     }
                 }
             }
@@ -284,7 +245,7 @@ class MainActivity : AppCompatActivity() {
                 binding.alphaSort.isChecked = false
                 binding.sortOrder.animate().rotation(180F).setDuration(500).start()
                 Utils.setSortingType("date")
-                sortByDateUp()
+                //sortByDateUp()
                 when {
                     searchCorrect -> {
                         updatePasswordQualityCirclesColor(
@@ -292,45 +253,10 @@ class MainActivity : AppCompatActivity() {
                                 circleImprovement = R.drawable.circle_improvement,
                                 circlePositive = R.drawable.circle_positive_fill
                         )
-                        searchPasswordByCategory(CATEGORY.CORRECT.value)
-                    }
-                    searchNegative -> {
-                            updatePasswordQualityCirclesColor(
-                                    circleNegative = R.drawable.circle_negative_fill,
-                                    circleImprovement = R.drawable.circle_improvement,
-                                    circlePositive = R.drawable.circle_positive
-                            )
-                            searchPasswordByCategory(CATEGORY.NEGATIVE.value)
-                    }
-                    searchNotSafe -> {
-                            updatePasswordQualityCirclesColor(
-                                    circleNegative = R.drawable.circle_negative,
-                                    circleImprovement = R.drawable.circle_improvement_fill,
-                                    circlePositive = R.drawable.circle_positive
-                            )
-                            searchPasswordByCategory(CATEGORY.NOT_SAFE.value)
-                    }
-                    binding.searchPassField.text.toString() != "" -> {
-                        binding.searchPassField.text = binding.searchPassField.text
-                    }
-                    else -> {
-                        setDefaultPasswordAdapter()
-                    }
-                }
-
-            }
-            else{
-                binding.sortOrder.animate().rotation(0F).setDuration(500).start()
-                Utils.setSortingType("none")
-                sortByAlphaUp()
-                when {
-                    searchCorrect -> {
-                        updatePasswordQualityCirclesColor(
-                                circleNegative = R.drawable.circle_negative,
-                                circleImprovement = R.drawable.circle_improvement,
-                                circlePositive = R.drawable.circle_positive_fill
+                        setObservers(
+                                type = PasswordGettingType.ByQuality,
+                                value = PasswordCategory.CORRECT.value
                         )
-                        searchPasswordByCategory(CATEGORY.CORRECT.value)
                     }
                     searchNegative -> {
                         updatePasswordQualityCirclesColor(
@@ -338,7 +264,10 @@ class MainActivity : AppCompatActivity() {
                                 circleImprovement = R.drawable.circle_improvement,
                                 circlePositive = R.drawable.circle_positive
                         )
-                        searchPasswordByCategory(CATEGORY.NEGATIVE.value)
+                        setObservers(
+                                type = PasswordGettingType.ByQuality,
+                                value = PasswordCategory.NEGATIVE.value
+                        )
                     }
                     searchNotSafe -> {
                         updatePasswordQualityCirclesColor(
@@ -346,102 +275,152 @@ class MainActivity : AppCompatActivity() {
                                 circleImprovement = R.drawable.circle_improvement_fill,
                                 circlePositive = R.drawable.circle_positive
                         )
-                        searchPasswordByCategory(CATEGORY.NOT_SAFE.value)
+                        setObservers(
+                                type = PasswordGettingType.ByQuality,
+                                value = PasswordCategory.NOT_SAFE.value
+                        )
                     }
                     binding.searchPassField.text.toString() != "" -> {
                         binding.searchPassField.text = binding.searchPassField.text
                     }
                     else -> {
-                        setDefaultPasswordAdapter()
+                        setObservers()
+                    }
+                }
+
+            }
+            else{
+                binding.sortOrder.animate().rotation(0F).setDuration(500).start()
+                Utils.setSortingType("none")
+                // sortByAlphaUp()
+                when {
+                    searchCorrect -> {
+                        updatePasswordQualityCirclesColor(
+                                circleNegative = R.drawable.circle_negative,
+                                circleImprovement = R.drawable.circle_improvement,
+                                circlePositive = R.drawable.circle_positive_fill
+                        )
+                        setObservers(
+                                type = PasswordGettingType.ByQuality,
+                                value = PasswordCategory.CORRECT.value
+                        )
+                    }
+                    searchNegative -> {
+                        updatePasswordQualityCirclesColor(
+                                circleNegative = R.drawable.circle_negative_fill,
+                                circleImprovement = R.drawable.circle_improvement,
+                                circlePositive = R.drawable.circle_positive
+                        )
+                        setObservers(
+                                type = PasswordGettingType.ByQuality,
+                                value = PasswordCategory.NEGATIVE.value
+                        )
+                    }
+                    searchNotSafe -> {
+                        updatePasswordQualityCirclesColor(
+                                circleNegative = R.drawable.circle_negative,
+                                circleImprovement = R.drawable.circle_improvement_fill,
+                                circlePositive = R.drawable.circle_positive
+                        )
+                        setObservers(
+                                type = PasswordGettingType.ByQuality,
+                                value = PasswordCategory.NOT_SAFE.value
+                        )
+                    }
+                    binding.searchPassField.text.toString() != "" -> {
+                        binding.searchPassField.text = binding.searchPassField.text
+                    }
+                    else -> {
+                        setObservers()
                     }
                 }
             }
         }
 
-        // Set passwords adapter
-        setDefaultPasswordAdapter()
-
         setListeners()
-
-        // Search passwords
-        binding.searchPassField.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                val passwords2: ArrayList<Pair<String, Boolean>> = ArrayList()
-                val quality2: ArrayList<String> = ArrayList()
-                val tags2: ArrayList<String> = ArrayList()
-                val group2: ArrayList<String> = ArrayList()
-                val desc2: ArrayList<String> = ArrayList()
-                for ((index, pair) in passwords.withIndex()) {
-                    if (pair.first.lowercase(Locale.ROOT).contains(
-                                s.toString().lowercase(Locale.ROOT)
-                        ) ||
-                        (tags[index].lowercase(Locale.ROOT).contains(
-                                s.toString().lowercase(
-                                        Locale.ROOT
-                                )
-                        ))
-                        ||
-                        ((pair.second) && ("2fa".lowercase(Locale.ROOT).contains(
-                                s.toString().lowercase(Locale.ROOT)
-                        )))
-                    )
-                     {
-                        passwords2.add(pair)
-                        quality2.add(quality[index])
-                        tags2.add(tags[index])
-                        group2.add(group[index])
-                        desc2.add(desc[index])
-                    }
-                }
-
-                passwordsG = passwords2
-                binding.passwordRecycler.adapter = PasswordAdapter(
-                        passwords2,
-                        quality2,
-                        tags2,
-                        group2,
-                        desc2,
-                        useAnalyze,
-                        cardRadius,
-                        resources.displayMetrics,
-                        this@MainActivity,
-                        clickListener = {
-                            passClickListener(it)
-                        },
-                        longClickListener = { i: Int, view: View ->
-                            passLongClickListener(
-                                    i,
-                                    view
-                            )
-                        }
-                ) {
-                    tagSearchClicker(it)
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-        })
 
         Utils.setUserName(login)
 
-        bottomSheetBehavior()
+        initBottomSheetBehavior()
 
     }
 
-    private fun bottomSheetBehavior() {
-        // получение вью нижнего экрана
+    private fun checkAnalytics() {
+        if (Utils.useAnalyze() != null)
+            if (Utils.useAnalyze() != "none") {
+                binding.correctScan.visibility = View.GONE
+                binding.cardCup.visibility = View.GONE
+                binding.cardView.visibility = View.GONE
+            }
+    }
+
+    private fun initLayouts() {
+        val name: String = getString(R.string.hi) + " " + login
+        binding.helloTextId.text = name
+        binding.passwordRecycler.layoutManager = LinearLayoutManager(
+                this,
+                LinearLayoutManager.VERTICAL,
+                false
+        )
+    }
+
+    private fun setPasswordQualityText() {
+        binding.correctPasswords.text =
+                resources.getQuantityString(
+                        R.plurals.correct_passwords,
+                        safePass,
+                        safePass
+                )
+        binding.negativePasswords.text =
+                resources.getQuantityString(
+                        R.plurals.incorrect_password,
+                        unsafePass,
+                        unsafePass
+                )
+        binding.notSafePasswords.text =
+                resources.getQuantityString(
+                        R.plurals.need_fix,
+                        fixPass,
+                        fixPass
+                )
+    }
+
+    private fun setObservers(
+        type: PasswordGettingType = PasswordGettingType.All,
+        name: String = "",
+        value: Int = 0
+    ) {
+        viewModel.getPasswords(type, name, value).observe(this) { passwords ->
+            passwordCards = passwords
+            if (passwords.isEmpty())
+                showNoPasswordsInterface()
+            else {
+                showPasswordsInterface()
+                setPasswordAdapter(passwords)
+            }
+        }
+
+        viewModel.getPasswordNumberWithQuality().first.observe(this) { safePass_ ->
+            safePass = safePass_
+            setPasswordQualityText()
+        }
+
+        viewModel.getPasswordNumberWithQuality().second.observe(this) { notSafe_ ->
+            fixPass = notSafe_
+            setPasswordQualityText()
+        }
+
+        viewModel.getPasswordNumberWithQuality().third.observe(this) { negative_ ->
+            unsafePass = negative_
+            setPasswordQualityText()
+        }
+    }
+
+    private fun initBottomSheetBehavior() {
         binding.allPassword.translationZ = 24F
         binding.newPass.translationZ = 101F
 
-        // настройка поведения нижнего экрана
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.allPassword)
-
-        // настройка состояний нижнего экрана
-        //bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
         bottomSheetBehavior.state = Utils.bottomBarState()
         binding.menuUp.animate().rotation(180F * bottomSheetBehavior.state).setDuration(0).start()
@@ -454,20 +433,14 @@ class MainActivity : AppCompatActivity() {
         binding.searchPassField.clearFocus()
         binding.searchPassField.hideKeyboard()
 
-
-        // настройка максимальной высоты
         bottomSheetBehavior.peekHeight = 800 //600
 
-        if (useAnalyze != null)
-            if (useAnalyze != "none") {
+        if (Utils.useAnalyze() != null)
+            if (Utils.useAnalyze() != "none") {
                 bottomSheetBehavior.peekHeight = 1200
             }
 
-
-        // настройка возможности скрыть элемент при свайпе вниз
         bottomSheetBehavior.isHideable = true
-
-        // настройка колбэков при изменениях
 
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
@@ -497,8 +470,9 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun setListeners() {
+    private fun setPasswordGeneratorListeners() {
         binding.lengthToggle.text = getString(R.string.length) + ": " + passwordLength
+
         binding.lengthToggle.setOnClickListener {
             if (binding.seekBar.visibility == View.GONE) {
                 binding.seekBar.visibility = View.VISIBLE
@@ -507,46 +481,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Set a SeekBar change listener
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
-                // Display the current progress of SeekBar
                 passwordLength = i
                 binding.lengthToggle.text = getString(R.string.length) + ": " + passwordLength
             }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                // Do something
-            }
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
 
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                // Do something
-            }
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
         })
-
-        val bottomSheetBehavior = BottomSheetBehavior.from(binding.allPassword)
-
-        binding.expand.setOnClickListener {
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            with(Utils.sharedPreferences!!.edit()) {
-                putInt("__BS", BottomSheetBehavior.STATE_COLLAPSED)
-                apply()
-            }
-        }
-
-        binding.menuUp.setOnClickListener {
-            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED)
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-            else if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            with(Utils.sharedPreferences!!.edit()) {
-                putInt("__BS", BottomSheetBehavior.STATE_EXPANDED)
-                apply()
-            }
-        }
-
-        // Generate random password
 
         // Password generation system
         val passwordGeneratorRules = mutableListOf<String>()
@@ -554,32 +498,22 @@ class MainActivity : AppCompatActivity() {
         for (index in 0 until binding.passSettings.childCount) {
             val chip: Chip = binding.passSettings.getChildAt(index) as Chip
 
-            // Set the chip checked change listener
             chip.setOnCheckedChangeListener { view, isChecked ->
                 val deg = binding.generatePassword.rotation + 30f
                 binding.generatePassword.animate().rotation(deg).interpolator =
                         AccelerateDecelerateInterpolator()
-                if (isChecked) {
-                    if (view.id == R.id.lettersToggle)
-                        useLetters = true
-                    if (view.id == R.id.symToggles)
-                        useSymbols = true
-                    if (view.id == R.id.numbersToggle)
-                        useNumbers = true
-                    if (view.id == R.id.upperCaseToggle)
-                        useUC = true
-                    passwordGeneratorRules.add(view.text.toString())
-                } else {
-                    if (view.id == R.id.lettersToggle)
-                        useLetters = false
-                    if (view.id == R.id.symToggles)
-                        useSymbols = false
-                    if (view.id == R.id.numbersToggle)
-                        useNumbers = false
-                    if (view.id == R.id.upperCaseToggle)
-                        useUC = false
-                    passwordGeneratorRules.remove(view.text.toString())
+
+                when (view.id) {
+                    R.id.lettersToggle -> useLetters = isChecked
+                    R.id.symToggles -> useSymbols = isChecked
+                    R.id.numbersToggle -> useNumbers = isChecked
+                    R.id.upperCaseToggle -> useUC = isChecked
                 }
+
+                if (isChecked)
+                    passwordGeneratorRules.add(view.text.toString())
+                else
+                    passwordGeneratorRules.remove(view.text.toString())
             }
         }
 
@@ -601,6 +535,55 @@ class MainActivity : AppCompatActivity() {
             binding.generatePassword.animate().rotation(DEFAULT_ROTATION).interpolator =
                     AccelerateDecelerateInterpolator()
         }
+    }
+
+    private fun setPasswordSearchListener() {
+        binding.searchPassField.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(passwordName: Editable?) {
+                if (passwordName.toString() != "")
+                    setObservers(
+                            type = PasswordGettingType.ByName,
+                            name = passwordName.toString()
+                    )
+                else
+                    setObservers()
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        })
+    }
+
+    private fun bottomBarBehaviorListeners() {
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.allPassword)
+        binding.expand.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            with(Utils.sharedPreferences!!.edit()) {
+                putInt("__BS", BottomSheetBehavior.STATE_COLLAPSED)
+                apply()
+            }
+        }
+
+        binding.menuUp.setOnClickListener {
+            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED)
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            else if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            with(Utils.sharedPreferences!!.edit()) {
+                putInt("__BS", bottomSheetBehavior.state)
+                apply()
+            }
+        }
+    }
+
+    private fun setListeners() {
+
+        setPasswordSearchListener()
+        setPasswordGeneratorListeners()
+        bottomBarBehaviorListeners()
 
         binding.genPasswordId.setOnClickListener {
             copyPassword()
@@ -631,6 +614,8 @@ class MainActivity : AppCompatActivity() {
             goToAccountActivity()
         }
 
+        // Correct passwords
+
         binding.correctPasswordsCircle.setOnClickListener {
             correctPasswordsClickedAction()
         }
@@ -639,6 +624,8 @@ class MainActivity : AppCompatActivity() {
             correctPasswordsClickedAction()
         }
 
+        // Negative password
+
         binding.negativePasswordsCircle.setOnClickListener {
             negativePasswordsClickedAction()
         }
@@ -646,6 +633,8 @@ class MainActivity : AppCompatActivity() {
         binding.negativePasswords.setOnClickListener {
             negativePasswordsClickedAction()
         }
+
+        // Not safe password
 
         binding.notSafePasswordsCircle.setOnClickListener {
             notSafePasswordsClickedAction()
@@ -656,148 +645,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadPasswords(passwordList: List<PasswordCard>) {
-        /*
-        Load main password configuration
-         */
-        for (password in passwordList) {
-
-            val qualityNum = evaluatePassword(password)
-
-            if (password.use_2fa)
-                faNum += 1
-            passwords.add(0, Pair(password.name, password.use_2fa))
-            desc.add(0, password.description)
-
-            if (password.favorite) {
-                quality.add(0, qualityNum)
-                val dbTag = password.tags
-                tags.add(0, dbTag)
-                group.add(0, "#favorite")
-                dates.add(0, password.time.toString())
-            } else {
-                val dbTag = password.tags
-                tags.add(dbTag)
-                group.add("none")
-                dates.add(0, password.time.toString())
-            }
-            if (password.encrypted)
-                tlNum += 1
-
-            when (qualityNum) {
-                "1" -> safePass += 1
-                "2" -> unsafePass += 1
-                "3" -> fixPass += 1
-                "4" -> safePass += 1
-                "6" -> safePass += 1
-            }
-
-            binding.allPass.text = (safePass + unsafePass + fixPass).toString()
-            binding.afText.text = faNum.toString()
-            binding.tlText.text = tlNum.toString()
-        }
-    }
-
-    private fun sortByAlphaUp() {
-        binding.sortOrder.animate().rotation(0F).setDuration(500).start()
-        for (i in 0 until passwords.size) {
-            for (j in 0 until passwords.size){
-                if(group[i].contains("favorite") == group[j].contains("favorite"))
-                    if(passwords[i].first > passwords[j].first){
-                        val temp = passwords[j]
-                        passwords[j] = passwords[i]
-                        passwords[i] = temp
-                        var temp2 = quality[j]
-                        quality[j] = quality[i]
-                        quality[i]  = temp2
-                        temp2 = tags[j]
-                        tags[j] = tags[i]
-                        tags[i]  = temp2
-                        temp2 = group[j]
-                        group[j] = group[i]
-                        group[i]  = temp2
-                        temp2 = desc[j]
-                        desc[j] = desc[i]
-                        desc[i]  = temp2
-                        temp2 = dates[j]
-                        dates[j] = dates[i]
-                        dates[i]  = temp2
-                    }
-            }
-        }
-    }
-
-    private fun sortByDateUp() {
-        binding.sortOrder.animate().rotation(180F).setDuration(500).start()
-        binding.dateSort.isChecked = true
-        for (i in 0 until passwords.size){
-            for (j in 0 until passwords.size){
-                if(group[i].contains("favorite") == group[j].contains("favorite"))
-                    if(dates[i] > dates[j]){
-                        val temp = passwords[j]
-                        passwords[j] = passwords[i]
-                        passwords[i] = temp
-                        var temp2 = quality[j]
-                        quality[j] = quality[i]
-                        quality[i]  = temp2
-                        temp2 = tags[j]
-                        tags[j] = tags[i]
-                        tags[i]  = temp2
-                        temp2 = group[j]
-                        group[j] = group[i]
-                        group[i]  = temp2
-                        temp2 = desc[j]
-                        desc[j] = desc[i]
-                        desc[i]  = temp2
-                        temp2 = dates[j]
-                        dates[j] = dates[i]
-                        dates[i]  = temp2
-                    }
-            }
-        }
-    }
-
-    private fun sortByAlphaDown() {
-        binding.sortOrder.animate().rotation(180F).setDuration(500).start()
-        binding.alphaSort.isChecked = true
-        for (i in 0 until passwords.size){
-            for (j in 0 until passwords.size){
-                if(group[i].contains("favorite") == group[j].contains("favorite"))
-                    if(passwords[i].first < passwords[j].first){
-                        val temp = passwords[j]
-                        passwords[j] = passwords[i]
-                        passwords[i] = temp
-                        var temp2 = quality[j]
-                        quality[j] = quality[i]
-                        quality[i]  = temp2
-                        temp2 = tags[j]
-                        tags[j] = tags[i]
-                        tags[i]  = temp2
-                        temp2 = group[j]
-                        group[j] = group[i]
-                        group[i]  = temp2
-                        temp2 = desc[j]
-                        desc[j] = desc[i]
-                        desc[i]  = temp2
-                        temp2 = dates[j]
-                        dates[j] = dates[i]
-                        dates[i]  = temp2
-                    }
-            }
-        }
-    }
-
-    private fun setDefaultPasswordAdapter() {
-        passwordsG = passwords
+    private fun setPasswordAdapter(passwords: List<PasswordCard>) {
         binding.passwordRecycler.adapter = PasswordAdapter(
                 passwords,
-                quality,
-                tags,
-                group,
-                desc,
-                useAnalyze,
-                cardRadius,
-                resources.displayMetrics,
                 this,
                 clickListener = {
                     passClickListener(it)
@@ -819,84 +669,12 @@ class MainActivity : AppCompatActivity() {
         binding.correctPasswordsCircle.setImageResource(circlePositive)
     }
 
-    private fun searchPasswordByCategory(passwordType: String) {
-        val passwords2: ArrayList<Pair<String, Boolean>> = ArrayList()
-        val quality2: ArrayList<String> = ArrayList()
-        val tags2: ArrayList<String> = ArrayList()
-        val group2: ArrayList<String> = ArrayList()
-        val desc2: ArrayList<String> = ArrayList()
-        for ((index, value) in quality.withIndex()) {
-            if (value == passwordType){
-                passwords2.add(passwords[index])
-                quality2.add(quality[index])
-                tags2.add(tags[index])
-                group2.add(group[index])
-                desc2.add(desc[index])
-            }
-        }
-
-        passwordsG = passwords2
-        binding.passwordRecycler.adapter = PasswordAdapter(
-                passwords2,
-                quality2,
-                tags2,
-                group2,
-                desc2,
-                useAnalyze,
-                cardRadius,
-                resources.displayMetrics,
-                this@MainActivity,
-                clickListener = {
-                    passClickListener(it)
-                },
-                longClickListener = { i: Int, view: View ->
-                    passLongClickListener(
-                            i,
-                            view
-                    )
-                }
-        ) {
-            tagSearchClicker(it)
-        }
-    }
-
-    private fun evaluatePassword(password: PasswordCard): String {
-        val evaluation: Float = Utils.password_manager.evaluatePassword(password.password)
-
-        var qualityScore = when {
-            evaluation < 0.33 -> "2"
-            evaluation < 0.66 -> "3"
-            else -> "1"
-        }
-
-        if (password.encrypted)
-            qualityScore = "6"
-
-        if (Utils.password_manager.evaluateDate(password.time.toString()))
-            qualityScore = "2"
-
-        if (!password.encrypted && password.password.length == 4)
-            qualityScore = "4"
-
-        if (Utils.password_manager.popularPasswords(password.password)
-            or ((password.password.length == 4)
-                    and Utils.password_manager.popularPin(password.password))
-        ) {
-            qualityScore = if (qualityScore == "4")
-                "5"
-            else
-                "2"
-        }
-
-        return qualityScore
-    }
-
     private fun copyPassword() {
         if(binding.genPasswordIdField.text.toString() != ""){
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("Password", binding.genPasswordIdField.text.toString())
             clipboard.setPrimaryClip(clip)
-            toast(getString(R.string.passCopied))
+            Utils.makeToast(this, getString(R.string.passCopied))
         }
     }
 
@@ -913,18 +691,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun notSafePasswordsClickedAction() {
-        if(searchNotSafe){
+        if (searchNotSafe) {
             binding.notSafePasswordsCircle.setImageResource(R.drawable.circle_improvement)
-            setDefaultPasswordAdapter()
+            setObservers()
             searchNotSafe = false
-        }
-        else{
+        } else {
             updatePasswordQualityCirclesColor(
                     circleNegative = R.drawable.circle_negative,
                     circleImprovement = R.drawable.circle_improvement_fill,
                     circlePositive = R.drawable.circle_positive
             )
-            searchPasswordByCategory(CATEGORY.NOT_SAFE.value)
+
+            setObservers(
+                    type = PasswordGettingType.ByQuality,
+                    value = PasswordCategory.NOT_SAFE.value
+            )
             searchNegative = false
             searchCorrect = false
             searchNotSafe = true
@@ -932,18 +713,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun negativePasswordsClickedAction() {
-        if(searchNegative){
+        if (searchNegative) {
             binding.negativePasswordsCircle.setImageResource(R.drawable.circle_negative)
-            setDefaultPasswordAdapter()
+            setObservers()
             searchNegative = false
-        }
-        else{
+        } else {
             updatePasswordQualityCirclesColor(
                     circleNegative = R.drawable.circle_negative_fill,
                     circleImprovement = R.drawable.circle_improvement,
                     circlePositive = R.drawable.circle_positive
             )
-            searchPasswordByCategory(CATEGORY.NEGATIVE.value)
+            setObservers(
+                    type = PasswordGettingType.ByQuality,
+                    value = PasswordCategory.NEGATIVE.value
+            )
             searchNotSafe = false
             searchCorrect = false
             searchNegative = true
@@ -951,18 +734,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun correctPasswordsClickedAction() {
-        if(searchCorrect){
+        if (searchCorrect) {
             binding.correctPasswordsCircle.setImageResource(R.drawable.circle_positive)
-            setDefaultPasswordAdapter()
+            setObservers()
             searchCorrect = false
-        }
-        else{
+        } else {
             updatePasswordQualityCirclesColor(
                     circleNegative = R.drawable.circle_negative,
                     circleImprovement = R.drawable.circle_improvement,
                     circlePositive = R.drawable.circle_positive_fill
             )
-            searchPasswordByCategory(CATEGORY.CORRECT.value)
+            setObservers(
+                    type = PasswordGettingType.ByQuality,
+                    value = PasswordCategory.CORRECT.value
+            )
             searchNotSafe = false
             searchNegative = false
             searchCorrect = true
@@ -976,50 +761,45 @@ class MainActivity : AppCompatActivity() {
         startActivityForResult(intent, 1)
     }
 
-    private fun showInterfaceIfNoPasswords() {
-        binding.allPassword.visibility = View.GONE
+    private fun showNoPasswordsInterface() {
         binding.noPasswords.visibility = View.VISIBLE
+        binding.extraNewPass.visibility = View.VISIBLE
         binding.cardView.visibility = View.GONE
         binding.cardCup.visibility = View.GONE
         binding.smile.visibility = View.GONE
         binding.expand.visibility = View.GONE
-        binding.newPass.visibility = View.GONE
-        binding.extraNewPass.visibility = View.VISIBLE
-        binding.warnCard.animate().alpha(abs(START_ALPHA)).start()
-        binding.backupCard.animate().alpha(abs(START_ALPHA)).start()
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.allPassword)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
-    private fun createIntentForShortcut(passwordIndex: Int): Intent{
-        val intent = Intent(this, PasswordViewActivity::class.java)
+    private fun showPasswordsInterface() {
+        binding.noPasswords.visibility = View.GONE
+        binding.cardView.visibility = View.VISIBLE
+        binding.cardCup.visibility = View.VISIBLE
+        binding.smile.visibility = View.VISIBLE
+        binding.expand.visibility = View.VISIBLE
+        binding.extraNewPass.visibility = View.GONE
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.allPassword)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+    }
 
-        var isPass = false
+    private fun createIntentForShortcut(passwordId: Int): Intent {
+        val intent = Intent(this, PasswordViewActivity::class.java)
 
         intent.action = Intent.ACTION_VIEW
         intent.putExtra("login", login)
-        intent.putExtra("passName", passwords[passwordIndex].first)
+        intent.putExtra("password_id", passwordId)
         intent.putExtra("openedFrom", "shortcut")
-
-        var str = getString(R.string.sameParts)
-        if (realMap.containsKey(passwords[passwordIndex].first)) {
-            for (pass in realMap[passwords[passwordIndex].first]!!) {
-                isPass = true
-                str += "$pass "
-            }
-        }
-        if (isPass)
-            intent.putExtra("sameWith", str)
-        else
-            intent.putExtra("sameWith", "none")
 
         return intent
     }
 
-    private fun createShortcut(passwordIndex: Int):ShortcutInfo? {
+    private fun createShortcut(id: Int, passwordId: Int, passwordName: String): ShortcutInfo? {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            val intentForShortcut = createIntentForShortcut(passwordIndex)
-            return ShortcutInfo.Builder(this, "shortcut_ $passwordIndex")
-                    .setShortLabel(passwords[passwordIndex].first)
-                    .setLongLabel(passwords[passwordIndex].first)
+            val intentForShortcut = createIntentForShortcut(id)
+            return ShortcutInfo.Builder(this, "shortcut_ $passwordId")
+                    .setShortLabel(passwordName)
+                    .setLongLabel(passwordName)
                     .setIcon(Icon.createWithResource(this, R.drawable.ic_fav_action))
                     .setIntent(intentForShortcut)
                     .build()
@@ -1035,8 +815,10 @@ class MainActivity : AppCompatActivity() {
             shortcutManager =
                     getSystemService(ShortcutManager::class.java)!!
 
-            for (i in (0..min(2, passwords.size-1))){
-                shortcutList.add(createShortcut(i)!!)
+            viewModel.getFavoriteItems().observe(this) { passwords ->
+                for (i in (0..min(2, passwords.size - 1))) {
+                    shortcutList.add(createShortcut(i, passwords[i]._id, passwords[i].name)!!)
+                }
             }
 
             shortcutManager.dynamicShortcuts = shortcutList
@@ -1048,7 +830,7 @@ class MainActivity : AppCompatActivity() {
         inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 
-    private fun analyzeDataBase() {
+    /*private fun analyzeDataBase() {
         var gSubContains: Boolean
         for (pass in realPass){
             gSubContains = false
@@ -1072,7 +854,7 @@ class MainActivity : AppCompatActivity() {
             else
                 realQuality.add("1")
         }
-    }
+    }*/
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -1089,8 +871,6 @@ class MainActivity : AppCompatActivity() {
         showPopup(position, view)
     }
 
-
-    @SuppressLint("Recycle", "InflateParams")
     private fun showPopup(position: Int, view: View) {
         val location = IntArray(2)
         view.getLocationOnScreen(location)
@@ -1122,37 +902,10 @@ class MainActivity : AppCompatActivity() {
     private fun passClickListener(position: Int) {
         condition=false
         val intent = Intent(this, PasswordViewActivity::class.java)
-        var isPass = false
         intent.putExtra("login", login)
-        val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-        with(sharedPref.edit()) {
-            putString("__PASSNAME", passwordsG[position].first)
-            commit()
-        }
-        intent.putExtra("passName", passwordsG[position].first)
-        var str = getString(R.string.sameParts) + " "
-        var j = 0
-        if (realMap.containsKey(passwordsG[position].first)){
-            for(pass in realMap[passwordsG[position].first]!!) {
-                if (pass !in str) {
-                    if (j == 0)
-                        j += 1
-                    else
-                        str += ", "
-                    isPass = true
-                    str += pass
-                }
-            }
-        }
-        if(isPass)
-            intent.putExtra("sameWith", str)
-        else
-            intent.putExtra("sameWith", "none")
+        intent.putExtra("password_id", passwordCards[position]._id)
         startActivityForResult(intent, 1)
     }
-
-    private fun Context.toast(message: String)=
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
     @SuppressLint("Recycle")
     fun favorite(view: View) {
@@ -1160,117 +913,59 @@ class MainActivity : AppCompatActivity() {
         val position = globalPos
 
         lifecycleScope.launch(Dispatchers.IO) {
-            // viewModel.favPassword(passwordsG[position])
-        }
-        clearContainers()
-
-
-        viewModel.passwords.observe(this) { passwords ->
-            for (password in passwords) {
-                realPass.add(Pair(password.name, password.password))
-            }
-            analyzeDataBase()
-            loadPasswords(passwords!!)
+            viewModel.favPassword(passwordCards[position])
         }
 
-        when (sorting) {
-            "alpha" -> {
-                sortByAlphaDown()
-            }
-            "none" -> {
-                sortByAlphaUp()
-            }
-            "date" -> {
-                sortByDateUp()
-            }
-        }
+        setObservers()
 
-        setDefaultPasswordAdapter()
+        //when (sorting) {
+        //    "alpha" -> {
+        //        sortByAlphaDown()
+        //    }
+        //    "none" -> {
+        //        sortByAlphaUp()
+        //    }
+        //    "date" -> {
+        //        sortByDateUp()
+        //    }
+        //}
+
+        setObservers()
 
         changeStatusPopUp.dismiss()
     }
 
-    private fun clearContainers() {
-        passwords.clear()
-        quality.clear()
-        tags.clear()
-        group.clear()
-        realPass.clear()
-        realQuality.clear()
-        realMap.clear()
-        desc.clear()
-        dates.clear()
-    }
-
-    @SuppressLint("Recycle")
     fun delete(view: View) {
-        Log.d("deleted", view.id.toString())
         val position = globalPos
-        val pdbHelper = PasswordsDataBaseHelper(this, login)
-            val pDatabase = pdbHelper.writableDatabase
-            val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
-            builder.setTitle(getString(R.string.deletePassword))
-            builder.setMessage(getString(R.string.passwordDeleteConfirm))
 
-            builder.setPositiveButton(getString(R.string.yes)){ _, _ ->
-                pDatabase.delete(
-                        pdbHelper.TABLE_USERS,
-                        "NAME = ?",
-                        arrayOf(passwordsG[position].first)
-                )
 
-                clearContainers()
+        val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
+        builder.setTitle(getString(R.string.deletePassword))
+        builder.setMessage(getString(R.string.passwordDeleteConfirm))
 
-                safePass = 0
-                unsafePass = 0
-                fixPass = 0
+        builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
+            viewModel.deleteItem(passwordCards[position])
 
-                viewModel.passwords.observe(this) { passwords ->
-                    for (password in passwords) {
-                        realPass.add(Pair(password.name, password.password))
-                    }
-                    analyzeDataBase()
-                    loadPasswords(passwords!!)
-                }
-                if (passwords.size == 0) {
-                    binding.correctPasswords.text = resources.getQuantityString(
-                            R.plurals.correct_passwords,
-                            0,
-                            0
-                    )
-                    binding.negativePasswords.text = resources.getQuantityString(
-                            R.plurals.incorrect_password,
-                            0,
-                            0
-                    )
-                    binding.notSafePasswords.text = resources.getQuantityString(R.plurals.need_fix, 0, 0)
-                    showInterfaceIfNoPasswords()
-                }
+            // when (sorting) {
+            //     "alpha" -> {
+            //         sortByAlphaDown()
+            //     }
+            //     "none" -> {
+            //         sortByAlphaUp()
+            //     }
+            //     "date" -> {
+            //         sortByDateUp()
+            //     }
+            // }
 
-                when (sorting) {
-                    "alpha" -> {
-                        sortByAlphaDown()
-                    }
-                    "none" -> {
-                        sortByAlphaUp()
-                    }
-                    "date" -> {
-                        sortByDateUp()
-                    }
-                }
+            setObservers()
+        }
 
-                setDefaultPasswordAdapter()
-            }
-
-            builder.setNegativeButton(getString(R.string.no)){ _, _ ->
-            }
-
-            builder.setNeutralButton(getString(R.string.cancel)){ _, _ ->
-            }
-            val dialog: AlertDialog = builder.create()
-            dialog.show()
+        builder.setNegativeButton(getString(R.string.no)) { _, _ -> }
+        builder.setNeutralButton(getString(R.string.cancel)) { _, _ -> }
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
         changeStatusPopUp.dismiss()
-
     }
 
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
@@ -1291,8 +986,6 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
             condition=false
-            clearContainers()
-            recreate()
         }
     }
 
@@ -1305,7 +998,7 @@ class MainActivity : AppCompatActivity() {
     private fun initViewModel() {
         viewModel = ViewModelProvider(
                 this,
-                MainViewModelFactory(application)
+                MainViewModelFactory()
         )[MainViewModel::class.java]
     }
 

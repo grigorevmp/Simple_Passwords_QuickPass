@@ -6,6 +6,7 @@ import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mikhailgrigorev.quickpassword.common.Application
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
+import com.mikhailgrigorev.quickpassword.data.entity.PasswordCard
 
 object Utils {
 
@@ -56,5 +57,37 @@ object Utils {
     fun makeToast(context: Context, text: String) {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
+
+    fun evaluatePassword(password: PasswordCard): Int {
+        val evaluation: Float = password_manager.evaluatePassword(password.password)
+
+        var qualityScore = when {
+            evaluation < 0.33 -> 2
+            evaluation < 0.66 -> 3
+            else -> 1
+        }
+
+        if (password.encrypted)
+            qualityScore = 6
+
+        if (password_manager.evaluateDate(password.time))
+            qualityScore = 2
+
+        if (!password.encrypted && password.password.length == 4)
+            qualityScore = 4
+
+        if (password_manager.popularPasswords(password.password)
+            or ((password.password.length == 4)
+                    and password_manager.popularPin(password.password))
+        ) {
+            qualityScore = if (qualityScore == 4)
+                5
+            else
+                2
+        }
+
+        return qualityScore
+    }
+
 
 }
