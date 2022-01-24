@@ -8,14 +8,14 @@ Just in alpha...
 
 ### New features
 
-[ ] Full code refactor [In Progress]
-[x] Jetpack libraries
-[ ] Multithreading for password decoding [SOON]
-[ ]Material YOU [In Progress]
-[ ] Synchronisation [In Progress]
-[x] Great speed improvements
+- Full code refactor [In Progress]
+- Jetpack libraries
+- Multithreading for password decoding [SOON]
+- Material YOU [In Progress]
+- Synchronisation [In Progress]
+- Great speed improvements
 
-## QP 2.0
+## QuickPass 2.0 (2020~2021)
 
 [Google Play](https://play.google.com/store/apps/details?id=com.mikhailgrigorev.quickpass)
 
