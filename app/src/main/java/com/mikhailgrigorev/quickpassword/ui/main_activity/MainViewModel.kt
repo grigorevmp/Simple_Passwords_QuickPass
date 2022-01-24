@@ -20,9 +20,22 @@ class MainViewModel() : ViewModel() {
         return passwordCardRepo.getItem(id)
     }
 
-    private fun getPasswordByName(name: String) = passwordCardRepo.getItemByName(name)
+    private fun getPasswordByName(
+        name: String,
+        columnName: String = "name",
+        isAsc: Boolean = false
+    ) = passwordCardRepo.getItemByName(name, columnName, isAsc)
 
-    private fun getPasswordByQuality(value: Int) = passwordCardRepo.getItemByQuality(value)
+    private fun getAll(
+        columnName: String = "name",
+        isAsc: Boolean = false
+    ) = passwordCardRepo.getAll(columnName, isAsc)
+
+    private fun getPasswordByQuality(
+        value: Int,
+        columnName: String = "name",
+        isAsc: Boolean = false
+    ) = passwordCardRepo.getItemByQuality(value, columnName, isAsc)
 
     fun getPasswordNumberWithQuality(): Triple<LiveData<Int>, LiveData<Int>, LiveData<Int>> {
         val correct = passwordCardRepo.getItemsNumberWithQuality(PasswordCategory.CORRECT.value)
@@ -37,11 +50,14 @@ class MainViewModel() : ViewModel() {
 
     fun getPasswords(
         type: PasswordGettingType = PasswordGettingType.All,
-        name: String = "", value: Int = 0
+        name: String = "",
+        value: Int = 0,
+        columnName: String = "name",
+        isAsc: Boolean = false
     ) =
             when (type) {
-                PasswordGettingType.All -> passwords
-                PasswordGettingType.ByName -> getPasswordByName(name)
-                PasswordGettingType.ByQuality -> getPasswordByQuality(value)
+                PasswordGettingType.All -> getAll(columnName, isAsc)
+                PasswordGettingType.ByName -> getPasswordByName(name, columnName, isAsc)
+                PasswordGettingType.ByQuality -> getPasswordByQuality(value, columnName, isAsc)
             }
 }

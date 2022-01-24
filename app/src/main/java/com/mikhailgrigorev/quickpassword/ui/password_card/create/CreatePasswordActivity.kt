@@ -57,6 +57,8 @@ class CreatePasswordActivity : AppCompatActivity() {
     private var imageName: String = ""
     private lateinit var viewModel: PasswordViewModel
 
+    private var passwordsCollection: List<PasswordCard>? = null
+
     private lateinit var login: String
     private lateinit var binding: ActivityNewPasswordBinding
 
@@ -75,15 +77,22 @@ class CreatePasswordActivity : AppCompatActivity() {
         val pass: String = args?.get("pass").toString()
 
         initViewModel()
+        setObservers()
         loadFirstConfig(list, pass, args)
         setListeners(list)
 
     }
 
+    private fun setObservers(){
+        viewModel.passwords.observe(this){ passwords ->
+            passwordsCollection = passwords
+        }
+    }
+
     private fun initViewModel() {
         viewModel = ViewModelProvider(
                 this,
-                PasswordViewModelFactory(application)
+                PasswordViewModelFactory()
         )[PasswordViewModel::class.java]
     }
 
@@ -442,7 +451,24 @@ class CreatePasswordActivity : AppCompatActivity() {
                             login = binding.emailField.text.toString(),
                             encrypted = binding.cryptToggle.isChecked,
                     )
-                    val quality = Utils.evaluatePassword(newPassword)
+
+                    if (passwordsCollection != null) {
+                        val analyzeResults =
+                                Utils.analyzeDataBase(
+                                    newPassword,
+                                    passwordsCollection!!
+                                )
+                        if(analyzeResults.second.toString() != "[]")
+                            newPassword.same_with = analyzeResults.second.toString()
+                        else
+                            viewModel.currentPassword!!.same_with = ""
+                    }
+
+                    val quality = Utils.evaluatePassword(
+                            newPassword,
+                            binding.genPasswordIdField.text.toString()
+                    )
+
                     newPassword.quality = quality
 
                     lifecycleScope.launch(Dispatchers.IO) {

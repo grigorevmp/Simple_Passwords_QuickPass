@@ -15,14 +15,13 @@ import javax.crypto.spec.SecretKeySpec
 import kotlin.math.abs
 import kotlin.math.max
 
-class
-PasswordManager {
-    private val letters : String = "abcdefghijklmnopqrstuvwxyz"
-    private val uppercaseLetters : String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    private val numbers : String = "0123456789"
-    private val special : String = "@#=+!£$%&?"
-    private val maxPasswordLength : Float = 20F //Max password length that my app creates
-    private val maxPasswordFactor : Float = 13F //Max password factor based on chars inside password
+class PasswordManager {
+    private val letters: String = "abcdefghijklmnopqrstuvwxyz"
+    private val uppercaseLetters: String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    private val numbers: String = "0123456789"
+    private val special: String = "@#=+!£$%&?"
+    private val maxPasswordLength: Float = 20F
+    private val maxPasswordFactor: Float = 13F
 
     fun generatePassword(
         isWithLetters: Boolean,
@@ -30,15 +29,19 @@ PasswordManager {
         isWithNumbers: Boolean,
         isWithSpecial: Boolean,
         length: Int
-    ) : String {
+    ): String {
 
         var result = ""
         var i = 0
 
-        if(isWithLetters){ result += this.letters }
-        if(isWithUppercase){ result += this.uppercaseLetters }
-        if(isWithNumbers){ result += this.numbers }
-        if(isWithSpecial){ result += this.special }
+        if (isWithLetters)
+            result += this.letters
+        if (isWithUppercase)
+            result += this.uppercaseLetters
+        if (isWithNumbers)
+            result += this.numbers
+        if (isWithSpecial)
+            result += this.special
 
         val rnd = SecureRandom.getInstance("SHA1PRNG")
         val sb = StringBuilder(length)
@@ -80,8 +83,6 @@ PasswordManager {
             e.printStackTrace()
             return false
         }
-
-
     }
 
     fun evaluatePassword(passwordToTest: String) : Float {
@@ -89,19 +90,24 @@ PasswordManager {
         var factor = 0
         val length = passwordToTest.length
 
-        if( passwordToTest.matches(Regex(".*[" + this.letters + "].*")) ) { factor += 3 }
-        if( passwordToTest.matches(Regex(".*[" + this.uppercaseLetters + "].*")) ){ factor += 3 }
-        if( passwordToTest.matches(Regex(".*[" + this.numbers + "].*")) ){ factor += 3 }
-        if( passwordToTest.matches(Regex(".*[" + this.special + "].*")) ){ factor += 4 }
+        if (passwordToTest.matches(Regex(".*[" + this.letters + "].*")))
+            factor += 3
+        if (passwordToTest.matches(Regex(".*[" + this.uppercaseLetters + "].*")))
+            factor += 3
+        if (passwordToTest.matches(Regex(".*[" + this.numbers + "].*")))
+            factor += 3
+        if (passwordToTest.matches(Regex(".*[" + this.special + "].*")))
+            factor += 4
 
-        if((passwordToTest.length == 4) and (isNumbers(passwordToTest))
+        if ((passwordToTest.length == 4) and (isNumbers(passwordToTest))
             and (!isLetters(passwordToTest))
             and (!isUpperCase(passwordToTest))
-            and (!isSymbols(passwordToTest)))
+            and (!isSymbols(passwordToTest))
+        )
             return 1F
 
 
-        return (factor*length)/(maxPasswordFactor*max(maxPasswordLength, length.toFloat()))
+        return (factor * length) / (maxPasswordFactor * max(maxPasswordLength, length.toFloat()))
     }
 
     fun popularPasswords(passwordToTest: String): Boolean {
@@ -187,30 +193,29 @@ PasswordManager {
     }
 
 
-    fun isLetters(passwordToTest: String) : Boolean{
-        return passwordToTest.matches(Regex(".*[" + this.letters + "].*"))
-    }
+    fun isLetters(passwordToTest: String) =
+            passwordToTest.matches(Regex(".*[" + this.letters + "].*"))
 
-    fun isUpperCase(passwordToTest: String) : Boolean{
-        return passwordToTest.matches(Regex(".*[" + this.uppercaseLetters + "].*"))
-    }
+    fun isUpperCase(passwordToTest: String) =
+            passwordToTest.matches(Regex(".*[" + this.uppercaseLetters + "].*"))
 
-    fun isNumbers(passwordToTest: String) : Boolean{
-        return passwordToTest.matches(Regex(".*[" + this.numbers + "].*"))
-    }
+    fun isNumbers(passwordToTest: String) =
+            passwordToTest.matches(Regex(".*[" + this.numbers + "].*"))
 
-    fun isSymbols(passwordToTest: String) : Boolean{
-        return passwordToTest.matches(Regex(".*[" + this.special + "].*"))
-    }
+    fun isSymbols(passwordToTest: String) =
+            passwordToTest.matches(Regex(".*[" + this.special + "].*"))
 
-    fun encrypt(strToEncrypt: String) :  String?
-    {
-        try
-        {
+    fun encrypt(strToEncrypt: String): String? {
+        try {
             val ivParameterSpec = IvParameterSpec(Base64.decode(iv, Base64.DEFAULT))
 
             val factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
-            val spec =  PBEKeySpec(secretKey.toCharArray(), Base64.decode(salt, Base64.DEFAULT), 10000, 256)
+            val spec = PBEKeySpec(
+                    secretKey.toCharArray(),
+                    Base64.decode(salt, Base64.DEFAULT),
+                    10000,
+                    256
+            )
             val tmp = factory.generateSecret(spec)
             val secretKey =  SecretKeySpec(tmp.encoded, "AES")
 

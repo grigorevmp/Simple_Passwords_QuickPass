@@ -8,13 +8,42 @@ import com.mikhailgrigorev.quickpassword.data.entity.PasswordCard
 class PasswordCardRepository {
     private val pcDatabase = PasswordCardDatabase.getInstance()
     private val pcDao = pcDatabase.PasswordCardDao()
-    val allData: LiveData<List<PasswordCard>> = pcDao.getAll()
+    val allData: LiveData<List<PasswordCard>> = pcDao.getAllSortName()
+
+    fun getAll(
+        columnName: String = "name",
+        isAsc: Boolean = false
+    ): LiveData<List<PasswordCard>> {
+        return when(columnName) {
+            "name" -> pcDao.getAllSortName(isAsc)
+            "time" -> pcDao.getAllSortTime(isAsc)
+            else -> pcDao.getAllSortName(isAsc)
+        }
+    }
 
     fun getItem(id: Int) = pcDao.getByID(id)
 
-    fun getItemByName(name: String) = pcDao.getByName(name)
+    fun getItemByName(name: String,
+                      columnName: String = "name",
+                      isAsc: Boolean = false
+    ): LiveData<List<PasswordCard>> {
+        return when(columnName) {
+            "name" -> pcDao.getByNameSortName(name, isAsc)
+            "time" -> pcDao.getByNameSortTime(name, isAsc)
+            else -> pcDao.getAllSortName(isAsc)
+        }
+    }
 
-    fun getItemByQuality(value: Int) = pcDao.getByQuality(value)
+    fun getItemByQuality(value: Int,
+                         columnName: String = "name",
+                         isAsc: Boolean = false
+    ): LiveData<List<PasswordCard>> {
+        return when(columnName) {
+            "name" -> pcDao.getByQualitySortName(value, isAsc)
+            "time" -> pcDao.getByQualitySortTime(value, isAsc)
+            else -> pcDao.getAllSortName(isAsc)
+        }
+    }
 
     fun getItemsNumberWithQuality(value: Int) = pcDao.getItemsNumberWithQuality(value)
 

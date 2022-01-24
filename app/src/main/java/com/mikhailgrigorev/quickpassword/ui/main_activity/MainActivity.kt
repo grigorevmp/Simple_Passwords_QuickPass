@@ -50,7 +50,6 @@ import kotlin.math.min
 
 class MainActivity : AppCompatActivity() {
 
-    private val START_ALPHA = 1F
     private val DEFAULT_ROTATION = 0F
     private lateinit var viewModel: MainViewModel
 
@@ -63,7 +62,12 @@ class MainActivity : AppCompatActivity() {
     private var unsafePass = 0
     private var fixPass = 0
     private lateinit var login: String
-    private var sorting: String? = "none"
+
+    private var defaultPassFilterType = PasswordGettingType.All
+    private var defaultPassFilterValue = 0
+    private var defaultPassFilterName = ""
+    private var defaultPassFilterSorting = "name"
+    private var defaultPassFilterAsc = false
 
     private var searchCorrect: Boolean = false
     private var searchNegative: Boolean = false
@@ -98,6 +102,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun initSorting(){
+        defaultPassFilterSorting = Utils.sortingColumn()!!
+        defaultPassFilterAsc = Utils.sortingAsc()
+        setOrderChip(defaultPassFilterSorting)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -118,20 +128,9 @@ class MainActivity : AppCompatActivity() {
             login = newLogin.toString()
 
         initLayouts()
+        initSorting()
         setPasswordQualityText()
         setObservers()
-
-        //when (Utils.sortingType()!!) {
-        //    "alpha" -> {
-        //        sortByAlphaDown()
-        //    }
-        //    "date" -> {
-        //        sortByDateUp()
-        //    }
-        //    else -> {
-        //        sortByAlphaUp()
-        //    }
-        //}
 
         // Shortcuts
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1)
@@ -140,209 +139,57 @@ class MainActivity : AppCompatActivity() {
 
         binding.passwordRecycler.setHasFixedSize(true)
 
-        //Alpha Sorting
-
-        binding.alphaSort.setOnCheckedChangeListener { _, isChecked ->
-            if(isChecked) {
-                binding.dateSort.isChecked = false
-                binding.sortOrder.animate().rotation(180F).setDuration(500).start()
-                Utils.setSortingType("alpha")
-                // sortByAlphaDown()
-                when {
-                    searchCorrect -> {
-                        updatePasswordQualityCirclesColor(
-                                circleNegative = R.drawable.circle_negative,
-                                circleImprovement = R.drawable.circle_improvement,
-                                circlePositive = R.drawable.circle_positive_fill
-                        )
-                        setObservers(
-                                type = PasswordGettingType.ByQuality,
-                                value = PasswordCategory.CORRECT.value
-                        )
-                    }
-                    searchNegative -> {
-                        updatePasswordQualityCirclesColor(
-                                circleNegative = R.drawable.circle_negative_fill,
-                                circleImprovement = R.drawable.circle_improvement,
-                                circlePositive = R.drawable.circle_positive
-                        )
-                        setObservers(
-                                type = PasswordGettingType.ByQuality,
-                                value = PasswordCategory.NEGATIVE.value
-                        )
-                    }
-                    searchNotSafe -> {
-                        updatePasswordQualityCirclesColor(
-                                circleNegative = R.drawable.circle_negative,
-                                circleImprovement = R.drawable.circle_improvement_fill,
-                                circlePositive = R.drawable.circle_positive
-                        )
-                        setObservers(
-                                type = PasswordGettingType.ByQuality,
-                                value = PasswordCategory.NOT_SAFE.value
-                        )
-                    }
-                    binding.searchPassField.text.toString() != "" -> {
-                        binding.searchPassField.text = binding.searchPassField.text
-                    }
-                    else -> {
-                        setObservers()
-                    }
-                }
-
-            }
-            else{
-                binding.sortOrder.animate().rotation(0F).setDuration(500).start()
-                Utils.setSortingType("none")
-                // sortByAlphaUp()
-                when {
-                    searchCorrect -> {
-                        updatePasswordQualityCirclesColor(
-                                circleNegative = R.drawable.circle_negative,
-                                circleImprovement = R.drawable.circle_improvement,
-                                circlePositive = R.drawable.circle_positive_fill
-                        )
-                        setObservers(
-                                type = PasswordGettingType.ByQuality,
-                                value = PasswordCategory.CORRECT.value
-                        )
-                    }
-                    searchNegative -> {
-                        updatePasswordQualityCirclesColor(
-                                circleNegative = R.drawable.circle_negative_fill,
-                                circleImprovement = R.drawable.circle_improvement,
-                                circlePositive = R.drawable.circle_positive
-                        )
-                        setObservers(
-                                type = PasswordGettingType.ByQuality,
-                                value = PasswordCategory.NEGATIVE.value
-                        )
-                    }
-                    searchNotSafe -> {
-                        updatePasswordQualityCirclesColor(
-                                circleNegative = R.drawable.circle_negative,
-                                circleImprovement = R.drawable.circle_improvement_fill,
-                                circlePositive = R.drawable.circle_positive
-                        )
-                        setObservers(
-                                type = PasswordGettingType.ByQuality,
-                                value = PasswordCategory.NOT_SAFE.value
-                        )
-
-                    }
-                    binding.searchPassField.text.toString() != "" -> {
-                        binding.searchPassField.text = binding.searchPassField.text
-                    }
-                    else -> {
-                        setObservers()
-                    }
-                }
-            }
-        }
-
-        binding.dateSort.setOnCheckedChangeListener { _, isChecked ->
-            if(isChecked) {
-                binding.alphaSort.isChecked = false
-                binding.sortOrder.animate().rotation(180F).setDuration(500).start()
-                Utils.setSortingType("date")
-                //sortByDateUp()
-                when {
-                    searchCorrect -> {
-                        updatePasswordQualityCirclesColor(
-                                circleNegative = R.drawable.circle_negative,
-                                circleImprovement = R.drawable.circle_improvement,
-                                circlePositive = R.drawable.circle_positive_fill
-                        )
-                        setObservers(
-                                type = PasswordGettingType.ByQuality,
-                                value = PasswordCategory.CORRECT.value
-                        )
-                    }
-                    searchNegative -> {
-                        updatePasswordQualityCirclesColor(
-                                circleNegative = R.drawable.circle_negative_fill,
-                                circleImprovement = R.drawable.circle_improvement,
-                                circlePositive = R.drawable.circle_positive
-                        )
-                        setObservers(
-                                type = PasswordGettingType.ByQuality,
-                                value = PasswordCategory.NEGATIVE.value
-                        )
-                    }
-                    searchNotSafe -> {
-                        updatePasswordQualityCirclesColor(
-                                circleNegative = R.drawable.circle_negative,
-                                circleImprovement = R.drawable.circle_improvement_fill,
-                                circlePositive = R.drawable.circle_positive
-                        )
-                        setObservers(
-                                type = PasswordGettingType.ByQuality,
-                                value = PasswordCategory.NOT_SAFE.value
-                        )
-                    }
-                    binding.searchPassField.text.toString() != "" -> {
-                        binding.searchPassField.text = binding.searchPassField.text
-                    }
-                    else -> {
-                        setObservers()
-                    }
-                }
-
-            }
-            else{
-                binding.sortOrder.animate().rotation(0F).setDuration(500).start()
-                Utils.setSortingType("none")
-                // sortByAlphaUp()
-                when {
-                    searchCorrect -> {
-                        updatePasswordQualityCirclesColor(
-                                circleNegative = R.drawable.circle_negative,
-                                circleImprovement = R.drawable.circle_improvement,
-                                circlePositive = R.drawable.circle_positive_fill
-                        )
-                        setObservers(
-                                type = PasswordGettingType.ByQuality,
-                                value = PasswordCategory.CORRECT.value
-                        )
-                    }
-                    searchNegative -> {
-                        updatePasswordQualityCirclesColor(
-                                circleNegative = R.drawable.circle_negative_fill,
-                                circleImprovement = R.drawable.circle_improvement,
-                                circlePositive = R.drawable.circle_positive
-                        )
-                        setObservers(
-                                type = PasswordGettingType.ByQuality,
-                                value = PasswordCategory.NEGATIVE.value
-                        )
-                    }
-                    searchNotSafe -> {
-                        updatePasswordQualityCirclesColor(
-                                circleNegative = R.drawable.circle_negative,
-                                circleImprovement = R.drawable.circle_improvement_fill,
-                                circlePositive = R.drawable.circle_positive
-                        )
-                        setObservers(
-                                type = PasswordGettingType.ByQuality,
-                                value = PasswordCategory.NOT_SAFE.value
-                        )
-                    }
-                    binding.searchPassField.text.toString() != "" -> {
-                        binding.searchPassField.text = binding.searchPassField.text
-                    }
-                    else -> {
-                        setObservers()
-                    }
-                }
-            }
-        }
-
+        setSortingOptions()
         setListeners()
 
         Utils.setUserName(login)
 
         initBottomSheetBehavior()
 
+    }
+
+    private fun setArrowOrderIndicator(){
+        if (defaultPassFilterAsc)
+            binding.sortOrder.animate().rotation(0F).setDuration(500).start()
+        else
+            binding.sortOrder.animate().rotation(180F).setDuration(500).start()
+    }
+
+    private fun setOrderChip(column: String){
+        defaultPassFilterAsc = if (defaultPassFilterSorting == column)
+            !defaultPassFilterAsc
+        else{
+            true
+        }
+
+        defaultPassFilterSorting = column
+
+        when(defaultPassFilterSorting){
+            "name" -> {
+                binding.dateSort.isChecked = false
+                binding.alphaSort.isChecked = true
+            }
+            "time" -> {
+                binding.dateSort.isChecked = true
+                binding.alphaSort.isChecked = false
+            }
+        }
+
+        setArrowOrderIndicator()
+        Utils.setSortingType(defaultPassFilterSorting)
+        Utils.setSortingAsc(defaultPassFilterAsc)
+    }
+
+    private fun setSortingOptions(){
+        binding.alphaSort.setOnClickListener {
+            setOrderChip("name")
+            setObservers()
+        }
+
+        binding.dateSort.setOnClickListener {
+            setOrderChip("time")
+            setObservers()
+        }
     }
 
     private fun checkAnalytics() {
@@ -386,11 +233,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setObservers(
-        type: PasswordGettingType = PasswordGettingType.All,
-        name: String = "",
-        value: Int = 0
+        type: PasswordGettingType = defaultPassFilterType,
+        name: String = defaultPassFilterName,
+        value: Int = defaultPassFilterValue,
+        sortColumn: String = defaultPassFilterSorting,
+        isAsc: Boolean = defaultPassFilterAsc
     ) {
-        viewModel.getPasswords(type, name, value).observe(this) { passwords ->
+        defaultPassFilterType = type
+        defaultPassFilterValue = value
+        defaultPassFilterName = name
+        defaultPassFilterSorting = sortColumn
+        defaultPassFilterAsc = isAsc
+
+        viewModel.getPasswords(
+                type,
+                name,
+                value,
+                sortColumn,
+                isAsc
+        ).observe(this) { passwords ->
             passwordCards = passwords
             if (passwords.isEmpty())
                 showNoPasswordsInterface()
@@ -445,10 +306,8 @@ class MainActivity : AppCompatActivity() {
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                with(Utils.sharedPreferences!!.edit()) {
-                    putInt("__BS", newState)
-                    apply()
-                }
+                if(newState != BottomSheetBehavior.STATE_HIDDEN)
+                    Utils.setBottomBarState(newState)
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
@@ -546,7 +405,9 @@ class MainActivity : AppCompatActivity() {
                             name = passwordName.toString()
                     )
                 else
-                    setObservers()
+                    setObservers(
+                            type = PasswordGettingType.All
+                    )
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -561,10 +422,7 @@ class MainActivity : AppCompatActivity() {
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.allPassword)
         binding.expand.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            with(Utils.sharedPreferences!!.edit()) {
-                putInt("__BS", BottomSheetBehavior.STATE_COLLAPSED)
-                apply()
-            }
+            Utils.setBottomBarState(BottomSheetBehavior.STATE_COLLAPSED)
         }
 
         binding.menuUp.setOnClickListener {
@@ -572,10 +430,7 @@ class MainActivity : AppCompatActivity() {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             else if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            with(Utils.sharedPreferences!!.edit()) {
-                putInt("__BS", bottomSheetBehavior.state)
-                apply()
-            }
+            Utils.setBottomBarState(bottomSheetBehavior.state)
         }
     }
 
@@ -693,7 +548,12 @@ class MainActivity : AppCompatActivity() {
     private fun notSafePasswordsClickedAction() {
         if (searchNotSafe) {
             binding.notSafePasswordsCircle.setImageResource(R.drawable.circle_improvement)
-            setObservers()
+            setObservers(
+                    type = PasswordGettingType.All,
+                    value = defaultPassFilterValue,
+                    name = defaultPassFilterName,
+                    sortColumn = defaultPassFilterSorting,
+                    isAsc = defaultPassFilterAsc)
             searchNotSafe = false
         } else {
             updatePasswordQualityCirclesColor(
@@ -715,7 +575,12 @@ class MainActivity : AppCompatActivity() {
     private fun negativePasswordsClickedAction() {
         if (searchNegative) {
             binding.negativePasswordsCircle.setImageResource(R.drawable.circle_negative)
-            setObservers()
+            setObservers(
+                    type = PasswordGettingType.All,
+                    value = defaultPassFilterValue,
+                    name = defaultPassFilterName,
+                    sortColumn = defaultPassFilterSorting,
+                    isAsc = defaultPassFilterAsc)
             searchNegative = false
         } else {
             updatePasswordQualityCirclesColor(
@@ -736,7 +601,12 @@ class MainActivity : AppCompatActivity() {
     private fun correctPasswordsClickedAction() {
         if (searchCorrect) {
             binding.correctPasswordsCircle.setImageResource(R.drawable.circle_positive)
-            setObservers()
+            setObservers(
+                    type = PasswordGettingType.All,
+                    value = defaultPassFilterValue,
+                    name = defaultPassFilterName,
+                    sortColumn = defaultPassFilterSorting,
+                    isAsc = defaultPassFilterAsc)
             searchCorrect = false
         } else {
             updatePasswordQualityCirclesColor(
@@ -780,7 +650,8 @@ class MainActivity : AppCompatActivity() {
         binding.expand.visibility = View.VISIBLE
         binding.extraNewPass.visibility = View.GONE
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.allPassword)
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN)
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
     private fun createIntentForShortcut(passwordId: Int): Intent {
@@ -829,33 +700,6 @@ class MainActivity : AppCompatActivity() {
         val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
-
-    /*private fun analyzeDataBase() {
-        var gSubContains: Boolean
-        for (pass in realPass){
-            gSubContains = false
-            for (pass2 in realPass){
-                if(pass.first != pass2.first){
-                    if (pass2.second.contains(pass.second)){
-                            gSubContains = true
-                            if (realMap.containsKey(pass.first))
-                                realMap[pass.first]?.add(pass2.first)
-                            else {
-                                val c = arrayListOf(pass2.first)
-                                realMap[pass.first] = c
-                            }
-                            break
-                        }
-                }
-            }
-            if (gSubContains) {
-                realQuality.add("0")
-            }
-            else
-                realQuality.add("1")
-        }
-    }*/
-
 
     @SuppressLint("ClickableViewAccessibility")
     private fun tagSearchClicker(name: String) {
@@ -918,26 +762,11 @@ class MainActivity : AppCompatActivity() {
 
         setObservers()
 
-        //when (sorting) {
-        //    "alpha" -> {
-        //        sortByAlphaDown()
-        //    }
-        //    "none" -> {
-        //        sortByAlphaUp()
-        //    }
-        //    "date" -> {
-        //        sortByDateUp()
-        //    }
-        //}
-
-        setObservers()
-
         changeStatusPopUp.dismiss()
     }
 
     fun delete(view: View) {
         val position = globalPos
-
 
         val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
         builder.setTitle(getString(R.string.deletePassword))
@@ -945,18 +774,6 @@ class MainActivity : AppCompatActivity() {
 
         builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
             viewModel.deleteItem(passwordCards[position])
-
-            // when (sorting) {
-            //     "alpha" -> {
-            //         sortByAlphaDown()
-            //     }
-            //     "none" -> {
-            //         sortByAlphaUp()
-            //     }
-            //     "date" -> {
-            //         sortByDateUp()
-            //     }
-            // }
 
             setObservers()
         }

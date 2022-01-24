@@ -1,15 +1,14 @@
 package com.mikhailgrigorev.quickpassword.ui.password_card
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.mikhailgrigorev.quickpassword.data.entity.PasswordCard
 import com.mikhailgrigorev.quickpassword.data.repository.PasswordCardRepository
 
 
-class PasswordViewModel(application: Application) : ViewModel() {
+class PasswordViewModel : ViewModel() {
     private val passwordCardRepo: PasswordCardRepository = PasswordCardRepository()
-    private val passwords = passwordCardRepo.allData
+    val passwords = passwordCardRepo.allData
     var currentPassword: PasswordCard? = null
 
     fun addPassword(password: PasswordCard){

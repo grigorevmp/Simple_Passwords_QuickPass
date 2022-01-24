@@ -66,7 +66,7 @@ class PasswordViewActivity : AppCompatActivity() {
     private fun initViewModel() {
         viewModel = ViewModelProvider(
                 this,
-                PasswordViewModelFactory(application)
+                PasswordViewModelFactory()
         )[PasswordViewModel::class.java]
     }
 
@@ -119,6 +119,19 @@ class PasswordViewActivity : AppCompatActivity() {
 
     private fun loadPassword(passwordId: Int) {
         viewModel.getPasswordById(passwordId).observe(this) { passwordCard ->
+            if (passwordCard.same_with != "") {
+                binding.warning0.visibility = View.VISIBLE
+                binding.sameParts.visibility = View.VISIBLE
+                binding.sameParts.text = passwordCard.same_with
+                binding.passQuality.setTextColor(
+                        ContextCompat.getColor(
+                                applicationContext,
+                                R.color.negative
+                        )
+                )
+                binding.passQuality.text = getString(R.string.low)
+            }
+
             viewModel.currentPassword = passwordCard
 
             if (viewModel.currentPassword!!.favorite) {

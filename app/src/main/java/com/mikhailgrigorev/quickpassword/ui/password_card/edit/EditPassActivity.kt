@@ -31,6 +31,7 @@ import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
+import com.mikhailgrigorev.quickpassword.data.entity.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityEditPassBinding
 import com.mikhailgrigorev.quickpassword.ui.account.view.AccountActivity
 import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginAfterSplashActivity
@@ -57,6 +58,8 @@ class EditPassActivity : AppCompatActivity() {
     private var imageName: String = ""
     private lateinit var viewModel: PasswordViewModel
 
+    private var passwordsCollection: List<PasswordCard>? = null
+
     private lateinit var login: String
     private lateinit var binding: ActivityEditPassBinding
 
@@ -80,10 +83,16 @@ class EditPassActivity : AppCompatActivity() {
         }
     }
 
+    private fun setObservers(){
+        viewModel.passwords.observe(this){ passwords ->
+            passwordsCollection = passwords
+        }
+    }
+
     private fun initViewModel() {
         viewModel = ViewModelProvider(
                 this,
-                PasswordViewModelFactory(application)
+                PasswordViewModelFactory()
         )[PasswordViewModel::class.java]
     }
 
@@ -95,6 +104,7 @@ class EditPassActivity : AppCompatActivity() {
         // App Quit Timer
         setQuitTimer()
         initViewModel()
+        setObservers()
 
         val args: Bundle? = intent.extras
         login = args?.get("login").toString()
@@ -504,8 +514,22 @@ class EditPassActivity : AppCompatActivity() {
                         viewModel.currentPassword!!.groups = ""
                         viewModel.currentPassword!!.login = binding.emailField.text.toString()
                         viewModel.currentPassword!!.encrypted = binding.cryptToggle.isChecked
+
+                        if (passwordsCollection != null) {
+                            val analyzeResults =
+                                    Utils.analyzeDataBase(
+                                            viewModel.currentPassword!!,
+                                            passwordsCollection!!
+                                    )
+                            if(analyzeResults.second.toString() != "[]")
+                                viewModel.currentPassword!!.same_with = analyzeResults.second.toString()
+                            else
+                                viewModel.currentPassword!!.same_with = ""
+                        }
+
                         viewModel.currentPassword!!.quality = Utils.evaluatePassword(
-                                viewModel.currentPassword!!
+                                viewModel.currentPassword!!,
+                                binding.genPasswordIdField.text.toString()
                         )
 
                         lifecycleScope.launch(Dispatchers.IO) {

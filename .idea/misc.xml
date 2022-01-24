@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/QuickPass/app/src/main/res/drawable/circle_positive_fill.xml" value="0.37864583333333335" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/activity_main.xml" value="0.25769927536231885" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/activity_new_password.xml" value="0.23641304347826086" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/activity_password_view.xml" value="0.25679347826086957" />

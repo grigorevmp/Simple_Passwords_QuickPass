@@ -67,15 +67,22 @@ class PasswordAdapter(
                 }
                 holder.passwordGroup.addView(chip)
             }
+        if(password.encrypted){
+            holder.lockIcon.visibility = View.VISIBLE
+            holder.qualityMarker.visibility = View.GONE
+        }
         when (password.quality) {
             1 -> {
                 holder.qualityMarker.setImageResource(R.drawable.circle_positive_fill)
+                holder.lockIcon.setColorFilter(context.getColor(R.color.positive))
             }
             2 -> {
                 holder.qualityMarker.setImageResource(R.drawable.circle_negative_fill)
+                holder.lockIcon.setColorFilter(context.getColor(R.color.negative))
             }
             3 -> {
                 holder.qualityMarker.setImageResource(R.drawable.circle_improvement_fill)
+                holder.lockIcon.setColorFilter(context.getColor(R.color.fixable))
             }
             4 -> {
                 holder.creditCard.visibility = View.VISIBLE
@@ -83,10 +90,6 @@ class PasswordAdapter(
             }
             5 -> {
                 holder.creditCardNeg.visibility = View.VISIBLE
-                holder.qualityMarker.visibility = View.GONE
-            }
-            6 -> {
-                holder.lockIcon.visibility = View.VISIBLE
                 holder.qualityMarker.visibility = View.GONE
             }
         }

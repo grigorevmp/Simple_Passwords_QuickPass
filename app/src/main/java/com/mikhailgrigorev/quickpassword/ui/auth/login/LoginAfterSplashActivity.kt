@@ -46,7 +46,7 @@ class LoginAfterSplashActivity : AppCompatActivity() {
 
         with(pref.edit()) {
             putInt(
-                    "__BS",
+                    "bottomSheetDialogState",
                     com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
             )
             apply()

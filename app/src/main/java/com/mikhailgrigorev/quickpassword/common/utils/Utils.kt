@@ -41,16 +41,30 @@ object Utils {
     }
 
     fun useAnalyze() = sharedPreferences!!.getString("useAnalyze", "none")
-    fun sortingType() = sharedPreferences!!.getString("sort", "none")
+    fun sortingColumn() = sharedPreferences!!.getString("sortingColumn", "name")
+    fun sortingAsc() = sharedPreferences!!.getBoolean("sortingAsc", false)
 
     fun setSortingType(value: String) {
         with(sharedPreferences!!.edit()) {
-            putString("sort", value)
+            putString("sortingColumn", value)
             apply()
         }
     }
 
-    fun bottomBarState() = sharedPreferences!!.getInt("__BS", BottomSheetBehavior.STATE_COLLAPSED)
+    fun setSortingAsc(value: Boolean) {
+        with(sharedPreferences!!.edit()) {
+            putBoolean("sortingAsc", value)
+            apply()
+        }
+    }
+
+    fun bottomBarState() = sharedPreferences!!.getInt("bottomSheetDialogState", BottomSheetBehavior.STATE_COLLAPSED)
+    fun setBottomBarState(state: Int) {
+        with(sharedPreferences!!.edit()) {
+            putInt("bottomSheetDialogState", state)
+            apply()
+        }
+    }
 
     const val account_logo = "ic_account"
 
@@ -58,17 +72,14 @@ object Utils {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
 
-    fun evaluatePassword(password: PasswordCard): Int {
-        val evaluation: Float = password_manager.evaluatePassword(password.password)
+    fun evaluatePassword(password: PasswordCard, originalPassword: String): Int {
+        val evaluation: Float = password_manager.evaluatePassword(originalPassword)
 
         var qualityScore = when {
             evaluation < 0.33 -> 2
             evaluation < 0.66 -> 3
             else -> 1
         }
-
-        if (password.encrypted)
-            qualityScore = 6
 
         if (password_manager.evaluateDate(password.time))
             qualityScore = 2
@@ -85,9 +96,26 @@ object Utils {
             else
                 2
         }
-
         return qualityScore
     }
 
+    fun analyzeDataBase(current_password: PasswordCard, passwords: List<PasswordCard>): Pair<Boolean, MutableList<String>> {
+        var containOthers = false
+        val otherPasswords: MutableList<String> = arrayListOf()
+        for (password in passwords) {
+            if (password._id != current_password._id) {
+                if (
+                    (current_password.name.contains(password.name))
+                    or
+                    (password.name.contains(current_password.name))
+                ) {
+                    containOthers = true
+                    otherPasswords.add(password.name)
+                    break
+                }
+            }
+        }
+        return Pair(containOthers, otherPasswords)
+    }
 
 }
