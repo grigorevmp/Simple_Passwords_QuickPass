@@ -2,6 +2,21 @@
 
 Powerful password manager with autofill framework
 
+## QuickPass: Reborn 3.0 (2022)
+
+Just in alpha...
+
+### New features
+
+[ ] Full code refactor [In Progress]
+[x] Jetpack libraries
+[ ] Multithreading for password decoding [SOON]
+[ ]Material YOU [In Progress]
+[ ] Synchronisation [In Progress]
+[x] Great speed improvements
+
+## QP 2.0
+
 [Google Play](https://play.google.com/store/apps/details?id=com.mikhailgrigorev.quickpass)
 
 ## App features
@@ -26,20 +41,20 @@ The program complies with the latest Material design guidelines
 
 ### Friendly main screen
 
-<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/main_screen.png" width="40%" width="40%">
+<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/git_images/main_screen.png" width="30%">
 
 ### Many option to create your password: Ciphering, Description, Keywords, 2FA
 
-<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/add_screen.png" width="40%" width="40%">
-<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/view_pass.png" width="40%" width="40%">
+<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/git_images/add_screen.png" width="30%">
+<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/git_images/view_pass.png" width="30%">
 
 ### Analyzing quality of password and its crossing with other
 
-<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/same_pass.png" width="40%" width="40%">
+<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/git_images/same_pass.png" width="30%">
 
 ### Clear statistic
 
-<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/about_screen.png" width="40%" width="40%">
+<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/git_images/about_screen.png" width="30%">
 
 
 
