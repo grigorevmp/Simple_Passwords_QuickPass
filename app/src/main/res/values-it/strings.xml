@@ -58,7 +58,7 @@
     <string name="desc">Descrizione:</string>
     <string name="name">Nome</string>
     <string name="view_password">Visualizza la password</string>
-    <string name="time_lim">Ultima modifica:</string>
+    <string name="time_lim">Ultima modifica: %1$s</string>
     <string name="pass">Parola d\'ordine:</string>
     <string name="hi">Ciao,</string>
     <string name="qualityPassword">Qualità della password:</string>
@@ -134,7 +134,7 @@
     <string name="newPassRule1">1. Una password complessa deve contenere più di 12 caratteri e contenere tre serie di caratteri: LARGE e lettere minuscole, numeri (1,2,3…), caratteri speciali (./-…)</string>
     <string name="newPassRule2">2. Non utilizzare informazioni disponibili pubblicamente: parti del nome, numeri di telefono, date importanti per te</string>
     <string name="newPassRule3">3. Usa password diverse. Se una password è disponibile pubblicamente, gli hacker possono accedere agli altri tuoi account.</string>
-    <string name="smile">Sorridi</string>
+    <string name="ivSmilePasswordCreation">Sorridi</string>
     <string name="back">Indietro</string>
     <string name="export">Esportare</string>
     <string name="importFile">Importare</string>

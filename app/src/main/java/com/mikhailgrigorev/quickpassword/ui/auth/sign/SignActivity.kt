@@ -76,7 +76,7 @@ class SignActivity : AppCompatActivity() {
         val args: Bundle? = intent.extras
         val login: String = args?.get("login").toString()
         val name: String = getString(R.string.hi) + " " + login
-        binding.helloTextId.text = name
+        binding.tvUsernameText.text = name
 
         val dbHelper = DataBaseHelper(this)
         val database = dbHelper.writableDatabase
@@ -89,44 +89,44 @@ class SignActivity : AppCompatActivity() {
             val imageIndex: Int = cursor.getColumnIndex(dbHelper.KEY_IMAGE)
             do {
                 when(cursor.getString(imageIndex).toString()){
-                    "ic_account" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account" -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account
                     )
-                    "ic_account_Pink" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Pink" -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Pink
                     )
-                    "ic_account_Red" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Red" -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Red
                     )
-                    "ic_account_Purple" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Purple" -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Purple
                     )
-                    "ic_account_Violet" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Violet" -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Violet
                     )
-                    "ic_account_Dark_Violet" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Dark_Violet" -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Dark_Violet
                     )
-                    "ic_account_Blue" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Blue" -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Blue
                     )
-                    "ic_account_Cyan" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Cyan" -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Cyan
                     )
-                    "ic_account_Teal" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Teal" -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Teal
                     )
-                    "ic_account_Green" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Green" -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Green
                     )
-                    "ic_account_lightGreen" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_lightGreen" -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_lightGreen
                     )
-                    else -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    else -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account
                     )
                 }
-                binding.accountAvatarText.text = login[0].toString()
+                binding.tvAvatarSymbol.text = login[0].toString()
             } while (cursor.moveToNext())
         }
 

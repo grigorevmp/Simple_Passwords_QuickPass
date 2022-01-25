@@ -110,7 +110,7 @@ class EditPassActivity : AppCompatActivity() {
         login = args?.get("login").toString()
         val passwordId = args?.get("password_id").toString().toInt()
 
-        binding.accountAvatar.setOnClickListener {
+        binding.cvAccountAvatar.setOnClickListener {
             val intent = Intent(this, AccountActivity::class.java)
             intent.putExtra("login", login)
             intent.putExtra("activity", "menu")
@@ -124,20 +124,20 @@ class EditPassActivity : AppCompatActivity() {
     private fun loadPassword(passwordId: Int) {
         viewModel.getPasswordById(passwordId).observe(this) { passwordCard ->
             viewModel.currentPassword = passwordCard
-            binding.helloTextId.text = passwordCard.name
+            binding.tvUsernameText.text = passwordCard.name
             binding.newNameField.setText(passwordCard.name)
             var dbPassword = passwordCard.password
             if (passwordCard.encrypted) {
                 binding.cryptToggle.isChecked = true
                 dbPassword = Utils.password_manager.decrypt(dbPassword).toString()
             }
-            binding.genPasswordIdField.setText(dbPassword)
+            binding.tePasswordToGenerate.setText(dbPassword)
             if (dbPassword != "") {
                 length = dbPassword.length
                 binding.seekBar.progress = length
-                binding.lengthToggle.text = getString(R.string.length) + ": " + length
+                binding.cLengthToggle.text = getString(R.string.length) + ": " + length
                 val evaluation: String = Utils.password_manager.evaluatePasswordString(
-                        binding.genPasswordIdField.text.toString()
+                        binding.tePasswordToGenerate.text.toString()
                 )
                 binding.passQuality.text = evaluation
                 when (evaluation) {
@@ -165,23 +165,23 @@ class EditPassActivity : AppCompatActivity() {
                             )
                     )
                 }
-                binding.lettersToggle.isChecked = Utils.password_manager.isLetters(
-                        binding.genPasswordIdField.text.toString()
+                binding.cLettersToggle.isChecked = Utils.password_manager.isLetters(
+                        binding.tePasswordToGenerate.text.toString()
                 )
-                binding.upperCaseToggle.isChecked = Utils.password_manager.isUpperCase(
-                        binding.genPasswordIdField.text.toString()
+                binding.cUpperCaseToggle.isChecked = Utils.password_manager.isUpperCase(
+                        binding.tePasswordToGenerate.text.toString()
                 )
-                binding.numbersToggle.isChecked = Utils.password_manager.isNumbers(
-                        binding.genPasswordIdField.text.toString()
+                binding.cNumbersToggle.isChecked = Utils.password_manager.isNumbers(
+                        binding.tePasswordToGenerate.text.toString()
                 )
-                binding.symToggles.isChecked = Utils.password_manager.isSymbols(
-                        binding.genPasswordIdField.text.toString()
+                binding.cSymToggles.isChecked = Utils.password_manager.isSymbols(
+                        binding.tePasswordToGenerate.text.toString()
                 )
             }
 
-            binding.authToggle.isChecked = passwordCard.use_2fa
+            binding.cUse2fa.isChecked = passwordCard.use_2fa
 
-            binding.timeLimit.isChecked = passwordCard.use_time
+            binding.cNumberOfEncrypted.isChecked = passwordCard.use_time
 
             binding.noteField.setText(passwordCard.description)
             binding.keyWordsField.setText(passwordCard.tags)
@@ -252,24 +252,24 @@ class EditPassActivity : AppCompatActivity() {
     private fun setListeners() {
         val list = mutableListOf<String>()
 
-        if (binding.lettersToggle.isChecked) {
+        if (binding.cLettersToggle.isChecked) {
             useLetters = true
-            list.add(binding.lettersToggle.text.toString())
+            list.add(binding.cLettersToggle.text.toString())
         }
-        if (binding.upperCaseToggle.isChecked) {
-            list.add(binding.upperCaseToggle.text.toString())
+        if (binding.cUpperCaseToggle.isChecked) {
+            list.add(binding.cUpperCaseToggle.text.toString())
             useUC = true
         }
-        if (binding.numbersToggle.isChecked) {
-            list.add(binding.numbersToggle.text.toString())
+        if (binding.cNumbersToggle.isChecked) {
+            list.add(binding.cNumbersToggle.text.toString())
             useNumbers = true
         }
-        if (binding.symToggles.isChecked) {
-            list.add(binding.symToggles.text.toString())
+        if (binding.cSymToggles.isChecked) {
+            list.add(binding.cSymToggles.text.toString())
             useSymbols = true
         }
 
-        binding.lengthToggle.setOnClickListener {
+        binding.cLengthToggle.setOnClickListener {
             if (binding.seekBar.visibility == View.GONE) {
                 binding.seekBar.visibility = View.VISIBLE
             } else {
@@ -282,7 +282,7 @@ class EditPassActivity : AppCompatActivity() {
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                 // Display the current progress of SeekBar
                 length = i
-                binding.lengthToggle.text = getString(R.string.length) + ": " + length
+                binding.cLengthToggle.text = getString(R.string.length) + ": " + length
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -295,8 +295,8 @@ class EditPassActivity : AppCompatActivity() {
         })
 
         // Loop through the chips
-        for (index in 0 until binding.passSettings.childCount) {
-            val chip: Chip = binding.passSettings.getChildAt(index) as Chip
+        for (index in 0 until binding.cgPasswordSettings.childCount) {
+            val chip: Chip = binding.cgPasswordSettings.getChildAt(index) as Chip
 
             // Set the chip checked change listener
             chip.setOnCheckedChangeListener { view, isChecked ->
@@ -304,50 +304,50 @@ class EditPassActivity : AppCompatActivity() {
                 binding.generatePassword.animate().rotation(deg).interpolator =
                         AccelerateDecelerateInterpolator()
                 if (isChecked) {
-                    if (view.id == R.id.lettersToggle)
+                    if (view.id == R.id.cLettersToggle)
                         useLetters = true
-                    if (view.id == R.id.symToggles)
+                    if (view.id == R.id.cSymToggles)
                         useSymbols = true
-                    if (view.id == R.id.numbersToggle)
+                    if (view.id == R.id.cNumbersToggle)
                         useNumbers = true
-                    if (view.id == R.id.upperCaseToggle)
+                    if (view.id == R.id.cUpperCaseToggle)
                         useUC = true
                     list.add(view.text.toString())
                 } else {
-                    if (view.id == R.id.lettersToggle)
+                    if (view.id == R.id.cLettersToggle)
                         useLetters = false
-                    if (view.id == R.id.symToggles)
+                    if (view.id == R.id.cSymToggles)
                         useSymbols = false
-                    if (view.id == R.id.numbersToggle)
+                    if (view.id == R.id.cNumbersToggle)
                         useNumbers = false
-                    if (view.id == R.id.upperCaseToggle)
+                    if (view.id == R.id.cUpperCaseToggle)
                         useUC = false
                     list.remove(view.text.toString())
                 }
             }
         }
 
-        binding.genPasswordIdField.addTextChangedListener(object : TextWatcher {
+        binding.tePasswordToGenerate.addTextChangedListener(object : TextWatcher {
             @SuppressLint("ResourceAsColor")
             override fun afterTextChanged(s: Editable?) {
-                if (binding.genPasswordIdField.hasFocus()) {
+                if (binding.tePasswordToGenerate.hasFocus()) {
                     length = s.toString().length
-                    binding.lengthToggle.text = getString(R.string.length) + ": " + length
+                    binding.cLengthToggle.text = getString(R.string.length) + ": " + length
                     binding.seekBar.progress = length
                     val deg = binding.generatePassword.rotation + 10f
                     binding.generatePassword.animate().rotation(deg).interpolator =
                             AccelerateDecelerateInterpolator()
                     val myPasswordManager = PasswordManager()
-                    binding.lettersToggle.isChecked =
-                            myPasswordManager.isLetters(binding.genPasswordIdField.text.toString())
-                    binding.upperCaseToggle.isChecked =
-                            myPasswordManager.isUpperCase(binding.genPasswordIdField.text.toString())
-                    binding.numbersToggle.isChecked =
-                            myPasswordManager.isNumbers(binding.genPasswordIdField.text.toString())
-                    binding.symToggles.isChecked =
-                            myPasswordManager.isSymbols(binding.genPasswordIdField.text.toString())
+                    binding.cLettersToggle.isChecked =
+                            myPasswordManager.isLetters(binding.tePasswordToGenerate.text.toString())
+                    binding.cUpperCaseToggle.isChecked =
+                            myPasswordManager.isUpperCase(binding.tePasswordToGenerate.text.toString())
+                    binding.cNumbersToggle.isChecked =
+                            myPasswordManager.isNumbers(binding.tePasswordToGenerate.text.toString())
+                    binding.cSymToggles.isChecked =
+                            myPasswordManager.isSymbols(binding.tePasswordToGenerate.text.toString())
                     val evaluation: String =
-                            myPasswordManager.evaluatePasswordString(binding.genPasswordIdField.text.toString())
+                            myPasswordManager.evaluatePasswordString(binding.tePasswordToGenerate.text.toString())
                     binding.passQuality.text = evaluation
                     when (evaluation) {
                         "low" -> binding.passQuality.text = getString(R.string.low)
@@ -387,18 +387,18 @@ class EditPassActivity : AppCompatActivity() {
             val deg = 0f
             binding.generatePassword.animate().rotation(deg).interpolator =
                     AccelerateDecelerateInterpolator()
-            binding.genPasswordIdField.clearFocus()
+            binding.tePasswordToGenerate.clearFocus()
             val myPasswordManager = PasswordManager()
             //Create a password with letters, uppercase letters, numbers but not special chars with 17 chars
-            if (list.size == 0 || (list.size == 1 && binding.lengthToggle.isChecked) || (list.size == 1 && list[0].contains(
+            if (list.size == 0 || (list.size == 1 && binding.cLengthToggle.isChecked) || (list.size == 1 && list[0].contains(
                         getString(
                                 R.string.length
                         )
                 ))
             ) {
-                binding.genPasswordId.error = getString(R.string.noRules)
+                binding.tilPasswordToGenerate.error = getString(R.string.noRules)
             } else {
-                binding.genPasswordId.error = null
+                binding.tilPasswordToGenerate.error = null
                 val newPassword: String =
                         myPasswordManager.generatePassword(
                                 useLetters,
@@ -407,10 +407,10 @@ class EditPassActivity : AppCompatActivity() {
                                 useSymbols,
                                 length
                         )
-                binding.genPasswordIdField.setText(newPassword)
+                binding.tePasswordToGenerate.setText(newPassword)
 
                 val evaluation: String =
-                        myPasswordManager.evaluatePasswordString(binding.genPasswordIdField.text.toString())
+                        myPasswordManager.evaluatePasswordString(binding.tePasswordToGenerate.text.toString())
                 when (evaluation) {
                     "low" -> binding.passQuality.text = getString(R.string.low)
                     "high" -> binding.passQuality.text = getString(R.string.high)
@@ -442,7 +442,7 @@ class EditPassActivity : AppCompatActivity() {
             v.performClick()
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    binding.cardPass.elevation = 50F
+                    binding.cvPasswordGenerateButton.elevation = 50F
                     binding.generatePassword.background = ContextCompat.getDrawable(
                             this,
                             R.color.grey
@@ -454,29 +454,29 @@ class EditPassActivity : AppCompatActivity() {
                             this,
                             R.color.white
                     )
-                    binding.cardPass.elevation = 10F
+                    binding.cvPasswordGenerateButton.elevation = 10F
                     v.invalidate()
                 }
             }
             false
         }
-        binding.genPasswordId.setOnClickListener {
-            if (binding.genPasswordIdField.text.toString() != "") {
+        binding.tilPasswordToGenerate.setOnClickListener {
+            if (binding.tePasswordToGenerate.text.toString() != "") {
                 val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val clip = ClipData.newPlainText(
                         "Password",
-                        binding.genPasswordIdField.text.toString()
+                        binding.tePasswordToGenerate.text.toString()
                 )
                 clipboard.setPrimaryClip(clip)
                 Utils.makeToast(applicationContext, getString(R.string.passCopied))
             }
         }
-        binding.genPasswordIdField.setOnClickListener {
-            if (binding.genPasswordIdField.text.toString() != "") {
+        binding.tePasswordToGenerate.setOnClickListener {
+            if (binding.tePasswordToGenerate.text.toString() != "") {
                 val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val clip = ClipData.newPlainText(
                         "Password",
-                        binding.genPasswordIdField.text.toString()
+                        binding.tePasswordToGenerate.text.toString()
                 )
                 clipboard.setPrimaryClip(clip)
                 Utils.makeToast(applicationContext, getString(R.string.passCopied))
@@ -495,19 +495,19 @@ class EditPassActivity : AppCompatActivity() {
             if (login2 != null) {
                 if (login2.isEmpty() || login2.length < 2) {
                     binding.newName.error = getString(R.string.errNumOfText)
-                } else if (binding.genPasswordIdField.text.toString() == "" || binding.genPasswordIdField.text.toString().length < 4) {
-                    binding.genPasswordId.error = getString(R.string.errPass)
+                } else if (binding.tePasswordToGenerate.text.toString() == "" || binding.tePasswordToGenerate.text.toString().length < 4) {
+                    binding.tilPasswordToGenerate.error = getString(R.string.errPass)
                 } else {
                     val password = if (binding.cryptToggle.isChecked)
-                        Utils.password_manager.encrypt(binding.genPasswordIdField.text.toString())
+                        Utils.password_manager.encrypt(binding.tePasswordToGenerate.text.toString())
                     else
-                        binding.genPasswordIdField.text.toString()
+                        binding.tePasswordToGenerate.text.toString()
 
                     if (viewModel.currentPassword != null) {
                         viewModel.currentPassword!!.name = binding.newNameField.text.toString()
                         viewModel.currentPassword!!.password = password!!
-                        viewModel.currentPassword!!.use_2fa = binding.authToggle.isChecked
-                        viewModel.currentPassword!!.use_time = binding.timeLimit.isChecked
+                        viewModel.currentPassword!!.use_2fa = binding.cUse2fa.isChecked
+                        viewModel.currentPassword!!.use_time = binding.cNumberOfEncrypted.isChecked
                         viewModel.currentPassword!!.time = Date().toString()
                         viewModel.currentPassword!!.description = binding.noteField.text.toString()
                         viewModel.currentPassword!!.tags = binding.keyWordsField.text.toString()
@@ -529,7 +529,7 @@ class EditPassActivity : AppCompatActivity() {
 
                         viewModel.currentPassword!!.quality = Utils.evaluatePassword(
                                 viewModel.currentPassword!!,
-                                binding.genPasswordIdField.text.toString()
+                                binding.tePasswordToGenerate.text.toString()
                         )
 
                         lifecycleScope.launch(Dispatchers.IO) {

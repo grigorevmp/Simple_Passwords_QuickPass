@@ -34,7 +34,7 @@
             android:animateLayoutChanges="true">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardCup"
+                android:id="@+id/cvAdditionalInfoCard"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginTop="20dp"
@@ -74,7 +74,7 @@
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="20dp"
-                app:layout_constraintEnd_toStartOf="@+id/cardCup"
+                app:layout_constraintEnd_toStartOf="@+id/cvAdditionalInfoCard"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView">
 
@@ -149,7 +149,7 @@
 
 
             <TextView
-                android:id="@+id/helloTextId"
+                android:id="@+id/tvUsernameText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
@@ -158,10 +158,10 @@
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/accountAvatar" />
+                app:layout_constraintTop_toBottomOf="@+id/cvAccountAvatar" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/passView"
+                android:id="@+id/tilPassword"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -176,7 +176,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/helloTextId">
+                app:layout_constraintTop_toBottomOf="@+id/tvUsernameText">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/passViewField"
@@ -190,7 +190,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/accountAvatar"
+                android:id="@+id/cvAccountAvatar"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_marginTop="20dp"
@@ -202,7 +202,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/back">
 
                 <TextView
-                    android:id="@+id/accountAvatarText"
+                    android:id="@+id/tvAvatarSymbol"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical"
@@ -213,7 +213,7 @@
 
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/warn_Card"
+                android:id="@+id/cvWarningRulesCard"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -225,7 +225,7 @@
                 app:cardElevation="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardCup">
+                app:layout_constraintTop_toBottomOf="@+id/cvAdditionalInfoCard">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -272,7 +272,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/warn_Card"
+                app:layout_constraintTop_toBottomOf="@+id/cvWarningRulesCard"
                 app:layout_constraintVertical_bias="1.0">
 
                 <LinearLayout
@@ -347,9 +347,9 @@
                 android:scaleY="0.7"
                 app:cardCornerRadius="35dp"
                 app:cardElevation="20dp"
-                app:layout_constraintBottom_toBottomOf="@+id/accountAvatar"
-                app:layout_constraintStart_toStartOf="@+id/accountAvatar"
-                app:layout_constraintTop_toTopOf="@+id/accountAvatar">
+                app:layout_constraintBottom_toBottomOf="@+id/cvAccountAvatar"
+                app:layout_constraintStart_toStartOf="@+id/cvAccountAvatar"
+                app:layout_constraintTop_toTopOf="@+id/cvAccountAvatar">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -376,7 +376,7 @@
                 android:focusable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/cardView"
-                app:layout_constraintTop_toBottomOf="@+id/correctScan">
+                app:layout_constraintTop_toBottomOf="@+id/cvQualityCard">
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
@@ -407,14 +407,14 @@
                                 android:text="@string/_2fa" />
 
                             <TextView
-                                android:id="@+id/afText"
+                                android:id="@+id/tvNumberOfUse2faText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="15dp"
                                 android:text="@string/no_text" />
 
                             <com.google.android.material.chip.Chip
-                                android:id="@+id/timeLimit"
+                                android:id="@+id/cNumberOfEncrypted"
                                 style="@style/Widget.MaterialComponents.Chip.Choice"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -423,7 +423,7 @@
                                 android:text="@string/time_notification" />
 
                             <TextView
-                                android:id="@+id/tlText"
+                                android:id="@+id/tvNumberOfEncryptedText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="15dp"
@@ -435,7 +435,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/correctScan"
+                android:id="@+id/cvQualityCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -466,7 +466,7 @@
                         tools:ignore="UseCompoundDrawables">
 
                         <ImageView
-                            android:id="@+id/correctPasswordsCircle"
+                            android:id="@+id/ivCorrectPasswordsCircle"
                             android:layout_width="14dp"
                             android:layout_height="14dp"
                             android:layout_gravity="center"
@@ -475,7 +475,7 @@
                             app:srcCompat="@drawable/circle_positive" />
 
                         <TextView
-                            android:id="@+id/correctPasswords"
+                            android:id="@+id/tvCorrectPasswords"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -492,7 +492,7 @@
                         tools:ignore="UseCompoundDrawables">
 
                         <ImageView
-                            android:id="@+id/negativePasswordsCircle"
+                            android:id="@+id/ivNegativePasswordsCircle"
                             android:layout_width="14dp"
                             android:layout_height="14dp"
                             android:layout_gravity="center"
@@ -501,7 +501,7 @@
                             app:srcCompat="@drawable/circle_negative" />
 
                         <TextView
-                            android:id="@+id/negativePasswords"
+                            android:id="@+id/tvNegativePasswords"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -520,7 +520,7 @@
                         tools:ignore="UseCompoundDrawables">
 
                         <ImageView
-                            android:id="@+id/notSafePasswordsCircle"
+                            android:id="@+id/ivNotSafePasswordsCircle"
                             android:layout_width="14dp"
                             android:layout_height="14dp"
                             android:layout_gravity="center"
@@ -529,7 +529,7 @@
                             app:srcCompat="@drawable/circle_improvement" />
 
                         <TextView
-                            android:id="@+id/notSafePasswords"
+                            android:id="@+id/tvNotSafePasswords"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -549,7 +549,7 @@
                 android:text="@string/total_points"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/passView" />
+                app:layout_constraintTop_toBottomOf="@+id/tilPassword" />
 
             <TextView
                 android:id="@+id/realPoints"
@@ -576,7 +576,7 @@
                 app:layout_constraintTop_toTopOf="@+id/specialInfo">
 
                 <TextView
-                    android:id="@+id/allPass"
+                    android:id="@+id/tvAllPasswords"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

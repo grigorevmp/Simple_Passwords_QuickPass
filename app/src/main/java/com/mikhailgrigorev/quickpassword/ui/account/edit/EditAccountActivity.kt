@@ -90,7 +90,7 @@ class EditAccountActivity : AppCompatActivity() {
         login = args?.get("login").toString()
         passName = args?.get("passName").toString()
         val name: String = getString(R.string.hi) + " " + login
-        binding.helloTextId.text = name
+        binding.tvUsernameText.text = name
         binding.nameViewField.setText(login)
 
         // Checking prefs
@@ -122,44 +122,44 @@ class EditAccountActivity : AppCompatActivity() {
                 imageName = exInfoImgText
                 binding.passViewField.setText(exInfoPassText)
                 when(cursor.getString(imageIndex).toString()){
-                    "ic_account" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account" -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account
                     )
-                    "ic_account_Pink" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Pink" -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Pink
                     )
-                    "ic_account_Red" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Red" -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Red
                     )
-                    "ic_account_Purple" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Purple" -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Purple
                     )
-                    "ic_account_Violet" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Violet" -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Violet
                     )
-                    "ic_account_Dark_Violet" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Dark_Violet" -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Dark_Violet
                     )
-                    "ic_account_Blue" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Blue" -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Blue
                     )
-                    "ic_account_Cyan" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Cyan" -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Cyan
                     )
-                    "ic_account_Teal" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Teal" -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Teal
                     )
-                    "ic_account_Green" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_Green" -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_Green
                     )
-                    "ic_account_lightGreen" -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    "ic_account_lightGreen" -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account_lightGreen
                     )
-                    else -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    else -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account
                     )
                 }
-                binding.accountAvatarText.text = login[0].toString()
+                binding.tvAvatarSymbol.text = login[0].toString()
             } while (cursor.moveToNext())
         }
 
@@ -167,7 +167,7 @@ class EditAccountActivity : AppCompatActivity() {
         // Generate random password
         val pm = PasswordManager()
         binding.generatePassword.setOnClickListener {
-            binding.passView.error = null
+            binding.tilPassword.error = null
             val newPassword: String =
                     pm.generatePassword(
                             isWithLetters = true,
@@ -183,7 +183,7 @@ class EditAccountActivity : AppCompatActivity() {
 
         binding.savePass.setOnClickListener {
             binding.nameView.error = null
-            binding.passView.error = null
+            binding.tilPassword.error = null
             if (binding.nameViewField.text.toString()
                         .isEmpty() || binding.nameViewField.text.toString().length < 3
             ) {
@@ -191,7 +191,7 @@ class EditAccountActivity : AppCompatActivity() {
             } else if (binding.passViewField.text.toString()
                         .isEmpty() || binding.passViewField.text.toString().length < 4 || binding.passViewField.text.toString().length > 20
             ) {
-                binding.passView.error = getString(R.string.errPass)
+                binding.tilPassword.error = getString(R.string.errPass)
             } else {
                 val contentValues = ContentValues()
                 contentValues.put(dbHelper.KEY_NAME, binding.nameViewField.text.toString())

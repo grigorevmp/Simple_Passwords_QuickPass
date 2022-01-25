@@ -57,7 +57,7 @@
     <string name="desc">Описание:</string>
     <string name="name">Имя</string>
     <string name="view_password">Просмотр пароль</string>
-    <string name="time_lim">Последее изменение:</string>
+    <string name="time_lim">Последее изменение: %1$s</string>
     <string name="pass">Пароль:</string>
     <string name="hi">Привет,</string>
     <string name="qualityPassword">Качество пароля:</string>
@@ -133,7 +133,7 @@
 
     <string name="latest_updates_on_my_github_page">Свежие обновления на моей странице GitHub</string>
     <string name="about_desc">Мощный менеджер паролей с дружественным пользовательским интерфейсом, защищенной системой, классным генератором паролей и собственной платформой автозаполнения</string>
-    <string name="smile">Smile</string>
+    <string name="ivSmilePasswordCreation">ivSmilePasswordCreation</string>
     <string name="back">Back</string>
     <string name="export">Export</string>
     <string name="importFile">Import</string>

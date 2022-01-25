@@ -46,6 +46,10 @@ class MainViewModel() : ViewModel() {
 
     fun getFavoriteItems() = passwordCardRepo.getFavoriteItems()
 
+    fun getItemsNumber() = passwordCardRepo.getItemsNumber()
+    fun getItemsNumberWith2fa() = passwordCardRepo.getItemsNumberWith2fa()
+    fun getItemsNumberWithEncrypted() = passwordCardRepo.getItemsNumberWithEncrypted()
+
     fun deleteItem(item: PasswordCard) = passwordCardRepo.delete(item)
 
     fun getPasswords(

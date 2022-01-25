@@ -30,7 +30,7 @@
                 app:cardElevation="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/helloTextId">
+                app:layout_constraintTop_toBottomOf="@+id/tvUsernameText">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -216,19 +216,19 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/accountAvatar"
+                android:id="@+id/cvAccountAvatar"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginEnd="20dp"
                 android:backgroundTint="@color/ic_account"
                 app:cardCornerRadius="25dp"
                 app:cardElevation="10dp"
-                app:layout_constraintBottom_toBottomOf="@+id/helloTextId"
+                app:layout_constraintBottom_toBottomOf="@+id/tvUsernameText"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/helloTextId">
+                app:layout_constraintTop_toTopOf="@+id/tvUsernameText">
 
                 <TextView
-                    android:id="@+id/accountAvatarText"
+                    android:id="@+id/tvAvatarSymbol"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical"
@@ -237,7 +237,7 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
-                android:id="@+id/helloTextId"
+                android:id="@+id/tvUsernameText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -597,7 +597,7 @@
 
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/warn_Card"
+                android:id="@+id/cvWarningRulesCard"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -673,7 +673,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/warn_Card"
+                app:layout_constraintTop_toBottomOf="@+id/cvWarningRulesCard"
                 app:layout_constraintVertical_bias="1.0">
 
                 <LinearLayout
@@ -715,9 +715,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:contentDescription="@string/back"
-                app:layout_constraintBottom_toBottomOf="@+id/helloTextId"
+                app:layout_constraintBottom_toBottomOf="@+id/tvUsernameText"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/helloTextId"
+                app:layout_constraintTop_toTopOf="@+id/tvUsernameText"
                 app:srcCompat="@drawable/arrow_left"
                 app:tint="@color/black" />
         </androidx.constraintlayout.widget.ConstraintLayout>

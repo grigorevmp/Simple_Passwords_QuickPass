@@ -9,7 +9,7 @@
     tools:context=".ui.pin_code.view.PinActivity">
 
     <TextView
-        android:id="@+id/helloTextId"
+        android:id="@+id/tvUsernameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -22,7 +22,7 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/accountAvatar"
+        android:id="@+id/cvAccountAvatar"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginTop="20dp"
@@ -34,7 +34,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/accountAvatarText"
+            android:id="@+id/tvAvatarSymbol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
@@ -76,7 +76,7 @@
         android:layout_marginTop="10dp"
         android:text="@string/input_your_pin"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/helloTextId" />
+        app:layout_constraintTop_toBottomOf="@+id/tvUsernameText" />
 
     <TextView
         android:layout_width="wrap_content"

@@ -53,9 +53,6 @@ interface PasswordCardDao {
         isAsc: Boolean = false
     ): LiveData<List<PasswordCard>>
 
-    @Query("SELECT COUNT(*) FROM password_card WHERE quality = :value")
-    fun getItemsNumberWithQuality(value: Int): LiveData<Int>
-
     @Query("SELECT * FROM password_card WHERE favorite = 1")
     fun getFavorite(): LiveData<List<PasswordCard>>
 
@@ -76,6 +73,23 @@ interface PasswordCardDao {
     fun getAllSortTime(
         isAsc: Boolean = false
     ): LiveData<List<PasswordCard>>
+
+    // Getting additional data
+
+    @Query("SELECT COUNT(*) FROM password_card ")
+    fun getItemsNumber(): LiveData<Int>
+
+    @Query("SELECT COUNT(*) FROM password_card WHERE use_2fa = 1")
+    fun getItemsNumberWith2fa(): LiveData<Int>
+
+    @Query("SELECT COUNT(*) FROM password_card WHERE encrypted = 1")
+    fun getItemsNumberWithEncrypted(): LiveData<Int>
+
+    @Query("SELECT COUNT(*) FROM password_card WHERE quality = :value")
+    fun getItemsNumberWithQuality(value: Int): LiveData<Int>
+
+
+    // Operations with password
 
     @Update
     suspend fun update(card: PasswordCard)

@@ -34,7 +34,7 @@ Just in alpha...
 - Database encryption
 - Support for themes
 - Export / Import of data
-- Sorting
+- cgSorting
 
 ##
 The program complies with the latest Material design guidelines

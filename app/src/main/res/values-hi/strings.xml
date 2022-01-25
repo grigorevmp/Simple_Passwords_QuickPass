@@ -58,7 +58,7 @@
     <string name="desc">विवरण:</string>
     <string name="name">नाम</string>
     <string name="view_password">पासवर्ड देखें</string>
-    <string name="time_lim">अंतिम बदला गया:</string>
+    <string name="time_lim">अंतिम बदला गया: %1$s</string>
     <string name="pass">कुंजिका:</string>
     <string name="hi">नमस्ते,</string>
     <string name="qualityPassword">पासवर्ड गुणवत्ता:</string>
@@ -134,7 +134,7 @@
     <string name="newPassRule1">1. एक मजबूत पासवर्ड 12 वर्णों से अधिक लंबा और वर्णों के तीन सेट होना चाहिए: लार्ज और छोटे अक्षर, संख्या (1,2,3 …), विशेष वर्ण (।/-…)।</string>
     <string name="newPassRule2">2. सार्वजनिक रूप से उपलब्ध जानकारी का उपयोग न करें: नाम के भाग, फोन नंबर, आपके लिए महत्वपूर्ण तिथियां</string>
     <string name="newPassRule3">3. विभिन्न पासवर्ड का उपयोग करें। यदि कोई पासवर्ड सार्वजनिक रूप से उपलब्ध है, तो हैकर्स आपके अन्य खातों तक पहुंच प्राप्त कर सकते हैं।</string>
-    <string name="smile">मुस्कुराओ</string>
+    <string name="ivSmilePasswordCreation">मुस्कुराओ</string>
     <string name="back">वापस</string>
     <string name="export">निर्यात</string>
     <string name="importFile">आयात</string>

@@ -97,7 +97,7 @@ class PasswordViewActivity : AppCompatActivity() {
         setListeners()
 
         if ((args?.get("sameWith") != null) and (args?.get("sameWith").toString() != "none")) {
-            binding.warning0.visibility = View.VISIBLE
+            binding.imSamePartsImage.visibility = View.VISIBLE
             binding.sameParts.visibility = View.VISIBLE
             binding.sameParts.text = args?.get("sameWith").toString()
             binding.passQuality.setTextColor(
@@ -109,9 +109,9 @@ class PasswordViewActivity : AppCompatActivity() {
             binding.passQuality.text = getString(R.string.low)
         }
 
-        if (Utils.autoCopy() == "none" && binding.passViewFieldView.text.toString() != "") {
+        if (Utils.autoCopy() == "none" && binding.etPassword.text.toString() != "") {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("Password", binding.passViewFieldView.text.toString())
+            val clip = ClipData.newPlainText("Password", binding.etPassword.text.toString())
             clipboard.setPrimaryClip(clip)
             Utils.makeToast(applicationContext, getString(R.string.passCopied))
         }
@@ -120,7 +120,7 @@ class PasswordViewActivity : AppCompatActivity() {
     private fun loadPassword(passwordId: Int) {
         viewModel.getPasswordById(passwordId).observe(this) { passwordCard ->
             if (passwordCard.same_with != "") {
-                binding.warning0.visibility = View.VISIBLE
+                binding.imSamePartsImage.visibility = View.VISIBLE
                 binding.sameParts.visibility = View.VISIBLE
                 binding.sameParts.text = passwordCard.same_with
                 binding.passQuality.setTextColor(
@@ -139,26 +139,27 @@ class PasswordViewActivity : AppCompatActivity() {
                 binding.favButton2.visibility = View.VISIBLE
             }
 
-            binding.helloTextId.text = passwordCard.name
+            binding.tvUsernameText.text = passwordCard.name
             var dbPassword = passwordCard.password
 
             if (passwordCard.encrypted) {
-                binding.crypt.isChecked = true
-                binding.crypt.visibility = View.VISIBLE
-                binding.addSettings.visibility = View.VISIBLE
-                binding.cypheredWarn.visibility = View.VISIBLE
-                binding.cypheredWarnImg.visibility = View.VISIBLE
+                binding.cUseEncryption.isChecked = true
+                binding.cUseEncryption.visibility = View.VISIBLE
+                binding.tvAdditionalSettings.visibility = View.VISIBLE
                 dbPassword = Utils.password_manager.decrypt(dbPassword).toString()
             }
 
-            binding.passViewFieldView.setText(dbPassword)
+            binding.etPassword.setText(dbPassword)
 
             var evaluation: String = Utils.password_manager.evaluatePasswordString(dbPassword)
 
-            binding.passwordTime.text = getString(R.string.time_lim) + " " + passwordCard.time
+            binding.tvPasswordCreationDate.text = getString(
+                    R.string.time_lim,
+                    Utils.returnReadableDate(passwordCard.time)
+            )
 
             if ((Utils.password_manager.evaluateDate(passwordCard.time)) && (dbPassword.length != 4)) {
-                binding.warnCard.visibility = View.VISIBLE
+                binding.cvWarningRulesCard.visibility = View.VISIBLE
                 evaluation = "low"
             }
 
@@ -198,16 +199,16 @@ class PasswordViewActivity : AppCompatActivity() {
                 )
             }
             if (evaluation == "high")
-                binding.warning.visibility = View.GONE
+                binding.ivMainWarningImage.visibility = View.GONE
             else
-                binding.warning2.visibility = View.GONE
+                binding.ivMinorWarningImage.visibility = View.GONE
 
             if ((dbPassword.length == 4) and (evaluation == "high")) {
                 binding.passQualityText.text = getString(R.string.showPin)
                 binding.passQuality.visibility = View.GONE
-                binding.warning.visibility = View.GONE
-                binding.warning2.visibility = View.VISIBLE
-                binding.warning2.setImageDrawable(
+                binding.ivMainWarningImage.visibility = View.GONE
+                binding.ivMinorWarningImage.visibility = View.VISIBLE
+                binding.ivMinorWarningImage.setImageDrawable(
                         AppCompatResources.getDrawable(
                                 this,
                                 R.drawable.credit_card
@@ -215,28 +216,28 @@ class PasswordViewActivity : AppCompatActivity() {
                 )
             }
 
-            binding.authToggle.visibility = View.GONE
-            binding.timeLimit.visibility = View.GONE
+            binding.cUse2fa.visibility = View.GONE
+            binding.cUseTimeLimit.visibility = View.GONE
             if (passwordCard.use_2fa) {
-                binding.authToggle.isChecked = true
-                binding.authToggle.visibility = View.VISIBLE
-                binding.addSettings.visibility = View.VISIBLE
+                binding.cUse2fa.isChecked = true
+                binding.cUse2fa.visibility = View.VISIBLE
+                binding.tvAdditionalSettings.visibility = View.VISIBLE
             }
             if (passwordCard.use_time) {
-                binding.timeLimit.isChecked = true
-                binding.timeLimit.visibility = View.VISIBLE
-                binding.addSettings.visibility = View.VISIBLE
+                binding.cUseTimeLimit.isChecked = true
+                binding.cUseTimeLimit.visibility = View.VISIBLE
+                binding.tvAdditionalSettings.visibility = View.VISIBLE
             }
 
             if (passwordCard.description != "")
-                binding.noteViewField.setText(passwordCard.description)
+                binding.etDescription.setText(passwordCard.description)
             else
-                binding.noteView.visibility = View.GONE
+                binding.tilDescription.visibility = View.GONE
 
             if (passwordCard.login != "")
-                binding.emailViewField.setText(passwordCard.login)
+                binding.etPasswordLogin.setText(passwordCard.login)
             else
-                binding.emailView.visibility = View.GONE
+                binding.tilPasswordLogin.visibility = View.GONE
 
             if (passwordCard.tags != "") {
                 passwordCard.tags.split("\\s".toRegex()).forEach { item ->
@@ -321,14 +322,14 @@ class PasswordViewActivity : AppCompatActivity() {
             dialog.show()
         }
 
-        binding.helloTextId.setOnClickListener {
+        binding.tvUsernameText.setOnClickListener {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("Name", binding.helloTextId.text.toString())
+            val clip = ClipData.newPlainText("Name", binding.tvUsernameText.text.toString())
             clipboard.setPrimaryClip(clip)
             Utils.makeToast(applicationContext, getString(R.string.nameCopied))
         }
 
-        binding.accountAvatar.setOnClickListener {
+        binding.cvAccountAvatar.setOnClickListener {
             condition = false
             val intent = Intent(this, AccountActivity::class.java)
             intent.putExtra("login", login)
@@ -336,45 +337,45 @@ class PasswordViewActivity : AppCompatActivity() {
             startActivityForResult(intent, 1)
         }
 
-        binding.emailView.setOnClickListener {
-            if (binding.emailViewField.text.toString() != "") {
+        binding.tilPasswordLogin.setOnClickListener {
+            if (binding.etPasswordLogin.text.toString() != "") {
                 val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clip = ClipData.newPlainText("Login", binding.emailViewField.text.toString())
+                val clip = ClipData.newPlainText("Login", binding.etPasswordLogin.text.toString())
                 clipboard.setPrimaryClip(clip)
                 Utils.makeToast(applicationContext, getString(R.string.loginCopied))
             }
         }
 
-        binding.emailViewField.setOnClickListener {
-            if (binding.emailViewField.text.toString() != "") {
+        binding.etPasswordLogin.setOnClickListener {
+            if (binding.etPasswordLogin.text.toString() != "") {
                 val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clip = ClipData.newPlainText("Login", binding.emailViewField.text.toString())
+                val clip = ClipData.newPlainText("Login", binding.etPasswordLogin.text.toString())
                 clipboard.setPrimaryClip(clip)
                 Utils.makeToast(applicationContext, getString(R.string.loginCopied))
             }
         }
 
-        binding.passView.setOnClickListener {
-            if (binding.passViewFieldView.text.toString() != "") {
+        binding.tilPassword.setOnClickListener {
+            if (binding.etPassword.text.toString() != "") {
                 val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val clip =
-                        ClipData.newPlainText("Password", binding.passViewFieldView.text.toString())
+                        ClipData.newPlainText("Password", binding.etPassword.text.toString())
                 clipboard.setPrimaryClip(clip)
                 Utils.makeToast(applicationContext, getString(R.string.passCopied))
             }
         }
 
-        binding.passViewFieldView.setOnClickListener {
-            if (binding.passViewFieldView.text.toString() != "") {
+        binding.etPassword.setOnClickListener {
+            if (binding.etPassword.text.toString() != "") {
                 val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val clip =
-                        ClipData.newPlainText("Password", binding.passViewFieldView.text.toString())
+                        ClipData.newPlainText("Password", binding.etPassword.text.toString())
                 clipboard.setPrimaryClip(clip)
                 Utils.makeToast(applicationContext, getString(R.string.passCopied))
             }
         }
 
-        binding.back.setOnClickListener {
+        binding.ivBackButton.setOnClickListener {
             if (from != "short") {
                 condition = false
                 val intent = Intent()
@@ -419,12 +420,12 @@ class PasswordViewActivity : AppCompatActivity() {
         if (Utils.useAnalyze() != null)
             if (Utils.useAnalyze() != "none") {
                 binding.passQualityText.visibility = View.GONE
-                binding.warning.visibility = View.GONE
+                binding.ivMainWarningImage.visibility = View.GONE
                 binding.passQualityText.visibility = View.GONE
                 binding.passQuality.visibility = View.GONE
-                binding.warning2.visibility = View.GONE
+                binding.ivMinorWarningImage.visibility = View.GONE
                 binding.sameParts.visibility = View.GONE
-                binding.warning0.visibility = View.GONE
+                binding.imSamePartsImage.visibility = View.GONE
             }
 
 

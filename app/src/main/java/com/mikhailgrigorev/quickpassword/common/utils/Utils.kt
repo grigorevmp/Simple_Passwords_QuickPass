@@ -7,6 +7,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mikhailgrigorev.quickpassword.common.Application
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
 import com.mikhailgrigorev.quickpassword.data.entity.PasswordCard
+import java.text.SimpleDateFormat
+import java.util.*
 
 object Utils {
 
@@ -26,13 +28,27 @@ object Utils {
         )
     }
 
+    fun returnReadableDate(date: String): String {
+        val sdf3 = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
+        val sameDate = sdf3.parse(date)
+
+        val calendar = Calendar.getInstance()
+        calendar.time = sameDate!!
+
+        val year = calendar.get(Calendar.YEAR).toString()
+        calendar.add(Calendar.MONTH, 1);
+        val month = calendar.get(Calendar.MONTH).toString()
+        val day = calendar.get(Calendar.DATE).toString()
+
+        return "$day/$month/$year"
+    }
 
     fun lockTime() = sharedPreferences!!.getString("appLockTime", "6")
     const val lock_default_interval: Long = 100000
 
     val password_manager = PasswordManager()
     fun autoCopy() = sharedPreferences!!.getString("prefAutoCopyKey", "none")
-    fun userName() = sharedPreferences!!.getString("prefUserNameKey", "none")
+    fun userName() = sharedPreferences!!.getString("prefUserNameKey", "Stranger")
     fun setUserName(name: String) {
         with(sharedPreferences!!.edit()) {
             putString("prefUserNameKey", name)

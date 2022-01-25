@@ -38,7 +38,7 @@ class PasswordCardRepository {
                          columnName: String = "name",
                          isAsc: Boolean = false
     ): LiveData<List<PasswordCard>> {
-        return when(columnName) {
+        return when (columnName) {
             "name" -> pcDao.getByQualitySortName(value, isAsc)
             "time" -> pcDao.getByQualitySortTime(value, isAsc)
             else -> pcDao.getAllSortName(isAsc)
@@ -46,6 +46,9 @@ class PasswordCardRepository {
     }
 
     fun getItemsNumberWithQuality(value: Int) = pcDao.getItemsNumberWithQuality(value)
+    fun getItemsNumber() = pcDao.getItemsNumber()
+    fun getItemsNumberWith2fa() = pcDao.getItemsNumberWith2fa()
+    fun getItemsNumberWithEncrypted() = pcDao.getItemsNumberWithEncrypted()
 
     fun getFavoriteItems() = pcDao.getFavorite()
 

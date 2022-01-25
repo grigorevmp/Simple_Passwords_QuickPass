@@ -58,7 +58,7 @@
     <string name="desc">Omschrijving:</string>
     <string name="name">Naam</string>
     <string name="view_password">Bekijk wachtwoord</string>
-    <string name="time_lim">Laatst gewijzigd:</string>
+    <string name="time_lim">Laatst gewijzigd: %1$s</string>
     <string name="pass">Wachtwoord:</string>
     <string name="hi">Hoi,</string>
     <string name="qualityPassword">Wachtwoordkwaliteit:</string>
@@ -134,7 +134,7 @@
     <string name="newPassRule1">1. Een sterk wachtwoord moet meer dan 12 tekens lang zijn en drie sets tekens bevatten: LARGE en kleine letters, cijfers (1,2,3…), speciale tekens (./-…)</string>
     <string name="newPassRule2">2. Gebruik geen openbaar beschikbare informatie: delen van de naam, telefoonnummers, datums die voor u belangrijk zijn</string>
     <string name="newPassRule3">3. Gebruik verschillende wachtwoorden. Als een wachtwoord openbaar beschikbaar is, kunnen hackers toegang krijgen tot uw andere accounts.</string>
-    <string name="smile">Glimlach</string>
+    <string name="ivSmilePasswordCreation">Glimlach</string>
     <string name="back">Terug</string>
     <string name="export">Exporteren</string>
     <string name="importFile">Importeren</string>

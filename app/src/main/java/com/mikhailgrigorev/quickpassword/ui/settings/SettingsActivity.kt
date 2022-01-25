@@ -189,7 +189,7 @@ class SettingsActivity : AppCompatActivity() {
                         cardRadius.toFloat(),
                         resources.displayMetrics
                 )
-                binding.warnCard.radius = TypedValue.applyDimension(
+                binding.cvWarningRulesCard.radius = TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
                         cardRadius.toFloat(),
                         resources.displayMetrics
@@ -507,7 +507,7 @@ class SettingsActivity : AppCompatActivity() {
                         i.toFloat(),
                         resources.displayMetrics
                 )
-                binding.warnCard.radius = TypedValue.applyDimension(
+                binding.cvWarningRulesCard.radius = TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
                         i.toFloat(),
                         resources.displayMetrics
@@ -571,55 +571,55 @@ class SettingsActivity : AppCompatActivity() {
                 val exInfoImgText = cursor.getString(imageIndex).toString()
                 imageName = exInfoImgText
                 when (cursor.getString(imageIndex).toString()) {
-                    "ic_account" -> binding.accountAvatar.backgroundTintList =
+                    "ic_account" -> binding.cvAccountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account
                             )
-                    "ic_account_Pink" -> binding.accountAvatar.backgroundTintList =
+                    "ic_account_Pink" -> binding.cvAccountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Pink
                             )
-                    "ic_account_Red" -> binding.accountAvatar.backgroundTintList =
+                    "ic_account_Red" -> binding.cvAccountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Red
                             )
-                    "ic_account_Purple" -> binding.accountAvatar.backgroundTintList =
+                    "ic_account_Purple" -> binding.cvAccountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Purple
                             )
-                    "ic_account_Violet" -> binding.accountAvatar.backgroundTintList =
+                    "ic_account_Violet" -> binding.cvAccountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Violet
                             )
-                    "ic_account_Dark_Violet" -> binding.accountAvatar.backgroundTintList =
+                    "ic_account_Dark_Violet" -> binding.cvAccountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Dark_Violet
                             )
-                    "ic_account_Blue" -> binding.accountAvatar.backgroundTintList =
+                    "ic_account_Blue" -> binding.cvAccountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Blue
                             )
-                    "ic_account_Cyan" -> binding.accountAvatar.backgroundTintList =
+                    "ic_account_Cyan" -> binding.cvAccountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Cyan
                             )
-                    "ic_account_Teal" -> binding.accountAvatar.backgroundTintList =
+                    "ic_account_Teal" -> binding.cvAccountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Teal
                             )
-                    "ic_account_Green" -> binding.accountAvatar.backgroundTintList =
+                    "ic_account_Green" -> binding.cvAccountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Green
                             )
-                    "ic_account_lightGreen" -> binding.accountAvatar.backgroundTintList =
+                    "ic_account_lightGreen" -> binding.cvAccountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_lightGreen
                             )
-                    else -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    else -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account
                     )
                 }
-                binding.accountAvatarText.text = login[0].toString()
+                binding.tvAvatarSymbol.text = login[0].toString()
             } while (cursor.moveToNext())
         }
 
@@ -970,7 +970,7 @@ class SettingsActivity : AppCompatActivity() {
 
         when (imageName) {
             "ic_account" -> {
-                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account
                 )
                 // Checking prefs
@@ -984,7 +984,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             "ic_account_Pink" -> {
-                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Pink
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -997,7 +997,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             "ic_account_Red" -> {
-                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Red
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -1010,7 +1010,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             "ic_account_Purple" -> {
-                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Purple
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -1023,7 +1023,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             "ic_account_Violet" -> {
-                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Violet
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -1036,7 +1036,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             "ic_account_Dark_Violet" -> {
-                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Dark_Violet
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -1049,7 +1049,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             "ic_account_Blue" -> {
-                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Blue
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -1062,7 +1062,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             "ic_account_Cyan" -> {
-                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Cyan
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -1075,7 +1075,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             "ic_account_Teal" -> {
-                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Teal
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -1088,7 +1088,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             "ic_account_Green" -> {
-                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_Green
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -1101,7 +1101,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             "ic_account_lightGreen" -> {
-                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account_lightGreen
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
@@ -1114,7 +1114,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             else -> {
-                binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                         this, R.color.ic_account
                 )
                 val sharedPref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)

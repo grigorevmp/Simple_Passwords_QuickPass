@@ -115,12 +115,12 @@ class AccountActivity : AppCompatActivity() {
         val cardRadius = sharedPref.getString("cardRadius", "none")
         if(cardRadius != null)
             if(cardRadius != "none") {
-                binding.cardCup.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                binding.cvAdditionalInfoCard.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
                 binding.crypted.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
-                binding.warnCard.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                binding.cvWarningRulesCard.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
                 binding.settingsCard.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
                 binding.specialInfo.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
-                binding.correctScan.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
+                binding.cvQualityCard.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
                 binding.cardView.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
             }
 
@@ -130,7 +130,7 @@ class AccountActivity : AppCompatActivity() {
             if (useAnalyze != "none"){
                 binding.totalPoints.visibility = View.GONE
                 binding.realPoints.visibility = View.GONE
-                binding.correctScan.visibility = View.GONE
+                binding.cvQualityCard.visibility = View.GONE
                 binding.cardView.visibility = View.GONE
                 binding.specialInfo.visibility = View.GONE
                 binding.crypted.visibility = View.GONE
@@ -151,7 +151,7 @@ class AccountActivity : AppCompatActivity() {
 
         // Set greeting
         val name: String = getString(R.string.hi) + " " + login
-        binding.helloTextId.text = name
+        binding.tvUsernameText.text = name
 
         // Checking prefs
 
@@ -181,55 +181,55 @@ class AccountActivity : AppCompatActivity() {
                 val exInfoPassText = cursor.getString(passIndex).toString()
                 binding.passViewField.setText(exInfoPassText)
                 when(cursor.getString(imageIndex).toString()){
-                    "ic_account" -> binding.accountAvatar.backgroundTintList =
+                    "ic_account" -> binding.cvAccountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account
                             )
-                    "ic_account_Pink" -> binding.accountAvatar.backgroundTintList =
+                    "ic_account_Pink" -> binding.cvAccountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Pink
                             )
-                    "ic_account_Red" -> binding.accountAvatar.backgroundTintList =
+                    "ic_account_Red" -> binding.cvAccountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Red
                             )
-                    "ic_account_Purple" -> binding.accountAvatar.backgroundTintList =
+                    "ic_account_Purple" -> binding.cvAccountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Purple
                             )
-                    "ic_account_Violet" -> binding.accountAvatar.backgroundTintList =
+                    "ic_account_Violet" -> binding.cvAccountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Violet
                             )
-                    "ic_account_Dark_Violet" -> binding.accountAvatar.backgroundTintList =
+                    "ic_account_Dark_Violet" -> binding.cvAccountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Dark_Violet
                             )
-                    "ic_account_Blue" -> binding.accountAvatar.backgroundTintList =
+                    "ic_account_Blue" -> binding.cvAccountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Blue
                             )
-                    "ic_account_Cyan" -> binding.accountAvatar.backgroundTintList =
+                    "ic_account_Cyan" -> binding.cvAccountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Cyan
                             )
-                    "ic_account_Teal" -> binding.accountAvatar.backgroundTintList =
+                    "ic_account_Teal" -> binding.cvAccountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Teal
                             )
-                    "ic_account_Green" -> binding.accountAvatar.backgroundTintList =
+                    "ic_account_Green" -> binding.cvAccountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_Green
                             )
-                    "ic_account_lightGreen" -> binding.accountAvatar.backgroundTintList =
+                    "ic_account_lightGreen" -> binding.cvAccountAvatar.backgroundTintList =
                             ContextCompat.getColorStateList(
                                     this, R.color.ic_account_lightGreen
                             )
-                    else -> binding.accountAvatar.backgroundTintList = ContextCompat.getColorStateList(
+                    else -> binding.cvAccountAvatar.backgroundTintList = ContextCompat.getColorStateList(
                             this, R.color.ic_account
                     )
                 }
-                binding.accountAvatarText.text = login[0].toString()
+                binding.tvAvatarSymbol.text = login[0].toString()
             } while (cursor.moveToNext())
         }
         binding.aboutApp.setOnClickListener {
@@ -237,7 +237,7 @@ class AccountActivity : AppCompatActivity() {
             val intent = Intent(this, AboutActivity::class.java)
             startActivity(intent)
         }
-        binding.cardCup.setOnClickListener {
+        binding.cvAdditionalInfoCard.setOnClickListener {
             condition=false
             val intent = Intent(this, DonutActivity::class.java)
             startActivity(intent)
@@ -344,29 +344,29 @@ class AccountActivity : AppCompatActivity() {
                 } while (pCursor.moveToNext())
             }
 
-            binding.correctPasswords.text = resources.getQuantityString(
+            binding.tvCorrectPasswords.text = resources.getQuantityString(
                     R.plurals.correct_passwords,
                     correctNum,
                     correctNum
             )
-            binding.negativePasswords.text = resources.getQuantityString(
+            binding.tvNegativePasswords.text = resources.getQuantityString(
                     R.plurals.incorrect_password,
                     inCorrectNum,
                     inCorrectNum
             )
-            binding.notSafePasswords.text = resources.getQuantityString(
+            binding.tvNotSafePasswords.text = resources.getQuantityString(
                     R.plurals.need_fix,
                     midCorrectNum,
                     midCorrectNum
             )
 
-            binding.afText.text = faNum.toString()
-            binding.tlText.text = tlNum.toString()
+            binding.tvNumberOfUse2faText.text = faNum.toString()
+            binding.tvNumberOfEncryptedText.text = tlNum.toString()
             binding.crText.text = crNum.toString()
             binding.pinText.text = pinNum.toString()
-            binding.allPass.text = (correctNum+ inCorrectNum + midCorrectNum).toString()
+            binding.tvAllPasswords.text = (correctNum+ inCorrectNum + midCorrectNum).toString()
 
-            if(binding.allPass.text.toString() != "0") {
+            if(binding.tvAllPasswords.text.toString() != "0") {
                 binding.realPoints.text =
                         ((correctNum.toFloat() + midCorrectNum.toFloat() / 2 + inCorrectNum.toFloat() * 0 + tlNum.toFloat() + faNum.toFloat())
                                 / (7 / 3 * (correctNum.toFloat() + inCorrectNum.toFloat() + midCorrectNum.toFloat())))

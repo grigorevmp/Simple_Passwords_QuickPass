@@ -19,18 +19,18 @@
             android:layout_height="match_parent"
             android:animateLayoutChanges="true">
 
-
             <ImageView
                 android:id="@+id/back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:contentDescription="@string/back"
-                app:layout_constraintBottom_toBottomOf="@+id/helloTextId"
+                app:layout_constraintBottom_toBottomOf="@+id/tvUsernameText"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/helloTextId"
+                app:layout_constraintTop_toTopOf="@+id/tvUsernameText"
                 app:srcCompat="@drawable/arrow_left"
                 app:tint="@color/black" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/descriptionInput"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -47,7 +47,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/horizontalScroll2">
+                app:layout_constraintTop_toBottomOf="@+id/hvInfoChips">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/noteField"
@@ -57,7 +57,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/helloTextId"
+                android:id="@+id/tvUsernameText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -70,7 +70,7 @@
 
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/accountAvatar"
+                android:id="@+id/cvAccountAvatar"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginTop="20dp"
@@ -82,7 +82,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/accountAvatarText"
+                    android:id="@+id/tvAvatarSymbol"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical"
@@ -91,7 +91,7 @@
             </androidx.cardview.widget.CardView>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/genPasswordId"
+                android:id="@+id/tilPasswordToGenerate"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/newName">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/genPasswordIdField"
+                    android:id="@+id/tePasswordToGenerate"
                     android:layout_width="match_parent"
                     android:inputType="textFilter"
                     android:importantForAutofill="no"
@@ -118,7 +118,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardPass"
+                android:id="@+id/cvPasswordGenerateButton"
                 android:layout_width="@dimen/box_size"
                 android:layout_height="@dimen/box_size"
                 android:layout_marginTop="5dp"
@@ -127,7 +127,7 @@
                 app:cardCornerRadius="15dp"
                 app:cardElevation="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/genPasswordId">
+                app:layout_constraintTop_toTopOf="@+id/tilPasswordToGenerate">
 
                 <ImageButton
                     android:id="@+id/generatePassword"
@@ -136,8 +136,8 @@
                     android:background="@color/white"
                     android:contentDescription="@string/generate"
                     android:rotation="45"
-                    android:tint="@color/textDark"
-                    app:srcCompat="@drawable/dice_5_outline" />
+                    app:srcCompat="@drawable/dice_5_outline"
+                    app:tint="@color/textDark" />
             </androidx.cardview.widget.CardView>
 
             <ImageView
@@ -147,56 +147,56 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="15dp"
                 android:contentDescription="@string/edit"
-                app:layout_constraintStart_toEndOf="@+id/helloTextId"
+                app:layout_constraintStart_toEndOf="@+id/tvUsernameText"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/pencil_outline"
                 app:tint="@color/black" />
 
             <HorizontalScrollView
-                android:id="@+id/horizontalScroll"
+                android:id="@+id/hsvPasswordSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:scrollbars="none"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/genPasswordId">
+                app:layout_constraintTop_toBottomOf="@+id/tilPasswordToGenerate">
 
                 <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/passSettings"
+                    android:id="@+id/cgPasswordSettings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:singleLine="true">
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/lettersToggle"
+                        android:id="@+id/cLettersToggle"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/chipLetters" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/upperCaseToggle"
+                        android:id="@+id/cUpperCaseToggle"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/upperCaseLetters" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/numbersToggle"
+                        android:id="@+id/cNumbersToggle"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/chipNumbers" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/symToggles"
+                        android:id="@+id/cSymToggles"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/chipSym" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/lengthToggle"
+                        android:id="@+id/cLengthToggle"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -248,7 +248,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <HorizontalScrollView
-                android:id="@+id/horizontalScroll2"
+                android:id="@+id/hvInfoChips"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -263,14 +263,14 @@
                     app:singleLine="true">
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/authToggle"
+                        android:id="@+id/cUse2fa"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/_2fa" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/timeLimit"
+                        android:id="@+id/cNumberOfEncrypted"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -320,7 +320,7 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/horizontalScroll" />
+                app:layout_constraintTop_toBottomOf="@+id/hsvPasswordSettings" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout4"
@@ -358,7 +358,7 @@
                 android:textColor="@color/textDark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/helloTextId" />
+                app:layout_constraintTop_toBottomOf="@+id/tvUsernameText" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/email"

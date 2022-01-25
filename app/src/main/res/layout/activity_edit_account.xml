@@ -13,9 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:contentDescription="@string/back"
-        app:layout_constraintBottom_toBottomOf="@+id/helloTextId"
+        app:layout_constraintBottom_toBottomOf="@+id/tvUsernameText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/helloTextId"
+        app:layout_constraintTop_toTopOf="@+id/tvUsernameText"
         app:srcCompat="@drawable/arrow_left"
         app:tint="@color/black" />
 
@@ -26,7 +26,7 @@
         android:layout_marginTop="10dp"
         android:text="@string/you_decided_to_change_some_settings"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/helloTextId" />
+        app:layout_constraintTop_toBottomOf="@+id/tvUsernameText" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/savePass"
@@ -44,7 +44,7 @@
         android:contentDescription="@string/save_password" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/passView"
+        android:id="@+id/tilPassword"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardPass"
+        android:id="@+id/cvPasswordGenerateButton"
         android:layout_width="@dimen/box_size"
         android:layout_height="@dimen/box_size"
         android:layout_marginTop="5dp"
@@ -80,7 +80,7 @@
         app:cardCornerRadius="15dp"
         app:cardElevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/passView">
+        app:layout_constraintTop_toTopOf="@+id/tilPassword">
 
         <ImageButton
             android:id="@+id/generatePassword"
@@ -119,7 +119,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/helloTextId"
+        android:id="@+id/tvUsernameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -132,7 +132,7 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/accountAvatar"
+        android:id="@+id/cvAccountAvatar"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginTop="20dp"
@@ -144,7 +144,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/accountAvatarText"
+            android:id="@+id/tvAvatarSymbol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"

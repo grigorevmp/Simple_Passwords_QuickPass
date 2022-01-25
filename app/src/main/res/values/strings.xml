@@ -63,7 +63,7 @@
     <string name="desc">Description:</string>
     <string name="name">Name</string>
     <string name="view_password">View password</string>
-    <string name="time_lim">Last changed:</string>
+    <string name="time_lim">Last changed: %1$s</string>
     <string name="pass">Password:</string>
     <string name="hi">Hi, </string>
     <string name="qualityPassword">Password quality:</string>
@@ -155,7 +155,7 @@
     <string name="newPassRule1">1. A strong password must be more than 12 characters long and contain three sets of characters: LARGE and small letters, numbers (1,2,3…), special characters (./-…)</string>
     <string name="newPassRule2">2. Do not use publicly available information: parts of the name, phone numbers, dates important to you</string>
     <string name="newPassRule3">3. Use different passwords. If any password is publicly available, hackers can gain access to your other accounts.</string>
-    <string name="smile">Smile</string>
+    <string name="ivSmilePasswordCreation">ivSmilePasswordCreation</string>
     <string name="back">Back</string>
     <string name="export">Export</string>
     <string name="importFile">Import</string>

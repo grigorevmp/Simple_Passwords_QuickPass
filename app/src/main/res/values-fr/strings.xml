@@ -58,7 +58,7 @@
     <string name="desc">La description:</string>
     <string name="name">Nom</string>
     <string name="view_password">Afficher le mot de passe</string>
-    <string name="time_lim">Dernière modification:</string>
+    <string name="time_lim">Dernière modification: %1$s</string>
     <string name="pass">Mot de passe:</string>
     <string name="hi">Salut,</string>
     <string name="qualityPassword">Qualité du mot de passe:</string>
@@ -134,7 +134,7 @@
     <string name="newPassRule1">1. Un mot de passe fort doit comporter plus de 12 caractères et contenir trois jeux de caractères: GRANDES et minuscules, chiffres (1, 2, 3…), caractères spéciaux (./-…)</string>
     <string name="newPassRule2">2. N\'utilisez pas d\'informations accessibles au public: parties du nom, numéros de téléphone, dates importantes pour vous</string>
     <string name="newPassRule3">3. Utilisez des mots de passe différents. Si un mot de passe est accessible au public, les pirates peuvent accéder à vos autres comptes.</string>
-    <string name="smile">Le sourire</string>
+    <string name="ivSmilePasswordCreation">Le sourire</string>
     <string name="back">Dos</string>
     <string name="export">Exportation</string>
     <string name="importFile">Importer</string>

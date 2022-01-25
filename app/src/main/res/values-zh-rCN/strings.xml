@@ -58,7 +58,7 @@
     <string name="desc">描述：</string>
     <string name="name">名称</string>
     <string name="view_password">查看密码</string>
-    <string name="time_lim">上次更改：</string>
+    <string name="time_lim">上次更改：%1$s</string>
     <string name="pass">密码：</string>
     <string name="hi">你好，</string>
     <string name="qualityPassword">密码质量：</string>
@@ -134,7 +134,7 @@
     <string name="newPassRule1">1.强密码必须超过12个字符长，并包含三组字符：大和小写字母，数字（1、2、3…），特殊字符（./-…）</string>
     <string name="newPassRule2">2.不要使用公开可用的信息：部分名称，电话号码，对您重要的日期</string>
     <string name="newPassRule3">3.使用不同的密码。如果可以公开获得任何密码，则黑客可以访问您的其他帐户。</string>
-    <string name="smile">微笑</string>
+    <string name="ivSmilePasswordCreation">微笑</string>
     <string name="back">后退</string>
     <string name="export">出口</string>
     <string name="importFile">进口</string>

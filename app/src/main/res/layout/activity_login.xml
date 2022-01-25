@@ -10,7 +10,7 @@
     tools:context=".ui.auth.sign.SignActivity">
 
     <TextView
-        android:id="@+id/helloTextId"
+        android:id="@+id/tvUsernameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -72,7 +72,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardPass"
+        android:id="@+id/cvPasswordGenerateButton"
         android:layout_width="@dimen/box_size"
         android:layout_height="@dimen/box_size"
         android:layout_marginTop="5dp"
@@ -143,7 +143,7 @@
         android:layout_marginTop="10dp"
         android:text="@string/helloSubText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/helloTextId" />
+        app:layout_constraintTop_toBottomOf="@+id/tvUsernameText" />
 
     <TextView
         android:id="@+id/sendMail"

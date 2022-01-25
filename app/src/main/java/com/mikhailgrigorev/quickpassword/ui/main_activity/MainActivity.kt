@@ -115,8 +115,24 @@ class MainActivity : AppCompatActivity() {
 
         initViewModel()
         setQuitTimer()
-
+        authorization()
         checkAnalytics()
+        initLayouts()
+        initSorting()
+        setPasswordQualityText()
+        setObservers()
+
+        // Shortcuts
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1)
+            generateShortcuts()
+
+        setSortingOptions()
+        setListeners()
+        initBottomSheetBehavior()
+
+    }
+
+    private fun authorization(){
 
         // Get Extras
         val args: Bundle? = intent.extras
@@ -127,32 +143,19 @@ class MainActivity : AppCompatActivity() {
         if (newLogin != login)
             login = newLogin.toString()
 
-        initLayouts()
-        initSorting()
-        setPasswordQualityText()
-        setObservers()
-
-        // Shortcuts
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1)
-            generateShortcuts()
-
-
-        binding.passwordRecycler.setHasFixedSize(true)
-
-        setSortingOptions()
-        setListeners()
-
         Utils.setUserName(login)
 
-        initBottomSheetBehavior()
+        val name: String = getString(R.string.hi) + " " + login
+        binding.tvUsernameText.text = name
 
+        binding.tvAvatarSymbol.text = login[0].toString()
     }
 
     private fun setArrowOrderIndicator(){
         if (defaultPassFilterAsc)
-            binding.sortOrder.animate().rotation(0F).setDuration(500).start()
+            binding.ivSortOrder.animate().rotation(0F).setDuration(500).start()
         else
-            binding.sortOrder.animate().rotation(180F).setDuration(500).start()
+            binding.ivSortOrder.animate().rotation(180F).setDuration(500).start()
     }
 
     private fun setOrderChip(column: String){
@@ -166,12 +169,12 @@ class MainActivity : AppCompatActivity() {
 
         when(defaultPassFilterSorting){
             "name" -> {
-                binding.dateSort.isChecked = false
-                binding.alphaSort.isChecked = true
+                binding.cDateSorting.isChecked = false
+                binding.cAlphabeticSorting.isChecked = true
             }
             "time" -> {
-                binding.dateSort.isChecked = true
-                binding.alphaSort.isChecked = false
+                binding.cDateSorting.isChecked = true
+                binding.cAlphabeticSorting.isChecked = false
             }
         }
 
@@ -181,12 +184,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setSortingOptions(){
-        binding.alphaSort.setOnClickListener {
+        binding.cAlphabeticSorting.setOnClickListener {
             setOrderChip("name")
             setObservers()
         }
 
-        binding.dateSort.setOnClickListener {
+        binding.cDateSorting.setOnClickListener {
             setOrderChip("time")
             setObservers()
         }
@@ -195,16 +198,15 @@ class MainActivity : AppCompatActivity() {
     private fun checkAnalytics() {
         if (Utils.useAnalyze() != null)
             if (Utils.useAnalyze() != "none") {
-                binding.correctScan.visibility = View.GONE
-                binding.cardCup.visibility = View.GONE
+                binding.cvQualityCard.visibility = View.GONE
+                binding.cvAdditionalInfoCard.visibility = View.GONE
                 binding.cardView.visibility = View.GONE
             }
     }
 
     private fun initLayouts() {
-        val name: String = getString(R.string.hi) + " " + login
-        binding.helloTextId.text = name
-        binding.passwordRecycler.layoutManager = LinearLayoutManager(
+        binding.rvPasswordRecycler.setHasFixedSize(true)
+        binding.rvPasswordRecycler.layoutManager = LinearLayoutManager(
                 this,
                 LinearLayoutManager.VERTICAL,
                 false
@@ -212,19 +214,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setPasswordQualityText() {
-        binding.correctPasswords.text =
+        binding.tvCorrectPasswords.text =
                 resources.getQuantityString(
                         R.plurals.correct_passwords,
                         safePass,
                         safePass
                 )
-        binding.negativePasswords.text =
+        binding.tvNegativePasswords.text =
                 resources.getQuantityString(
                         R.plurals.incorrect_password,
                         unsafePass,
                         unsafePass
                 )
-        binding.notSafePasswords.text =
+        binding.tvNotSafePasswords.text =
                 resources.getQuantityString(
                         R.plurals.need_fix,
                         fixPass,
@@ -275,24 +277,36 @@ class MainActivity : AppCompatActivity() {
             unsafePass = negative_
             setPasswordQualityText()
         }
+
+        viewModel.getItemsNumber().observe(this){ passwordNumber ->
+            binding.tvAllPasswords.text = passwordNumber.toString()
+        }
+
+        viewModel.getItemsNumberWith2fa().observe(this){ passwordNumber ->
+            binding.tvNumberOfUse2faText.text = passwordNumber.toString()
+        }
+
+        viewModel.getItemsNumberWithEncrypted().observe(this){ encryptedPasswordNumber ->
+            binding.tvNumberOfEncryptedText.text = encryptedPasswordNumber.toString()
+        }
     }
 
     private fun initBottomSheetBehavior() {
-        binding.allPassword.translationZ = 24F
-        binding.newPass.translationZ = 101F
+        binding.llAllPasswords.translationZ = 24F
+        binding.fabNewPassword.translationZ = 101F
 
-        val bottomSheetBehavior = BottomSheetBehavior.from(binding.allPassword)
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.llAllPasswords)
 
         bottomSheetBehavior.state = Utils.bottomBarState()
-        binding.menuUp.animate().rotation(180F * bottomSheetBehavior.state).setDuration(0).start()
+        binding.ivExpandBottomDialog.animate().rotation(180F * bottomSheetBehavior.state).setDuration(0).start()
         if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
-            binding.newPass.animate().scaleX(0F).scaleY(0F).setDuration(0).start()
-            binding.warnCard.animate().alpha(1F).setDuration(0).start()
-            binding.backupCard.animate().alpha(1F).setDuration(0).start()
+            binding.fabNewPassword.animate().scaleX(0F).scaleY(0F).setDuration(0).start()
+            binding.cvWarningRulesCard.animate().alpha(1F).setDuration(0).start()
+            binding.cvBackupReminderCard.animate().alpha(1F).setDuration(0).start()
         }
 
-        binding.searchPassField.clearFocus()
-        binding.searchPassField.hideKeyboard()
+        binding.etSearchPassword.clearFocus()
+        binding.etSearchPassword.hideKeyboard()
 
         bottomSheetBehavior.peekHeight = 800 //600
 
@@ -311,28 +325,28 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                binding.menuUp.animate().rotation(180F * slideOffset).setDuration(0).start()
+                binding.ivExpandBottomDialog.animate().rotation(180F * slideOffset).setDuration(0).start()
                 if (slideOffset <= 0) {
-                    binding.warnCard.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0).start()
-                    binding.backupCard.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0)
+                    binding.cvWarningRulesCard.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0).start()
+                    binding.cvBackupReminderCard.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0)
                             .start()
-                    binding.newPass.animate().scaleX(1 - abs(slideOffset))
+                    binding.fabNewPassword.animate().scaleX(1 - abs(slideOffset))
                             .scaleY(1 - abs(slideOffset))
                             .setDuration(
                                     0
                             ).start()
                 }
-                binding.searchPassField.clearFocus()
-                binding.searchPassField.hideKeyboard()
+                binding.etSearchPassword.clearFocus()
+                binding.etSearchPassword.hideKeyboard()
 
             }
         })
     }
 
     private fun setPasswordGeneratorListeners() {
-        binding.lengthToggle.text = getString(R.string.length) + ": " + passwordLength
+        binding.cLengthToggle.text = getString(R.string.length) + ": " + passwordLength
 
-        binding.lengthToggle.setOnClickListener {
+        binding.cLengthToggle.setOnClickListener {
             if (binding.seekBar.visibility == View.GONE) {
                 binding.seekBar.visibility = View.VISIBLE
             } else {
@@ -343,7 +357,7 @@ class MainActivity : AppCompatActivity() {
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                 passwordLength = i
-                binding.lengthToggle.text = getString(R.string.length) + ": " + passwordLength
+                binding.cLengthToggle.text = getString(R.string.length) + ": " + passwordLength
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
@@ -354,8 +368,8 @@ class MainActivity : AppCompatActivity() {
         // Password generation system
         val passwordGeneratorRules = mutableListOf<String>()
         // Loop through the chips
-        for (index in 0 until binding.passSettings.childCount) {
-            val chip: Chip = binding.passSettings.getChildAt(index) as Chip
+        for (index in 0 until binding.cgPasswordSettings.childCount) {
+            val chip: Chip = binding.cgPasswordSettings.getChildAt(index) as Chip
 
             chip.setOnCheckedChangeListener { view, isChecked ->
                 val deg = binding.generatePassword.rotation + 30f
@@ -363,10 +377,10 @@ class MainActivity : AppCompatActivity() {
                         AccelerateDecelerateInterpolator()
 
                 when (view.id) {
-                    R.id.lettersToggle -> useLetters = isChecked
-                    R.id.symToggles -> useSymbols = isChecked
-                    R.id.numbersToggle -> useNumbers = isChecked
-                    R.id.upperCaseToggle -> useUC = isChecked
+                    R.id.cLettersToggle -> useLetters = isChecked
+                    R.id.cSymToggles -> useSymbols = isChecked
+                    R.id.cNumbersToggle -> useNumbers = isChecked
+                    R.id.cUpperCaseToggle -> useUC = isChecked
                 }
 
                 if (isChecked)
@@ -377,10 +391,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.generatePassword.setOnClickListener {
-            if (passwordGeneratorRules.size == 0 || (passwordGeneratorRules.size == 1 && binding.lengthToggle.isChecked)) {
-                binding.genPasswordId.error = getString(R.string.noRules)
+            if (passwordGeneratorRules.size == 0 || (passwordGeneratorRules.size == 1 && binding.cLengthToggle.isChecked)) {
+                binding.tilPasswordToGenerate.error = getString(R.string.noRules)
             } else {
-                binding.genPasswordId.error = null
+                binding.tilPasswordToGenerate.error = null
                 val newPassword: String =
                         pm.generatePassword(
                                 useLetters,
@@ -389,7 +403,7 @@ class MainActivity : AppCompatActivity() {
                                 useSymbols,
                                 passwordLength
                         )
-                binding.genPasswordIdField.setText(newPassword)
+                binding.tePasswordToGenerate.setText(newPassword)
             }
             binding.generatePassword.animate().rotation(DEFAULT_ROTATION).interpolator =
                     AccelerateDecelerateInterpolator()
@@ -397,7 +411,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setPasswordSearchListener() {
-        binding.searchPassField.addTextChangedListener(object : TextWatcher {
+        binding.etSearchPassword.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(passwordName: Editable?) {
                 if (passwordName.toString() != "")
                     setObservers(
@@ -419,13 +433,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun bottomBarBehaviorListeners() {
-        val bottomSheetBehavior = BottomSheetBehavior.from(binding.allPassword)
-        binding.expand.setOnClickListener {
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.llAllPasswords)
+        binding.fabExpandButton.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             Utils.setBottomBarState(BottomSheetBehavior.STATE_COLLAPSED)
         }
 
-        binding.menuUp.setOnClickListener {
+        binding.ivExpandBottomDialog.setOnClickListener {
             if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED)
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             else if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
@@ -440,68 +454,68 @@ class MainActivity : AppCompatActivity() {
         setPasswordGeneratorListeners()
         bottomBarBehaviorListeners()
 
-        binding.genPasswordId.setOnClickListener {
+        binding.tilPasswordToGenerate.setOnClickListener {
             copyPassword()
         }
 
-        binding.genPasswordIdField.setOnClickListener {
+        binding.tePasswordToGenerate.setOnClickListener {
             copyPassword()
         }
 
-        binding.noPasswords.setOnClickListener {
+        binding.cvNoPasswordsCard.setOnClickListener {
             condition = false
             goToNewPasswordActivity()
         }
 
-        binding.extraNewPass.setOnClickListener {
+        binding.fabAddNewPass.setOnClickListener {
             condition = false
             goToNewPasswordActivity()
         }
 
 
-        binding.newPass.setOnClickListener {
+        binding.fabNewPassword.setOnClickListener {
             condition = false
             goToNewPasswordActivity()
         }
 
-        binding.accountAvatar.setOnClickListener {
+        binding.cvAccountAvatar.setOnClickListener {
             condition = false
             goToAccountActivity()
         }
 
         // Correct passwords
 
-        binding.correctPasswordsCircle.setOnClickListener {
+        binding.ivCorrectPasswordsCircle.setOnClickListener {
             correctPasswordsClickedAction()
         }
 
-        binding.correctPasswords.setOnClickListener {
+        binding.tvCorrectPasswords.setOnClickListener {
             correctPasswordsClickedAction()
         }
 
         // Negative password
 
-        binding.negativePasswordsCircle.setOnClickListener {
+        binding.ivNegativePasswordsCircle.setOnClickListener {
             negativePasswordsClickedAction()
         }
 
-        binding.negativePasswords.setOnClickListener {
+        binding.tvNegativePasswords.setOnClickListener {
             negativePasswordsClickedAction()
         }
 
         // Not safe password
 
-        binding.notSafePasswordsCircle.setOnClickListener {
+        binding.ivNotSafePasswordsCircle.setOnClickListener {
             notSafePasswordsClickedAction()
         }
 
-        binding.notSafePasswords.setOnClickListener {
+        binding.tvNotSafePasswords.setOnClickListener {
             notSafePasswordsClickedAction()
         }
     }
 
     private fun setPasswordAdapter(passwords: List<PasswordCard>) {
-        binding.passwordRecycler.adapter = PasswordAdapter(
+        binding.rvPasswordRecycler.adapter = PasswordAdapter(
                 passwords,
                 this,
                 clickListener = {
@@ -519,15 +533,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updatePasswordQualityCirclesColor(circleNegative: Int, circleImprovement: Int, circlePositive: Int) {
-        binding.negativePasswordsCircle.setImageResource(circleNegative)
-        binding.notSafePasswordsCircle.setImageResource(circleImprovement)
-        binding.correctPasswordsCircle.setImageResource(circlePositive)
+        binding.ivNegativePasswordsCircle.setImageResource(circleNegative)
+        binding.ivNotSafePasswordsCircle.setImageResource(circleImprovement)
+        binding.ivCorrectPasswordsCircle.setImageResource(circlePositive)
     }
 
     private fun copyPassword() {
-        if(binding.genPasswordIdField.text.toString() != ""){
+        if(binding.tePasswordToGenerate.text.toString() != ""){
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("Password", binding.genPasswordIdField.text.toString())
+            val clip = ClipData.newPlainText("Password", binding.tePasswordToGenerate.text.toString())
             clipboard.setPrimaryClip(clip)
             Utils.makeToast(this, getString(R.string.passCopied))
         }
@@ -536,7 +550,7 @@ class MainActivity : AppCompatActivity() {
     private fun goToNewPasswordActivity() {
         val intent = Intent(this, CreatePasswordActivity::class.java)
         intent.putExtra("login", login)
-        intent.putExtra("pass", binding.genPasswordIdField.text.toString())
+        intent.putExtra("pass", binding.tePasswordToGenerate.text.toString())
         intent.putExtra("useLetters", useLetters)
         intent.putExtra("useUC", useUC)
         intent.putExtra("useNumbers", useNumbers)
@@ -547,7 +561,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun notSafePasswordsClickedAction() {
         if (searchNotSafe) {
-            binding.notSafePasswordsCircle.setImageResource(R.drawable.circle_improvement)
+            binding.ivNotSafePasswordsCircle.setImageResource(R.drawable.circle_improvement)
             setObservers(
                     type = PasswordGettingType.All,
                     value = defaultPassFilterValue,
@@ -574,7 +588,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun negativePasswordsClickedAction() {
         if (searchNegative) {
-            binding.negativePasswordsCircle.setImageResource(R.drawable.circle_negative)
+            binding.ivNegativePasswordsCircle.setImageResource(R.drawable.circle_negative)
             setObservers(
                     type = PasswordGettingType.All,
                     value = defaultPassFilterValue,
@@ -600,7 +614,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun correctPasswordsClickedAction() {
         if (searchCorrect) {
-            binding.correctPasswordsCircle.setImageResource(R.drawable.circle_positive)
+            binding.ivCorrectPasswordsCircle.setImageResource(R.drawable.circle_positive)
             setObservers(
                     type = PasswordGettingType.All,
                     value = defaultPassFilterValue,
@@ -632,24 +646,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showNoPasswordsInterface() {
-        binding.noPasswords.visibility = View.VISIBLE
-        binding.extraNewPass.visibility = View.VISIBLE
+        binding.cvNoPasswordsCard.visibility = View.VISIBLE
+        binding.fabAddNewPass.visibility = View.VISIBLE
         binding.cardView.visibility = View.GONE
-        binding.cardCup.visibility = View.GONE
-        binding.smile.visibility = View.GONE
-        binding.expand.visibility = View.GONE
-        val bottomSheetBehavior = BottomSheetBehavior.from(binding.allPassword)
+        binding.cvAdditionalInfoCard.visibility = View.GONE
+        binding.ivSmilePasswordCreation.visibility = View.GONE
+        binding.fabExpandButton.visibility = View.GONE
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.llAllPasswords)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     private fun showPasswordsInterface() {
-        binding.noPasswords.visibility = View.GONE
+        binding.cvNoPasswordsCard.visibility = View.GONE
         binding.cardView.visibility = View.VISIBLE
-        binding.cardCup.visibility = View.VISIBLE
-        binding.smile.visibility = View.VISIBLE
-        binding.expand.visibility = View.VISIBLE
-        binding.extraNewPass.visibility = View.GONE
-        val bottomSheetBehavior = BottomSheetBehavior.from(binding.allPassword)
+        binding.cvAdditionalInfoCard.visibility = View.VISIBLE
+        binding.ivSmilePasswordCreation.visibility = View.VISIBLE
+        binding.ivSmilePasswordCreation.animate().alpha(0.2F).setDuration(10).start()
+        binding.fabExpandButton.visibility = View.VISIBLE
+        binding.fabAddNewPass.visibility = View.GONE
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.llAllPasswords)
         if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN)
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
@@ -703,7 +718,7 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun tagSearchClicker(name: String) {
-        binding.searchPassField.setText(name)
+        binding.etSearchPassword.setText(name)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -788,7 +803,7 @@ class MainActivity : AppCompatActivity() {
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
-                val llBottomSheet = binding.allPassword
+                val llBottomSheet = binding.llAllPasswords
                 val bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet)
                 if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED)
                     finish()
@@ -808,7 +823,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (binding.lengthToggle.isChecked)
+        if (binding.cLengthToggle.isChecked)
             binding.seekBar.visibility = View.VISIBLE
     }
 

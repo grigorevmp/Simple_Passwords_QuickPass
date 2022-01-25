@@ -58,7 +58,7 @@
     <string name="desc">説明：</string>
     <string name="name">名前</string>
     <string name="view_password">パスワードを表示</string>
-    <string name="time_lim">最終変更：</string>
+    <string name="time_lim">最終変更：%1$s</string>
     <string name="pass">パスワード：</string>
     <string name="hi">こんにちは、</string>
     <string name="qualityPassword">パスワードの品質：</string>
@@ -134,7 +134,7 @@
     <string name="newPassRule1">1.強力なパスワードは、12文字を超え、3つの文字セット（LARGEおよび小文字、数字（1,2,3…）、特殊文字（./-…））を含む必要があります。</string>
     <string name="newPassRule2">2.公開されている情報を使用しないでください：名前の一部、電話番号、重要な日付</string>
     <string name="newPassRule3">3.別のパスワードを使用します。パスワードが公開されている場合、ハッカーは他のアカウントにアクセスできます。</string>
-    <string name="smile">スマイル</string>
+    <string name="ivSmilePasswordCreation">スマイル</string>
     <string name="back">バック</string>
     <string name="export">書き出す</string>
     <string name="importFile">インポート</string>

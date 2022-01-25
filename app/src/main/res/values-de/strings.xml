@@ -58,7 +58,7 @@
     <string name="desc">Beschreibung:</string>
     <string name="name">Name</string>
     <string name="view_password">Passwort anzeigen</string>
-    <string name="time_lim">Zuletzt geändert:</string>
+    <string name="time_lim">Zuletzt geändert: %1$s</string>
     <string name="pass">Passwort:</string>
     <string name="hi">Hallo,</string>
     <string name="qualityPassword">Passwortqualität:</string>
@@ -134,7 +134,7 @@
     <string name="newPassRule1">1. Ein sicheres Passwort muss länger als 12 Zeichen sein und drei Zeichensätze enthalten: GROSSE und kleine Buchstaben, Zahlen (1,2,3…), Sonderzeichen (./-…)</string>
     <string name="newPassRule2">2. Verwenden Sie keine öffentlich zugänglichen Informationen: Teile des Namens, Telefonnummern, Daten, die für Sie wichtig sind</string>
     <string name="newPassRule3">3. Verwenden Sie unterschiedliche Passwörter. Wenn ein Passwort öffentlich verfügbar ist, können Hacker auf Ihre anderen Konten zugreifen.</string>
-    <string name="smile">Lächeln</string>
+    <string name="ivSmilePasswordCreation">Lächeln</string>
     <string name="back">Zurück</string>
     <string name="export">Export</string>
     <string name="importFile">Importieren</string>
