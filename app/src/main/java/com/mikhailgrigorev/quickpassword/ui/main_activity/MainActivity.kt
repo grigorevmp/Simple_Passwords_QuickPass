@@ -255,8 +255,11 @@ class MainActivity : AppCompatActivity() {
                 isAsc
         ).observe(this) { passwords ->
             passwordCards = passwords
-            if (passwords.isEmpty())
-                showNoPasswordsInterface()
+            if (passwords.isEmpty()) {
+                if (defaultPassFilterType != PasswordGettingType.ByName)
+                    showNoPasswordsInterface()
+                setPasswordAdapter(passwords)
+            }
             else {
                 showPasswordsInterface()
                 setPasswordAdapter(passwords)
