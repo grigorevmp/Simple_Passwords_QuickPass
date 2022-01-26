@@ -596,7 +596,6 @@ class EditPassActivity : AppCompatActivity() {
         }
     }
 
-
     private fun pickImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"

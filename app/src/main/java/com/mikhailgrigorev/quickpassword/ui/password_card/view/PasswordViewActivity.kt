@@ -24,7 +24,6 @@ import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.ActivityPasswordViewBinding
-import com.mikhailgrigorev.quickpassword.ui.account.view.AccountActivity
 import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginAfterSplashActivity
 import com.mikhailgrigorev.quickpassword.ui.auth.re.login.ReLoginActivity
 import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
@@ -310,14 +309,6 @@ class PasswordViewActivity : AppCompatActivity() {
             val clip = ClipData.newPlainText("Name", binding.tvUsernameText.text.toString())
             clipboard.setPrimaryClip(clip)
             Utils.makeToast(applicationContext, getString(R.string.nameCopied))
-        }
-
-        binding.cvAccountAvatar.setOnClickListener {
-            condition = false
-            val intent = Intent(this, AccountActivity::class.java)
-            intent.putExtra("login", login)
-            intent.putExtra("activity", "menu")
-            startActivity(intent)
         }
 
         binding.tilPasswordLogin.setOnClickListener {
