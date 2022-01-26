@@ -39,15 +39,12 @@ class PasswordAdapter(
         val password = passwordCards[position]
         holder.passwordName.text = password.name
 
-        holder.chip2FA.visibility = View.GONE
         if (password.use_2fa) {
             val chip = Chip(holder.passwordGroup.context)
             chip.text = "2FA"
             chip.isClickable = false
+            chip.alpha = 0.7f
             chip.textSize = 12F
-            chip.setOnClickListener {
-                tagsClickListener("2FA")
-            }
             holder.passwordGroup.addView(chip)
         }
         if (password.description != "")
@@ -113,7 +110,6 @@ class PasswordAdapter(
 class ViewHolder(binding: PasswordCardBinding) : RecyclerView.ViewHolder(binding.root) {
     val passwordName = binding.tvPasswordName
     val passwordDescription = binding.tvDescription
-    val chip2FA = binding.c2FAChip
     val favoriteButton = binding.ibFavorite
     val passwordCard = binding.cvCard
     val qualityMarker = binding.ivMarker
