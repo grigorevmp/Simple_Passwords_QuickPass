@@ -6,7 +6,6 @@ import android.app.Activity
 import android.content.*
 import android.content.pm.PackageManager
 import android.database.Cursor
-import android.graphics.Point
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -21,19 +20,21 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.SeekBar
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.window.layout.WindowMetricsCalculator
 import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.entity.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityEditPassBinding
-import com.mikhailgrigorev.quickpassword.ui.account.view.AccountActivity
 import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginAfterSplashActivity
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModel
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModelFactory
@@ -59,6 +60,7 @@ class EditPassActivity : AppCompatActivity() {
     private lateinit var viewModel: PasswordViewModel
 
     private var passwordsCollection: List<PasswordCard>? = null
+    private lateinit var launchSomeActivity: ActivityResultLauncher<Intent>
 
     private lateinit var login: String
     private lateinit var binding: ActivityEditPassBinding
@@ -97,6 +99,7 @@ class EditPassActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        registerImagePickingIntent()
         super.onCreate(savedInstanceState)
         binding = ActivityEditPassBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -109,13 +112,6 @@ class EditPassActivity : AppCompatActivity() {
         val args: Bundle? = intent.extras
         login = args?.get("login").toString()
         val passwordId = args?.get("password_id").toString().toInt()
-
-        binding.cvAccountAvatar.setOnClickListener {
-            val intent = Intent(this, AccountActivity::class.java)
-            intent.putExtra("login", login)
-            intent.putExtra("activity", "menu")
-            startActivityForResult(intent, 1)
-        }
 
         loadPassword(passwordId)
         setListeners()
@@ -135,7 +131,7 @@ class EditPassActivity : AppCompatActivity() {
             if (dbPassword != "") {
                 length = dbPassword.length
                 binding.seekBar.progress = length
-                binding.cLengthToggle.text = getString(R.string.length) + ": " + length
+                binding.cLengthToggle.text = getString(R.string.length, length)
                 val evaluation: String = Utils.password_manager.evaluatePasswordString(
                         binding.tePasswordToGenerate.text.toString()
                 )
@@ -214,10 +210,11 @@ class EditPassActivity : AppCompatActivity() {
                 binding.attachedImage.setImageURI(uri)
                 binding.clearImage.visibility = View.VISIBLE
 
-                val display = windowManager.defaultDisplay
-                val size = Point()
-                display.getSize(size)
-                val widthMax: Int = size.x
+                val windowMetrics =
+                        WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this)
+                val currentBounds = windowMetrics.bounds
+                val widthMax = currentBounds.width()
+
                 val width = (widthMax / 1.3).toInt()
                 val height =
                         binding.attachedImage.drawable.minimumHeight * width / binding.attachedImage.drawable.minimumWidth
@@ -282,7 +279,7 @@ class EditPassActivity : AppCompatActivity() {
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                 // Display the current progress of SeekBar
                 length = i
-                binding.cLengthToggle.text = getString(R.string.length) + ": " + length
+                binding.cLengthToggle.text = getString(R.string.length, length)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -332,7 +329,7 @@ class EditPassActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 if (binding.tePasswordToGenerate.hasFocus()) {
                     length = s.toString().length
-                    binding.cLengthToggle.text = getString(R.string.length) + ": " + length
+                    binding.cLengthToggle.text = getString(R.string.length, length)
                     binding.seekBar.progress = length
                     val deg = binding.generatePassword.rotation + 10f
                     binding.generatePassword.animate().rotation(deg).interpolator =
@@ -521,8 +518,8 @@ class EditPassActivity : AppCompatActivity() {
                                             viewModel.currentPassword!!,
                                             passwordsCollection!!
                                     )
-                            if(analyzeResults.second.toString() != "[]")
-                                viewModel.currentPassword!!.same_with = analyzeResults.second.toString()
+                            if(analyzeResults.second.joinToString() != "")
+                                viewModel.currentPassword!!.same_with = analyzeResults.second.joinToString()
                             else
                                 viewModel.currentPassword!!.same_with = ""
                         }
@@ -582,9 +579,8 @@ class EditPassActivity : AppCompatActivity() {
     }
 
 
-    private val PERMISSION_CODE_READ = 1001
-    private val PERMISSION_CODE_WRITE = 1002
-    private val IMAGE_PICK_CODE = 1000
+    private val permissionCodeRead = 1001
+    private val permissionCodeWrite = 1002
 
     private fun checkPermissionForImage() {
         if ((checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
@@ -593,8 +589,8 @@ class EditPassActivity : AppCompatActivity() {
             val permission = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
             val permissionCoarse = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-            requestPermissions(permission, PERMISSION_CODE_READ) // GIVE AN INTEGER VALUE FOR PERMISSION_CODE_READ LIKE 1001
-            requestPermissions(permissionCoarse, PERMISSION_CODE_WRITE) // GIVE AN INTEGER VALUE FOR PERMISSION_CODE_WRITE LIKE 1002
+            requestPermissions(permission, permissionCodeRead) // GIVE AN INTEGER VALUE FOR permissionCodeRead LIKE 1001
+            requestPermissions(permissionCoarse, permissionCodeWrite) // GIVE AN INTEGER VALUE FOR permissionCodeWrite LIKE 1002
         } else {
             pickImageFromGallery()
         }
@@ -604,7 +600,7 @@ class EditPassActivity : AppCompatActivity() {
     private fun pickImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-        startActivityForResult(intent, IMAGE_PICK_CODE) // GIVE AN INTEGER VALUE FOR IMAGE_PICK_CODE LIKE 1000
+        startImagePick(intent) // GIVE AN INTEGER VALUE FOR imagePickCode LIKE 1000
     }
 
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
@@ -736,67 +732,72 @@ class EditPassActivity : AppCompatActivity() {
         return "com.google.android.apps.photos.content" == uri.authority
     }
 
-    @SuppressLint("SdCardPath")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1) {
-            if (resultCode == 1) {
-                recreate()
-            }
-        }
-        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
-            // I'M GETTING THE URI OF THE IMAGE AS DATA AND SETTING IT TO THE IMAGEVIEW
-            binding.attachedImage.setImageURI(data?.data)
-            val display = windowManager.defaultDisplay
-            val size = Point()
-            display.getSize(size)
-            val widthMax: Int = size.x
-            val width = (widthMax/1.3).toInt()
-            val height = binding.attachedImage.drawable.minimumHeight * width /  binding.attachedImage.drawable.minimumWidth
-            binding.attachedImage.layoutParams.height = height
-            binding.attachedImage.layoutParams.width = width
-            binding.attachedImage.layoutParams.height = height
-            binding.attachedImage.layoutParams.width = width
-            if (ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
-                != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(
-                        this,
-                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                        PackageManager.PERMISSION_GRANTED
-                )
-            }
+    private fun registerImagePickingIntent() {
+        launchSomeActivity =
+                registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                    if (result.resultCode == Activity.RESULT_OK) {
+                        val data = result.data
+                        binding.attachedImage.setImageURI(data?.data)
 
-            val selectedImageURI: Uri = data?.data!!
+                        val windowMetrics =
+                                WindowMetricsCalculator.getOrCreate()
+                                        .computeCurrentWindowMetrics(this)
+                        val currentBounds = windowMetrics.bounds
+                        val widthMax = currentBounds.width()
 
-            val mediaStorageDir = File(
-                    applicationContext.getExternalFilesDir("QuickPassPhotos")!!.absolutePath
-            )
-            if (!mediaStorageDir.exists()) {
-                mediaStorageDir.mkdirs()
-                Utils.makeToast(applicationContext, "Directory Created")
-            }
+                        val width = (widthMax / 1.3).toInt()
+                        val height =
+                                binding.attachedImage.drawable.minimumHeight * width / binding.attachedImage.drawable.minimumWidth
+                        binding.attachedImage.layoutParams.height = height
+                        binding.attachedImage.layoutParams.width = width
+                        binding.attachedImage.layoutParams.height = height
+                        binding.attachedImage.layoutParams.width = width
+                        if (ContextCompat.checkSelfPermission(
+                                    this,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            )
+                            != PackageManager.PERMISSION_GRANTED
+                        ) {
+                            ActivityCompat.requestPermissions(
+                                    this,
+                                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                                    PackageManager.PERMISSION_GRANTED
+                            )
+                        }
 
-            if (!mediaStorageDir.exists()) {
-                if (!mediaStorageDir.mkdirs()) {
-                    Utils.makeToast(applicationContext, "Failed to create directory")
+                        val selectedImageURI: Uri = data?.data!!
+
+                        val mediaStorageDir = File(
+                                applicationContext.getExternalFilesDir("QuickPassPhotos")!!.absolutePath
+                        )
+                        if (!mediaStorageDir.exists()) {
+                            mediaStorageDir.mkdirs()
+                            Utils.makeToast(applicationContext, "Directory Created")
+                        }
+
+                        if (!mediaStorageDir.exists()) {
+                            if (!mediaStorageDir.mkdirs()) {
+                                Log.d("App", "failed to create directory")
+                            }
+                        }
+
+                        imageName = if (binding.newNameField.text.toString() == "") {
+                            "000000001tmp000000001"
+                        } else
+                            binding.newNameField.text.toString()
+                        val file = File(mediaStorageDir, "${imageName}.jpg")
+
+                        val resultURI = getImagePath(this, selectedImageURI)
+                        if (resultURI != null) {
+                            copyFile(File(resultURI), file)
+                        }
+
+                        isImage = true
+                    }
                 }
-            }
+    }
 
-            if (viewModel.currentPassword != null) {
-                imageName = viewModel.currentPassword!!.name
-
-                val file = File(mediaStorageDir, "$imageName.jpg")
-
-                val resultURI = getImagePath(this, selectedImageURI)
-                if (resultURI != null) {
-                    copyFile(File(resultURI), file)
-                }
-                isImage = true
-            }
-        }
+    private fun startImagePick(intent: Intent) {
+        launchSomeActivity.launch(intent)
     }
 }

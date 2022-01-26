@@ -48,7 +48,7 @@
     <string name="upperCaseLetters" translatable="false">ABC…</string>
     <string name="chipNumbers" translatable="false">123…</string>
     <string name="chipSym" translatable="false">./-…</string>
-    <string name="length">Length</string>
+    <string name="length">Length: %1$d</string>
     <string name="generate" translatable="false">+</string>
     <string name="passCopied">Password was copied to clipboard</string>
     <string name="loginCopied">Login was copied to clipboard</string>
@@ -211,4 +211,8 @@
     <string name="checkautofillsettings">Check autofill settings</string>
     <string name="autofill_Desc">At this moment QuickPass support only app with same name with passwords.</string>
     <string name="attach_image_mini">Attach</string>
+
+    <!-- New strings -->
+    <string name="same_parts" translatable="false">Same parts with: %1$s</string>
+
 </resources>

@@ -45,7 +45,7 @@
         <item quantity="other">You should improve %1$d passwords</item>
     </plurals>
 
-    <string name="length">長さ</string>
+    <string name="length">長さ: %1$d</string>
     <string name="passCopied">パスワードがクリップボードにコピーされました</string>
     <string name="loginCopied">ログインがクリップボードにコピーされました</string>
     <string name="nameCopied">名前がクリップボードにコピーされました</string>

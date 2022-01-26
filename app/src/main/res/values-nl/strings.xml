@@ -45,7 +45,7 @@
         <item quantity="other">You should improve %1$d passwords</item>
     </plurals>
 
-    <string name="length">Lengte</string>
+    <string name="length">Lengte: %1$d</string>
     <string name="passCopied">Wachtwoord is naar klembord gekopieerd</string>
     <string name="loginCopied">Login is gekopieerd naar klembord</string>
     <string name="nameCopied">Naam is naar klembord gekopieerd</string>

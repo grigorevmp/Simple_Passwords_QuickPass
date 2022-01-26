@@ -45,7 +45,7 @@
         <item quantity="other">You should improve %1$d passwords</item>
     </plurals>
 
-    <string name="length">길이</string>
+    <string name="length">길이: %1$d</string>
     <string name="passCopied">비밀번호가 클립 보드에 복사되었습니다.</string>
     <string name="loginCopied">로그인이 클립 보드에 복사되었습니다.</string>
     <string name="nameCopied">이름이 클립 보드에 복사되었습니다.</string>

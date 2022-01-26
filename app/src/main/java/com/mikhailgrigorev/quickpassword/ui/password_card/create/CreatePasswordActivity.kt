@@ -6,9 +6,7 @@ import android.app.Activity
 import android.content.*
 import android.content.pm.PackageManager
 import android.database.Cursor
-import android.graphics.Point
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -22,11 +20,14 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.SeekBar
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.window.layout.WindowMetricsCalculator
 import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
@@ -57,12 +58,15 @@ class CreatePasswordActivity : AppCompatActivity() {
     private var imageName: String = ""
     private lateinit var viewModel: PasswordViewModel
 
+    private lateinit var launchSomeActivity: ActivityResultLauncher<Intent>
+
     private var passwordsCollection: List<PasswordCard>? = null
 
     private lateinit var login: String
     private lateinit var binding: ActivityNewPasswordBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        registerImagePickingIntent()
         super.onCreate(savedInstanceState)
         binding = ActivityNewPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -178,7 +182,7 @@ class CreatePasswordActivity : AppCompatActivity() {
             list.add(binding.cSymToggles.text.toString())
         }
         length = args.get("length") as Int
-        binding.cLengthToggle.text = getString(R.string.length) + ": " + length
+        binding.cLengthToggle.text = getString(R.string.length, length)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -202,8 +206,7 @@ class CreatePasswordActivity : AppCompatActivity() {
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
-                length = i
-                binding.cLengthToggle.text = getString(R.string.length) + ": " + length
+                binding.cLengthToggle.text = getString(R.string.length, i)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
@@ -244,7 +247,7 @@ class CreatePasswordActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 if (binding.tePasswordToGenerate.hasFocus()) {
                     length = s.toString().length
-                    binding.cLengthToggle.text = getString(R.string.length) + ": " + length
+                    binding.cLengthToggle.text = getString(R.string.length, length)
                     binding.seekBar.progress = length
                     val deg = binding.generatePassword.rotation + 10f
                     binding.generatePassword.animate().rotation(deg).interpolator =
@@ -455,11 +458,11 @@ class CreatePasswordActivity : AppCompatActivity() {
                     if (passwordsCollection != null) {
                         val analyzeResults =
                                 Utils.analyzeDataBase(
-                                    newPassword,
-                                    passwordsCollection!!
+                                        newPassword,
+                                        passwordsCollection!!
                                 )
-                        if(analyzeResults.second.toString() != "[]")
-                            newPassword.same_with = analyzeResults.second.toString()
+                        if (analyzeResults.second.joinToString() != "")
+                            newPassword.same_with = analyzeResults.second.joinToString()
                         else
                             viewModel.currentPassword!!.same_with = ""
                     }
@@ -511,31 +514,27 @@ class CreatePasswordActivity : AppCompatActivity() {
         }
     }
 
-    private val PERMISSION_CODE_READ = 1001
-    private val PERMISSION_CODE_WRITE = 1002
-    private val IMAGE_PICK_CODE = 1000
+    private val permissionCodeRead = 1001
+    private val permissionCodeWrite = 1002
 
     private fun checkPermissionForImage() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if ((checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
-                && (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
-            ) {
-                val permission = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
-                val permissionCoarse = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if ((checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
+            && (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
+        ) {
+            val permission = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+            val permissionCoarse = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-                requestPermissions(permission, PERMISSION_CODE_READ) // GIVE AN INTEGER VALUE FOR PERMISSION_CODE_READ LIKE 1001
-                requestPermissions(permissionCoarse, PERMISSION_CODE_WRITE) // GIVE AN INTEGER VALUE FOR PERMISSION_CODE_WRITE LIKE 1002
-            } else {
-                pickImageFromGallery()
-            }
+            requestPermissions(permission, permissionCodeRead)
+            requestPermissions(permissionCoarse, permissionCodeWrite)
+        } else {
+            pickImageFromGallery()
         }
     }
 
     private fun pickImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-        // DEPRECATED
-        startActivityForResult(intent, IMAGE_PICK_CODE)
+        startImagePick(intent)
     }
 
     @Throws(IOException::class)
@@ -665,70 +664,72 @@ class CreatePasswordActivity : AppCompatActivity() {
         return false
     }
 
-    @SuppressLint("SdCardPath")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1) {
-            if (resultCode == 1) {
-                recreate()
-            }
-        }
-        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
-            // I'M GETTING THE URI OF THE IMAGE AS DATA AND SETTING IT TO THE IMAGEVIEW
-            binding.attachedImage.setImageURI(data?.data)
-            val display = windowManager.defaultDisplay
-            val size = Point()
-            display.getSize(size)
-            val widthMax: Int = size.x
-            val width = (widthMax / 1.3).toInt()
-            val height =
-                    binding.attachedImage.drawable.minimumHeight * width / binding.attachedImage.drawable.minimumWidth
-            binding.attachedImage.layoutParams.height = height
-            binding.attachedImage.layoutParams.width = width
-            binding.attachedImage.layoutParams.height = height
-            binding.attachedImage.layoutParams.width = width
-            if (ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
-                != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(
-                        this,
-                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                        PackageManager.PERMISSION_GRANTED
-                )
-            }
+    private fun registerImagePickingIntent() {
+        launchSomeActivity =
+                registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                    if (result.resultCode == Activity.RESULT_OK) {
+                        val data = result.data
+                        binding.attachedImage.setImageURI(data?.data)
 
-            val selectedImageURI: Uri = data?.data!!
+                        val windowMetrics =
+                                WindowMetricsCalculator.getOrCreate()
+                                        .computeCurrentWindowMetrics(this)
+                        val currentBounds = windowMetrics.bounds
+                        val widthMax = currentBounds.width()
 
-            val mediaStorageDir = File(
-                    applicationContext.getExternalFilesDir("QuickPassPhotos")!!.absolutePath
-            )
-            if (!mediaStorageDir.exists()) {
-                mediaStorageDir.mkdirs()
-                Utils.makeToast(applicationContext, "Directory Created")
-            }
+                        val width = (widthMax / 1.3).toInt()
+                        val height =
+                                binding.attachedImage.drawable.minimumHeight * width / binding.attachedImage.drawable.minimumWidth
+                        binding.attachedImage.layoutParams.height = height
+                        binding.attachedImage.layoutParams.width = width
+                        binding.attachedImage.layoutParams.height = height
+                        binding.attachedImage.layoutParams.width = width
+                        if (ContextCompat.checkSelfPermission(
+                                    this,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            )
+                            != PackageManager.PERMISSION_GRANTED
+                        ) {
+                            ActivityCompat.requestPermissions(
+                                    this,
+                                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                                    PackageManager.PERMISSION_GRANTED
+                            )
+                        }
 
-            if (!mediaStorageDir.exists()) {
-                if (!mediaStorageDir.mkdirs()) {
-                    Log.d("App", "failed to create directory")
+                        val selectedImageURI: Uri = data?.data!!
+
+                        val mediaStorageDir = File(
+                                applicationContext.getExternalFilesDir("QuickPassPhotos")!!.absolutePath
+                        )
+                        if (!mediaStorageDir.exists()) {
+                            mediaStorageDir.mkdirs()
+                            Utils.makeToast(applicationContext, "Directory Created")
+                        }
+
+                        if (!mediaStorageDir.exists()) {
+                            if (!mediaStorageDir.mkdirs()) {
+                                Log.d("App", "failed to create directory")
+                            }
+                        }
+
+                        imageName = if (binding.newNameField.text.toString() == "") {
+                            "000000001tmp000000001"
+                        } else
+                            binding.newNameField.text.toString()
+                        val file = File(mediaStorageDir, "${imageName}.jpg")
+
+                        val resultURI = getImagePath(this, selectedImageURI)
+                        if (resultURI != null) {
+                            copyFile(File(resultURI), file)
+                        }
+
+                        isImage = true
+                    }
                 }
-            }
-
-            imageName = if(binding.newNameField.text.toString() == ""){
-                "000000001tmp000000001"
-            } else
-                binding.newNameField.text.toString()
-            val file = File(mediaStorageDir, "${imageName}.jpg")
-
-            val resultURI = getImagePath(this, selectedImageURI)
-            if (resultURI != null){
-                copyFile(File(resultURI), file)
-            }
-
-            isImage = true
-        }
     }
 
+    private fun startImagePick(intent: Intent) {
+        launchSomeActivity.launch(intent)
+    }
 }

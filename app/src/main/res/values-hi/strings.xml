@@ -45,7 +45,7 @@
         <item quantity="other">You should improve %1$d passwords</item>
     </plurals>
 
-    <string name="length">लंबाई</string>
+    <string name="length">लंबाई: %1$d</string>
     <string name="passCopied">पासवर्ड को क्लिपबोर्ड पर कॉपी किया गया था</string>
     <string name="loginCopied">लॉगिन को क्लिपबोर्ड पर कॉपी किया गया था</string>
     <string name="nameCopied">नाम क्लिपबोर्ड पर कॉपी किया गया था</string>

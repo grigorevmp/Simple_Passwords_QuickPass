@@ -45,7 +45,7 @@
         <item quantity="other">Вам следует изменить %1$d паролей</item>
     </plurals>
 
-    <string name="length">Длина</string>
+    <string name="length">Длина: %1$d</string>
     <string name="noRules">нужно выбрать как минимум 1 правило</string>
     <string name="passCopied">Пароль скопирован в буфер обмена</string>
     <string name="loginCopied">Логин скопирован в буфер обмена</string>

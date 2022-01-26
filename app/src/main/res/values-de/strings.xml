@@ -45,7 +45,7 @@
         <item quantity="other">You should improve %1$d passwords</item>
     </plurals>
 
-    <string name="length">Länge</string>
+    <string name="length">Länge: %1$d</string>
     <string name="passCopied">Das Passwort wurde in die Zwischenablage kopiert</string>
     <string name="loginCopied">Der Login wurde in die Zwischenablage kopiert</string>
     <string name="nameCopied">Der Name wurde in die Zwischenablage kopiert</string>

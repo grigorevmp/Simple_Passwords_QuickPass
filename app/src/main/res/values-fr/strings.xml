@@ -45,7 +45,7 @@
         <item quantity="other">You should improve %1$d passwords</item>
     </plurals>
 
-    <string name="length">Longueur</string>
+    <string name="length">Longueur: %1$d</string>
     <string name="passCopied">Le mot de passe a été copié dans le presse-papiers</string>
     <string name="loginCopied">La connexion a été copiée dans le presse-papiers</string>
     <string name="nameCopied">Le nom a été copié dans le presse-papiers</string>

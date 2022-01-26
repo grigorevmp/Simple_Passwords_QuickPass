@@ -45,7 +45,7 @@
         <item quantity="other">You should improve %1$d passwords</item>
     </plurals>
 
-    <string name="length">Lunghezza</string>
+    <string name="length">Lunghezza: %1$d</string>
     <string name="passCopied">La password è stata copiata negli appunti</string>
     <string name="loginCopied">L\'accesso è stato copiato negli appunti</string>
     <string name="nameCopied">Il nome è stato copiato negli appunti</string>

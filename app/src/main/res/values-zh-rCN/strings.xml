@@ -45,7 +45,7 @@
         <item quantity="other">You should improve %1$d passwords</item>
     </plurals>
 
-    <string name="length">长度</string>
+    <string name="length">长度: %1$d</string>
     <string name="passCopied">密码已复制到剪贴板</string>
     <string name="loginCopied">登录名已复制到剪贴板</string>
     <string name="nameCopied">名称已复制到剪贴板</string>

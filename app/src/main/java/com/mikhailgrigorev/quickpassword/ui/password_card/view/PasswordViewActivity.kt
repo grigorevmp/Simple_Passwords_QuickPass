@@ -5,7 +5,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.graphics.Point
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -20,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.window.layout.WindowMetricsCalculator
 import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
@@ -88,26 +88,13 @@ class PasswordViewActivity : AppCompatActivity() {
             intent.putExtra("password_id", args?.get("password_id").toString())
             condition = false
             val intent = Intent(this, ReLoginActivity::class.java)
-            startActivityForResult(intent, 1)
+            startActivity(intent)
         }
 
         val passwordId = args?.get("password_id").toString().toInt()
 
         loadPassword(passwordId)
         setListeners()
-
-        if ((args?.get("sameWith") != null) and (args?.get("sameWith").toString() != "none")) {
-            binding.imSamePartsImage.visibility = View.VISIBLE
-            binding.sameParts.visibility = View.VISIBLE
-            binding.sameParts.text = args?.get("sameWith").toString()
-            binding.passQuality.setTextColor(
-                    ContextCompat.getColor(
-                            applicationContext,
-                            R.color.negative
-                    )
-            )
-            binding.passQuality.text = getString(R.string.low)
-        }
 
         if (Utils.autoCopy() == "none" && binding.etPassword.text.toString() != "") {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -122,14 +109,7 @@ class PasswordViewActivity : AppCompatActivity() {
             if (passwordCard.same_with != "") {
                 binding.imSamePartsImage.visibility = View.VISIBLE
                 binding.sameParts.visibility = View.VISIBLE
-                binding.sameParts.text = passwordCard.same_with
-                binding.passQuality.setTextColor(
-                        ContextCompat.getColor(
-                                applicationContext,
-                                R.color.negative
-                        )
-                )
-                binding.passQuality.text = getString(R.string.low)
+                binding.sameParts.text = this.getString(R.string.same_parts, passwordCard.same_with)
             }
 
             viewModel.currentPassword = passwordCard
@@ -239,6 +219,7 @@ class PasswordViewActivity : AppCompatActivity() {
             else
                 binding.tilPasswordLogin.visibility = View.GONE
 
+            binding.cgPasswordChipGroup.removeAllViews()
             if (passwordCard.tags != "") {
                 passwordCard.tags.split("\\s".toRegex()).forEach { item ->
                     val chip = Chip(binding.cgPasswordChipGroup.context)
@@ -269,10 +250,12 @@ class PasswordViewActivity : AppCompatActivity() {
                 val uri = Uri.fromFile(file)
                 binding.attachedImage.setImageURI(uri)
                 binding.attachedImageText.visibility = View.VISIBLE
-                val display = windowManager.defaultDisplay
-                val size = Point()
-                display.getSize(size)
-                val widthMax: Int = size.x
+
+                val windowMetrics =
+                        WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this)
+                val currentBounds = windowMetrics.bounds
+                val widthMax = currentBounds.width()
+
                 val width = (widthMax / 2.4).toInt()
                 val height =
                         binding.attachedImage.drawable.minimumHeight * width / binding.attachedImage.drawable.minimumWidth
@@ -334,7 +317,7 @@ class PasswordViewActivity : AppCompatActivity() {
             val intent = Intent(this, AccountActivity::class.java)
             intent.putExtra("login", login)
             intent.putExtra("activity", "menu")
-            startActivityForResult(intent, 1)
+            startActivity(intent)
         }
 
         binding.tilPasswordLogin.setOnClickListener {
@@ -398,7 +381,7 @@ class PasswordViewActivity : AppCompatActivity() {
             val intent = Intent(this, EditPassActivity::class.java)
             intent.putExtra("login", login)
             intent.putExtra("password_id", viewModel.currentPassword!!._id)
-            startActivityForResult(intent, 1)
+            startActivity(intent)
         }
 
         binding.favButton.setOnClickListener {
@@ -456,16 +439,5 @@ class PasswordViewActivity : AppCompatActivity() {
             }
         }
         return false
-    }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1) {
-            if (resultCode == 1) {
-                condition=false
-                val intent = intent
-                finish()
-                startActivity(intent)
-            }
-        }
     }
 }

@@ -120,14 +120,22 @@ object Utils {
         val otherPasswords: MutableList<String> = arrayListOf()
         for (password in passwords) {
             if (password._id != current_password._id) {
+                var password1 = current_password.password
+                var password2 = password.password
+
+                if (current_password.encrypted)
+                    password1 = password_manager.decrypt(password1).toString()
+
+                if (password.encrypted)
+                    password2 = password_manager.decrypt(password2).toString()
+
                 if (
-                    (current_password.name.contains(password.name))
+                    (password1.contains(password2))
                     or
-                    (password.name.contains(current_password.name))
+                    (password2.contains(password1))
                 ) {
                     containOthers = true
                     otherPasswords.add(password.name)
-                    break
                 }
             }
         }

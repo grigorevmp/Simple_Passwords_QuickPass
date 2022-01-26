@@ -57,6 +57,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    // Window
+    implementation "androidx.window:window:1.0.0-rc01"
 
     // Room
     implementation 'androidx.work:work-runtime:2.7.1'

@@ -14,7 +14,7 @@ interface PasswordCardDao {
     fun getByID(id: Int): LiveData<PasswordCard>
 
     @Query(
-            """SELECT * FROM password_card WHERE name LIKE :search ORDER BY favorite DESC,
+            """SELECT * FROM password_card WHERE name LIKE '%' || :search || '%' OR tags LIKE '%' || :search || '%' ORDER BY favorite DESC,
                     CASE WHEN :isAsc = 1 THEN name END ASC,
                     CASE WHEN :isAsc = 0 THEN name END DESC"""
     )
@@ -24,7 +24,7 @@ interface PasswordCardDao {
     ): LiveData<List<PasswordCard>>
 
     @Query(
-            """SELECT * FROM password_card WHERE name LIKE :search ORDER BY favorite DESC,
+            """SELECT * FROM password_card WHERE name LIKE :search OR tags LIKE :search  ORDER BY favorite DESC,
                     CASE WHEN :isAsc = 1 THEN time END ASC,
                     CASE WHEN :isAsc = 0 THEN time END DESC"""
     )
