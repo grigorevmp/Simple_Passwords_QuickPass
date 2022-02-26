@@ -9,7 +9,7 @@ import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.databinding.ActivitySplashBinding
-import com.mikhailgrigorev.quickpassword.ui.auth.login.AuthActivity
+import com.mikhailgrigorev.quickpassword.ui.auth.auth.AuthActivity
 
 // TODO Splash Android 12
 @SuppressLint("CustomSplashScreen")
@@ -27,7 +27,7 @@ class SplashActivity : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             val intent = Intent(this, AuthActivity::class.java)
-            startActivityForResult(intent, 1)
+            startActivity(intent)
             overridePendingTransition(0, R.anim.fadein)
             finish()
         }, 500)

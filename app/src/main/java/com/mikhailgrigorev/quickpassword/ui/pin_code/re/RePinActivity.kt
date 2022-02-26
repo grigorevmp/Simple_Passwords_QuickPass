@@ -20,8 +20,9 @@ import androidx.core.content.ContextCompat
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.databinding.ActivityPinBinding
 import com.mikhailgrigorev.quickpassword.dbhelpers.DataBaseHelper
+import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
 import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
-import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginAfterSplashActivity
+
 import java.util.concurrent.Executor
 
 class RePinActivity : AppCompatActivity() {
@@ -269,7 +270,7 @@ class RePinActivity : AppCompatActivity() {
         sharedPref.edit().remove(_keyUsername).apply()
         sharedPref.edit().remove(_keyUsePin).apply()
         sharedPref.edit().remove(_keyBio).apply()
-        val intent = Intent(this, LoginAfterSplashActivity::class.java)
+        val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()
     }

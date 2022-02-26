@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.mikhailgrigorev.quickpassword.data.dao.FolderDao
-import com.mikhailgrigorev.quickpassword.data.entity.FolderCard
+import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -37,8 +37,7 @@ abstract class FolderCardDatabase : RoomDatabase() {
                                 super.onCreate(db)
                                 populateDatabase(INSTANCE!!)
                             }
-                        })
-                                .build()
+                        }).build()
                     }
                 }
             }
@@ -51,10 +50,18 @@ abstract class FolderCardDatabase : RoomDatabase() {
         }
 
         private fun populateDatabase(db: FolderCardDatabase) {
-            // val passwordCardDao = db.PasswordCardDao()
-            // CoroutineScope(IO).launch {
-            //     passwordCardDao.insert()
-            // }
+            val passwordCardDao = db.FolderDao()
+            CoroutineScope(IO).launch {
+                passwordCardDao.insert(
+                        FolderCard(
+                                _id = 0,
+                                colorTag = 0,
+                                description = "null",
+                                imageSrc = "null",
+                                name = "Test folder"
+                        )
+                )
+            }
         }
     }
 }

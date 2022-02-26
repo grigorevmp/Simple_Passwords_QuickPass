@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.ui.auth.sign
+package com.mikhailgrigorev.quickpassword.ui.auth.login
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -13,14 +13,13 @@ import androidx.core.content.ContextCompat
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.ActivityLoginBinding
-import com.mikhailgrigorev.quickpassword.ui.auth.login.AuthActivity
+import com.mikhailgrigorev.quickpassword.ui.auth.auth.AuthActivity
 import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
 import org.mindrot.jbcrypt.BCrypt
 import java.util.concurrent.Executor
 
 class LoginActivity : AppCompatActivity() {
 
-    private val _tag = "SignUpActivity"
     private lateinit var executor: Executor
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo

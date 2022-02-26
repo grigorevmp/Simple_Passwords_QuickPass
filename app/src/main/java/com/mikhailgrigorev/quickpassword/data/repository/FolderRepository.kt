@@ -2,7 +2,7 @@ package com.mikhailgrigorev.quickpassword.data.repository
 
 import androidx.lifecycle.LiveData
 import com.mikhailgrigorev.quickpassword.data.database.FolderCardDatabase
-import com.mikhailgrigorev.quickpassword.data.entity.FolderCard
+import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 
 
 class FolderRepository {

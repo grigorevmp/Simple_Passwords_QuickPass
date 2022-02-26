@@ -73,7 +73,11 @@
             android:name="com.mikhailgrigorev.quickpassword.ui.account.view.AccountActivity"
             android:screenOrientation="fullSensor" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.ui.auth.sign.LoginActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.auth.auth.AuthActivity"
+            android:screenOrientation="fullSensor"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity"
             android:screenOrientation="fullSensor"
             android:windowSoftInputMode="adjustResize" />
         <activity

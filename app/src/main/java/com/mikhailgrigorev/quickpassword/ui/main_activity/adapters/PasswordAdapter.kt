@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.ui.main_activity
+package com.mikhailgrigorev.quickpassword.ui.main_activity.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
-import com.mikhailgrigorev.quickpassword.data.entity.PasswordCard
-import com.mikhailgrigorev.quickpassword.databinding.PasswordCardBinding
+import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
+import com.mikhailgrigorev.quickpassword.databinding.ItemPasswordCardBinding
 
 class PasswordAdapter(
     private val passwordCards: List<PasswordCard>,
@@ -30,7 +30,7 @@ class PasswordAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = PasswordCardBinding.inflate(LayoutInflater.from(context), parent, false)
+        val binding = ItemPasswordCardBinding.inflate(LayoutInflater.from(context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -107,7 +107,7 @@ class PasswordAdapter(
     }
 }
 
-class ViewHolder(binding: PasswordCardBinding) : RecyclerView.ViewHolder(binding.root) {
+class ViewHolder(binding: ItemPasswordCardBinding) : RecyclerView.ViewHolder(binding.root) {
     val passwordName = binding.tvPasswordName
     val passwordDescription = binding.tvDescription
     val favoriteButton = binding.ibFavorite

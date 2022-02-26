@@ -32,9 +32,10 @@ import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
-import com.mikhailgrigorev.quickpassword.data.entity.PasswordCard
+import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityNewPasswordBinding
-import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginAfterSplashActivity
+import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
+
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModel
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModelFactory
 import kotlinx.coroutines.Dispatchers
@@ -106,7 +107,7 @@ class CreatePasswordActivity : AppCompatActivity() {
         val r = Runnable {
             if (condition) {
                 condition = false
-                val intent = Intent(this, LoginAfterSplashActivity::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
             }
@@ -450,7 +451,6 @@ class CreatePasswordActivity : AppCompatActivity() {
                             time = Date().toString(),
                             description = binding.noteField.text.toString(),
                             tags = binding.keyWordsField.text.toString(),
-                            groups = "",
                             login = binding.emailField.text.toString(),
                             encrypted = binding.cryptToggle.isChecked,
                     )

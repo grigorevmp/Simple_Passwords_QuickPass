@@ -21,7 +21,8 @@ import com.mikhailgrigorev.quickpassword.common.PasswordManager
 import com.mikhailgrigorev.quickpassword.databinding.ActivityEditAccountBinding
 import com.mikhailgrigorev.quickpassword.dbhelpers.DataBaseHelper
 import com.mikhailgrigorev.quickpassword.dbhelpers.PasswordsDataBaseHelper
-import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginAfterSplashActivity
+import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
+
 import com.mikhailgrigorev.quickpassword.ui.donut.condition
 
 
@@ -59,7 +60,7 @@ class EditAccountActivity : AppCompatActivity() {
         val r = Runnable {
             if(condition) {
                 condition=false
-                val intent = Intent(this, LoginAfterSplashActivity::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
             }

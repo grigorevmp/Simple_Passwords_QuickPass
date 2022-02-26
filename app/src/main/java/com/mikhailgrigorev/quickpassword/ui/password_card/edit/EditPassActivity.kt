@@ -33,9 +33,10 @@ import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
-import com.mikhailgrigorev.quickpassword.data.entity.PasswordCard
+import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityEditPassBinding
-import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginAfterSplashActivity
+import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
+
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModel
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModelFactory
 import kotlinx.coroutines.Dispatchers
@@ -71,7 +72,7 @@ class EditPassActivity : AppCompatActivity() {
         val r = Runnable {
             if (condition) {
                 condition = false
-                val intent = Intent(this, LoginAfterSplashActivity::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
             }
@@ -508,7 +509,6 @@ class EditPassActivity : AppCompatActivity() {
                         viewModel.currentPassword!!.time = Date().toString()
                         viewModel.currentPassword!!.description = binding.noteField.text.toString()
                         viewModel.currentPassword!!.tags = binding.keyWordsField.text.toString()
-                        viewModel.currentPassword!!.groups = ""
                         viewModel.currentPassword!!.login = binding.emailField.text.toString()
                         viewModel.currentPassword!!.encrypted = binding.cryptToggle.isChecked
 

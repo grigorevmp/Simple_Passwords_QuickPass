@@ -5,6 +5,7 @@
     <dimen name="base_card_elevation">3dp</dimen>
     <dimen name="base_card_vertical_margin">10dp</dimen>
     <dimen name="small_card_horizontal_margin">10dp</dimen>
+    <dimen name="x_small_card_horizontal_margin">5dp</dimen>
     <dimen name="base_card_horizontal_margin">20dp</dimen>
     <dimen name="medium_card_vertical_margin">20dp</dimen>
     <dimen name="image_button_size_20">20dp</dimen>
@@ -16,4 +17,6 @@
     <dimen name="small_elevation">10dp</dimen>
     <dimen name="base_margin">20dp</dimen>
     <dimen name="small_margin">10dp</dimen>
+    <dimen name="max_width">100dp</dimen>
+    <dimen name="text_input_margin_end_huge">95dp</dimen>
 </resources>

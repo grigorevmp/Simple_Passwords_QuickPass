@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.ui.auth.login
+package com.mikhailgrigorev.quickpassword.ui.auth.auth
 
 import android.content.Context
 import android.content.Intent
@@ -10,16 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.ActivityAuthBinding
-import com.mikhailgrigorev.quickpassword.ui.auth.sign.LoginActivity
+import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
 import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
 import com.mikhailgrigorev.quickpassword.ui.pin_code.view.PinActivity
-import org.mindrot.jbcrypt.BCrypt
 
 class AuthActivity : AppCompatActivity() {
 
-    private val _preferenceFile = "quickPassPreference"
-    private val _keyBio = "prefUserBioKey"
-    private val _tag = "SignUpActivity"
     private val defaultRotation = 45F
     private lateinit var binding: ActivityAuthBinding
 
@@ -72,7 +68,6 @@ class AuthActivity : AppCompatActivity() {
                     )
                 )
                     signIn(
-                            binding.inputLoginIdField.text.toString(),
                             binding.inputPasswordIdField.text.toString()
                     )
             }
@@ -143,17 +138,17 @@ class AuthActivity : AppCompatActivity() {
 
     private fun signUp(login: String, password: String) {
         Utils.setLogin(login)
-        signIn(login, password)
+        signIn(password)
     }
 
-    private fun signIn(login: String, password: String) {
+    private fun signIn(password: String) {
         // TODO connect with Firebase
         val testPassword = "test_password"
-        val hashedPassword = BCrypt.hashpw(testPassword, BCrypt.gensalt(12))
-        val hashedUserPassword = BCrypt.hashpw(password, BCrypt.gensalt(12))
+        // val hashedPassword = BCrypt.hashpw(testPassword, BCrypt.gensalt(12))
+        // val hashedUserPassword = BCrypt.hashpw(password, BCrypt.gensalt(12))
 
 
-        if (hashedPassword != hashedUserPassword) {
+        if (password != "test") {
             binding.inputPasswordId.error = getString(R.string.wrong_pass)
             return
         } else {

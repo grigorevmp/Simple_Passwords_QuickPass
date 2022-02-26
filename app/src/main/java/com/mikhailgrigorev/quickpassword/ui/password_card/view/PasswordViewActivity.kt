@@ -24,8 +24,7 @@ import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.ActivityPasswordViewBinding
-import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginAfterSplashActivity
-import com.mikhailgrigorev.quickpassword.ui.auth.re.login.ReLoginActivity
+import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
 import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModel
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModelFactory
@@ -48,7 +47,7 @@ class PasswordViewActivity : AppCompatActivity() {
         val r = Runnable {
             if (condition) {
                 condition = false
-                val intent = Intent(this, LoginAfterSplashActivity::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
             }
@@ -86,7 +85,7 @@ class PasswordViewActivity : AppCompatActivity() {
             intent.putExtra("login", login)
             intent.putExtra("password_id", args?.get("password_id").toString())
             condition = false
-            val intent = Intent(this, ReLoginActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 

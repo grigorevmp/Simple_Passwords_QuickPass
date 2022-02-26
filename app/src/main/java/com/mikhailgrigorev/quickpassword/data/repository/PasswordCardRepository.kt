@@ -2,7 +2,7 @@ package com.mikhailgrigorev.quickpassword.data.repository
 
 import androidx.lifecycle.LiveData
 import com.mikhailgrigorev.quickpassword.data.database.PasswordCardDatabase
-import com.mikhailgrigorev.quickpassword.data.entity.PasswordCard
+import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 
 
 class PasswordCardRepository {

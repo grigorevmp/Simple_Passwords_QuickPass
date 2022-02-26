@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.data.entity
+package com.mikhailgrigorev.quickpassword.data.dbo
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -12,6 +12,8 @@ data class FolderCard(
     var name: String,
     @SerializedName("description")
     var description: String,
+    @SerializedName("image_src")
+    var imageSrc: String,
     @SerializedName("color_tag")
-    var colorTag: String,
+    var colorTag: Int,
 )

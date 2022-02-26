@@ -1,5 +1,6 @@
 package com.mikhailgrigorev.quickpassword.ui.donut
 
+//import com.anjlab.android.iab.v3.TransactionDetails
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -13,11 +14,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.anjlab.android.iab.v3.BillingProcessor
 import com.anjlab.android.iab.v3.PurchaseInfo
-import com.anjlab.android.iab.v3.TransactionDetails
 import com.mikhailgrigorev.quickpassword.R
-import com.mikhailgrigorev.quickpassword.databinding.ActivityDonutBinding
 import com.mikhailgrigorev.quickpassword.common.utils.GPLAY_LICENSE
-import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginAfterSplashActivity
+import com.mikhailgrigorev.quickpassword.databinding.ActivityDonutBinding
+import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
+
 
 private const val preferenceFile = "quickPassPreference"
 var condition = true
@@ -53,7 +54,7 @@ class DonutActivity : AppCompatActivity(), BillingProcessor.IBillingHandler {
         val r = Runnable {
             if(condition) {
                 condition=false
-                val intent = Intent(this, LoginAfterSplashActivity::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
             }
@@ -88,7 +89,7 @@ class DonutActivity : AppCompatActivity(), BillingProcessor.IBillingHandler {
             finish()
         }
         mBillingProcessor.initialize()
-        mBillingProcessor.loadOwnedPurchasesFromGoogle()
+        //mBillingProcessor.loadOwnedPurchasesFromGoogle()
 
         binding.coffeeDonut.setOnClickListener {
             mBillingProcessor.purchase(this, "cup_of_coffee")
@@ -127,7 +128,7 @@ class DonutActivity : AppCompatActivity(), BillingProcessor.IBillingHandler {
 
     }
 
-    override fun onProductPurchased(productId: String, details: TransactionDetails?) {
+    /*override fun onProductPurchased(productId: String, details: TransactionDetails?) {
         //showMsg("П")
         if (checkIfPurchaseIsValid(details!!.purchaseInfo)) {
             showMsg("purchase: $productId COMPLETED")
@@ -138,11 +139,15 @@ class DonutActivity : AppCompatActivity(), BillingProcessor.IBillingHandler {
         } else {
             showMsg("fakePayment")
         }
-    }
+    }*/
 
     private fun checkIfPurchaseIsValid(purchaseInfo: PurchaseInfo): Boolean {
         Log.d("Valid", purchaseInfo.purchaseData.orderId)
         return true
+    }
+
+    override fun onProductPurchased(productId: String, details: PurchaseInfo?) {
+        TODO("Not yet implemented")
     }
 
     override fun onPurchaseHistoryRestored() {

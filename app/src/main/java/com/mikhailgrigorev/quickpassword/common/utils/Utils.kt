@@ -10,7 +10,7 @@ import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.Application
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
 import com.mikhailgrigorev.quickpassword.common.utils.senders.GMailSender
-import com.mikhailgrigorev.quickpassword.data.entity.PasswordCard
+import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import org.mindrot.jbcrypt.BCrypt
 import java.text.SimpleDateFormat
 import java.util.*
@@ -128,6 +128,7 @@ object Utils {
 
     fun exitAccount() {
         enSharedPrefsFile!!.edit().remove("prefLogin").apply()
+        enSharedPrefsFile!!.edit().remove("prefPassword").apply()
         sharedPreferences!!.edit().remove("prefPinMode").apply()
         sharedPreferences!!.edit().remove("prefBioMode").apply()
     }
@@ -141,7 +142,7 @@ object Utils {
     fun sortingColumn() = sharedPreferences!!.getString("sortingColumn", "name")
     fun bottomBarState() = sharedPreferences!!.getInt(
             "bottomSheetDialogState",
-            BottomSheetBehavior.STATE_COLLAPSED
+            BottomSheetBehavior.STATE_HIDDEN
     )
 
     private fun <ValueType> editPreferences(

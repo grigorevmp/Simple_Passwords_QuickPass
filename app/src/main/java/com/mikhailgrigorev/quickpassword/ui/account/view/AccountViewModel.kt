@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.ui.main_activity
+package com.mikhailgrigorev.quickpassword.ui.account.view
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -8,7 +8,7 @@ import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.data.repository.FolderRepository
 import com.mikhailgrigorev.quickpassword.data.repository.PasswordCardRepository
 
-class MainViewModel() : ViewModel() {
+class AccountViewModel() : ViewModel() {
     private val passwordCardRepo: PasswordCardRepository = PasswordCardRepository()
     private val folderRepo: FolderRepository = FolderRepository()
     val passwords = passwordCardRepo.allData

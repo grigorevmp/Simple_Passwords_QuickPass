@@ -37,9 +37,12 @@ import com.mikhailgrigorev.quickpassword.common.PasswordCategory
 import com.mikhailgrigorev.quickpassword.common.PasswordGettingType
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
-import com.mikhailgrigorev.quickpassword.data.entity.PasswordCard
+import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
+import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityMainBinding
 import com.mikhailgrigorev.quickpassword.ui.account.view.AccountActivity
+import com.mikhailgrigorev.quickpassword.ui.main_activity.adapters.FolderAdapter
+import com.mikhailgrigorev.quickpassword.ui.main_activity.adapters.PasswordAdapter
 import com.mikhailgrigorev.quickpassword.ui.password_card.create.CreatePasswordActivity
 import com.mikhailgrigorev.quickpassword.ui.password_card.view.PasswordViewActivity
 import kotlinx.coroutines.Dispatchers
@@ -50,7 +53,7 @@ import kotlin.math.min
 
 class MainActivity : AppCompatActivity() {
 
-    private val DEFAULT_ROTATION = 0F
+    private val defaultRotation = 0F
     private lateinit var viewModel: MainViewModel
 
     private var passwordLength = 20
@@ -211,6 +214,12 @@ class MainActivity : AppCompatActivity() {
                 LinearLayoutManager.VERTICAL,
                 false
         )
+        binding.rvFoldersRecycler.setHasFixedSize(true)
+        binding.rvFoldersRecycler.layoutManager = LinearLayoutManager(
+                this,
+                LinearLayoutManager.HORIZONTAL,
+                false
+        )
     }
 
     private fun setPasswordQualityText() {
@@ -246,6 +255,10 @@ class MainActivity : AppCompatActivity() {
         defaultPassFilterName = name
         defaultPassFilterSorting = sortColumn
         defaultPassFilterAsc = isAsc
+
+        viewModel.folders.observe(this) {
+            setFolderAdapter(it)
+        }
 
         viewModel.getPasswords(
                 type,
@@ -313,10 +326,9 @@ class MainActivity : AppCompatActivity() {
 
         bottomSheetBehavior.peekHeight = 800 //600
 
-        if (Utils.useAnalyze() != null)
-            if (Utils.useAnalyze() != "none") {
-                bottomSheetBehavior.peekHeight = 1200
-            }
+        if (Utils.useAnalyze() != "none") {
+            bottomSheetBehavior.peekHeight = 1200
+        }
 
         bottomSheetBehavior.isHideable = true
 
@@ -408,7 +420,7 @@ class MainActivity : AppCompatActivity() {
                         )
                 binding.tePasswordToGenerate.setText(newPassword)
             }
-            binding.generatePassword.animate().rotation(DEFAULT_ROTATION).interpolator =
+            binding.generatePassword.animate().rotation(defaultRotation).interpolator =
                     AccelerateDecelerateInterpolator()
         }
     }
@@ -535,16 +547,36 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updatePasswordQualityCirclesColor(circleNegative: Int, circleImprovement: Int, circlePositive: Int) {
+    private fun setFolderAdapter(folders: List<FolderCard>) {
+        binding.rvFoldersRecycler.adapter = FolderAdapter(
+                folders,
+                this,
+                clickListener = {
+                    passClickListener(it)
+                }
+        ) { i: Int, view: View ->
+            passLongClickListener(
+                    i,
+                    view
+            )
+        }
+    }
+
+    private fun updatePasswordQualityCirclesColor(
+        circleNegative: Int,
+        circleImprovement: Int,
+        circlePositive: Int
+    ) {
         binding.ivNegativePasswordsCircle.setImageResource(circleNegative)
         binding.ivNotSafePasswordsCircle.setImageResource(circleImprovement)
         binding.ivCorrectPasswordsCircle.setImageResource(circlePositive)
     }
 
     private fun copyPassword() {
-        if(binding.tePasswordToGenerate.text.toString() != ""){
+        if (binding.tePasswordToGenerate.text.toString() != "") {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("Password", binding.tePasswordToGenerate.text.toString())
+            val clip =
+                    ClipData.newPlainText("Password", binding.tePasswordToGenerate.text.toString())
             clipboard.setPrimaryClip(clip)
             Utils.makeToast(this, getString(R.string.passCopied))
         }
@@ -769,7 +801,6 @@ class MainActivity : AppCompatActivity() {
         startActivityForResult(intent, 1)
     }
 
-    @SuppressLint("Recycle")
     fun favorite(view: View) {
         Log.d("favorite", view.id.toString())
         val position = globalPos
@@ -779,11 +810,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         setObservers()
-
         changeStatusPopUp.dismiss()
     }
 
-    fun delete(view: View) {
+    fun delete() {
         val position = globalPos
 
         val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)

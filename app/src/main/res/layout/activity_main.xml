@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,14 +13,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/base_card_horizontal_margin"
+        android:contentDescription="@string/add_password"
         android:elevation="@dimen/medium_elevation"
         app:backgroundTint="@color/white"
         app:elevation="@dimen/medium_elevation"
         app:layout_anchor="@+id/llAllPasswords"
         app:layout_anchorGravity="top|end"
         app:srcCompat="@drawable/plus"
-        app:tint="?attr/colorPrimary"
-        android:contentDescription="@string/add_password" />
+        app:tint="?attr/colorPrimary" />
 
     <LinearLayout
         android:id="@+id/llAllPasswords"
@@ -120,7 +119,7 @@
                         android:checkable="true"
                         android:text="@string/date" />
                 </com.google.android.material.chip.ChipGroup>
-</LinearLayout>
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvPasswordRecycler"
@@ -128,7 +127,8 @@
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="true"
                 android:overScrollMode="never"
-                android:scrollbars="vertical" />
+                android:scrollbars="vertical"
+                tools:listitem="@layout/item_password_card" />
 
         </LinearLayout>
     </LinearLayout>
@@ -145,16 +145,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/medium_card_vertical_margin"
-            app:iconTint="@color/black"
-            app:backgroundTint="@color/white"
-            app:tint="@color/fabTint"
             android:clickable="true"
+            android:contentDescription="@string/add_password_plus"
+            android:focusable="true"
+            app:backgroundTint="@color/white"
+            app:iconTint="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/menu_up_outline"
-            android:focusable="true"
-            android:contentDescription="@string/add_password_plus" />
+            app:tint="@color/fabTint" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabAddNewPass"
@@ -177,518 +177,78 @@
             android:layout_height="match_parent"
             android:fillViewport="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:animateLayoutChanges="true">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true">
 
-            <ImageView
-                android:id="@+id/ivAdditinalExpand"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/medium_card_vertical_margin"
-                android:visibility="invisible"
-                android:layout_marginBottom="@dimen/medium_card_vertical_margin"
-                android:layout_weight="1"
-                android:contentDescription="@string/ivSmilePasswordCreation"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cvWarningRulesCard"
-                app:layout_constraintVertical_bias="1.0"
-                app:srcCompat="@drawable/menu_up_outline"
-                app:tint="@color/black" />
-
-            <TextView
-                android:id="@+id/tvUsernameText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_card_horizontal_margin"
-                android:layout_marginTop="@dimen/medium_card_vertical_margin"
-                android:text="@string/hi_username"
-                android:textColor="@color/textDark"
-                android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvAccountAvatar"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="@dimen/medium_card_vertical_margin"
-                android:layout_marginEnd="@dimen/medium_card_vertical_margin"
-                android:backgroundTint="@color/ic_account"
-                app:cardCornerRadius="25dp"
-                app:cardElevation="@dimen/small_elevation"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/tvAvatarSymbol"
+                <ImageView
+                    android:id="@+id/ivAdditinalExpand"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:text="@string/_0"
-                    android:textColor="@color/white" />
-            </androidx.cardview.widget.CardView>
+                    android:layout_marginTop="@dimen/medium_card_vertical_margin"
+                    android:layout_marginBottom="@dimen/medium_card_vertical_margin"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/ivSmilePasswordCreation"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cvWarningRulesCard"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:srcCompat="@drawable/menu_up_outline"
+                    app:tint="@color/black" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvQualityCard"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_card_horizontal_margin"
-                android:layout_marginTop="@dimen/medium_card_vertical_margin"
-                android:layout_marginEnd="@dimen/base_card_horizontal_margin"
-                android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="@dimen/base_card_radius"
-                app:cardElevation="@dimen/base_elevation"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvUsernameText">
+                <TextView
+                    android:id="@+id/tvUsernameText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/base_card_horizontal_margin"
+                    android:layout_marginTop="@dimen/medium_card_vertical_margin"
+                    android:text="@string/hi_username"
+                    android:textColor="@color/textDark"
+                    android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvAccountAvatar"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="@dimen/medium_card_vertical_margin"
+                    android:layout_marginEnd="@dimen/medium_card_vertical_margin"
+                    android:backgroundTint="@color/ic_account"
+                    app:cardCornerRadius="25dp"
+                    app:cardElevation="@dimen/small_elevation"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="@dimen/small_card_horizontal_margin"
-                        android:layout_marginTop="@dimen/medium_card_vertical_margin"
-                        android:layout_marginEnd="@dimen/small_card_horizontal_margin"
-                        android:orientation="horizontal"
-                        tools:ignore="UseCompoundDrawables">
+                    <TextView
+                        android:id="@+id/tvAvatarSymbol"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:text="@string/_0"
+                        android:textColor="@color/white" />
+                </androidx.cardview.widget.CardView>
 
-                        <ImageView
-                            android:id="@+id/ivCorrectPasswordsCircle"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="5dp"
-                            android:contentDescription="@string/no_text"
-                            app:srcCompat="@drawable/circle_positive" />
-
-                        <TextView
-                            android:id="@+id/tvCorrectPasswords"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="15dp"
-                            android:text="@string/no_text" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_margin="@dimen/small_card_horizontal_margin"
-                        android:orientation="horizontal"
-                        tools:ignore="UseCompoundDrawables">
-
-                        <ImageView
-                            android:id="@+id/ivNegativePasswordsCircle"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="5dp"
-                            android:contentDescription="@string/no_text"
-                            app:srcCompat="@drawable/circle_negative" />
-
-                        <TextView
-                            android:id="@+id/tvNegativePasswords"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="15dp"
-                            android:text="@string/no_text" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="@dimen/small_card_horizontal_margin"
-                        android:layout_marginEnd="@dimen/small_card_horizontal_margin"
-                        android:layout_marginBottom="@dimen/medium_card_vertical_margin"
-                        android:orientation="horizontal"
-                        tools:ignore="UseCompoundDrawables">
-
-                        <ImageView
-                            android:id="@+id/ivNotSafePasswordsCircle"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="5dp"
-                            android:contentDescription="@string/no_text"
-                            app:srcCompat="@drawable/circle_improvement" />
-
-                        <TextView
-                            android:id="@+id/tvNotSafePasswords"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="15dp"
-                            android:text="@string/no_text" />
-                    </LinearLayout>
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvPasswordGenerateButton"
-                android:layout_width="@dimen/box_size"
-                android:layout_height="@dimen/box_size"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="@dimen/base_card_horizontal_margin"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="@dimen/base_card_radius"
-                app:cardElevation="@dimen/small_elevation"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tilPasswordToGenerate">
-
-                <ImageButton
-                    android:id="@+id/generatePassword"
-                    android:layout_width="@dimen/box_size"
-                    android:layout_height="@dimen/box_size"
-                    android:background="@color/white"
-                    android:contentDescription="@string/generate"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvQualityCard"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/base_card_horizontal_margin"
+                    android:layout_marginTop="@dimen/medium_card_vertical_margin"
+                    android:layout_marginEnd="@dimen/base_card_horizontal_margin"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:rotation="45"
-                    app:srcCompat="@drawable/dice_5_outline"
-                    app:tint="@color/textDark" />
-
-            </androidx.cardview.widget.CardView>
-
-            <SeekBar
-                android:thumbTint="?attr/colorPrimary"
-                android:progressTint="?attr/colorPrimary"
-                style="@style/Widget.AppCompat.SeekBar"
-                android:id="@+id/seekBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_card_horizontal_margin"
-                android:layout_marginTop="@dimen/base_card_vertical_margin"
-                android:layout_marginEnd="@dimen/base_card_horizontal_margin"
-                android:max="40"
-                android:progress="20"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/hsvPasswordSettings" />
-
-            <HorizontalScrollView
-                android:id="@+id/hsvPasswordSettings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_card_horizontal_margin"
-                android:layout_marginTop="@dimen/base_card_horizontal_margin"
-                android:layout_marginEnd="@dimen/base_card_horizontal_margin"
-                android:scrollbars="none"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tilPasswordToGenerate">
-
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/cgPasswordSettings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:singleLine="true">
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/cLettersToggle"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:textAlignment="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/chipLetters" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/cUpperCaseToggle"
-                        android:textAlignment="center"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/upperCaseLetters" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/cNumbersToggle"
-                        android:textAlignment="center"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/chipNumbers" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/cSymToggles"
-                        android:textAlignment="center"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/chipSym" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/cLengthToggle"
-                        android:textAlignment="center"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/length" />
-
-                </com.google.android.material.chip.ChipGroup>
-            </HorizontalScrollView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/imageView"
-                android:layout_width="match_parent"
-                android:layout_height="96dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:visibility="gone"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="@dimen/base_card_radius"
-                app:cardElevation="@dimen/base_elevation"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvNoPasswordsCard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_card_horizontal_margin"
-                android:layout_marginTop="@dimen/base_card_vertical_margin"
-                android:layout_marginEnd="@dimen/base_card_horizontal_margin"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:visibility="gone"
-                app:cardBackgroundColor="?attr/colorPrimary"
-                app:cardCornerRadius="@dimen/base_card_radius"
-                app:cardElevation="@dimen/base_elevation"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/seekBar">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="@dimen/medium_card_vertical_margin"
-                    tools:ignore="UseCompoundDrawables">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/base_card_horizontal_margin"
-                        android:layout_marginTop="@dimen/base_card_vertical_margin"
-                        android:layout_marginEnd="@dimen/base_card_horizontal_margin"
-                        android:text="@string/get_info"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/base_card_horizontal_margin"
-                        android:layout_marginTop="@dimen/base_card_vertical_margin"
-                        android:layout_marginEnd="@dimen/base_card_horizontal_margin"
-                        android:text="@string/no_password"
-                        android:textColor="@color/colorLight"
-                        android:visibility="visible"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/doubleFAInfo" />
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvBackupReminderCard"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_card_horizontal_margin"
-                android:layout_marginTop="@dimen/medium_card_vertical_margin"
-                android:layout_marginEnd="@dimen/base_card_horizontal_margin"
-                android:alpha="0.5"
-                android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="?attr/colorPrimary"
-                app:cardCornerRadius="@dimen/base_card_radius"
-                app:cardElevation="@dimen/medium_elevation"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingTop="@dimen/base_card_vertical_margin"
-                    android:paddingBottom="@dimen/medium_card_vertical_margin">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/base_card_horizontal_margin"
-                        android:layout_marginTop="@dimen/base_card_vertical_margin"
-                        android:layout_marginEnd="@dimen/base_card_horizontal_margin"
-                        android:text="@string/backupRule"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/base_card_horizontal_margin"
-                        android:layout_marginTop="@dimen/base_card_vertical_margin"
-                        android:layout_marginEnd="@dimen/base_card_horizontal_margin"
-                        android:text="@string/backupRule1"
-                        android:textColor="@color/white"
-                        android:visibility="visible"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/doubleFAInfo" />
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvWarningRulesCard"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_card_horizontal_margin"
-                android:layout_marginTop="@dimen/medium_card_vertical_margin"
-                android:layout_marginEnd="@dimen/base_card_horizontal_margin"
-                android:alpha="0.5"
-                android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="?attr/colorPrimary"
-                app:cardCornerRadius="@dimen/base_card_radius"
-                app:cardElevation="@dimen/base_elevation"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cvBackupReminderCard">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="@dimen/base_margin">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/base_card_horizontal_margin"
-                        android:layout_marginTop="@dimen/base_card_vertical_margin"
-                        android:layout_marginEnd="@dimen/base_card_horizontal_margin"
-                        android:text="@string/newPassRule"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/base_card_horizontal_margin"
-                        android:layout_marginTop="@dimen/base_card_vertical_margin"
-                        android:layout_marginEnd="@dimen/base_card_horizontal_margin"
-                        android:text="@string/newPassRule1"
-                        android:textColor="@color/white"
-                        android:visibility="visible"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/doubleFAInfo" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/base_card_horizontal_margin"
-                        android:layout_marginTop="@dimen/base_card_vertical_margin"
-                        android:layout_marginEnd="@dimen/base_card_horizontal_margin"
-                        android:text="@string/newPassRule2"
-                        android:textColor="@color/white"
-                        android:visibility="visible"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/doubleFAInfo" />
-
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/base_card_horizontal_margin"
-                        android:layout_marginTop="@dimen/base_card_vertical_margin"
-                        android:layout_marginEnd="@dimen/base_card_horizontal_margin"
-                        android:text="@string/newPassRule3"
-                        android:textColor="@color/white"
-                        android:visibility="visible"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/doubleFAInfo" />
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginStart="@dimen/base_card_horizontal_margin"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="@dimen/base_card_radius"
-                app:cardElevation="@dimen/base_elevation"
-                app:layout_constraintBottom_toBottomOf="@+id/cvAdditionalInfoCard"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/cvAdditionalInfoCard">
-
-                <TextView
-                    android:id="@+id/tvAllPasswords"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/small_card_horizontal_margin"
-                    android:layout_marginEnd="@dimen/small_card_horizontal_margin"
-                    android:paddingStart="@dimen/base_card_horizontal_margin"
-                    android:paddingEnd="@dimen/base_card_horizontal_margin"
-                    android:text="@string/no_text" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvAdditionalInfoCard"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_card_horizontal_margin"
-                android:layout_marginTop="@dimen/medium_card_vertical_margin"
-                android:layout_marginEnd="@dimen/base_card_horizontal_margin"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="@dimen/base_card_radius"
-                app:cardElevation="@dimen/base_elevation"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/cardView"
-                app:layout_constraintTop_toBottomOf="@+id/cvNoPasswordsCard">
-
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scrollIndicators="none"
-                    android:scrollbarThumbHorizontal="@null">
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/base_card_radius"
+                    app:cardElevation="@dimen/base_elevation"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvUsernameText">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
@@ -696,95 +256,553 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:layout_margin="@dimen/base_card_horizontal_margin"
+                            android:layout_marginStart="@dimen/small_card_horizontal_margin"
+                            android:layout_marginTop="@dimen/medium_card_vertical_margin"
+                            android:layout_marginEnd="@dimen/small_card_horizontal_margin"
                             android:orientation="horizontal"
-                            tools:ignore="UselessParent">
+                            tools:ignore="UseCompoundDrawables">
 
-                            <com.google.android.material.chip.Chip
-                                style="@style/Widget.MaterialComponents.Chip.Choice"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                            <ImageView
+                                android:id="@+id/ivCorrectPasswordsCircle"
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:layout_gravity="center"
                                 android:layout_marginStart="5dp"
-                                android:clickable="false"
-                                android:text="@string/_2fa" />
+                                android:contentDescription="@string/no_text"
+                                app:srcCompat="@drawable/circle_positive" />
 
                             <TextView
-                                android:id="@+id/tvNumberOfUse2faText"
+                                android:id="@+id/tvCorrectPasswords"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center"
                                 android:layout_marginStart="15dp"
                                 android:text="@string/no_text" />
+                        </LinearLayout>
 
-                            <com.google.android.material.chip.Chip
-                                android:id="@+id/cNumberOfEncrypted"
-                                style="@style/Widget.MaterialComponents.Chip.Choice"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/base_card_horizontal_margin"
-                                android:clickable="false"
-                                android:text="@string/encrypted" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/small_card_horizontal_margin"
+                            android:orientation="horizontal"
+                            tools:ignore="UseCompoundDrawables">
+
+                            <ImageView
+                                android:id="@+id/ivNegativePasswordsCircle"
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="5dp"
+                                android:contentDescription="@string/no_text"
+                                app:srcCompat="@drawable/circle_negative" />
 
                             <TextView
-                                android:id="@+id/tvNumberOfEncryptedText"
+                                android:id="@+id/tvNegativePasswords"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="15dp"
+                                android:text="@string/no_text" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/small_card_horizontal_margin"
+                            android:layout_marginEnd="@dimen/small_card_horizontal_margin"
+                            android:layout_marginBottom="@dimen/medium_card_vertical_margin"
+                            android:orientation="horizontal"
+                            tools:ignore="UseCompoundDrawables">
+
+                            <ImageView
+                                android:id="@+id/ivNotSafePasswordsCircle"
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="5dp"
+                                android:contentDescription="@string/no_text"
+                                app:srcCompat="@drawable/circle_improvement" />
+
+                            <TextView
+                                android:id="@+id/tvNotSafePasswords"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
                                 android:layout_marginStart="15dp"
                                 android:text="@string/no_text" />
                         </LinearLayout>
                     </LinearLayout>
-                </HorizontalScrollView>
-            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilPasswordToGenerate"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_card_horizontal_margin"
-                android:layout_marginTop="@dimen/base_card_horizontal_margin"
-                android:layout_marginEnd="95dp"
-                app:boxCornerRadiusBottomEnd="@dimen/base_card_radius"
-                app:boxCornerRadiusBottomStart="@dimen/base_card_radius"
-                app:boxCornerRadiusTopEnd="@dimen/base_card_radius"
-                app:boxCornerRadiusTopStart="@dimen/base_card_radius"
-                app:endIconMode="clear_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cvQualityCard">
+                </androidx.cardview.widget.CardView>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tePasswordToGenerate"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvPasswordGenerateButton"
+                    android:layout_width="@dimen/box_size"
+                    android:layout_height="@dimen/box_size"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="@dimen/base_card_horizontal_margin"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/base_card_radius"
+                    app:cardElevation="@dimen/small_elevation"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tilPasswordToGenerate">
+
+                    <ImageButton
+                        android:id="@+id/generatePassword"
+                        android:layout_width="@dimen/box_size"
+                        android:layout_height="@dimen/box_size"
+                        android:background="@color/white"
+                        android:contentDescription="@string/generate"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:rotation="45"
+                        app:srcCompat="@drawable/dice_5_outline"
+                        app:tint="@color/textDark" />
+
+                </androidx.cardview.widget.CardView>
+
+                <SeekBar
+                    android:id="@+id/seekBar"
+                    style="@style/Widget.AppCompat.SeekBar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:longClickable="false" />
+                    android:layout_marginStart="@dimen/base_card_horizontal_margin"
+                    android:layout_marginTop="@dimen/base_card_vertical_margin"
+                    android:layout_marginEnd="@dimen/base_card_horizontal_margin"
+                    android:max="40"
+                    android:progress="20"
+                    android:progressTint="?attr/colorPrimary"
+                    android:thumbTint="?attr/colorPrimary"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/hsvPasswordSettings" />
 
-            </com.google.android.material.textfield.TextInputLayout>
+                <HorizontalScrollView
+                    android:id="@+id/hsvPasswordSettings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/base_card_horizontal_margin"
+                    android:layout_marginTop="@dimen/base_card_horizontal_margin"
+                    android:layout_marginEnd="@dimen/base_card_horizontal_margin"
+                    android:scrollbars="none"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tilPasswordToGenerate">
 
-            <ImageView
-                android:id="@+id/ivSmilePasswordCreation"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                android:alpha="0.2"
-                android:contentDescription="@string/ivSmilePasswordCreation"
-                android:rotation="340"
-                android:translationX="25dp"
-                android:translationY="25dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:srcCompat="@drawable/emoticon_wink_outline"
-                app:tint="@color/black" />
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/cgPasswordSettings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:singleLine="true">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/base_card_horizontal_margin" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/cLettersToggle"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/chipLetters"
+                            android:textAlignment="center" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/cUpperCaseToggle"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/upperCaseLetters"
+                            android:textAlignment="center" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/cNumbersToggle"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/chipNumbers"
+                            android:textAlignment="center" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/cSymToggles"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/chipSym"
+                            android:textAlignment="center" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/cLengthToggle"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/length"
+                            android:textAlignment="center" />
+
+                    </com.google.android.material.chip.ChipGroup>
+                </HorizontalScrollView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="96dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/base_card_radius"
+                    app:cardElevation="@dimen/base_elevation"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvNoPasswordsCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/base_card_horizontal_margin"
+                    android:layout_marginTop="@dimen/base_card_vertical_margin"
+                    android:layout_marginEnd="@dimen/base_card_horizontal_margin"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="?attr/colorPrimary"
+                    app:cardCornerRadius="@dimen/base_card_radius"
+                    app:cardElevation="@dimen/base_elevation"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/seekBar">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="@dimen/medium_card_vertical_margin"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/base_card_horizontal_margin"
+                            android:layout_marginTop="@dimen/base_card_vertical_margin"
+                            android:layout_marginEnd="@dimen/base_card_horizontal_margin"
+                            android:text="@string/get_info"
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/base_card_horizontal_margin"
+                            android:layout_marginTop="@dimen/base_card_vertical_margin"
+                            android:layout_marginEnd="@dimen/base_card_horizontal_margin"
+                            android:text="@string/no_password"
+                            android:textColor="@color/colorLight"
+                            android:visibility="visible"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/doubleFAInfo" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvBackupReminderCard"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/base_card_horizontal_margin"
+                    android:layout_marginTop="@dimen/medium_card_vertical_margin"
+                    android:layout_marginEnd="@dimen/base_card_horizontal_margin"
+                    android:alpha="0.5"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardBackgroundColor="?attr/colorPrimary"
+                    app:cardCornerRadius="@dimen/base_card_radius"
+                    app:cardElevation="@dimen/medium_elevation"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingTop="@dimen/base_card_vertical_margin"
+                        android:paddingBottom="@dimen/medium_card_vertical_margin">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/base_card_horizontal_margin"
+                            android:layout_marginTop="@dimen/base_card_vertical_margin"
+                            android:layout_marginEnd="@dimen/base_card_horizontal_margin"
+                            android:text="@string/backupRule"
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/base_card_horizontal_margin"
+                            android:layout_marginTop="@dimen/base_card_vertical_margin"
+                            android:layout_marginEnd="@dimen/base_card_horizontal_margin"
+                            android:text="@string/backupRule1"
+                            android:textColor="@color/white"
+                            android:visibility="visible"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/doubleFAInfo" />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvWarningRulesCard"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/base_card_horizontal_margin"
+                    android:layout_marginTop="@dimen/medium_card_vertical_margin"
+                    android:layout_marginEnd="@dimen/base_card_horizontal_margin"
+                    android:alpha="0.5"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardBackgroundColor="?attr/colorPrimary"
+                    app:cardCornerRadius="@dimen/base_card_radius"
+                    app:cardElevation="@dimen/base_elevation"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cvBackupReminderCard">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="@dimen/base_margin">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/base_card_horizontal_margin"
+                            android:layout_marginTop="@dimen/base_card_vertical_margin"
+                            android:layout_marginEnd="@dimen/base_card_horizontal_margin"
+                            android:text="@string/newPassRule"
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/base_card_horizontal_margin"
+                            android:layout_marginTop="@dimen/base_card_vertical_margin"
+                            android:layout_marginEnd="@dimen/base_card_horizontal_margin"
+                            android:text="@string/newPassRule1"
+                            android:textColor="@color/white"
+                            android:visibility="visible"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/doubleFAInfo" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/base_card_horizontal_margin"
+                            android:layout_marginTop="@dimen/base_card_vertical_margin"
+                            android:layout_marginEnd="@dimen/base_card_horizontal_margin"
+                            android:text="@string/newPassRule2"
+                            android:textColor="@color/white"
+                            android:visibility="visible"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/doubleFAInfo" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/base_card_horizontal_margin"
+                            android:layout_marginTop="@dimen/base_card_vertical_margin"
+                            android:layout_marginEnd="@dimen/base_card_horizontal_margin"
+                            android:text="@string/newPassRule3"
+                            android:textColor="@color/white"
+                            android:visibility="visible"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/doubleFAInfo" />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/base_card_horizontal_margin"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/base_card_radius"
+                    app:cardElevation="@dimen/base_elevation"
+                    app:layout_constraintBottom_toBottomOf="@+id/cvAdditionalInfoCard"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/cvAdditionalInfoCard">
+
+                    <TextView
+                        android:id="@+id/tvAllPasswords"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/small_card_horizontal_margin"
+                        android:layout_marginEnd="@dimen/small_card_horizontal_margin"
+                        android:paddingStart="@dimen/base_card_horizontal_margin"
+                        android:paddingEnd="@dimen/base_card_horizontal_margin"
+                        android:text="@string/no_text" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvAdditionalInfoCard"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/base_card_horizontal_margin"
+                    android:layout_marginTop="@dimen/medium_card_vertical_margin"
+                    android:layout_marginEnd="@dimen/base_card_horizontal_margin"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/base_card_radius"
+                    app:cardElevation="@dimen/base_elevation"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cardView"
+                    app:layout_constraintTop_toBottomOf="@+id/cvNoPasswordsCard">
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scrollIndicators="none"
+                        android:scrollbarThumbHorizontal="@null">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/base_card_horizontal_margin"
+                                android:orientation="horizontal"
+                                tools:ignore="UselessParent">
+
+                                <com.google.android.material.chip.Chip
+                                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:clickable="false"
+                                    android:text="@string/_2fa" />
+
+                                <TextView
+                                    android:id="@+id/tvNumberOfUse2faText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="15dp"
+                                    android:text="@string/no_text" />
+
+                                <com.google.android.material.chip.Chip
+                                    android:id="@+id/cNumberOfEncrypted"
+                                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/base_card_horizontal_margin"
+                                    android:clickable="false"
+                                    android:text="@string/encrypted" />
+
+                                <TextView
+                                    android:id="@+id/tvNumberOfEncryptedText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="15dp"
+                                    android:text="@string/no_text" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </HorizontalScrollView>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvFoldersRecycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/base_card_horizontal_margin"
+                    android:layout_marginEnd="@dimen/base_card_horizontal_margin"
+                    android:nestedScrollingEnabled="true"
+                    android:orientation="horizontal"
+                    android:overScrollMode="never"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cvQualityCard"
+                    tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_folder"
+                    tools:orientation="horizontal" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilPasswordToGenerate"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/base_card_horizontal_margin"
+                    android:layout_marginTop="@dimen/base_card_horizontal_margin"
+                    android:layout_marginEnd="@dimen/text_input_margin_end_huge"
+                    app:boxCornerRadiusBottomEnd="@dimen/base_card_radius"
+                    app:boxCornerRadiusBottomStart="@dimen/base_card_radius"
+                    app:boxCornerRadiusTopEnd="@dimen/base_card_radius"
+                    app:boxCornerRadiusTopStart="@dimen/base_card_radius"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rvFoldersRecycler">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tePasswordToGenerate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:longClickable="false" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/ivSmilePasswordCreation"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:alpha="0.2"
+                    android:contentDescription="@string/ivSmilePasswordCreation"
+                    android:rotation="340"
+                    android:translationX="25dp"
+                    android:translationY="25dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:srcCompat="@drawable/emoticon_wink_outline"
+                    app:tint="@color/black" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="@dimen/base_card_horizontal_margin" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
