@@ -92,6 +92,12 @@ interface PasswordCardDao {
     @Query("SELECT COUNT(*) FROM password_card WHERE encrypted = 1")
     fun getItemsNumberWithEncrypted(): LiveData<Int>
 
+    @Query("SELECT COUNT(*) FROM password_card WHERE use_time = 1")
+    fun getItemsNumberWithTimeLimit(): LiveData<Int>
+
+    @Query("SELECT COUNT(*) FROM password_card WHERE is_card_pin = 1")
+    fun getPinItems(): LiveData<Int>
+
     @Query("SELECT COUNT(*) FROM password_card WHERE quality = :value")
     fun getItemsNumberWithQuality(value: Int): LiveData<Int>
 

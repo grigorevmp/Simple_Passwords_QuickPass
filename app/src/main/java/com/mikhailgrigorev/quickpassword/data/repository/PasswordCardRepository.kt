@@ -56,6 +56,8 @@ class PasswordCardRepository {
     fun getItemsNumber() = pcDao.getItemsNumber()
     fun getItemsNumberWith2fa() = pcDao.getItemsNumberWith2fa()
     fun getItemsNumberWithEncrypted() = pcDao.getItemsNumberWithEncrypted()
+    fun getItemsNumberWithTimeLimit() = pcDao.getItemsNumberWithTimeLimit()
+    fun getPinItems() = pcDao.getPinItems()
 
     fun getFavoriteItems() = pcDao.getFavorite()
 

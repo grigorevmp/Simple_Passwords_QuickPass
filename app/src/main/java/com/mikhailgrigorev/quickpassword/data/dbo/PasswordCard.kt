@@ -15,6 +15,8 @@ data class PasswordCard(
     var password: String,
     @SerializedName("use_2fa")
     var use_2fa: Boolean,
+    @SerializedName("is_card_pin")
+    var is_card_pin: Boolean,
     @SerializedName("use_time")
     var use_time: Boolean,
     @SerializedName("time")

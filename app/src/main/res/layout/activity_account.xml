@@ -46,7 +46,7 @@
                 app:cardCornerRadius="15dp"
                 app:cardElevation="@dimen/base_margin"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/specialInfo">
+                app:layout_constraintTop_toBottomOf="@+id/cvSpecialInfo">
 
                 <ImageView
                     android:id="@+id/cup"
@@ -60,7 +60,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/crypted"
+                android:id="@+id/cvEncrypted"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/base_margin"
@@ -76,7 +76,7 @@
                 app:cardElevation="@dimen/base_margin"
                 app:layout_constraintEnd_toStartOf="@+id/cvAdditionalInfoCard"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView">
+                app:layout_constraintTop_toBottomOf="@+id/cvTotalPoints">
 
                 <HorizontalScrollView
                     android:layout_width="wrap_content"
@@ -107,11 +107,11 @@
                                 android:text="@string/encrypted" />
 
                             <TextView
-                                android:id="@+id/crText"
+                                android:id="@+id/tvNumberOfEncrypted"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="15dp"
-                                android:text="@string/no_text" />
+                                tools:text="4" />
 
                             <com.google.android.material.chip.Chip
                                 style="@style/Widget.MaterialComponents.Chip.Choice"
@@ -122,12 +122,12 @@
                                 android:text="@string/pin" />
 
                             <TextView
-                                android:id="@+id/pinText"
+                                android:id="@+id/tvPinText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="15dp"
                                 android:layout_marginEnd="15dp"
-                                android:text="@string/encrypted" />
+                                tools:text="5" />
 
                         </LinearLayout>
 
@@ -136,7 +136,7 @@
             </androidx.cardview.widget.CardView>
 
             <ImageView
-                android:id="@+id/back"
+                android:id="@+id/ivBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/base_margin"
@@ -160,35 +160,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cvAccountAvatar" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilPassword"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginTop="@dimen/base_margin"
-                android:layout_marginEnd="@dimen/base_margin"
-                app:boxCornerRadiusBottomEnd="15dp"
-                app:boxCornerRadiusBottomStart="15dp"
-                app:boxCornerRadiusTopEnd="15dp"
-                app:boxCornerRadiusTopStart="15dp"
-                app:endIconMode="password_toggle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvUsernameText">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/passViewField"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:hint="@string/pass"
-                    android:inputType="textPassword"
-                    android:longClickable="false" />
-            </com.google.android.material.textfield.TextInputLayout>
-
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvAccountAvatar"
                 android:layout_width="70dp"
@@ -199,7 +170,7 @@
                 app:cardElevation="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/back">
+                app:layout_constraintTop_toBottomOf="@+id/ivBack">
 
                 <TextView
                     android:id="@+id/tvAvatarSymbol"
@@ -282,7 +253,7 @@
                     android:gravity="center">
 
                     <ImageButton
-                        android:id="@+id/deleteAccount"
+                        android:id="@+id/ivDeleteAccount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
@@ -293,10 +264,10 @@
                         android:paddingEnd="@dimen/base_margin"
                         android:paddingBottom="10dp"
                         android:src="@drawable/delete_outline"
-                        android:tint="@color/quitAccent" />
+                        app:tint="@color/quitAccent"/>
 
                     <ImageButton
-                        android:id="@+id/logOut"
+                        android:id="@+id/ivLogOut"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
@@ -306,10 +277,10 @@
                         android:paddingEnd="@dimen/base_margin"
                         android:paddingBottom="10dp"
                         android:src="@drawable/exit_to_app"
-                        android:tint="@color/black" />
+                        app:tint="@color/black" />
 
                     <ImageButton
-                        android:id="@+id/settings"
+                        android:id="@+id/ivSettings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
@@ -319,10 +290,10 @@
                         android:paddingEnd="@dimen/base_margin"
                         android:paddingBottom="10dp"
                         android:src="@drawable/cog_outline"
-                        android:tint="@color/black" />
+                        app:tint="@color/black" />
 
                     <ImageButton
-                        android:id="@+id/aboutApp"
+                        android:id="@+id/ivAboutApp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
@@ -332,13 +303,13 @@
                         android:paddingEnd="@dimen/base_margin"
                         android:paddingBottom="10dp"
                         android:src="@drawable/information_outline"
-                        android:tint="@color/black" />
+                        app:tint="@color/black" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/editAccount"
+                android:id="@+id/cvEditAccount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
@@ -361,7 +332,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/specialInfo"
+                android:id="@+id/cvSpecialInfo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/base_margin"
@@ -375,7 +346,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/cardView"
+                app:layout_constraintStart_toEndOf="@+id/cvTotalPoints"
                 app:layout_constraintTop_toBottomOf="@+id/cvQualityCard">
 
                 <HorizontalScrollView
@@ -411,10 +382,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="15dp"
-                                android:text="@string/no_text" />
+                                tools:text="2" />
 
                             <com.google.android.material.chip.Chip
-                                android:id="@+id/cNumberOfEncrypted"
+                                android:id="@+id/cTimeNotification"
                                 style="@style/Widget.MaterialComponents.Chip.Choice"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -423,11 +394,11 @@
                                 android:text="@string/time_notification" />
 
                             <TextView
-                                android:id="@+id/tvNumberOfEncryptedText"
+                                android:id="@+id/tvNumberOfTimeNotificationText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="15dp"
-                                android:text="@string/no_text" />
+                                tools:text="4" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -448,7 +419,7 @@
                 app:cardElevation="@dimen/base_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/totalPoints">
+                app:layout_constraintTop_toBottomOf="@+id/llTotalPoints">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -540,29 +511,39 @@
 
             </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:id="@+id/totalPoints"
+            <LinearLayout
+                android:id="@+id/llTotalPoints"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginTop="@dimen/base_margin"
-                android:text="@string/total_points"
-                android:textStyle="bold"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/small_margin"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tilPassword" />
+                app:layout_constraintTop_toBottomOf="@+id/tvUsernameText">
 
-            <TextView
-                android:id="@+id/realPoints"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="@string/no_text"
-                app:layout_constraintBottom_toBottomOf="@+id/totalPoints"
-                app:layout_constraintStart_toEndOf="@+id/totalPoints"
-                app:layout_constraintTop_toTopOf="@+id/totalPoints" />
+                <TextView
+                    android:id="@+id/tvTotalPointsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/total_points"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvUsernameText" />
+
+                <TextView
+                    android:id="@+id/tvTotalPoints"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/no_text"
+                    app:layout_constraintBottom_toBottomOf="@+id/totalPoints"
+                    app:layout_constraintStart_toEndOf="@+id/totalPoints"
+                    app:layout_constraintTop_toTopOf="@+id/totalPoints" />
+            </LinearLayout>
+
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
+                android:id="@+id/cvTotalPoints"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/base_margin"
@@ -571,9 +552,9 @@
                 app:cardElevation="@dimen/base_margin"
 
                 android:foreground="?android:attr/selectableItemBackground"
-                app:layout_constraintBottom_toBottomOf="@+id/specialInfo"
+                app:layout_constraintBottom_toBottomOf="@+id/cvSpecialInfo"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/specialInfo">
+                app:layout_constraintTop_toTopOf="@+id/cvSpecialInfo">
 
                 <TextView
                     android:id="@+id/tvAllPasswords"
@@ -584,7 +565,7 @@
                     android:layout_marginEnd="10dp"
                     android:paddingStart="@dimen/base_margin"
                     android:paddingEnd="@dimen/base_margin"
-                    android:text="@string/no_text" />
+                    tools:text="5" />
             </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

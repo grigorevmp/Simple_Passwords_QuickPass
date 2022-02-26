@@ -29,6 +29,8 @@ class AccountActivity : AppCompatActivity() {
     private var fixPass = 0
     private var pass2FA = 0
     private var encryptedPass = 0
+    private var timeLimit = 0
+    private var pins = 0
 
     private var condition = true
     private lateinit var binding: ActivityAccountBinding
@@ -47,12 +49,12 @@ class AccountActivity : AppCompatActivity() {
 
     private fun checkAnalyze() {
         if (Utils.useAnalyze() != "none") {
-            binding.totalPoints.visibility = View.GONE
-            binding.realPoints.visibility = View.GONE
+            binding.tvTotalPointsText.visibility = View.GONE
+            binding.tvTotalPoints.visibility = View.GONE
             binding.cvQualityCard.visibility = View.GONE
-            binding.cardView.visibility = View.GONE
-            binding.specialInfo.visibility = View.GONE
-            binding.crypted.visibility = View.GONE
+            binding.cvTotalPoints.visibility = View.GONE
+            binding.cvSpecialInfo.visibility = View.GONE
+            binding.cvEncrypted.visibility = View.GONE
         }
     }
 
@@ -90,6 +92,14 @@ class AccountActivity : AppCompatActivity() {
             encryptedPass = encryptedPass_
             setPasswordQualityText()
         }
+        viewModel.getItemsNumberWithTimeLimit().observe(this) { timeLimit_ ->
+            timeLimit = timeLimit_
+            setPasswordQualityText()
+        }
+        viewModel.getPinItems().observe(this) { pins_ ->
+            pins = pins_
+            setPasswordQualityText()
+        }
 
     }
 
@@ -110,16 +120,19 @@ class AccountActivity : AppCompatActivity() {
                 unsafePass
         )
         binding.tvNumberOfUse2faText.text = pass2FA.toString()
-        binding.tvNumberOfEncryptedText.text = encryptedPass.toString()
+        binding.tvNumberOfEncrypted.text = encryptedPass.toString()
+
+        binding.tvNumberOfTimeNotificationText.text = timeLimit.toString()
+        binding.tvPinText.text = pins.toString()
 
         if (safePass + fixPass + unsafePass > 0) {
             if (binding.tvAllPasswords.text.toString() != "0") {
-                binding.realPoints.text =
+                binding.tvTotalPoints.text =
                         ((safePass.toFloat() + fixPass.toFloat() / 2 + unsafePass.toFloat() * 0 + encryptedPass.toFloat() + pass2FA.toFloat())
                                 / (7 / 3 * (safePass.toFloat() + unsafePass.toFloat() + fixPass.toFloat())))
                                 .toString()
             } else {
-                binding.realPoints.text = "0"
+                binding.tvTotalPoints.text = "0"
             }
         }
     }
@@ -127,11 +140,11 @@ class AccountActivity : AppCompatActivity() {
     private fun setAnimation() {
         val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate)
         rotation.fillAfter = true
-        binding.settings.startAnimation(rotation)
+        binding.ivSettings.startAnimation(rotation)
     }
 
     private fun setListeners() {
-        binding.aboutApp.setOnClickListener {
+        binding.ivAboutApp.setOnClickListener {
             condition = false
             val intent = Intent(this, AboutActivity::class.java)
             startActivity(intent)
@@ -141,7 +154,7 @@ class AccountActivity : AppCompatActivity() {
             val intent = Intent(this, DonutActivity::class.java)
             startActivity(intent)
         }
-        binding.logOut.setOnClickListener {
+        binding.ivLogOut.setOnClickListener {
             val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
             builder.setTitle(getString(R.string.exit_account))
             builder.setMessage(getString(R.string.accountExitConfirm))
@@ -157,19 +170,19 @@ class AccountActivity : AppCompatActivity() {
             dialog.show()
         }
 
-        binding.editAccount.setOnClickListener {
+        binding.cvEditAccount.setOnClickListener {
             condition = false
             val intent = Intent(this, EditAccountActivity::class.java)
             startActivity(intent)
         }
 
-        binding.settings.setOnClickListener {
+        binding.ivSettings.setOnClickListener {
             condition = false
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
         }
 
-        binding.deleteAccount.setOnClickListener {
+        binding.ivDeleteAccount.setOnClickListener {
             val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
             builder.setTitle(getString(R.string.accountDelete))
             builder.setMessage(getString(R.string.accountDeleteConfirm))
@@ -189,7 +202,7 @@ class AccountActivity : AppCompatActivity() {
             dialog.show()
         }
 
-        binding.back.setOnClickListener {
+        binding.ivBack.setOnClickListener {
             condition = false
             finish()
         }
