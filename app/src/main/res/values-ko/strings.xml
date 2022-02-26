@@ -102,7 +102,7 @@
     <string name="choose_theme">테마</string>
     <string name="main_settings">본관</string>
     <string name="save_pin">핀 저장</string>
-    <string name="daynight_mode">어두운 테마</string>
+    <string name="day_night_mode">어두운 테마</string>
     <string name="defaultSystem">기본</string>
     <string name="light">빛</string>
     <string name="dark">어두운</string>
@@ -143,20 +143,20 @@
     <string name="closeButton">닫기</string>
     <string name="saveButton">저장</string>
     <string name="newMail">이메일을 입력하세요</string>
-    <string name="sendMail">비밀번호를 잊으 셨나요?</string>
-    <string name="sendMail1">패스를 복원하려면 로그인을 입력하십시오.</string>
-    <string name="sendMail2">비밀번호가 포함 된 이메일이 이메일로 전송되었습니다.</string>
-    <string name="sendMail3">이메일을 설정하지 않았습니다 = (</string>
+    <string name="forgotPasswordText">비밀번호를 잊으 셨나요?</string>
+    <string name="enterYourLogin">패스를 복원하려면 로그인을 입력하십시오.</string>
+    <string name="emailWasSent">비밀번호가 포함 된 이메일이 이메일로 전송되었습니다.</string>
+    <string name="userDidNotSetMail">이메일을 설정하지 않았습니다 = (</string>
     <string name="crypt">토굴</string>
     <string name="cipherInfo">Crypt-비밀번호는 암호화되어 저장되며 표시된 경우에만 해독됩니다.</string>
     <string name="save_password">비밀번호 저장</string>
     <string name="add_password">비밀번호 추가</string>
-    <string name="crypted">크립 티드</string>
+    <string name="encrypted">크립 티드</string>
     <string name="bank_card">은행 카드</string>
     <string name="add_password_plus">비밀번호 추가</string>
     <string name="set_pin_helper">4 개의 숫자를 입력해야합니다</string>
     <string name="mail_description">비밀번호를 잊어 버린 경우 이메일로 전송됩니다.</string>
-    <string name="slowloading">암호화를 활성화하면 암호 목록로드 속도가 느려집니다.</string>
+    <string name="slowLoading">암호화를 활성화하면 암호 목록로드 속도가 느려집니다.</string>
     <string name="pin">핀</string>
     <string name="newPassIdea">암호 생성 아이디어</string>
     <string name="newPassIdea1">새끼 고양이와 같은 키워드를 생각해보세요. 애플리케이션에서 지정하지 않고 비밀번호를 작성하고 서비스의 비밀번호 끝에 키워드를 추가하십시오. "Sup3rP4s55kitten"
@@ -175,9 +175,9 @@
     <string name="dinnerDesc">당신은 정말이 앱과 같습니다 =)</string>
     <string name="buyMe">이것은 무료 오픈 소스 프로젝트입니다. 광고 없음. 인앱 구매가 없습니다. 이 앱을 지원하고 싶다면 나에게 무언가를 사주세요.</string>
     <string name="password">암호</string>
-    <string name="thx">(감사합니다 =))</string>
+    <string name="thxText">(감사합니다 =))</string>
     <string name="app_lock_time">앱 잠금 시간</string>
-    <string name="dontlock">잠그지 마십시오</string>
+    <string name="doNotLock">잠그지 마십시오</string>
     <string name="password_analyze">암호 분석 숨기기</string>
     <string name="card_corners_radius">카드 모서리 반경</string>
     <string name="a_z">A-Z</string>
@@ -187,7 +187,7 @@
     <string name="attached_image">첨부 된 이미지 :</string>
     <string name="clear_image">맑은</string>
     <string name="autofill_service">자동 완성 서비스</string>
-    <string name="checkautofillsettings">자동 완성 설정 확인</string>
+    <string name="checkAutoFillSettings">자동 완성 설정 확인</string>
     <string name="autofill_Desc">현재 QuickPass는 비밀번호와 이름이 같은 앱만 지원합니다.</string>
     <string name="attach_image_mini">붙이다</string>
 </resources>

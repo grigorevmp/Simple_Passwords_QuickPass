@@ -121,7 +121,7 @@
     <string name="choose_theme">Theme</string>
     <string name="main_settings">Main</string>
     <string name="save_pin">Save pin</string>
-    <string name="daynight_mode">Dark theme</string>
+    <string name="day_night_mode">Dark theme</string>
     <string name="defaultSystem">Default</string>
     <string name="light">Light</string>
     <string name="dark">Dark</string>
@@ -164,20 +164,20 @@
     <string name="closeButton">Close</string>
     <string name="saveButton">Save</string>
     <string name="newMail">Enter your e-mail</string>
-    <string name="sendMail">Forgot password?</string>
-    <string name="sendMail1">Enter your login to restore pass</string>
-    <string name="sendMail2">Email with password sent to your email</string>
-    <string name="sendMail3">You didn\'t set your e-mail =(</string>
+    <string name="forgotPasswordText">Forgot password?</string>
+    <string name="enterYourLogin">Enter your login to restore pass</string>
+    <string name="emailWasSent">Email with password sent to your email</string>
+    <string name="userDidNotSetMail">You didn\'t set your e-mail =(</string>
     <string name="crypt">Crypt</string>
     <string name="cipherInfo">Crypt - your password will be stored encrypted and will only be decrypted when shown </string>
     <string name="save_password">Save password</string>
     <string name="add_password">Add password</string>
-    <string name="crypted">Crypted</string>
+    <string name="encrypted">Encrypted</string>
     <string name="bank_card">Bank Card</string>
     <string name="add_password_plus">Add password</string>
     <string name="set_pin_helper">You should input 4 numbers</string>
     <string name="mail_description">If you forget your password, it will be sent to your email</string>
-    <string name="slowloading">Enabling encryption slows down the loading of the password list</string>
+    <string name="slowLoading">Enabling encryption slows down the loading of the password list</string>
     <string name="pin">PIN</string>
     <string name="newPassIdea"> Password creation idea</string>
     <string name="newPassIdea1"> Come up with a keyword like kitten. Create a password without specifying it in the application, add a keyword to the end of the password on the service. "Sup3rP4s55kitten"
@@ -196,9 +196,9 @@
     <string name="dinnerDesc">You are really like this app =)</string>
     <string name="buyMe">This is free open source project. No ads. No in-app purchase. If you want to support this app, you can buy me something</string>
     <string name="password">Password</string>
-    <string name="thx"> (Thanks =))</string>
+    <string name="thxText"> (Thanks =))</string>
     <string name="app_lock_time">App lock time</string>
-    <string name="dontlock">Don\'t lock</string>
+    <string name="doNotLock">Don\'t lock</string>
     <string name="password_analyze">Hide password analyze</string>
     <string name="card_corners_radius">Card corners radius</string>
     <string name="a_z">A-Z</string>
@@ -208,7 +208,7 @@
     <string name="attached_image">Attached image:</string>
     <string name="clear_image">Clear</string>
     <string name="autofill_service">Autofill service</string>
-    <string name="checkautofillsettings">Check autofill settings</string>
+    <string name="checkAutoFillSettings">Check autofill settings</string>
     <string name="autofill_Desc">At this moment QuickPass support only app with same name with passwords.</string>
     <string name="attach_image_mini">Attach</string>
 

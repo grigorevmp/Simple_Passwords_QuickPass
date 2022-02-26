@@ -581,7 +581,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="10dp"
-                    android:paddingBottom="20dp">
+                    android:paddingBottom="@dimen/base_margin">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -722,7 +722,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/base_card_horizontal_margin"
                                 android:clickable="false"
-                                android:text="@string/crypted" />
+                                android:text="@string/encrypted" />
 
                             <TextView
                                 android:id="@+id/tvNumberOfEncryptedText"

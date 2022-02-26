@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    tools:context=".ui.auth.sign.LoginActivity">
+
+    <TextView
+        android:id="@+id/tvUsernameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_margin"
+        android:layout_marginTop="@dimen/base_margin"
+        android:text="@string/hi_username"
+        android:textColor="@color/textDark"
+        android:textSize="@dimen/userNameTextSize"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLoginId"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_margin"
+        android:layout_marginTop="250dp"
+        android:layout_marginEnd="@dimen/base_margin"
+        app:boxCornerRadiusBottomEnd="@dimen/base_card_radius"
+        app:boxCornerRadiusTopEnd="@dimen/base_card_radius"
+        app:boxCornerRadiusTopStart="@dimen/base_card_radius"
+        app:boxCornerRadiusBottomStart="@dimen/base_card_radius"
+        app:errorEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputLoginIdField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="@string/inputLogin" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputPasswordId"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_margin"
+        android:layout_marginEnd="95dp"
+        app:boxCornerRadiusBottomEnd="@dimen/base_card_radius"
+        app:boxCornerRadiusTopEnd="@dimen/base_card_radius"
+        app:boxCornerRadiusTopStart="@dimen/base_card_radius"
+        app:boxCornerRadiusBottomStart="@dimen/base_card_radius"
+        app:endIconMode="password_toggle"
+        app:errorEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputLoginId">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputPasswordIdField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/inputPassword"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvPasswordGenerateButton"
+        android:layout_width="@dimen/box_size"
+        android:layout_height="@dimen/box_size"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="@dimen/base_margin"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/base_card_radius"
+        app:cardElevation="@dimen/small_elevation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/inputPasswordId">
+
+        <ImageButton
+            android:id="@+id/generatePassword"
+            android:layout_width="@dimen/box_size"
+            android:layout_height="@dimen/box_size"
+            android:background="@color/white"
+            android:contentDescription="@string/generate"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:rotation="45"
+            app:srcCompat="@drawable/dice_5_outline"
+            app:tint="@color/textDark" />
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/signUpChipGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_margin"
+        android:layout_marginTop="@dimen/base_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputPasswordId"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/signUpChip"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_up" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/loginFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_margin"
+        android:layout_marginEnd="@dimen/base_margin"
+        android:layout_marginBottom="@dimen/base_margin"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/sign_in"
+        android:visibility="invisible"
+        app:icon="@drawable/ic_arr_forward"
+        app:iconTint="@color/black"
+        app:backgroundTint="@color/white"
+        app:tint="@color/fabTint"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_margin"
+        android:layout_marginTop="@dimen/small_margin"
+        android:text="@string/helloSubText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvUsernameText" />
+
+    <TextView
+        android:id="@+id/sendMail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/base_margin"
+        android:text="@string/forgotPasswordText"
+        app:layout_constraintBottom_toBottomOf="@+id/signUpChipGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/signUpChipGroup" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

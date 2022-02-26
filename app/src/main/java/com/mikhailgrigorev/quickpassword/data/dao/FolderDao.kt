@@ -13,9 +13,7 @@ interface FolderDao {
     @Query(
             "select * from folder_card"
     )
-    fun getAll(
-        isAsc: Boolean = false
-    ): LiveData<List<FolderCard>>
+    fun getAll(): LiveData<List<FolderCard>>
 
     @Query("select * from folder_card where _id = :id")
     fun getByID(id: Int): LiveData<FolderCard>

@@ -21,9 +21,9 @@
                 android:id="@+id/info_card"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin"
                 android:visibility="visible"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="10dp"
@@ -42,9 +42,9 @@
                         android:id="@+id/mainText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="@dimen/base_margin"
+                        android:layout_marginTop="@dimen/base_margin"
+                        android:layout_marginEnd="@dimen/base_margin"
                         android:layout_marginBottom="10dp"
                         android:text="@string/main_settings"
                         android:textColor="@color/textDark"
@@ -60,7 +60,7 @@
                             android:id="@+id/biometricText"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="@dimen/base_margin"
                             android:layout_weight="1"
                             android:text="@string/biometricLogin" />
 
@@ -68,7 +68,7 @@
                             android:id="@+id/biometricSwitch"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="20dp"
+                            android:layout_marginEnd="@dimen/base_margin"
                             android:theme="@style/ThemeOverlay.MySwitch" />
                     </LinearLayout>
 
@@ -83,7 +83,7 @@
                             android:id="@+id/autoCopy"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="@dimen/base_margin"
                             android:layout_weight="1"
                             android:text="@string/auto_copy_password"
                             app:layout_constraintStart_toStartOf="parent" />
@@ -92,7 +92,7 @@
                             android:id="@+id/autoCopySwitch"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="20dp"
+                            android:layout_marginEnd="@dimen/base_margin"
                             android:checked="true"
                             android:theme="@style/ThemeOverlay.MySwitch" />
 
@@ -109,7 +109,7 @@
                             android:id="@+id/setPin"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="@dimen/base_margin"
                             android:layout_weight="1"
                             android:text="@string/set_pin"
                             app:layout_constraintStart_toStartOf="parent" />
@@ -118,7 +118,7 @@
                             android:id="@+id/setPinSwitch"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="20dp"
+                            android:layout_marginEnd="@dimen/base_margin"
                             android:theme="@style/ThemeOverlay.MySwitch" />
 
                     </LinearLayout>
@@ -132,7 +132,7 @@
                             android:id="@+id/userMail"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="@dimen/base_margin"
                             android:layout_weight="1"
                             android:text="@string/e_mail" />
 
@@ -140,7 +140,7 @@
                             android:id="@+id/userMailSwitch"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="20dp"
+                            android:layout_marginEnd="@dimen/base_margin"
                             android:checked="false"
                             android:theme="@style/ThemeOverlay.MySwitch" />
 
@@ -156,7 +156,7 @@
                             android:id="@+id/userAnalyzer"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="@dimen/base_margin"
                             android:layout_weight="1"
                             android:text="@string/password_analyze" />
 
@@ -164,7 +164,7 @@
                             android:id="@+id/userAnalyzerSwitch"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="20dp"
+                            android:layout_marginEnd="@dimen/base_margin"
                             android:checked="false"
                             android:theme="@style/ThemeOverlay.MySwitch" />
 
@@ -185,7 +185,7 @@
                             android:id="@+id/appLock"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="@dimen/base_margin"
                             android:layout_weight="1"
                             android:text="@string/app_lock_time" />
 
@@ -193,7 +193,7 @@
                                 android:id="@+id/appLockTime"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginEnd="20dp"
+                                android:layout_marginEnd="@dimen/base_margin"
                                 android:text="@string/no" />
 
                         </LinearLayout>
@@ -219,7 +219,7 @@
                 android:id="@+id/cvAccountAvatar"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="@dimen/base_margin"
                 android:backgroundTint="@color/ic_account"
                 app:cardCornerRadius="25dp"
                 app:cardElevation="10dp"
@@ -240,8 +240,8 @@
                 android:id="@+id/tvUsernameText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginTop="@dimen/base_margin"
                 android:text="@string/settings"
                 android:textColor="@color/textDark"
                 android:textSize="24sp"
@@ -252,9 +252,9 @@
                 android:id="@+id/autoFillSettings"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin"
                 android:visibility="visible"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="10dp"
@@ -272,10 +272,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginTop="@dimen/base_margin"
                 android:layout_marginBottom="10dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="@dimen/base_margin"
                 android:text="@string/autofill_service"
                 android:textColor="@color/textDark"
                 android:textStyle="bold" />
@@ -293,7 +293,7 @@
                                 android:id="@+id/autofillDesc"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="20dp"
+                                android:layout_marginStart="@dimen/base_margin"
                                 android:layout_weight="1"
                                 android:text="@string/autofill_Desc" />
                         </LinearLayout>
@@ -302,7 +302,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:layout_margin="20dp"
+                            android:layout_margin="@dimen/base_margin"
                             android:layout_gravity="center"
                             android:orientation="horizontal">
                             <com.google.android.material.button.MaterialButton
@@ -312,7 +312,7 @@
                                 android:layout_height="wrap_content"
                                 android:clickable="true"
                                 android:focusable="true"
-                                android:text="@string/checkautofillsettings"/>
+                                android:text="@string/checkAutoFillSettings"/>
                         </LinearLayout>
                     </LinearLayout>
             </LinearLayout>
@@ -322,9 +322,9 @@
                 android:id="@+id/themeSettings"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin"
                 android:visibility="visible"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="10dp"
@@ -342,10 +342,10 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="@dimen/base_margin"
+                        android:layout_marginTop="@dimen/base_margin"
                         android:layout_marginBottom="10dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginEnd="@dimen/base_margin"
                         android:text="@string/choose_theme"
                         android:textColor="@color/textDark"
                         android:textStyle="bold" />
@@ -363,7 +363,7 @@
                                 android:id="@+id/cardRadius"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="20dp"
+                                android:layout_marginStart="@dimen/base_margin"
                                 android:layout_weight="1"
                                 android:text="@string/card_corners_radius" />
 
@@ -371,7 +371,7 @@
                                 android:id="@+id/cardRadiusVal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginEnd="20dp"
+                                android:layout_marginEnd="@dimen/base_margin"
                                 android:text="@string/no" />
 
                         </LinearLayout>
@@ -518,18 +518,18 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginEnd="20dp"
-                            android:text="@string/daynight_mode" />
+                            android:layout_marginStart="@dimen/base_margin"
+                            android:layout_marginEnd="@dimen/base_margin"
+                            android:text="@string/day_night_mode" />
 
                     </LinearLayout>
 
                     <HorizontalScrollView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="20dp"
+                        android:layout_marginStart="@dimen/base_margin"
                         android:layout_marginTop="10dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginEnd="@dimen/base_margin"
                         android:scrollbars="none">
 
                         <com.google.android.material.chip.ChipGroup
@@ -571,16 +571,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
+                        android:layout_marginStart="@dimen/base_margin"
                         android:layout_marginTop="10dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginEnd="@dimen/base_margin"
                         android:text="@string/set_icon_color_to_current_theme" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="@dimen/base_margin"
+                        android:layout_marginEnd="@dimen/base_margin"
                         android:text="@string/warning_app_will_be_closed" />
 
                     <com.google.android.material.chip.Chip
@@ -589,9 +589,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text= "@string/set"
-                        android:layout_marginStart="20dp"
+                        android:layout_marginStart="@dimen/base_margin"
                         android:layout_marginTop="10dp"
-                        android:layout_marginEnd="20dp" />
+                        android:layout_marginEnd="@dimen/base_margin" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -600,13 +600,13 @@
                 android:id="@+id/cvWarningRulesCard"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin"
                 android:visibility="visible"
                 app:cardBackgroundColor="?attr/colorPrimary"
                 app:cardCornerRadius="10dp"
-                app:cardElevation="20dp"
+                app:cardElevation="@dimen/base_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/themeSettings">
@@ -620,9 +620,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="@dimen/base_margin"
+                        android:layout_marginTop="@dimen/base_margin"
+                        android:layout_marginEnd="@dimen/base_margin"
                         android:layout_marginBottom="10dp"
                         android:text="@string/inOut"
                         android:textColor="@color/white"
@@ -631,9 +631,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
+                        android:layout_marginStart="@dimen/base_margin"
                         android:layout_marginTop="10dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginEnd="@dimen/base_margin"
                         android:layout_marginBottom="10dp"
                         android:text="@string/InOutMessage"
                         android:textColor="@color/colorLight"
@@ -646,9 +646,9 @@
                     <!--TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
+                        android:layout_marginStart="@dimen/base_margin"
                         android:layout_marginTop="10dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginEnd="@dimen/base_margin"
                         android:layout_marginBottom="10dp"
                         android:text="@string/InOutMessage3"
                         android:textColor="@color/colorLight"
@@ -665,7 +665,7 @@
                 android:id="@+id/exportCrad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/base_margin"
                 android:layout_marginBottom="30dp"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="15dp"
@@ -689,8 +689,8 @@
                         android:layout_margin="10dp"
                         android:background="@android:color/transparent"
                         android:contentDescription="@string/export"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
+                        android:paddingStart="@dimen/base_margin"
+                        android:paddingEnd="@dimen/base_margin"
                         android:src="@drawable/upload"
                         android:tint="@color/black" />
 
@@ -701,8 +701,8 @@
                         android:layout_margin="10dp"
                         android:background="@android:color/transparent"
                         android:contentDescription="@string/importFile"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
+                        android:paddingStart="@dimen/base_margin"
+                        android:paddingEnd="@dimen/base_margin"
                         android:src="@drawable/download"
                         android:tint="@color/black" />
                 </LinearLayout>
@@ -713,7 +713,7 @@
                 android:id="@+id/back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="@dimen/base_margin"
                 android:contentDescription="@string/back"
                 app:layout_constraintBottom_toBottomOf="@+id/tvUsernameText"
                 app:layout_constraintStart_toStartOf="parent"

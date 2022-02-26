@@ -208,7 +208,7 @@ class SettingsActivity : AppCompatActivity() {
                 binding.appLockBar.progress = lockTime.toInt()
                 binding.appLockTime.text = lockTime.toInt().toString() + "m"
                 if (lockTime.toInt() == 0) {
-                    binding.appLockTime.text = getString(R.string.dontlock)
+                    binding.appLockTime.text = getString(R.string.doNotLock)
                 }
             }
 
@@ -475,7 +475,7 @@ class SettingsActivity : AppCompatActivity() {
                 // Display the current progress of SeekBar
                 binding.appLockTime.text = i.toString() + "m"
                 if (i == 0) {
-                    binding.appLockTime.text = getString(R.string.dontlock)
+                    binding.appLockTime.text = getString(R.string.doNotLock)
                 }
                 with(sharedPref.edit()) {
                     putString("appLockTime", i.toString())

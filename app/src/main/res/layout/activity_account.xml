@@ -37,14 +37,14 @@
                 android:id="@+id/cvAdditionalInfoCard"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardBackgroundColor="?attr/colorPrimary"
                 app:cardCornerRadius="15dp"
-                app:cardElevation="20dp"
+                app:cardElevation="@dimen/base_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/specialInfo">
 
@@ -53,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_margin="20dp"
+                    android:layout_margin="@dimen/base_margin"
                     android:contentDescription="@string/donut"
                     app:srcCompat="@drawable/cup"
                     app:tint="@color/colorLight" />
@@ -63,17 +63,17 @@
                 android:id="@+id/crypted"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginTop="@dimen/base_margin"
 
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="@dimen/base_margin"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:visibility="visible"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="15dp"
-                app:cardElevation="20dp"
+                app:cardElevation="@dimen/base_margin"
                 app:layout_constraintEnd_toStartOf="@+id/cvAdditionalInfoCard"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView">
@@ -104,7 +104,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="5dp"
                                 android:clickable="false"
-                                android:text="@string/crypted" />
+                                android:text="@string/encrypted" />
 
                             <TextView
                                 android:id="@+id/crText"
@@ -117,7 +117,7 @@
                                 style="@style/Widget.MaterialComponents.Chip.Choice"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="20dp"
+                                android:layout_marginStart="@dimen/base_margin"
                                 android:clickable="false"
                                 android:text="@string/pin" />
 
@@ -127,7 +127,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="15dp"
                                 android:layout_marginEnd="15dp"
-                                android:text="@string/crypted" />
+                                android:text="@string/encrypted" />
 
                         </LinearLayout>
 
@@ -139,8 +139,8 @@
                 android:id="@+id/back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginTop="@dimen/base_margin"
                 android:contentDescription="@string/back"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -165,9 +165,9 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin"
                 app:boxCornerRadiusBottomEnd="15dp"
                 app:boxCornerRadiusBottomStart="15dp"
                 app:boxCornerRadiusTopEnd="15dp"
@@ -193,7 +193,7 @@
                 android:id="@+id/cvAccountAvatar"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/base_margin"
                 android:backgroundTint="@color/ic_account"
                 app:cardCornerRadius="35dp"
                 app:cardElevation="10dp"
@@ -216,13 +216,13 @@
                 android:id="@+id/cvWarningRulesCard"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin"
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardBackgroundColor="?attr/colorPrimary"
                 app:cardCornerRadius="10dp"
-                app:cardElevation="20dp"
+                app:cardElevation="@dimen/base_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cvAdditionalInfoCard">
@@ -232,14 +232,14 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="10dp"
-                    android:paddingBottom="20dp">
+                    android:paddingBottom="@dimen/base_margin">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
+                        android:layout_marginStart="@dimen/base_margin"
                         android:layout_marginTop="10dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginEnd="@dimen/base_margin"
                         android:text="@string/newPassIdea"
                         android:textColor="@color/white"
                         android:textStyle="bold" />
@@ -247,9 +247,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
+                        android:layout_marginStart="@dimen/base_margin"
                         android:layout_marginTop="10dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginEnd="@dimen/base_margin"
                         android:text="@string/newPassIdea1"
                         android:textColor="@color/white"
                         android:visibility="visible"
@@ -264,7 +264,7 @@
                 android:id="@+id/settingsCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/base_margin"
                 android:layout_marginBottom="30dp"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="15dp"
@@ -288,9 +288,9 @@
                         android:layout_margin="10dp"
                         android:background="@android:color/transparent"
                         android:contentDescription="@string/delete_account"
-                        android:paddingStart="20dp"
+                        android:paddingStart="@dimen/base_margin"
                         android:paddingTop="10dp"
-                        android:paddingEnd="20dp"
+                        android:paddingEnd="@dimen/base_margin"
                         android:paddingBottom="10dp"
                         android:src="@drawable/delete_outline"
                         android:tint="@color/quitAccent" />
@@ -301,9 +301,9 @@
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:contentDescription="@string/log_out"
-                        android:paddingStart="20dp"
+                        android:paddingStart="@dimen/base_margin"
                         android:paddingTop="10dp"
-                        android:paddingEnd="20dp"
+                        android:paddingEnd="@dimen/base_margin"
                         android:paddingBottom="10dp"
                         android:src="@drawable/exit_to_app"
                         android:tint="@color/black" />
@@ -314,9 +314,9 @@
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:contentDescription="@string/settings"
-                        android:paddingStart="20dp"
+                        android:paddingStart="@dimen/base_margin"
                         android:paddingTop="10dp"
-                        android:paddingEnd="20dp"
+                        android:paddingEnd="@dimen/base_margin"
                         android:paddingBottom="10dp"
                         android:src="@drawable/cog_outline"
                         android:tint="@color/black" />
@@ -327,9 +327,9 @@
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:contentDescription="@string/about_app"
-                        android:paddingStart="20dp"
+                        android:paddingStart="@dimen/base_margin"
                         android:paddingTop="10dp"
-                        android:paddingEnd="20dp"
+                        android:paddingEnd="@dimen/base_margin"
                         android:paddingBottom="10dp"
                         android:src="@drawable/information_outline"
                         android:tint="@color/black" />
@@ -346,7 +346,7 @@
                 android:scaleX="0.7"
                 android:scaleY="0.7"
                 app:cardCornerRadius="35dp"
-                app:cardElevation="20dp"
+                app:cardElevation="@dimen/base_margin"
                 app:layout_constraintBottom_toBottomOf="@+id/cvAccountAvatar"
                 app:layout_constraintStart_toStartOf="@+id/cvAccountAvatar"
                 app:layout_constraintTop_toTopOf="@+id/cvAccountAvatar">
@@ -364,12 +364,12 @@
                 android:id="@+id/specialInfo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="15dp"
-                app:cardElevation="20dp"
+                app:cardElevation="@dimen/base_margin"
 
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true"
@@ -418,7 +418,7 @@
                                 style="@style/Widget.MaterialComponents.Chip.Choice"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="20dp"
+                                android:layout_marginStart="@dimen/base_margin"
                                 android:clickable="false"
                                 android:text="@string/time_notification" />
 
@@ -438,14 +438,14 @@
                 android:id="@+id/cvQualityCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin"
                 android:foreground="?android:attr/selectableItemBackground"
 
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="15dp"
-                app:cardElevation="20dp"
+                app:cardElevation="@dimen/base_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/totalPoints">
@@ -460,7 +460,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="@dimen/base_margin"
                         android:layout_marginEnd="10dp"
                         android:orientation="horizontal"
                         tools:ignore="UseCompoundDrawables">
@@ -515,7 +515,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="20dp"
+                        android:layout_marginBottom="@dimen/base_margin"
                         android:orientation="horizontal"
                         tools:ignore="UseCompoundDrawables">
 
@@ -544,8 +544,8 @@
                 android:id="@+id/totalPoints"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginTop="@dimen/base_margin"
                 android:text="@string/total_points"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -565,10 +565,10 @@
                 android:id="@+id/cardView"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="@dimen/base_margin"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="15dp"
-                app:cardElevation="20dp"
+                app:cardElevation="@dimen/base_margin"
 
                 android:foreground="?android:attr/selectableItemBackground"
                 app:layout_constraintBottom_toBottomOf="@+id/specialInfo"
@@ -582,8 +582,8 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
+                    android:paddingStart="@dimen/base_margin"
+                    android:paddingEnd="@dimen/base_margin"
                     android:text="@string/no_text" />
             </androidx.cardview.widget.CardView>
 

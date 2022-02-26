@@ -104,22 +104,22 @@ class DonutActivity : AppCompatActivity(), BillingProcessor.IBillingHandler {
         }
 
         if (mBillingProcessor.isPurchased("cup_of_coffee")){
-            binding.CoffeeText.text = binding.CoffeeText.text.toString() + " " +  getString(R.string.thx)
+            binding.CoffeeText.text = binding.CoffeeText.text.toString() + " " +  getString(R.string.thxText)
             binding.coffeeDonut.isClickable = false
             binding.coffeeDonut.isFocusable = false
         }
         if (mBillingProcessor.isPurchased("apple_pack")){
-            binding.appleText.text = binding.appleText.text.toString() + " " +  getString(R.string.thx)
+            binding.appleText.text = binding.appleText.text.toString() + " " +  getString(R.string.thxText)
             binding.appleDonut.isClickable = false
             binding.appleDonut.isFocusable = false
         }
         if (mBillingProcessor.isPurchased("burger")){
-            binding.burgerText.text = binding.burgerText.text.toString() + " " +  getString(R.string.thx)
+            binding.burgerText.text = binding.burgerText.text.toString() + " " +  getString(R.string.thxText)
             binding.burgerDonut.isClickable = false
             binding.burgerDonut.isFocusable = false
         }
         if (mBillingProcessor.isPurchased("dinner")){
-            binding.dinnerText.text = binding.dinnerText.text.toString() + " " + getString(R.string.thx)
+            binding.dinnerText.text = binding.dinnerText.text.toString() + " " + getString(R.string.thxText)
             binding.foodDonut.isClickable = false
             binding.foodDonut.isFocusable = false
         }

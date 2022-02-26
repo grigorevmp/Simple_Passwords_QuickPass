@@ -1,5 +1,6 @@
-package com.mikhailgrigorev.quickpassword.ui.auth.login
+package com.mikhailgrigorev.quickpassword.ui.splash
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -8,8 +9,11 @@ import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.databinding.ActivitySplashBinding
+import com.mikhailgrigorev.quickpassword.ui.auth.login.AuthActivity
 
-class LoginActivity : AppCompatActivity() {
+// TODO Splash Android 12
+@SuppressLint("CustomSplashScreen")
+class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
         binding.logo.startAnimation(rotation)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, LoginAfterSplashActivity::class.java)
+            val intent = Intent(this, AuthActivity::class.java)
             startActivityForResult(intent, 1)
             overridePendingTransition(0, R.anim.fadein)
             finish()

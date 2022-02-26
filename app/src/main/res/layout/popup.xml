@@ -14,7 +14,7 @@
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="15dp"
         app:cardElevation="10dp"
-        android:layout_margin="20dp"
+        android:layout_margin="@dimen/base_margin"
         app:contentPadding="10dp">
 
         <TextView

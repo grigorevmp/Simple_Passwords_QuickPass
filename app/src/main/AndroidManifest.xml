@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.QP"
-        tools:targetApi="q">
+        tools:targetApi="s"
+        android:dataExtractionRules="@xml/data_extraction_rules">
         <activity android:name="com.mikhailgrigorev.quickpassword.ui.donut.DonutActivity" />
         <service
             android:name="com.mikhailgrigorev.quickpassword.service.QuickPassAutoFillService"
@@ -72,7 +73,7 @@
             android:name="com.mikhailgrigorev.quickpassword.ui.account.view.AccountActivity"
             android:screenOrientation="fullSensor" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.ui.auth.sign.SignActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.auth.sign.LoginActivity"
             android:screenOrientation="fullSensor"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -80,26 +81,16 @@
             android:screenOrientation="fullSensor"
             android:windowSoftInputMode="adjustResize"
             android:exported="true">
+        </activity>
+        <activity
+            android:name="com.mikhailgrigorev.quickpassword.ui.splash.SplashActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="fullSensor"
+            android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name="com.mikhailgrigorev.quickpassword.ui.auth.re.sign.ReSignActivity"
-            android:screenOrientation="fullSensor"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name="com.mikhailgrigorev.quickpassword.ui.auth.re.login.ReLoginActivity"
-            android:screenOrientation="fullSensor" />
-        <activity
-            android:name="com.mikhailgrigorev.quickpassword.ui.auth.login.LoginAfterSplashActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name="com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="fullSensor"
-            android:exported="false">
         </activity>
 
         <provider

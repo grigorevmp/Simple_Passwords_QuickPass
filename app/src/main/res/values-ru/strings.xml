@@ -100,7 +100,7 @@
     <string name="choose_theme">Тема</string>
     <string name="main_settings">Основные</string>
     <string name="save_pin">Сохранить пароль</string>
-    <string name="daynight_mode">Тёмная тема</string>
+    <string name="day_night_mode">Тёмная тема</string>
     <string name="defaultSystem">Системная</string>
     <string name="light">Светлая</string>
     <string name="dark">Темная</string>
@@ -142,20 +142,20 @@
     <string name="closeButton">Закрыть</string>
     <string name="saveButton">Сохранить</string>
     <string name="newMail">Введите резервный e-mail</string>
-    <string name="sendMail">Забыли пароль?</string>
-    <string name="sendMail1">Введите свой логин, чтобы восстановить пароль</string>
-    <string name="sendMail2">Письмо с паролем отправлено вам на почту</string>
-    <string name="sendMail3">Вы не указали вашу почту =(</string>
+    <string name="forgotPasswordText">Забыли пароль?</string>
+    <string name="enterYourLogin">Введите свой логин, чтобы восстановить пароль</string>
+    <string name="emailWasSent">Письмо с паролем отправлено вам на почту</string>
+    <string name="userDidNotSetMail">Вы не указали вашу почту =(</string>
     <string name="crypt">Шифровать</string>
     <string name="cipherInfo">Шифровать - ваш пароль будет храниться в зашифрованном виде и расшифровываться только при показе</string>
     <string name="save_password">Save password</string>
     <string name="add_password">Add password</string>
-    <string name="crypted">Crypted</string>
+    <string name="encrypted">Crypted</string>
     <string name="bank_card">Bank Card</string>
     <string name="add_password_plus">Add password</string>
     <string name="set_pin_helper">Вам необходимо ввести 4 цифры</string>
     <string name="mail_description">Если вы забудете пароль, он будет отправлен на вашу электронную почту</string>
-    <string name="slowloading">Включение шифрования замедляет загрузку списка паролей</string>
+    <string name="slowLoading">Включение шифрования замедляет загрузку списка паролей</string>
     <string name="pin">PIN</string>
     <string name="newPassIdea"> Идея создания пароля</string>
     <string name="newPassIdea1"> Придумайте ключевое слово, например, kitten. Создавайте пароль, не указывая ключ в приложении, добавляйте ключевое слово в конец пароля на сервисе. Например, "Sup3rP4s55kitten"
@@ -175,9 +175,9 @@
     <string name="appleDesc">Я не могу жить без фруктов</string>
     <string name="burgerDesc">Вкусный, сочный, мясной бургер</string>
     <string name="password">Пароль</string>
-    <string name="thx"> (Спасибо =))</string>
+    <string name="thxText"> (Спасибо =))</string>
     <string name="app_lock_time">Время блокировки приложения</string>
-    <string name="dontlock">Не блокировать</string>
+    <string name="doNotLock">Не блокировать</string>
     <string name="password_analyze">Скрыть анализ пароля</string>
     <string name="card_corners_radius">Радиус углов карточки</string>
     <string name="a_z">A-Z</string>
@@ -187,7 +187,7 @@
     <string name="attached_image">Прикрепленное изображение:</string>
     <string name="clear_image">Удалить</string>
     <string name="autofill_service">Сервис автозаполнения</string>
-    <string name="checkautofillsettings">Проверить настройки автозаполнения</string>
+    <string name="checkAutoFillSettings">Проверить настройки автозаполнения</string>
     <string name="autofill_Desc">На текущий момент QuickPass поддерживает только приложения, чьи имена имеют общие части с названием вашего пароля</string>
     <string name="attach_image_mini">Прикрепить</string>
 </resources>
