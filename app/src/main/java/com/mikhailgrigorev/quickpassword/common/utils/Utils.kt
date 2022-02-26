@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.security.crypto.EncryptedSharedPreferences
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.firebase.auth.FirebaseAuth
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.Application
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
@@ -21,6 +22,8 @@ object Utils {
     fun init(application: Application) {
         Utils.application = application
     }
+
+    val auth = FirebaseAuth.getInstance()
 
     private var application: Application? = null
     private const val preferences_file = "quickPassPreference"
@@ -84,14 +87,6 @@ object Utils {
 
     }
 
-    fun setLogin(login: String) {
-        with(enSharedPrefsFile!!.edit()) {
-            putString("prefLogin", login)
-            apply()
-        }
-    }
-
-    fun getLogin() = enSharedPrefsFile!!.getString("prefLogin", "none")
 
 
     fun setPassword(password: String) {
@@ -134,7 +129,7 @@ object Utils {
     }
 
     fun autoCopy() = sharedPreferences!!.getString("prefAutoCopyKey", "none")
-    fun userName() = sharedPreferences!!.getString("prefUserNameKey", "Stranger")
+    fun getLogin() = enSharedPrefsFile!!.getString("prefLogin", "Stranger")
     fun sortingAsc() = sharedPreferences!!.getBoolean("sortingAsc", false)
     fun getPinMode() = sharedPreferences!!.getBoolean("prefPinMode", false)
     fun getBioMode() = sharedPreferences!!.getBoolean("prefBioMode", false)
@@ -144,6 +139,13 @@ object Utils {
             "bottomSheetDialogState",
             BottomSheetBehavior.STATE_HIDDEN
     )
+
+    fun setLogin(login: String) {
+        with(enSharedPrefsFile!!.edit()) {
+            putString("prefLogin", login)
+            apply()
+        }
+    }
 
     private fun <ValueType> editPreferences(
         key: String,
@@ -163,10 +165,6 @@ object Utils {
             }
             apply()
         }
-    }
-
-    fun setUserName(name: String) {
-        editPreferences("prefUserNameKey", name)
     }
 
     fun setSortingType(value: String) {
@@ -250,7 +248,7 @@ object Utils {
     }
 
     fun validate(password: String): Boolean {
-        return !(password.isEmpty() || password.length < 4 || password.length > 20)
+        return (password.isEmpty() || password.length < 4 || password.length > 20)
     }
 
 }

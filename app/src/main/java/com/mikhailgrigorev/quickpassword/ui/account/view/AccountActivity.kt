@@ -62,6 +62,7 @@ class AccountActivity : AppCompatActivity() {
         val login = Utils.getLogin()!!
         val name: String = getString(R.string.hi) + " " + login
         binding.tvUsernameText.text = name
+        binding.tvAvatarSymbol.text = login[0].toString()
     }
 
     private fun setObservers() {

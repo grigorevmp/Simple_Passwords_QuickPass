@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.mikhailgrigorev.quickpass",
+  "applicationId": "com.mikhailgrigorev.quickpassword",
   "variantName": "processReleaseResources",
   "elements": [
     {

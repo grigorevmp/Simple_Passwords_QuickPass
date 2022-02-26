@@ -17,7 +17,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.mikhailgrigorev.quickpass"
+        applicationId "com.mikhailgrigorev.quickpassword"
         minSdkVersion 23
         targetSdk 32
         versionCode 25
@@ -125,3 +125,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
 }
+
+apply plugin: 'com.google.gms.google-services'

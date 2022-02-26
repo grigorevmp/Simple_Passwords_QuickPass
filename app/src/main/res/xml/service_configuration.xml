@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <autofill-service
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:settingsActivity="com.mikhailgrigorev.quickpass.SignActivity" />
+    android:settingsActivity="com.mikhailgrigorev.quickpassword.SignActivity" />

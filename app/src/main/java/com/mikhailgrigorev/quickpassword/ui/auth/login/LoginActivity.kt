@@ -15,7 +15,6 @@ import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.ActivityLoginBinding
 import com.mikhailgrigorev.quickpassword.ui.auth.auth.AuthActivity
 import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
-import org.mindrot.jbcrypt.BCrypt
 import java.util.concurrent.Executor
 
 class LoginActivity : AppCompatActivity() {
@@ -136,19 +135,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signIn(password: String) {
-        // TODO connect with Firebase
-        val testPassword = "test_password"
-        val hashedPassword = BCrypt.hashpw(testPassword, BCrypt.gensalt(12))
-        val hashedUserPassword = BCrypt.hashpw(password, BCrypt.gensalt(12))
-
-
-        if (hashedPassword != hashedUserPassword) {
-            binding.inputPasswordId.error = getString(R.string.wrong_pass)
-            return
-        } else {
+        if (Utils.checkPassword(password)) {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
+        } else {
+            binding.inputPasswordId.error = getString(R.string.wrong_pass)
+            return
         }
     }
 

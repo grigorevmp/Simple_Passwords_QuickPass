@@ -42,8 +42,8 @@
             android:id="@+id/inputLoginIdField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:hint="@string/inputLogin" />
+            android:inputType="textEmailAddress"
+            android:hint="@string/emailOnly" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout

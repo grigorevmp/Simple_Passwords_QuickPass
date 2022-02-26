@@ -134,6 +134,7 @@
     <string name="email_login" translatable="false">E-mail/Login</string>
     <string name="add_email">Add login or e-mail</string>
     <string name="email" translatable="false">E-mail/login</string>
+    <string name="emailOnly" translatable="false">E-mail</string>
     <string name="additional_settings">Additional settings</string>
     <string name="showPin">Don\'t show this pin to others</string>
     <string name="time_notification">Time notification</string>

@@ -683,8 +683,8 @@ class SettingsActivity : AppCompatActivity() {
                     turnOffAllIcons()
                     packageManager.setComponentEnabledSetting(
                             ComponentName(
-                                    "com.mikhailgrigorev.quickpass",
-                                    "com.mikhailgrigorev.quickpass.LoginActivityPink"
+                                    "com.mikhailgrigorev.quickpassword",
+                                    "com.mikhailgrigorev.quickpassword.LoginActivityPink"
                             ),
                             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                             PackageManager.DONT_KILL_APP
@@ -694,8 +694,8 @@ class SettingsActivity : AppCompatActivity() {
                     turnOffAllIcons()
                     packageManager.setComponentEnabledSetting(
                             ComponentName(
-                                    "com.mikhailgrigorev.quickpass",
-                                    "com.mikhailgrigorev.quickpass.LoginActivityRed"
+                                    "com.mikhailgrigorev.quickpassword",
+                                    "com.mikhailgrigorev.quickpassword.LoginActivityRed"
                             ),
                             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                             PackageManager.DONT_KILL_APP
@@ -705,8 +705,8 @@ class SettingsActivity : AppCompatActivity() {
                     turnOffAllIcons()
                     packageManager.setComponentEnabledSetting(
                             ComponentName(
-                                    "com.mikhailgrigorev.quickpass",
-                                    "com.mikhailgrigorev.quickpass.LoginActivityPurple"
+                                    "com.mikhailgrigorev.quickpassword",
+                                    "com.mikhailgrigorev.quickpassword.LoginActivityPurple"
                             ),
                             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                             PackageManager.DONT_KILL_APP
@@ -716,8 +716,8 @@ class SettingsActivity : AppCompatActivity() {
                     turnOffAllIcons()
                     packageManager.setComponentEnabledSetting(
                             ComponentName(
-                                    "com.mikhailgrigorev.quickpass",
-                                    "com.mikhailgrigorev.quickpass.LoginActivity"
+                                    "com.mikhailgrigorev.quickpassword",
+                                    "com.mikhailgrigorev.quickpassword.LoginActivity"
                             ),
                             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                             PackageManager.DONT_KILL_APP
@@ -727,8 +727,8 @@ class SettingsActivity : AppCompatActivity() {
                     turnOffAllIcons()
                     packageManager.setComponentEnabledSetting(
                             ComponentName(
-                                    "com.mikhailgrigorev.quickpass",
-                                    "com.mikhailgrigorev.quickpass.LoginActivitydViolet"
+                                    "com.mikhailgrigorev.quickpassword",
+                                    "com.mikhailgrigorev.quickpassword.LoginActivitydViolet"
                             ),
                             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                             PackageManager.DONT_KILL_APP
@@ -738,8 +738,8 @@ class SettingsActivity : AppCompatActivity() {
                     turnOffAllIcons()
                     packageManager.setComponentEnabledSetting(
                             ComponentName(
-                                    "com.mikhailgrigorev.quickpass",
-                                    "com.mikhailgrigorev.quickpass.LoginActivityBlue"
+                                    "com.mikhailgrigorev.quickpassword",
+                                    "com.mikhailgrigorev.quickpassword.LoginActivityBlue"
                             ),
                             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                             PackageManager.DONT_KILL_APP
@@ -749,8 +749,8 @@ class SettingsActivity : AppCompatActivity() {
                     turnOffAllIcons()
                     packageManager.setComponentEnabledSetting(
                             ComponentName(
-                                    "com.mikhailgrigorev.quickpass",
-                                    "com.mikhailgrigorev.quickpass.LoginActivityCyan"
+                                    "com.mikhailgrigorev.quickpassword",
+                                    "com.mikhailgrigorev.quickpassword.LoginActivityCyan"
                             ),
                             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                             PackageManager.DONT_KILL_APP
@@ -760,8 +760,8 @@ class SettingsActivity : AppCompatActivity() {
                     turnOffAllIcons()
                     packageManager.setComponentEnabledSetting(
                             ComponentName(
-                                    "com.mikhailgrigorev.quickpass",
-                                    "com.mikhailgrigorev.quickpass.LoginActivityTeal"
+                                    "com.mikhailgrigorev.quickpassword",
+                                    "com.mikhailgrigorev.quickpassword.LoginActivityTeal"
                             ),
                             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                             PackageManager.DONT_KILL_APP
@@ -771,8 +771,8 @@ class SettingsActivity : AppCompatActivity() {
                     turnOffAllIcons()
                     packageManager.setComponentEnabledSetting(
                             ComponentName(
-                                    "com.mikhailgrigorev.quickpass",
-                                    "com.mikhailgrigorev.quickpass.LoginActivityGreen"
+                                    "com.mikhailgrigorev.quickpassword",
+                                    "com.mikhailgrigorev.quickpassword.LoginActivityGreen"
                             ),
                             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                             PackageManager.DONT_KILL_APP
@@ -782,8 +782,8 @@ class SettingsActivity : AppCompatActivity() {
                     turnOffAllIcons()
                     packageManager.setComponentEnabledSetting(
                             ComponentName(
-                                    "com.mikhailgrigorev.quickpass",
-                                    "com.mikhailgrigorev.quickpass.LoginActivitylGreen"
+                                    "com.mikhailgrigorev.quickpassword",
+                                    "com.mikhailgrigorev.quickpassword.LoginActivitylGreen"
                             ),
                             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                             PackageManager.DONT_KILL_APP
@@ -797,71 +797,71 @@ class SettingsActivity : AppCompatActivity() {
     private fun turnOffAllIcons() {
         packageManager.setComponentEnabledSetting(
                 ComponentName(
-                        "com.mikhailgrigorev.quickpass",
-                        "com.mikhailgrigorev.quickpass.LoginActivity"
+                        "com.mikhailgrigorev.quickpassword",
+                        "com.mikhailgrigorev.quickpassword.LoginActivity"
                 ),
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
         )
         packageManager.setComponentEnabledSetting(
                 ComponentName(
-                        "com.mikhailgrigorev.quickpass",
-                        "com.mikhailgrigorev.quickpass.LoginActivityGreen"
+                        "com.mikhailgrigorev.quickpassword",
+                        "com.mikhailgrigorev.quickpassword.LoginActivityGreen"
                 ),
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
         )
         packageManager.setComponentEnabledSetting(
                 ComponentName(
-                        "com.mikhailgrigorev.quickpass",
-                        "com.mikhailgrigorev.quickpass.LoginActivityTeal"
+                        "com.mikhailgrigorev.quickpassword",
+                        "com.mikhailgrigorev.quickpassword.LoginActivityTeal"
                 ),
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
         )
         packageManager.setComponentEnabledSetting(
                 ComponentName(
-                        "com.mikhailgrigorev.quickpass",
-                        "com.mikhailgrigorev.quickpass.LoginActivitylGreen"
+                        "com.mikhailgrigorev.quickpassword",
+                        "com.mikhailgrigorev.quickpassword.LoginActivitylGreen"
                 ),
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
         )
         packageManager.setComponentEnabledSetting(
                 ComponentName(
-                        "com.mikhailgrigorev.quickpass",
-                        "com.mikhailgrigorev.quickpass.LoginActivityCyan"
+                        "com.mikhailgrigorev.quickpassword",
+                        "com.mikhailgrigorev.quickpassword.LoginActivityCyan"
                 ),
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
         )
         packageManager.setComponentEnabledSetting(
                 ComponentName(
-                        "com.mikhailgrigorev.quickpass",
-                        "com.mikhailgrigorev.quickpass.LoginActivityBlue"
+                        "com.mikhailgrigorev.quickpassword",
+                        "com.mikhailgrigorev.quickpassword.LoginActivityBlue"
                 ),
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
         )
         packageManager.setComponentEnabledSetting(
                 ComponentName(
-                        "com.mikhailgrigorev.quickpass",
-                        "com.mikhailgrigorev.quickpass.LoginActivitydViolet"
+                        "com.mikhailgrigorev.quickpassword",
+                        "com.mikhailgrigorev.quickpassword.LoginActivitydViolet"
                 ),
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
         )
         packageManager.setComponentEnabledSetting(
                 ComponentName(
-                        "com.mikhailgrigorev.quickpass",
-                        "com.mikhailgrigorev.quickpass.LoginActivityPurple"
+                        "com.mikhailgrigorev.quickpassword",
+                        "com.mikhailgrigorev.quickpassword.LoginActivityPurple"
                 ),
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
         )
         packageManager.setComponentEnabledSetting(
                 ComponentName(
-                        "com.mikhailgrigorev.quickpass",
-                        "com.mikhailgrigorev.quickpass.LoginActivityPink"
+                        "com.mikhailgrigorev.quickpassword",
+                        "com.mikhailgrigorev.quickpassword.LoginActivityPink"
                 ),
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
         )
         packageManager.setComponentEnabledSetting(
                 ComponentName(
-                        "com.mikhailgrigorev.quickpass",
-                        "com.mikhailgrigorev.quickpass.LoginActivityRed"
+                        "com.mikhailgrigorev.quickpassword",
+                        "com.mikhailgrigorev.quickpassword.LoginActivityRed"
                 ),
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
         )
@@ -1532,7 +1532,7 @@ class SettingsActivity : AppCompatActivity() {
         val autoFillManager: AutofillManager = context.getSystemService(AutofillManager::class.java)
         if (!autoFillManager.hasEnabledAutofillServices()) {
             val intent = Intent(android.provider.Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE)
-            intent.data = Uri.parse("package:com.mikhailgrigorev.quickpass")
+            intent.data = Uri.parse("package:com.mikhailgrigorev.quickpassword")
             startActivityForResult(intent, 0)
         }
         else{

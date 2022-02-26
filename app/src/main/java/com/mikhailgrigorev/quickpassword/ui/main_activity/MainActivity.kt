@@ -136,21 +136,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun authorization(){
-
-        // Get Extras
-        val args: Bundle? = intent.extras
-        login = args?.get("login").toString()
-        val newLogin = Utils.userName()
-
-        // Set login
-        if (newLogin != login)
-            login = newLogin.toString()
-
-        Utils.setUserName(login)
-
+        login = Utils.getLogin()!!
         val name: String = getString(R.string.hi) + " " + login
         binding.tvUsernameText.text = name
-
         binding.tvAvatarSymbol.text = login[0].toString()
     }
 

@@ -17,7 +17,7 @@ Just in alpha...
 
 ## QuickPass 2.0 (2020~2021)
 
-[Google Play](https://play.google.com/store/apps/details?id=com.mikhailgrigorev.quickpass)
+[Google Play](https://play.google.com/store/apps/details?id=com.mikhailgrigorev.quickpassword)
 
 ## App features
 

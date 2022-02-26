@@ -39,7 +39,7 @@ class AuthActivity : AppCompatActivity() {
         if (usePin) {
             intent = Intent(this, PinActivity::class.java)
             goToIntent = true
-        } else if (userLogin != "none") {
+        } else if (userLogin != "Stranger") {
             intent = Intent(this, LoginActivity::class.java)
             goToIntent = true
         }
@@ -52,24 +52,20 @@ class AuthActivity : AppCompatActivity() {
     private fun initListeners() {
         binding.loginFab.setOnClickListener {
             if (binding.signUpChip.isChecked) {
-                if (validate(
-                            binding.inputLoginIdField.text.toString(),
-                            binding.inputPasswordIdField.text.toString()
-                    )
-                )
+                if (validate(binding.inputPasswordIdField.text.toString())) {
                     signUp(
                             binding.inputLoginIdField.text.toString(),
                             binding.inputPasswordIdField.text.toString()
                     )
+                }
             } else {
-                if (validate(
+                if (validate(binding.inputPasswordIdField.text.toString())
+                ) {
+                    signIn(
                             binding.inputLoginIdField.text.toString(),
                             binding.inputPasswordIdField.text.toString()
                     )
-                )
-                    signIn(
-                            binding.inputPasswordIdField.text.toString()
-                    )
+                }
             }
         }
 
@@ -105,29 +101,14 @@ class AuthActivity : AppCompatActivity() {
         }
 
         binding.sendMail.setOnClickListener {
-            val login = binding.inputLoginIdField.text.toString()
-
-            // TODO connect with Firebase
-            val testMail = "test_mail"
-            val testPassword = "test_password"
-
-            Utils.sendMail(
-                    testMail,
-                    testPassword
-            )
-
+            val email = binding.inputLoginIdField.text.toString()
+            Utils.auth.sendPasswordResetEmail(email)
         }
     }
 
-    private fun validate(login: String, password: String): Boolean {
-        var valid = false
-        if (login.isEmpty() || login.length < 3) {
-            binding.inputLoginId.error = getString(R.string.errNumOfText)
-        } else {
-            binding.inputLoginId.error = null
-            valid = true
-        }
-        if (password.isEmpty() || password.length < 4 || password.length > 20) {
+    private fun validate(password: String): Boolean {
+        var valid = true
+        if (Utils.validate(password)) {
             binding.inputPasswordId.error = getString(R.string.errPass)
             valid = false
         } else {
@@ -136,55 +117,73 @@ class AuthActivity : AppCompatActivity() {
         return valid
     }
 
-    private fun signUp(login: String, password: String) {
-        Utils.setLogin(login)
-        signIn(password)
+    private fun signUp(email: String, password: String) {
+        Utils.auth.createUserWithEmailAndPassword(
+                email,
+                password
+        ).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Utils.setLogin(email)
+                Utils.setPassword(password)
+                goHome()
+            }
+        }.addOnFailureListener { exception ->
+            Utils.makeToast(this, exception.localizedMessage)
+            exception.message?.let { Utils.makeToast(this, it) }
+        }
+
     }
 
-    private fun signIn(password: String) {
-        // TODO connect with Firebase
-        val testPassword = "test_password"
-        // val hashedPassword = BCrypt.hashpw(testPassword, BCrypt.gensalt(12))
-        // val hashedUserPassword = BCrypt.hashpw(password, BCrypt.gensalt(12))
+    private fun signIn(email: String, password: String) {
+        Utils.auth.signInWithEmailAndPassword(
+                email,
+                password
+        ).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Utils.setLogin(email)
+                Utils.setPassword(password)
+                goHome()
+            }
+        }.addOnFailureListener { exception ->
+            Utils.makeToast(this, exception.localizedMessage)
+            exception.message?.let { Utils.makeToast(this, it) }
+        }
 
+    }
 
-        if (password != "test") {
-            binding.inputPasswordId.error = getString(R.string.wrong_pass)
-            return
-        } else {
-            if (isAvailable(this)) {
-                val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
-                builder.setTitle(getString(R.string.bio_usage))
-                builder.setMessage(getString(R.string.fingerUnlock))
+    private fun goHome() {
+        if (isAvailable(this)) {
+            val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
+            builder.setTitle(getString(R.string.bio_usage))
+            builder.setMessage(getString(R.string.fingerUnlock))
 
-                builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
-                    Utils.setBioMode(true)
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
-
-                builder.setNegativeButton(getString(R.string.no)) { _, _ ->
-                    Utils.setBioMode(false)
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
-
-                builder.setNeutralButton(getString(R.string.cancel)) { _, _ ->
-                    Utils.setBioMode(false)
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
-                builder.setCancelable(false)
-                val dialog: AlertDialog = builder.create()
-                dialog.show()
-            } else {
+            builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
+                Utils.setBioMode(true)
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             }
+
+            builder.setNegativeButton(getString(R.string.no)) { _, _ ->
+                Utils.setBioMode(false)
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
+            builder.setNeutralButton(getString(R.string.cancel)) { _, _ ->
+                Utils.setBioMode(false)
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+            builder.setCancelable(false)
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        } else {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 
