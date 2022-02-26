@@ -74,6 +74,13 @@ interface PasswordCardDao {
         isAsc: Boolean = false
     ): LiveData<List<PasswordCard>>
 
+    @Query(
+            "select * from password_card WHERE folder = :folder_"
+    )
+    fun getAllFromFolder(
+        folder_: Int
+    ): LiveData<List<PasswordCard>>
+
     // Getting additional data
 
     @Query("SELECT COUNT(*) FROM password_card ")

@@ -7,9 +7,6 @@ import com.mikhailgrigorev.quickpassword.common.PasswordCategory
 
 @Entity(tableName = "password_card")
 data class PasswordCard(
-    /*
-        Password card database class
-     */
     @PrimaryKey(autoGenerate = true)
     val _id: Int = 0,
     @SerializedName("name")
@@ -26,8 +23,8 @@ data class PasswordCard(
     var description: String,
     @SerializedName("tags")
     var tags: String,
-    @SerializedName("groups")
-    var groups: String,
+    @SerializedName("folder")
+    var folder: Int? = null,
     @SerializedName("login")
     var login: String,
     @SerializedName("encrypted")

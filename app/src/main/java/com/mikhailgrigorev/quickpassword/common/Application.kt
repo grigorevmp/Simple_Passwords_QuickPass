@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.StrictMode
 import androidx.viewbinding.BuildConfig
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
+import com.mikhailgrigorev.quickpassword.data.database.FolderCardDatabase
 import com.mikhailgrigorev.quickpassword.data.database.PasswordCardDatabase
 
 class Application : Application() {
@@ -12,6 +13,8 @@ class Application : Application() {
         super.onCreate()
 
         PasswordCardDatabase.setInstance(this)
+        FolderCardDatabase.setInstance(this)
+        
         Utils.init(this)
         Utils.setSharedPreferences()
 

@@ -14,20 +14,27 @@ class PasswordCardRepository {
         columnName: String = "name",
         isAsc: Boolean = false
     ): LiveData<List<PasswordCard>> {
-        return when(columnName) {
+        return when (columnName) {
             "name" -> pcDao.getAllSortName(isAsc)
             "time" -> pcDao.getAllSortTime(isAsc)
             else -> pcDao.getAllSortName(isAsc)
         }
     }
 
+    fun getAllFromFolder(
+        folder: Int
+    ): LiveData<List<PasswordCard>> {
+        return pcDao.getAllFromFolder(folder)
+    }
+
     fun getItem(id: Int) = pcDao.getByID(id)
 
-    fun getItemByName(name: String,
-                      columnName: String = "name",
-                      isAsc: Boolean = false
+    fun getItemByName(
+        name: String,
+        columnName: String = "name",
+        isAsc: Boolean = false
     ): LiveData<List<PasswordCard>> {
-        return when(columnName) {
+        return when (columnName) {
             "name" -> pcDao.getByNameSortName(name, isAsc)
             "time" -> pcDao.getByNameSortTime(name, isAsc)
             else -> pcDao.getAllSortName(isAsc)
