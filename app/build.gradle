@@ -60,6 +60,9 @@ dependencies {
     implementation "androidx.room:room-ktx:2.4.2"
     kapt "androidx.room:room-compiler:2.4.2"
 
+    implementation platform('com.google.firebase:firebase-bom:29.1.0')
+    implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
+
     // Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.0-alpha03")
     implementation("androidx.navigation:navigation-ui-ktx:2.5.0-alpha03")
