@@ -4,9 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.ActivityAuthBinding
@@ -92,10 +94,12 @@ class AuthActivity : AppCompatActivity() {
                     binding.loginFab.hide()
                     binding.loginFab.text = getString(R.string.sign_up)
                     binding.loginFab.show()
+                    binding.inputRealLoginId.visibility = View.VISIBLE
                 } else {
                     binding.loginFab.hide()
                     binding.loginFab.text = getString(R.string.sign_in)
                     binding.loginFab.show()
+                    binding.inputRealLoginId.visibility = View.GONE
                 }
             }
         }
@@ -122,11 +126,20 @@ class AuthActivity : AppCompatActivity() {
                 email,
                 password
         ).addOnCompleteListener { task ->
+
+            val login = binding.inputRealLoginIdField.text.toString()
+
             if (task.isSuccessful) {
-                Utils.setLogin(email)
-                Utils.setPassword(password)
+                Utils.setLogin(login)
+                Utils.setMail(email)
                 goHome()
             }
+            Utils.auth.currentUser?.updateProfile(
+                    UserProfileChangeRequest.Builder().apply {
+                        displayName = login
+                    }.build()
+            )
+
         }.addOnFailureListener { exception ->
             Utils.makeToast(this, exception.localizedMessage)
             exception.message?.let { Utils.makeToast(this, it) }
@@ -139,16 +152,16 @@ class AuthActivity : AppCompatActivity() {
                 email,
                 password
         ).addOnCompleteListener { task ->
+            val login = Utils.auth.currentUser?.displayName!!
             if (task.isSuccessful) {
-                Utils.setLogin(email)
-                Utils.setPassword(password)
+                Utils.setLogin(login)
+                Utils.setMail(email)
                 goHome()
             }
         }.addOnFailureListener { exception ->
             Utils.makeToast(this, exception.localizedMessage)
             exception.message?.let { Utils.makeToast(this, it) }
         }
-
     }
 
     private fun goHome() {

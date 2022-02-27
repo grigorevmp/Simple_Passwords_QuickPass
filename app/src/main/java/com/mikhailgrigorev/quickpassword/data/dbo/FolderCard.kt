@@ -13,7 +13,7 @@ data class FolderCard(
     @SerializedName("description")
     var description: String,
     @SerializedName("image_src")
-    var imageSrc: String,
+    var imageSrc: String = "",
     @SerializedName("color_tag")
-    var colorTag: Int,
+    var colorTag: String = "",
 )

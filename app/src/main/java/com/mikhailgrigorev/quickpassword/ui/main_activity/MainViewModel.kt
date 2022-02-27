@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.mikhailgrigorev.quickpassword.common.PasswordCategory
 import com.mikhailgrigorev.quickpassword.common.PasswordGettingType
+import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.data.repository.FolderRepository
 import com.mikhailgrigorev.quickpassword.data.repository.PasswordCardRepository
@@ -13,6 +14,10 @@ class MainViewModel() : ViewModel() {
     private val folderRepo: FolderRepository = FolderRepository()
     val passwords = passwordCardRepo.allData
     val folders = folderRepo.allData
+
+    fun insertCard(item: FolderCard) {
+        folderRepo.insert(item)
+    }
 
     suspend fun favPassword(currentPassword: PasswordCard) {
         currentPassword.favorite = !(currentPassword.favorite)

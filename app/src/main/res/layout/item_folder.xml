@@ -11,9 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center|end"
-        android:layout_marginStart="@dimen/base_card_horizontal_margin"
+        android:layout_marginStart="@dimen/base_card_vertical_margin"
         android:layout_marginTop="@dimen/base_card_vertical_margin"
-        android:layout_marginEnd="@dimen/base_card_horizontal_margin"
+        android:layout_marginEnd="@dimen/base_card_vertical_margin"
         android:layout_marginBottom="@dimen/base_card_vertical_margin"
         android:clickable="true"
         android:focusable="true"
@@ -21,13 +21,27 @@
         card_view:cardCornerRadius="@dimen/base_card_radius"
         card_view:cardElevation="@dimen/base_card_elevation">
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvColorCard"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_marginTop="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:layout_marginStart="60dp"
+            android:layout_gravity="end"
+            card_view:cardBackgroundColor="@color/fixable"
+            card_view:cardCornerRadius="@dimen/extra_base_card_radius"
+            card_view:cardElevation="@dimen/base_card_elevation"/>
+
         <LinearLayout
             android:id="@+id/llPasswordCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="@dimen/medium_padding">
+            android:padding="@dimen/small_padding">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -62,7 +76,7 @@
                         android:layout_gravity="center|clip_vertical|left"
                         android:textStyle="bold"
                         tools:ignore="RtlHardcoded"
-                        tools:text="Folder" />
+                        tools:text="test" />
 
                     <TextView
                         android:id="@+id/tvDescription"
@@ -71,19 +85,9 @@
                         android:lines="2"
                         android:maxWidth="@dimen/max_width"
                         android:singleLine="false"
-                        tools:text="Long long description" />
+                        tools:text="test" />
 
                 </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/ivColorTag"
-                    android:layout_width="@dimen/image_button_size_10"
-                    android:layout_height="@dimen/image_button_size_10"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/base_margin"
-                    android:contentDescription="@string/no_text"
-                    card_view:srcCompat="@drawable/circle_improvement" />
-
             </LinearLayout>
 
         </LinearLayout>

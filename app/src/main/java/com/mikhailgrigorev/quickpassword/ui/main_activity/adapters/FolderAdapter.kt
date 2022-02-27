@@ -2,12 +2,12 @@ package com.mikhailgrigorev.quickpassword.ui.main_activity.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
-import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ItemFolderBinding
 
 class FolderAdapter(
@@ -36,6 +36,11 @@ class FolderAdapter(
         holder.folderName.text = folder.name
         holder.folderDescription.text = folder.description
 
+        if(folder.colorTag != ""){
+            holder.cvColorCard.visibility = View.VISIBLE
+            holder.cvColorCard.setCardBackgroundColor(Color.parseColor(folder.colorTag))
+        }
+
         holder.folderCard.setOnClickListener {
             clickListener(position)
         }
@@ -49,6 +54,6 @@ class FolderAdapter(
 class FolderViewHolder(binding: ItemFolderBinding) : RecyclerView.ViewHolder(binding.root) {
     val folderName = binding.tvFolderName
     val folderDescription = binding.tvDescription
-    val colorTag = binding.ivColorTag
+    val cvColorCard = binding.cvColorCard
     val folderCard = binding.cvFolderCard
 }

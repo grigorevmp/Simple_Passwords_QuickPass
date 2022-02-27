@@ -1,5 +1,6 @@
 package com.mikhailgrigorev.quickpassword.common.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
@@ -7,6 +8,7 @@ import android.widget.Toast
 import androidx.security.crypto.EncryptedSharedPreferences
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.Application
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
@@ -24,6 +26,8 @@ object Utils {
     }
 
     val auth = FirebaseAuth.getInstance()
+    @SuppressLint("StaticFieldLeak")
+    val firestore = FirebaseFirestore.getInstance()
 
     private var application: Application? = null
     private const val preferences_file = "quickPassPreference"
@@ -130,6 +134,7 @@ object Utils {
 
     fun autoCopy() = sharedPreferences!!.getString("prefAutoCopyKey", "none")
     fun getLogin() = enSharedPrefsFile!!.getString("prefLogin", "Stranger")
+    fun getMail() = enSharedPrefsFile!!.getString("prefMail", "null")
     fun sortingAsc() = sharedPreferences!!.getBoolean("sortingAsc", false)
     fun getPinMode() = sharedPreferences!!.getBoolean("prefPinMode", false)
     fun getBioMode() = sharedPreferences!!.getBoolean("prefBioMode", false)
@@ -143,6 +148,13 @@ object Utils {
     fun setLogin(login: String) {
         with(enSharedPrefsFile!!.edit()) {
             putString("prefLogin", login)
+            apply()
+        }
+    }
+
+    fun setMail(mail: String) {
+        with(enSharedPrefsFile!!.edit()) {
+            putString("prefMail", mail)
             apply()
         }
     }

@@ -50,7 +50,7 @@ abstract class FolderCardDatabase : RoomDatabase() {
         }
 
         private fun populateDatabase(db: FolderCardDatabase) {
-            val passwordCardDao = db.FolderDao()
+            /* val passwordCardDao = db.FolderDao()
             CoroutineScope(IO).launch {
                 passwordCardDao.insert(
                         FolderCard(
@@ -61,7 +61,7 @@ abstract class FolderCardDatabase : RoomDatabase() {
                                 name = "Test folder"
                         )
                 )
-            }
+            } */
         }
     }
 }

@@ -29,9 +29,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val args: Bundle? = intent.extras
-        val login: String = args?.get("login").toString()
-        val name: String = getString(R.string.hi) + " " + login
+        val name: String = getString(R.string.hi) + " " + Utils.getLogin()
         binding.tvUsernameText.text = name
 
         // Start animation
@@ -41,7 +39,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setBiometricFeature() {
-        val userLogin = Utils.getLogin()
         val bioMode = Utils.getBioMode()
 
         val hasBiometricFeature: Boolean =
@@ -57,7 +54,6 @@ class LoginActivity : AppCompatActivity() {
                             result: BiometricPrompt.AuthenticationResult
                         ) {
                             super.onAuthenticationSucceeded(result)
-                            intent.putExtra("login", userLogin)
                             startActivity(intent)
                             finish()
                         }
@@ -135,13 +131,18 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signIn(password: String) {
-        if (Utils.checkPassword(password)) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        } else {
+        val userMail = Utils.getMail()!!
+        Utils.auth.signInWithEmailAndPassword(
+                userMail,
+                password
+        ).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }.addOnFailureListener {
             binding.inputPasswordId.error = getString(R.string.wrong_pass)
-            return
         }
     }
 

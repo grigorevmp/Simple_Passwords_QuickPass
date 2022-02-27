@@ -32,6 +32,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputEditText
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.PasswordCategory
 import com.mikhailgrigorev.quickpassword.common.PasswordGettingType
@@ -45,8 +47,10 @@ import com.mikhailgrigorev.quickpassword.ui.main_activity.adapters.FolderAdapter
 import com.mikhailgrigorev.quickpassword.ui.main_activity.adapters.PasswordAdapter
 import com.mikhailgrigorev.quickpassword.ui.password_card.create.CreatePasswordActivity
 import com.mikhailgrigorev.quickpassword.ui.password_card.view.PasswordViewActivity
+import com.thebluealliance.spectrum.SpectrumPalette
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 import kotlin.math.abs
 import kotlin.math.min
 
@@ -55,6 +59,7 @@ class MainActivity : AppCompatActivity() {
 
     private val defaultRotation = 0F
     private lateinit var viewModel: MainViewModel
+    private var globalColor: String = ""
 
     private var passwordLength = 20
     private var useSymbols = false
@@ -456,6 +461,47 @@ class MainActivity : AppCompatActivity() {
         setPasswordSearchListener()
         setPasswordGeneratorListeners()
         bottomBarBehaviorListeners()
+
+        binding.fabAddFolder.setOnClickListener {
+            val customAlertDialogView = LayoutInflater.from(this)
+                    .inflate(R.layout.dialog_add_folder, null, false)
+            val materialAlertDialogBuilder = MaterialAlertDialogBuilder(this)
+            customAlertDialogView.findViewById<SpectrumPalette>(R.id.spPalette)
+                    .setOnColorSelectedListener { it_ ->
+                        globalColor = "#${Integer.toHexString(it_).uppercase(Locale.getDefault())}"
+                    }
+            materialAlertDialogBuilder.setView(customAlertDialogView)
+            materialAlertDialogBuilder
+                    .setView(customAlertDialogView)
+                    .setTitle("Folder creation")
+                    .setMessage("Current configuration details")
+                    .setPositiveButton("Ok") { dialog, _ ->
+                        val name =
+                                customAlertDialogView.findViewById<TextInputEditText>(
+                                        R.id.etFolderName
+                                ).text.toString()
+                        val description =
+                                customAlertDialogView.findViewById<TextInputEditText>(
+                                        R.id.etFolderDesc
+                                ).text.toString()
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            viewModel.insertCard(
+                                    FolderCard(
+                                            name = name,
+                                            description = description,
+                                            colorTag = globalColor
+                                    )
+                            )
+                        }
+
+                        dialog.dismiss()
+
+                    }
+                    .setNegativeButton("Cancel") { dialog, _ ->
+                        dialog.dismiss()
+                    }.show()
+
+        }
 
         binding.tilPasswordToGenerate.setOnClickListener {
             copyPassword()
