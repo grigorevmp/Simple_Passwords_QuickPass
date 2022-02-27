@@ -71,7 +71,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/logOutFab"
+        android:id="@+id/fabLogOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_margin"
@@ -98,7 +98,7 @@
         android:focusable="true"
         app:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/logOutFab"
+        app:layout_constraintStart_toEndOf="@+id/fabLogOut"
         app:srcCompat="@drawable/fingerprint"
         app:tint="@color/black" />
 
@@ -115,9 +115,9 @@
         android:textColor="@color/black"
         app:icon="@drawable/ic_arr_forward"
         app:iconTint="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/logOutFab"
+        app:layout_constraintBottom_toBottomOf="@+id/fabLogOut"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/logOutFab" />
+        app:layout_constraintTop_toTopOf="@+id/fabLogOut" />
 
     <TextView
         android:id="@+id/inputPass"

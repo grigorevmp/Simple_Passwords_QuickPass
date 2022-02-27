@@ -127,18 +127,22 @@ class AuthActivity : AppCompatActivity() {
                 password
         ).addOnCompleteListener { task ->
 
-            val login = binding.inputRealLoginIdField.text.toString()
+            var login = binding.inputRealLoginIdField.text.toString()
+
+            if(login == ""){
+                login = "Stranger"
+            }
 
             if (task.isSuccessful) {
                 Utils.setLogin(login)
                 Utils.setMail(email)
+                Utils.auth.currentUser?.updateProfile(
+                        UserProfileChangeRequest.Builder().apply {
+                            displayName = login
+                        }.build()
+                )
                 goHome()
             }
-            Utils.auth.currentUser?.updateProfile(
-                    UserProfileChangeRequest.Builder().apply {
-                        displayName = login
-                    }.build()
-            )
 
         }.addOnFailureListener { exception ->
             Utils.makeToast(this, exception.localizedMessage)
@@ -152,8 +156,8 @@ class AuthActivity : AppCompatActivity() {
                 email,
                 password
         ).addOnCompleteListener { task ->
-            val login = Utils.auth.currentUser?.displayName!!
             if (task.isSuccessful) {
+                val login = Utils.auth.currentUser?.displayName!!
                 Utils.setLogin(login)
                 Utils.setMail(email)
                 goHome()

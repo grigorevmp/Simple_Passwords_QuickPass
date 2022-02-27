@@ -21,74 +21,54 @@
         card_view:cardCornerRadius="@dimen/base_card_radius"
         card_view:cardElevation="@dimen/base_card_elevation">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvColorCard"
-            android:layout_width="30dp"
-            android:layout_height="20dp"
-            android:visibility="gone"
-            tools:visibility="visible"
-            android:layout_marginTop="@dimen/small_margin"
-            android:layout_marginEnd="@dimen/small_margin"
-            android:layout_marginStart="60dp"
-            android:layout_gravity="end"
-            card_view:cardBackgroundColor="@color/fixable"
-            card_view:cardCornerRadius="@dimen/extra_base_card_radius"
-            card_view:cardElevation="@dimen/base_card_elevation"/>
-
         <LinearLayout
             android:id="@+id/llPasswordCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:orientation="vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/small_margin"
+            android:paddingEnd="@dimen/small_margin"
             android:padding="@dimen/small_padding">
 
+
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal"
-                tools:ignore="UselessParent">
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|clip_vertical|center_vertical"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <ImageButton
-                    android:id="@+id/ibFavorite"
-                    android:layout_width="@dimen/image_button_size_20"
-                    android:layout_height="@dimen/image_button_size_20"
-                    android:layout_marginEnd="@dimen/base_card_horizontal_margin"
-                    android:background="@android:color/transparent"
-                    android:clickable="false"
-                    android:contentDescription="@string/log_out"
-                    android:src="@drawable/heart"
-                    android:visibility="gone"
-                    card_view:tint="#FFD180" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/tvFolderName"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center|clip_vertical|center_vertical"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_gravity="center|clip_vertical|left"
+                    android:textStyle="bold"
+                    tools:ignore="RtlHardcoded"
+                    tools:text="test" />
 
-                    <TextView
-                        android:id="@+id/tvFolderName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center|clip_vertical|left"
-                        android:textStyle="bold"
-                        tools:ignore="RtlHardcoded"
-                        tools:text="test" />
+                <TextView
+                    android:id="@+id/tvDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="2"
+                    android:maxWidth="@dimen/max_width"
+                    android:singleLine="false"
+                    tools:text="test" />
 
-                    <TextView
-                        android:id="@+id/tvDescription"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:lines="2"
-                        android:maxWidth="@dimen/max_width"
-                        android:singleLine="false"
-                        tools:text="test" />
-
-                </LinearLayout>
             </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvColorCard"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginStart="@dimen/base_margin"
+                android:visibility="gone"
+                card_view:cardBackgroundColor="@color/fixable"
+                card_view:cardCornerRadius="@dimen/extra_base_card_radius"
+                card_view:cardElevation="@dimen/base_card_elevation"
+                tools:visibility="visible" />
 
         </LinearLayout>
 

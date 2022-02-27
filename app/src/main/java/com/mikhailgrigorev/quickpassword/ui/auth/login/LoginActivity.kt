@@ -92,7 +92,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        binding.logOutFab.setOnClickListener {
+        binding.fabLogOut.setOnClickListener {
             exit()
         }
 
@@ -100,6 +100,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun exit() {
         Utils.exitAccount()
+        Utils.auth.signOut()
         deleteShortcuts()
     }
 

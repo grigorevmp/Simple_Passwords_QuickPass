@@ -12,7 +12,7 @@
     <dimen name="image_button_size_20">20dp</dimen>
     <dimen name="image_button_size_15">15dp</dimen>
     <dimen name="image_button_size_10">10dp</dimen>
-    <dimen name="small_padding">8dp</dimen>
+    <dimen name="small_padding">10dp</dimen>
     <dimen name="medium_padding">15dp</dimen>
     <dimen name="base_elevation">20dp</dimen>
     <dimen name="medium_elevation">25dp</dimen>

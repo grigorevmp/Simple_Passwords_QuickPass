@@ -735,8 +735,8 @@
                     </HorizontalScrollView>
                 </androidx.cardview.widget.CardView>
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fabAddFolder"
+                <!--com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fabAddFolder2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/base_card_horizontal_margin"
@@ -745,20 +745,34 @@
                     app:layout_constraintTop_toBottomOf="@+id/cvQualityCard"
                     app:srcCompat="@drawable/plus"
                     app:tint="?attr/colorPrimary"
-                    tools:ignore="ContentDescription" />
+                    android:visibility="gone"
+                    tools:ignore="ContentDescription" /-->
+
+                <Button
+                    android:id="@+id/fabAddFolder"
+                    style="@style/ThemeOverlay.Material3.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/base_margin"
+                    android:layout_marginTop="@dimen/base_card_vertical_margin"
+                    android:text="Add folder"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rvFoldersRecycler" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvFoldersRecycler"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/base_card_horizontal_margin"
-                    android:nestedScrollingEnabled="true"
+                    android:paddingStart="@dimen/base_card_vertical_margin"
+                    android:paddingEnd="@dimen/base_card_vertical_margin"
+                    android:layout_marginStart="@dimen/base_margin"
+                    android:layout_marginTop="@dimen/base_card_vertical_margin"
+                    android:layout_marginEnd="@dimen/base_margin"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toBottomOf="@+id/fabAddFolder"
-
-                    app:layout_constraintStart_toEndOf="@+id/fabAddFolder"
-                    app:layout_constraintTop_toTopOf="@+id/fabAddFolder"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cvQualityCard"
                     tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/item_folder"
                     tools:orientation="horizontal" />

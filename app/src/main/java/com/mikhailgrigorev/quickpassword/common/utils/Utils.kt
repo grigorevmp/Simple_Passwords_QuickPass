@@ -127,6 +127,7 @@ object Utils {
 
     fun exitAccount() {
         enSharedPrefsFile!!.edit().remove("prefLogin").apply()
+        sharedPreferences!!.edit().remove("prefMail").apply()
         enSharedPrefsFile!!.edit().remove("prefPassword").apply()
         sharedPreferences!!.edit().remove("prefPinMode").apply()
         sharedPreferences!!.edit().remove("prefBioMode").apply()
@@ -198,8 +199,6 @@ object Utils {
     fun setBottomBarState(state: Int) {
         editPreferences("bottomSheetDialogState", state)
     }
-
-    const val account_logo = "ic_account"
 
     fun makeToast(context: Context, text: String) {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show()

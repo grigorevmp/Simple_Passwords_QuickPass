@@ -16,7 +16,7 @@ import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.ActivityAccountBinding
 import com.mikhailgrigorev.quickpassword.ui.about.AboutActivity
 import com.mikhailgrigorev.quickpassword.ui.account.edit.EditAccountActivity
-import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
+import com.mikhailgrigorev.quickpassword.ui.auth.auth.AuthActivity
 import com.mikhailgrigorev.quickpassword.ui.donut.DonutActivity
 import com.mikhailgrigorev.quickpassword.ui.settings.SettingsActivity
 
@@ -191,6 +191,7 @@ class AccountActivity : AppCompatActivity() {
             builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
                 // TODO Account delete
                 Utils.makeToast(this, getString(R.string.accountDeleted))
+                Utils.auth.currentUser?.delete()
                 exit()
             }
 
@@ -222,6 +223,7 @@ class AccountActivity : AppCompatActivity() {
     private fun exit() {
         condition = false
         Utils.exitAccount()
+        Utils.auth.signOut()
         removeShortcuts()
     }
 
@@ -236,8 +238,7 @@ class AccountActivity : AppCompatActivity() {
             shortcutManager.dynamicShortcuts = shortcutList
         }
 
-
-        val intent = Intent(this, LoginActivity::class.java)
+        val intent = Intent(this, AuthActivity::class.java)
         startActivity(intent)
         finish()
     }
