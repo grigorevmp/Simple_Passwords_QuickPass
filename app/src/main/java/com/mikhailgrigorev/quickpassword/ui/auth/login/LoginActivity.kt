@@ -31,6 +31,7 @@ class LoginActivity : AppCompatActivity() {
 
         val name: String = getString(R.string.hi) + " " + Utils.getLogin()
         binding.tvUsernameText.text = name
+        binding.tvAvatarSymbol.text = Utils.getLogin()!![0].toString()
 
         // Start animation
         binding.loginFab.show()
