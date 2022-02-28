@@ -6,7 +6,7 @@
     android:fitsSystemWindows="true"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    tools:context=".ui.main_activity.MainActivity">
+    tools:context=".ui.account.edit.EditAccountActivity">
     <ImageView
         android:id="@+id/back"
         android:layout_width="wrap_content"
@@ -47,7 +47,6 @@
         android:layout_marginStart="@dimen/base_margin"
         android:layout_marginTop="@dimen/login_field_edit_top_margin"
         android:layout_marginEnd="@dimen/base_margin"
-        android:visibility="gone"
         app:boxCornerRadiusBottomEnd="@dimen/base_card_radius"
         app:boxCornerRadiusBottomStart="@dimen/base_card_radius"
         app:boxCornerRadiusTopEnd="@dimen/base_card_radius"
@@ -55,8 +54,7 @@
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginOrCreateAccount"
-        tools:visibility="visible">
+        app:layout_constraintTop_toBottomOf="@+id/loginOrCreateAccount">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etUserLogin"

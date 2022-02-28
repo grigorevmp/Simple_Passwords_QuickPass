@@ -79,7 +79,7 @@ object Utils {
     fun sortingAsc() = sharedPreferences!!.getBoolean("sortingAsc", false)
     fun getPinMode() = sharedPreferences!!.getBoolean("prefPinMode", false)
     fun getBioMode() = sharedPreferences!!.getBoolean("prefBioMode", false)
-    fun useAnalyze() = sharedPreferences!!.getBoolean("useAnalyze", false)
+    fun useAnalyze() = sharedPreferences!!.getBoolean("useAnalyze", true)
     fun sortingColumn() = sharedPreferences!!.getString("sortingColumn", "name")
     fun bottomBarState() = sharedPreferences!!.getInt(
             "bottomSheetDialogState",

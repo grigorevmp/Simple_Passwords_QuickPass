@@ -2,6 +2,7 @@ package com.mikhailgrigorev.quickpassword.ui.account.edit
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
@@ -38,10 +39,10 @@ class EditAccountActivity : AppCompatActivity() {
 
     private fun setListeners() {
         binding.savePass.setOnClickListener {
-            val login = binding.etUserLogin.toString()
-            val mail = binding.etUserEmail.toString()
-            val password = binding.etPassword.toString()
-            val newPassword = binding.etNewPassword.toString()
+            val login = binding.etUserLogin.text.toString()
+            val mail = binding.etUserEmail.text.toString()
+            val password = binding.etPassword.text.toString()
+            val newPassword = binding.etNewPassword.text.toString()
             Utils.auth.signInWithEmailAndPassword(
                     Utils.getMail()!!,
                     password
@@ -55,7 +56,7 @@ class EditAccountActivity : AppCompatActivity() {
                         UserProfileChangeRequest.Builder().apply {
                             displayName = login
                         }.build()
-                        Utils.setLogin(mail)
+                        Utils.setLogin(login)
                     }
                     if (newPassword != "") {
                         Utils.auth.currentUser?.updatePassword(newPassword)
@@ -64,6 +65,8 @@ class EditAccountActivity : AppCompatActivity() {
                     finish()
                 }
             }.addOnFailureListener { exception ->
+                Log.d("Auth mail", Utils.getMail()!!)
+                Log.d("Auth password",password)
                 Utils.makeToast(this, exception.localizedMessage)
                 exception.message?.let { Utils.makeToast(this, it) }
             }
