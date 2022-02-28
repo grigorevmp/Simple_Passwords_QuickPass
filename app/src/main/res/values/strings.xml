@@ -65,6 +65,7 @@
     <string name="view_password">View password</string>
     <string name="time_lim">Last changed: %1$s</string>
     <string name="pass">Password:</string>
+    <string name="new_pass">New password:</string>
     <string name="hi">Hi, </string>
     <string name="qualityPassword">Password quality:</string>
     <string name="edit">Edit</string>
@@ -215,5 +216,6 @@
 
     <!-- New strings -->
     <string name="same_parts" translatable="false">Same parts with: %1$s</string>
+    <string name="accountEditRules">Заполните требуемые поля и введите текущий пароль</string>
 
 </resources>

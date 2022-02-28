@@ -21,4 +21,6 @@
     <dimen name="small_margin">10dp</dimen>
     <dimen name="max_width">100dp</dimen>
     <dimen name="text_input_margin_end_huge">95dp</dimen>
+    <dimen name="login_field_top_margin">150dp</dimen>
+    <dimen name="login_field_edit_top_margin">100dp</dimen>
 </resources>

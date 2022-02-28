@@ -1,20 +1,14 @@
 package com.mikhailgrigorev.quickpassword.common.utils
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import android.widget.Toast
 import androidx.security.crypto.EncryptedSharedPreferences
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.Application
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
-import com.mikhailgrigorev.quickpassword.common.utils.senders.GMailSender
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
-import org.mindrot.jbcrypt.BCrypt
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,8 +20,6 @@ object Utils {
     }
 
     val auth = FirebaseAuth.getInstance()
-    @SuppressLint("StaticFieldLeak")
-    val firestore = FirebaseFirestore.getInstance()
 
     private var application: Application? = null
     private const val preferences_file = "quickPassPreference"
@@ -35,44 +27,6 @@ object Utils {
     private var sharedPreferences: SharedPreferences? = null
 
     private var enSharedPrefsFile: SharedPreferences? = null
-
-    private val gmailSender = GMailSender(
-            hidden_email,
-            hidden_password
-    )
-
-    fun sendMail(
-        userMail: String,
-        userPassword: String
-    ) {
-        if (userMail != "none") {
-            Thread {
-                try {
-                    gmailSender.sendMail(
-                            "QuickPass- Password restoring",
-                            "Hello! Seems like you forgot your password and decided to restore it.\n\n" +
-                                    "Your password: $userPassword \n\n" +
-                                    "Have a good day, \n" +
-                                    "QuickPass =)",
-                            "quickpass@noreplay.com",
-                            userMail
-                    )
-
-                } catch (e: Exception) {
-                    Log.e("SendMail", e.message, e)
-                }
-            }.start()
-            makeToast(
-                    application!!.applicationContext,
-                    application!!.resources.getString(R.string.emailWasSent) + "\n ($userMail)"
-            )
-        } else {
-            makeToast(
-                    application!!.applicationContext,
-                    application!!.resources.getString(R.string.userDidNotSetMail)
-            )
-        }
-    }
 
     fun setSharedPreferences() {
         sharedPreferences = application?.getSharedPreferences(
@@ -89,20 +43,6 @@ object Utils {
                         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
                 )
 
-    }
-
-
-
-    fun setPassword(password: String) {
-        val hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12))
-        with(enSharedPrefsFile!!.edit()) {
-            putString("prefPassword", hashedPassword)
-            apply()
-        }
-    }
-
-    fun checkPassword(password: String): Boolean {
-        return password == enSharedPrefsFile!!.getString("prefPassword", "none")
     }
 
     fun returnReadableDate(date: String): String {

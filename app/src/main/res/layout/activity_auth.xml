@@ -22,27 +22,27 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputRealLoginId"
+        android:id="@+id/tilUserLogin"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_margin"
         android:layout_marginEnd="@dimen/base_margin"
+        android:layout_marginTop="@dimen/login_field_top_margin"
         android:visibility="gone"
         app:boxCornerRadiusBottomEnd="@dimen/base_card_radius"
         app:boxCornerRadiusBottomStart="@dimen/base_card_radius"
         app:boxCornerRadiusTopEnd="@dimen/base_card_radius"
         app:boxCornerRadiusTopStart="@dimen/base_card_radius"
         app:errorEnabled="true"
-        app:layout_constraintBottom_toTopOf="@+id/inputLoginId"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/loginOrCreateAccount"
         app:layout_constraintVertical_bias="1.0"
         tools:visibility="visible">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputRealLoginIdField"
+            android:id="@+id/etUserLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/inputLogin"
@@ -55,7 +55,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_margin"
-        android:layout_marginTop="250dp"
         android:layout_marginEnd="@dimen/base_margin"
         app:boxCornerRadiusBottomEnd="@dimen/base_card_radius"
         app:boxCornerRadiusBottomStart="@dimen/base_card_radius"
@@ -64,7 +63,7 @@
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/tilUserLogin">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputLoginIdField"
@@ -166,7 +165,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/loginOrCreateAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_margin"
@@ -176,7 +175,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvUsernameText" />
 
     <TextView
-        android:id="@+id/sendMail"
+        android:id="@+id/tvSendForgotPassMail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/base_margin"

@@ -20,6 +20,7 @@
         app:tint="@color/black" />
 
     <TextView
+        android:id="@+id/loginOrCreateAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_margin"
@@ -27,6 +28,43 @@
         android:text="@string/you_decided_to_change_some_settings"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvUsernameText" />
+
+    <TextView
+        android:id="@+id/tvUpdateRules"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_margin"
+        android:layout_marginTop="@dimen/base_margin"
+        android:text="@string/accountEditRules"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tilNewPassword" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilUserLogin"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_margin"
+        android:layout_marginTop="@dimen/login_field_edit_top_margin"
+        android:layout_marginEnd="@dimen/base_margin"
+        android:visibility="gone"
+        app:boxCornerRadiusBottomEnd="@dimen/base_card_radius"
+        app:boxCornerRadiusBottomStart="@dimen/base_card_radius"
+        app:boxCornerRadiusTopEnd="@dimen/base_card_radius"
+        app:boxCornerRadiusTopStart="@dimen/base_card_radius"
+        app:errorEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginOrCreateAccount"
+        tools:visibility="visible">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etUserLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/inputLogin"
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/savePass"
@@ -50,6 +88,31 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_margin"
         android:layout_marginTop="@dimen/base_margin"
+        android:layout_marginEnd="@dimen/base_margin"
+        app:boxCornerRadiusBottomEnd="15dp"
+        app:boxCornerRadiusBottomStart="15dp"
+        app:boxCornerRadiusTopEnd="15dp"
+        app:boxCornerRadiusTopStart="15dp"
+        app:endIconMode="password_toggle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvUpdateRules">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/pass"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilNewPassword"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_margin"
+        android:layout_marginTop="@dimen/base_margin"
         android:layout_marginEnd="95dp"
         app:boxCornerRadiusBottomEnd="15dp"
         app:boxCornerRadiusBottomStart="15dp"
@@ -58,15 +121,16 @@
         app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameView">
+        app:layout_constraintTop_toBottomOf="@+id/tilUserEmail">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/passViewField"
+            android:id="@+id/etNewPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/pass"
+            android:hint="@string/new_pass"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cvPasswordGenerateButton"
         android:layout_width="@dimen/box_size"
@@ -80,7 +144,7 @@
         app:cardCornerRadius="15dp"
         app:cardElevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tilPassword">
+        app:layout_constraintTop_toTopOf="@+id/tilNewPassword">
 
         <ImageButton
             android:id="@+id/generatePassword"
@@ -90,17 +154,18 @@
             android:contentDescription="@string/generate"
             android:foreground="?android:attr/selectableItemBackground"
             android:rotation="45"
-            android:tint="@color/textDark"
-            app:srcCompat="@drawable/dice_5_outline" />
+            app:srcCompat="@drawable/dice_5_outline"
+            app:tint="@color/textDark" />
 
     </androidx.cardview.widget.CardView>
+
+
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/nameView"
+        android:id="@+id/tilUserEmail"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_margin"
-        android:layout_marginTop="250dp"
         android:layout_marginEnd="@dimen/base_margin"
         app:boxCornerRadiusBottomEnd="15dp"
         app:boxCornerRadiusBottomStart="15dp"
@@ -108,13 +173,13 @@
         app:boxCornerRadiusTopStart="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/tilUserLogin">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/nameViewField"
+            android:id="@+id/etUserEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/inputLogin"
+            android:hint="@string/emailOnly"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 

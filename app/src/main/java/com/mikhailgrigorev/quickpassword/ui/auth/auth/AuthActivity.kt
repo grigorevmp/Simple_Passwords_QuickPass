@@ -94,17 +94,17 @@ class AuthActivity : AppCompatActivity() {
                     binding.loginFab.hide()
                     binding.loginFab.text = getString(R.string.sign_up)
                     binding.loginFab.show()
-                    binding.inputRealLoginId.visibility = View.VISIBLE
+                    binding.etUserLogin.visibility = View.VISIBLE
                 } else {
                     binding.loginFab.hide()
                     binding.loginFab.text = getString(R.string.sign_in)
                     binding.loginFab.show()
-                    binding.inputRealLoginId.visibility = View.GONE
+                    binding.etUserLogin.visibility = View.GONE
                 }
             }
         }
 
-        binding.sendMail.setOnClickListener {
+        binding.tvSendForgotPassMail.setOnClickListener {
             val email = binding.inputLoginIdField.text.toString()
             Utils.auth.sendPasswordResetEmail(email)
         }
@@ -127,7 +127,7 @@ class AuthActivity : AppCompatActivity() {
                 password
         ).addOnCompleteListener { task ->
 
-            var login = binding.inputRealLoginIdField.text.toString()
+            var login = binding.etUserLogin.text.toString()
 
             if(login == ""){
                 login = "Stranger"
