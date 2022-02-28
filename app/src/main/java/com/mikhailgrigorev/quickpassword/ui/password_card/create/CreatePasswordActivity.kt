@@ -76,7 +76,7 @@ class CreatePasswordActivity : AppCompatActivity() {
         setQuitTimer()
 
         val args: Bundle? = intent.extras
-        login = args?.get("login").toString()
+        login = Utils.getLogin()!!
 
         val list = mutableListOf<String>()
         val pass: String = args?.get("pass").toString()
@@ -455,6 +455,8 @@ class CreatePasswordActivity : AppCompatActivity() {
                             login = binding.emailField.text.toString(),
                             encrypted = binding.cryptToggle.isChecked,
                     )
+
+                    viewModel.currentPassword = newPassword
 
                     if (passwordsCollection != null) {
                         val analyzeResults =

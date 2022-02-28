@@ -42,6 +42,9 @@
         </service>
 
         <activity
+            android:name="com.mikhailgrigorev.quickpassword.ui.folder.FolderViewActivity"
+            android:screenOrientation="fullSensor" />
+        <activity
             android:name="com.mikhailgrigorev.quickpassword.ui.settings.SettingsActivity"
             android:screenOrientation="fullSensor" />
         <activity

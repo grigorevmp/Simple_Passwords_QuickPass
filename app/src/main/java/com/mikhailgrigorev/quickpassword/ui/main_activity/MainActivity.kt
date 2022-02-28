@@ -42,8 +42,8 @@ import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityMainBinding
-import com.mikhailgrigorev.quickpassword.folder.FolderViewActivity
 import com.mikhailgrigorev.quickpassword.ui.account.view.AccountActivity
+import com.mikhailgrigorev.quickpassword.ui.folder.FolderViewActivity
 import com.mikhailgrigorev.quickpassword.ui.main_activity.adapters.FolderAdapter
 import com.mikhailgrigorev.quickpassword.ui.main_activity.adapters.PasswordAdapter
 import com.mikhailgrigorev.quickpassword.ui.password_card.create.CreatePasswordActivity
@@ -594,7 +594,7 @@ class MainActivity : AppCompatActivity() {
                     folderClickListener(it)
                 }
         ) { i: Int, view: View ->
-            passLongClickListener(
+            folderLongClickListener(
                     i,
                     view
             )
@@ -623,7 +623,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun goToNewPasswordActivity() {
         val intent = Intent(this, CreatePasswordActivity::class.java)
-        intent.putExtra("login", login)
         intent.putExtra("pass", binding.tePasswordToGenerate.text.toString())
         intent.putExtra("useLetters", useLetters)
         intent.putExtra("useUC", useUC)
@@ -877,9 +876,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun folderClickListener(position: Int) {
-        condition = false
         val intent = Intent(this, FolderViewActivity::class.java)
         intent.putExtra("folder_id", folderCards[position]._id)
+        intent.putExtra("folder_name", folderCards[position].name)
         startActivity(intent)
     }
 
@@ -895,7 +894,7 @@ class MainActivity : AppCompatActivity() {
         changeStatusPopUp.dismiss()
     }
 
-    fun editFolder() {
+    fun editFolder(view: View) {
         val position = globalFolderPos
         val folder = folderCards[position]
         changeFolderPopUp.dismiss()
@@ -947,13 +946,13 @@ class MainActivity : AppCompatActivity() {
                 }.show()
     }
 
-    fun deleteFolder() {
+    fun deleteFolder(view: View) {
         val position = globalFolderPos
         viewModel.deleteCard(folderCards[position])
         changeFolderPopUp.dismiss()
     }
 
-    fun delete() {
+    fun delete(view: View) {
         val position = globalPos
 
         val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
