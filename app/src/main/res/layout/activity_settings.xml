@@ -129,30 +129,6 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/userMail"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/base_margin"
-                            android:layout_weight="1"
-                            android:text="@string/e_mail" />
-
-                        <com.google.android.material.switchmaterial.SwitchMaterial
-                            android:id="@+id/userMailSwitch"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/base_margin"
-                            android:checked="false"
-                            android:theme="@style/ThemeOverlay.MySwitch" />
-
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
-
-                        <TextView
                             android:id="@+id/userAnalyzer"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -349,165 +325,6 @@
                         android:text="@string/choose_theme"
                         android:textColor="@color/textDark"
                         android:textStyle="bold" />
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-                            <TextView
-                                android:id="@+id/cardRadius"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/base_margin"
-                                android:layout_weight="1"
-                                android:text="@string/card_corners_radius" />
-
-                            <TextView
-                                android:id="@+id/cardRadiusVal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="@dimen/base_margin"
-                                android:text="@string/no" />
-
-                        </LinearLayout>
-                        <SeekBar
-                            android:thumbTint="?attr/colorPrimary"
-                            android:progressTint="?attr/colorPrimary"
-                            style="@style/Widget.AppCompat.SeekBar"
-                            android:id="@+id/cardRadiusBar"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginStart="10dp"
-                            android:max="20"
-                            android:progress="10"
-                            android:layout_marginEnd="10dp"/>
-
-
-                    </LinearLayout>
-                    <HorizontalScrollView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:scrollbars="none"
-                        android:visibility="visible"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView4">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:background="@color/white"
-                            android:gravity="center">
-
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/redColor"
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:layout_margin="15dp"
-                                android:backgroundTint="@color/ic_account_Red"
-                                app:cardCornerRadius="25dp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/pinkColor"
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:layout_margin="15dp"
-                                android:backgroundTint="@color/ic_account_Pink"
-                                app:cardCornerRadius="25dp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/purpleColor"
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:layout_margin="15dp"
-                                android:backgroundTint="@color/ic_account_Purple"
-                                app:cardCornerRadius="25dp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/violetColor"
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:layout_margin="15dp"
-                                android:backgroundTint="@color/ic_account_Violet"
-                                app:cardCornerRadius="25dp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/darkVioletColor"
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:layout_margin="15dp"
-                                android:backgroundTint="@color/ic_account_Dark_Violet"
-                                app:cardCornerRadius="25dp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/blueColor"
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:layout_margin="15dp"
-                                android:backgroundTint="@color/ic_account_Blue"
-                                app:cardCornerRadius="25dp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/cyanColor"
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:layout_margin="15dp"
-                                android:backgroundTint="@color/ic_account_Cyan"
-                                app:cardCornerRadius="25dp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/tealColor"
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:layout_margin="15dp"
-                                android:backgroundTint="@color/ic_account_Teal"
-                                app:cardCornerRadius="25dp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/greenColor"
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:layout_margin="15dp"
-                                android:backgroundTint="@color/ic_account_Green"
-                                app:cardCornerRadius="25dp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/lightGreenColor"
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:layout_margin="15dp"
-                                android:backgroundTint="@color/ic_account_lightGreen"
-                                app:cardCornerRadius="25dp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                        </LinearLayout>
-                    </HorizontalScrollView>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -568,30 +385,6 @@
                         </com.google.android.material.chip.ChipGroup>
                     </HorizontalScrollView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/base_margin"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="@dimen/base_margin"
-                        android:text="@string/set_icon_color_to_current_theme" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/base_margin"
-                        android:layout_marginEnd="@dimen/base_margin"
-                        android:text="@string/warning_app_will_be_closed" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/iconTheme"
-                        style="@style/Widget.MaterialComponents.Chip.Action"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text= "@string/set"
-                        android:layout_marginStart="@dimen/base_margin"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="@dimen/base_margin" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -692,7 +485,7 @@
                         android:paddingStart="@dimen/base_margin"
                         android:paddingEnd="@dimen/base_margin"
                         android:src="@drawable/upload"
-                        android:tint="@color/black" />
+                        app:tint="@color/black" />
 
                     <ImageButton
                         android:id="@+id/importDB"
@@ -704,7 +497,7 @@
                         android:paddingStart="@dimen/base_margin"
                         android:paddingEnd="@dimen/base_margin"
                         android:src="@drawable/download"
-                        android:tint="@color/black" />
+                        app:tint="@color/black" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>

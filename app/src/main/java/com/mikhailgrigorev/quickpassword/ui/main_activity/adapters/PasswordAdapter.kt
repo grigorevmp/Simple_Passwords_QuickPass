@@ -98,8 +98,7 @@ class PasswordAdapter(
             return@setOnLongClickListener (true)
         }
 
-        if (Utils.useAnalyze() != null)
-            if (Utils.useAnalyze() != "none") {
+            if (!Utils.useAnalyze()) {
                 holder.qualityMarker.visibility = View.GONE
                 holder.creditCard.visibility = View.GONE
                 holder.creditCardNeg.visibility = View.GONE

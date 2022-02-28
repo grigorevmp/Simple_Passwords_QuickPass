@@ -390,8 +390,7 @@ class PasswordViewActivity : AppCompatActivity() {
             }
         }
 
-        if (Utils.useAnalyze() != null)
-            if (Utils.useAnalyze() != "none") {
+            if (!Utils.useAnalyze()) {
                 binding.passQualityText.visibility = View.GONE
                 binding.ivMainWarningImage.visibility = View.GONE
                 binding.passQualityText.visibility = View.GONE

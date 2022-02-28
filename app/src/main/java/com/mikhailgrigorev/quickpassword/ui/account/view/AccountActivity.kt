@@ -48,7 +48,7 @@ class AccountActivity : AppCompatActivity() {
     }
 
     private fun checkAnalyze() {
-        if (Utils.useAnalyze() != "none") {
+        if (!Utils.useAnalyze()) {
             binding.tvTotalPointsText.visibility = View.GONE
             binding.tvTotalPoints.visibility = View.GONE
             binding.cvQualityCard.visibility = View.GONE

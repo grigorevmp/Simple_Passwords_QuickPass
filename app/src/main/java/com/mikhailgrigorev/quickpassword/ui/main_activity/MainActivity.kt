@@ -192,8 +192,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkAnalytics() {
-        if (Utils.useAnalyze() != null)
-            if (Utils.useAnalyze() != "none") {
+            if (!Utils.useAnalyze()) {
                 binding.cvQualityCard.visibility = View.GONE
                 binding.cvAdditionalInfoCard.visibility = View.GONE
                 binding.cardView.visibility = View.GONE
@@ -319,7 +318,7 @@ class MainActivity : AppCompatActivity() {
 
         bottomSheetBehavior.peekHeight = 800 //600
 
-        if (Utils.useAnalyze() != "none") {
+        if (!Utils.useAnalyze()) {
             bottomSheetBehavior.peekHeight = 1200
         }
 
