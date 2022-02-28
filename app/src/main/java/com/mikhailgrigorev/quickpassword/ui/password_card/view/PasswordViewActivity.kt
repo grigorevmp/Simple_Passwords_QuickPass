@@ -78,11 +78,10 @@ class PasswordViewActivity : AppCompatActivity() {
         initViewModel()
 
         val args: Bundle? = intent.extras
-        login = args?.get("login").toString()
+        login = Utils.getLogin()!!
 
         from = args?.get("openedFrom").toString()
         if (from == "shortcut") {
-            intent.putExtra("login", login)
             intent.putExtra("password_id", args?.get("password_id").toString())
             condition = false
             val intent = Intent(this, LoginActivity::class.java)
@@ -352,14 +351,12 @@ class PasswordViewActivity : AppCompatActivity() {
             if (from != "short") {
                 condition = false
                 val intent = Intent()
-                intent.putExtra("login", login)
                 intent.putExtra("password_id", viewModel.currentPassword!!._id)
                 setResult(1, intent)
                 finish()
             } else {
                 condition = false
                 val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra("login", login)
                 intent.putExtra("password_id", viewModel.currentPassword!!._id)
                 startActivity(intent)
                 finish()
@@ -369,7 +366,6 @@ class PasswordViewActivity : AppCompatActivity() {
         binding.editButton.setOnClickListener {
             condition = false
             val intent = Intent(this, EditPassActivity::class.java)
-            intent.putExtra("login", login)
             intent.putExtra("password_id", viewModel.currentPassword!!._id)
             startActivity(intent)
         }
@@ -413,14 +409,12 @@ class PasswordViewActivity : AppCompatActivity() {
                 if (from != "short") {
                     condition = false
                     val intent = Intent()
-                    intent.putExtra("login", login)
                     intent.putExtra("password_id", viewModel.currentPassword!!._id)
                     setResult(1, intent)
                     finish()
                 } else {
                     condition = false
                     val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra("login", login)
                     intent.putExtra("password_id", viewModel.currentPassword!!._id)
                     startActivity(intent)
                     finish()

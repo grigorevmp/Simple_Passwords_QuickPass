@@ -20,8 +20,12 @@
         <entry key="..\:/QuickPass/app/src/main/res/layout/activity_splash.xml" value="0.2692656391659112" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/dialog_add_folder.xml" value="0.3625" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/item_folder.xml" value="0.3625" />
+        <entry key="..\:/QuickPass/app/src/main/res/layout/item_folder_card_popup.xml" value="0.2975630611372381" />
+        <entry key="..\:/QuickPass/app/src/main/res/layout/item_password_card.xml" value="0.2975630611372381" />
+        <entry key="..\:/QuickPass/app/src/main/res/layout/item_password_card_popup.xml" value="0.2975630611372381" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/pass_fragment.xml" value="0.25769927536231885" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/password_card.xml" value="0.20260416666666667" />
+        <entry key="..\:/QuickPass/app/src/main/res/layout/popup.xml" value="0.2543064369900272" />
         <entry key="..\:/QuickPass/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.194" />
         <entry key="..\:/QuickPass/app/src/main/res/mipmap-anydpi-v26/ic_launcher_violet.xml" value="0.1665" />
         <entry key="..\:/QuickPass/app/src/main/res/mipmap-anydpi-v26/ic_launcher_violet_round.xml" value="0.1665" />

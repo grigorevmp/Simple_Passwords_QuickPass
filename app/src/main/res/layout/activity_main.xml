@@ -769,6 +769,7 @@
                     android:layout_marginTop="@dimen/base_card_vertical_margin"
                     android:layout_marginEnd="@dimen/base_margin"
                     android:orientation="horizontal"
+                    app:flow_horizontalAlign="start"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

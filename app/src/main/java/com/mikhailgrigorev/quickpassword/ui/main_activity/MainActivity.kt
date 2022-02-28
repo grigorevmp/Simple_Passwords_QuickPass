@@ -42,6 +42,7 @@ import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityMainBinding
+import com.mikhailgrigorev.quickpassword.folder.FolderViewActivity
 import com.mikhailgrigorev.quickpassword.ui.account.view.AccountActivity
 import com.mikhailgrigorev.quickpassword.ui.main_activity.adapters.FolderAdapter
 import com.mikhailgrigorev.quickpassword.ui.main_activity.adapters.PasswordAdapter
@@ -83,8 +84,11 @@ class MainActivity : AppCompatActivity() {
 
     private var xTouch = 500
     private var changeStatusPopUp: PopupWindow = PopupWindow()
+    private var changeFolderPopUp: PopupWindow = PopupWindow()
     private var globalPos: Int = -1
+    private var globalFolderPos: Int = -1
     private lateinit var passwordCards: List<PasswordCard>
+    private lateinit var folderCards: List<FolderCard>
     private var pm = PasswordManager()
     private var condition = true
 
@@ -140,21 +144,22 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun authorization(){
-        login = Utils.getLogin()!!
-        val name: String = getString(R.string.hi) + " " + login
-        binding.tvUsernameText.text = name
-        binding.tvAvatarSymbol.text = login[0].toString()
+    private fun authorization() {
+        viewModel.userLogin.observe(this) { login ->
+            val name: String = getString(R.string.hi) + " " + login
+            binding.tvUsernameText.text = name
+            binding.tvAvatarSymbol.text = login[0].toString()
+        }
     }
 
-    private fun setArrowOrderIndicator(){
+    private fun setArrowOrderIndicator() {
         if (defaultPassFilterAsc)
             binding.ivSortOrder.animate().rotation(0F).setDuration(500).start()
         else
             binding.ivSortOrder.animate().rotation(180F).setDuration(500).start()
     }
 
-    private fun setOrderChip(column: String){
+    private fun setOrderChip(column: String) {
         defaultPassFilterAsc = if (defaultPassFilterSorting == column)
             !defaultPassFilterAsc
         else{
@@ -249,7 +254,8 @@ class MainActivity : AppCompatActivity() {
         defaultPassFilterAsc = isAsc
 
         viewModel.folders.observe(this) {
-            setFolderAdapter(it)
+            folderCards = it
+            setFolderAdapter()
         }
 
         viewModel.getPasswords(
@@ -351,7 +357,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setPasswordGeneratorListeners() {
-        binding.cLengthToggle.text = getString(R.string.length) + ": " + passwordLength
+        binding.cLengthToggle.text = getString(R.string.length, passwordLength)
 
         binding.cLengthToggle.setOnClickListener {
             if (binding.seekBar.visibility == View.GONE) {
@@ -364,7 +370,7 @@ class MainActivity : AppCompatActivity() {
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                 passwordLength = i
-                binding.cLengthToggle.text = getString(R.string.length) + ": " + passwordLength
+                binding.cLengthToggle.text = getString(R.string.length, passwordLength)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
@@ -580,12 +586,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setFolderAdapter(folders: List<FolderCard>) {
+    private fun setFolderAdapter() {
         binding.rvFoldersRecycler.adapter = FolderAdapter(
-                folders,
+                folderCards,
                 this,
                 clickListener = {
-                    passClickListener(it)
+                    folderClickListener(it)
                 }
         ) { i: Int, view: View ->
             passLongClickListener(
@@ -798,6 +804,43 @@ class MainActivity : AppCompatActivity() {
         showPopup(position, view)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    private fun folderLongClickListener(position: Int, view: View) {
+        view.setOnTouchListener { _, event ->
+            xTouch = event.x.toInt()
+            false
+        }
+        showFolderEditPopup(position, view)
+    }
+
+    private fun showFolderEditPopup(position: Int, view: View) {
+        val location = IntArray(2)
+        view.getLocationOnScreen(location)
+        val point = Point()
+        point.x = location[0]
+        point.y = location[1]
+        val layoutInflater =
+                this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val layout: View = layoutInflater.inflate(R.layout.item_folder_card_popup, null)
+
+        globalFolderPos = position.toString().toInt()
+        changeFolderPopUp = PopupWindow(this)
+        changeFolderPopUp.contentView = layout
+        changeFolderPopUp.width = LinearLayout.LayoutParams.WRAP_CONTENT
+        changeFolderPopUp.height = LinearLayout.LayoutParams.WRAP_CONTENT
+        changeFolderPopUp.isFocusable = true
+        val offsetX = -50
+        val offsetY = 0
+        changeFolderPopUp.setBackgroundDrawable(null)
+        changeFolderPopUp.animationStyle = R.style.popUpAnim
+        changeFolderPopUp.showAtLocation(
+                layout,
+                Gravity.NO_GRAVITY,
+                offsetX + xTouch,
+                point.y + offsetY
+        )
+    }
+
     private fun showPopup(position: Int, view: View) {
         val location = IntArray(2)
         view.getLocationOnScreen(location)
@@ -806,7 +849,7 @@ class MainActivity : AppCompatActivity() {
         point.y = location[1]
         val layoutInflater =
                 this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val layout: View = layoutInflater.inflate(R.layout.popup, null)
+        val layout: View = layoutInflater.inflate(R.layout.item_password_card_popup, null)
 
         globalPos = position.toString().toInt()
         changeStatusPopUp = PopupWindow(this)
@@ -827,11 +870,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun passClickListener(position: Int) {
-        condition=false
+        condition = false
         val intent = Intent(this, PasswordViewActivity::class.java)
-        intent.putExtra("login", login)
         intent.putExtra("password_id", passwordCards[position]._id)
-        startActivityForResult(intent, 1)
+        startActivity(intent)
+    }
+
+    private fun folderClickListener(position: Int) {
+        condition = false
+        val intent = Intent(this, FolderViewActivity::class.java)
+        intent.putExtra("folder_id", folderCards[position]._id)
+        startActivity(intent)
     }
 
     fun favorite(view: View) {
@@ -844,6 +893,64 @@ class MainActivity : AppCompatActivity() {
 
         setObservers()
         changeStatusPopUp.dismiss()
+    }
+
+    fun editFolder() {
+        val position = globalFolderPos
+        val folder = folderCards[position]
+        changeFolderPopUp.dismiss()
+
+        val customAlertDialogView = LayoutInflater.from(this)
+                .inflate(R.layout.dialog_add_folder, null, false)
+        val materialAlertDialogBuilder = MaterialAlertDialogBuilder(this)
+        customAlertDialogView.findViewById<SpectrumPalette>(R.id.spPalette)
+                .setOnColorSelectedListener { it_ ->
+                    globalColor = "#${Integer.toHexString(it_).uppercase(Locale.getDefault())}"
+                }
+        materialAlertDialogBuilder.setView(customAlertDialogView)
+        customAlertDialogView.findViewById<TextInputEditText>(
+                R.id.etFolderName
+        )
+                .setText(
+                        folder.name
+                )
+        customAlertDialogView.findViewById<TextInputEditText>(
+                R.id.etFolderDesc
+        )
+                .setText(
+                        folder.description
+                )
+        materialAlertDialogBuilder
+                .setView(customAlertDialogView)
+                .setTitle("Folder editor")
+                .setMessage("Current configuration details")
+                .setPositiveButton("Ok") { dialog, _ ->
+                    folder.name =
+                            customAlertDialogView.findViewById<TextInputEditText>(
+                                    R.id.etFolderName
+                            ).text.toString()
+                    folder.description =
+                            customAlertDialogView.findViewById<TextInputEditText>(
+                                    R.id.etFolderDesc
+                            ).text.toString()
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        viewModel.updateCard(
+                                folder
+                        )
+                    }
+
+                    dialog.dismiss()
+
+                }
+                .setNegativeButton("Cancel") { dialog, _ ->
+                    dialog.dismiss()
+                }.show()
+    }
+
+    fun deleteFolder() {
+        val position = globalFolderPos
+        viewModel.deleteCard(folderCards[position])
+        changeFolderPopUp.dismiss()
     }
 
     fun delete() {

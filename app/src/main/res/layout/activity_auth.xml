@@ -22,40 +22,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilUserLogin"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/base_margin"
-        android:layout_marginEnd="@dimen/base_margin"
-        android:layout_marginTop="@dimen/login_field_top_margin"
-        android:visibility="gone"
-        app:boxCornerRadiusBottomEnd="@dimen/base_card_radius"
-        app:boxCornerRadiusBottomStart="@dimen/base_card_radius"
-        app:boxCornerRadiusTopEnd="@dimen/base_card_radius"
-        app:boxCornerRadiusTopStart="@dimen/base_card_radius"
-        app:errorEnabled="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginOrCreateAccount"
-        app:layout_constraintVertical_bias="1.0"
-        tools:visibility="visible">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etUserLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/inputLogin"
-            android:inputType="textPersonName" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputLoginId"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_margin"
         android:layout_marginEnd="@dimen/base_margin"
+        android:layout_marginTop="@dimen/login_field_top_margin"
         app:boxCornerRadiusBottomEnd="@dimen/base_card_radius"
         app:boxCornerRadiusBottomStart="@dimen/base_card_radius"
         app:boxCornerRadiusTopEnd="@dimen/base_card_radius"
@@ -63,7 +36,7 @@
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilUserLogin">
+        app:layout_constraintTop_toBottomOf="@+id/loginOrCreateAccount">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputLoginIdField"
@@ -71,6 +44,32 @@
             android:layout_height="wrap_content"
             android:hint="@string/emailOnly"
             android:inputType="textEmailAddress" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilUserLogin"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_marginStart="@dimen/base_margin"
+        android:layout_marginEnd="@dimen/base_margin"
+        app:boxCornerRadiusBottomEnd="@dimen/base_card_radius"
+        app:boxCornerRadiusBottomStart="@dimen/base_card_radius"
+        app:boxCornerRadiusTopEnd="@dimen/base_card_radius"
+        app:boxCornerRadiusTopStart="@dimen/base_card_radius"
+        app:errorEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputLoginId">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etUserLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/inputLogin"
+            android:inputType="textPersonName" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -88,7 +87,7 @@
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputLoginId">
+        app:layout_constraintTop_toBottomOf="@+id/tilUserLogin">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputPasswordIdField"

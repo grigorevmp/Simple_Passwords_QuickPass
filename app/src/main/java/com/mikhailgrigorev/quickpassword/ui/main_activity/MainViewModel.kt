@@ -1,9 +1,11 @@
 package com.mikhailgrigorev.quickpassword.ui.main_activity
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mikhailgrigorev.quickpassword.common.PasswordCategory
 import com.mikhailgrigorev.quickpassword.common.PasswordGettingType
+import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.data.repository.FolderRepository
@@ -18,6 +20,19 @@ class MainViewModel() : ViewModel() {
     fun insertCard(item: FolderCard) {
         folderRepo.insert(item)
     }
+
+    suspend fun updateCard(item: FolderCard) {
+        folderRepo.update(item)
+    }
+
+    fun deleteCard(item: FolderCard) {
+        folderRepo.delete(item)
+    }
+
+    val userLogin = getUserLogin()
+
+    @JvmName("getUserLogin1")
+    private fun getUserLogin(): LiveData<String> = MutableLiveData(Utils.getLogin())
 
     suspend fun favPassword(currentPassword: PasswordCard) {
         currentPassword.favorite = !(currentPassword.favorite)

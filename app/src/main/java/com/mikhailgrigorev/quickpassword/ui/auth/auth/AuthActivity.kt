@@ -94,12 +94,12 @@ class AuthActivity : AppCompatActivity() {
                     binding.loginFab.hide()
                     binding.loginFab.text = getString(R.string.sign_up)
                     binding.loginFab.show()
-                    binding.etUserLogin.visibility = View.VISIBLE
+                    binding.tilUserLogin.visibility = View.VISIBLE
                 } else {
                     binding.loginFab.hide()
                     binding.loginFab.text = getString(R.string.sign_in)
                     binding.loginFab.show()
-                    binding.etUserLogin.visibility = View.GONE
+                    binding.tilUserLogin.visibility = View.GONE
                 }
             }
         }
