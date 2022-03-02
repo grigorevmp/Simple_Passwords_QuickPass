@@ -46,7 +46,7 @@ import com.mikhailgrigorev.quickpassword.ui.account.view.AccountActivity
 import com.mikhailgrigorev.quickpassword.ui.folder.FolderViewActivity
 import com.mikhailgrigorev.quickpassword.ui.main_activity.adapters.FolderAdapter
 import com.mikhailgrigorev.quickpassword.ui.main_activity.adapters.PasswordAdapter
-import com.mikhailgrigorev.quickpassword.ui.password_card.create.CreatePasswordActivity
+import com.mikhailgrigorev.quickpassword.ui.password_card.create.PasswordCreateActivity
 import com.mikhailgrigorev.quickpassword.ui.password_card.view.PasswordViewActivity
 import com.thebluealliance.spectrum.SpectrumPalette
 import kotlinx.coroutines.Dispatchers
@@ -622,7 +622,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun goToNewPasswordActivity() {
-        val intent = Intent(this, CreatePasswordActivity::class.java)
+        val intent = Intent(this, PasswordCreateActivity::class.java)
         intent.putExtra("pass", binding.tePasswordToGenerate.text.toString())
         intent.putExtra("useLetters", useLetters)
         intent.putExtra("useUC", useUC)

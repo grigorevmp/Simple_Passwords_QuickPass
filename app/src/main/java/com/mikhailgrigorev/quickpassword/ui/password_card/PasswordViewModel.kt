@@ -3,17 +3,22 @@ package com.mikhailgrigorev.quickpassword.ui.password_card
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
+import com.mikhailgrigorev.quickpassword.data.repository.FolderRepository
 import com.mikhailgrigorev.quickpassword.data.repository.PasswordCardRepository
 
 
 class PasswordViewModel : ViewModel() {
     private val passwordCardRepo: PasswordCardRepository = PasswordCardRepository()
+    private val folderRepo: FolderRepository = FolderRepository()
     val passwords = passwordCardRepo.allData
+    val folders = folderRepo.allData
     var currentPassword: PasswordCard? = null
 
     fun addPassword(password: PasswordCard){
         passwordCardRepo.insert(password)
     }
+
+    fun getFolder(id: Int)= folderRepo.getItem(id)
 
     suspend fun updatePassword(password: PasswordCard){
         passwordCardRepo.update(password)

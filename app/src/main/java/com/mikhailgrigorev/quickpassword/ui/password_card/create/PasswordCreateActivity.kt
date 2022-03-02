@@ -19,6 +19,8 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.SeekBar
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -33,7 +35,7 @@ import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
-import com.mikhailgrigorev.quickpassword.databinding.ActivityNewPasswordBinding
+import com.mikhailgrigorev.quickpassword.databinding.ActivityPasswordCreateBinding
 import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
 
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModel
@@ -48,7 +50,7 @@ import java.nio.channels.FileChannel
 import java.util.*
 
 
-class CreatePasswordActivity : AppCompatActivity() {
+class PasswordCreateActivity : AppCompatActivity() {
 
     private var isImage = false
     private var length = 20
@@ -58,18 +60,19 @@ class CreatePasswordActivity : AppCompatActivity() {
     private var useNumbers = false
     private var imageName: String = ""
     private lateinit var viewModel: PasswordViewModel
+    private var folderId: Int = 0
 
     private lateinit var launchSomeActivity: ActivityResultLauncher<Intent>
 
     private var passwordsCollection: List<PasswordCard>? = null
 
     private lateinit var login: String
-    private lateinit var binding: ActivityNewPasswordBinding
+    private lateinit var binding: ActivityPasswordCreateBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         registerImagePickingIntent()
         super.onCreate(savedInstanceState)
-        binding = ActivityNewPasswordBinding.inflate(layoutInflater)
+        binding = ActivityPasswordCreateBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // App Quit Timer
@@ -88,9 +91,20 @@ class CreatePasswordActivity : AppCompatActivity() {
 
     }
 
-    private fun setObservers(){
-        viewModel.passwords.observe(this){ passwords ->
+    private fun setObservers() {
+        viewModel.passwords.observe(this) { passwords ->
             passwordsCollection = passwords
+        }
+        viewModel.folders.observe(this) { folders ->
+            val adapter =
+                    ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, folders.map {
+                        it.name
+                    })
+            binding.actvFolder.setAdapter(adapter)
+            binding.actvFolder.onItemClickListener =
+                    AdapterView.OnItemClickListener { _, _, position, _ ->
+                        folderId = folders[position]._id
+                    }
         }
     }
 
@@ -450,6 +464,7 @@ class CreatePasswordActivity : AppCompatActivity() {
                             use_time = binding.cNumberOfEncrypted.isChecked,
                             is_card_pin = false,
                             time = Date().toString(),
+                            folder = folderId,
                             description = binding.noteField.text.toString(),
                             tags = binding.keyWordsField.text.toString(),
                             login = binding.emailField.text.toString(),

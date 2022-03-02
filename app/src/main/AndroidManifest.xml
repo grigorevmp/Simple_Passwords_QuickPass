@@ -64,13 +64,13 @@
             android:screenOrientation="fullSensor"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.ui.password_card.edit.EditPassActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.password_card.edit.PasswordEditActivity"
             android:screenOrientation="fullSensor" />
         <activity
             android:name="com.mikhailgrigorev.quickpassword.ui.password_card.view.PasswordViewActivity"
             android:screenOrientation="fullSensor" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.ui.password_card.create.CreatePasswordActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.password_card.create.PasswordCreateActivity"
             android:screenOrientation="fullSensor" />
         <activity
             android:name="com.mikhailgrigorev.quickpassword.ui.account.view.AccountActivity"

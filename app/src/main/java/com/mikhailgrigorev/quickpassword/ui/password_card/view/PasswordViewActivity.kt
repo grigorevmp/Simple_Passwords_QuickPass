@@ -28,7 +28,7 @@ import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
 import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModel
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModelFactory
-import com.mikhailgrigorev.quickpassword.ui.password_card.edit.EditPassActivity
+import com.mikhailgrigorev.quickpassword.ui.password_card.edit.PasswordEditActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -110,6 +110,16 @@ class PasswordViewActivity : AppCompatActivity() {
             }
 
             viewModel.currentPassword = passwordCard
+
+
+            if(passwordCard.folder != null) {
+                if(passwordCard.folder != -1) {
+                    viewModel.getFolder(passwordCard.folder!!).observe(this) {
+                        binding.cFolderName.text = it.name
+                        binding.cFolderName.visibility = View.VISIBLE
+                    }
+                }
+            }
 
             if (viewModel.currentPassword!!.favorite) {
                 binding.favButton.visibility = View.GONE
@@ -365,7 +375,7 @@ class PasswordViewActivity : AppCompatActivity() {
 
         binding.editButton.setOnClickListener {
             condition = false
-            val intent = Intent(this, EditPassActivity::class.java)
+            val intent = Intent(this, PasswordEditActivity::class.java)
             intent.putExtra("password_id", viewModel.currentPassword!!._id)
             startActivity(intent)
         }

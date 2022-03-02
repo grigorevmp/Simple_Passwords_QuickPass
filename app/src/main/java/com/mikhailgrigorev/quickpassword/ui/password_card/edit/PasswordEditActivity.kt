@@ -19,6 +19,8 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.AdapterView.OnItemClickListener
+import android.widget.ArrayAdapter
 import android.widget.SeekBar
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -34,9 +36,8 @@ import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
-import com.mikhailgrigorev.quickpassword.databinding.ActivityEditPassBinding
+import com.mikhailgrigorev.quickpassword.databinding.ActivityPasswordEditBinding
 import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
-
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModel
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModelFactory
 import kotlinx.coroutines.Dispatchers
@@ -49,7 +50,7 @@ import java.nio.channels.FileChannel
 import java.util.*
 
 
-class EditPassActivity : AppCompatActivity() {
+class PasswordEditActivity : AppCompatActivity() {
 
     private var isImage = false
     private var length = 20
@@ -59,12 +60,13 @@ class EditPassActivity : AppCompatActivity() {
     private var useNumbers = false
     private var imageName: String = ""
     private lateinit var viewModel: PasswordViewModel
+    private var folderId: Int = -1
 
     private var passwordsCollection: List<PasswordCard>? = null
     private lateinit var launchSomeActivity: ActivityResultLauncher<Intent>
 
     private lateinit var login: String
-    private lateinit var binding: ActivityEditPassBinding
+    private lateinit var binding: ActivityPasswordEditBinding
 
     private fun setQuitTimer() {
         var condition = true
@@ -86,9 +88,20 @@ class EditPassActivity : AppCompatActivity() {
         }
     }
 
-    private fun setObservers(){
-        viewModel.passwords.observe(this){ passwords ->
+    private fun setObservers() {
+        viewModel.passwords.observe(this) { passwords ->
             passwordsCollection = passwords
+        }
+        viewModel.folders.observe(this) { folders ->
+            val adapter =
+                    ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, folders.map {
+                        it.name
+                    })
+            binding.actvFolder.setAdapter(adapter)
+            binding.actvFolder.onItemClickListener =
+                    OnItemClickListener { _, _, position, _ ->
+                        folderId = folders[position]._id
+                    }
         }
     }
 
@@ -102,7 +115,7 @@ class EditPassActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         registerImagePickingIntent()
         super.onCreate(savedInstanceState)
-        binding = ActivityEditPassBinding.inflate(layoutInflater)
+        binding = ActivityPasswordEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // App Quit Timer
@@ -507,6 +520,7 @@ class EditPassActivity : AppCompatActivity() {
                         viewModel.currentPassword!!.use_2fa = binding.cUse2fa.isChecked
                         viewModel.currentPassword!!.use_time = binding.cNumberOfEncrypted.isChecked
                         viewModel.currentPassword!!.time = Date().toString()
+                        viewModel.currentPassword!!.folder = folderId
                         viewModel.currentPassword!!.description = binding.noteField.text.toString()
                         viewModel.currentPassword!!.tags = binding.keyWordsField.text.toString()
                         viewModel.currentPassword!!.login = binding.emailField.text.toString()
