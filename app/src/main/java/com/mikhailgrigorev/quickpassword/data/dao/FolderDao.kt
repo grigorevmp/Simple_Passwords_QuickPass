@@ -24,6 +24,10 @@ interface FolderDao {
     fun getItemsNumber(): LiveData<Int>
 
 
+    @Query("SELECT COUNT(*) FROM folder_card where _id = :id ")
+    fun getItemsNumberById(id: Int): LiveData<Int>
+
+
     // Operations with password
 
     @Update

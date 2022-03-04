@@ -12,6 +12,8 @@ class FolderRepository {
 
     fun getItem(id: Int) = fDao.getByID(id)
 
+    fun getItemsNumberById(id: Int) = fDao.getItemsNumberById(id)
+
     fun insert(fItem: FolderCard) {
         fDao.insert(fItem)
     }

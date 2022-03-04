@@ -629,7 +629,7 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("useNumbers", useNumbers)
         intent.putExtra("useSymbols", useSymbols)
         intent.putExtra("length", passwordLength)
-        startActivityForResult(intent, 1)
+        startActivity(intent)
     }
 
     private fun notSafePasswordsClickedAction() {
@@ -713,9 +713,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun goToAccountActivity() {
         val intent = Intent(this, AccountActivity::class.java)
-        intent.putExtra("login", login)
-        intent.putExtra("activity", "menu")
-        startActivityForResult(intent, 1)
+        startActivity(intent)
     }
 
     private fun showNoPasswordsInterface() {
@@ -948,7 +946,9 @@ class MainActivity : AppCompatActivity() {
 
     fun deleteFolder(view: View) {
         val position = globalFolderPos
-        viewModel.deleteCard(folderCards[position])
+        lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.deleteCard(folderCards[position])
+        }
         changeFolderPopUp.dismiss()
     }
 
@@ -984,13 +984,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return false
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1) {
-            condition=false
-        }
     }
 
     override fun onResume() {

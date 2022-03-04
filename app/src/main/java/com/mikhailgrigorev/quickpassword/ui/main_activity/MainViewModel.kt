@@ -25,7 +25,7 @@ class MainViewModel() : ViewModel() {
         folderRepo.update(item)
     }
 
-    fun deleteCard(item: FolderCard) {
+    suspend fun deleteCard(item: FolderCard) {
         folderRepo.delete(item)
     }
 
