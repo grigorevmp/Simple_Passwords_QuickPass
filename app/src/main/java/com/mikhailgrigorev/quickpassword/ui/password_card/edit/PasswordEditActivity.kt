@@ -16,6 +16,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -28,18 +29,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.window.layout.WindowMetricsCalculator
 import com.google.android.material.chip.Chip
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputEditText
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
+import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityPasswordEditBinding
 import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModel
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModelFactory
+import com.thebluealliance.spectrum.SpectrumPalette
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -62,6 +68,7 @@ class PasswordEditActivity : AppCompatActivity() {
     private lateinit var viewModel: PasswordViewModel
     private var folderId: Int = -1
 
+    private var globalColor: String = ""
     private var passwordsCollection: List<PasswordCard>? = null
     private lateinit var launchSomeActivity: ActivityResultLauncher<Intent>
 
@@ -93,16 +100,32 @@ class PasswordEditActivity : AppCompatActivity() {
             passwordsCollection = passwords
         }
         viewModel.folders.observe(this) { folders ->
-            val adapter =
-                    ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, folders.map {
-                        it.name
-                    })
-            binding.actvFolder.setAdapter(adapter)
+            viewModel.currentPassword?.folder?.let {
+                viewModel.getFolder(it)
+            }!!.observe(this) {
+                val adapter =
+                        ArrayAdapter(
+                                this,
+                                android.R.layout.simple_dropdown_item_1line,
+                                folders.map { folder ->
+                                    folder.name
+                                })
+                binding.actvFolder.setAdapter(adapter)
+                binding.actvFolder.setText(it.name, false)
+            }
             binding.actvFolder.onItemClickListener =
                     OnItemClickListener { _, _, position, _ ->
                         folderId = folders[position]._id
                     }
+            binding.actvFolder.setDropDownBackgroundDrawable(
+                    ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.filter_spinner_dropdown_bg,
+                            null
+                    )
+            )
         }
+
     }
 
     private fun initViewModel() {
@@ -118,16 +141,16 @@ class PasswordEditActivity : AppCompatActivity() {
         binding = ActivityPasswordEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // App Quit Timer
-        setQuitTimer()
-        initViewModel()
-        setObservers()
-
         val args: Bundle? = intent.extras
         login = args?.get("login").toString()
         val passwordId = args?.get("password_id").toString().toInt()
 
+        initViewModel()
         loadPassword(passwordId)
+        // App Quit Timer
+        setQuitTimer()
+        setObservers()
+
         setListeners()
     }
 
@@ -159,19 +182,19 @@ class PasswordEditActivity : AppCompatActivity() {
                     "low" -> binding.passQuality.setTextColor(
                             ContextCompat.getColor(
                                     this,
-                                    R.color.negative
+                                    R.color.red_quality
                             )
                     )
                     "high" -> binding.passQuality.setTextColor(
                             ContextCompat.getColor(
                                     this,
-                                    R.color.positive
+                                    R.color.green_quality
                             )
                     )
                     else -> binding.passQuality.setTextColor(
                             ContextCompat.getColor(
                                     this,
-                                    R.color.fixable
+                                    R.color.yellow_quality
                             )
                     )
                 }
@@ -262,6 +285,47 @@ class PasswordEditActivity : AppCompatActivity() {
     @SuppressLint("ClickableViewAccessibility")
     private fun setListeners() {
         val list = mutableListOf<String>()
+
+        binding.fabAddFolder.setOnClickListener {
+            val customAlertDialogView = LayoutInflater.from(this)
+                    .inflate(R.layout.dialog_add_folder, null, false)
+            val materialAlertDialogBuilder = MaterialAlertDialogBuilder(this)
+            customAlertDialogView.findViewById<SpectrumPalette>(R.id.spPalette)
+                    .setOnColorSelectedListener { it_ ->
+                        globalColor = "#${Integer.toHexString(it_).uppercase(Locale.getDefault())}"
+                    }
+            materialAlertDialogBuilder.setView(customAlertDialogView)
+            materialAlertDialogBuilder
+                    .setView(customAlertDialogView)
+                    .setTitle("Folder creation")
+                    .setMessage("Current configuration details")
+                    .setPositiveButton("Ok") { dialog, _ ->
+                        val name =
+                                customAlertDialogView.findViewById<TextInputEditText>(
+                                        R.id.etFolderName
+                                ).text.toString()
+                        val description =
+                                customAlertDialogView.findViewById<TextInputEditText>(
+                                        R.id.etFolderDesc
+                                ).text.toString()
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            viewModel.insertCard(
+                                    FolderCard(
+                                            name = name,
+                                            description = description,
+                                            colorTag = globalColor
+                                    )
+                            )
+                        }
+
+                        dialog.dismiss()
+
+                    }
+                    .setNegativeButton("Cancel") { dialog, _ ->
+                        dialog.dismiss()
+                    }.show()
+
+        }
 
         if (binding.cLettersToggle.isChecked) {
             useLetters = true
@@ -369,19 +433,19 @@ class PasswordEditActivity : AppCompatActivity() {
                         "low" -> binding.passQuality.setTextColor(
                                 ContextCompat.getColor(
                                         applicationContext,
-                                        R.color.negative
+                                        R.color.red_quality
                                 )
                         )
                         "high" -> binding.passQuality.setTextColor(
                                 ContextCompat.getColor(
                                         applicationContext,
-                                        R.color.positive
+                                        R.color.green_quality
                                 )
                         )
                         else -> binding.passQuality.setTextColor(
                                 ContextCompat.getColor(
                                         applicationContext,
-                                        R.color.fixable
+                                        R.color.yellow_quality
                                 )
                         )
                     }
@@ -431,19 +495,19 @@ class PasswordEditActivity : AppCompatActivity() {
                     "low" -> binding.passQuality.setTextColor(
                             ContextCompat.getColor(
                                     applicationContext,
-                                    R.color.negative
+                                    R.color.red_quality
                             )
                     )
                     "high" -> binding.passQuality.setTextColor(
                             ContextCompat.getColor(
                                     applicationContext,
-                                    R.color.positive
+                                    R.color.green_quality
                             )
                     )
                     else -> binding.passQuality.setTextColor(
                             ContextCompat.getColor(
                                     applicationContext,
-                                    R.color.fixable
+                                    R.color.yellow_quality
                             )
                     )
                 }

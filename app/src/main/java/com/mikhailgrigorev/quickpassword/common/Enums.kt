@@ -4,8 +4,8 @@ enum class PasswordGettingType {
     All, ByName, ByQuality
 }
 
-enum class PasswordCategory(val value: Int) {
-    CORRECT(1),
-    NEGATIVE(2),
-    NOT_SAFE(3)
+enum class PasswordQuality(val value: Int) {
+    HIGH(1),
+    MEDIUM(2),
+    LOW(3)
 }

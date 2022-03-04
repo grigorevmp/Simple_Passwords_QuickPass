@@ -3,7 +3,7 @@ package com.mikhailgrigorev.quickpassword.ui.account.view
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mikhailgrigorev.quickpassword.common.PasswordCategory
+import com.mikhailgrigorev.quickpassword.common.PasswordQuality
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.repository.PasswordCardRepository
 
@@ -16,9 +16,9 @@ class AccountViewModel : ViewModel() {
     private fun getUserLogin(): LiveData<String> = MutableLiveData(Utils.getLogin())
 
     fun getPasswordNumberWithQuality(): Triple<LiveData<Int>, LiveData<Int>, LiveData<Int>> {
-        val correct = passwordCardRepo.getItemsNumberWithQuality(PasswordCategory.CORRECT.value)
-        val notSafe = passwordCardRepo.getItemsNumberWithQuality(PasswordCategory.NOT_SAFE.value)
-        val negative = passwordCardRepo.getItemsNumberWithQuality(PasswordCategory.NEGATIVE.value)
+        val correct = passwordCardRepo.getItemsNumberWithQuality(PasswordQuality.HIGH.value)
+        val notSafe = passwordCardRepo.getItemsNumberWithQuality(PasswordQuality.LOW.value)
+        val negative = passwordCardRepo.getItemsNumberWithQuality(PasswordQuality.MEDIUM.value)
         return Triple(correct, notSafe, negative)
     }
 

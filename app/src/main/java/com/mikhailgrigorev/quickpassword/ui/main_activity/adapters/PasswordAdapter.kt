@@ -71,15 +71,15 @@ class PasswordAdapter(
         when (password.quality) {
             1 -> {
                 holder.qualityMarker.setImageResource(R.drawable.circle_positive_fill)
-                holder.lockIcon.setColorFilter(context.getColor(R.color.positive))
+                holder.lockIcon.setColorFilter(context.getColor(R.color.green_quality))
             }
             2 -> {
                 holder.qualityMarker.setImageResource(R.drawable.circle_negative_fill)
-                holder.lockIcon.setColorFilter(context.getColor(R.color.negative))
+                holder.lockIcon.setColorFilter(context.getColor(R.color.red_quality))
             }
             3 -> {
                 holder.qualityMarker.setImageResource(R.drawable.circle_improvement_fill)
-                holder.lockIcon.setColorFilter(context.getColor(R.color.fixable))
+                holder.lockIcon.setColorFilter(context.getColor(R.color.yellow_quality))
             }
             4 -> {
                 holder.creditCard.visibility = View.VISIBLE

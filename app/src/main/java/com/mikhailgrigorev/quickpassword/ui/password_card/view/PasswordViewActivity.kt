@@ -22,6 +22,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.window.layout.WindowMetricsCalculator
 import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpassword.R
+import com.mikhailgrigorev.quickpassword.common.PasswordQuality
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.ActivityPasswordViewBinding
 import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
@@ -111,12 +112,12 @@ class PasswordViewActivity : AppCompatActivity() {
 
             viewModel.currentPassword = passwordCard
 
-
             if(passwordCard.folder != null) {
                 if(passwordCard.folder != -1) {
                     viewModel.getFolder(passwordCard.folder!!).observe(this) {
-                        binding.cFolderName.text = it.name
                         binding.cFolderName.visibility = View.VISIBLE
+                        binding.cFolderName.text = it.name
+                        binding.tvAdditionalSettings.visibility = View.VISIBLE
                     }
                 }
             }
@@ -127,70 +128,58 @@ class PasswordViewActivity : AppCompatActivity() {
             }
 
             binding.tvUsernameText.text = passwordCard.name
-            var dbPassword = passwordCard.password
+            var originalPassword = passwordCard.password
 
             if (passwordCard.encrypted) {
                 binding.cUseEncryption.isChecked = true
                 binding.cUseEncryption.visibility = View.VISIBLE
                 binding.tvAdditionalSettings.visibility = View.VISIBLE
-                dbPassword = Utils.password_manager.decrypt(dbPassword).toString()
+                originalPassword = Utils.password_manager.decrypt(originalPassword).toString()
             }
 
-            binding.etPassword.setText(dbPassword)
+            binding.etPassword.setText(originalPassword)
 
-            var evaluation: String = Utils.password_manager.evaluatePasswordString(dbPassword)
+            val evaluation = passwordCard.quality
 
             binding.tvPasswordCreationDate.text = getString(
                     R.string.time_lim,
                     Utils.returnReadableDate(passwordCard.time)
             )
 
-            if ((Utils.password_manager.evaluateDate(passwordCard.time)) && (dbPassword.length != 4)) {
-                binding.cvWarningRulesCard.visibility = View.VISIBLE
-                evaluation = "low"
+            when (evaluation) {
+                PasswordQuality.LOW.value -> {
+                    binding.passQuality.setTextColor(
+                            ContextCompat.getColor(
+                                    applicationContext,
+                                    R.color.red_quality
+                            )
+                    )
+                    binding.passQuality.text = getString(R.string.low)
+                    binding.ivMinorWarningImage.visibility = View.GONE
+                }
+                PasswordQuality.HIGH.value -> {
+                    binding.passQuality.setTextColor(
+                            ContextCompat.getColor(
+                                    applicationContext,
+                                    R.color.green_quality
+                            )
+                    )
+                    binding.passQuality.text = getString(R.string.high)
+                    binding.ivMainWarningImage.visibility = View.GONE
+                }
+                PasswordQuality.MEDIUM.value -> {
+                    binding.passQuality.setTextColor(
+                            ContextCompat.getColor(
+                                    applicationContext,
+                                    R.color.yellow_quality
+                            )
+                    )
+                    binding.passQuality.text = getString(R.string.medium)
+                    binding.ivMinorWarningImage.visibility = View.GONE
+                }
             }
 
-            if (
-                Utils.password_manager.popularPasswords(dbPassword) or (
-                        (dbPassword.length == 4) and
-                                Utils.password_manager.popularPin(dbPassword)
-                        )
-            ) {
-                binding.tooEasy.visibility = View.VISIBLE
-                binding.tooEasyImg.visibility = View.VISIBLE
-                evaluation = "low"
-            }
-            when (evaluation) {
-                "low" -> binding.passQuality.text = getString(R.string.low)
-                "high" -> binding.passQuality.text = getString(R.string.high)
-                else -> binding.passQuality.text = getString(R.string.medium)
-            }
-            when (evaluation) {
-                "low" -> binding.passQuality.setTextColor(
-                        ContextCompat.getColor(
-                                applicationContext,
-                                R.color.negative
-                        )
-                )
-                "high" -> binding.passQuality.setTextColor(
-                        ContextCompat.getColor(
-                                applicationContext,
-                                R.color.positive
-                        )
-                )
-                else -> binding.passQuality.setTextColor(
-                        ContextCompat.getColor(
-                                applicationContext,
-                                R.color.fixable
-                        )
-                )
-            }
-            if (evaluation == "high")
-                binding.ivMainWarningImage.visibility = View.GONE
-            else
-                binding.ivMinorWarningImage.visibility = View.GONE
-
-            if ((dbPassword.length == 4) and (evaluation == "high")) {
+            if ((originalPassword.length == 4) and (evaluation == PasswordQuality.HIGH.value)) {
                 binding.passQualityText.text = getString(R.string.showPin)
                 binding.passQuality.visibility = View.GONE
                 binding.ivMainWarningImage.visibility = View.GONE
@@ -205,6 +194,7 @@ class PasswordViewActivity : AppCompatActivity() {
 
             binding.cUse2fa.visibility = View.GONE
             binding.cUseTimeLimit.visibility = View.GONE
+
             if (passwordCard.use_2fa) {
                 binding.cUse2fa.isChecked = true
                 binding.cUse2fa.visibility = View.VISIBLE
@@ -297,7 +287,6 @@ class PasswordViewActivity : AppCompatActivity() {
                     Utils.makeToast(applicationContext, getString(R.string.passwordDeleted))
                 }
                 val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra("login", login)
                 condition = false
                 startActivity(intent)
                 finish()
@@ -408,7 +397,7 @@ class PasswordViewActivity : AppCompatActivity() {
 
 
         val layoutTransition = binding.mainLinearLayout.layoutTransition
-        layoutTransition.setDuration(5000) // Change duration
+        layoutTransition.setDuration(5000)
         layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
     }
@@ -416,19 +405,7 @@ class PasswordViewActivity : AppCompatActivity() {
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
-                if (from != "short") {
-                    condition = false
-                    val intent = Intent()
-                    intent.putExtra("password_id", viewModel.currentPassword!!._id)
-                    setResult(1, intent)
-                    finish()
-                } else {
-                    condition = false
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra("password_id", viewModel.currentPassword!!._id)
-                    startActivity(intent)
-                    finish()
-                }
+                finish()
             }
         }
         return false

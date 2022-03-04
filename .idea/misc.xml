@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/QuickPass/app/src/main/res/drawable/circle_positive_fill.xml" value="0.37864583333333335" />
+        <entry key="..\:/QuickPass/app/src/main/res/drawable/filter_spinner_dropdown_bg.xml" value="0.2305" />
         <entry key="..\:/QuickPass/app/src/main/res/drawable/help_circle_outline.xml" value="0.37864583333333335" />
         <entry key="..\:/QuickPass/app/src/main/res/drawable/subdirectory_arrow_right.xml" value="0.37864583333333335" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/activity_about.xml" value="0.2477355072463768" />
@@ -16,6 +17,7 @@
         <entry key="..\:/QuickPass/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/activity_new_password.xml" value="0.33" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/activity_password_create.xml" value="0.5" />
+        <entry key="..\:/QuickPass/app/src/main/res/layout/activity_password_edit.xml" value="0.2975630611372381" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/activity_password_view.xml" value="0.25679347826086957" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/activity_settings.xml" value="0.2692656391659112" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/activity_sign.xml" value="0.24864130434782608" />

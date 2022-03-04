@@ -65,7 +65,7 @@
                 android:layout_height="15dp"
                 android:layout_marginStart="@dimen/base_margin"
                 android:visibility="gone"
-                card_view:cardBackgroundColor="@color/fixable"
+                card_view:cardBackgroundColor="@color/yellow_quality"
                 card_view:cardCornerRadius="@dimen/extra_base_card_radius"
                 card_view:cardElevation="@dimen/base_card_elevation"
                 tools:visibility="visible" />

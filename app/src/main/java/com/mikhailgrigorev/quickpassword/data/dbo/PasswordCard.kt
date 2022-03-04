@@ -3,7 +3,7 @@ package com.mikhailgrigorev.quickpassword.data.dbo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
-import com.mikhailgrigorev.quickpassword.common.PasswordCategory
+import com.mikhailgrigorev.quickpassword.common.PasswordQuality
 
 @Entity(tableName = "password_card")
 data class PasswordCard(
@@ -34,7 +34,7 @@ data class PasswordCard(
     @SerializedName("favorite")
     var favorite: Boolean = false,
     @SerializedName("quality")
-    var quality: Int = PasswordCategory.NOT_SAFE.value,
+    var quality: Int = PasswordQuality.LOW.value,
     @SerializedName("same_with")
     var same_with: String = ""
 )

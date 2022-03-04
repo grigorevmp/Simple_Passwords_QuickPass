@@ -10,9 +10,9 @@
     <color name="grey">#424242</color>
     <color name="black">#DADADA</color>
     <color name="quitAccent">#E64078</color>
-    <color name="negative">#DC5598</color>
-    <color name="positive">#9BE451</color>
-    <color name="fixable">#DAA057</color>
+    <color name="red_quality">#DC5598</color>
+    <color name="green_quality">#9BE451</color>
+    <color name="yellow_quality">#DAA057</color>
 
     <color name="ic_account">#7e57c2</color>
     <color name="ic_account_Red">#ef5350</color>

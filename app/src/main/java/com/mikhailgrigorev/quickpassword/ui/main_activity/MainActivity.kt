@@ -35,9 +35,9 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.mikhailgrigorev.quickpassword.R
-import com.mikhailgrigorev.quickpassword.common.PasswordCategory
 import com.mikhailgrigorev.quickpassword.common.PasswordGettingType
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
+import com.mikhailgrigorev.quickpassword.common.PasswordQuality
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
@@ -651,7 +651,7 @@ class MainActivity : AppCompatActivity() {
 
             setObservers(
                     type = PasswordGettingType.ByQuality,
-                    value = PasswordCategory.NOT_SAFE.value
+                    value = PasswordQuality.LOW.value
             )
             searchNegative = false
             searchCorrect = false
@@ -677,7 +677,7 @@ class MainActivity : AppCompatActivity() {
             )
             setObservers(
                     type = PasswordGettingType.ByQuality,
-                    value = PasswordCategory.NEGATIVE.value
+                    value = PasswordQuality.MEDIUM.value
             )
             searchNotSafe = false
             searchCorrect = false
@@ -703,7 +703,7 @@ class MainActivity : AppCompatActivity() {
             )
             setObservers(
                     type = PasswordGettingType.ByQuality,
-                    value = PasswordCategory.CORRECT.value
+                    value = PasswordQuality.HIGH.value
             )
             searchNotSafe = false
             searchNegative = false

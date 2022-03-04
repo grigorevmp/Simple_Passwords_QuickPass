@@ -16,6 +16,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -27,19 +28,24 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.window.layout.WindowMetricsCalculator
 import com.google.android.material.chip.Chip
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputEditText
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
+import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityPasswordCreateBinding
 import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
 
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModel
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModelFactory
+import com.thebluealliance.spectrum.SpectrumPalette
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -66,6 +72,7 @@ class PasswordCreateActivity : AppCompatActivity() {
 
     private var passwordsCollection: List<PasswordCard>? = null
 
+    private var globalColor: String = ""
     private lateinit var login: String
     private lateinit var binding: ActivityPasswordCreateBinding
 
@@ -105,6 +112,13 @@ class PasswordCreateActivity : AppCompatActivity() {
                     AdapterView.OnItemClickListener { _, _, position, _ ->
                         folderId = folders[position]._id
                     }
+            binding.actvFolder.setDropDownBackgroundDrawable(
+                    ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.filter_spinner_dropdown_bg,
+                            null
+                    )
+            )
         }
     }
 
@@ -158,19 +172,19 @@ class PasswordCreateActivity : AppCompatActivity() {
                 "low" -> binding.passQuality.setTextColor(
                         ContextCompat.getColor(
                                 applicationContext,
-                                R.color.negative
+                                R.color.red_quality
                         )
                 )
                 "high" -> binding.passQuality.setTextColor(
                         ContextCompat.getColor(
                                 applicationContext,
-                                R.color.positive
+                                R.color.green_quality
                         )
                 )
                 else -> binding.passQuality.setTextColor(
                         ContextCompat.getColor(
                                 applicationContext,
-                                R.color.fixable
+                                R.color.yellow_quality
                         )
                 )
             }
@@ -202,6 +216,48 @@ class PasswordCreateActivity : AppCompatActivity() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setListeners(list: MutableList<String>) {
+
+        binding.fabAddFolder.setOnClickListener {
+            val customAlertDialogView = LayoutInflater.from(this)
+                    .inflate(R.layout.dialog_add_folder, null, false)
+            val materialAlertDialogBuilder = MaterialAlertDialogBuilder(this)
+            customAlertDialogView.findViewById<SpectrumPalette>(R.id.spPalette)
+                    .setOnColorSelectedListener { it_ ->
+                        globalColor = "#${Integer.toHexString(it_).uppercase(Locale.getDefault())}"
+                    }
+            materialAlertDialogBuilder.setView(customAlertDialogView)
+            materialAlertDialogBuilder
+                    .setView(customAlertDialogView)
+                    .setTitle("Folder creation")
+                    .setMessage("Current configuration details")
+                    .setPositiveButton("Ok") { dialog, _ ->
+                        val name =
+                                customAlertDialogView.findViewById<TextInputEditText>(
+                                        R.id.etFolderName
+                                ).text.toString()
+                        val description =
+                                customAlertDialogView.findViewById<TextInputEditText>(
+                                        R.id.etFolderDesc
+                                ).text.toString()
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            viewModel.insertCard(
+                                    FolderCard(
+                                            name = name,
+                                            description = description,
+                                            colorTag = globalColor
+                                    )
+                            )
+                        }
+
+                        dialog.dismiss()
+
+                    }
+                    .setNegativeButton("Cancel") { dialog, _ ->
+                        dialog.dismiss()
+                    }.show()
+
+        }
+
         binding.getInfo.setOnClickListener {
             if (binding.infoCard.visibility == View.GONE) {
                 binding.infoCard.visibility = View.VISIBLE
@@ -294,19 +350,19 @@ class PasswordCreateActivity : AppCompatActivity() {
                         "low" -> binding.passQuality.setTextColor(
                                 ContextCompat.getColor(
                                         applicationContext,
-                                        R.color.negative
+                                        R.color.red_quality
                                 )
                         )
                         "high" -> binding.passQuality.setTextColor(
                                 ContextCompat.getColor(
                                         applicationContext,
-                                        R.color.positive
+                                        R.color.green_quality
                                 )
                         )
                         else -> binding.passQuality.setTextColor(
                                 ContextCompat.getColor(
                                         applicationContext,
-                                        R.color.fixable
+                                        R.color.yellow_quality
                                 )
                         )
                     }
@@ -364,19 +420,19 @@ class PasswordCreateActivity : AppCompatActivity() {
                     "low" -> binding.passQuality.setTextColor(
                             ContextCompat.getColor(
                                     applicationContext,
-                                    R.color.negative
+                                    R.color.red_quality
                             )
                     )
                     "high" -> binding.passQuality.setTextColor(
                             ContextCompat.getColor(
                                     applicationContext,
-                                    R.color.positive
+                                    R.color.green_quality
                             )
                     )
                     else -> binding.passQuality.setTextColor(
                             ContextCompat.getColor(
                                     applicationContext,
-                                    R.color.fixable
+                                    R.color.yellow_quality
                             )
                     )
                 }
