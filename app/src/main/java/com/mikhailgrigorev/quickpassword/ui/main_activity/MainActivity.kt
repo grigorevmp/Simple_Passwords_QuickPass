@@ -94,26 +94,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private fun setQuitTimer() {
-        var condition = true
-        val handler = Handler(Looper.getMainLooper())
-        val r = Runnable {
-            if (condition) {
-                condition = false
-                //val intent = Intent(this, LoginAfterSplashActivity::class.java)
-                //startActivity(intent)
-                //finish()
-            }
-        }
-
-        val lockTime = Utils.lockTime()
-        if (lockTime != "0") {
-            handler.postDelayed(
-                    r, Utils.lock_default_interval * lockTime!!.toLong()
-            )
-        }
-    }
-
     private fun initSorting(){
         defaultPassFilterSorting = Utils.sortingColumn()!!
         defaultPassFilterAsc = Utils.sortingAsc()
@@ -126,7 +106,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initViewModel()
-        setQuitTimer()
         authorization()
         checkAnalytics()
         initLayouts()

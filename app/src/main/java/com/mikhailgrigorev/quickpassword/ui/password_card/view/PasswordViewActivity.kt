@@ -43,25 +43,6 @@ class PasswordViewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPasswordViewBinding
     private var condition = true
 
-    private fun setQuitTimer() {
-        val handler = Handler(Looper.getMainLooper())
-        val r = Runnable {
-            if (condition) {
-                condition = false
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-        }
-
-        val lockTime = Utils.lockTime()
-        if (lockTime != "0") {
-            handler.postDelayed(
-                    r, Utils.lock_default_interval * lockTime!!.toLong()
-            )
-        }
-    }
-
     private fun initViewModel() {
         viewModel = ViewModelProvider(
                 this,
@@ -73,9 +54,6 @@ class PasswordViewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPasswordViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        // App Quit Timer
-        setQuitTimer()
         initViewModel()
 
         val args: Bundle? = intent.extras

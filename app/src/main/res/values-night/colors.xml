@@ -7,6 +7,7 @@
     <color name="textDark">#D6D6D6</color>
     <color name="fabTint">#C3C3C3</color>
     <color name="white" >#202020</color>
+    <color name="white_accent" >#111111</color>
     <color name="grey">#424242</color>
     <color name="black">#DADADA</color>
     <color name="quitAccent">#E64078</color>

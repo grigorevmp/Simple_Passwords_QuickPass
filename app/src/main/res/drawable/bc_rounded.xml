@@ -3,10 +3,10 @@
     android:shape="rectangle">
     <stroke
         android:width="4dp"
-        android:color="@color/white" />
+        android:color="@color/white_accent" />
 
     <solid
-        android:color="@color/white" />
+        android:color="@color/white_accent" />
 
     <corners android:topLeftRadius="15dp"
         android:topRightRadius="15dp" />

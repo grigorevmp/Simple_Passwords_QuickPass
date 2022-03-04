@@ -8,8 +8,6 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.text.Editable
@@ -42,7 +40,6 @@ import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityPasswordEditBinding
-import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModel
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModelFactory
 import com.thebluealliance.spectrum.SpectrumPalette
@@ -75,57 +72,38 @@ class PasswordEditActivity : AppCompatActivity() {
     private lateinit var login: String
     private lateinit var binding: ActivityPasswordEditBinding
 
-    private fun setQuitTimer() {
-        var condition = true
-        val handler = Handler(Looper.getMainLooper())
-        val r = Runnable {
-            if (condition) {
-                condition = false
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-        }
-
-        val lockTime = Utils.lockTime()
-        if (lockTime != "0") {
-            handler.postDelayed(
-                    r, Utils.lock_default_interval * lockTime!!.toLong()
-            )
-        }
-    }
-
     private fun setObservers() {
         viewModel.passwords.observe(this) { passwords ->
             passwordsCollection = passwords
         }
         viewModel.folders.observe(this) { folders ->
-            viewModel.currentPassword?.folder?.let {
-                viewModel.getFolder(it)
-            }!!.observe(this) {
-                val adapter =
-                        ArrayAdapter(
-                                this,
-                                android.R.layout.simple_dropdown_item_1line,
-                                folders.map { folder ->
-                                    folder.name
-                                })
-                binding.actvFolder.setAdapter(adapter)
-                binding.actvFolder.setText(it.name, false)
+            if (viewModel.currentPassword != null) {
+                viewModel.currentPassword?.folder?.let {
+                    viewModel.getFolder(it)
+                }!!.observe(this) {
+                    val adapter =
+                            ArrayAdapter(
+                                    this,
+                                    android.R.layout.simple_dropdown_item_1line,
+                                    folders.map { folder ->
+                                        folder.name
+                                    })
+                    binding.actvFolder.setAdapter(adapter)
+                    binding.actvFolder.setText(it.name, false)
+                }
+                binding.actvFolder.onItemClickListener =
+                        OnItemClickListener { _, _, position, _ ->
+                            folderId = folders[position]._id
+                        }
+                binding.actvFolder.setDropDownBackgroundDrawable(
+                        ResourcesCompat.getDrawable(
+                                resources,
+                                R.drawable.filter_spinner_dropdown_bg,
+                                null
+                        )
+                )
             }
-            binding.actvFolder.onItemClickListener =
-                    OnItemClickListener { _, _, position, _ ->
-                        folderId = folders[position]._id
-                    }
-            binding.actvFolder.setDropDownBackgroundDrawable(
-                    ResourcesCompat.getDrawable(
-                            resources,
-                            R.drawable.filter_spinner_dropdown_bg,
-                            null
-                    )
-            )
         }
-
     }
 
     private fun initViewModel() {
@@ -147,16 +125,13 @@ class PasswordEditActivity : AppCompatActivity() {
 
         initViewModel()
         loadPassword(passwordId)
-        // App Quit Timer
-        setQuitTimer()
-        setObservers()
-
         setListeners()
     }
 
     private fun loadPassword(passwordId: Int) {
         viewModel.getPasswordById(passwordId).observe(this) { passwordCard ->
             viewModel.currentPassword = passwordCard
+            setObservers()
             binding.tvUsernameText.text = passwordCard.name
             binding.newNameField.setText(passwordCard.name)
             var dbPassword = passwordCard.password
