@@ -11,8 +11,6 @@ import android.graphics.Point
 import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -26,7 +24,6 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.SeekBar
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,6 +35,7 @@ import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.PasswordGettingType
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
 import com.mikhailgrigorev.quickpassword.common.PasswordQuality
+import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
@@ -56,7 +54,7 @@ import kotlin.math.abs
 import kotlin.math.min
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : MyBaseActivity() {
 
     private val defaultRotation = 0F
     private lateinit var viewModel: MainViewModel
@@ -964,12 +962,12 @@ class MainActivity : AppCompatActivity() {
         }
         return false
     }
-
+/*
     override fun onResume() {
         super.onResume()
         if (binding.cLengthToggle.isChecked)
             binding.seekBar.visibility = View.VISIBLE
-    }
+    }*/
 
     private fun initViewModel() {
         viewModel = ViewModelProvider(
