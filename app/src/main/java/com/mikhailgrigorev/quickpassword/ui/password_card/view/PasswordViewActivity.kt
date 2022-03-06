@@ -36,10 +36,7 @@ class PasswordViewActivity : MyBaseActivity() {
 
     private lateinit var viewModel: PasswordViewModel
     private lateinit var from: String
-
-    private lateinit var login: String
     private lateinit var binding: ActivityPasswordViewBinding
-    private var condition = true
 
     private fun initViewModel() {
         viewModel = ViewModelProvider(
@@ -54,22 +51,26 @@ class PasswordViewActivity : MyBaseActivity() {
         setContentView(binding.root)
         initViewModel()
 
+        checkShortcut()
         val args: Bundle? = intent.extras
-        login = Utils.getLogin()!!
+        val passwordId = args?.get("password_id").toString().toInt()
 
+        setUpAutoCopy()
+        loadPassword(passwordId)
+        setListeners()
+    }
+
+    private fun setUpAutoCopy() {
+        val args: Bundle? = intent.extras
         from = args?.get("openedFrom").toString()
         if (from == "shortcut") {
             intent.putExtra("password_id", args?.get("password_id").toString())
-            condition = false
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
+    }
 
-        val passwordId = args?.get("password_id").toString().toInt()
-
-        loadPassword(passwordId)
-        setListeners()
-
+    private fun checkShortcut() {
         if (Utils.getAutoCopy() && binding.etPassword.text.toString() != "") {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("Password", binding.etPassword.text.toString())
@@ -264,7 +265,6 @@ class PasswordViewActivity : MyBaseActivity() {
                     Utils.makeToast(applicationContext, getString(R.string.passwordDeleted))
                 }
                 val intent = Intent(this, MainActivity::class.java)
-                condition = false
                 startActivity(intent)
                 finish()
             }
@@ -325,13 +325,11 @@ class PasswordViewActivity : MyBaseActivity() {
 
         binding.ivBackButton.setOnClickListener {
             if (from != "short") {
-                condition = false
                 val intent = Intent()
                 intent.putExtra("password_id", viewModel.currentPassword!!._id)
                 setResult(1, intent)
                 finish()
             } else {
-                condition = false
                 val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("password_id", viewModel.currentPassword!!._id)
                 startActivity(intent)
@@ -340,7 +338,6 @@ class PasswordViewActivity : MyBaseActivity() {
         }
 
         binding.editButton.setOnClickListener {
-            condition = false
             val intent = Intent(this, PasswordEditActivity::class.java)
             intent.putExtra("password_id", viewModel.currentPassword!!._id)
             startActivity(intent)

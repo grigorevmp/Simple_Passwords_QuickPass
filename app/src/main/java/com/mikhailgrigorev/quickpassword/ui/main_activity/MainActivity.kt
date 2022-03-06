@@ -33,9 +33,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.PasswordGettingType
-import com.mikhailgrigorev.quickpassword.common.manager.PasswordManager
 import com.mikhailgrigorev.quickpassword.common.PasswordQuality
 import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
+import com.mikhailgrigorev.quickpassword.common.manager.PasswordManager
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
@@ -88,7 +88,6 @@ class MainActivity : MyBaseActivity() {
     private lateinit var passwordCards: List<PasswordCard>
     private lateinit var folderCards: List<FolderCard>
     private var pm = PasswordManager()
-    private var condition = true
 
     private lateinit var binding: ActivityMainBinding
 
@@ -494,23 +493,19 @@ class MainActivity : MyBaseActivity() {
         }
 
         binding.cvNoPasswordsCard.setOnClickListener {
-            condition = false
             goToNewPasswordActivity()
         }
 
         binding.fabAddNewPass.setOnClickListener {
-            condition = false
             goToNewPasswordActivity()
         }
 
 
         binding.fabNewPassword.setOnClickListener {
-            condition = false
             goToNewPasswordActivity()
         }
 
         binding.cvAccountAvatar.setOnClickListener {
-            condition = false
             goToAccountActivity()
         }
 
@@ -844,7 +839,6 @@ class MainActivity : MyBaseActivity() {
     }
 
     private fun passClickListener(position: Int) {
-        condition = false
         val intent = Intent(this, PasswordViewActivity::class.java)
         intent.putExtra("password_id", passwordCards[position]._id)
         startActivity(intent)

@@ -33,13 +33,12 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.mikhailgrigorev.quickpassword.R
-import com.mikhailgrigorev.quickpassword.common.manager.PasswordManager
 import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
+import com.mikhailgrigorev.quickpassword.common.manager.PasswordManager
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityPasswordCreateBinding
-
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModel
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModelFactory
 import com.thebluealliance.spectrum.SpectrumPalette
