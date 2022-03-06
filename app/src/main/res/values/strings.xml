@@ -222,5 +222,6 @@
     <string name="same_parts" translatable="false">Same parts with: %1$s</string>
     <string name="accountEditRules">Заполните требуемые поля и введите текущий пароль</string>
     <string name="folder">Folder</string>
+    <string name="add_folder">Add folder</string>
 
 </resources>

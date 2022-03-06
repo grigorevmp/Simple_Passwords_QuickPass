@@ -125,12 +125,12 @@ class SettingsActivity : MyBaseActivity() {
         }
 
         binding.sUseAnalyzer.setOnCheckedChangeListener { _, _ ->
-            Utils.setAnalyze(binding.sUseAnalyzer.isChecked)
+            Utils.setAnalyze(!binding.sUseAnalyzer.isChecked)
         }
 
         binding.tvUseAnalyzer.setOnClickListener {
             binding.sUseAnalyzer.isChecked = !binding.sUseAnalyzer.isChecked
-            Utils.setAnalyze(binding.sUseAnalyzer.isChecked)
+            Utils.setAnalyze(!binding.sUseAnalyzer.isChecked)
         }
 
         binding.sAutoCopy.setOnCheckedChangeListener { _, _ ->

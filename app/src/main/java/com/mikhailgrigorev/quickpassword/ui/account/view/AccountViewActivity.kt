@@ -64,7 +64,7 @@ class AccountViewActivity : MyBaseActivity() {
         viewModel.userLogin.observe(this) { login ->
             val name: String = getString(R.string.hi) + " " + login
             binding.tvUsernameText.text = name
-            binding.tvAvatarSymbol.text = login[0].toString()
+            binding.tvAvatarSymbol.text = login[0].toString().uppercase()
         }
     }
 

@@ -124,7 +124,7 @@ class MainActivity : MyBaseActivity() {
         viewModel.userLogin.observe(this) { login ->
             val name: String = getString(R.string.hi) + " " + login
             binding.tvUsernameText.text = name
-            binding.tvAvatarSymbol.text = login[0].toString()
+            binding.tvAvatarSymbol.text = login[0].toString().uppercase()
         }
     }
 
@@ -293,15 +293,17 @@ class MainActivity : MyBaseActivity() {
             binding.fabNewPassword.animate().scaleX(0F).scaleY(0F).setDuration(0).start()
             binding.cvWarningRulesCard.animate().alpha(1F).setDuration(0).start()
             binding.cvBackupReminderCard.animate().alpha(1F).setDuration(0).start()
+            binding.cardView.animate().alpha(1F).setDuration(0).start()
+            binding.cvAdditionalInfoCard.animate().alpha(1F).setDuration(0).start()
         }
 
         binding.etSearchPassword.clearFocus()
         binding.etSearchPassword.hideKeyboard()
 
-        bottomSheetBehavior.peekHeight = 800 //600
+        bottomSheetBehavior.peekHeight = 950
 
         if (!Utils.useAnalyze()) {
-            bottomSheetBehavior.peekHeight = 1200
+            bottomSheetBehavior.peekHeight = 1350
         }
 
         bottomSheetBehavior.isHideable = true
@@ -317,6 +319,8 @@ class MainActivity : MyBaseActivity() {
                 binding.ivExpandBottomDialog.animate().rotation(180F * slideOffset).setDuration(0).start()
                 if (slideOffset <= 0) {
                     binding.cvWarningRulesCard.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0).start()
+                    binding.cardView.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0).start()
+                    binding.cvAdditionalInfoCard.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0).start()
                     binding.cvBackupReminderCard.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0)
                             .start()
                     binding.fabNewPassword.animate().scaleX(1 - abs(slideOffset))

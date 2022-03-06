@@ -7,7 +7,6 @@
     android:animateLayoutChanges="true"
     tools:context=".ui.main_activity.MainActivity">
 
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabNewPassword"
         android:layout_width="wrap_content"
@@ -164,6 +163,7 @@
             android:contentDescription="@string/add_password_plus"
             android:elevation="@dimen/medium_elevation"
             android:visibility="gone"
+            tools:visibility="visible"
             app:backgroundTint="@color/white"
             app:elevation="@dimen/medium_elevation"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -378,6 +378,7 @@
                     android:progressTint="?attr/colorPrimary"
                     android:thumbTint="?attr/colorPrimary"
                     android:visibility="gone"
+                    tools:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/hsvPasswordSettings" />
@@ -451,6 +452,7 @@
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:visibility="gone"
+                    tools:visibility="visible"
                     app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="@dimen/base_card_radius"
                     app:cardElevation="@dimen/base_elevation"
@@ -469,6 +471,7 @@
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:visibility="gone"
+                    tools:visibility="visible"
                     app:cardBackgroundColor="?attr/colorPrimary"
                     app:cardCornerRadius="@dimen/base_card_radius"
                     app:cardElevation="@dimen/base_elevation"
@@ -643,6 +646,7 @@
                     android:layout_marginStart="@dimen/base_card_horizontal_margin"
                     android:clickable="true"
                     android:focusable="true"
+                    android:alpha="0.5"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="@dimen/base_card_radius"
@@ -670,10 +674,10 @@
                     android:layout_marginStart="@dimen/base_card_horizontal_margin"
                     android:layout_marginTop="@dimen/medium_card_vertical_margin"
                     android:layout_marginEnd="@dimen/base_card_horizontal_margin"
+                    android:alpha="0.5"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
-
                     app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="@dimen/base_card_radius"
                     app:cardElevation="@dimen/base_elevation"
@@ -742,7 +746,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/base_margin"
                     android:layout_marginTop="@dimen/base_card_vertical_margin"
-                    android:text="Add folder"
+                    android:text="@string/add_folder"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/rvFoldersRecycler" />
 
