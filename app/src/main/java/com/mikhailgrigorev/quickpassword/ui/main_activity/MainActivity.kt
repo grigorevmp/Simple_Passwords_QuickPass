@@ -370,10 +370,20 @@ class MainActivity : MyBaseActivity() {
                     R.id.cUpperCaseToggle -> useUC = isChecked
                 }
 
-                if (isChecked)
-                    passwordGeneratorRules.add(view.text.toString())
-                else
-                    passwordGeneratorRules.remove(view.text.toString())
+                when (view.id) {
+                    R.id.cLengthToggle -> {
+                        if (isChecked)
+                            passwordGeneratorRules.add("length")
+                        else
+                            passwordGeneratorRules.remove("length")
+                    }
+                    else -> {
+                        if (isChecked)
+                            passwordGeneratorRules.add(view.text.toString())
+                        else
+                            passwordGeneratorRules.remove(view.text.toString())
+                    }
+                }
             }
         }
 

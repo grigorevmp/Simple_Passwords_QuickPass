@@ -187,6 +187,7 @@ class PasswordCreateActivity : MyBaseActivity() {
         }
         length = args.get("length") as Int
         binding.cLengthToggle.text = getString(R.string.length, length)
+        binding.sbPasswordLength.progress = length
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -242,17 +243,18 @@ class PasswordCreateActivity : MyBaseActivity() {
         }
 
         binding.cLengthToggle.setOnClickListener {
-            if (binding.seekBar.visibility == View.GONE) {
-                binding.seekBar.visibility = View.VISIBLE
+            if (binding.sbPasswordLength.visibility == View.GONE) {
+                binding.sbPasswordLength.visibility = View.VISIBLE
             } else {
-                binding.seekBar.visibility = View.GONE
+                binding.sbPasswordLength.visibility = View.GONE
             }
         }
 
-        binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        binding.sbPasswordLength.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                 binding.cLengthToggle.text = getString(R.string.length, i)
+                length = i
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
@@ -294,7 +296,7 @@ class PasswordCreateActivity : MyBaseActivity() {
                 if (binding.tePasswordToGenerate.hasFocus()) {
                     length = s.toString().length
                     binding.cLengthToggle.text = getString(R.string.length, length)
-                    binding.seekBar.progress = length
+                    binding.sbPasswordLength.progress = length
                     val deg = binding.generatePassword.rotation + 10f
                     binding.generatePassword.animate().rotation(deg).interpolator =
                             AccelerateDecelerateInterpolator()
