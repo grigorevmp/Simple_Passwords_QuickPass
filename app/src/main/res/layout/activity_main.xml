@@ -762,7 +762,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cvQualityCard"
                     tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_folder"
+                    tools:listitem="@layout/item_folder_card"
                     tools:orientation="horizontal" />
 
                 <com.google.android.material.textfield.TextInputLayout

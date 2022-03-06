@@ -22,8 +22,8 @@
 
     <ImageView
         android:id="@+id/appIcon"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/about_icon_size"
+        android:layout_height="@dimen/about_icon_size"
         android:layout_marginTop="@dimen/base_margin"
         android:contentDescription="@string/app_name"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,32 +50,30 @@
         android:layout_marginStart="@dimen/base_margin"
         android:layout_marginTop="@dimen/base_margin"
         android:layout_marginEnd="@dimen/base_margin"
-        android:lineSpacingExtra="8sp"
         android:text="@string/about_desc"
         android:textAlignment="center"
-        android:fontFamily="@font/light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appName" />
 
     <TextView
-        android:id="@+id/year"
+        android:id="@+id/tvYear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="@dimen/about_bottom_margin"
         android:text="@string/_2020"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/author"
+        android:id="@+id/tvAuthor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/base_margin"
         android:text="@string/mikhail_grigorev"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/year"
+        app:layout_constraintBottom_toTopOf="@+id/tvYear"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -87,7 +85,7 @@
         android:layout_marginEnd="@dimen/base_margin"
         android:layout_marginBottom="@dimen/base_margin"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/author"
+        app:layout_constraintBottom_toTopOf="@+id/tvAuthor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -98,8 +96,8 @@
             android:layout_margin="@dimen/base_margin"
             android:layout_marginStart="@dimen/base_margin"
             app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="10dp"
+            app:cardCornerRadius="@dimen/base_card_radius"
+            app:cardElevation="@dimen/base_card_elevation"
             app:layout_constraintBottom_toBottomOf="@+id/social"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/social">
@@ -112,10 +110,10 @@
 
                 <ImageView
                     android:id="@+id/git"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/about_small_icon_size"
+                    android:layout_height="@dimen/about_small_icon_size"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/small_margin"
                     android:contentDescription="@string/telegram"
                     app:srcCompat="@drawable/github"
                     app:tint="@color/black" />
@@ -131,8 +129,8 @@
             android:layout_marginTop="@dimen/base_margin"
             android:layout_marginEnd="@dimen/base_margin"
             app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="10dp"
+            app:cardCornerRadius="@dimen/base_card_radius"
+            app:cardElevation="@dimen/base_card_elevation"
             app:layout_constraintBottom_toTopOf="@+id/author"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/gitHub">
@@ -140,30 +138,22 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/small_margin"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/telegram"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="10dp"
+                    android:layout_width="@dimen/about_small_icon_size"
+                    android:layout_height="@dimen/about_small_icon_size"
+                    android:layout_margin="@dimen/small_margin"
                     android:contentDescription="@string/telegram"
                     app:srcCompat="@drawable/ic_telegram" />
 
                 <ImageView
-                    android:id="@+id/vkontakte"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="10dp"
-                    android:contentDescription="@string/vkontakte"
-                    app:srcCompat="@drawable/ic_vk" />
-
-                <ImageView
                     android:id="@+id/mail"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="10dp"
+                    android:layout_width="@dimen/about_small_icon_size"
+                    android:layout_height="@dimen/about_small_icon_size"
+                    android:layout_margin="@dimen/small_margin"
                     android:contentDescription="@string/sen_email"
                     app:srcCompat="@drawable/ic_mail" />
             </LinearLayout>

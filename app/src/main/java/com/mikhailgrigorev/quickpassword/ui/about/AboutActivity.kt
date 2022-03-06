@@ -6,17 +6,18 @@ import android.os.Bundle
 import android.widget.Toast
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
+import com.mikhailgrigorev.quickpassword.common.utils.authorBaseMail
+import com.mikhailgrigorev.quickpassword.common.utils.authorGitHubLink
+import com.mikhailgrigorev.quickpassword.common.utils.authorTelegramLink
 import com.mikhailgrigorev.quickpassword.databinding.ActivityAboutBinding
 
 class AboutActivity : MyBaseActivity() {
-    private var condition = true
     private lateinit var binding: ActivityAboutBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAboutBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         initListeners()
     }
 
@@ -25,37 +26,24 @@ class AboutActivity : MyBaseActivity() {
             finish()
         }
 
-        // My link to Telegram
         binding.telegram.setOnClickListener {
-            condition=false
-            val i = Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/grigorevmp"))
+            val i = Intent(Intent.ACTION_VIEW, Uri.parse(authorTelegramLink))
             startActivity(i)
         }
 
-        // My link to VK
-        binding.vkontakte.setOnClickListener {
-            condition=false
-            val i = Intent(Intent.ACTION_VIEW, Uri.parse("https://vk.com/grigorevmp"))
-            startActivity(i)
-        }
-
-        // My link to GitHub
         binding.gitHub.setOnClickListener {
-            condition=false
-            val i = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/grigorevmp/QuickPass-Mobile-Password-manager/"))
+            val i = Intent(Intent.ACTION_VIEW, Uri.parse(authorGitHubLink))
             startActivity(i)
         }
 
-        // Direct Mail sending
         binding.mail.setOnClickListener {
             sendEmail()
         }
     }
 
     private fun sendEmail() {
-        condition=false
-        val recipient = "16112000m@gmail.com"
-        val subject = "Quick password app"
+        val recipient = authorBaseMail
+        val subject = "QuickPassword app: feedback"
         val message = "Hello, Mikhail \n"
 
         val mIntent = Intent(Intent.ACTION_SEND)
