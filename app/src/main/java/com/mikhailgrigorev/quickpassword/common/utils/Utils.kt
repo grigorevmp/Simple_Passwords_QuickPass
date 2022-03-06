@@ -77,6 +77,7 @@ object Utils {
     fun getAppLockTime() = sharedPreferences!!.getInt("appLockTime", 6)
     fun getDisconnectTime() = getAppLockTime() * 10000L
     fun getPinMode() = sharedPreferences!!.getBoolean("prefPinMode", false)
+    fun getPin() = sharedPreferences!!.getInt("prefPin", 0)
     fun getBioMode() = sharedPreferences!!.getBoolean("prefBioMode", false)
     fun useAnalyze() = sharedPreferences!!.getBoolean("useAnalyze", true)
     fun sortingColumn() = sharedPreferences!!.getString("sortingColumn", "name")
@@ -135,13 +136,16 @@ object Utils {
         editPreferences("useAnalyze", value)
     }
 
-
     fun setBioMode(value: Boolean) {
         editPreferences("prefBioMode", value)
     }
 
     fun setPinMode(value: Boolean) {
         editPreferences("prefPinMode", value)
+    }
+
+    fun setPin(value: Int) {
+        editPreferences("prefPin", value)
     }
 
     fun setSortingAsc(value: Boolean) {

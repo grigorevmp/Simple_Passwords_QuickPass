@@ -48,13 +48,10 @@
             android:name="com.mikhailgrigorev.quickpassword.ui.settings.SettingsActivity"
             android:screenOrientation="fullSensor" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.ui.pin_code.set.SetPinActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.pin_code.set.PinSetActivity"
             android:screenOrientation="fullSensor" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.ui.pin_code.re.RePinActivity"
-            android:screenOrientation="fullSensor" />
-        <activity
-            android:name="com.mikhailgrigorev.quickpassword.ui.pin_code.view.PinActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.pin_code.view.PinViewActivity"
             android:screenOrientation="fullSensor" />
         <activity
             android:name="com.mikhailgrigorev.quickpassword.ui.about.AboutActivity"

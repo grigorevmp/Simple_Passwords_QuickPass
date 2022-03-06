@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    tools:context=".ui.pin_code.view.PinActivity">
+    tools:context=".ui.pin_code.set.PinSetActivity">
 
     <TextView
         android:id="@+id/tvUsernameText"
@@ -20,53 +20,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvAccountAvatar"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="@dimen/base_margin"
-        android:layout_marginEnd="@dimen/base_margin"
-        app:cardCornerRadius="25dp"
-        android:backgroundTint="@color/ic_account"
-        app:cardElevation="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/tvAvatarSymbol"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:textColor="@color/white"
-            android:text="@string/_0" />
-    </androidx.cardview.widget.CardView>
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputPinId"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_margin"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="@dimen/base_margin"
         android:layout_marginEnd="@dimen/base_margin"
         app:boxCornerRadiusBottomEnd="15dp"
         app:boxCornerRadiusBottomStart="15dp"
         app:boxCornerRadiusTopEnd="15dp"
         app:boxCornerRadiusTopStart="15dp"
-        app:endIconMode="password_toggle"
-        app:errorEnabled="true"
+        app:helperText="@string/set_pin_helper"
+        app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/inputPass">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputPinIdField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/inputPassword"
-            android:inputType="textPassword" />
+            android:hint="@string/input_your_pin"
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
+
+
 
     <TextView
         android:id="@+id/inputPass"
@@ -74,17 +54,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_margin"
         android:layout_marginTop="10dp"
-        android:text="@string/input_your_pin"
+        android:text="@string/set_pin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvUsernameText" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/base_margin"
-        android:text="@string/or_use_fingerprint"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputPass" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardNums"
@@ -92,12 +64,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_margin"
         android:layout_marginEnd="@dimen/base_margin"
-        android:layout_marginBottom="10dp"
-        android:elevation="0dp"
+        android:layout_marginBottom="@dimen/base_margin"
         app:cardBackgroundColor="@color/colorLight"
         app:cardCornerRadius="15dp"
         app:cardElevation="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/exit"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -120,29 +91,28 @@
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
-                    android:text="@string/_1"
                     app:rippleColor="?attr/colorPrimary"
+                    android:text="@string/_1"
                     android:textColor="@color/black" />
 
                 <Button
                     android:id="@+id/num2"
                     style="@style/Widget.MaterialComponents.Button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
+                    app:rippleColor="?attr/colorPrimary"
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
                     android:text="@string/_2"
-                    app:rippleColor="?attr/colorPrimary"
                     android:textColor="@color/black" />
 
                 <Button
                     android:id="@+id/num3"
                     style="@style/Widget.MaterialComponents.Button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
-                    android:layout_marginEnd="0dp"
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
                     android:text="@string/_3"
@@ -182,7 +152,7 @@
                 <Button
                     android:id="@+id/num6"
                     style="@style/Widget.MaterialComponents.Button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
@@ -249,7 +219,7 @@
                     app:rippleColor="?attr/colorPrimary"
                     android:contentDescription="@string/fingerUnlock"
                     android:src="@drawable/chevron_left"
-                    android:tint="@color/black" />
+                    app:tint="@color/black" />
 
                 <Button
                     android:id="@+id/num0"
@@ -264,30 +234,19 @@
                     android:textColor="@color/black" />
 
                 <ImageButton
-                    android:id="@+id/finger"
+                    android:id="@+id/savePin"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:clickable="false"
+                    android:alpha="0"
                     app:rippleColor="?attr/colorPrimary"
-                    android:contentDescription="@string/fingerUnlock"
-                    android:src="@drawable/fingerprint"
-                    android:tint="@color/black"
-                    android:visibility="invisible" />
+                    android:contentDescription="@string/save_pin"
+                    android:src="@drawable/content_save_outline"
+                    app:tint="@color/black" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/exit"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/base_margin"
-        android:text="@string/log_out"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

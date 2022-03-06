@@ -14,7 +14,7 @@ import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.ActivityAuthBinding
 import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
 import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
-import com.mikhailgrigorev.quickpassword.ui.pin_code.view.PinActivity
+import com.mikhailgrigorev.quickpassword.ui.pin_code.view.PinViewActivity
 
 class AuthActivity : AppCompatActivity() {
 
@@ -39,7 +39,7 @@ class AuthActivity : AppCompatActivity() {
         var goToIntent = false
 
         if (usePin) {
-            intent = Intent(this, PinActivity::class.java)
+            intent = Intent(this, PinViewActivity::class.java)
             goToIntent = true
         } else if (userLogin != "Stranger") {
             intent = Intent(this, LoginActivity::class.java)

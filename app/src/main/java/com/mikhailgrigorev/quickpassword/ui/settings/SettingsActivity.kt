@@ -16,7 +16,7 @@ import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.ActivitySettingsBinding
-import com.mikhailgrigorev.quickpassword.ui.pin_code.set.SetPinActivity
+import com.mikhailgrigorev.quickpassword.ui.pin_code.set.PinSetActivity
 
 
 class SettingsActivity : MyBaseActivity() {
@@ -96,7 +96,7 @@ class SettingsActivity : MyBaseActivity() {
 
         binding.sSetPin.setOnCheckedChangeListener { _, _ ->
             if (binding.sSetPin.isChecked) {
-                val intent = Intent(this, SetPinActivity::class.java)
+                val intent = Intent(this, PinSetActivity::class.java)
                 startActivity(intent)
                 finish()
             } else {
@@ -111,7 +111,7 @@ class SettingsActivity : MyBaseActivity() {
             } else {
                 condition = false
                 Utils.setPinMode(binding.sSetPin.isChecked)
-                val intent = Intent(this, SetPinActivity::class.java)
+                val intent = Intent(this, PinSetActivity::class.java)
                 startActivity(intent)
                 finish()
             }
