@@ -194,6 +194,8 @@ class PasswordEditActivity : MyBaseActivity() {
 
             binding.cUse2fa.isChecked = passwordCard.use_2fa
 
+            binding.cIsPin.isChecked = passwordCard.is_card_pin
+
             binding.cNumberOfEncrypted.isChecked = passwordCard.use_time
 
             binding.noteField.setText(passwordCard.description)
@@ -603,6 +605,7 @@ class PasswordEditActivity : MyBaseActivity() {
                         viewModel.currentPassword!!.password = password!!
                         viewModel.currentPassword!!.use_2fa = binding.cUse2fa.isChecked
                         viewModel.currentPassword!!.use_time = binding.cNumberOfEncrypted.isChecked
+                        viewModel.currentPassword!!.is_card_pin = binding.cIsPin.isChecked
                         viewModel.currentPassword!!.time = Date().toString()
                         viewModel.currentPassword!!.folder = folderId
                         viewModel.currentPassword!!.image_count = imageNum

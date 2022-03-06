@@ -172,8 +172,11 @@ class PasswordViewActivity : MyBaseActivity() {
                 )
             }
 
-            binding.cUse2fa.visibility = View.GONE
-            binding.cUseTimeLimit.visibility = View.GONE
+            if (passwordCard.is_card_pin) {
+                binding.cIsPin.isChecked = true
+                binding.cIsPin.visibility = View.VISIBLE
+                binding.tvAdditionalSettings.visibility = View.VISIBLE
+            }
 
             if (passwordCard.use_2fa) {
                 binding.cUse2fa.isChecked = true

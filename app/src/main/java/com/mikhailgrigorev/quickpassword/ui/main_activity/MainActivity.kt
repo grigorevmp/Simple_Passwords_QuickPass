@@ -614,7 +614,7 @@ class MainActivity : MyBaseActivity() {
 
     private fun notSafePasswordsClickedAction() {
         if (searchNotSafe) {
-            binding.ivNotSafePasswordsCircle.setImageResource(R.drawable.circle_improvement)
+            binding.ivNotSafePasswordsCircle.setImageResource(R.drawable.circle_yellow)
             setObservers(
                     type = PasswordGettingType.All,
                     value = defaultPassFilterValue,
@@ -624,9 +624,9 @@ class MainActivity : MyBaseActivity() {
             searchNotSafe = false
         } else {
             updatePasswordQualityCirclesColor(
-                    circleNegative = R.drawable.circle_negative,
-                    circleImprovement = R.drawable.circle_improvement_fill,
-                    circlePositive = R.drawable.circle_positive
+                    circleNegative = R.drawable.circle_red,
+                    circleImprovement = R.drawable.circle_yellow_fill,
+                    circlePositive = R.drawable.circle_green
             )
 
             setObservers(
@@ -641,7 +641,7 @@ class MainActivity : MyBaseActivity() {
 
     private fun negativePasswordsClickedAction() {
         if (searchNegative) {
-            binding.ivNegativePasswordsCircle.setImageResource(R.drawable.circle_negative)
+            binding.ivNegativePasswordsCircle.setImageResource(R.drawable.circle_red)
             setObservers(
                     type = PasswordGettingType.All,
                     value = defaultPassFilterValue,
@@ -651,9 +651,9 @@ class MainActivity : MyBaseActivity() {
             searchNegative = false
         } else {
             updatePasswordQualityCirclesColor(
-                    circleNegative = R.drawable.circle_negative_fill,
-                    circleImprovement = R.drawable.circle_improvement,
-                    circlePositive = R.drawable.circle_positive
+                    circleNegative = R.drawable.circle_red_fill,
+                    circleImprovement = R.drawable.circle_yellow,
+                    circlePositive = R.drawable.circle_green
             )
             setObservers(
                     type = PasswordGettingType.ByQuality,
@@ -667,7 +667,7 @@ class MainActivity : MyBaseActivity() {
 
     private fun correctPasswordsClickedAction() {
         if (searchCorrect) {
-            binding.ivCorrectPasswordsCircle.setImageResource(R.drawable.circle_positive)
+            binding.ivCorrectPasswordsCircle.setImageResource(R.drawable.circle_green)
             setObservers(
                     type = PasswordGettingType.All,
                     value = defaultPassFilterValue,
@@ -677,9 +677,9 @@ class MainActivity : MyBaseActivity() {
             searchCorrect = false
         } else {
             updatePasswordQualityCirclesColor(
-                    circleNegative = R.drawable.circle_negative,
-                    circleImprovement = R.drawable.circle_improvement,
-                    circlePositive = R.drawable.circle_positive_fill
+                    circleNegative = R.drawable.circle_red,
+                    circleImprovement = R.drawable.circle_yellow,
+                    circlePositive = R.drawable.circle_green_fill
             )
             setObservers(
                     type = PasswordGettingType.ByQuality,

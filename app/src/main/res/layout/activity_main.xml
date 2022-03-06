@@ -269,7 +269,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginStart="5dp"
                                 android:contentDescription="@string/no_text"
-                                app:srcCompat="@drawable/circle_positive" />
+                                app:srcCompat="@drawable/circle_green" />
 
                             <TextView
                                 android:id="@+id/tvCorrectPasswords"
@@ -295,7 +295,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginStart="5dp"
                                 android:contentDescription="@string/no_text"
-                                app:srcCompat="@drawable/circle_negative" />
+                                app:srcCompat="@drawable/circle_red" />
 
                             <TextView
                                 android:id="@+id/tvNegativePasswords"
@@ -323,7 +323,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginStart="5dp"
                                 android:contentDescription="@string/no_text"
-                                app:srcCompat="@drawable/circle_improvement" />
+                                app:srcCompat="@drawable/circle_yellow" />
 
                             <TextView
                                 android:id="@+id/tvNotSafePasswords"

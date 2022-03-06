@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpassword.R
+import com.mikhailgrigorev.quickpassword.common.PasswordQuality
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ItemPasswordCardBinding
@@ -64,30 +65,32 @@ class PasswordAdapter(
                 }
                 holder.passwordGroup.addView(chip)
             }
-        if(password.encrypted){
-            holder.lockIcon.visibility = View.VISIBLE
-            holder.qualityMarker.visibility = View.GONE
-        }
-        when (password.quality) {
-            1 -> {
-                holder.qualityMarker.setImageResource(R.drawable.circle_positive_fill)
-                holder.lockIcon.setColorFilter(context.getColor(R.color.green_quality))
-            }
-            2 -> {
-                holder.qualityMarker.setImageResource(R.drawable.circle_negative_fill)
-                holder.lockIcon.setColorFilter(context.getColor(R.color.red_quality))
-            }
-            3 -> {
-                holder.qualityMarker.setImageResource(R.drawable.circle_improvement_fill)
-                holder.lockIcon.setColorFilter(context.getColor(R.color.yellow_quality))
-            }
-            4 -> {
-                holder.creditCard.visibility = View.VISIBLE
+        when {
+            password.encrypted -> {
+                holder.lockIcon.visibility = View.VISIBLE
                 holder.qualityMarker.visibility = View.GONE
             }
-            5 -> {
-                holder.creditCardNeg.visibility = View.VISIBLE
+            password.is_card_pin -> {
+                if (password.quality == PasswordQuality.LOW.value) {
+                    holder.creditCardNeg.visibility = View.VISIBLE
+                } else {
+                    holder.creditCard.visibility = View.VISIBLE
+                }
                 holder.qualityMarker.visibility = View.GONE
+            }
+            else -> when (password.quality) {
+                PasswordQuality.HIGH.value -> {
+                    holder.qualityMarker.setImageResource(R.drawable.circle_green_fill)
+                    holder.lockIcon.setColorFilter(context.getColor(R.color.green_quality))
+                }
+                PasswordQuality.LOW.value -> {
+                    holder.qualityMarker.setImageResource(R.drawable.circle_red_fill)
+                    holder.lockIcon.setColorFilter(context.getColor(R.color.red_quality))
+                }
+                PasswordQuality.MEDIUM.value -> {
+                    holder.qualityMarker.setImageResource(R.drawable.circle_yellow_fill)
+                    holder.lockIcon.setColorFilter(context.getColor(R.color.yellow_quality))
+                }
             }
         }
         holder.passwordCard.setOnClickListener {

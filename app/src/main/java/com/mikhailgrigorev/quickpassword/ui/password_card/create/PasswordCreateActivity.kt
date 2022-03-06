@@ -495,7 +495,7 @@ class PasswordCreateActivity : MyBaseActivity() {
                             password = password!!,
                             use_2fa = binding.cUse2fa.isChecked,
                             use_time = binding.cNumberOfEncrypted.isChecked,
-                            is_card_pin = false,
+                            is_card_pin = binding.cIsPin.isChecked,
                             time = Date().toString(),
                             folder = folderId,
                             image_count = imageNum,
