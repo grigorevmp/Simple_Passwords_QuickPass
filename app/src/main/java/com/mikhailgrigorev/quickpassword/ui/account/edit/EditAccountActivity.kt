@@ -5,14 +5,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.view.animation.AccelerateDecelerateInterpolator
-import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.mikhailgrigorev.quickpassword.R
+import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.ActivityEditAccountBinding
 
 
-class EditAccountActivity : AppCompatActivity() {
+class EditAccountActivity : MyBaseActivity() {
 
     private lateinit var binding: ActivityEditAccountBinding
 

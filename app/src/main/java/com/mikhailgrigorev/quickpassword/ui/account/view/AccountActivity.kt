@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.mikhailgrigorev.quickpassword.R
+import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.ActivityAccountBinding
 import com.mikhailgrigorev.quickpassword.ui.about.AboutActivity
@@ -20,7 +21,7 @@ import com.mikhailgrigorev.quickpassword.ui.auth.auth.AuthActivity
 import com.mikhailgrigorev.quickpassword.ui.donut.DonutActivity
 import com.mikhailgrigorev.quickpassword.ui.settings.SettingsActivity
 
-class AccountActivity : AppCompatActivity() {
+class AccountActivity : MyBaseActivity() {
 
     private lateinit var viewModel: AccountViewModel
 

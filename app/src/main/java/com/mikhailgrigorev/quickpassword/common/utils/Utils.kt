@@ -60,9 +60,6 @@ object Utils {
         return "$day/$month/$year"
     }
 
-    fun lockTime() = sharedPreferences!!.getString("appLockTime", "6")
-    const val lock_default_interval: Long = 100000
-
     val password_manager = PasswordManager()
 
     fun exitAccount() {
@@ -73,10 +70,12 @@ object Utils {
         sharedPreferences!!.edit().remove("prefBioMode").apply()
     }
 
-    fun autoCopy() = sharedPreferences!!.getString("prefAutoCopyKey", "none")
+    fun getAutoCopy() = sharedPreferences!!.getBoolean("prefAutoCopyKey", true)
     fun getLogin() = enSharedPrefsFile!!.getString("prefLogin", "Stranger")
     fun getMail() = enSharedPrefsFile!!.getString("prefMail", "null")
     fun sortingAsc() = sharedPreferences!!.getBoolean("sortingAsc", false)
+    fun getAppLockTime() = sharedPreferences!!.getInt("appLockTime", 6)
+    fun getDisconnectTime() = getAppLockTime() * 10000L
     fun getPinMode() = sharedPreferences!!.getBoolean("prefPinMode", false)
     fun getBioMode() = sharedPreferences!!.getBoolean("prefBioMode", false)
     fun useAnalyze() = sharedPreferences!!.getBoolean("useAnalyze", true)
@@ -122,6 +121,14 @@ object Utils {
 
     fun setSortingType(value: String) {
         editPreferences("sortingColumn", value)
+    }
+
+    fun setAppLockTime(value: Int) {
+        editPreferences("appLockTime", value)
+    }
+
+    fun setAutoCopy(value: Boolean) {
+        editPreferences("prefAutoCopyKey", value)
     }
 
     fun setAnalyze(value: Boolean) {

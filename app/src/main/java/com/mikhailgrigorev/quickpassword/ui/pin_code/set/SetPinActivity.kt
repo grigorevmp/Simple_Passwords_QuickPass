@@ -3,24 +3,21 @@ package com.mikhailgrigorev.quickpassword.ui.pin_code.set
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.database.Cursor
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.TypedValue
 import android.view.KeyEvent
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import com.mikhailgrigorev.quickpassword.R
-import com.mikhailgrigorev.quickpassword.ui.settings.SettingsActivity
+import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
+import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.ActivitySetPinBinding
 import com.mikhailgrigorev.quickpassword.dbhelpers.DataBaseHelper
+import com.mikhailgrigorev.quickpassword.ui.settings.SettingsActivity
 
-class SetPinActivity : AppCompatActivity() {
+class SetPinActivity : MyBaseActivity() {
     private val _keyTheme = "themePreference"
     private val _preferenceFile = "quickPassPreference"
     private val _keyUsePin = "prefUsePinKey"
@@ -31,36 +28,7 @@ class SetPinActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n", "Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
-        val pref = getSharedPreferences(_preferenceFile, Context.MODE_PRIVATE)
-        when(pref.getString(_keyTheme, "none")){
-            "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            "none", "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-            "battery" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
-        }
-        when(pref.getString("themeAccentPreference", "none")){
-            "Red" -> setTheme(R.style.AppThemeRed)
-            "Pink" -> setTheme(R.style.AppThemePink)
-            "Purple" -> setTheme(R.style.AppThemePurple)
-            "Violet" -> setTheme(R.style.AppThemeViolet)
-            "DViolet" -> setTheme(R.style.AppThemeDarkViolet)
-            "Blue" -> setTheme(R.style.AppThemeBlue)
-            "Cyan" -> setTheme(R.style.AppThemeCyan)
-            "Teal" -> setTheme(R.style.AppThemeTeal)
-            "Green" -> setTheme(R.style.AppThemeGreen)
-            "LGreen" -> setTheme(R.style.AppThemeLightGreen)
-            else -> setTheme(R.style.Theme_QP)
-        }
         super.onCreate(savedInstanceState)
-        when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-            Configuration.UI_MODE_NIGHT_NO ->
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    window.setDecorFitsSystemWindows(false)
-                }
-                else{
-                    window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                }
-        }
         binding = ActivitySetPinBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -71,8 +39,7 @@ class SetPinActivity : AppCompatActivity() {
                 binding.cardNums.radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cardRadius.toFloat(), resources.displayMetrics)
             }
 
-        val args: Bundle? = intent.extras
-        login = args?.get("login").toString()
+        login = Utils.getLogin()!!
         passName = args?.get("passName").toString()
         account = args?.get("activity").toString()
         val name: String = getString(R.string.hi) + " " + login
@@ -203,9 +170,6 @@ class SetPinActivity : AppCompatActivity() {
                 commit()
             }
             val intent = Intent(this, SettingsActivity::class.java)
-            intent.putExtra("login", login)
-            intent.putExtra("passName", passName)
-            intent.putExtra("activity", account)
             startActivity(intent)
             finish()
         }

@@ -36,6 +36,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.PasswordManager
+import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
@@ -53,7 +54,7 @@ import java.nio.channels.FileChannel
 import java.util.*
 
 
-class PasswordEditActivity : AppCompatActivity() {
+class PasswordEditActivity : MyBaseActivity() {
 
     private var isImage = false
     private var length = 20

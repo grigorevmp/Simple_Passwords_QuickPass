@@ -11,7 +11,6 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -21,6 +20,7 @@ import androidx.window.layout.WindowMetricsCalculator
 import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.PasswordQuality
+import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.ActivityPasswordViewBinding
 import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
@@ -32,7 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 
-class PasswordViewActivity : AppCompatActivity() {
+class PasswordViewActivity : MyBaseActivity() {
 
     private lateinit var viewModel: PasswordViewModel
     private lateinit var from: String
@@ -70,7 +70,7 @@ class PasswordViewActivity : AppCompatActivity() {
         loadPassword(passwordId)
         setListeners()
 
-        if (Utils.autoCopy() == "none" && binding.etPassword.text.toString() != "") {
+        if (Utils.getAutoCopy() && binding.etPassword.text.toString() != "") {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("Password", binding.etPassword.text.toString())
             clipboard.setPrimaryClip(clip)

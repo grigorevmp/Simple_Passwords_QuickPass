@@ -3,15 +3,15 @@ package com.mikhailgrigorev.quickpassword.ui.folder
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityFolderViewBinding
 import com.mikhailgrigorev.quickpassword.ui.main_activity.adapters.PasswordAdapter
 import com.mikhailgrigorev.quickpassword.ui.password_card.view.PasswordViewActivity
 
-class FolderViewActivity : AppCompatActivity() {
+class FolderViewActivity : MyBaseActivity() {
     private lateinit var binding: ActivityFolderViewBinding
     private lateinit var passwordCards: List<PasswordCard>
     private lateinit var viewModel: FolderViewModel

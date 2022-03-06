@@ -5,13 +5,14 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import androidx.appcompat.app.AppCompatActivity
+import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
 
 
 open class MyBaseActivity : AppCompatActivity() {
     private fun resetDisconnectTimer() {
         disconnectHandler.removeCallbacks(disconnectCallback)
-        disconnectHandler.postDelayed(disconnectCallback, DISCONNECT_TIMEOUT)
+        disconnectHandler.postDelayed(disconnectCallback, Utils.getDisconnectTime())
     }
 
     private fun stopDisconnectTimer() {
@@ -32,19 +33,20 @@ open class MyBaseActivity : AppCompatActivity() {
         stopDisconnectTimer()
     }
 
-    private fun migration() {
+    private fun goToLoginScreen() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()
     }
 
-    private val DISCONNECT_TIMEOUT: Long = 30000 // 5 min = 5 * 60 * 1000 ms
     private val disconnectHandler: Handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
 
         }
     }
     private val disconnectCallback = Runnable {
-        migration()
+        if (Utils.getDisconnectTime() != 0L) {
+            goToLoginScreen()
+        }
     }
 }
