@@ -38,7 +38,7 @@ open class MyBaseActivity : AppCompatActivity() {
         finish()
     }
 
-    private val DISCONNECT_TIMEOUT: Long = 300000 // 5 min = 5 * 60 * 1000 ms
+    private val DISCONNECT_TIMEOUT: Long = 30000 // 5 min = 5 * 60 * 1000 ms
     private val disconnectHandler: Handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
 

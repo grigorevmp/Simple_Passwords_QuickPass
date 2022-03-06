@@ -78,9 +78,9 @@ class PasswordEditActivity : AppCompatActivity() {
         }
         viewModel.folders.observe(this) { folders ->
             if (viewModel.currentPassword != null) {
-                viewModel.currentPassword?.folder?.let {
-                    viewModel.getFolder(it)
-                }!!.observe(this) {
+                viewModel.currentPassword?.folder?.let { currentPasswordFolderId ->
+                    viewModel.getFolder(currentPasswordFolderId)
+                }!!.observe(this) { folderCard ->
                     val adapter =
                             ArrayAdapter(
                                     this,
@@ -89,7 +89,10 @@ class PasswordEditActivity : AppCompatActivity() {
                                         folder.name
                                     })
                     binding.actvFolder.setAdapter(adapter)
-                    binding.actvFolder.setText(it.name, false)
+                    if (folderCard != null) {
+                        binding.actvFolder.setText(folderCard.name, false)
+                        folderId = folders.indexOf(folderCard) + 1
+                    }
                 }
                 binding.actvFolder.onItemClickListener =
                         OnItemClickListener { _, _, position, _ ->

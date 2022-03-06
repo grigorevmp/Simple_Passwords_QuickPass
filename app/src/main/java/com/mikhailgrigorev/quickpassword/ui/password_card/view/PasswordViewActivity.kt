@@ -7,8 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
@@ -89,6 +87,7 @@ class PasswordViewActivity : AppCompatActivity() {
             }
 
             viewModel.currentPassword = passwordCard
+            binding.cFolderName.visibility = View.GONE
 
             if(passwordCard.folder != null) {
                 if(passwordCard.folder != -1) {
