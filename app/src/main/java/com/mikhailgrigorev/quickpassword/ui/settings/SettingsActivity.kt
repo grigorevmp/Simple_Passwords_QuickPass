@@ -1,6 +1,5 @@
 package com.mikhailgrigorev.quickpassword.ui.settings
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -14,33 +13,41 @@ import android.widget.SeekBar
 import androidx.annotation.RequiresApi
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
+import com.mikhailgrigorev.quickpassword.common.manager.BackupManager
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
+import com.mikhailgrigorev.quickpassword.data.database.FOLDER_CARD_DB_NAME
+import com.mikhailgrigorev.quickpassword.data.database.PASSWORD_CARD_DB_NAME
 import com.mikhailgrigorev.quickpassword.databinding.ActivitySettingsBinding
 import com.mikhailgrigorev.quickpassword.ui.pin_code.set.PinSetActivity
 
 
 class SettingsActivity : MyBaseActivity() {
-
-    private lateinit var login: String
     private var condition = true
     private lateinit var binding: ActivitySettingsBinding
 
-    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        login = Utils.getLogin().toString()
+        initUI()
+        initListeners()
+    }
 
-        val lockTime = Utils.getAppLockTime()
-
+    private fun setLockTimeText(lockTime: Int) {
         if (lockTime != 0) {
             binding.sbAppLockTimer.progress = lockTime
-            binding.tvAppLockTime.text = lockTime.toString() + "m"
+            binding.tvAppLockTime.text = getString(
+                    R.string.minutesAppLock,
+                    lockTime
+            )
         } else {
             binding.tvAppLockTime.text = getString(R.string.doNotLock)
         }
+    }
+
+    private fun initUI() {
+        setLockTimeText(Utils.getAppLockTime())
 
         val hasBiometricFeature: Boolean =
                 this.packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)
@@ -65,6 +72,18 @@ class SettingsActivity : MyBaseActivity() {
             binding.sUseAnalyzer.isChecked = true
         }
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            binding.cvAutoFillSettings.visibility = View.GONE
+        }
+    }
+
+    private fun initListeners() {
+        binding.checkAutoFillSettings.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                testAutoFill(this)
+            }
+        }
+
         binding.sUseAnalyzer.setOnCheckedChangeListener { _, _ ->
             Utils.setAnalyze(binding.sUseAnalyzer.isChecked)
         }
@@ -74,20 +93,9 @@ class SettingsActivity : MyBaseActivity() {
             Utils.setAnalyze(binding.sUseAnalyzer.isChecked)
         }
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            binding.cvAutoFillSettings.visibility = View.GONE
-        }
-
-        binding.checkAutoFillSettings.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                testAutoFill(this)
-            }
-        }
-
         binding.sAutoCopy.setOnCheckedChangeListener { _, _ ->
             Utils.setAutoCopy(binding.sAutoCopy.isChecked)
         }
-
 
         binding.tvAutoCopy.setOnClickListener {
             binding.sAutoCopy.isChecked = !binding.sAutoCopy.isChecked
@@ -117,13 +125,19 @@ class SettingsActivity : MyBaseActivity() {
             }
         }
 
+        binding.sFingerprintUnlock.setOnCheckedChangeListener { _, _ ->
+            Utils.setBioMode(binding.sFingerprintUnlock.isChecked)
+        }
+
+        binding.tvFingerprintUnlock.setOnClickListener {
+            binding.sFingerprintUnlock.isChecked = !binding.sFingerprintUnlock.isChecked
+            Utils.setBioMode(binding.sFingerprintUnlock.isChecked)
+        }
+
         binding.sbAppLockTimer.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
-                binding.tvAppLockTime.text = i.toString() + "m"
-                if (i == 0) {
-                    binding.tvAppLockTime.text = getString(R.string.doNotLock)
-                }
+                setLockTimeText(i)
                 Utils.setAppLockTime(i)
             }
 
@@ -134,16 +148,15 @@ class SettingsActivity : MyBaseActivity() {
             }
         })
 
-        binding.sFingerprintUnlock.setOnCheckedChangeListener { _, _ ->
-            Utils.setBioMode(binding.sFingerprintUnlock.isChecked)
+        binding.ibExportDatabases.setOnClickListener {
+            BackupManager.exportEncryptedDB(this, PASSWORD_CARD_DB_NAME)
+            BackupManager.exportEncryptedDB(this, FOLDER_CARD_DB_NAME)
         }
 
-        binding.tvFingerprintUnlock.setOnClickListener {
-            binding.sFingerprintUnlock.isChecked = !binding.sFingerprintUnlock.isChecked
-            Utils.setBioMode(binding.sFingerprintUnlock.isChecked)
+        binding.ibImportDatabases.setOnClickListener {
+            BackupManager.importEncryptedDB(this, PASSWORD_CARD_DB_NAME)
+            BackupManager.importEncryptedDB(this, FOLDER_CARD_DB_NAME)
         }
-
-
     }
 
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
@@ -161,12 +174,12 @@ class SettingsActivity : MyBaseActivity() {
         if (!autoFillManager.hasEnabledAutofillServices()) {
             val intent = Intent(android.provider.Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE)
             intent.data = Uri.parse("package:com.mikhailgrigorev.quickpassword")
-            startActivityForResult(intent, 0)
+            startActivity(intent)
         }
         else{
             val intent = Intent(android.provider.Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE)
             intent.data = Uri.parse("package:none")
-            startActivityForResult(intent, 0)
+            startActivity(intent)
         }
 
     }

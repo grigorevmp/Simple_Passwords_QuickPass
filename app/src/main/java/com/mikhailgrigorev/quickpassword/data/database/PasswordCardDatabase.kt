@@ -11,14 +11,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
-private const val PASSWORD_CARD_DB_NAME = "password_card"
+const val PASSWORD_CARD_DB_NAME = "password_card"
 
 @Database(entities = [PasswordCard::class], version = 1, exportSchema = false)
 abstract class PasswordCardDatabase : RoomDatabase() {
-    /*
-       Main password database class
-     */
-
     abstract fun PasswordCardDao(): PasswordCardDao
 
     companion object {

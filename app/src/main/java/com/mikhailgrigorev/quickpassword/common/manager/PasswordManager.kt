@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.common
+package com.mikhailgrigorev.quickpassword.common.manager
 
 import android.util.Base64
 import com.mikhailgrigorev.quickpassword.common.utils.iv

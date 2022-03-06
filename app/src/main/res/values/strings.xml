@@ -49,6 +49,8 @@
     <string name="chipNumbers" translatable="false">123…</string>
     <string name="chipSym" translatable="false">./-…</string>
     <string name="length">Length: %1$d</string>
+    <string name="minutesAppLock" translatable="false">%1$d m</string>
+    <string name="stringConcat" translatable="false">%1$s%2$d</string>
     <string name="generate" translatable="false">+</string>
     <string name="passCopied">Password was copied to clipboard</string>
     <string name="loginCopied">Login was copied to clipboard</string>

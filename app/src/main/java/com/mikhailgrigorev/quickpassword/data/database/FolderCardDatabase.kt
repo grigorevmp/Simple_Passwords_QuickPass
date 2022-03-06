@@ -11,14 +11,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
-private const val PASSWORD_CARD_DB_NAME = "folder_card"
+const val FOLDER_CARD_DB_NAME = "folder_card"
 
 @Database(entities = [FolderCard::class], version = 1, exportSchema = false)
 abstract class FolderCardDatabase : RoomDatabase() {
-    /*
-       Main password database class
-     */
-
     abstract fun FolderDao(): FolderDao
 
     companion object {
@@ -31,7 +27,7 @@ abstract class FolderCardDatabase : RoomDatabase() {
                     if (INSTANCE == null) {
                         INSTANCE = Room.databaseBuilder(
                                 context.applicationContext,
-                                FolderCardDatabase::class.java, PASSWORD_CARD_DB_NAME
+                                FolderCardDatabase::class.java, FOLDER_CARD_DB_NAME
                         ).addCallback(object : RoomDatabase.Callback() {
                             override fun onCreate(db: SupportSQLiteDatabase) {
                                 super.onCreate(db)

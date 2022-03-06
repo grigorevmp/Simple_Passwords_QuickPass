@@ -1,6 +1,5 @@
 package com.mikhailgrigorev.quickpassword.ui.pin_code.set
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,7 +12,6 @@ import com.mikhailgrigorev.quickpassword.databinding.ActivityPinSetBinding
 class PinSetActivity : MyBaseActivity() {
     private lateinit var binding: ActivityPinSetBinding
 
-    @SuppressLint("SetTextI18n", "Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPinSetBinding.inflate(layoutInflater)
@@ -84,10 +82,15 @@ class PinSetActivity : MyBaseActivity() {
         })
     }
 
-    @SuppressLint("SetTextI18n")
     private fun addPinNumber(number: Int) {
         if (binding.inputPinIdField.text.toString().length < 4)
-            binding.inputPinIdField.setText("${binding.inputPinIdField.text}$number")
+            binding.inputPinIdField.setText(
+                    getString(
+                            R.string.stringConcat,
+                            binding.inputPinIdField.text,
+                            number
+                    )
+            )
     }
 
     private fun erasePinNumber() {

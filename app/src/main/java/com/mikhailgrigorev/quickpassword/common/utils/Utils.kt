@@ -7,7 +7,7 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.auth.FirebaseAuth
 import com.mikhailgrigorev.quickpassword.common.Application
-import com.mikhailgrigorev.quickpassword.common.PasswordManager
+import com.mikhailgrigorev.quickpassword.common.manager.PasswordManager
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import java.text.SimpleDateFormat
 import java.util.*

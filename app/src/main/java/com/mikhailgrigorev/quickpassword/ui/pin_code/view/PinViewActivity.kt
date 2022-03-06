@@ -1,6 +1,5 @@
 package com.mikhailgrigorev.quickpassword.ui.pin_code.view
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -24,7 +23,6 @@ class PinViewActivity : AppCompatActivity() {
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
     private lateinit var binding: ActivityPinViewBinding
 
-    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPinViewBinding.inflate(layoutInflater)
@@ -144,7 +142,13 @@ class PinViewActivity : AppCompatActivity() {
 
     private fun addPinNumber(number: Int) {
         if (binding.inputPinIdField.text.toString().length < 4)
-            binding.inputPinIdField.setText("${binding.inputPinIdField.text}$number")
+            binding.inputPinIdField.setText(
+                    getString(
+                            R.string.stringConcat,
+                            binding.inputPinIdField.text,
+                            number
+                    )
+            )
     }
 
     private fun exit() {
@@ -159,5 +163,4 @@ class PinViewActivity : AppCompatActivity() {
         val name: String = getString(R.string.hi) + " " + login
         binding.tvUsernameText.text = name
     }
-
 }
