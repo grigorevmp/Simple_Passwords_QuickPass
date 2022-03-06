@@ -20,6 +20,7 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -62,6 +63,7 @@ class PasswordCreateActivity : MyBaseActivity() {
     private var useNumbers = false
     private var imageName: String = ""
     private lateinit var viewModel: PasswordViewModel
+    private var imageNum = 0
     private var folderId: Int = 0
 
     private lateinit var launchSomeActivity: ActivityResultLauncher<Intent>
@@ -494,6 +496,7 @@ class PasswordCreateActivity : MyBaseActivity() {
                             is_card_pin = false,
                             time = Date().toString(),
                             folder = folderId,
+                            image_count = imageNum,
                             description = binding.noteField.text.toString(),
                             tags = binding.keyWordsField.text.toString(),
                             login = binding.emailField.text.toString(),
@@ -545,10 +548,12 @@ class PasswordCreateActivity : MyBaseActivity() {
 
                     if (mediaStorageDir.exists()) {
                         if (imageName != "") {
-                            val from = File(mediaStorageDir, "$imageName.jpg")
-                            val to = File(mediaStorageDir, "${binding.newNameField.text}.jpg")
-                            if (from.exists())
-                                from.renameTo(to)
+                            for (i in 0..imageNum) {
+                                val from = File(mediaStorageDir, "${imageName}_$i.jpg")
+                                val to = File(mediaStorageDir, "${binding.newNameField.text}_$i.jpg")
+                                if (from.exists())
+                                    from.renameTo(to)
+                            }
                         }
                     }
                     finish()
@@ -556,7 +561,7 @@ class PasswordCreateActivity : MyBaseActivity() {
             }
         }
 
-        binding.upload.setOnClickListener {
+        binding.bUploadImage.setOnClickListener {
             checkPermissionForImage()
         }
     }
@@ -716,7 +721,27 @@ class PasswordCreateActivity : MyBaseActivity() {
                 registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                     if (result.resultCode == Activity.RESULT_OK) {
                         val data = result.data
-                        binding.attachedImage.setImageURI(data?.data)
+                        imageNum += 1
+                        val newImage: ImageView = when (imageNum) {
+                            1 -> binding.attachedImage1
+                            2 -> binding.attachedImage2
+                            3 -> binding.attachedImage3
+                            else -> {
+                                binding.attachedImage1
+                            }
+                        }
+                        newImage.setImageURI(data?.data)
+                        when (imageNum) {
+                            1 -> {
+                                binding.cvImageHolder1.visibility = View.VISIBLE
+                            }
+                            2 -> {
+                                binding.cvImageHolder2.visibility = View.VISIBLE
+                            }
+                            3 -> {
+                                binding.cvImageHolder3.visibility = View.VISIBLE
+                            }
+                        }
 
                         val windowMetrics =
                                 WindowMetricsCalculator.getOrCreate()
@@ -726,11 +751,11 @@ class PasswordCreateActivity : MyBaseActivity() {
 
                         val width = (widthMax / 1.3).toInt()
                         val height =
-                                binding.attachedImage.drawable.minimumHeight * width / binding.attachedImage.drawable.minimumWidth
-                        binding.attachedImage.layoutParams.height = height
-                        binding.attachedImage.layoutParams.width = width
-                        binding.attachedImage.layoutParams.height = height
-                        binding.attachedImage.layoutParams.width = width
+                                newImage.drawable.minimumHeight * width / newImage.drawable.minimumWidth
+                        newImage.layoutParams.height = height
+                        newImage.layoutParams.width = width
+                        newImage.layoutParams.height = height
+                        newImage.layoutParams.width = width
                         if (ContextCompat.checkSelfPermission(
                                     this,
                                     Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -764,7 +789,7 @@ class PasswordCreateActivity : MyBaseActivity() {
                             "000000001tmp000000001"
                         } else
                             binding.newNameField.text.toString()
-                        val file = File(mediaStorageDir, "${imageName}.jpg")
+                        val file = File(mediaStorageDir, "${imageName}_$imageNum.jpg")
 
                         val resultURI = getImagePath(this, selectedImageURI)
                         if (resultURI != null) {

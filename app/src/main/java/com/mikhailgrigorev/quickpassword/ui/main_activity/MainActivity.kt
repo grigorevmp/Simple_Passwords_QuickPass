@@ -354,9 +354,7 @@ class MainActivity : MyBaseActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar) {}
         })
 
-        // Password generation system
         val passwordGeneratorRules = mutableListOf<String>()
-        // Loop through the chips
         for (index in 0 until binding.cgPasswordSettings.childCount) {
             val chip: Chip = binding.cgPasswordSettings.getChildAt(index) as Chip
 

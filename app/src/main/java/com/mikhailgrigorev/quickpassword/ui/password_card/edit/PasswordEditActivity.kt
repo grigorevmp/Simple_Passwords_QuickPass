@@ -20,6 +20,7 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -34,8 +35,8 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.mikhailgrigorev.quickpassword.R
-import com.mikhailgrigorev.quickpassword.common.manager.PasswordManager
 import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
+import com.mikhailgrigorev.quickpassword.common.manager.PasswordManager
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
@@ -62,6 +63,7 @@ class PasswordEditActivity : MyBaseActivity() {
     private var useLetters = false
     private var useNumbers = false
     private var imageName: String = ""
+    private var imageNum: Int = 0
     private lateinit var viewModel: PasswordViewModel
     private var folderId: Int = -1
 
@@ -218,47 +220,90 @@ class PasswordEditActivity : MyBaseActivity() {
                 }
             }
 
-            val file = File(mediaStorageDir, "${passwordCard.name}.jpg")
-            if (file.exists()) {
-                imageName = passwordCard.name
-                val uri = Uri.fromFile(file)
-                binding.attachedImage.setImageURI(uri)
-                binding.clearImage.visibility = View.VISIBLE
-
-                val windowMetrics =
-                        WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this)
-                val currentBounds = windowMetrics.bounds
-                val widthMax = currentBounds.width()
-
-                val width = (widthMax / 1.3).toInt()
-                val height =
-                        binding.attachedImage.drawable.minimumHeight * width / binding.attachedImage.drawable.minimumWidth
-                binding.attachedImage.layoutParams.height = height
-                binding.attachedImage.layoutParams.width = width
-                binding.attachedImage.layoutParams.height = height
-                binding.attachedImage.layoutParams.width = width
-
-                binding.attachedImage.setOnClickListener {
-                    val uriForOpen = FileProvider.getUriForFile(
-                            this,
-                            this.applicationContext.packageName.toString() + ".provider",
-                            file
-                    )
-                    val intent = Intent()
-                    intent.action = Intent.ACTION_VIEW
-                    intent.setDataAndType(uriForOpen, "image/*")
-                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                    startActivity(intent)
+            for (i in 1..passwordCard.image_count) {
+                when (i) {
+                    1 -> {
+                        binding.cvImageHolder1.visibility = View.VISIBLE
+                        showImage(mediaStorageDir, 1, binding.attachedImage1)
+                    }
+                    2 -> {
+                        binding.cvImageHolder2.visibility = View.VISIBLE
+                        showImage(mediaStorageDir, 2, binding.attachedImage2)
+                    }
+                    3 -> {
+                        binding.cvImageHolder3.visibility = View.VISIBLE
+                        showImage(mediaStorageDir, 3, binding.attachedImage3)
+                    }
                 }
             }
 
+            imageNum = passwordCard.image_count
+
+            if (imageNum > 0){
+                binding.clearImage.visibility = View.VISIBLE
+            }
+
             binding.clearImage.setOnClickListener {
+                val file =
+                        File(mediaStorageDir, "${viewModel.currentPassword!!.name}_$imageNum.jpg")
+                when (imageNum) {
+                    1 -> {
+                        binding.cvImageHolder1.visibility = View.GONE
+                        binding.attachedImage1.setImageURI(null)
+                    }
+                    2 -> {
+                        binding.cvImageHolder2.visibility = View.GONE
+                        binding.attachedImage2.setImageURI(null)
+                    }
+                    3 -> {
+                        binding.cvImageHolder3.visibility = View.GONE
+                        binding.attachedImage3.setImageURI(null)
+                    }
+                }
                 file.delete()
-                binding.attachedImage.setImageURI(null)
+                imageNum -= 1
+                if (imageNum == 0){
+                    binding.clearImage.visibility = View.GONE
+                }
             }
 
         }
     }
+
+    private fun showImage(mediaStorageDir: File, imageNum: Int, currentImage: ImageView) {
+
+        val file = File(mediaStorageDir, "${viewModel.currentPassword!!.name}_$imageNum.jpg")
+
+        if (file.exists()) {
+            val uri = Uri.fromFile(file)
+            currentImage.setImageURI(uri)
+
+            val windowMetrics =
+                    WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this)
+            val currentBounds = windowMetrics.bounds
+            val widthMax = currentBounds.width()
+
+            val width = (widthMax / 2.4).toInt()
+            val height =
+                    currentImage.drawable.minimumHeight * width / currentImage.drawable.minimumWidth
+            currentImage.layoutParams.height = height
+            currentImage.layoutParams.width = width
+
+            currentImage.setOnClickListener {
+                val uriForOpen = FileProvider.getUriForFile(
+                        this,
+                        this.applicationContext.packageName.toString() + ".provider",
+                        file
+                )
+                val intent = Intent()
+                intent.action = Intent.ACTION_VIEW
+                intent.setDataAndType(uriForOpen, "image/*")
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                startActivity(intent)
+            }
+        }
+    }
+
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setListeners() {
@@ -563,6 +608,7 @@ class PasswordEditActivity : MyBaseActivity() {
                         viewModel.currentPassword!!.use_time = binding.cNumberOfEncrypted.isChecked
                         viewModel.currentPassword!!.time = Date().toString()
                         viewModel.currentPassword!!.folder = folderId
+                        viewModel.currentPassword!!.image_count = imageNum
                         viewModel.currentPassword!!.description = binding.noteField.text.toString()
                         viewModel.currentPassword!!.tags = binding.keyWordsField.text.toString()
                         viewModel.currentPassword!!.login = binding.emailField.text.toString()
@@ -609,9 +655,9 @@ class PasswordEditActivity : MyBaseActivity() {
                     }
 
                     if (mediaStorageDir.exists()) {
-                        if (imageName != "") {
-                            val from = File(mediaStorageDir, "$imageName.jpg")
-                            val to = File(mediaStorageDir, "${binding.newNameField.text}.jpg")
+                        for (i in 0..imageNum) {
+                            val from = File(mediaStorageDir, "${imageName}_$imageNum.jpg")
+                            val to = File(mediaStorageDir, "${binding.newNameField.text}_$imageNum.jpg")
                             if (from.exists())
                                 from.renameTo(to)
                         }
@@ -622,14 +668,10 @@ class PasswordEditActivity : MyBaseActivity() {
         }
         binding.back.setOnClickListener {
             if (viewModel.currentPassword != null) {
-                val intent = Intent()
-                intent.putExtra("login", login)
-                intent.putExtra("password_id", viewModel.currentPassword!!._id)
-                setResult(1, intent)
                 finish()
             }
         }
-        binding.upload.setOnClickListener {
+        binding.bUploadImage.setOnClickListener {
             checkPermissionForImage()
         }
     }
@@ -645,8 +687,8 @@ class PasswordEditActivity : MyBaseActivity() {
             val permission = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
             val permissionCoarse = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-            requestPermissions(permission, permissionCodeRead) // GIVE AN INTEGER VALUE FOR permissionCodeRead LIKE 1001
-            requestPermissions(permissionCoarse, permissionCodeWrite) // GIVE AN INTEGER VALUE FOR permissionCodeWrite LIKE 1002
+            requestPermissions(permission, permissionCodeRead)
+            requestPermissions(permissionCoarse, permissionCodeWrite)
         } else {
             pickImageFromGallery()
         }
@@ -792,7 +834,28 @@ class PasswordEditActivity : MyBaseActivity() {
                 registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                     if (result.resultCode == Activity.RESULT_OK) {
                         val data = result.data
-                        binding.attachedImage.setImageURI(data?.data)
+                        imageNum += 1
+                        binding.clearImage.visibility = View.VISIBLE
+                        val newImage: ImageView = when (imageNum) {
+                            1 -> binding.attachedImage1
+                            2 -> binding.attachedImage2
+                            3 -> binding.attachedImage3
+                            else -> {
+                                binding.attachedImage1
+                            }
+                        }
+                        newImage.setImageURI(data?.data)
+                        when (imageNum) {
+                            1 -> {
+                                binding.cvImageHolder1.visibility = View.VISIBLE
+                            }
+                            2 -> {
+                                binding.cvImageHolder2.visibility = View.VISIBLE
+                            }
+                            3 -> {
+                                binding.cvImageHolder3.visibility = View.VISIBLE
+                            }
+                        }
 
                         val windowMetrics =
                                 WindowMetricsCalculator.getOrCreate()
@@ -802,11 +865,11 @@ class PasswordEditActivity : MyBaseActivity() {
 
                         val width = (widthMax / 1.3).toInt()
                         val height =
-                                binding.attachedImage.drawable.minimumHeight * width / binding.attachedImage.drawable.minimumWidth
-                        binding.attachedImage.layoutParams.height = height
-                        binding.attachedImage.layoutParams.width = width
-                        binding.attachedImage.layoutParams.height = height
-                        binding.attachedImage.layoutParams.width = width
+                                newImage.drawable.minimumHeight * width / newImage.drawable.minimumWidth
+                        newImage.layoutParams.height = height
+                        newImage.layoutParams.width = width
+                        newImage.layoutParams.height = height
+                        newImage.layoutParams.width = width
                         if (ContextCompat.checkSelfPermission(
                                     this,
                                     Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -840,7 +903,7 @@ class PasswordEditActivity : MyBaseActivity() {
                             "000000001tmp000000001"
                         } else
                             binding.newNameField.text.toString()
-                        val file = File(mediaStorageDir, "${imageName}.jpg")
+                        val file = File(mediaStorageDir, "${imageName}_$imageNum.jpg")
 
                         val resultURI = getImagePath(this, selectedImageURI)
                         if (resultURI != null) {

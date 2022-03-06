@@ -12,6 +12,8 @@ data class PasswordCard(
     @SerializedName("name")
     var name: String,
     @SerializedName("password")
+    var image_count: Int = 0,
+    @SerializedName("image_count")
     var password: String,
     @SerializedName("use_2fa")
     var use_2fa: Boolean,
