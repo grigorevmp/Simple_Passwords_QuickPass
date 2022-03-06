@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.ui.account.view
+package com.mikhailgrigorev.quickpassword.ui.account
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

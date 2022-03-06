@@ -40,7 +40,7 @@ import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityMainBinding
-import com.mikhailgrigorev.quickpassword.ui.account.view.AccountActivity
+import com.mikhailgrigorev.quickpassword.ui.account.view.AccountViewActivity
 import com.mikhailgrigorev.quickpassword.ui.folder.FolderViewActivity
 import com.mikhailgrigorev.quickpassword.ui.main_activity.adapters.FolderAdapter
 import com.mikhailgrigorev.quickpassword.ui.main_activity.adapters.PasswordAdapter
@@ -689,7 +689,7 @@ class MainActivity : MyBaseActivity() {
     }
 
     private fun goToAccountActivity() {
-        val intent = Intent(this, AccountActivity::class.java)
+        val intent = Intent(this, AccountViewActivity::class.java)
         startActivity(intent)
     }
 

@@ -9,19 +9,21 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
-import com.mikhailgrigorev.quickpassword.databinding.ActivityAccountBinding
+import com.mikhailgrigorev.quickpassword.databinding.ActivityAccountViewBinding
 import com.mikhailgrigorev.quickpassword.ui.about.AboutActivity
-import com.mikhailgrigorev.quickpassword.ui.account.edit.EditAccountActivity
+import com.mikhailgrigorev.quickpassword.ui.account.AccountViewModel
+import com.mikhailgrigorev.quickpassword.ui.account.AccountViewModelFactory
+import com.mikhailgrigorev.quickpassword.ui.account.edit.AccountEditActivity
 import com.mikhailgrigorev.quickpassword.ui.auth.auth.AuthActivity
 import com.mikhailgrigorev.quickpassword.ui.donut.DonutActivity
 import com.mikhailgrigorev.quickpassword.ui.settings.SettingsActivity
 
-class AccountActivity : MyBaseActivity() {
+
+class AccountViewActivity : MyBaseActivity() {
 
     private lateinit var viewModel: AccountViewModel
 
@@ -33,12 +35,11 @@ class AccountActivity : MyBaseActivity() {
     private var timeLimit = 0
     private var pins = 0
 
-    private var condition = true
-    private lateinit var binding: ActivityAccountBinding
+    private lateinit var binding: ActivityAccountViewBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAccountBinding.inflate(layoutInflater)
+        binding = ActivityAccountViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
         checkAnalyze()
         initViewModel()
@@ -130,10 +131,11 @@ class AccountActivity : MyBaseActivity() {
 
         if (safePass + fixPass + unsafePass > 0) {
             if (binding.tvAllPasswords.text.toString() != "0") {
-                binding.tvTotalPoints.text =
-                        ((safePass.toFloat() + fixPass.toFloat() / 2 + unsafePass.toFloat() * 0 + encryptedPass.toFloat() + pass2FA.toFloat())
-                                / (7 / 3 * (safePass.toFloat() + unsafePass.toFloat() + fixPass.toFloat())))
-                                .toString()
+                binding.tvTotalPoints.text = getString(
+                        R.string.numericValue,
+                        (safePass.toFloat() + fixPass.toFloat() / 2 + unsafePass.toFloat() * 0 + encryptedPass.toFloat() + pass2FA.toFloat())
+                                / (7 / 3 * (safePass.toFloat() + unsafePass.toFloat() + fixPass.toFloat()))
+                )
             } else {
                 binding.tvTotalPoints.text = "0"
             }
@@ -148,12 +150,10 @@ class AccountActivity : MyBaseActivity() {
 
     private fun setListeners() {
         binding.ivAboutApp.setOnClickListener {
-            condition = false
             val intent = Intent(this, AboutActivity::class.java)
             startActivity(intent)
         }
         binding.cvAdditionalInfoCard.setOnClickListener {
-            condition = false
             val intent = Intent(this, DonutActivity::class.java)
             startActivity(intent)
         }
@@ -174,13 +174,11 @@ class AccountActivity : MyBaseActivity() {
         }
 
         binding.cvEditAccount.setOnClickListener {
-            condition = false
-            val intent = Intent(this, EditAccountActivity::class.java)
+            val intent = Intent(this, AccountEditActivity::class.java)
             startActivity(intent)
         }
 
         binding.ivSettings.setOnClickListener {
-            condition = false
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
         }
@@ -191,10 +189,8 @@ class AccountActivity : MyBaseActivity() {
             builder.setMessage(getString(R.string.accountDeleteConfirm))
 
             builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
-                // TODO Account delete
                 Utils.makeToast(this, getString(R.string.accountDeleted))
-                Utils.auth.currentUser?.delete()
-                exit()
+                deleteAccount()
             }
 
             builder.setNegativeButton(getString(R.string.no)) { _, _ ->
@@ -207,15 +203,27 @@ class AccountActivity : MyBaseActivity() {
         }
 
         binding.ivBack.setOnClickListener {
-            condition = false
             finish()
+        }
+    }
+
+    private fun deleteAccount() {
+        if (Utils.auth.currentUser != null) {
+            Utils.auth.currentUser!!.delete()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Utils.exitAccount()
+                            removeShortcuts()
+                        } else {
+                            task.exception
+                        }
+                    }
         }
     }
 
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
-                condition = false
                 finish()
             }
         }
@@ -223,7 +231,6 @@ class AccountActivity : MyBaseActivity() {
     }
 
     private fun exit() {
-        condition = false
         Utils.exitAccount()
         Utils.auth.signOut()
         removeShortcuts()

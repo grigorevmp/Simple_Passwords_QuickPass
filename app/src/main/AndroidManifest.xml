@@ -57,7 +57,7 @@
             android:name="com.mikhailgrigorev.quickpassword.ui.about.AboutActivity"
             android:screenOrientation="fullSensor" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.ui.account.edit.EditAccountActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.account.edit.AccountEditActivity"
             android:screenOrientation="fullSensor"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -70,7 +70,7 @@
             android:name="com.mikhailgrigorev.quickpassword.ui.password_card.create.PasswordCreateActivity"
             android:screenOrientation="fullSensor" />
         <activity
-            android:name="com.mikhailgrigorev.quickpassword.ui.account.view.AccountActivity"
+            android:name="com.mikhailgrigorev.quickpassword.ui.account.view.AccountViewActivity"
             android:screenOrientation="fullSensor" />
         <activity
             android:name="com.mikhailgrigorev.quickpassword.ui.auth.auth.AuthActivity"

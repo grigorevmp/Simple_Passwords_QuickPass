@@ -6,16 +6,17 @@
     android:fitsSystemWindows="true"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    tools:context=".ui.account.edit.EditAccountActivity">
+    tools:context=".ui.account.edit.AccountEditActivity">
+
     <ImageView
         android:id="@+id/back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/base_margin"
         android:layout_marginStart="@dimen/base_margin"
         android:contentDescription="@string/back"
-        app:layout_constraintBottom_toBottomOf="@+id/tvUsernameText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvUsernameText"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/arrow_left"
         app:tint="@color/black" />
 
@@ -23,38 +24,38 @@
         android:id="@+id/loginOrCreateAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/base_margin"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginBottom="@dimen/base_margin"
         android:text="@string/you_decided_to_change_some_settings"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvUsernameText" />
+        app:layout_constraintBottom_toTopOf="@+id/tilUserLogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tvUpdateRules"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/base_margin"
-        android:layout_marginTop="@dimen/base_margin"
+        android:layout_marginBottom="@dimen/base_margin"
         android:text="@string/accountEditRules"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilNewPassword" />
+        app:layout_constraintBottom_toTopOf="@+id/tilPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilUserLogin"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_margin"
-        android:layout_marginTop="@dimen/login_field_edit_top_margin"
         android:layout_marginEnd="@dimen/base_margin"
         app:boxCornerRadiusBottomEnd="@dimen/base_card_radius"
         app:boxCornerRadiusBottomStart="@dimen/base_card_radius"
         app:boxCornerRadiusTopEnd="@dimen/base_card_radius"
         app:boxCornerRadiusTopStart="@dimen/base_card_radius"
         app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@+id/tilUserEmail"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginOrCreateAccount">
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etUserLogin"
@@ -85,16 +86,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_margin"
-        android:layout_marginTop="@dimen/base_margin"
         android:layout_marginEnd="@dimen/base_margin"
-        app:boxCornerRadiusBottomEnd="15dp"
-        app:boxCornerRadiusBottomStart="15dp"
-        app:boxCornerRadiusTopEnd="15dp"
-        app:boxCornerRadiusTopStart="15dp"
+        android:layout_marginBottom="@dimen/medium_margin"
+        app:boxCornerRadiusBottomEnd="@dimen/base_card_radius"
+        app:boxCornerRadiusBottomStart="@dimen/base_card_radius"
+        app:boxCornerRadiusTopEnd="@dimen/base_card_radius"
+        app:boxCornerRadiusTopStart="@dimen/base_card_radius"
         app:endIconMode="password_toggle"
+        app:layout_constraintBottom_toTopOf="@+id/savePass"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvUpdateRules">
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etPassword"
@@ -111,15 +112,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_margin"
         android:layout_marginTop="@dimen/base_margin"
+        android:layout_marginBottom="@dimen/base_margin"
         android:layout_marginEnd="95dp"
         app:boxCornerRadiusBottomEnd="15dp"
         app:boxCornerRadiusBottomStart="15dp"
         app:boxCornerRadiusTopEnd="15dp"
         app:boxCornerRadiusTopStart="15dp"
         app:endIconMode="password_toggle"
+        app:layout_constraintBottom_toTopOf="@+id/tvUpdateRules"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilUserEmail">
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etNewPassword"
@@ -165,13 +167,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_margin"
         android:layout_marginEnd="@dimen/base_margin"
-        app:boxCornerRadiusBottomEnd="15dp"
-        app:boxCornerRadiusBottomStart="15dp"
-        app:boxCornerRadiusTopEnd="15dp"
-        app:boxCornerRadiusTopStart="15dp"
+        android:layout_marginBottom="@dimen/base_margin"
+        app:boxCornerRadiusBottomEnd="@dimen/base_card_radius"
+        app:boxCornerRadiusBottomStart="@dimen/base_card_radius"
+        app:boxCornerRadiusTopEnd="@dimen/base_card_radius"
+        app:boxCornerRadiusTopStart="@dimen/base_card_radius"
+        app:layout_constraintBottom_toTopOf="@+id/tilNewPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilUserLogin">
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etUserEmail"
@@ -185,34 +188,13 @@
         android:id="@+id/tvUsernameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/base_margin"
         android:layout_marginTop="@dimen/base_margin"
         android:text="@string/hi_username"
+        android:layout_marginBottom="@dimen/base_margin"
         android:textColor="@color/textDark"
-        android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/back"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvAccountAvatar"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="@dimen/base_margin"
-        android:layout_marginEnd="@dimen/base_margin"
-        app:cardCornerRadius="25dp"
-        android:backgroundTint="@color/ic_account"
-        app:cardElevation="10dp"
+        android:textSize="@dimen/userNameTextSize"
+        app:layout_constraintBottom_toTopOf="@+id/loginOrCreateAccount"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/tvAvatarSymbol"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:textColor="@color/white"
-            android:text="@string/_0" />
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

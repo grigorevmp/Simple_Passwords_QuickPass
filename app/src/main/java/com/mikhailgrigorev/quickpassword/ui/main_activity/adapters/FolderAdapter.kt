@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
-import com.mikhailgrigorev.quickpassword.databinding.ItemFolderBinding
+import com.mikhailgrigorev.quickpassword.databinding.ItemFolderCardBinding
 
 class FolderAdapter(
     private val folders: List<FolderCard>,
@@ -26,7 +26,7 @@ class FolderAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FolderViewHolder {
-        val binding = ItemFolderBinding.inflate(LayoutInflater.from(context), parent, false)
+        val binding = ItemFolderCardBinding.inflate(LayoutInflater.from(context), parent, false)
         return FolderViewHolder(binding)
     }
 
@@ -51,7 +51,7 @@ class FolderAdapter(
     }
 }
 
-class FolderViewHolder(binding: ItemFolderBinding) : RecyclerView.ViewHolder(binding.root) {
+class FolderViewHolder(binding: ItemFolderCardBinding) : RecyclerView.ViewHolder(binding.root) {
     val folderName = binding.tvFolderName
     val folderDescription = binding.tvDescription
     val cvColorCard = binding.cvColorCard

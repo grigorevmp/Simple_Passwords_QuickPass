@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.ui.account.view
+package com.mikhailgrigorev.quickpassword.ui.account
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

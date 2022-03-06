@@ -9,17 +9,17 @@ import com.google.firebase.auth.UserProfileChangeRequest
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
-import com.mikhailgrigorev.quickpassword.databinding.ActivityEditAccountBinding
+import com.mikhailgrigorev.quickpassword.databinding.ActivityAccountEditBinding
 
 
-class EditAccountActivity : MyBaseActivity() {
+class AccountEditActivity : MyBaseActivity() {
 
-    private lateinit var binding: ActivityEditAccountBinding
+    private lateinit var binding: ActivityAccountEditBinding
 
     @SuppressLint("Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityEditAccountBinding.inflate(layoutInflater)
+        binding = ActivityAccountEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         initViews()
@@ -67,7 +67,7 @@ class EditAccountActivity : MyBaseActivity() {
             }.addOnFailureListener { exception ->
                 Log.d("Auth mail", Utils.getMail()!!)
                 Log.d("Auth password",password)
-                Utils.makeToast(this, exception.localizedMessage)
+                Utils.makeToast(this, "Data saving error, please write to the app creator")
                 exception.message?.let { Utils.makeToast(this, it) }
             }
         }
@@ -96,7 +96,6 @@ class EditAccountActivity : MyBaseActivity() {
         val login = Utils.getLogin()!!
         val name: String = getString(R.string.hi) + " " + login
         binding.tvUsernameText.text = name
-        binding.tvAvatarSymbol.text = login[0].toString()
     }
 
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
