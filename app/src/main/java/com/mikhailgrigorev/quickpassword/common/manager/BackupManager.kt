@@ -14,7 +14,7 @@ import javax.crypto.spec.SecretKeySpec
 
 
 object BackupManager {
-    fun importEncryptedDB(context: Context, DB_NAME: String) {
+    fun importEncryptedDB(context: Context, DB_NAME: String): Int {
         try {
             val appName = context.resources.getString(R.string.app_name)
             val file =
@@ -46,16 +46,19 @@ object BackupManager {
                 dst.close()
                 cis.close()
                 Log.e("IMPORT_DB", "Database has been imported.")
+                return 1
             } else {
                 Log.e("IMPORT_DB", "No storage permission.")
+                return 2
             }
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
             Log.e("IMPORT_DB", "Error importing database!")
+            return 3
         }
     }
 
-    fun exportEncryptedDB(context: Context, DB_NAME: String) {
+    fun exportEncryptedDB(context: Context, DB_NAME: String): Int {
         try {
             val appName: String = context.resources.getString(R.string.app_name)
             val file =
@@ -89,12 +92,15 @@ object BackupManager {
                 dst.close()
                 cos.flush()
                 cos.close()
+                return 1
             } else {
                 Log.e("EXPORT_DB", "No storage permission.")
+                return 2
             }
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("EXPORT_DB", "Error exporting database!")
+            return 3
         }
     }
 }

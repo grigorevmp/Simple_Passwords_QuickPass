@@ -34,8 +34,8 @@ class SettingsActivity : MyBaseActivity() {
     }
 
     private fun setLockTimeText(lockTime: Int) {
+        binding.sbAppLockTimer.progress = lockTime
         if (lockTime != 0) {
-            binding.sbAppLockTimer.progress = lockTime
             binding.tvAppLockTime.text = getString(
                     R.string.minutesAppLock,
                     lockTime
@@ -76,7 +76,48 @@ class SettingsActivity : MyBaseActivity() {
         }
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Utils.makeToast(this, "Success! Try again!")
+        }
+    }
+
     private fun initListeners() {
+        binding.ibExportDatabases.setOnClickListener {
+            when (BackupManager.exportEncryptedDB(this, PASSWORD_CARD_DB_NAME)) {
+                2 -> {
+                    Utils.makeToast(this, "EXPORT_DB PASSWORD: No storage permission.")
+                }
+                3 -> Utils.makeToast(this, "EXPORT_DB PASSWORD: Error exporting database!")
+            }
+            when (BackupManager.exportEncryptedDB(this, FOLDER_CARD_DB_NAME)) {
+                2 -> {
+                    Utils.makeToast(this, "EXPORT_DB FOLDERS: No storage permission.")
+                }
+                3 -> Utils.makeToast(this, "EXPORT_DB FOLDERS: Error exporting database!")
+            }
+        }
+
+        binding.ibImportDatabases.setOnClickListener {
+            when (BackupManager.importEncryptedDB(this, PASSWORD_CARD_DB_NAME)) {
+                2 -> {
+                    Utils.makeToast(this, "IMPORT_DB PASSWORD: No storage permission.")
+                }
+                3 -> Utils.makeToast(this, "IMPORT_DB PASSWORD: Error exporting database!")
+            }
+            when (BackupManager.importEncryptedDB(this, FOLDER_CARD_DB_NAME)) {
+                2 -> {
+                    Utils.makeToast(this, "IMPORT_DB FOLDERS: No storage permission.")
+                }
+                3 -> Utils.makeToast(this, "IMPORT_DB FOLDERS: Error exporting database!")
+            }
+        }
+
         binding.checkAutoFillSettings.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 testAutoFill(this)
@@ -145,16 +186,6 @@ class SettingsActivity : MyBaseActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar) {
             }
         })
-
-        binding.ibExportDatabases.setOnClickListener {
-            BackupManager.exportEncryptedDB(this, PASSWORD_CARD_DB_NAME)
-            BackupManager.exportEncryptedDB(this, FOLDER_CARD_DB_NAME)
-        }
-
-        binding.ibImportDatabases.setOnClickListener {
-            BackupManager.importEncryptedDB(this, PASSWORD_CARD_DB_NAME)
-            BackupManager.importEncryptedDB(this, FOLDER_CARD_DB_NAME)
-        }
     }
 
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
