@@ -223,5 +223,6 @@
     <string name="accountEditRules">Заполните требуемые поля и введите текущий пароль</string>
     <string name="folder">Folder</string>
     <string name="add_folder">Add folder</string>
+    <string name="question">\?</string>
 
 </resources>

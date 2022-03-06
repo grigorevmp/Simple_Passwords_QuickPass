@@ -500,7 +500,7 @@ class PasswordCreateActivity : MyBaseActivity() {
                             folder = folderId,
                             image_count = imageNum,
                             description = binding.noteField.text.toString(),
-                            tags = binding.keyWordsField.text.toString(),
+                            tags = binding.etKeywords.text.toString(),
                             login = binding.emailField.text.toString(),
                             encrypted = binding.cryptToggle.isChecked,
                     )

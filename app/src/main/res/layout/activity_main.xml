@@ -31,6 +31,7 @@
         android:overScrollMode="never"
         android:padding="0dp"
         android:visibility="visible"
+        tools:visibility="gone"
         app:behavior_hideable="true"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
@@ -465,7 +466,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/base_card_horizontal_margin"
-                    android:layout_marginTop="@dimen/base_card_vertical_margin"
+                    android:layout_marginTop="@dimen/medium_card_vertical_margin"
                     android:layout_marginEnd="@dimen/base_card_horizontal_margin"
                     android:clickable="true"
                     android:focusable="true"
@@ -477,7 +478,7 @@
                     app:cardElevation="@dimen/base_elevation"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/seekBar">
+                    app:layout_constraintTop_toBottomOf="@+id/cvAdditionalInfoCard">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -528,7 +529,7 @@
                     app:cardElevation="@dimen/medium_elevation"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardView">
+                    app:layout_constraintTop_toBottomOf="@+id/cvNoPasswordsCard">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -672,7 +673,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/base_card_horizontal_margin"
-                    android:layout_marginTop="@dimen/medium_card_vertical_margin"
+                    android:layout_marginTop="@dimen/base_card_vertical_margin"
                     android:layout_marginEnd="@dimen/base_card_horizontal_margin"
                     android:alpha="0.5"
                     android:clickable="true"
@@ -683,7 +684,7 @@
                     app:cardElevation="@dimen/base_elevation"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/cardView"
-                    app:layout_constraintTop_toBottomOf="@+id/cvNoPasswordsCard">
+                    app:layout_constraintTop_toBottomOf="@+id/seekBar">
 
                     <HorizontalScrollView
                         android:layout_width="match_parent"

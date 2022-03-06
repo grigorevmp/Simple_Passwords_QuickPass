@@ -294,7 +294,7 @@ class MainActivity : MyBaseActivity() {
             binding.cvWarningRulesCard.animate().alpha(1F).setDuration(0).start()
             binding.cvBackupReminderCard.animate().alpha(1F).setDuration(0).start()
             binding.cardView.animate().alpha(1F).setDuration(0).start()
-            binding.cvAdditionalInfoCard.animate().alpha(1F).setDuration(0).start()
+            binding.cardView.animate().alpha(1F).setDuration(0).start()
         }
 
         binding.etSearchPassword.clearFocus()
@@ -701,10 +701,10 @@ class MainActivity : MyBaseActivity() {
     }
 
     private fun showNoPasswordsInterface() {
-        binding.cvNoPasswordsCard.visibility = View.VISIBLE
-        binding.fabAddNewPass.visibility = View.VISIBLE
         binding.cardView.visibility = View.GONE
         binding.cvAdditionalInfoCard.visibility = View.GONE
+        binding.cvNoPasswordsCard.visibility = View.VISIBLE
+        binding.fabAddNewPass.visibility = View.VISIBLE
         binding.ivSmilePasswordCreation.visibility = View.GONE
         binding.fabExpandButton.visibility = View.GONE
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.llAllPasswords)
@@ -712,9 +712,9 @@ class MainActivity : MyBaseActivity() {
     }
 
     private fun showPasswordsInterface() {
-        binding.cvNoPasswordsCard.visibility = View.GONE
         binding.cardView.visibility = View.VISIBLE
         binding.cvAdditionalInfoCard.visibility = View.VISIBLE
+        binding.cvNoPasswordsCard.visibility = View.GONE
         binding.ivSmilePasswordCreation.visibility = View.VISIBLE
         binding.ivSmilePasswordCreation.animate().alpha(0.2F).setDuration(10).start()
         binding.fabExpandButton.visibility = View.VISIBLE
