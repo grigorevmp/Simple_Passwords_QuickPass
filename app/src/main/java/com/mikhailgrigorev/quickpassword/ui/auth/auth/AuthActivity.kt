@@ -53,21 +53,26 @@ class AuthActivity : AppCompatActivity() {
 
     private fun initListeners() {
         binding.loginFab.setOnClickListener {
-            if (binding.signUpChip.isChecked) {
-                if (validate(binding.inputPasswordIdField.text.toString())) {
-                    signUp(
-                            binding.inputLoginIdField.text.toString(),
-                            binding.inputPasswordIdField.text.toString()
-                    )
+            if(binding.inputLoginIdField.text.toString() != "") {
+                if (binding.signUpChip.isChecked) {
+                    if (validate(binding.inputPasswordIdField.text.toString())) {
+                        signUp(
+                                binding.inputLoginIdField.text.toString(),
+                                binding.inputPasswordIdField.text.toString()
+                        )
+                    }
+                } else {
+                    if (validate(binding.inputPasswordIdField.text.toString())
+                    ) {
+                        signIn(
+                                binding.inputLoginIdField.text.toString(),
+                                binding.inputPasswordIdField.text.toString()
+                        )
+                    }
                 }
-            } else {
-                if (validate(binding.inputPasswordIdField.text.toString())
-                ) {
-                    signIn(
-                            binding.inputLoginIdField.text.toString(),
-                            binding.inputPasswordIdField.text.toString()
-                    )
-                }
+            }
+            else{
+                binding.inputLoginId.error = "We need your email -_-"
             }
         }
 

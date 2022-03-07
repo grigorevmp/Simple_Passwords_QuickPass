@@ -27,16 +27,16 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_margin"
-        android:layout_marginEnd="@dimen/base_margin"
         android:layout_marginTop="@dimen/login_field_top_margin"
+        android:layout_marginEnd="@dimen/base_margin"
         app:boxCornerRadiusBottomEnd="@dimen/base_card_radius"
         app:boxCornerRadiusBottomStart="@dimen/base_card_radius"
         app:boxCornerRadiusTopEnd="@dimen/base_card_radius"
         app:boxCornerRadiusTopStart="@dimen/base_card_radius"
         app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@+id/tilUserLogin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginOrCreateAccount">
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputLoginIdField"
@@ -51,18 +51,18 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        tools:visibility="visible"
         android:layout_marginStart="@dimen/base_margin"
         android:layout_marginEnd="@dimen/base_margin"
+        android:visibility="gone"
         app:boxCornerRadiusBottomEnd="@dimen/base_card_radius"
         app:boxCornerRadiusBottomStart="@dimen/base_card_radius"
         app:boxCornerRadiusTopEnd="@dimen/base_card_radius"
         app:boxCornerRadiusTopStart="@dimen/base_card_radius"
         app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@+id/inputPasswordId"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputLoginId">
+        tools:visibility="visible">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etUserLogin"
@@ -80,14 +80,14 @@
         android:layout_marginStart="@dimen/base_margin"
         android:layout_marginEnd="95dp"
         app:boxCornerRadiusBottomEnd="@dimen/base_card_radius"
+        app:boxCornerRadiusBottomStart="@dimen/base_card_radius"
         app:boxCornerRadiusTopEnd="@dimen/base_card_radius"
         app:boxCornerRadiusTopStart="@dimen/base_card_radius"
-        app:boxCornerRadiusBottomStart="@dimen/base_card_radius"
         app:endIconMode="password_toggle"
         app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@+id/signUpChipGroup"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilUserLogin">
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputPasswordIdField"
@@ -131,8 +131,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_margin"
         android:layout_marginTop="@dimen/base_margin"
+        android:layout_marginBottom="@dimen/base_margin"
+        app:layout_constraintBottom_toTopOf="@+id/loginFab"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputPasswordId"
         app:singleSelection="true">
 
         <com.google.android.material.chip.Chip
