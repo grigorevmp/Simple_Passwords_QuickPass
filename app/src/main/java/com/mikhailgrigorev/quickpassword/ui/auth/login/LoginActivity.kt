@@ -14,7 +14,7 @@ import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.ActivityLoginBinding
 import com.mikhailgrigorev.quickpassword.ui.auth.auth.AuthActivity
-import com.mikhailgrigorev.quickpassword.ui.main_activity.MainNewActivity
+import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
 import java.util.concurrent.Executor
 
 class LoginActivity : AppCompatActivity() {
@@ -47,7 +47,7 @@ class LoginActivity : AppCompatActivity() {
         val hasBiometricFeature: Boolean =
                 this.packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)
 
-        val intent = Intent(this, MainNewActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
 
         if (hasBiometricFeature) {
             executor = ContextCompat.getMainExecutor(this)
@@ -151,7 +151,7 @@ class LoginActivity : AppCompatActivity() {
                 val args: Bundle? = intent.extras
                 val from = args?.getString("openedFrom", "none").toString()
                 if (args == null || from == "none") {
-                    val intent = Intent(this, MainNewActivity::class.java)
+                    val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                 } else {
                     intent.putExtra("openedFrom", args.get("none").toString())

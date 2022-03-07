@@ -13,8 +13,7 @@ import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.ActivityPinViewBinding
 import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
-import com.mikhailgrigorev.quickpassword.ui.main_activity.MainNewActivity
-import com.mikhailgrigorev.quickpassword.ui.main_activity.MainNewActivity
+import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
 import java.util.concurrent.Executor
 
 class PinViewActivity : AppCompatActivity() {
@@ -41,7 +40,7 @@ class PinViewActivity : AppCompatActivity() {
             if (Utils.getBioMode()) {
                 binding.finger.visibility = View.VISIBLE
                 binding.finger.isClickable = true
-                val intent = Intent(this, MainNewActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 executor = ContextCompat.getMainExecutor(this)
                 biometricPrompt = BiometricPrompt(this, executor,
                         object : BiometricPrompt.AuthenticationCallback() {
@@ -109,7 +108,7 @@ class PinViewActivity : AppCompatActivity() {
         binding.exit.setOnClickListener {
             exit()
         }
-        val intent = Intent(this, MainNewActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         binding.inputPinIdField.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (binding.inputPinIdField.text.toString().length == 4) {

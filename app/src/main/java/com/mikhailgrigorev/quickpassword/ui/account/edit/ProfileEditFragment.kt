@@ -7,24 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.FragmentProfileEditBinding
 import com.mikhailgrigorev.quickpassword.ui.account.AccountViewModel
+import com.mikhailgrigorev.quickpassword.ui.account.AccountViewModelFactory
 
 class ProfileEditFragment : Fragment() {
 
     private lateinit var viewModel: AccountViewModel
-
-    private var safePass = 0
-    private var unsafePass = 0
-    private var fixPass = 0
-    private var pass2FA = 0
-    private var encryptedPass = 0
-    private var timeLimit = 0
-    private var pins = 0
     private var _binding: FragmentProfileEditBinding? = null
     private val binding get() = _binding!!
 
@@ -36,6 +30,7 @@ class ProfileEditFragment : Fragment() {
         _binding = FragmentProfileEditBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        initViewModel()
         initViews()
         setHelloText()
         setListeners()
@@ -63,32 +58,38 @@ class ProfileEditFragment : Fragment() {
             val mail = binding.etUserEmail.text.toString()
             val password = binding.etPassword.text.toString()
             val newPassword = binding.etNewPassword.text.toString()
-            Utils.auth.signInWithEmailAndPassword(
-                    Utils.getMail()!!,
-                    password
-            ).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    if (mail != "") {
-                        Utils.auth.currentUser?.updateEmail(mail)
-                        Utils.setMail(mail)
+            if (password == "") {
+                binding.tilPassword.error = "Where is my password??"
+            } else {
+                Utils.auth.signInWithEmailAndPassword(
+                        Utils.getMail()!!,
+                        password
+                ).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        if (mail != "") {
+                            Utils.auth.currentUser?.updateEmail(mail)
+                            Utils.setMail(mail)
+                        }
+                        if (login != "") {
+                            Utils.auth.currentUser?.updateProfile(
+                                    UserProfileChangeRequest.Builder().apply {
+                                        displayName = login
+                                    }.build()
+                            )
+                            Utils.setLogin(login)
+                        }
+                        if (newPassword != "") {
+                            Utils.auth.currentUser?.updatePassword(newPassword)
+                        }
+                        Utils.makeToast(context!!, "Saved")
+                        findNavController().popBackStack()
                     }
-                    if (login != "") {
-                        UserProfileChangeRequest.Builder().apply {
-                            displayName = login
-                        }.build()
-                        Utils.setLogin(login)
-                    }
-                    if (newPassword != "") {
-                        Utils.auth.currentUser?.updatePassword(newPassword)
-                    }
-                    Utils.makeToast(context!!, "Saved")
-                    findNavController().popBackStack()
+                }.addOnFailureListener { exception ->
+                    Log.d("Auth mail", Utils.getMail()!!)
+                    Log.d("Auth password", password)
+                    Utils.makeToast(context!!, "Data saving error, please write to the app creator")
+                    exception.message?.let { Utils.makeToast(context!!, it) }
                 }
-            }.addOnFailureListener { exception ->
-                Log.d("Auth mail", Utils.getMail()!!)
-                Log.d("Auth password", password)
-                Utils.makeToast(context!!, "Data saving error, please write to the app creator")
-                exception.message?.let { Utils.makeToast(context!!, it) }
             }
         }
 
@@ -113,9 +114,20 @@ class ProfileEditFragment : Fragment() {
     }
 
     private fun setHelloText() {
-        val login = Utils.getLogin()!!
-        val name: String = getString(R.string.hi) + " " + login
-        binding.tvUsernameText.text = name
+        viewModel.userLogin.observe(viewLifecycleOwner) { login ->
+            val name: String = getString(R.string.hi) + " " + login
+            binding.tvUsernameText.text = name
+            binding.etUserLogin.setText(
+                    Utils.auth.currentUser?.displayName
+            )
+        }
+    }
+
+    private fun initViewModel() {
+        viewModel = ViewModelProvider(
+                this,
+                AccountViewModelFactory()
+        )[AccountViewModel::class.java]
     }
 
 }

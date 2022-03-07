@@ -46,10 +46,6 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.settings.SettingsActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
             android:name=".ui.pin_code.set.PinSetActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
@@ -62,11 +58,6 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.account.edit.AccountEditActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".ui.password_card.edit.PasswordEditActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
@@ -76,10 +67,6 @@
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.password_card.create.PasswordCreateActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".ui.account.view.AccountViewActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
@@ -96,7 +83,7 @@
             android:name=".ui.main_activity.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.splash.SplashActivity"

@@ -19,7 +19,7 @@
             android:id="@+id/action_profile_fragment_to_profileEditFragment"
             app:destination="@id/profileEditFragment"
             app:popUpTo="@+id/profile_fragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/settings_fragment"
