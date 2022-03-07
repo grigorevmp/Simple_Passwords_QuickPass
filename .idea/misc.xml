@@ -6,6 +6,7 @@
         <entry key="..\:/QuickPass/app/src/main/res/drawable/circle_positive_fill.xml" value="0.37864583333333335" />
         <entry key="..\:/QuickPass/app/src/main/res/drawable/filter_spinner_dropdown_bg.xml" value="0.2305" />
         <entry key="..\:/QuickPass/app/src/main/res/drawable/help_circle_outline.xml" value="0.37864583333333335" />
+        <entry key="..\:/QuickPass/app/src/main/res/drawable/ic_settings.xml" value="0.2315" />
         <entry key="..\:/QuickPass/app/src/main/res/drawable/subdirectory_arrow_right.xml" value="0.37864583333333335" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/activity_about.xml" value="0.2477355072463768" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/activity_account.xml" value="0.2477355072463768" />
@@ -17,6 +18,7 @@
         <entry key="..\:/QuickPass/app/src/main/res/layout/activity_folder_view.xml" value="0.2975630611372381" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/activity_login.xml" value="0.24864130434782608" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/QuickPass/app/src/main/res/layout/activity_new_main.xml" value="0.2975630611372381" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/activity_new_password.xml" value="0.33" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/activity_password_create.xml" value="0.25" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/activity_password_edit.xml" value="0.2975630611372381" />
@@ -35,6 +37,7 @@
         <entry key="..\:/QuickPass/app/src/main/res/layout/pass_fragment.xml" value="0.25769927536231885" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/password_card.xml" value="0.20260416666666667" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/popup.xml" value="0.2543064369900272" />
+        <entry key="..\:/QuickPass/app/src/main/res/menu/bottom_nav_menu.xml" value="0.2975630611372381" />
         <entry key="..\:/QuickPass/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.194" />
         <entry key="..\:/QuickPass/app/src/main/res/mipmap-anydpi-v26/ic_launcher_violet.xml" value="0.1665" />
         <entry key="..\:/QuickPass/app/src/main/res/mipmap-anydpi-v26/ic_launcher_violet_round.xml" value="0.1665" />

@@ -275,7 +275,7 @@
                         android:paddingTop="@dimen/small_margin"
                         android:paddingEnd="@dimen/base_margin"
                         android:paddingBottom="@dimen/small_margin"
-                        android:src="@drawable/cog_outline"
+                        android:src="@drawable/ic_settings"
                         app:tint="@color/black" />
 
                     <ImageButton
