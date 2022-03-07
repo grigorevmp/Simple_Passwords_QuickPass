@@ -66,6 +66,7 @@ class PasswordViewActivity : MyBaseActivity() {
         val args: Bundle? = intent.extras
         from = args?.get("openedFrom").toString()
         if (from == "shortcut") {
+            intent.putExtra("openedFrom", args?.get("openedFrom").toString())
             intent.putExtra("password_id", args?.get("password_id").toString())
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)

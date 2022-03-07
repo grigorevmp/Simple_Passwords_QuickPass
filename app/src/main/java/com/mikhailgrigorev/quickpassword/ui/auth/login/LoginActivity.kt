@@ -46,6 +46,7 @@ class LoginActivity : AppCompatActivity() {
                 this.packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)
 
         val intent = Intent(this, MainActivity::class.java)
+
         if (hasBiometricFeature) {
             executor = ContextCompat.getMainExecutor(this)
             biometricPrompt = BiometricPrompt(this, executor,
@@ -55,7 +56,12 @@ class LoginActivity : AppCompatActivity() {
                             result: BiometricPrompt.AuthenticationResult
                         ) {
                             super.onAuthenticationSucceeded(result)
-                            startActivity(intent)
+
+                            val args: Bundle? = intent.extras
+                            val from = args?.getString("openedFrom", "none").toString()
+                            if (from == "none") {
+                                startActivity(intent)
+                            }
                             finish()
                         }
                     })
@@ -139,8 +145,12 @@ class LoginActivity : AppCompatActivity() {
                 password
         ).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
+                val args: Bundle? = intent.extras
+                val from = args?.getString("openedFrom", "none").toString()
+                if (from == "none") {
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                }
                 finish()
             }
         }.addOnFailureListener {

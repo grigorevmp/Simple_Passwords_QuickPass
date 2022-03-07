@@ -110,7 +110,6 @@ class MainActivity : MyBaseActivity() {
         setPasswordQualityText()
         setObservers()
 
-        // Shortcuts
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1)
             generateShortcuts()
 
@@ -728,7 +727,6 @@ class MainActivity : MyBaseActivity() {
         val intent = Intent(this, PasswordViewActivity::class.java)
 
         intent.action = Intent.ACTION_VIEW
-        intent.putExtra("login", login)
         intent.putExtra("password_id", passwordId)
         intent.putExtra("openedFrom", "shortcut")
 
@@ -737,7 +735,7 @@ class MainActivity : MyBaseActivity() {
 
     private fun createShortcut(id: Int, passwordId: Int, passwordName: String): ShortcutInfo? {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            val intentForShortcut = createIntentForShortcut(id)
+            val intentForShortcut = createIntentForShortcut(passwordId)
             return ShortcutInfo.Builder(this, "shortcut_ $passwordId")
                     .setShortLabel(passwordName)
                     .setLongLabel(passwordName)
@@ -749,20 +747,15 @@ class MainActivity : MyBaseActivity() {
     }
 
     private fun generateShortcuts() {
-        val shortcutList = mutableListOf<ShortcutInfo>()
-
-        val shortcutManager: ShortcutManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            shortcutManager =
-                    getSystemService(ShortcutManager::class.java)!!
-
             viewModel.getFavoriteItems().observe(this) { passwords ->
+                val shortcutList = mutableListOf<ShortcutInfo>()
+                val shortcutManager: ShortcutManager = getSystemService(ShortcutManager::class.java)!!
                 for (i in (0..min(2, passwords.size - 1))) {
                     shortcutList.add(createShortcut(i, passwords[i]._id, passwords[i].name)!!)
                 }
+                shortcutManager.dynamicShortcuts = shortcutList
             }
-
-            shortcutManager.dynamicShortcuts = shortcutList
         }
     }
 

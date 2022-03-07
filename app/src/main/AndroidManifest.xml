@@ -43,53 +43,66 @@
 
         <activity
             android:name="com.mikhailgrigorev.quickpassword.ui.folder.FolderViewActivity"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.mikhailgrigorev.quickpassword.ui.settings.SettingsActivity"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.mikhailgrigorev.quickpassword.ui.pin_code.set.PinSetActivity"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.mikhailgrigorev.quickpassword.ui.pin_code.view.PinViewActivity"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.mikhailgrigorev.quickpassword.ui.about.AboutActivity"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.mikhailgrigorev.quickpassword.ui.account.edit.AccountEditActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.mikhailgrigorev.quickpassword.ui.password_card.edit.PasswordEditActivity"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.mikhailgrigorev.quickpassword.ui.password_card.view.PasswordViewActivity"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.mikhailgrigorev.quickpassword.ui.password_card.create.PasswordCreateActivity"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.mikhailgrigorev.quickpassword.ui.account.view.AccountViewActivity"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.mikhailgrigorev.quickpassword.ui.auth.auth.AuthActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity"
-            android:screenOrientation="fullSensor"
+            android:exported="true"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"
-            android:exported="true">
-        </activity>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.mikhailgrigorev.quickpassword.ui.splash.SplashActivity"
             android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
