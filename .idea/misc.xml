@@ -30,6 +30,10 @@
         <entry key="..\:/QuickPass/app/src/main/res/layout/activity_splash.xml" value="0.2692656391659112" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/autofill_suggestion.xml" value="0.14542415378186377" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/dialog_add_folder.xml" value="0.3625" />
+        <entry key="..\:/QuickPass/app/src/main/res/layout/fragment_password.xml" value="0.2975630611372381" />
+        <entry key="..\:/QuickPass/app/src/main/res/layout/fragment_profile.xml" value="0.2975630611372381" />
+        <entry key="..\:/QuickPass/app/src/main/res/layout/fragment_profile_edit.xml" value="0.2975630611372381" />
+        <entry key="..\:/QuickPass/app/src/main/res/layout/fragment_settings.xml" value="0.2975630611372381" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/item_folder.xml" value="0.3625" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/item_folder_card_popup.xml" value="0.2975630611372381" />
         <entry key="..\:/QuickPass/app/src/main/res/layout/item_password_card.xml" value="0.2975630611372381" />

@@ -14,7 +14,7 @@ import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.ActivityLoginBinding
 import com.mikhailgrigorev.quickpassword.ui.auth.auth.AuthActivity
-import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
+import com.mikhailgrigorev.quickpassword.ui.main_activity.MainNewActivity
 import java.util.concurrent.Executor
 
 class LoginActivity : AppCompatActivity() {
@@ -29,14 +29,16 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initName()
+        initListeners()
+        setBiometricFeature()
+    }
+
+    private fun initName() {
         val name: String = getString(R.string.hi) + " " + Utils.getLogin()
         binding.tvUsernameText.text = name
         binding.tvAvatarSymbol.text = Utils.getLogin()!![0].toString().uppercase()
-
-        // Start animation
         binding.loginFab.show()
-        initListeners()
-        setBiometricFeature()
     }
 
     private fun setBiometricFeature() {
@@ -45,7 +47,7 @@ class LoginActivity : AppCompatActivity() {
         val hasBiometricFeature: Boolean =
                 this.packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)
 
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, MainNewActivity::class.java)
 
         if (hasBiometricFeature) {
             executor = ContextCompat.getMainExecutor(this)
@@ -56,11 +58,12 @@ class LoginActivity : AppCompatActivity() {
                             result: BiometricPrompt.AuthenticationResult
                         ) {
                             super.onAuthenticationSucceeded(result)
-
                             val args: Bundle? = intent.extras
                             val from = args?.getString("openedFrom", "none").toString()
-                            if (from == "none") {
+                            if (args == null || from == "none") {
                                 startActivity(intent)
+                            } else {
+                                intent.putExtra("openedFrom", args.get("none").toString())
                             }
                             finish()
                         }
@@ -147,9 +150,11 @@ class LoginActivity : AppCompatActivity() {
             if (task.isSuccessful) {
                 val args: Bundle? = intent.extras
                 val from = args?.getString("openedFrom", "none").toString()
-                if (from == "none") {
-                    val intent = Intent(this, MainActivity::class.java)
+                if (args == null || from == "none") {
+                    val intent = Intent(this, MainNewActivity::class.java)
                     startActivity(intent)
+                } else {
+                    intent.putExtra("openedFrom", args.get("none").toString())
                 }
                 finish()
             }

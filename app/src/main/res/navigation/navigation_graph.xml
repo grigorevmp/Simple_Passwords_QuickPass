@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/navigation_graph.xml">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph.xml"
+    app:startDestination="@id/password_fragment">
 
+    <fragment
+        android:id="@+id/password_fragment"
+        android:name="com.mikhailgrigorev.quickpassword.ui.password.PasswordFragment"
+        android:label="fragment_password"
+        tools:layout="@layout/fragment_password" />
+    <fragment
+        android:id="@+id/profile_fragment"
+        android:name="com.mikhailgrigorev.quickpassword.ui.account.view.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profile_fragment_to_profileEditFragment"
+            app:destination="@id/profileEditFragment"
+            app:popUpTo="@+id/profile_fragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/settings_fragment"
+        android:name="com.mikhailgrigorev.quickpassword.ui.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/profileEditFragment"
+        android:name="com.mikhailgrigorev.quickpassword.ui.account.edit.ProfileEditFragment"
+        android:label="ProfileEditFragment" />
 </navigation>

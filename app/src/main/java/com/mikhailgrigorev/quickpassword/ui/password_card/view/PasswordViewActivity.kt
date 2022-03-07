@@ -26,7 +26,7 @@ import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityPasswordViewBinding
 import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
-import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
+import com.mikhailgrigorev.quickpassword.ui.main_activity.MainNewActivity
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModel
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModelFactory
 import com.mikhailgrigorev.quickpassword.ui.password_card.edit.PasswordEditActivity
@@ -297,7 +297,7 @@ class PasswordViewActivity : MyBaseActivity() {
                         Utils.makeToast(applicationContext, getString(R.string.passwordDeleted))
                     }
                 }
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, MainNewActivity::class.java)
                 startActivity(intent)
                 finish()
             }
@@ -363,7 +363,7 @@ class PasswordViewActivity : MyBaseActivity() {
                 setResult(1, intent)
                 finish()
             } else {
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, MainNewActivity::class.java)
                 intent.putExtra("password_id", viewModel.currentPassword!!._id)
                 startActivity(intent)
                 finish()
