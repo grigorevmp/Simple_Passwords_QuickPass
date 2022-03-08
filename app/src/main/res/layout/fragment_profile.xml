@@ -139,7 +139,7 @@
                 android:layout_height="@dimen/account_logo_size"
                 android:backgroundTint="@color/ic_account"
                 android:layout_marginTop="@dimen/medium_margin"
-                app:cardCornerRadius="35dp"
+                app:cardCornerRadius="@dimen/account_logo_radius_size"
                 app:cardElevation="@dimen/small_elevation"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -270,13 +270,13 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvEditAccount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="40dp"
                 android:scaleX="0.7"
                 android:scaleY="0.7"
-                app:cardCornerRadius="20dp"
+                app:cardCornerRadius="25dp"
                 app:cardElevation="@dimen/base_margin"
                 app:layout_constraintBottom_toBottomOf="@+id/cvAccountAvatar"
                 app:layout_constraintStart_toStartOf="@+id/cvAccountAvatar"
@@ -286,7 +286,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/edit"
-                    android:padding="@dimen/small_margin"
+                    android:layout_gravity="center"
                     app:srcCompat="@drawable/pencil_outline"
                     app:tint="@color/black" />
             </androidx.cardview.widget.CardView>

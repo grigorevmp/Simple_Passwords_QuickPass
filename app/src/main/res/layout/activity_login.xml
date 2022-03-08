@@ -13,24 +13,26 @@
         android:id="@+id/tvUsernameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/base_margin"
-        android:layout_marginTop="@dimen/base_margin"
+        android:layout_marginTop="@dimen/medium_margin"
         android:text="@string/hi_username"
         android:textColor="@color/textDark"
         android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/cvAccountAvatar" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvAccountAvatar"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="@dimen/account_logo_size"
+        android:layout_height="@dimen/account_logo_size"
         android:layout_marginTop="@dimen/base_margin"
-        android:layout_marginEnd="@dimen/base_margin"
-        app:cardCornerRadius="25dp"
+        android:layout_marginBottom="100dp"
         android:backgroundTint="@color/ic_account"
+        app:cardCornerRadius="@dimen/account_logo_radius_size"
         app:cardElevation="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/inputPasswordId"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -38,8 +40,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
-            android:textColor="@color/white"
-            android:text="@string/_0" />
+            android:text="@string/_0"
+            android:textSize="@dimen/userNameTextSize"
+            android:textColor="@color/white" />
 
     </androidx.cardview.widget.CardView>
 
@@ -123,17 +126,17 @@
         android:id="@+id/inputPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/base_margin"
         android:layout_marginTop="10dp"
         android:text="@string/input_your_password"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvUsernameText" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/base_margin"
         android:text="@string/or_use_fingerprint"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputPass" />
 

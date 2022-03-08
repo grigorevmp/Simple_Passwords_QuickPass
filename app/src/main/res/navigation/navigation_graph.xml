@@ -20,6 +20,11 @@
             app:destination="@id/profileEditFragment"
             app:popUpTo="@+id/profile_fragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_profile_fragment_to_aboutFragment"
+            app:destination="@id/aboutFragment"
+            app:popUpTo="@+id/profile_fragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/settings_fragment"
@@ -30,4 +35,9 @@
         android:id="@+id/profileEditFragment"
         android:name="com.mikhailgrigorev.quickpassword.ui.account.edit.ProfileEditFragment"
         android:label="ProfileEditFragment" />
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.mikhailgrigorev.quickpassword.ui.about.AboutFragment"
+        android:label="fragment_about"
+        tools:layout="@layout/fragment_about" />
 </navigation>

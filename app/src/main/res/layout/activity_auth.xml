@@ -13,11 +13,12 @@
         android:id="@+id/tvUsernameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/base_margin"
         android:layout_marginTop="@dimen/base_margin"
         android:text="@string/hi_username"
         android:textColor="@color/textDark"
         android:textSize="@dimen/userNameTextSize"
+        app:layout_constraintBottom_toTopOf="@+id/inputLoginId"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -168,9 +169,9 @@
         android:id="@+id/loginOrCreateAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/base_margin"
         android:layout_marginTop="@dimen/small_margin"
         android:text="@string/helloSubText"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvUsernameText" />
 

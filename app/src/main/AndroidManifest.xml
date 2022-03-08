@@ -54,10 +54,6 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.about.AboutActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
             android:name=".ui.password_card.edit.PasswordEditActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />

@@ -50,7 +50,6 @@
     <string name="passCopied">Пароль скопирован в буфер обмена</string>
     <string name="loginCopied">Логин скопирован в буфер обмена</string>
     <string name="nameCopied">Название скопировано в буфер обмена</string>
-    <string name="add_new_password">Добавить пароль</string>
     <string name="name_your_password">Введите имя пароля</string>
     <string name="set_time_limit">Лимит времени</string>
     <string name="add_some_description">Добавить описание</string>
@@ -88,7 +87,7 @@
     <string name="search_password">Поиск</string>
     <string name="auto_copy_password">Авто-копирование пароля</string>
     <string name="about_app">О приложении</string>
-    <string name="mikhail_grigorev">Михаил Григорьев</string>
+    <string name="app_author">Михаил Григорьев</string>
     <string name="chooseEmail">Выберете email клиент…</string>
     <string name="key_words">Ключевые слова</string>
     <string name="add_keywords">Добавить ключевые слова</string>
@@ -148,11 +147,10 @@
     <string name="userDidNotSetMail">Вы не указали вашу почту =(</string>
     <string name="crypt">Шифровать</string>
     <string name="cipherInfo">Шифровать - ваш пароль будет храниться в зашифрованном виде и расшифровываться только при показе</string>
-    <string name="save_password">Save password</string>
-    <string name="add_password">Add password</string>
+    <string name="save_password">Сохранить пароль</string>
     <string name="encrypted">Crypted</string>
     <string name="bank_card">Bank Card</string>
-    <string name="add_password_plus">Add password</string>
+    <string name="add_password">Добавить пароль</string>
     <string name="set_pin_helper">Вам необходимо ввести 4 цифры</string>
     <string name="mail_description">Если вы забудете пароль, он будет отправлен на вашу электронную почту</string>
     <string name="slowLoading">Включение шифрования замедляет загрузку списка паролей</string>
@@ -180,7 +178,6 @@
     <string name="doNotLock">Не блокировать</string>
     <string name="password_analyze">Скрыть анализ пароля</string>
     <string name="card_corners_radius">Радиус углов карточки</string>
-    <string name="a_z">A-Z</string>
     <string name="up">Up</string>
     <string name="date">Дата</string>
     <string name="attach_image">Прикрепить изображение</string>
@@ -190,4 +187,11 @@
     <string name="checkAutoFillSettings">Проверить настройки автозаполнения</string>
     <string name="autofill_Desc">На текущий момент QuickPass поддерживает только приложения, чьи имена имеют общие части с названием вашего пароля</string>
     <string name="attach_image_mini">Прикрепить</string>
+
+    <string name="same_parts">Совпадает с: %1$s</string>
+    <string name="accountEditRules">Заполните требуемые поля и введите текущий пароль</string>
+    <string name="folder">Папка</string>
+    <string name="add_folder">Новая папка</string>
+    <string name="delete">Удалить</string>
+    <string name="new_pass">New password:</string>
 </resources>

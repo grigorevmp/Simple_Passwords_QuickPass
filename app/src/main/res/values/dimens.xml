@@ -28,6 +28,8 @@
     <!-- About page -->
     <dimen name="about_icon_size">100dp</dimen>
     <dimen name="about_small_icon_size">30dp</dimen>
+    <dimen name="about_x_small_icon_size">20dp</dimen>
     <dimen name="about_bottom_margin">30dp</dimen>
     <dimen name="account_logo_size">70dp</dimen>
+    <dimen name="account_logo_radius_size">35dp</dimen>
 </resources>

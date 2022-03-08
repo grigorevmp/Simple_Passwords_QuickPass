@@ -15,7 +15,6 @@ import androidx.navigation.fragment.findNavController
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.FragmentProfileBinding
-import com.mikhailgrigorev.quickpassword.ui.about.AboutActivity
 import com.mikhailgrigorev.quickpassword.ui.account.AccountViewModel
 import com.mikhailgrigorev.quickpassword.ui.account.AccountViewModelFactory
 import com.mikhailgrigorev.quickpassword.ui.auth.auth.AuthActivity
@@ -150,8 +149,9 @@ class ProfileFragment : Fragment() {
 
     private fun setListeners() {
         binding.ivAboutApp.setOnClickListener {
-            val intent = Intent(context!!, AboutActivity::class.java)
-            startActivity(intent)
+            findNavController().navigate(
+                    ProfileFragmentDirections.actionProfileFragmentToAboutFragment()
+            )
         }
         binding.cvAdditionalInfoCard.setOnClickListener {
             val intent = Intent(context!!, DonutActivity::class.java)
