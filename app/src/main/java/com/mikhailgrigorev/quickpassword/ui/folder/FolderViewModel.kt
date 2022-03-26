@@ -80,7 +80,7 @@ class FolderViewModel @Inject constructor(
     fun getItemsNumberWith2fa() = passwordCardRepo.getItemsNumberWith2fa()
     fun getItemsNumberWithEncrypted() = passwordCardRepo.getItemsNumberWithEncrypted()
 
-    fun deleteItem(item: PasswordCard) = passwordCardRepo.delete(item)
+    suspend fun deleteItem(item: PasswordCard) = passwordCardRepo.delete(item)
 
     fun getPasswords(
         type: PasswordGettingType = PasswordGettingType.All,

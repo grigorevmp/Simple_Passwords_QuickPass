@@ -346,6 +346,8 @@ class PasswordFragment: Fragment() {
                     binding.cardView.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0).start()
                     binding.cvAdditionalInfoCard.animate().alpha(abs(slideOffset) + 0.5F)
                             .setDuration(0).start()
+                    binding.cvPasswordGenerateButton.animate().alpha(abs(slideOffset) + 0.5F)
+                            .setDuration(0).start()
                     binding.cvBackupReminderCard.animate().alpha(abs(slideOffset) + 0.5F)
                             .setDuration(0)
                             .start()
@@ -484,7 +486,7 @@ class PasswordFragment: Fragment() {
         binding.fabAddFolder.setOnClickListener {
             val customAlertDialogView = LayoutInflater.from(context)
                     .inflate(R.layout.dialog_add_folder, null, false)
-            val materialAlertDialogBuilder = MaterialAlertDialogBuilder(context!!)
+            val materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
             customAlertDialogView.findViewById<SpectrumPalette>(R.id.spPalette)
                     .setOnColorSelectedListener { it_ ->
                         globalColor = "#${Integer.toHexString(it_).uppercase(Locale.getDefault())}"
@@ -577,7 +579,7 @@ class PasswordFragment: Fragment() {
     private fun setPasswordAdapter(passwords: List<PasswordCard>) {
         binding.rvPasswordRecycler.adapter = PasswordAdapter(
                 passwords,
-                context!!,
+                requireContext(),
                 clickListener = {
                     passClickListener(it)
                 },
@@ -595,7 +597,7 @@ class PasswordFragment: Fragment() {
     private fun setFolderAdapter() {
         binding.rvFoldersRecycler.adapter = FolderAdapter(
                 folderCards,
-                context!!,
+                requireContext(),
                 clickListener = {
                     folderClickListener(it)
                 }
@@ -620,16 +622,16 @@ class PasswordFragment: Fragment() {
     private fun copyPassword() {
         if (binding.tePasswordToGenerate.text.toString() != "") {
             val clipboard =
-                    context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip =
                     ClipData.newPlainText("Password", binding.tePasswordToGenerate.text.toString())
             clipboard.setPrimaryClip(clip)
-            Utils.makeToast(context!!, getString(R.string.passCopied))
+            Utils.makeToast(requireContext(), getString(R.string.passCopied))
         }
     }
 
     private fun goToNewPasswordActivity() {
-        val intent = Intent(context!!, PasswordCreateActivity::class.java)
+        val intent = Intent(requireContext(), PasswordCreateActivity::class.java)
         intent.putExtra("pass", binding.tePasswordToGenerate.text.toString())
         intent.putExtra("useLetters", useLetters)
         intent.putExtra("useUC", useUC)
@@ -747,7 +749,7 @@ class PasswordFragment: Fragment() {
     }
 
     private fun createIntentForShortcut(passwordId: Int): Intent {
-        val intent = Intent(context!!, PasswordViewActivity::class.java)
+        val intent = Intent(requireContext(), PasswordViewActivity::class.java)
 
         intent.action = Intent.ACTION_VIEW
         intent.putExtra("password_id", passwordId)
@@ -759,10 +761,10 @@ class PasswordFragment: Fragment() {
     private fun createShortcut(passwordId: Int, passwordName: String): ShortcutInfo? {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             val intentForShortcut = createIntentForShortcut(passwordId)
-            return ShortcutInfo.Builder(context!!, "shortcut_ $passwordId")
+            return ShortcutInfo.Builder(requireContext(), "shortcut_ $passwordId")
                     .setShortLabel(passwordName)
                     .setLongLabel(passwordName)
-                    .setIcon(Icon.createWithResource(context!!, R.drawable.ic_fav_action))
+                    .setIcon(Icon.createWithResource(requireContext(), R.drawable.ic_fav_action))
                     .setIntent(intentForShortcut)
                     .build()
         }
@@ -774,7 +776,7 @@ class PasswordFragment: Fragment() {
             viewModel.getFavoriteItems().observe(viewLifecycleOwner) { passwords ->
                 val shortcutList = mutableListOf<ShortcutInfo>()
                 val shortcutManager: ShortcutManager =
-                        context!!.getSystemService(ShortcutManager::class.java)!!
+                        requireContext().getSystemService(ShortcutManager::class.java)!!
                 for (i in (0..min(2, passwords.size - 1))) {
                     shortcutList.add(createShortcut(passwords[i]._id, passwords[i].name)!!)
                 }
@@ -819,11 +821,11 @@ class PasswordFragment: Fragment() {
         point.x = location[0]
         point.y = location[1]
         val layoutInflater =
-                context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val layout: View = layoutInflater.inflate(R.layout.item_folder_card_popup, null)
 
         globalFolderPos = position.toString().toInt()
-        changeFolderPopUp = PopupWindow(context!!)
+        changeFolderPopUp = PopupWindow(requireContext())
         changeFolderPopUp.contentView = layout
         changeFolderPopUp.width = LinearLayout.LayoutParams.WRAP_CONTENT
         changeFolderPopUp.height = LinearLayout.LayoutParams.WRAP_CONTENT
@@ -847,11 +849,11 @@ class PasswordFragment: Fragment() {
         point.x = location[0]
         point.y = location[1]
         val layoutInflater =
-                context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val layout: View = layoutInflater.inflate(R.layout.item_password_card_popup, null)
 
         globalPos = position.toString().toInt()
-        changeStatusPopUp = PopupWindow(context!!)
+        changeStatusPopUp = PopupWindow(requireContext())
         changeStatusPopUp.contentView = layout
         changeStatusPopUp.width = LinearLayout.LayoutParams.WRAP_CONTENT
         changeStatusPopUp.height = LinearLayout.LayoutParams.WRAP_CONTENT
@@ -869,13 +871,13 @@ class PasswordFragment: Fragment() {
     }
 
     private fun passClickListener(position: Int) {
-        val intent = Intent(context!!, PasswordViewActivity::class.java)
+        val intent = Intent(requireContext(), PasswordViewActivity::class.java)
         intent.putExtra("password_id", passwordCards[position]._id)
         startActivity(intent)
     }
 
     private fun folderClickListener(position: Int) {
-        val intent = Intent(context!!, FolderViewActivity::class.java)
+        val intent = Intent(requireContext(), FolderViewActivity::class.java)
         intent.putExtra("folder_id", folderCards[position]._id)
         intent.putExtra("folder_name", folderCards[position].name)
         startActivity(intent)
@@ -898,9 +900,9 @@ class PasswordFragment: Fragment() {
         val folder = folderCards[position]
         changeFolderPopUp.dismiss()
 
-        val customAlertDialogView = LayoutInflater.from(context!!)
+        val customAlertDialogView = LayoutInflater.from(requireContext())
                 .inflate(R.layout.dialog_add_folder, null, false)
-        val materialAlertDialogBuilder = MaterialAlertDialogBuilder(context!!)
+        val materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
         customAlertDialogView.findViewById<SpectrumPalette>(R.id.spPalette)
                 .setOnColorSelectedListener { it_ ->
                     globalColor = "#${Integer.toHexString(it_).uppercase(Locale.getDefault())}"
@@ -956,12 +958,14 @@ class PasswordFragment: Fragment() {
     fun delete(view: View) {
         val position = globalPos
 
-        val builder = AlertDialog.Builder(context!!, R.style.AlertDialogCustom)
+        val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogCustom)
         builder.setTitle(getString(R.string.deletePassword))
         builder.setMessage(getString(R.string.passwordDeleteConfirm))
 
         builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
-            viewModel.deleteItem(passwordCards[position])
+            lifecycleScope.launch(Dispatchers.IO) {
+                viewModel.deleteItem(passwordCards[position])
+            }
 
             setObservers()
         }

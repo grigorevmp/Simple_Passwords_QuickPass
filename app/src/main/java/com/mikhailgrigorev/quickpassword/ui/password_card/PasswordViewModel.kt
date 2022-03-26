@@ -31,7 +31,7 @@ class PasswordViewModel @Inject constructor(
         passwordCardRepo.update(password)
     }
 
-    fun deletePassword() {
+    suspend fun deletePassword() {
         if (currentPassword != null) {
             passwordCardRepo.delete(currentPassword!!)
         }

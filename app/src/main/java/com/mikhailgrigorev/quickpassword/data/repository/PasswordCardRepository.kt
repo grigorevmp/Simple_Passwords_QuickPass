@@ -71,7 +71,7 @@ class PasswordCardRepository @Inject constructor(
         passwordCardDao.update(pcItem)
     }
 
-    fun delete(pcItem: PasswordCard) {
+    suspend fun delete(pcItem: PasswordCard) {
         passwordCardDao.delete(pcItem)
     }
 
