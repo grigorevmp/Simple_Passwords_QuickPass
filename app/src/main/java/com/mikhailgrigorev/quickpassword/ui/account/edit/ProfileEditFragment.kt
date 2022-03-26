@@ -91,14 +91,14 @@ class ProfileEditFragment : Fragment() {
                         if (newPassword != "") {
                             Utils.auth.currentUser?.updatePassword(newPassword)
                         }
-                        Utils.makeToast(context!!, "Saved")
+                        Utils.makeToast(requireContext(), "Saved")
                         findNavController().popBackStack()
                     }
                 }.addOnFailureListener { exception ->
                     Log.d("Auth mail", Utils.getMail()!!)
                     Log.d("Auth password", password)
-                    Utils.makeToast(context!!, "Data saving error, please write to the app creator")
-                    exception.message?.let { Utils.makeToast(context!!, it) }
+                    Utils.makeToast(requireContext(), "Data saving error, please write to the app creator")
+                    exception.message?.let { Utils.makeToast(requireContext(), it) }
                 }
             }
         }

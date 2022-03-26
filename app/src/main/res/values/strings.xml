@@ -223,5 +223,7 @@
     <string name="add_folder">Add folder</string>
     <string name="question" translatable="false">\?</string>
     <string name="spanish_translation_waifupx_dg" translatable="false">Spanish translation: WaifuPX-DG</string>
+    <string name="folder_creation">Create folder</string>
+    <string name="create_folder_config">Current configuration details</string>
 
 </resources>

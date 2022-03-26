@@ -29,6 +29,7 @@
                 android:layout_marginEnd="@dimen/base_margin"
                 android:clickable="true"
                 android:focusable="true"
+                android:visibility="gone"
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardBackgroundColor="?attr/colorPrimary"
                 app:cardCornerRadius="@dimen/base_card_radius"
@@ -66,7 +67,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/cvTotalPoints">
 
                 <HorizontalScrollView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scrollIndicators="none"
                     android:scrollbarThumbHorizontal="@null">
@@ -138,7 +139,7 @@
                 android:layout_width="@dimen/account_logo_size"
                 android:layout_height="@dimen/account_logo_size"
                 android:backgroundTint="@color/ic_account"
-                android:layout_marginTop="@dimen/medium_margin"
+                android:layout_marginTop="@dimen/max_width"
                 app:cardCornerRadius="@dimen/account_logo_radius_size"
                 app:cardElevation="@dimen/small_elevation"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -161,15 +162,15 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginTop="@dimen/base_margin"
                 android:layout_marginEnd="@dimen/base_margin"
+                android:layout_marginTop="@dimen/base_margin"
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardBackgroundColor="?attr/colorPrimary"
                 app:cardCornerRadius="@dimen/base_card_radius"
                 app:cardElevation="@dimen/base_card_elevation"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cvAdditionalInfoCard">
+                app:layout_constraintTop_toBottomOf="@+id/cvEncrypted">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -205,25 +206,19 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/settingsCard"
+                android:id="@+id/deleteCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginStart="@dimen/base_margin"
                 android:layout_marginBottom="30dp"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="@dimen/base_card_radius"
                 app:cardElevation="@dimen/small_elevation"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cvWarningRulesCard"
                 app:layout_constraintVertical_bias="1.0">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="@dimen/small_margin"
-                    android:gravity="center">
 
                     <ImageButton
                         android:id="@+id/ivDeleteAccount"
@@ -238,6 +233,29 @@
                         android:paddingBottom="@dimen/small_margin"
                         android:src="@drawable/delete_outline"
                         app:tint="@color/quitAccent"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/settingsCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin"
+                android:layout_marginBottom="30dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/base_card_radius"
+                app:cardElevation="@dimen/small_elevation"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cvWarningRulesCard"
+                app:layout_constraintVertical_bias="1.0">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/small_margin"
+                    android:gravity="center">
 
                     <ImageButton
                         android:id="@+id/ivLogOut"
@@ -369,10 +387,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginTop="@dimen/max_width"
                 android:layout_marginEnd="@dimen/base_margin"
                 android:foreground="?android:attr/selectableItemBackground"
-
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="@dimen/base_card_radius"
                 app:cardElevation="@dimen/base_card_elevation"

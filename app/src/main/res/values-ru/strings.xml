@@ -148,17 +148,17 @@
     <string name="crypt">Шифровать</string>
     <string name="cipherInfo">Шифровать - ваш пароль будет храниться в зашифрованном виде и расшифровываться только при показе</string>
     <string name="save_password">Сохранить пароль</string>
-    <string name="encrypted">Crypted</string>
+    <string name="encrypted">Encrypted</string>
     <string name="bank_card">Bank Card</string>
     <string name="add_password">Добавить пароль</string>
     <string name="set_pin_helper">Вам необходимо ввести 4 цифры</string>
     <string name="mail_description">Если вы забудете пароль, он будет отправлен на вашу электронную почту</string>
     <string name="slowLoading">Включение шифрования замедляет загрузку списка паролей</string>
     <string name="pin">PIN</string>
-    <string name="newPassIdea"> Идея создания пароля</string>
-    <string name="newPassIdea1"> Придумайте ключевое слово, например, kitten. Создавайте пароль, не указывая ключ в приложении, добавляйте ключевое слово в конец пароля на сервисе. Например, "Sup3rP4s55kitten"
+    <string name="newPassIdea">Идея создания пароля</string>
+    <string name="newPassIdea1">Придумайте ключевое слово, например, kitten. Создавайте пароль, не указывая ключ в приложении, добавляйте ключевое слово в конец пароля на сервисе. Например, "Sup3rP4s55kitten"
     Так, даже если эту базу данных получит злоумышленник, он не узнает ваш пароль.</string>
-    <string name="warnQuality"> Качество защищённых паролей не будет анализироваться вне этого экрана</string>
+    <string name="warnQuality">Качество защищённых паролей не будет анализироваться вне этого экрана</string>
     <string name="tooEasyText"> Ваш пароль/пин входит в число самых популярных</string>
     <string name="donut">Donut</string>
     <string name="donutMe">Купите мне…</string>
@@ -173,7 +173,7 @@
     <string name="appleDesc">Я не могу жить без фруктов</string>
     <string name="burgerDesc">Вкусный, сочный, мясной бургер</string>
     <string name="password">Пароль</string>
-    <string name="thxText"> (Спасибо =))</string>
+    <string name="thxText">(Спасибо =))</string>
     <string name="app_lock_time">Время блокировки приложения</string>
     <string name="doNotLock">Не блокировать</string>
     <string name="password_analyze">Скрыть анализ пароля</string>
@@ -193,5 +193,7 @@
     <string name="folder">Папка</string>
     <string name="add_folder">Новая папка</string>
     <string name="delete">Удалить</string>
-    <string name="new_pass">New password:</string>
+    <string name="new_pass">Новый пароль:</string>
+    <string name="folder_creation">Создать папку</string>
+    <string name="create_folder_config">Храните пароли в папках</string>
 </resources>

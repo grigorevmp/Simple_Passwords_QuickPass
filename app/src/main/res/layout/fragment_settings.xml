@@ -211,7 +211,7 @@
                 android:layout_marginStart="@dimen/base_margin"
                 android:layout_marginTop="@dimen/base_margin"
                 android:layout_marginEnd="@dimen/base_margin"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="@dimen/base_card_radius"
                 app:cardElevation="@dimen/small_margin"

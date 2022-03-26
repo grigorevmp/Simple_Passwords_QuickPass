@@ -144,7 +144,7 @@
     <string name="pin">PIN</string>
     <string name="newPassIdea">Idea de creación de contraseña</string>
     <string name="newPassIdea1">Piensa en una palabra clave como gatito. Cree una contraseña sin especificarla en la aplicación, agregue una palabra clave al final de la contraseña en el servicio. Sup3rP4s55kitten Entonces, incluso si un atacante obtiene la base de datos no tendrá acceso a los servicios.</string>
-    <string name="warnQuality"> La calidad de las contraseñas cifradas no se analizará en la pantalla principal.</string>
+    <string name="warnQuality">La calidad de las contraseñas cifradas no se analizará en la pantalla principal.</string>
     <string name="tooEasyText">Su contraseña / pin es uno de los más populares.</string>
     <string name="donut">Dona</string>
     <string name="donutMe">Cómprame …</string>

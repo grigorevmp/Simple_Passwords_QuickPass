@@ -149,8 +149,8 @@ class ProfileFragment : Fragment() {
             if (binding.tvAllPasswords.text.toString() != "0") {
                 binding.tvTotalPoints.text = getString(
                         R.string.numericValue,
-                        (safePass.toFloat() + fixPass.toFloat() / 2 + unsafePass.toFloat() * 0 + encryptedPass.toFloat() + pass2FA.toFloat())
-                                / (7 / 3 * (safePass.toFloat() + unsafePass.toFloat() + fixPass.toFloat()))
+                        5 * ((safePass.toFloat() + fixPass.toFloat() / 2 + encryptedPass.toFloat() + pass2FA.toFloat()) / 3)
+                                / ((safePass + unsafePass + fixPass).toFloat())
                 )
             } else {
                 binding.tvTotalPoints.text = "0"
@@ -165,11 +165,11 @@ class ProfileFragment : Fragment() {
             )
         }
         binding.cvAdditionalInfoCard.setOnClickListener {
-            val intent = Intent(context!!, DonutActivity::class.java)
+            val intent = Intent(requireContext(), DonutActivity::class.java)
             startActivity(intent)
         }
         binding.ivLogOut.setOnClickListener {
-            val builder = AlertDialog.Builder(context!!, R.style.AlertDialogCustom)
+            val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogCustom)
             builder.setTitle(getString(R.string.exit_account))
             builder.setMessage(getString(R.string.accountExitConfirm))
             builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
@@ -190,12 +190,12 @@ class ProfileFragment : Fragment() {
         }
 
         binding.ivDeleteAccount.setOnClickListener {
-            val builder = AlertDialog.Builder(context!!, R.style.AlertDialogCustom)
+            val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogCustom)
             builder.setTitle(getString(R.string.accountDelete))
             builder.setMessage(getString(R.string.accountDeleteConfirm))
 
             builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
-                Utils.makeToast(context!!, getString(R.string.accountDeleted))
+                Utils.makeToast(requireContext(), getString(R.string.accountDeleted))
                 deleteAccount()
             }
 
@@ -235,12 +235,12 @@ class ProfileFragment : Fragment() {
         val shortcutManager: ShortcutManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             shortcutManager =
-                    context!!.getSystemService(ShortcutManager::class.java)!!
+                    requireContext().getSystemService(ShortcutManager::class.java)!!
 
             shortcutManager.dynamicShortcuts = shortcutList
         }
 
-        val intent = Intent(context!!, AuthActivity::class.java)
+        val intent = Intent(requireContext(), AuthActivity::class.java)
         startActivity(intent)
     }
 

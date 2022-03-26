@@ -303,7 +303,12 @@ class PasswordFragment: Fragment() {
 
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.llAllPasswords)
 
-        bottomSheetBehavior.state = Utils.bottomBarState()
+        try {
+            bottomSheetBehavior.state = Utils.bottomBarState()
+        } catch (e: Exception) {
+            e.message?.let { Log.d("bottomSheetBehavior", it) }
+        }
+
         binding.ivExpandBottomDialog.animate().rotation(180F * bottomSheetBehavior.state)
                 .setDuration(0).start()
         if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
@@ -487,8 +492,8 @@ class PasswordFragment: Fragment() {
             materialAlertDialogBuilder.setView(customAlertDialogView)
             materialAlertDialogBuilder
                     .setView(customAlertDialogView)
-                    .setTitle("Folder creation")
-                    .setMessage("Current configuration details")
+                    .setTitle(getString(R.string.folder_creation))
+                    .setMessage(getString(R.string.create_folder_config))
                     .setPositiveButton("Ok") { dialog, _ ->
                         val name =
                                 customAlertDialogView.findViewById<TextInputEditText>(
