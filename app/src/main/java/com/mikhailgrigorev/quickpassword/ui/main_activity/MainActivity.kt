@@ -1,6 +1,7 @@
 package com.mikhailgrigorev.quickpassword.ui.main_activity
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -13,6 +14,8 @@ import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.ActivityMainBinding
 import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
 import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
+import com.mikhailgrigorev.quickpassword.ui.password.PasswordFragment
+
 
 private lateinit var binding: ActivityMainBinding
 
@@ -47,5 +50,33 @@ class MainActivity : AppCompatActivity() {
                     Navigation.findNavController(this, R.id.nav_host_fragment)
             )
         }
+    }
+
+    fun editFolder(view: View) {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        val fragment: PasswordFragment =
+                navHostFragment?.childFragmentManager?.fragments?.get(0) as PasswordFragment
+        fragment.editFolder(view)
+    }
+
+    fun deleteFolder(view: View) {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        val fragment: PasswordFragment =
+                navHostFragment?.childFragmentManager?.fragments?.get(0) as PasswordFragment
+        fragment.deleteFolder(view)
+    }
+
+    fun delete(view: View) {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        val fragment: PasswordFragment =
+                navHostFragment?.childFragmentManager?.fragments?.get(0) as PasswordFragment
+        fragment.delete(view)
+    }
+
+    fun favorite(view: View) {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        val fragment: PasswordFragment =
+                navHostFragment?.childFragmentManager?.fragments?.get(0) as PasswordFragment
+        fragment.favorite(view)
     }
 }
