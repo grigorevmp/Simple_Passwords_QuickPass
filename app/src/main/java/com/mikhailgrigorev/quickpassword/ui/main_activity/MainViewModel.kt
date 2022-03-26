@@ -3,17 +3,19 @@ package com.mikhailgrigorev.quickpassword.ui.main_activity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mikhailgrigorev.quickpassword.common.PasswordGettingType
-import com.mikhailgrigorev.quickpassword.common.PasswordQuality
+import com.mikhailgrigorev.quickpassword.common.utils.PasswordGettingType
+import com.mikhailgrigorev.quickpassword.common.utils.PasswordQuality
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.data.repository.FolderRepository
 import com.mikhailgrigorev.quickpassword.data.repository.PasswordCardRepository
+import javax.inject.Inject
 
-class MainViewModel() : ViewModel() {
-    private val passwordCardRepo: PasswordCardRepository = PasswordCardRepository()
-    private val folderRepo: FolderRepository = FolderRepository()
+class MainViewModel @Inject constructor(
+    private var passwordCardRepo: PasswordCardRepository,
+    private var folderRepo: FolderRepository
+) : ViewModel() {
     val passwords = passwordCardRepo.allData
     val folders = folderRepo.allData
 

@@ -3,7 +3,7 @@ package com.mikhailgrigorev.quickpassword.data.dbo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
-import com.mikhailgrigorev.quickpassword.common.PasswordQuality
+import com.mikhailgrigorev.quickpassword.common.utils.PasswordQuality
 
 @Entity(tableName = "password_card")
 data class PasswordCard(

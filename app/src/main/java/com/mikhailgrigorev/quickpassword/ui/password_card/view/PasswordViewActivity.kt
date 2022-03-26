@@ -20,19 +20,21 @@ import androidx.lifecycle.lifecycleScope
 import androidx.window.layout.WindowMetricsCalculator
 import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpassword.R
-import com.mikhailgrigorev.quickpassword.common.PasswordQuality
 import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
+import com.mikhailgrigorev.quickpassword.common.utils.PasswordQuality
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityPasswordViewBinding
+import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
+import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
 import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
 import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModel
-import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModelFactory
 import com.mikhailgrigorev.quickpassword.ui.password_card.edit.PasswordEditActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
+import javax.inject.Inject
 
 class PasswordViewActivity : MyBaseActivity() {
 
@@ -40,10 +42,13 @@ class PasswordViewActivity : MyBaseActivity() {
     private lateinit var from: String
     private lateinit var binding: ActivityPasswordViewBinding
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
     private fun initViewModel() {
         viewModel = ViewModelProvider(
                 this,
-                PasswordViewModelFactory()
+                viewModelFactory
         )[PasswordViewModel::class.java]
     }
 
@@ -51,6 +56,11 @@ class PasswordViewActivity : MyBaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPasswordViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        DaggerApplicationComponent.builder()
+                .roomModule(Utils.getApplication()?.let { RoomModule(it) })
+                .build().inject(this)
+
         initViewModel()
 
         checkShortcut()

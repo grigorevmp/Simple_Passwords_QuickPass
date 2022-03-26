@@ -40,8 +40,9 @@ import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityPasswordCreateBinding
+import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
+import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModel
-import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModelFactory
 import com.thebluealliance.spectrum.SpectrumPalette
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,6 +52,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.nio.channels.FileChannel
 import java.util.*
+import javax.inject.Inject
 
 
 class PasswordCreateActivity : MyBaseActivity() {
@@ -74,11 +76,18 @@ class PasswordCreateActivity : MyBaseActivity() {
     private lateinit var login: String
     private lateinit var binding: ActivityPasswordCreateBinding
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         registerImagePickingIntent()
         super.onCreate(savedInstanceState)
         binding = ActivityPasswordCreateBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        DaggerApplicationComponent.builder()
+                .roomModule(Utils.getApplication()?.let { RoomModule(it) })
+                .build().inject(this)
 
         val args: Bundle? = intent.extras
         login = Utils.getLogin()!!
@@ -120,7 +129,7 @@ class PasswordCreateActivity : MyBaseActivity() {
     private fun initViewModel() {
         viewModel = ViewModelProvider(
                 this,
-                PasswordViewModelFactory()
+                viewModelFactory
         )[PasswordViewModel::class.java]
     }
 

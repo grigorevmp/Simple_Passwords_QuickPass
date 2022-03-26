@@ -1,33 +1,34 @@
 package com.mikhailgrigorev.quickpassword.data.repository
 
 import androidx.lifecycle.LiveData
-import com.mikhailgrigorev.quickpassword.data.database.FolderCardDatabase
+import com.mikhailgrigorev.quickpassword.data.dao.FolderDao
 import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
+import javax.inject.Inject
 
 
-class FolderRepository {
-    private val fDatabase = FolderCardDatabase.getInstance()
-    private val fDao = fDatabase.FolderDao()
-    val allData: LiveData<List<FolderCard>> = fDao.getAll()
+class FolderRepository @Inject constructor(
+    private var folderDao: FolderDao
+) {
+    val allData: LiveData<List<FolderCard>> = folderDao.getAll()
 
-    fun getItem(id: Int) = fDao.getByID(id)
+    fun getItem(id: Int) = folderDao.getByID(id)
 
-    fun getItemsNumberById(id: Int) = fDao.getItemsNumberById(id)
+    fun getItemsNumberById(id: Int) = folderDao.getItemsNumberById(id)
 
     fun insert(fItem: FolderCard) {
-        fDao.insert(fItem)
+        folderDao.insert(fItem)
     }
 
     suspend fun update(fItem: FolderCard) {
-        fDao.update(fItem)
+        folderDao.update(fItem)
     }
 
     fun delete(fItem: FolderCard) {
-        fDao.delete(fItem)
+        folderDao.delete(fItem)
     }
 
     suspend fun deleteAll() {
-        fDao.deleteAll()
+        folderDao.deleteAll()
     }
 
 }

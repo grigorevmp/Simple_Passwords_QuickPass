@@ -4,12 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.mikhailgrigorev.quickpassword.data.dao.PasswordCardDao
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
 
 const val PASSWORD_CARD_DB_NAME = "password_card"
 
@@ -21,24 +17,21 @@ abstract class PasswordCardDatabase : RoomDatabase() {
 
         private var INSTANCE: PasswordCardDatabase? = null
 
-        fun setInstance(context: Context): PasswordCardDatabase? {
+        fun setInstance(context: Context): PasswordCardDatabase {
             if (INSTANCE == null) {
-                CoroutineScope(IO).launch {
-                    if (INSTANCE == null) {
-                        INSTANCE = Room.databaseBuilder(
-                                context.applicationContext,
-                                PasswordCardDatabase::class.java, PASSWORD_CARD_DB_NAME
-                        ).addCallback(object : RoomDatabase.Callback() {
-                            override fun onCreate(db: SupportSQLiteDatabase) {
-                                super.onCreate(db)
-                                populateDatabase(INSTANCE!!)
-                            }
-                        })
-                                .build()
-                    }
+                synchronized(this) {
+                    val instance = Room.databaseBuilder(
+                            context.applicationContext,
+                            PasswordCardDatabase::class.java,
+                            PASSWORD_CARD_DB_NAME
+                    ).build()
+                    INSTANCE = instance
+                    return instance
                 }
             }
-            return INSTANCE
+            else {
+                return INSTANCE!!
+            }
         }
 
         @Synchronized

@@ -4,12 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.mikhailgrigorev.quickpassword.data.dao.FolderDao
 import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
 
 const val FOLDER_CARD_DB_NAME = "folder_card"
 
@@ -21,23 +17,21 @@ abstract class FolderCardDatabase : RoomDatabase() {
 
         private var INSTANCE: FolderCardDatabase? = null
 
-        fun setInstance(context: Context): FolderCardDatabase? {
+        fun setInstance(context: Context): FolderCardDatabase {
             if (INSTANCE == null) {
-                CoroutineScope(IO).launch {
-                    if (INSTANCE == null) {
-                        INSTANCE = Room.databaseBuilder(
-                                context.applicationContext,
-                                FolderCardDatabase::class.java, FOLDER_CARD_DB_NAME
-                        ).addCallback(object : RoomDatabase.Callback() {
-                            override fun onCreate(db: SupportSQLiteDatabase) {
-                                super.onCreate(db)
-                                populateDatabase(INSTANCE!!)
-                            }
-                        }).build()
-                    }
+                synchronized(this) {
+                    val instance = Room.databaseBuilder(
+                            context.applicationContext,
+                            FolderCardDatabase::class.java,
+                            FOLDER_CARD_DB_NAME
+                    ).build()
+                    INSTANCE = instance
+                    return instance
                 }
             }
-            return INSTANCE
+            else {
+                return INSTANCE!!
+            }
         }
 
         @Synchronized

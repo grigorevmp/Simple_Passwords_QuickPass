@@ -33,16 +33,17 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.mikhailgrigorev.quickpassword.R
-import com.mikhailgrigorev.quickpassword.common.PasswordGettingType
-import com.mikhailgrigorev.quickpassword.common.PasswordQuality
 import com.mikhailgrigorev.quickpassword.common.manager.PasswordManager
+import com.mikhailgrigorev.quickpassword.common.utils.PasswordGettingType
+import com.mikhailgrigorev.quickpassword.common.utils.PasswordQuality
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.FragmentPasswordBinding
+import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
+import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
 import com.mikhailgrigorev.quickpassword.ui.folder.FolderViewActivity
 import com.mikhailgrigorev.quickpassword.ui.main_activity.MainViewModel
-import com.mikhailgrigorev.quickpassword.ui.main_activity.MainViewModelFactory
 import com.mikhailgrigorev.quickpassword.ui.main_activity.adapters.FolderAdapter
 import com.mikhailgrigorev.quickpassword.ui.main_activity.adapters.PasswordAdapter
 import com.mikhailgrigorev.quickpassword.ui.password_card.create.PasswordCreateActivity
@@ -51,6 +52,7 @@ import com.thebluealliance.spectrum.SpectrumPalette
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
+import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.math.min
 
@@ -89,6 +91,9 @@ class PasswordFragment: Fragment() {
     private var _binding: FragmentPasswordBinding? = null
     private val binding get() = _binding!!
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -96,6 +101,10 @@ class PasswordFragment: Fragment() {
     ): View {
         _binding = FragmentPasswordBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        DaggerApplicationComponent.builder()
+                .roomModule(Utils.getApplication()?.let { RoomModule(it) })
+                .build().inject(this)
 
         initViewModel()
         authorization()
@@ -121,7 +130,7 @@ class PasswordFragment: Fragment() {
     }
 
 
-    private fun initSorting(){
+    private fun initSorting() {
         defaultPassFilterSorting = Utils.sortingColumn()!!
         defaultPassFilterAsc = Utils.sortingAsc()
         setOrderChip(defaultPassFilterSorting)
@@ -144,13 +153,13 @@ class PasswordFragment: Fragment() {
     private fun setOrderChip(column: String) {
         defaultPassFilterAsc = if (defaultPassFilterSorting == column)
             !defaultPassFilterAsc
-        else{
+        else {
             true
         }
 
         defaultPassFilterSorting = column
 
-        when(defaultPassFilterSorting){
+        when (defaultPassFilterSorting) {
             "name" -> {
                 binding.cDateSorting.isChecked = false
                 binding.cAlphabeticSorting.isChecked = true
@@ -166,7 +175,7 @@ class PasswordFragment: Fragment() {
         Utils.setSortingAsc(defaultPassFilterAsc)
     }
 
-    private fun setSortingOptions(){
+    private fun setSortingOptions() {
         binding.cAlphabeticSorting.setOnClickListener {
             setOrderChip("name")
             setObservers()
@@ -252,8 +261,7 @@ class PasswordFragment: Fragment() {
                 if (defaultPassFilterType != PasswordGettingType.ByName)
                     showNoPasswordsInterface()
                 setPasswordAdapter(passwords)
-            }
-            else {
+            } else {
                 showPasswordsInterface()
                 setPasswordAdapter(passwords)
             }
@@ -274,17 +282,18 @@ class PasswordFragment: Fragment() {
             setPasswordQualityText()
         }
 
-        viewModel.getItemsNumber().observe(viewLifecycleOwner){ passwordNumber ->
+        viewModel.getItemsNumber().observe(viewLifecycleOwner) { passwordNumber ->
             binding.tvAllPasswords.text = passwordNumber.toString()
         }
 
-        viewModel.getItemsNumberWith2fa().observe(viewLifecycleOwner){ passwordNumber ->
+        viewModel.getItemsNumberWith2fa().observe(viewLifecycleOwner) { passwordNumber ->
             binding.tvNumberOfUse2faText.text = passwordNumber.toString()
         }
 
-        viewModel.getItemsNumberWithEncrypted().observe(viewLifecycleOwner){ encryptedPasswordNumber ->
-            binding.tvNumberOfEncryptedText.text = encryptedPasswordNumber.toString()
-        }
+        viewModel.getItemsNumberWithEncrypted()
+                .observe(viewLifecycleOwner) { encryptedPasswordNumber ->
+                    binding.tvNumberOfEncryptedText.text = encryptedPasswordNumber.toString()
+                }
     }
 
     private fun initBottomSheetBehavior() {
@@ -294,7 +303,8 @@ class PasswordFragment: Fragment() {
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.llAllPasswords)
 
         bottomSheetBehavior.state = Utils.bottomBarState()
-        binding.ivExpandBottomDialog.animate().rotation(180F * bottomSheetBehavior.state).setDuration(0).start()
+        binding.ivExpandBottomDialog.animate().rotation(180F * bottomSheetBehavior.state)
+                .setDuration(0).start()
         if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
             binding.fabNewPassword.animate().scaleX(0F).scaleY(0F).setDuration(0).start()
             binding.cvWarningRulesCard.animate().alpha(1F).setDuration(0).start()
@@ -317,17 +327,21 @@ class PasswordFragment: Fragment() {
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if(newState != BottomSheetBehavior.STATE_HIDDEN)
+                if (newState != BottomSheetBehavior.STATE_HIDDEN)
                     Utils.setBottomBarState(newState)
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                binding.ivExpandBottomDialog.animate().rotation(180F * slideOffset).setDuration(0).start()
+                binding.ivExpandBottomDialog.animate().rotation(180F * slideOffset).setDuration(0)
+                        .start()
                 if (slideOffset <= 0) {
-                    binding.cvWarningRulesCard.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0).start()
+                    binding.cvWarningRulesCard.animate().alpha(abs(slideOffset) + 0.5F)
+                            .setDuration(0).start()
                     binding.cardView.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0).start()
-                    binding.cvAdditionalInfoCard.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0).start()
-                    binding.cvBackupReminderCard.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0)
+                    binding.cvAdditionalInfoCard.animate().alpha(abs(slideOffset) + 0.5F)
+                            .setDuration(0).start()
+                    binding.cvBackupReminderCard.animate().alpha(abs(slideOffset) + 0.5F)
+                            .setDuration(0)
                             .start()
                     binding.fabNewPassword.animate().scaleX(1 - abs(slideOffset))
                             .scaleY(1 - abs(slideOffset))
@@ -599,7 +613,8 @@ class PasswordFragment: Fragment() {
 
     private fun copyPassword() {
         if (binding.tePasswordToGenerate.text.toString() != "") {
-            val clipboard = context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipboard =
+                    context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip =
                     ClipData.newPlainText("Password", binding.tePasswordToGenerate.text.toString())
             clipboard.setPrimaryClip(clip)
@@ -626,7 +641,8 @@ class PasswordFragment: Fragment() {
                     value = defaultPassFilterValue,
                     name = defaultPassFilterName,
                     sortColumn = defaultPassFilterSorting,
-                    isAsc = defaultPassFilterAsc)
+                    isAsc = defaultPassFilterAsc
+            )
             searchNotSafe = false
         } else {
             updatePasswordQualityCirclesColor(
@@ -653,7 +669,8 @@ class PasswordFragment: Fragment() {
                     value = defaultPassFilterValue,
                     name = defaultPassFilterName,
                     sortColumn = defaultPassFilterSorting,
-                    isAsc = defaultPassFilterAsc)
+                    isAsc = defaultPassFilterAsc
+            )
             searchNegative = false
         } else {
             updatePasswordQualityCirclesColor(
@@ -679,7 +696,8 @@ class PasswordFragment: Fragment() {
                     value = defaultPassFilterValue,
                     name = defaultPassFilterName,
                     sortColumn = defaultPassFilterSorting,
-                    isAsc = defaultPassFilterAsc)
+                    isAsc = defaultPassFilterAsc
+            )
             searchCorrect = false
         } else {
             updatePasswordQualityCirclesColor(
@@ -749,7 +767,8 @@ class PasswordFragment: Fragment() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             viewModel.getFavoriteItems().observe(viewLifecycleOwner) { passwords ->
                 val shortcutList = mutableListOf<ShortcutInfo>()
-                val shortcutManager: ShortcutManager = context!!.getSystemService(ShortcutManager::class.java)!!
+                val shortcutManager: ShortcutManager =
+                        context!!.getSystemService(ShortcutManager::class.java)!!
                 for (i in (0..min(2, passwords.size - 1))) {
                     shortcutList.add(createShortcut(passwords[i]._id, passwords[i].name)!!)
                 }
@@ -759,7 +778,8 @@ class PasswordFragment: Fragment() {
     }
 
     fun View.hideKeyboard() {
-        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputManager =
+                context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 
@@ -948,10 +968,10 @@ class PasswordFragment: Fragment() {
     }
 
     private fun initViewModel() {
+
         viewModel = ViewModelProvider(
                 this,
-                MainViewModelFactory()
+                viewModelFactory
         )[MainViewModel::class.java]
     }
-
-    }
+}

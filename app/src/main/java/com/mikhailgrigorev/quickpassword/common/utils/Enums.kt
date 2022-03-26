@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.common
+package com.mikhailgrigorev.quickpassword.common.utils
 
 enum class PasswordGettingType {
     All, ByName, ByQuality

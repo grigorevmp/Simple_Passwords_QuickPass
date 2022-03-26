@@ -1,33 +1,35 @@
 package com.mikhailgrigorev.quickpassword.data.repository
 
 import androidx.lifecycle.LiveData
-import com.mikhailgrigorev.quickpassword.data.database.PasswordCardDatabase
+import com.mikhailgrigorev.quickpassword.data.dao.PasswordCardDao
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
+import javax.inject.Inject
 
 
-class PasswordCardRepository {
-    private val pcDatabase = PasswordCardDatabase.getInstance()
-    private val pcDao = pcDatabase.PasswordCardDao()
-    val allData: LiveData<List<PasswordCard>> = pcDao.getAllSortName()
+class PasswordCardRepository @Inject constructor(
+    var passwordCardDao: PasswordCardDao
+     ) {
+
+    val allData: LiveData<List<PasswordCard>> = passwordCardDao.getAllSortName()
 
     fun getAll(
         columnName: String = "name",
         isAsc: Boolean = false
     ): LiveData<List<PasswordCard>> {
         return when (columnName) {
-            "name" -> pcDao.getAllSortName(isAsc)
-            "time" -> pcDao.getAllSortTime(isAsc)
-            else -> pcDao.getAllSortName(isAsc)
+            "name" -> passwordCardDao.getAllSortName(isAsc)
+            "time" -> passwordCardDao.getAllSortTime(isAsc)
+            else -> passwordCardDao.getAllSortName(isAsc)
         }
     }
 
     fun getAllFromFolder(
         folder: Int
     ): LiveData<List<PasswordCard>> {
-        return pcDao.getAllFromFolder(folder)
+        return passwordCardDao.getAllFromFolder(folder)
     }
 
-    fun getItem(id: Int) = pcDao.getByID(id)
+    fun getItem(id: Int) = passwordCardDao.getByID(id)
 
     fun getItemByName(
         name: String,
@@ -35,9 +37,9 @@ class PasswordCardRepository {
         isAsc: Boolean = false
     ): LiveData<List<PasswordCard>> {
         return when (columnName) {
-            "name" -> pcDao.getByNameSortName(name, isAsc)
-            "time" -> pcDao.getByNameSortTime(name, isAsc)
-            else -> pcDao.getAllSortName(isAsc)
+            "name" -> passwordCardDao.getByNameSortName(name, isAsc)
+            "time" -> passwordCardDao.getByNameSortTime(name, isAsc)
+            else -> passwordCardDao.getAllSortName(isAsc)
         }
     }
 
@@ -46,35 +48,35 @@ class PasswordCardRepository {
                          isAsc: Boolean = false
     ): LiveData<List<PasswordCard>> {
         return when (columnName) {
-            "name" -> pcDao.getByQualitySortName(value, isAsc)
-            "time" -> pcDao.getByQualitySortTime(value, isAsc)
-            else -> pcDao.getAllSortName(isAsc)
+            "name" -> passwordCardDao.getByQualitySortName(value, isAsc)
+            "time" -> passwordCardDao.getByQualitySortTime(value, isAsc)
+            else -> passwordCardDao.getAllSortName(isAsc)
         }
     }
 
-    fun getItemsNumberWithQuality(value: Int) = pcDao.getItemsNumberWithQuality(value)
-    fun getItemsNumber() = pcDao.getItemsNumber()
-    fun getItemsNumberWith2fa() = pcDao.getItemsNumberWith2fa()
-    fun getItemsNumberWithEncrypted() = pcDao.getItemsNumberWithEncrypted()
-    fun getItemsNumberWithTimeLimit() = pcDao.getItemsNumberWithTimeLimit()
-    fun getPinItems() = pcDao.getPinItems()
+    fun getItemsNumberWithQuality(value: Int) = passwordCardDao.getItemsNumberWithQuality(value)
+    fun getItemsNumber() = passwordCardDao.getItemsNumber()
+    fun getItemsNumberWith2fa() = passwordCardDao.getItemsNumberWith2fa()
+    fun getItemsNumberWithEncrypted() = passwordCardDao.getItemsNumberWithEncrypted()
+    fun getItemsNumberWithTimeLimit() = passwordCardDao.getItemsNumberWithTimeLimit()
+    fun getPinItems() = passwordCardDao.getPinItems()
 
-    fun getFavoriteItems() = pcDao.getFavorite()
+    fun getFavoriteItems() = passwordCardDao.getFavorite()
 
     fun insert(pcItem: PasswordCard) {
-        pcDao.insert(pcItem)
+        passwordCardDao.insert(pcItem)
     }
 
     suspend fun update(pcItem: PasswordCard) {
-        pcDao.update(pcItem)
+        passwordCardDao.update(pcItem)
     }
 
     fun delete(pcItem: PasswordCard) {
-        pcDao.delete(pcItem)
+        passwordCardDao.delete(pcItem)
     }
 
     suspend fun deleteAll() {
-        pcDao.deleteAll()
+        passwordCardDao.deleteAll()
     }
 
 }

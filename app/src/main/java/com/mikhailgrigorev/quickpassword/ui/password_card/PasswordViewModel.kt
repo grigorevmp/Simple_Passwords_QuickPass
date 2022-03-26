@@ -6,11 +6,13 @@ import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.data.repository.FolderRepository
 import com.mikhailgrigorev.quickpassword.data.repository.PasswordCardRepository
+import javax.inject.Inject
 
 
-class PasswordViewModel : ViewModel() {
-    private val passwordCardRepo: PasswordCardRepository = PasswordCardRepository()
-    private val folderRepo: FolderRepository = FolderRepository()
+class PasswordViewModel @Inject constructor(
+    private var passwordCardRepo: PasswordCardRepository,
+    private var folderRepo: FolderRepository
+) : ViewModel() {
     val passwords = passwordCardRepo.allData
     val folders = folderRepo.allData
     var currentPassword: PasswordCard? = null

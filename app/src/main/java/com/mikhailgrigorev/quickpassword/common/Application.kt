@@ -4,17 +4,24 @@ import android.app.Application
 import android.os.StrictMode
 import androidx.viewbinding.BuildConfig
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
-import com.mikhailgrigorev.quickpassword.data.database.FolderCardDatabase
-import com.mikhailgrigorev.quickpassword.data.database.PasswordCardDatabase
+import com.mikhailgrigorev.quickpassword.di.component.ApplicationComponent
+import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
+import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
+
 
 class Application : Application() {
+
+    private lateinit var appComponent: ApplicationComponent
 
     override fun onCreate() {
         super.onCreate()
 
-        PasswordCardDatabase.setInstance(this)
-        FolderCardDatabase.setInstance(this)
-        
+        appComponent = DaggerApplicationComponent.builder()
+                .roomModule(RoomModule(this))
+                .build()
+        appComponent.inject(this)
+        component = appComponent
+
         Utils.init(this)
         Utils.setSharedPreferences()
 
@@ -43,8 +50,15 @@ class Application : Application() {
         instance = this
     }
 
+    fun getComponent(): ApplicationComponent {
+        return appComponent
+    }
+
     companion object {
         lateinit var instance: Application
+            private set
+
+        lateinit var component: ApplicationComponent
             private set
     }
 }

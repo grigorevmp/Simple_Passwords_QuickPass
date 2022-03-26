@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.common.utils.senders
+package com.mikhailgrigorev.quickpassword.common.manager
 
 import java.io.ByteArrayInputStream
 import java.io.IOException

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.mikhailgrigorev.quickpassword.R
-import com.mikhailgrigorev.quickpassword.common.PasswordQuality
+import com.mikhailgrigorev.quickpassword.common.utils.PasswordQuality
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ItemPasswordCardBinding

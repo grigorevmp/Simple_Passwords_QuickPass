@@ -13,14 +13,19 @@ import com.google.firebase.auth.UserProfileChangeRequest
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.FragmentProfileEditBinding
+import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
+import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
 import com.mikhailgrigorev.quickpassword.ui.account.AccountViewModel
-import com.mikhailgrigorev.quickpassword.ui.account.AccountViewModelFactory
+import javax.inject.Inject
 
 class ProfileEditFragment : Fragment() {
 
     private lateinit var viewModel: AccountViewModel
     private var _binding: FragmentProfileEditBinding? = null
     private val binding get() = _binding!!
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,6 +34,10 @@ class ProfileEditFragment : Fragment() {
     ): View {
         _binding = FragmentProfileEditBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        DaggerApplicationComponent.builder()
+                .roomModule(Utils.getApplication()?.let { RoomModule(it) })
+                .build().inject(this)
 
         initViewModel()
         initViews()
@@ -126,7 +135,7 @@ class ProfileEditFragment : Fragment() {
     private fun initViewModel() {
         viewModel = ViewModelProvider(
                 this,
-                AccountViewModelFactory()
+                viewModelFactory
         )[AccountViewModel::class.java]
     }
 

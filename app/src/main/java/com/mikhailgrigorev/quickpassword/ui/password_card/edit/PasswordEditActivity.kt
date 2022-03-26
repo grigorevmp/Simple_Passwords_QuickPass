@@ -41,8 +41,9 @@ import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityPasswordEditBinding
+import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
+import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModel
-import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModelFactory
 import com.thebluealliance.spectrum.SpectrumPalette
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -52,6 +53,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.nio.channels.FileChannel
 import java.util.*
+import javax.inject.Inject
 
 
 class PasswordEditActivity : MyBaseActivity() {
@@ -73,6 +75,9 @@ class PasswordEditActivity : MyBaseActivity() {
 
     private lateinit var login: String
     private lateinit var binding: ActivityPasswordEditBinding
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private fun setObservers() {
         viewModel.passwords.observe(this) { passwords ->
@@ -114,7 +119,7 @@ class PasswordEditActivity : MyBaseActivity() {
     private fun initViewModel() {
         viewModel = ViewModelProvider(
                 this,
-                PasswordViewModelFactory()
+                viewModelFactory
         )[PasswordViewModel::class.java]
     }
 
@@ -123,6 +128,10 @@ class PasswordEditActivity : MyBaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPasswordEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        DaggerApplicationComponent.builder()
+                .roomModule(Utils.getApplication()?.let { RoomModule(it) })
+                .build().inject(this)
 
         val args: Bundle? = intent.extras
         login = args?.get("login").toString()

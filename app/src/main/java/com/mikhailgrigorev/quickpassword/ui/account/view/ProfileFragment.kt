@@ -15,10 +15,12 @@ import androidx.navigation.fragment.findNavController
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.FragmentProfileBinding
+import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
+import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
 import com.mikhailgrigorev.quickpassword.ui.account.AccountViewModel
-import com.mikhailgrigorev.quickpassword.ui.account.AccountViewModelFactory
 import com.mikhailgrigorev.quickpassword.ui.auth.auth.AuthActivity
 import com.mikhailgrigorev.quickpassword.ui.donut.DonutActivity
+import javax.inject.Inject
 
 class ProfileFragment : Fragment() {
 
@@ -34,6 +36,9 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,6 +46,11 @@ class ProfileFragment : Fragment() {
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        DaggerApplicationComponent.builder()
+                .roomModule(Utils.getApplication()?.let { RoomModule(it) })
+                .build().inject(this)
+
         checkAnalyze()
         initViewModel()
         setHelloText()
@@ -236,7 +246,7 @@ class ProfileFragment : Fragment() {
     private fun initViewModel() {
         viewModel = ViewModelProvider(
                 this,
-                AccountViewModelFactory()
+                viewModelFactory
         )[AccountViewModel::class.java]
     }
 

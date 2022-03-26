@@ -3,12 +3,14 @@ package com.mikhailgrigorev.quickpassword.ui.account
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mikhailgrigorev.quickpassword.common.PasswordQuality
+import com.mikhailgrigorev.quickpassword.common.utils.PasswordQuality
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.repository.PasswordCardRepository
+import javax.inject.Inject
 
-class AccountViewModel : ViewModel() {
-    private val passwordCardRepo: PasswordCardRepository = PasswordCardRepository()
+class AccountViewModel @Inject constructor(
+    private var passwordCardRepo: PasswordCardRepository
+) : ViewModel() {
     val passwords = passwordCardRepo.allData
 
     val userLogin = getUserLogin()

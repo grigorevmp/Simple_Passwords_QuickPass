@@ -218,4 +218,8 @@ object Utils {
         return (password.isEmpty() || password.length < 4 || password.length > 20)
     }
 
+    fun getComponent() = Application.component
+
+    fun getApplication() = application
+
 }

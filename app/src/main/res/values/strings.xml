@@ -57,7 +57,7 @@
     <string name="passCopied">Password was copied to clipboard</string>
     <string name="loginCopied">Login was copied to clipboard</string>
     <string name="nameCopied">Name was copied to clipboard</string>
-    <string name="noRules">You should choose at least 1 rule</string>
+    <string name="noRules" translatable="false">You should choose at least 1 rule</string>
     <string name="exit_account">Log out</string>
     <string name="name_your_password">Name your password</string>
     <string name="_2fa" translatable="false">2FA</string>

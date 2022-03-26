@@ -1,10 +1,8 @@
-package com.mikhailgrigorev.quickpassword.service
+package com.mikhailgrigorev.quickpassword.common.service
 
 import android.annotation.SuppressLint
 import android.app.assist.AssistStructure.ViewNode
 import android.content.Context
-import android.database.Cursor
-import android.database.SQLException
 import android.os.Build
 import android.os.CancellationSignal
 import android.service.autofill.*
@@ -12,9 +10,7 @@ import android.view.autofill.AutofillValue
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import com.mikhailgrigorev.quickpassword.R
-import com.mikhailgrigorev.quickpassword.dbhelpers.PasswordsDataBaseHelper
 import java.util.*
-import kotlin.collections.ArrayList
 
 @RequiresApi(Build.VERSION_CODES.O)
 class QuickPassAutoFillService : AutofillService() {
@@ -39,7 +35,7 @@ class QuickPassAutoFillService : AutofillService() {
         val emails: ArrayList<String> = ArrayList()
         val passwords: ArrayList<String> = ArrayList()
         val names: ArrayList<String> = ArrayList()
-
+        /*
         if((username != null)&&(username != "none")) {
 
             val pdbHelper = PasswordsDataBaseHelper(this, username)
@@ -73,7 +69,9 @@ class QuickPassAutoFillService : AutofillService() {
                 }
             } catch (e: SQLException) {
             }
-        }
+            }
+         */
+
 
         identifyEmailFields(structure.getWindowNodeAt(0).rootViewNode, emailFields)
         identifyPassFields(structure.getWindowNodeAt(0).rootViewNode, passFields)
