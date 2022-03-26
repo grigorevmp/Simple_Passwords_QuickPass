@@ -23,6 +23,10 @@ class MainViewModel @Inject constructor(
         folderRepo.insert(item)
     }
 
+    fun insertPassword(item: PasswordCard) {
+        passwordCardRepo.insert(item)
+    }
+
     suspend fun updateCard(item: FolderCard) {
         folderRepo.update(item)
     }

@@ -12,6 +12,7 @@ import com.mikhailgrigorev.quickpassword.ui.password.PasswordFragment
 import com.mikhailgrigorev.quickpassword.ui.password_card.create.PasswordCreateActivity
 import com.mikhailgrigorev.quickpassword.ui.password_card.edit.PasswordEditActivity
 import com.mikhailgrigorev.quickpassword.ui.password_card.view.PasswordViewActivity
+import com.mikhailgrigorev.quickpassword.ui.settings.SettingsFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -33,4 +34,5 @@ interface ApplicationComponent {
     fun inject(fragment: ProfileFragment)
     fun inject(fragment: ProfileEditFragment)
     fun inject(fragment: PasswordFragment)
+    fun inject(fragment: SettingsFragment)
 }

@@ -95,7 +95,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.provider"
+            android:authorities="com.mikhailgrigorev.quickpassword.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

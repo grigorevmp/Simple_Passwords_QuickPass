@@ -12,11 +12,13 @@
         android:id="@+id/tvUsernameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/base_margin"
         android:layout_marginTop="@dimen/base_margin"
+        android:layout_marginBottom="@dimen/medium_margin"
         android:text="@string/hi_username"
         android:textColor="@color/textDark"
         android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/inputPinId"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,9 +36,9 @@
         app:boxCornerRadiusTopStart="15dp"
         app:endIconMode="password_toggle"
         app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@+id/cardNums"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputPinIdField"
@@ -50,17 +52,17 @@
         android:id="@+id/inputPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/base_margin"
         android:layout_marginTop="10dp"
         android:text="@string/input_your_pin"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvUsernameText" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/base_margin"
         android:text="@string/or_use_fingerprint"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputPass" />
 

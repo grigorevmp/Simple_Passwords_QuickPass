@@ -12,11 +12,13 @@
         android:id="@+id/tvUsernameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/base_margin"
         android:layout_marginTop="@dimen/base_margin"
+        android:layout_marginBottom="@dimen/base_margin"
         android:text="@string/hi_username"
         android:textColor="@color/textDark"
         android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/inputPinId"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,11 +34,11 @@
         app:boxCornerRadiusBottomStart="15dp"
         app:boxCornerRadiusTopEnd="15dp"
         app:boxCornerRadiusTopStart="15dp"
-        app:helperText="@string/set_pin_helper"
         app:endIconMode="clear_text"
+        app:helperText="@string/set_pin_helper"
+        app:layout_constraintBottom_toTopOf="@+id/cardNums"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputPass">
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputPinIdField"
@@ -47,14 +49,13 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-
     <TextView
         android:id="@+id/inputPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/base_margin"
         android:layout_marginTop="10dp"
         android:text="@string/set_pin"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvUsernameText" />
 

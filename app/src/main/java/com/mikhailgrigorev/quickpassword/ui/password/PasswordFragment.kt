@@ -969,6 +969,6 @@ class PasswordFragment: Fragment() {
     }
 
     private fun initViewModel() {
-        viewModel = this.injectViewModel<MainViewModel>(viewModelFactory)
+        viewModel = this.injectViewModel(viewModelFactory)
     }
 }
