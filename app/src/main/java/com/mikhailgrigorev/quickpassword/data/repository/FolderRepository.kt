@@ -13,8 +13,6 @@ class FolderRepository @Inject constructor(
 
     fun getItem(id: Int) = folderDao.getByID(id)
 
-    fun getItemsNumberById(id: Int) = folderDao.getItemsNumberById(id)
-
     fun insert(fItem: FolderCard) {
         folderDao.insert(fItem)
     }
@@ -25,10 +23,6 @@ class FolderRepository @Inject constructor(
 
     fun delete(fItem: FolderCard) {
         folderDao.delete(fItem)
-    }
-
-    suspend fun deleteAll() {
-        folderDao.deleteAll()
     }
 
 }

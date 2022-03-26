@@ -7,7 +7,7 @@ import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 @Dao
 interface FolderDao {
 
-    @Insert()
+    @Insert
     fun insert(card: FolderCard)
 
     @Query(

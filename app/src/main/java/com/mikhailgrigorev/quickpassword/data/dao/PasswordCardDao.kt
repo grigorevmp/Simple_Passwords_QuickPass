@@ -7,7 +7,7 @@ import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 @Dao
 interface PasswordCardDao {
 
-    @Insert()
+    @Insert
     fun insert(card: PasswordCard)
 
     @Query("select * from password_card where _id = :id")

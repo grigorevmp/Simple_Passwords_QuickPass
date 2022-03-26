@@ -53,7 +53,7 @@ object Utils {
         calendar.time = sameDate!!
 
         val year = calendar.get(Calendar.YEAR).toString()
-        calendar.add(Calendar.MONTH, 1);
+        calendar.add(Calendar.MONTH, 1)
         val month = calendar.get(Calendar.MONTH).toString()
         val day = calendar.get(Calendar.DATE).toString()
 
@@ -217,8 +217,6 @@ object Utils {
     fun validate(password: String): Boolean {
         return (password.isEmpty() || password.length < 4 || password.length > 20)
     }
-
-    fun getComponent() = Application.component
 
     fun getApplication() = application
 

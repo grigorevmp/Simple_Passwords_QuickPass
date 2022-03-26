@@ -39,19 +39,5 @@ abstract class FolderCardDatabase : RoomDatabase() {
             return INSTANCE!!
         }
 
-        private fun populateDatabase(db: FolderCardDatabase) {
-            /* val passwordCardDao = db.FolderDao()
-            CoroutineScope(IO).launch {
-                passwordCardDao.insert(
-                        FolderCard(
-                                _id = 0,
-                                colorTag = 0,
-                                description = "null",
-                                imageSrc = "null",
-                                name = "Test folder"
-                        )
-                )
-            } */
-        }
     }
 }

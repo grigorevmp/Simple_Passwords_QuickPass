@@ -31,7 +31,7 @@ class MainViewModel @Inject constructor(
         folderRepo.update(item)
     }
 
-    suspend fun deleteCard(item: FolderCard) {
+    fun deleteCard(item: FolderCard) {
         folderRepo.delete(item)
     }
 
