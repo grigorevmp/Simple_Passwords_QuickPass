@@ -44,7 +44,7 @@
     <string name="desc">Descripción:</string>
     <string name="name">Nombre</string>
     <string name="view_password">Ver contraseña</string>
-    <string name="time_lim">Último cambio:</string>
+    <string name="time_lim">Último cambio: %1$s</string>
     <string name="pass">Contraseña:</string>
     <string name="hi">Hola, </string>
     <string name="qualityPassword">Calidad de la contraseña:</string>

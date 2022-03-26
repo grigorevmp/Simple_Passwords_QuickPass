@@ -12,12 +12,10 @@ import com.mikhailgrigorev.quickpassword.data.repository.FolderRepository
 import com.mikhailgrigorev.quickpassword.data.repository.PasswordCardRepository
 import javax.inject.Inject
 
-class FolderViewModel() : ViewModel() {
-    @Inject
-    lateinit var passwordCardRepo: PasswordCardRepository
-    @Inject
-    lateinit var folderRepo: FolderRepository
-   // val passwords = passwordCardRepo.allData
+class FolderViewModel @Inject constructor(
+    private var passwordCardRepo: PasswordCardRepository,
+    private var folderRepo: FolderRepository
+) : ViewModel() {
     val folders = folderRepo.allData
 
     fun insertCard(item: FolderCard) {

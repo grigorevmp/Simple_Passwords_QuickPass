@@ -6,6 +6,7 @@ import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
 import com.mikhailgrigorev.quickpassword.di.modules.ViewModelModule
 import com.mikhailgrigorev.quickpassword.ui.account.edit.ProfileEditFragment
 import com.mikhailgrigorev.quickpassword.ui.account.view.ProfileFragment
+import com.mikhailgrigorev.quickpassword.ui.folder.FolderViewActivity
 import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
 import com.mikhailgrigorev.quickpassword.ui.password.PasswordFragment
 import com.mikhailgrigorev.quickpassword.ui.password_card.create.PasswordCreateActivity
@@ -24,6 +25,7 @@ import javax.inject.Singleton
 )
 interface ApplicationComponent {
     fun inject(activity: MainActivity)
+    fun inject(activity: FolderViewActivity)
     fun inject(activity: PasswordCreateActivity)
     fun inject(activity: PasswordViewActivity)
     fun inject(activity: PasswordEditActivity)

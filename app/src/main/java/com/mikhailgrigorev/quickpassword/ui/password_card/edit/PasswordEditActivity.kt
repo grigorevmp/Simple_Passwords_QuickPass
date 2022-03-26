@@ -43,6 +43,7 @@ import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityPasswordEditBinding
 import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
 import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
+import com.mikhailgrigorev.quickpassword.di.modules.viewModel.injectViewModel
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModel
 import com.thebluealliance.spectrum.SpectrumPalette
 import kotlinx.coroutines.Dispatchers
@@ -114,13 +115,6 @@ class PasswordEditActivity : MyBaseActivity() {
                 )
             }
         }
-    }
-
-    private fun initViewModel() {
-        viewModel = ViewModelProvider(
-                this,
-                viewModelFactory
-        )[PasswordViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -926,5 +920,9 @@ class PasswordEditActivity : MyBaseActivity() {
 
     private fun startImagePick(intent: Intent) {
         launchSomeActivity.launch(intent)
+    }
+
+    private fun initViewModel() {
+        viewModel = this.injectViewModel(viewModelFactory)
     }
 }

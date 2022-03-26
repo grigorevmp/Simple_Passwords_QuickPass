@@ -6,21 +6,32 @@ import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
+import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityFolderViewBinding
+import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
+import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
+import com.mikhailgrigorev.quickpassword.di.modules.viewModel.injectViewModel
 import com.mikhailgrigorev.quickpassword.ui.main_activity.adapters.PasswordAdapter
 import com.mikhailgrigorev.quickpassword.ui.password_card.view.PasswordViewActivity
+import javax.inject.Inject
 
 class FolderViewActivity : MyBaseActivity() {
     private lateinit var binding: ActivityFolderViewBinding
     private lateinit var passwordCards: List<PasswordCard>
     private lateinit var viewModel: FolderViewModel
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFolderViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        DaggerApplicationComponent.builder()
+                .roomModule(Utils.getApplication()?.let { RoomModule(it) })
+                .build().inject(this)
 
         initLayout()
         initViewModel()
@@ -72,7 +83,6 @@ class FolderViewActivity : MyBaseActivity() {
 
     private fun tagSearchClicker(string: String) {}
 
-
     private fun passLongClickListener(i: Int, view: View) {}
 
     private fun passClickListener(position: Int) {
@@ -82,9 +92,6 @@ class FolderViewActivity : MyBaseActivity() {
     }
 
     private fun initViewModel() {
-        viewModel = ViewModelProvider(
-                this,
-                FolderViewModelFactory()
-        )[FolderViewModel::class.java]
+        viewModel = this.injectViewModel<FolderViewModel>(viewModelFactory)
     }
 }

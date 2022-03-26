@@ -42,6 +42,7 @@ import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.FragmentPasswordBinding
 import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
 import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
+import com.mikhailgrigorev.quickpassword.di.modules.viewModel.injectViewModel
 import com.mikhailgrigorev.quickpassword.ui.folder.FolderViewActivity
 import com.mikhailgrigorev.quickpassword.ui.main_activity.MainViewModel
 import com.mikhailgrigorev.quickpassword.ui.main_activity.adapters.FolderAdapter
@@ -968,10 +969,6 @@ class PasswordFragment: Fragment() {
     }
 
     private fun initViewModel() {
-
-        viewModel = ViewModelProvider(
-                this,
-                viewModelFactory
-        )[MainViewModel::class.java]
+        viewModel = this.injectViewModel<MainViewModel>(viewModelFactory)
     }
 }

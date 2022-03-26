@@ -27,6 +27,7 @@ import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityPasswordViewBinding
 import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
 import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
+import com.mikhailgrigorev.quickpassword.di.modules.viewModel.injectViewModel
 import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
 import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModel
@@ -44,13 +45,6 @@ class PasswordViewActivity : MyBaseActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private fun initViewModel() {
-        viewModel = ViewModelProvider(
-                this,
-                viewModelFactory
-        )[PasswordViewModel::class.java]
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -433,5 +427,9 @@ class PasswordViewActivity : MyBaseActivity() {
             }
         }
         return false
+    }
+
+    private fun initViewModel() {
+        viewModel = this.injectViewModel(viewModelFactory)
     }
 }

@@ -15,6 +15,7 @@ import com.mikhailgrigorev.quickpassword.common.utils.Utils
 import com.mikhailgrigorev.quickpassword.databinding.FragmentProfileEditBinding
 import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
 import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
+import com.mikhailgrigorev.quickpassword.di.modules.viewModel.injectViewModel
 import com.mikhailgrigorev.quickpassword.ui.account.AccountViewModel
 import javax.inject.Inject
 
@@ -133,10 +134,7 @@ class ProfileEditFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        viewModel = ViewModelProvider(
-                this,
-                viewModelFactory
-        )[AccountViewModel::class.java]
+        viewModel = this.injectViewModel(viewModelFactory)
     }
 
 }

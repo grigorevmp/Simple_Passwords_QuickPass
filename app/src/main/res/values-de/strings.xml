@@ -52,7 +52,7 @@
     <string name="noRules">Sie sollten mindestens 1 Regel wählen</string>
     <string name="exit_account">Ausloggen</string>
     <string name="name_your_password">Nennen Sie Ihr Passwort</string>
-    <string name="set_time_limit">Zeitlimit setzen</string>
+    <string name="set_time_limit">Zeitlimit setzen: %1$s</string>
     <string name="add_some_description">Fügen Sie eine Beschreibung hinzu</string>
     <string name="desc">Beschreibung:</string>
     <string name="name">Name</string>
