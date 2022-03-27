@@ -305,48 +305,52 @@ class SettingsFragment: Fragment() {
 
     private fun exportPasswordsToCSVFile(csvFile: File) {
         viewModel.passwords.observe(viewLifecycleOwner) {
-            csvWriter().open(csvFile, append = false) {
-                writeRow(
-                        listOf(
-                                "[id]",
-                                "[name]",
-                                "[image_count]",
-                                "[password]",
-                                "[use_2fa]",
-                                "[is_card_pin]",
-                                "[use_time]",
-                                "[time]",
-                                "[description]",
-                                "[tags]",
-                                "[folder]",
-                                "[login]",
-                                "[encrypted]",
-                                "[quality]",
-                                "[same_with]",
-                                "[favorite]"
-                        )
-                )
-                it.forEachIndexed { index, passwordCard ->
+            if (it.isEmpty()) {
+                this.context?.let { it1 -> Utils.makeToast(it1, "Паролей не найдено") }
+            } else {
+                csvWriter().open(csvFile, append = false) {
                     writeRow(
                             listOf(
-                                    index,
-                                    passwordCard.name,
-                                    passwordCard.image_count,
-                                    passwordCard.password,
-                                    passwordCard.use_2fa,
-                                    passwordCard.is_card_pin,
-                                    passwordCard.use_time,
-                                    passwordCard.time,
-                                    if (passwordCard.description != "") passwordCard.description else "null",
-                                    if (passwordCard.tags != "") passwordCard.tags else "null",
-                                    passwordCard.folder,
-                                    if (passwordCard.login != "") passwordCard.login else "null",
-                                    passwordCard.encrypted,
-                                    passwordCard.quality,
-                                    if (passwordCard.same_with != "") passwordCard.same_with else "null",
-                                    passwordCard.favorite
+                                    "[id]",
+                                    "[name]",
+                                    "[image_count]",
+                                    "[password]",
+                                    "[use_2fa]",
+                                    "[is_card_pin]",
+                                    "[use_time]",
+                                    "[time]",
+                                    "[description]",
+                                    "[tags]",
+                                    "[folder]",
+                                    "[login]",
+                                    "[encrypted]",
+                                    "[quality]",
+                                    "[same_with]",
+                                    "[favorite]"
                             )
                     )
+                    it.forEachIndexed { index, passwordCard ->
+                        writeRow(
+                                listOf(
+                                        index,
+                                        passwordCard.name,
+                                        passwordCard.image_count,
+                                        passwordCard.password,
+                                        passwordCard.use_2fa,
+                                        passwordCard.is_card_pin,
+                                        passwordCard.use_time,
+                                        passwordCard.time,
+                                        if (passwordCard.description != "") passwordCard.description else "null",
+                                        if (passwordCard.tags != "") passwordCard.tags else "null",
+                                        passwordCard.folder,
+                                        if (passwordCard.login != "") passwordCard.login else "null",
+                                        passwordCard.encrypted,
+                                        passwordCard.quality,
+                                        if (passwordCard.same_with != "") passwordCard.same_with else "null",
+                                        passwordCard.favorite
+                                )
+                        )
+                    }
                 }
             }
         }
@@ -354,26 +358,30 @@ class SettingsFragment: Fragment() {
 
     private fun exportFoldersToCSVFile(csvFile: File) {
         viewModel.folders.observe(viewLifecycleOwner) {
-            csvWriter().open(csvFile, append = false) {
-                writeRow(
-                        listOf(
-                                "[id]",
-                                "[name]",
-                                "[imageSrc]",
-                                "[colorTag]",
-                                "[description]",
-                        )
-                )
-                it.forEachIndexed { index, folderCard ->
+            if (it.isEmpty()) {
+                this.context?.let { it1 -> Utils.makeToast(it1, "Папок не найдено") }
+            } else {
+                csvWriter().open(csvFile, append = false) {
                     writeRow(
                             listOf(
-                                    index,
-                                    folderCard.name,
-                                    if (folderCard.imageSrc != "") folderCard.imageSrc else "null",
-                                    if (folderCard.colorTag != "") folderCard.colorTag else "0",
-                                    if (folderCard.description != "") folderCard.description else "null",
+                                    "[id]",
+                                    "[name]",
+                                    "[imageSrc]",
+                                    "[colorTag]",
+                                    "[description]",
                             )
                     )
+                    it.forEachIndexed { index, folderCard ->
+                        writeRow(
+                                listOf(
+                                        index,
+                                        folderCard.name,
+                                        if (folderCard.imageSrc != "") folderCard.imageSrc else "null",
+                                        if (folderCard.colorTag != "") folderCard.colorTag else "0",
+                                        if (folderCard.description != "") folderCard.description else "null",
+                                )
+                        )
+                    }
                 }
             }
         }

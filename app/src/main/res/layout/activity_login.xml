@@ -27,7 +27,7 @@
         android:layout_height="@dimen/account_logo_size"
         android:layout_marginTop="@dimen/base_margin"
         android:layout_marginBottom="100dp"
-        android:backgroundTint="@color/ic_account"
+        android:backgroundTint="@color/white"
         app:cardCornerRadius="@dimen/account_logo_radius_size"
         app:cardElevation="10dp"
         app:layout_constraintBottom_toTopOf="@+id/inputPasswordId"
@@ -41,8 +41,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
             android:text="@string/_0"
+            android:visibility="gone"
             android:textSize="@dimen/userNameTextSize"
             android:textColor="@color/white" />
+
+        <ImageView
+            android:id="@+id/ivPersonSample"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
+            android:src="@drawable/person_test" />
 
     </androidx.cardview.widget.CardView>
 

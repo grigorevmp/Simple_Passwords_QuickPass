@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    tools:context=".ui.account.view.ProfileFragment">
+    tools:context=".ui.profile.view.ProfileFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -22,33 +22,6 @@
             android:animateLayoutChanges="true">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cvAdditionalInfoCard"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginTop="@dimen/base_margin"
-                android:layout_marginEnd="@dimen/base_margin"
-                android:clickable="true"
-                android:focusable="true"
-                android:visibility="gone"
-                android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="?attr/colorPrimary"
-                app:cardCornerRadius="@dimen/base_card_radius"
-                app:cardElevation="@dimen/base_card_elevation"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cvSpecialInfo">
-
-                <ImageView
-                    android:id="@+id/cup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="@dimen/base_margin"
-                    android:contentDescription="@string/donut"
-                    app:srcCompat="@drawable/cup"
-                    app:tint="@color/colorLight" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
                 android:id="@+id/cvEncrypted"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -62,7 +35,7 @@
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="@dimen/base_card_radius"
                 app:cardElevation="@dimen/base_card_elevation"
-                app:layout_constraintEnd_toStartOf="@+id/cvAdditionalInfoCard"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cvTotalPoints">
 
@@ -138,10 +111,10 @@
                 android:id="@+id/cvAccountAvatar"
                 android:layout_width="@dimen/account_logo_size"
                 android:layout_height="@dimen/account_logo_size"
-                android:backgroundTint="@color/ic_account"
+                android:backgroundTint="@color/white"
                 android:layout_marginTop="@dimen/max_width"
                 app:cardCornerRadius="@dimen/account_logo_radius_size"
-                app:cardElevation="@dimen/small_elevation"
+                app:cardElevation="@dimen/base_card_elevation"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -152,8 +125,17 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:text="@string/_0"
+                    android:visibility="gone"
                     android:textColor="@color/white"
                     android:textSize="@dimen/userNameTextSize" />
+
+                <ImageView
+                    android:id="@+id/ivPersonSample"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleX="0.6"
+                    android:scaleY="0.6"
+                    android:src="@drawable/person_test" />
             </androidx.cardview.widget.CardView>
 
 
@@ -295,7 +277,8 @@
                 android:scaleX="0.7"
                 android:scaleY="0.7"
                 app:cardCornerRadius="25dp"
-                app:cardElevation="@dimen/base_margin"
+                app:cardBackgroundColor="@color/ic_account"
+                app:cardElevation="@dimen/base_card_elevation"
                 app:layout_constraintBottom_toBottomOf="@+id/cvAccountAvatar"
                 app:layout_constraintStart_toStartOf="@+id/cvAccountAvatar"
                 app:layout_constraintTop_toTopOf="@+id/cvAccountAvatar">
@@ -306,7 +289,7 @@
                     android:contentDescription="@string/edit"
                     android:layout_gravity="center"
                     app:srcCompat="@drawable/pencil_outline"
-                    app:tint="@color/black" />
+                    app:tint="@color/white" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView

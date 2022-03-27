@@ -4,8 +4,8 @@ import com.mikhailgrigorev.quickpassword.common.Application
 import com.mikhailgrigorev.quickpassword.di.modules.AppModule
 import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
 import com.mikhailgrigorev.quickpassword.di.modules.ViewModelModule
-import com.mikhailgrigorev.quickpassword.ui.account.edit.ProfileEditFragment
-import com.mikhailgrigorev.quickpassword.ui.account.view.ProfileFragment
+import com.mikhailgrigorev.quickpassword.ui.profile.edit.ProfileEditFragment
+import com.mikhailgrigorev.quickpassword.ui.profile.view.ProfileFragment
 import com.mikhailgrigorev.quickpassword.ui.folder.FolderViewActivity
 import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
 import com.mikhailgrigorev.quickpassword.ui.password.PasswordFragment

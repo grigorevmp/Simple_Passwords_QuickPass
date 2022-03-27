@@ -23,7 +23,6 @@
         android:theme="@style/Theme.QP"
         tools:targetApi="s"
         android:dataExtractionRules="@xml/data_extraction_rules">
-        <activity android:name="com.mikhailgrigorev.quickpassword.ui.donut.DonutActivity" />
         <service
             android:name="com.mikhailgrigorev.quickpassword.common.service.QuickPassAutoFillService"
             android:label="QuickPass"
@@ -69,7 +68,14 @@
             android:name=".ui.auth.auth.AuthActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.QP.Starting"
+            android:exported="true">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.auth.login.LoginActivity"
             android:screenOrientation="portrait"
@@ -81,18 +87,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
             tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".ui.splash.SplashActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:exported="true">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.mikhailgrigorev.quickpassword.fileprovider"

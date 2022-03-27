@@ -16,7 +16,7 @@
         android:layout_marginTop="@dimen/base_margin"
         android:text="@string/hi_username"
         android:textColor="@color/textDark"
-        android:textSize="@dimen/userNameTextSize"
+        android:textSize="@dimen/userNameTextSizeAuth"
         app:layout_constraintBottom_toTopOf="@+id/inputLoginId"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -171,6 +171,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/small_margin"
         android:text="@string/helloSubText"
+        android:textSize="@dimen/userDescTextSizeAuth"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvUsernameText" />

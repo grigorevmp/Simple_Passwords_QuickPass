@@ -6,7 +6,7 @@
     android:fitsSystemWindows="true"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    tools:context=".ui.account.edit.ProfileEditFragment">
+    tools:context=".ui.profile.edit.ProfileEditFragment">
 
     <ImageView
         android:id="@+id/back"
@@ -27,7 +27,7 @@
         android:layout_marginTop="@dimen/small_margin"
         android:layout_marginBottom="@dimen/base_margin"
         android:text="@string/you_decided_to_change_some_settings"
-        app:layout_constraintBottom_toTopOf="@+id/tilUserLogin"
+        app:layout_constraintBottom_toTopOf="@+id/tilUserAvatarEmoji"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -40,6 +40,30 @@
         app:layout_constraintBottom_toTopOf="@+id/tilPassword"
         app:layout_constraintEnd_toEndOf="@+id/cvPasswordGenerateButton"
         app:layout_constraintStart_toStartOf="@+id/tilNewPassword" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilUserAvatarEmoji"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_margin"
+        android:layout_marginEnd="@dimen/base_margin"
+        app:boxCornerRadiusBottomEnd="@dimen/base_card_radius"
+        app:boxCornerRadiusBottomStart="@dimen/base_card_radius"
+        app:boxCornerRadiusTopEnd="@dimen/base_card_radius"
+        app:boxCornerRadiusTopStart="@dimen/base_card_radius"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@+id/tilUserLogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etUserAvatarEmoji"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/avatar_emoji"
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilUserLogin"

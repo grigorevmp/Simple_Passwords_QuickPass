@@ -2,8 +2,8 @@ package com.mikhailgrigorev.quickpassword.di.modules.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.mikhailgrigorev.quickpassword.ui.account.edit.ProfileEditFragment
-import com.mikhailgrigorev.quickpassword.ui.account.view.ProfileFragment
+import com.mikhailgrigorev.quickpassword.ui.profile.edit.ProfileEditFragment
+import com.mikhailgrigorev.quickpassword.ui.profile.view.ProfileFragment
 import com.mikhailgrigorev.quickpassword.ui.folder.FolderViewActivity
 import com.mikhailgrigorev.quickpassword.ui.password.PasswordFragment
 import com.mikhailgrigorev.quickpassword.ui.password_card.create.PasswordCreateActivity

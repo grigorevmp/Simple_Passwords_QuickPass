@@ -4,7 +4,7 @@
         android:id="@+id/password_fragment"
         android:enabled="true"
         android:icon="@drawable/ic_outline_format_list_bulleted_24"
-        android:title="@string/password" />
+        android:title="@string/passwords" />
     <item
         android:id="@+id/profile_fragment"
         android:enabled="true"

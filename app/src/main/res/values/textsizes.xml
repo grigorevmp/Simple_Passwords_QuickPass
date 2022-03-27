@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="userNameTextSize">24sp</dimen>
+    <dimen name="userNameTextSizeAuth">32sp</dimen>
+    <dimen name="userDescTextSizeAuth">18sp</dimen>
 </resources>

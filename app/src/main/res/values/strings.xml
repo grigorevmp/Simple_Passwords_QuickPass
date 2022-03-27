@@ -201,6 +201,7 @@
     <string name="dinnerDesc">You are really like this app =)</string>
     <string name="buyMe">This is free open source project. No ads. No in-app purchase. If you want to support this app, you can buy me something</string>
     <string name="password">Password</string>
+    <string name="passwords">Passwords</string>
     <string name="thxText"> (Thanks =))</string>
     <string name="app_lock_time">App lock time</string>
     <string name="doNotLock">Don\'t lock</string>
@@ -225,5 +226,6 @@
     <string name="spanish_translation_waifupx_dg" translatable="false">Spanish translation: WaifuPX-DG</string>
     <string name="folder_creation">Create folder</string>
     <string name="create_folder_config">Current configuration details</string>
+    <string name="avatar_emoji">Avatar emoji</string>
 
 </resources>

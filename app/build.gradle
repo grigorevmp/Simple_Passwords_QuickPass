@@ -102,9 +102,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.0-alpha05'
 
-    //coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0-native-mt'
+    // coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.6.10"
     implementation 'androidx.core:core-ktx:1.7.0'
@@ -136,8 +136,11 @@ dependencies {
     implementation 'com.sun.mail:android-mail:1.6.7'
     implementation 'com.sun.mail:android-activation:1.6.7'
 
-    // Billing
-    implementation 'com.android.billingclient:billing:4.1.0'
+    // Splash
+    implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
+
+    // Emoji
+    implementation 'com.vanniktech:emoji-ios:0.8.0'
 
     // Test
     testImplementation 'junit:junit:4.13.2'

@@ -1,5 +1,6 @@
-package com.mikhailgrigorev.quickpassword.ui.account.edit
+package com.mikhailgrigorev.quickpassword.ui.profile.edit
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,12 +17,13 @@ import com.mikhailgrigorev.quickpassword.databinding.FragmentProfileEditBinding
 import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
 import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
 import com.mikhailgrigorev.quickpassword.di.modules.viewModel.injectViewModel
-import com.mikhailgrigorev.quickpassword.ui.account.AccountViewModel
+import com.mikhailgrigorev.quickpassword.ui.profile.ProfileViewModel
 import javax.inject.Inject
+
 
 class ProfileEditFragment : Fragment() {
 
-    private lateinit var viewModel: AccountViewModel
+    private lateinit var viewModel: ProfileViewModel
     private var _binding: FragmentProfileEditBinding? = null
     private val binding get() = _binding!!
 
@@ -60,6 +62,27 @@ class ProfileEditFragment : Fragment() {
         binding.etUserLogin.setText(
                 Utils.auth.currentUser?.displayName
         )
+        if (Utils.auth.currentUser?.photoUrl != null) {
+            binding.etUserAvatarEmoji.setText(
+                    Utils.auth.currentUser?.photoUrl.toString()
+            )
+        }
+    }
+
+    private fun isEmoji(message: String): Boolean {
+        return message.matches(
+                ("(?:[\uD83C\uDF00-\uD83D\uDDFF]|[\uD83E\uDD00-\uD83E\uDDFF]|" +
+                        "[\uD83D\uDE00-\uD83D\uDE4F]|[\uD83D\uDE80-\uD83D\uDEFF]|" +
+                        "[\u2600-\u26FF]\uFE0F?|[\u2700-\u27BF]\uFE0F?|\u24C2\uFE0F?|" +
+                        "[\uD83C\uDDE6-\uD83C\uDDFF]{1,2}|" +
+                        "[\uD83C\uDD70\uD83C\uDD71\uD83C\uDD7E\uD83C\uDD7F\uD83C\uDD8E\uD83C\uDD91-\uD83C\uDD9A]\uFE0F?|" +
+                        "[\u0023\u002A\u0030-\u0039]\uFE0F?\u20E3|[\u2194-\u2199\u21A9-\u21AA]\uFE0F?|[\u2B05-\u2B07\u2B1B\u2B1C\u2B50\u2B55]\uFE0F?|" +
+                        "[\u2934\u2935]\uFE0F?|[\u3030\u303D]\uFE0F?|[\u3297\u3299]\uFE0F?|" +
+                        "[\uD83C\uDE01\uD83C\uDE02\uD83C\uDE1A\uD83C\uDE2F\uD83C\uDE32-\uD83C\uDE3A\uD83C\uDE50\uD83C\uDE51]\uFE0F?|" +
+                        "[\u203C\u2049]\uFE0F?|[\u25AA\u25AB\u25B6\u25C0\u25FB-\u25FE]\uFE0F?|" +
+                        "[\u00A9\u00AE]\uFE0F?|[\u2122\u2139]\uFE0F?|\uD83C\uDC04\uFE0F?|\uD83C\uDCCF\uFE0F?|" +
+                        "[\u231A\u231B\u2328\u23CF\u23E9-\u23F3\u23F8-\u23FA]\uFE0F?)+").toRegex()
+        )
     }
 
     private fun setListeners() {
@@ -68,9 +91,11 @@ class ProfileEditFragment : Fragment() {
             val mail = binding.etUserEmail.text.toString()
             val password = binding.etPassword.text.toString()
             val newPassword = binding.etNewPassword.text.toString()
+            val emojiAvatar = binding.etUserAvatarEmoji.text.toString()
             if (password == "") {
                 binding.tilPassword.error = "Where is my password??"
             } else {
+                this.context?.let { it1 -> Utils.makeToast(it1, "Saving...") }
                 Utils.auth.signInWithEmailAndPassword(
                         Utils.getMail()!!,
                         password
@@ -91,8 +116,18 @@ class ProfileEditFragment : Fragment() {
                         if (newPassword != "") {
                             Utils.auth.currentUser?.updatePassword(newPassword)
                         }
-                        Utils.makeToast(requireContext(), "Saved")
-                        findNavController().popBackStack()
+                        if (isEmoji(emojiAvatar)) {
+                            Utils.auth.currentUser?.updateProfile(
+                                    UserProfileChangeRequest.Builder().apply {
+                                        photoUri = Uri.parse(emojiAvatar)
+                                    }.build()
+                            )
+                        }
+                        try {
+                            findNavController().popBackStack()
+                        } catch (e: Exception) {
+                            Log.d("PopBackStack", "strange error")
+                        }
                     }
                 }.addOnFailureListener { exception ->
                     Log.d("Auth mail", Utils.getMail()!!)

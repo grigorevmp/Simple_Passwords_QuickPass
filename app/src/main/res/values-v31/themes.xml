@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.QP.Starting" parent="Theme.SplashScreen">
+        <item name="android:windowSplashScreenBackground">@color/colorLight</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_splashscreen_logo_animated</item>
+        <item name="android:windowSplashScreenAnimationDuration">2000</item>
+        <item name="postSplashScreenTheme">@style/Theme.QP</item>
+        <item name="android:windowSplashScreenBrandingImage">@drawable/ic_name_vector</item>
+    </style>
+</resources>

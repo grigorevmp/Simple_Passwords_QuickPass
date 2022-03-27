@@ -9,6 +9,7 @@
     <dimen name="x_small_card_horizontal_margin">5dp</dimen>
     <dimen name="base_card_horizontal_margin">20dp</dimen>
     <dimen name="medium_card_vertical_margin">20dp</dimen>
+    <dimen name="big_text_vertical_margin">40dp</dimen>
     <dimen name="image_button_size_20">20dp</dimen>
     <dimen name="image_button_size_15">15dp</dimen>
     <dimen name="image_button_size_10">10dp</dimen>

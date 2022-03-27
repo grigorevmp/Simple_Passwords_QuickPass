@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.ui.account.view
+package com.mikhailgrigorev.quickpassword.ui.profile.view
 
 import android.content.Intent
 import android.content.pm.ShortcutInfo
@@ -18,14 +18,13 @@ import com.mikhailgrigorev.quickpassword.databinding.FragmentProfileBinding
 import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
 import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
 import com.mikhailgrigorev.quickpassword.di.modules.viewModel.injectViewModel
-import com.mikhailgrigorev.quickpassword.ui.account.AccountViewModel
 import com.mikhailgrigorev.quickpassword.ui.auth.auth.AuthActivity
-import com.mikhailgrigorev.quickpassword.ui.donut.DonutActivity
+import com.mikhailgrigorev.quickpassword.ui.profile.ProfileViewModel
 import javax.inject.Inject
 
 class ProfileFragment : Fragment() {
 
-    private lateinit var viewModel: AccountViewModel
+    private lateinit var viewModel: ProfileViewModel
 
     private var safePass = 0
     private var unsafePass = 0
@@ -60,6 +59,16 @@ class ProfileFragment : Fragment() {
         return view
     }
 
+    override fun onResume() {
+        super.onResume()
+        setHelloText()
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        setHelloText()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -80,7 +89,13 @@ class ProfileFragment : Fragment() {
         viewModel.userLogin.observe(viewLifecycleOwner) { login ->
             val name: String = getString(R.string.hi) + " " + login
             binding.tvUsernameText.text = name
-            binding.tvAvatarSymbol.text = login[0].toString().uppercase()
+            this.context?.let {
+                if(Utils.auth.currentUser?.photoUrl != null){
+                    binding.tvAvatarSymbol.text = Utils.auth.currentUser?.photoUrl.toString()
+                    binding.tvAvatarSymbol.visibility = View.VISIBLE
+                    binding.ivPersonSample.visibility = View.GONE
+                }
+            }
         }
     }
 
@@ -163,10 +178,6 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(
                     ProfileFragmentDirections.actionProfileFragmentToAboutFragment()
             )
-        }
-        binding.cvAdditionalInfoCard.setOnClickListener {
-            val intent = Intent(requireContext(), DonutActivity::class.java)
-            startActivity(intent)
         }
         binding.ivLogOut.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogCustom)

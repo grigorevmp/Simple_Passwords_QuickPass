@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_password" />
     <fragment
         android:id="@+id/profile_fragment"
-        android:name="com.mikhailgrigorev.quickpassword.ui.account.view.ProfileFragment"
+        android:name="com.mikhailgrigorev.quickpassword.ui.profile.view.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
@@ -33,7 +33,7 @@
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/profileEditFragment"
-        android:name="com.mikhailgrigorev.quickpassword.ui.account.edit.ProfileEditFragment"
+        android:name="com.mikhailgrigorev.quickpassword.ui.profile.edit.ProfileEditFragment"
         android:label="ProfileEditFragment" />
     <fragment
         android:id="@+id/aboutFragment"

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.mikhailgrigorev.quickpassword.di.modules.viewModel.ViewModelFactory
 import com.mikhailgrigorev.quickpassword.di.modules.viewModel.ViewModelKey
-import com.mikhailgrigorev.quickpassword.ui.account.AccountViewModel
+import com.mikhailgrigorev.quickpassword.ui.profile.ProfileViewModel
 import com.mikhailgrigorev.quickpassword.ui.folder.FolderViewModel
 import com.mikhailgrigorev.quickpassword.ui.main_activity.MainViewModel
 import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModel
@@ -30,8 +30,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(AccountViewModel::class)
-    internal abstract fun postAccountViewModel(viewModel: AccountViewModel): ViewModel
+    @ViewModelKey(ProfileViewModel::class)
+    internal abstract fun postAccountViewModel(viewModel: ProfileViewModel): ViewModel
 
     @Binds
     @IntoMap

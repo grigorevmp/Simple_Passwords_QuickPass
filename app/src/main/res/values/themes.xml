@@ -7,8 +7,15 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+        <item name="android:navigationBarColor">@color/colorLight</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+    </style>
+
+    <style name="Theme.QP.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/colorLight</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splashscreen_logo_animated</item>
+        <item name="windowSplashScreenAnimationDuration">1500</item>
+        <item name="postSplashScreenTheme">@style/Theme.QP</item>
     </style>
 </resources>

@@ -37,8 +37,14 @@ class LoginActivity : AppCompatActivity() {
     private fun initName() {
         val name: String = getString(R.string.hi) + " " + Utils.getLogin()
         binding.tvUsernameText.text = name
-        binding.tvAvatarSymbol.text = Utils.getLogin()!![0].toString().uppercase()
         binding.loginFab.show()
+        this.let {
+            if(Utils.auth.currentUser?.photoUrl != null){
+                binding.tvAvatarSymbol.text = Utils.auth.currentUser?.photoUrl.toString()
+                binding.tvAvatarSymbol.visibility = View.VISIBLE
+                binding.ivPersonSample.visibility = View.GONE
+            }
+        }
     }
 
     private fun setBiometricFeature() {

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
@@ -22,6 +23,7 @@ class AuthActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAuthBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -150,7 +152,6 @@ class AuthActivity : AppCompatActivity() {
             }
 
         }.addOnFailureListener { exception ->
-            Utils.makeToast(this, exception.localizedMessage)
             exception.message?.let { Utils.makeToast(this, it) }
         }
 
@@ -168,7 +169,6 @@ class AuthActivity : AppCompatActivity() {
                 goHome()
             }
         }.addOnFailureListener { exception ->
-            Utils.makeToast(this, exception.localizedMessage)
             exception.message?.let { Utils.makeToast(this, it) }
         }
     }
