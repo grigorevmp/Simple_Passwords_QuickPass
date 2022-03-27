@@ -116,8 +116,8 @@
     <string name="total_points">Общее качество:</string>
     <string name="exported">Успешно экспортировано.</string>
     <string name="imported">Успешно импортировано.</string>
-    <string name="inOut">Информация по экспорту/импорту</string>
-    <string name="InOutMessage">Для экспорта/импорта данных необходимо предоставить разрешение на доступ к файловой системе</string>
+    <string name="inOut">Локальный бекап</string>
+    <string name="InOutMessage">При сохранении данных будет открыто 2 файла в формате csv, вам следует самостоятельно сохранить их на устройство, это сделано во избежании утечки данных</string>
     <string name="InOutMessage3">Вы можете самостоятельно создать csv  в формате: (_id,name,password,2fa,useTimeNotifications,time,tags,groups,login(or e-mail), description). Id, time - будут заполнены автоматически, 2fa, usetime принимают 1 или 0 в зависимости от использования. Groups инициализирован \"#favorite\", если пароль в избранном</string>
     <string name="warning">Внимание!</string>
 

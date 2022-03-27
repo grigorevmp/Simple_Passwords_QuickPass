@@ -72,7 +72,7 @@ class AboutFragment : Fragment() {
         try {
             startActivity(Intent.createChooser(mIntent, getString(R.string.chooseEmail)))
         } catch (e: Exception) {
-            e.message?.let { Utils.makeToast(context!!, it) }
+            e.message?.let { Utils.makeToast(requireContext(), it) }
         }
     }
 }

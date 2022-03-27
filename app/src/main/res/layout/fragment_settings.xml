@@ -276,6 +276,22 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <TextView
+                android:id="@+id/tvImportExport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:text="@string/inOut"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cvAutoFillSettings" />
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvWarningRulesCard"
                 android:layout_width="fill_parent"
@@ -288,24 +304,12 @@
                 app:cardElevation="@dimen/base_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cvAutoFillSettings">
+                app:layout_constraintTop_toBottomOf="@+id/tvImportExport">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
                     android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/base_margin"
-                        android:layout_marginTop="@dimen/base_margin"
-                        android:layout_marginEnd="@dimen/base_margin"
-                        android:layout_marginBottom="@dimen/small_margin"
-                        android:text="@string/inOut"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -330,15 +334,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/base_margin"
-                android:layout_marginBottom="30dp"
+                android:layout_marginEnd="@dimen/base_margin"
+                android:layout_marginBottom="@dimen/base_margin"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="@dimen/base_card_radius"
                 app:cardElevation="@dimen/small_margin"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cvWarningRulesCard"
-                app:layout_constraintVertical_bias="1.0">
+                app:layout_constraintVertical_bias="0.0">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -353,8 +357,8 @@
                         android:layout_margin="@dimen/small_margin"
                         android:background="@android:color/transparent"
                         android:clickable="true"
-                        android:focusable="true"
                         android:contentDescription="@string/export"
+                        android:focusable="true"
                         android:paddingStart="@dimen/base_margin"
                         android:paddingEnd="@dimen/base_margin"
                         android:src="@drawable/upload"
@@ -367,8 +371,8 @@
                         android:layout_margin="@dimen/small_margin"
                         android:background="@android:color/transparent"
                         android:clickable="true"
-                        android:focusable="true"
                         android:contentDescription="@string/importFile"
+                        android:focusable="true"
                         android:paddingStart="@dimen/base_margin"
                         android:paddingEnd="@dimen/base_margin"
                         android:src="@drawable/download"

@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +38,7 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.IOException
 import java.io.InputStreamReader
+import java.util.*
 import javax.inject.Inject
 
 class SettingsFragment: Fragment() {
@@ -92,7 +94,7 @@ class SettingsFragment: Fragment() {
         setLockTimeText(Utils.getAppLockTime())
 
         val hasBiometricFeature: Boolean =
-                context!!.packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)
+                requireContext().packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)
         if (!hasBiometricFeature) {
             binding.sFingerprintUnlock.visibility = View.GONE
             binding.tvFingerprintUnlock.visibility = View.GONE
@@ -135,56 +137,94 @@ class SettingsFragment: Fragment() {
         val resultLauncher =
                 registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                     if (result.resultCode == Activity.RESULT_OK) {
-                        val data = result.data?.data
-                        data.let { commonResult ->
-                            val dataResult = commonResult?.let { it ->
-                                readCSV(it)
-                            }
-                            if (dataResult != null) {
-                                var firstLine = true
-                                for (line in dataResult) {
-                                    if (firstLine) {
-                                        firstLine = false
-                                        continue
-                                    }
-                                    val split = line.split(",")
-                                    if (split.size == 5) {
-                                        lifecycleScope.launch(Dispatchers.IO) {
-                                            viewModel.insertCard(
-                                                    FolderCard(
-                                                            name = split[1],
-                                                            imageSrc = split[2],
-                                                            colorTag = split[3],
-                                                            description = split[4],
-                                                    )
-                                            )
+                        try {
+                            val data = result.data?.data
+                            data.let { commonResult ->
+                                val dataResult = commonResult?.let { it ->
+                                    readCSV(it)
+                                }
+                                if (dataResult != null) {
+                                    var firstLine = true
+                                    var tmp = ""
+                                    for (line in dataResult) {
+                                        if (firstLine) {
+                                            firstLine = false
+                                            continue
                                         }
-                                        Utils.makeToast(context!!, "IMPORT_DB FOLDER: Ok.")
-                                    } else {
-                                        lifecycleScope.launch(Dispatchers.IO) {
-                                            viewModel.insertPassword(
-                                                    PasswordCard(
-                                                            name = split[1],
-                                                            image_count = split[2].toInt(),
-                                                            password = split[3],
-                                                            use_2fa = split[4].toBoolean(),
-                                                            is_card_pin = split[5].toBoolean(),
-                                                            use_time = split[6].toBoolean(),
-                                                            time = split[7],
-                                                            description = split[8],
-                                                            tags = split[9],
-                                                            folder = if (split[10] != "") split[10].toInt() else null,
-                                                            login = split[11],
-                                                            encrypted = split[12].toBoolean(),
-                                                            quality = split[13].toInt(),
-                                                            favorite = split[14].toBoolean(),
-                                                    )
-                                            )
+                                        if(line[line.length - 1] == '='){
+                                            tmp = line
+                                            continue
                                         }
-                                        Utils.makeToast(context!!, "IMPORT_DB PASS: Ok.")
+                                        val split = (tmp + line).split(",".toRegex())
+                                        tmp = ""
+                                        when (split.size) {
+                                            5 -> {
+                                                lifecycleScope.launch(Dispatchers.IO) {
+                                                    viewModel.insertCard(
+                                                            FolderCard(
+                                                                    name = split[1],
+                                                                    imageSrc = split[2],
+                                                                    colorTag = split[3],
+                                                                    description = split[4],
+                                                            )
+                                                    )
+                                                }
+                                            }
+                                            11 -> {
+                                                lifecycleScope.launch(Dispatchers.IO) {
+                                                    viewModel.insertPassword(
+                                                            PasswordCard(
+                                                                    name = split[1],
+                                                                    image_count = 0,
+                                                                    password = split[2],
+                                                                    use_2fa = split[3].toBoolean(),
+                                                                    is_card_pin = false,
+                                                                    use_time = split[4].toBoolean(),
+                                                                    time = Date().toString(),
+                                                                    description = split[9],
+                                                                    tags = split[6],
+                                                                    folder = -1,
+                                                                    login = split[8],
+                                                                    encrypted = split[10] == "crypted",
+                                                                    quality = 2,
+                                                                    same_with = "",
+                                                                    favorite = false,
+                                                            )
+                                                    )
+                                                }
+                                            }
+                                            else -> {
+                                                lifecycleScope.launch(Dispatchers.IO) {
+                                                    viewModel.insertPassword(
+                                                            PasswordCard(
+                                                                    name = split[1],
+                                                                    image_count = split[2].toInt(),
+                                                                    password = split[3],
+                                                                    use_2fa = split[4].toBoolean(),
+                                                                    is_card_pin = split[5].toBoolean(),
+                                                                    use_time = split[6].toBoolean(),
+                                                                    time = split[7],
+                                                                    description = if (split[8] != "null") split[8] else "",
+                                                                    tags = if (split[9] != "null") split[9] else "",
+                                                                    folder = if (split[10] != "") split[10].toInt() else -1,
+                                                                    login = if (split[11] != "null") split[11] else "",
+                                                                    encrypted = split[12].toBoolean(),
+                                                                    quality = split[13].toInt(),
+                                                                    same_with = if (split[14] != "null") split[14] else "",
+                                                                    favorite = split[15].toBoolean(),
+                                                            )
+                                                    )
+                                                }
+                                            }
+                                        }
                                     }
+                                    Utils.makeToast(requireContext(), "IMPORT_DB FOLDER: Ok.")
                                 }
                             }
+                        }
+                        catch (e: Exception){
+                            e.message?.let { Log.d("Backup", it) }
+                            Utils.makeToast(requireContext(), "IMPORT_DB FOLDER: ${e.message}")
                         }
                     }
                 }
@@ -198,7 +238,7 @@ class SettingsFragment: Fragment() {
 
         binding.checkAutoFillSettings.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                testAutoFill(context!!)
+                testAutoFill(requireContext())
             }
         }
 
@@ -222,7 +262,7 @@ class SettingsFragment: Fragment() {
 
         binding.sSetPin.setOnCheckedChangeListener { _, _ ->
             if (binding.sSetPin.isChecked) {
-                val intent = Intent(context!!, PinSetActivity::class.java)
+                val intent = Intent(requireContext(), PinSetActivity::class.java)
                 startActivity(intent)
             } else {
                 Utils.setPinMode(false)
@@ -234,7 +274,7 @@ class SettingsFragment: Fragment() {
                 binding.sSetPin.isChecked = false
                 Utils.setPinMode(binding.sSetPin.isChecked)
             } else {
-                val intent = Intent(context!!, PinSetActivity::class.java)
+                val intent = Intent(requireContext(), PinSetActivity::class.java)
                 startActivity(intent)
             }
         }
@@ -356,9 +396,9 @@ class SettingsFragment: Fragment() {
                 goToFileIntent(it, csvFile)
             }
             startActivity(intent)
-            Utils.makeToast(context!!, "EXPORT_DB: Ok.")
+            Utils.makeToast(requireContext(), "EXPORT_DB: Ok.")
         } else {
-            Utils.makeToast(context!!, "EXPORT_DB: Error.")
+            Utils.makeToast(requireContext(), "EXPORT_DB: Error.")
         }
     }
 

@@ -46,18 +46,22 @@ object Utils {
     }
 
     fun returnReadableDate(date: String): String {
-        val sdf3 = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
-        val sameDate = sdf3.parse(date)
+        try {
+            val sdf3 = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
+            val sameDate = sdf3.parse(date)
 
-        val calendar = Calendar.getInstance()
-        calendar.time = sameDate!!
+            val calendar = Calendar.getInstance()
+            calendar.time = sameDate!!
 
-        val year = calendar.get(Calendar.YEAR).toString()
-        calendar.add(Calendar.MONTH, 1)
-        val month = calendar.get(Calendar.MONTH).toString()
-        val day = calendar.get(Calendar.DATE).toString()
+            val year = calendar.get(Calendar.YEAR).toString()
+            calendar.add(Calendar.MONTH, 1)
+            val month = calendar.get(Calendar.MONTH).toString()
+            val day = calendar.get(Calendar.DATE).toString()
 
-        return "$day/$month/$year"
+            return "$day/$month/$year"
+        } catch (e: Exception) {
+            return "Date in old format"
+        }
     }
 
     val password_manager = PasswordManager()
