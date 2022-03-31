@@ -96,6 +96,7 @@ class ProfileEditFragment : Fragment() {
                 binding.tilPassword.error = "Where is my password??"
             } else {
                 this.context?.let { it1 -> Utils.makeToast(it1, "Saving...") }
+                binding.cvSaving.visibility = View.VISIBLE
                 Utils.auth.signInWithEmailAndPassword(
                         Utils.getMail()!!,
                         password
@@ -139,8 +140,11 @@ class ProfileEditFragment : Fragment() {
         }
 
         binding.back.setOnClickListener {
+            if (parentFragment != null)
+                parentFragment?.onResume()
             findNavController().popBackStack()
         }
+
         binding.generatePassword.setOnClickListener {
             binding.tilNewPassword.error = null
             val newPassword: String =

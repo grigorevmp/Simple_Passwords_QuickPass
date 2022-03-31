@@ -199,7 +199,7 @@
                 android:layout_marginTop="@dimen/medium_margin"
                 android:text="@string/settings"
                 android:textColor="@color/textDark"
-                android:textSize="24sp"
+                android:textSize="@dimen/fragment_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

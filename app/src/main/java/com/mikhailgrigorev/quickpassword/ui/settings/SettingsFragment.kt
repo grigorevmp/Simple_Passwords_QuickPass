@@ -16,6 +16,8 @@ import android.view.autofill.AutofillManager
 import android.widget.SeekBar
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -98,6 +100,16 @@ class SettingsFragment: Fragment() {
         if (!hasBiometricFeature) {
             binding.sFingerprintUnlock.visibility = View.GONE
             binding.tvFingerprintUnlock.visibility = View.GONE
+        }
+
+        val biometricManager = BiometricManager.from(requireActivity())
+        when (biometricManager.canAuthenticate(BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
+            BiometricManager.BIOMETRIC_SUCCESS ->
+                Log.d("QP", "App can authenticate using biometrics.")
+            else -> {
+                binding.sFingerprintUnlock.visibility = View.GONE
+                binding.tvFingerprintUnlock.visibility = View.GONE
+            }
         }
 
         if (Utils.getBioMode()) {

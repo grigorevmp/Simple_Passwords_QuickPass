@@ -83,11 +83,11 @@ class LoginActivity : AppCompatActivity() {
         }
 
         if (hasBiometricFeature and bioMode) {
-            binding.finger.visibility = View.VISIBLE
-            binding.finger.isClickable = true
+            binding.fabBiometricUnlock.visibility = View.VISIBLE
+            binding.fabBiometricUnlock.isClickable = true
             biometricPrompt.authenticate(promptInfo)
 
-            binding.finger.setOnClickListener {
+            binding.fabBiometricUnlock.setOnClickListener {
                 biometricPrompt.authenticate(promptInfo)
             }
         }

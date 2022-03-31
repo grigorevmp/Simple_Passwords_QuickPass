@@ -70,7 +70,7 @@
         app:boxCornerRadiusTopStart="15dp"
         app:endIconMode="password_toggle"
         app:errorEnabled="true"
-        app:layout_constraintBottom_toTopOf="@+id/finger"
+        app:layout_constraintBottom_toTopOf="@+id/fabLogOut"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -100,7 +100,7 @@
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/finger"
+        android:id="@+id/fabBiometricUnlock"
         android:layout_marginStart="@dimen/base_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -108,6 +108,8 @@
         android:clickable="true"
         android:contentDescription="@string/log_out"
         android:focusable="true"
+        android:visibility="gone"
+        tools:visibility="visible"
         app:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/fabLogOut"

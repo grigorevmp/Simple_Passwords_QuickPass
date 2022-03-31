@@ -33,4 +33,5 @@
     <dimen name="about_bottom_margin">30dp</dimen>
     <dimen name="account_logo_size">70dp</dimen>
     <dimen name="account_logo_radius_size">35dp</dimen>
+    <dimen name="fragment_title">24sp</dimen>
 </resources>

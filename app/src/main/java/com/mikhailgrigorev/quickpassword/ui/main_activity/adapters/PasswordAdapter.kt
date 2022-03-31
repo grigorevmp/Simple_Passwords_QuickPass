@@ -40,6 +40,8 @@ class PasswordAdapter(
         val password = passwordCards[position]
         holder.passwordName.text = password.name
 
+        holder.passwordGroup.removeAllViews()
+
         if (password.use_2fa) {
             val chip = Chip(holder.passwordGroup.context)
             chip.text = "2FA"

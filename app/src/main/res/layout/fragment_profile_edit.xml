@@ -8,6 +8,26 @@
     android:animateLayoutChanges="true"
     tools:context=".ui.profile.edit.ProfileEditFragment">
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvSaving"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:visibility="gone"
+        app:cardCornerRadius="50dp"
+        app:cardElevation="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="20dp" />
+    </androidx.cardview.widget.CardView>
+
     <ImageView
         android:id="@+id/back"
         android:layout_width="wrap_content"
@@ -61,6 +81,7 @@
             android:id="@+id/etUserAvatarEmoji"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLength="2"
             android:hint="@string/avatar_emoji"
             android:inputType="textPersonName" />
     </com.google.android.material.textfield.TextInputLayout>

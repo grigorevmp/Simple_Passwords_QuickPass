@@ -89,12 +89,25 @@ class ProfileFragment : Fragment() {
         viewModel.userLogin.observe(viewLifecycleOwner) { login ->
             val name: String = getString(R.string.hi) + " " + login
             binding.tvUsernameText.text = name
+        }
+
+        this.context?.let {
+            if (Utils.auth.currentUser?.photoUrl != null) {
+                binding.tvAvatarSymbol.text = Utils.auth.currentUser?.photoUrl.toString()
+                binding.tvAvatarSymbol.visibility = View.VISIBLE
+                binding.ivPersonSample.visibility = View.GONE
+            }
+            viewModel.setAvatar(Utils.auth.currentUser?.photoUrl.toString())
+        }
+
+        viewModel.avatar.observe(viewLifecycleOwner) { str ->
             this.context?.let {
-                if(Utils.auth.currentUser?.photoUrl != null){
-                    binding.tvAvatarSymbol.text = Utils.auth.currentUser?.photoUrl.toString()
+                if (Utils.auth.currentUser?.photoUrl != null) {
+                    binding.tvAvatarSymbol.text = str
                     binding.tvAvatarSymbol.visibility = View.VISIBLE
                     binding.ivPersonSample.visibility = View.GONE
                 }
+                viewModel.setAvatar(Utils.auth.currentUser?.photoUrl.toString())
             }
         }
     }
