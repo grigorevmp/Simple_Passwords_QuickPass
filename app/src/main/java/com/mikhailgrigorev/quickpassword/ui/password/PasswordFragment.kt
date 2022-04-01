@@ -661,7 +661,7 @@ class PasswordFragment: Fragment() {
 
             setObservers(
                     type = PasswordGettingType.ByQuality,
-                    value = PasswordQuality.LOW.value
+                    value = PasswordQuality.MEDIUM.value
             )
             searchNegative = false
             searchCorrect = false
@@ -688,7 +688,7 @@ class PasswordFragment: Fragment() {
             )
             setObservers(
                     type = PasswordGettingType.ByQuality,
-                    value = PasswordQuality.MEDIUM.value
+                    value = PasswordQuality.LOW.value
             )
             searchNotSafe = false
             searchCorrect = false
