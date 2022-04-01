@@ -221,14 +221,14 @@ class PasswordFragment: Fragment() {
         binding.tvNegativePasswords.text =
                 resources.getQuantityString(
                         R.plurals.incorrect_password,
-                        unsafePass,
-                        unsafePass
+                        fixPass,
+                        fixPass
                 )
         binding.tvNotSafePasswords.text =
                 resources.getQuantityString(
                         R.plurals.need_fix,
-                        fixPass,
-                        fixPass
+                        unsafePass,
+                        unsafePass
                 )
     }
 

@@ -55,13 +55,25 @@ class AuthActivity : AppCompatActivity() {
 
     private fun initListeners() {
         binding.loginFab.setOnClickListener {
+            binding.inputLoginId.error = null
+            binding.inputPasswordId.error = null
+            binding.inputPassword2Id.error = null
+            binding.tilUserLogin.error = null
             if(binding.inputLoginIdField.text.toString() != "") {
                 if (binding.signUpChip.isChecked) {
                     if (validate(binding.inputPasswordIdField.text.toString())) {
-                        signUp(
-                                binding.inputLoginIdField.text.toString(),
-                                binding.inputPasswordIdField.text.toString()
-                        )
+                        if (
+                            binding.inputPasswordIdField.text.toString()
+                            ==
+                            binding.inputPasswordId2Field.text.toString()
+                        ) {
+                            signUp(
+                                    binding.inputLoginIdField.text.toString(),
+                                    binding.inputPasswordIdField.text.toString()
+                            )
+                        } else {
+                            binding.inputPassword2Id.error = "Different passwords -_-"
+                        }
                     }
                 } else {
                     if (validate(binding.inputPasswordIdField.text.toString())
@@ -102,18 +114,26 @@ class AuthActivity : AppCompatActivity() {
                     binding.loginFab.text = getString(R.string.sign_up)
                     binding.loginFab.show()
                     binding.tilUserLogin.visibility = View.VISIBLE
+                    binding.inputPassword2Id.visibility = View.VISIBLE
                 } else {
                     binding.loginFab.hide()
                     binding.loginFab.text = getString(R.string.sign_in)
                     binding.loginFab.show()
                     binding.tilUserLogin.visibility = View.GONE
+                    binding.inputPassword2Id.visibility = View.GONE
                 }
             }
         }
 
         binding.tvSendForgotPassMail.setOnClickListener {
             val email = binding.inputLoginIdField.text.toString()
-            Utils.auth.sendPasswordResetEmail(email)
+            binding.inputLoginId.error = null
+            if (email != "") {
+                Utils.auth.sendPasswordResetEmail(email)
+                Utils.makeToast(this, "Email sent")
+            } else {
+                binding.inputLoginId.error = "Please enter your email"
+            }
         }
     }
 

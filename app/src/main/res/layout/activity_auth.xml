@@ -13,14 +13,14 @@
         android:id="@+id/tvUsernameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/base_margin"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginBottom="@dimen/base_margin"
         android:text="@string/hi_username"
         android:textColor="@color/textDark"
         android:textSize="@dimen/userNameTextSize"
-        app:layout_constraintBottom_toTopOf="@+id/inputLoginId"
+        app:layout_constraintBottom_toTopOf="@+id/loginOrCreateAccount"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputLoginId"
@@ -86,7 +86,7 @@
         app:boxCornerRadiusTopStart="@dimen/base_card_radius"
         app:endIconMode="password_toggle"
         app:errorEnabled="true"
-        app:layout_constraintBottom_toTopOf="@+id/signUpChipGroup"
+        app:layout_constraintBottom_toTopOf="@+id/inputPassword2Id"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -95,6 +95,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/inputPassword"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputPassword2Id"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_margin"
+        android:layout_marginEnd="@dimen/base_margin"
+        app:boxCornerRadiusBottomEnd="@dimen/base_card_radius"
+        app:boxCornerRadiusBottomStart="@dimen/base_card_radius"
+        app:boxCornerRadiusTopEnd="@dimen/base_card_radius"
+        app:boxCornerRadiusTopStart="@dimen/base_card_radius"
+        app:endIconMode="password_toggle"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@+id/signUpChipGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputPasswordId2Field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/inputPassword2"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -170,10 +197,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginBottom="@dimen/base_margin"
         android:text="@string/helloSubText"
+        app:layout_constraintBottom_toTopOf="@+id/inputLoginId"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvUsernameText" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tvSendForgotPassMail"

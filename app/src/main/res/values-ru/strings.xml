@@ -3,6 +3,7 @@
     <string name="hi_username">Привет,</string>
     <string name="inputLogin">Логин</string>
     <string name="inputPassword">Пароль</string>
+    <string name="inputPassword2">Повторите пароль</string>
     <string name="sign_up">Зарегистрироваться</string>
     <string name="helloSubText">Войдите или создайте новый аккаунт</string>
     <string name="sign_in">Войти</string>

@@ -159,13 +159,13 @@ class ProfileFragment : Fragment() {
         )
         binding.tvNegativePasswords.text = resources.getQuantityString(
                 R.plurals.incorrect_password,
-                fixPass,
-                fixPass
+                unsafePass,
+                unsafePass
         )
         binding.tvNotSafePasswords.text = resources.getQuantityString(
                 R.plurals.need_fix,
-                unsafePass,
-                unsafePass
+                fixPass,
+                fixPass
         )
         binding.tvNumberOfUse2faText.text = pass2FA.toString()
         binding.tvNumberOfEncrypted.text = encryptedPass.toString()
