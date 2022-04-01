@@ -198,4 +198,6 @@
     <string name="new_pass">Новый пароль:</string>
     <string name="folder_creation">Создать папку</string>
     <string name="create_folder_config">Храните пароли в папках</string>
+    <string name="avatar_emoji">Эмодзи для аватара</string>
+    <string name="no_passwords_in_this_folder">В этой папке нет паролей</string>
 </resources>

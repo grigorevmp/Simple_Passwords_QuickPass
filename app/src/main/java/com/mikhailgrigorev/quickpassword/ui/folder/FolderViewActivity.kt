@@ -63,6 +63,10 @@ class FolderViewActivity : MyBaseActivity() {
 
         viewModel.getPasswordsFromFolder(folderId).observe(this) { passwords ->
             passwordCards = passwords
+            if(passwords.isEmpty()){
+                binding.tvNoPasswordsInFolder.visibility = View.VISIBLE
+                binding.rvPasswordRecycler.visibility = View.GONE
+            }
             binding.rvPasswordRecycler.adapter = PasswordAdapter(
                     passwords,
                     this,

@@ -16,12 +16,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.motion.widget.MotionLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:animateLayoutChanges="true"
-            app:layoutDescription="@xml/fragment_profile_xml_constraintlayout2_scene">
+            android:animateLayoutChanges="true">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvEncrypted"
@@ -528,6 +527,6 @@
                     android:paddingEnd="@dimen/base_margin"
                     tools:text="5" />
             </androidx.cardview.widget.CardView>
-        </androidx.constraintlayout.motion.widget.MotionLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

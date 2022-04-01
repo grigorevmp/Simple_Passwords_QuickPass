@@ -228,5 +228,6 @@
     <string name="folder_creation">Create folder</string>
     <string name="create_folder_config">Current configuration details</string>
     <string name="avatar_emoji">Avatar emoji</string>
+    <string name="no_passwords_in_this_folder">No passwords in this folder</string>
 
 </resources>

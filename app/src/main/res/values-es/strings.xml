@@ -178,4 +178,10 @@
     <string name="folder">Carpeta</string>
     <string name="add_folder">Añadir carpeta</string>
     <string name="delete">Borrar</string>
+    <string name="passwords">Contraseñas</string>
+    <string name="folder_creation">Crear carpeta</string>
+    <string name="create_folder_config">Detalles de la configuración actual</string>
+    <string name="avatar_emoji">Avatar etozhy</string>
+    <string name="no_passwords_in_this_folder">No hay contraseñas en esta carpeta</string>
+    <string name="inputPassword2">Repita la contraseña</string>
 </resources>

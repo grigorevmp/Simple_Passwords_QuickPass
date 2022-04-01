@@ -193,4 +193,10 @@
     <string name="accountEditRules">필수 입력란을 입력하고 현재 암호를 입력합니다</string>
     <string name="folder">폴더</string>
     <string name="add_folder">폴더 추가</string>
+    <string name="passwords">비밀번호</string>
+    <string name="inputPassword2">비밀번호 반복</string>
+    <string name="folder_creation">폴더 생성</string>
+    <string name="create_folder_config">현재 구성 세부정보</string>
+    <string name="avatar_emoji">아바타 에토시</string>
+    <string name="no_passwords_in_this_folder">이 폴더에 암호가 없습니다</string>
 </resources>
