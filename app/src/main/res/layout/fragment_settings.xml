@@ -12,10 +12,12 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.constraintlayout.motion.widget.MotionLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:animateLayoutChanges="true">
+            android:animateLayoutChanges="true"
+            app:layoutDescription="@xml/fragment_settings_xml_constraintlayout_scene">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvMainSettingsCard"
@@ -246,6 +248,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="horizontal">
+
                             <TextView
                                 android:id="@+id/autofillDesc"
                                 android:layout_width="0dp"
@@ -258,9 +261,9 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/small_margin"
-                            android:layout_margin="@dimen/base_margin"
                             android:layout_gravity="center"
+                            android:layout_margin="@dimen/base_margin"
+                            android:layout_marginTop="@dimen/small_margin"
                             android:orientation="horizontal">
 
                             <com.google.android.material.button.MaterialButton
@@ -285,9 +288,9 @@
                 android:layout_marginEnd="@dimen/base_margin"
                 android:layout_marginBottom="@dimen/small_margin"
                 android:text="@string/inOut"
+                android:textAlignment="center"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cvAutoFillSettings" />
@@ -380,6 +383,6 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.motion.widget.MotionLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

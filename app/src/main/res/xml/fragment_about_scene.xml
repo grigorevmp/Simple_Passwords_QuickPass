@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:autoTransition="animateToEnd"
+        motion:duration="500">
+       <KeyFrameSet>
+       </KeyFrameSet>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/appIcon"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="@dimen/about_icon_size"
+            android:layout_height="@dimen/about_icon_size"
+            android:layout_marginBottom="150dp"
+            motion:layout_constraintBottom_toTopOf="@+id/tvTranslator"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="220dp"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/appName"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@+id/appIcon"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="60dp"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/description"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/base_margin"
+            motion:layout_constraintTop_toBottomOf="@+id/appName"
+            android:layout_marginStart="@dimen/base_margin"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="90dp"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/tvTranslator"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/base_margin"
+            android:visibility="visible"
+            motion:layout_constraintBottom_toTopOf="@+id/llLinks"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/llLinks"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/base_margin"
+            motion:layout_constraintBottom_toTopOf="@+id/tvAuthor"
+            android:layout_marginEnd="@dimen/base_margin"
+            android:layout_marginStart="@dimen/base_margin"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:alpha="0"
+            android:translationY="150dp" />
+        <Constraint
+            android:id="@+id/tvAuthor"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/base_margin"
+            motion:layout_constraintBottom_toTopOf="@+id/tvYear"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/tvYear"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="@dimen/about_bottom_margin"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:alpha="0" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+    </ConstraintSet>
+</MotionScene>

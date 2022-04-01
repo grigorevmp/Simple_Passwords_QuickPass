@@ -43,9 +43,14 @@ class PasswordAdapter(
         holder.passwordGroup.removeAllViews()
 
         if (password.use_2fa) {
-            val chip = Chip(holder.passwordGroup.context)
+            val chip = Chip(
+                    holder.passwordGroup.context,
+                    null,
+                    R.style.Widget_MaterialComponents_Chip_Choice
+            )
             chip.text = "2FA"
             chip.isClickable = false
+            chip.isChecked = false
             chip.alpha = 0.7f
             chip.textSize = 12F
             holder.passwordGroup.addView(chip)
@@ -58,9 +63,14 @@ class PasswordAdapter(
         }
         if (password.tags != "")
             password.tags.split("\\s".toRegex()).forEach { item ->
-                val chip = Chip(holder.passwordGroup.context)
+                val chip = Chip(
+                        holder.passwordGroup.context,
+                        null,
+                        R.style.Widget_MaterialComponents_Chip_Choice
+                )
                 chip.text = item
                 chip.isClickable = true
+                chip.isChecked = false
                 chip.textSize = 12F
                 chip.setOnClickListener {
                     tagsClickListener(item)

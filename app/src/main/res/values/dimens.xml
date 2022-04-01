@@ -2,8 +2,10 @@
 <resources>
     <dimen name="box_size">55dp</dimen>
     <dimen name="base_card_radius">15dp</dimen>
+    <dimen name="small_card_radius">10dp</dimen>
     <dimen name="extra_base_card_radius">5dp</dimen>
     <dimen name="base_card_elevation">3dp</dimen>
+    <dimen name="micro_card_elevation">2dp</dimen>
     <dimen name="base_card_vertical_margin">10dp</dimen>
     <dimen name="small_card_horizontal_margin">10dp</dimen>
     <dimen name="x_small_card_horizontal_margin">5dp</dimen>
@@ -16,6 +18,7 @@
     <dimen name="small_padding">10dp</dimen>
     <dimen name="medium_padding">15dp</dimen>
     <dimen name="base_elevation">20dp</dimen>
+    <dimen name="plus_elevation">11dp</dimen>
     <dimen name="medium_elevation">25dp</dimen>
     <dimen name="small_elevation">10dp</dimen>
     <dimen name="base_margin">20dp</dimen>
