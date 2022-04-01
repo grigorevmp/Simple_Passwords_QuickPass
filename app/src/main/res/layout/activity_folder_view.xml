@@ -65,6 +65,8 @@
                 android:id="@+id/tvNoPasswordsInFolder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin"
                 android:text="@string/no_passwords_in_this_folder"
                 android:gravity="center"
                 android:visibility="gone"

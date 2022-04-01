@@ -58,7 +58,7 @@
     <string name="passCopied">Password was copied to clipboard</string>
     <string name="loginCopied">Login was copied to clipboard</string>
     <string name="nameCopied">Name was copied to clipboard</string>
-    <string name="noRules" translatable="false">You should choose at least 1 rule</string>
+    <string name="noRules">You should choose at least 1 rule</string>
     <string name="exit_account">Log out</string>
     <string name="name_your_password">Name your password</string>
     <string name="_2fa" translatable="false">2FA</string>
@@ -229,5 +229,7 @@
     <string name="create_folder_config">Current configuration details</string>
     <string name="avatar_emoji">Avatar emoji</string>
     <string name="no_passwords_in_this_folder">No passwords in this folder</string>
+    <string name="where_do_my_passwords_store">Where do my passwords store?</string>
+    <string name="password_storing">At the moment, all your passwords have a place to be. Changing or deleting an account without deleting passwords associated with devices. The account exists only to support cloud backups in the future. If you want to delete all saved passwords, you should either reset your device data or uninstall the app.</string>
 
 </resources>

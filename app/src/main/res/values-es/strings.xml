@@ -184,4 +184,6 @@
     <string name="avatar_emoji">Avatar etozhy</string>
     <string name="no_passwords_in_this_folder">No hay contraseñas en esta carpeta</string>
     <string name="inputPassword2">Repita la contraseña</string>
+    <string name="password_storing">Por el momento, todas sus contraseñas tienen un lugar para estar. Cambiar o eliminar una cuenta sin eliminar las contraseñas asociadas con los dispositivos. La cuenta existe solo para admitir copias de seguridad en la nube en el futuro. Si desea eliminar todas las contraseñas guardadas, debe restablecer los datos de su dispositivo o desinstalar la aplicación.</string>
+    <string name="where_do_my_passwords_store">¿Dónde se almacenan mis contraseñas?</string>
 </resources>
