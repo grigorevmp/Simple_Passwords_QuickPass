@@ -235,8 +235,7 @@ class AuthActivity : AppCompatActivity() {
         val biometricManager = BiometricManager.from(this)
         return biometricManager.canAuthenticate(
                 BiometricManager.Authenticators.BIOMETRIC_WEAK
-                        or
-                        BiometricManager.Authenticators.DEVICE_CREDENTIAL
+                        or BiometricManager.Authenticators.DEVICE_CREDENTIAL
         ) == BiometricManager.BIOMETRIC_SUCCESS
     }
 }

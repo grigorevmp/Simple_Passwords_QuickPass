@@ -40,18 +40,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
-            android:text="@string/_0"
-            android:visibility="gone"
+            android:text="@string/fox_emoji"
             android:textSize="@dimen/userNameTextSize"
             android:textColor="@color/white" />
-
-        <ImageView
-            android:id="@+id/ivPersonSample"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleX="0.6"
-            android:scaleY="0.6"
-            android:src="@drawable/person_test" />
 
     </androidx.cardview.widget.CardView>
 

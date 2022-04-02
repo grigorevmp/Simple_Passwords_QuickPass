@@ -1,13 +1,13 @@
 package com.mikhailgrigorev.quickpassword.ui.auth.login
 
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import com.mikhailgrigorev.quickpassword.R
@@ -41,8 +41,6 @@ class LoginActivity : AppCompatActivity() {
         this.let {
             if(Utils.auth.currentUser?.photoUrl != null){
                 binding.tvAvatarSymbol.text = Utils.auth.currentUser?.photoUrl.toString()
-                binding.tvAvatarSymbol.visibility = View.VISIBLE
-                binding.ivPersonSample.visibility = View.GONE
             }
         }
     }
@@ -50,8 +48,12 @@ class LoginActivity : AppCompatActivity() {
     private fun setBiometricFeature() {
         val bioMode = Utils.getBioMode()
 
+        val biometricManager = BiometricManager.from(this)
         val hasBiometricFeature: Boolean =
-                this.packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)
+                biometricManager.canAuthenticate(
+                        BiometricManager.Authenticators.BIOMETRIC_WEAK
+                                or BiometricManager.Authenticators.DEVICE_CREDENTIAL
+                ) == BiometricManager.BIOMETRIC_SUCCESS
 
         val intent = Intent(this, MainActivity::class.java)
 

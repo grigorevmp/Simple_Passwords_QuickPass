@@ -3,7 +3,6 @@ package com.mikhailgrigorev.quickpassword.ui.settings
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -95,17 +94,11 @@ class SettingsFragment: Fragment() {
     private fun initUI() {
         setLockTimeText(Utils.getAppLockTime())
 
-        val hasBiometricFeature: Boolean =
-                requireContext().packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)
-        if (!hasBiometricFeature) {
-            binding.sFingerprintUnlock.visibility = View.GONE
-            binding.tvFingerprintUnlock.visibility = View.GONE
-        }
-
         val biometricManager = BiometricManager.from(requireActivity())
         when (biometricManager.canAuthenticate(BIOMETRIC_WEAK or BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
-            BiometricManager.BIOMETRIC_SUCCESS ->
+            BiometricManager.BIOMETRIC_SUCCESS -> {
                 Log.d("QP", "App can authenticate using biometrics.")
+            }
             else -> {
                 binding.sFingerprintUnlock.visibility = View.GONE
                 binding.tvFingerprintUnlock.visibility = View.GONE

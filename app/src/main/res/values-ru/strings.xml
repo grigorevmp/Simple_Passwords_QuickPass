@@ -150,7 +150,7 @@
     <string name="crypt">Шифровать</string>
     <string name="cipherInfo">Шифровать - ваш пароль будет храниться в зашифрованном виде и расшифровываться только при показе</string>
     <string name="save_password">Сохранить пароль</string>
-    <string name="encrypted">Encrypted</string>
+    <string name="encrypted">Зашифровано</string>
     <string name="bank_card">Bank Card</string>
     <string name="add_password">Добавить пароль</string>
     <string name="set_pin_helper">Вам необходимо ввести 4 цифры</string>

@@ -94,8 +94,6 @@ class ProfileFragment : Fragment() {
         this.context?.let {
             if (Utils.auth.currentUser?.photoUrl != null) {
                 binding.tvAvatarSymbol.text = Utils.auth.currentUser?.photoUrl.toString()
-                binding.tvAvatarSymbol.visibility = View.VISIBLE
-                binding.ivPersonSample.visibility = View.GONE
             }
             viewModel.setAvatar(Utils.auth.currentUser?.photoUrl.toString())
         }
@@ -104,8 +102,6 @@ class ProfileFragment : Fragment() {
             this.context?.let {
                 if (Utils.auth.currentUser?.photoUrl != null) {
                     binding.tvAvatarSymbol.text = str
-                    binding.tvAvatarSymbol.visibility = View.VISIBLE
-                    binding.ivPersonSample.visibility = View.GONE
                 }
                 viewModel.setAvatar(Utils.auth.currentUser?.photoUrl.toString())
             }
