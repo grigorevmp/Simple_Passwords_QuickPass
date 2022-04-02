@@ -202,4 +202,7 @@
     <string name="no_passwords_in_this_folder">В этой папке нет паролей</string>
     <string name="password_storing">В данный момент все ваши пароли хранятся локально. Смена или удаление аккаунта не удалят привязанные к устройству пароли. Аккаунт существует лишь для поддержки облачных бекапов в будущем. Если вы хотите удалить все сохраненные пароли, вам следует сбросить данные устройства или удалить приложение.</string>
     <string name="where_do_my_passwords_store">Где хранятся мои пароли?</string>
+    <string name="no_folders_found">Папок не найдено</string>
+    <string name="no_passwords_found">Паролей не найдено</string>
+    <string name="enter_passwords">Пожалуйства, введите пароль</string>
 </resources>

@@ -231,5 +231,9 @@
     <string name="no_passwords_in_this_folder">No passwords in this folder</string>
     <string name="where_do_my_passwords_store">Where do my passwords store?</string>
     <string name="password_storing">At the moment, all your passwords have a place to be. Changing or deleting an account without deleting passwords associated with devices. The account exists only to support cloud backups in the future. If you want to delete all saved passwords, you should either reset your device data or uninstall the app.</string>
+    <string name="fox_emoji" translatable="false">🦊</string>
+    <string name="no_folders_found">No folders found</string>
+    <string name="no_passwords_found">No passwords found</string>
+    <string name="enter_passwords">Please, enter your password</string>
 
 </resources>

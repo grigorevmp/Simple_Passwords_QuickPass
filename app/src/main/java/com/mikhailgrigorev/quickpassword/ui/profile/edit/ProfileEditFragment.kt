@@ -93,9 +93,8 @@ class ProfileEditFragment : Fragment() {
             val newPassword = binding.etNewPassword.text.toString()
             val emojiAvatar = binding.etUserAvatarEmoji.text.toString()
             if (password == "") {
-                binding.tilPassword.error = "Where is my password??"
+                binding.tilPassword.error = getString(R.string.enter_passwords)
             } else {
-                this.context?.let { it1 -> Utils.makeToast(it1, "Saving...") }
                 binding.cvSaving.visibility = View.VISIBLE
                 Utils.auth.signInWithEmailAndPassword(
                         Utils.getMail()!!,
@@ -133,8 +132,15 @@ class ProfileEditFragment : Fragment() {
                 }.addOnFailureListener { exception ->
                     Log.d("Auth mail", Utils.getMail()!!)
                     Log.d("Auth password", password)
-                    Utils.makeToast(requireContext(), "Data saving error, please write to the app creator")
-                    exception.message?.let { Utils.makeToast(requireContext(), it) }
+                    binding.cvSaving.visibility = View.GONE
+                    Utils.makeToast(
+                            requireContext(),
+                            "Data saving error, please write to the app creator"
+                    )
+                    if (exception.localizedMessage != null) {
+                        Utils.makeToast(requireContext(), exception.localizedMessage!!)
+                    } else
+                        exception.message?.let { Utils.makeToast(requireContext(), it) }
                 }
             }
         }

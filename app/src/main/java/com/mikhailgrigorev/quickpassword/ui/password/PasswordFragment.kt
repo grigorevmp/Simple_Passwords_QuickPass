@@ -192,7 +192,7 @@ class PasswordFragment: Fragment() {
         if (!Utils.useAnalyze()) {
             binding.cvQualityCard.visibility = View.GONE
             binding.cvAdditionalInfoCard.visibility = View.GONE
-            binding.cardView.visibility = View.GONE
+            binding.cvAllPasswords.visibility = View.GONE
         }
     }
 
@@ -315,8 +315,7 @@ class PasswordFragment: Fragment() {
             binding.fabNewPassword.animate().scaleX(0F).scaleY(0F).setDuration(0).start()
             binding.cvWarningRulesCard.animate().alpha(1F).setDuration(0).start()
             binding.cvBackupReminderCard.animate().alpha(1F).setDuration(0).start()
-            binding.cardView.animate().alpha(1F).setDuration(0).start()
-            binding.cardView.animate().alpha(1F).setDuration(0).start()
+            binding.cvAllPasswords.animate().alpha(1F).setDuration(0).start()
         }
 
         binding.etSearchPassword.clearFocus()
@@ -343,7 +342,8 @@ class PasswordFragment: Fragment() {
                 if (slideOffset <= 0) {
                     binding.cvWarningRulesCard.animate().alpha(abs(slideOffset) + 0.5F)
                             .setDuration(0).start()
-                    binding.cardView.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0).start()
+                    binding.cvAllPasswords.animate().alpha(abs(slideOffset) + 0.5F).setDuration(0)
+                            .start()
                     binding.cvAdditionalInfoCard.animate().alpha(abs(slideOffset) + 0.5F)
                             .setDuration(0).start()
                     binding.cvPasswordGenerateButton.animate().alpha(abs(slideOffset) + 0.5F)
@@ -724,7 +724,11 @@ class PasswordFragment: Fragment() {
     }
 
     private fun showNoPasswordsInterface() {
-        binding.cardView.visibility = View.GONE
+        binding.fabNewPassword.animate().scaleX(0F).scaleY(0F).setDuration(0).start()
+        binding.cvWarningRulesCard.animate().alpha(1F).setDuration(0).start()
+        binding.cvBackupReminderCard.animate().alpha(1F).setDuration(0).start()
+        binding.cvPasswordGenerateButton.animate().alpha(1F).setDuration(0).start()
+        binding.cvAllPasswords.visibility = View.GONE
         binding.cvAdditionalInfoCard.visibility = View.GONE
         binding.cvNoPasswordsCard.visibility = View.VISIBLE
         binding.fabAddNewPass.visibility = View.VISIBLE
@@ -733,10 +737,11 @@ class PasswordFragment: Fragment() {
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.llAllPasswords)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
+
     }
 
     private fun showPasswordsInterface() {
-        binding.cardView.visibility = View.VISIBLE
+        binding.cvAllPasswords.visibility = View.VISIBLE
         binding.cvAdditionalInfoCard.visibility = View.VISIBLE
         binding.cvNoPasswordsCard.visibility = View.GONE
         binding.ivSmilePasswordCreation.visibility = View.VISIBLE

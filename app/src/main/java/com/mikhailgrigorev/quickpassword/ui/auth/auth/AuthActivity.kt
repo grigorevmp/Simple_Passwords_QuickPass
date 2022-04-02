@@ -1,13 +1,12 @@
 package com.mikhailgrigorev.quickpassword.ui.auth.auth
 
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricManager
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.mikhailgrigorev.quickpassword.R
@@ -54,12 +53,15 @@ class AuthActivity : AppCompatActivity() {
     }
 
     private fun initListeners() {
+
+        binding.tvAvatarSymbol.text = "🦊"
+
         binding.loginFab.setOnClickListener {
             binding.inputLoginId.error = null
             binding.inputPasswordId.error = null
             binding.inputPassword2Id.error = null
             binding.tilUserLogin.error = null
-            if(binding.inputLoginIdField.text.toString() != "") {
+            if (binding.inputLoginIdField.text.toString() != "") {
                 if (binding.signUpChip.isChecked) {
                     if (validate(binding.inputPasswordIdField.text.toString())) {
                         if (
@@ -194,7 +196,7 @@ class AuthActivity : AppCompatActivity() {
     }
 
     private fun goHome() {
-        if (isAvailable(this)) {
+        if (isAvailable()) {
             val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
             builder.setTitle(getString(R.string.bio_usage))
             builder.setMessage(getString(R.string.fingerUnlock))
@@ -229,7 +231,12 @@ class AuthActivity : AppCompatActivity() {
         }
     }
 
-    private fun isAvailable(context: Context): Boolean {
-        return context.packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)
+    private fun isAvailable(): Boolean {
+        val biometricManager = BiometricManager.from(this)
+        return biometricManager.canAuthenticate(
+                BiometricManager.Authenticators.BIOMETRIC_WEAK
+                        or
+                        BiometricManager.Authenticators.DEVICE_CREDENTIAL
+        ) == BiometricManager.BIOMETRIC_SUCCESS
     }
 }

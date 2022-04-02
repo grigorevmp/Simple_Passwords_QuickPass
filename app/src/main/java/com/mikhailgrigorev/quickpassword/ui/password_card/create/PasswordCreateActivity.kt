@@ -207,8 +207,8 @@ class PasswordCreateActivity : MyBaseActivity() {
             materialAlertDialogBuilder.setView(customAlertDialogView)
             materialAlertDialogBuilder
                     .setView(customAlertDialogView)
-                    .setTitle("Folder creation")
-                    .setMessage("Current configuration details")
+                    .setTitle(getString(R.string.folder_creation))
+                    .setMessage(getString(R.string.create_folder_config))
                     .setPositiveButton("Ok") { dialog, _ ->
                         val name =
                                 customAlertDialogView.findViewById<TextInputEditText>(

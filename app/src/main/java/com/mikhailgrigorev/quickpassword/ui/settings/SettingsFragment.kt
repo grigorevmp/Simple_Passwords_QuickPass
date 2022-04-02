@@ -17,7 +17,7 @@ import android.widget.SeekBar
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -103,7 +103,7 @@ class SettingsFragment: Fragment() {
         }
 
         val biometricManager = BiometricManager.from(requireActivity())
-        when (biometricManager.canAuthenticate(BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
+        when (biometricManager.canAuthenticate(BIOMETRIC_WEAK or BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
             BiometricManager.BIOMETRIC_SUCCESS ->
                 Log.d("QP", "App can authenticate using biometrics.")
             else -> {
@@ -318,7 +318,12 @@ class SettingsFragment: Fragment() {
     private fun exportPasswordsToCSVFile(csvFile: File) {
         viewModel.passwords.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
-                this.context?.let { it1 -> Utils.makeToast(it1, "Паролей не найдено") }
+                this.context?.let { it1 ->
+                    Utils.makeToast(
+                            it1,
+                            getString(R.string.no_passwords_found)
+                    )
+                }
             } else {
                 csvWriter().open(csvFile, append = false) {
                     writeRow(
@@ -371,7 +376,12 @@ class SettingsFragment: Fragment() {
     private fun exportFoldersToCSVFile(csvFile: File) {
         viewModel.folders.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
-                this.context?.let { it1 -> Utils.makeToast(it1, "Папок не найдено") }
+                this.context?.let { it1 ->
+                    Utils.makeToast(
+                            it1,
+                            getString(R.string.no_folders_found)
+                    )
+                }
             } else {
                 csvWriter().open(csvFile, append = false) {
                     writeRow(
@@ -409,14 +419,18 @@ class SettingsFragment: Fragment() {
         if (csvFile != null) {
             if (folder) {
                 exportFoldersToCSVFile(csvFile)
+                val intent = this.context?.let {
+                    goToFileIntent(it, csvFile)
+                }
+                startActivity(intent)
             } else {
                 exportPasswordsToCSVFile(csvFile)
+                val intent = this.context?.let {
+                    goToFileIntent(it, csvFile)
+                }
+                startActivity(intent)
             }
-            val intent = this.context?.let {
-                goToFileIntent(it, csvFile)
-            }
-            startActivity(intent)
-            Utils.makeToast(requireContext(), "EXPORT_DB: Ok.")
+            // Utils.makeToast(requireContext(), "EXPORT_DB: Ok.")
         } else {
             Utils.makeToast(requireContext(), "EXPORT_DB: Error.")
         }

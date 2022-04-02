@@ -313,6 +313,17 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/base_margin"
+                        android:layout_marginTop="@dimen/small_margin"
+                        android:layout_marginEnd="@dimen/base_margin"
+                        android:text="@string/inOut"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
