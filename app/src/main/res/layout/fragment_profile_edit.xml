@@ -84,7 +84,7 @@
             android:id="@+id/etUserAvatarEmoji"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="4"
+            android:maxLength="5"
             android:hint="@string/avatar_emoji"
             android:inputType="textPersonName" />
     </com.google.android.material.textfield.TextInputLayout>
