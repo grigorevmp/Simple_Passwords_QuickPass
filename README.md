@@ -41,17 +41,17 @@ The program complies with the latest Material design guidelines
 
 ### Simple login screen with biometric and pin auth
 
-<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/images/sc1.png" width="50%">
-<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/images/sc2.png" width="50%">
+<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/images/sc1.png" width="30%">
+<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/images/sc2.png" width="30%">
 
 ### Friendly Main screen
 
-<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/images/sc3.png" width="50%">
+<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/images/sc3.png" width="30%">
 
 ### Many option to create your password: Encryption, Description, Keywords, 2FA, Folders, Photos and more..
 
-<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/images/sc4.png" width="50%">
-<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/images/sc5.png" width="50%">
+<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/images/sc4.png" width="30%">
+<img src="https://github.com/MikhailGrigorevP/QuickPass-Mobile-Password-manager/blob/master/images/sc5.png" width="30%">
 
 ### Also: Analyzing quality of password and its crossing with other, Clear statistic
 
