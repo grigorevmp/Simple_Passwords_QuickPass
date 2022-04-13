@@ -112,6 +112,7 @@ class ProfileEditFragment : Fragment() {
                                     }.build()
                             )
                             Utils.setLogin(login)
+                            viewModel.setLoginData(login)
                         }
                         if (newPassword != "") {
                             Utils.auth.currentUser?.updatePassword(newPassword)

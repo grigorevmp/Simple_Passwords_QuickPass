@@ -19,6 +19,7 @@ class MainViewModel @Inject constructor(
     val passwords = passwordCardRepo.allData
     val folders = folderRepo.allData
 
+
     fun insertCard(item: FolderCard) {
         folderRepo.insert(item)
     }
@@ -37,8 +38,12 @@ class MainViewModel @Inject constructor(
 
     val userLogin = getUserLogin()
 
+    fun setLoginData(data: String) {
+        userLogin.postValue(data)
+    }
+
     @JvmName("getUserLogin1")
-    private fun getUserLogin(): LiveData<String> = MutableLiveData(Utils.getLogin())
+    private fun getUserLogin(): MutableLiveData<String> = MutableLiveData(Utils.getLogin())
 
     suspend fun favPassword(currentPassword: PasswordCard) {
         currentPassword.favorite = !(currentPassword.favorite)

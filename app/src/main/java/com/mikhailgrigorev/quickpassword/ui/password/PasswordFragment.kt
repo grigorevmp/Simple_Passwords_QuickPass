@@ -95,6 +95,17 @@ class PasswordFragment: Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        setHelloText()
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        setHelloText()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -108,7 +119,7 @@ class PasswordFragment: Fragment() {
                 .build().inject(this)
 
         initViewModel()
-        authorization()
+        setHelloText()
         checkAnalytics()
         initLayouts()
         initSorting()
@@ -137,11 +148,13 @@ class PasswordFragment: Fragment() {
         setOrderChip(defaultPassFilterSorting)
     }
 
-    private fun authorization() {
+    private fun setHelloText() {
         viewModel.userLogin.observe(viewLifecycleOwner) { login ->
             val name: String = getString(R.string.hi) + " " + login
             binding.tvUsernameText.text = name
         }
+
+        Utils.getLogin()?.let { viewModel.setLoginData(it) }
     }
 
     private fun setArrowOrderIndicator() {

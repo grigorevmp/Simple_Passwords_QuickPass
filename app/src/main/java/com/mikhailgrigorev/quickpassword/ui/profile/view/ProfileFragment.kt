@@ -104,6 +104,9 @@ class ProfileFragment : Fragment() {
                     binding.tvAvatarSymbol.text = str
                 }
                 viewModel.setAvatar(Utils.auth.currentUser?.photoUrl.toString())
+                val login = Utils.getLogin()
+                val name: String = getString(R.string.hi) + " " + login
+                binding.tvUsernameText.text = name
             }
         }
     }
