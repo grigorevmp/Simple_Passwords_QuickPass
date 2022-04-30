@@ -37,7 +37,7 @@ class FolderViewModel @Inject constructor(
     val userLogin = getUserLogin()
 
     @JvmName("getUserLogin1")
-    private fun getUserLogin(): LiveData<String> = MutableLiveData(Utils.getLogin())
+    private fun getUserLogin(): LiveData<String> = MutableLiveData(Utils.accountSharedPrefs.getLogin())
 
     suspend fun favPassword(currentPassword: PasswordCard) {
         currentPassword.favorite = !(currentPassword.favorite)

@@ -3,10 +3,10 @@
     android:shape="rectangle">
     <stroke
         android:width="4dp"
-        android:color="@color/colorLight" />
+        android:color="?attr/backgroundCard" />
 
     <solid
-        android:color="@color/colorLight" />
+        android:color="?attr/backgroundCard" />
 
     <corners android:topLeftRadius="15dp"
         android:topRightRadius="15dp" />

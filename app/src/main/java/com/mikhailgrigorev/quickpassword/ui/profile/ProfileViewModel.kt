@@ -26,7 +26,7 @@ class ProfileViewModel @Inject constructor(
     val userLogin = getUserLogin()
 
     @JvmName("getUserLogin1")
-    private fun getUserLogin(): MutableLiveData<String> = MutableLiveData(Utils.getLogin())
+    private fun getUserLogin(): MutableLiveData<String> = MutableLiveData(Utils.accountSharedPrefs.getLogin())
 
     fun getPasswordNumberWithQuality(): Triple<LiveData<Int>, LiveData<Int>, LiveData<Int>> {
         val correct = passwordCardRepo.getItemsNumberWithQuality(PasswordQuality.HIGH.value)

@@ -78,7 +78,7 @@ class PasswordViewActivity : MyBaseActivity() {
     }
 
     private fun checkShortcut() {
-        if (Utils.getAutoCopy() && binding.etPassword.text.toString() != "") {
+        if (Utils.toggleManager.autoCopyToggle.isEnabled() && binding.etPassword.text.toString() != "") {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("Password", binding.etPassword.text.toString())
             clipboard.setPrimaryClip(clip)
@@ -396,7 +396,7 @@ class PasswordViewActivity : MyBaseActivity() {
             }
         }
 
-            if (!Utils.useAnalyze()) {
+            if (!Utils.toggleManager.analyzeToggle.isEnabled()) {
                 binding.passQualityText.visibility = View.GONE
                 binding.ivMainWarningImage.visibility = View.GONE
                 binding.passQualityText.visibility = View.GONE

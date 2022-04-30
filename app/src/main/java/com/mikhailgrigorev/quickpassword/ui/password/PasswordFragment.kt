@@ -154,7 +154,7 @@ class PasswordFragment: Fragment() {
             binding.tvUsernameText.text = name
         }
 
-        Utils.getLogin()?.let { viewModel.setLoginData(it) }
+        Utils.accountSharedPrefs.getLogin()?.let { viewModel.setLoginData(it) }
     }
 
     private fun setArrowOrderIndicator() {
@@ -202,7 +202,7 @@ class PasswordFragment: Fragment() {
     }
 
     private fun checkAnalytics() {
-        if (!Utils.useAnalyze()) {
+        if (!Utils.toggleManager.analyzeToggle.isEnabled()) {
             binding.cvQualityCard.visibility = View.GONE
             binding.cvAdditionalInfoCard.visibility = View.GONE
             binding.cvAllPasswords.visibility = View.GONE
@@ -336,7 +336,7 @@ class PasswordFragment: Fragment() {
 
         bottomSheetBehavior.peekHeight = 800
 
-        if (!Utils.useAnalyze()) {
+        if (!Utils.toggleManager.analyzeToggle.isEnabled()) {
             bottomSheetBehavior.peekHeight = 1200
         }
 

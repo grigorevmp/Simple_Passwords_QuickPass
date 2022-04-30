@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Theme.QP" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="fontFamily">@font/mediumfont</item>
+        <item name="fontFamily">@font/medium_font</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="backgroundCard">#1C1C1C</item>
+        <item name="lightAccent">#ff4f378b</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+    </style>
+
+    <style name="Theme.QP.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="materialThemeOverlay">@style/Theme.QP.BottomNavigationViewOverlay</item>
+    </style>
+
+    <style name="Theme.QP.BottomNavigationViewOverlay" parent="" />
+
+    <style name="Theme.QP.Main" parent="Theme.QP">
+        <item name="android:navigationBarColor" tools:targetApi="27">#ff231f2d</item>
     </style>
 
     <style name="Theme.QP.Starting" parent="Theme.SplashScreen">
@@ -19,4 +29,10 @@
         <item name="windowSplashScreenAnimationDuration">1500</item>
         <item name="postSplashScreenTheme">@style/Theme.QP</item>
     </style>
+
+    <style name="Widget.App.Switch" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Switch</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Switch" parent="" />
 </resources>

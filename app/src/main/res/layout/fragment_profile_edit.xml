@@ -27,7 +27,7 @@
             android:layout_gravity="center"
             android:layout_margin="20dp"
             android:indeterminate="true"
-            android:indeterminateTint="@color/colorPrimary"
+            android:indeterminateTint="?attr/colorPrimary"
             android:indeterminateTintMode="src_atop" />
     </androidx.cardview.widget.CardView>
 

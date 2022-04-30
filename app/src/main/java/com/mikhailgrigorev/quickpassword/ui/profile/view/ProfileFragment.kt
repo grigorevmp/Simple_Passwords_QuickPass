@@ -75,7 +75,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun checkAnalyze() {
-        if (!Utils.useAnalyze()) {
+        if (!Utils.toggleManager.analyzeToggle.isEnabled()) {
             binding.tvTotalPointsText.visibility = View.GONE
             binding.tvTotalPoints.visibility = View.GONE
             binding.cvQualityCard.visibility = View.GONE
@@ -104,7 +104,7 @@ class ProfileFragment : Fragment() {
                     binding.tvAvatarSymbol.text = str
                 }
                 viewModel.setAvatar(Utils.auth.currentUser?.photoUrl.toString())
-                val login = Utils.getLogin()
+                val login = Utils.accountSharedPrefs.getLogin()
                 val name: String = getString(R.string.hi) + " " + login
                 binding.tvUsernameText.text = name
             }

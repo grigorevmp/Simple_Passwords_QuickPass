@@ -97,13 +97,13 @@ class ProfileEditFragment : Fragment() {
             } else {
                 binding.cvSaving.visibility = View.VISIBLE
                 Utils.auth.signInWithEmailAndPassword(
-                        Utils.getMail()!!,
+                        Utils.accountSharedPrefs.getMail()!!,
                         password
                 ).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         if (mail != "") {
                             Utils.auth.currentUser?.updateEmail(mail)
-                            Utils.setMail(mail)
+                            Utils.accountSharedPrefs.setMail(mail)
                         }
                         if (login != "") {
                             Utils.auth.currentUser?.updateProfile(
@@ -111,7 +111,7 @@ class ProfileEditFragment : Fragment() {
                                         displayName = login
                                     }.build()
                             )
-                            Utils.setLogin(login)
+                            Utils.accountSharedPrefs.setLogin(login)
                             viewModel.setLoginData(login)
                         }
                         if (newPassword != "") {
@@ -131,7 +131,7 @@ class ProfileEditFragment : Fragment() {
                         }
                     }
                 }.addOnFailureListener { exception ->
-                    Log.d("Auth mail", Utils.getMail()!!)
+                    Log.d("Auth mail", Utils.accountSharedPrefs.getMail()!!)
                     Log.d("Auth password", password)
                     binding.cvSaving.visibility = View.GONE
                     Utils.makeToast(

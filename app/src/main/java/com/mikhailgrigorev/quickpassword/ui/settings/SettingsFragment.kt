@@ -15,6 +15,7 @@ import android.view.autofill.AutofillManager
 import android.widget.SeekBar
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
 import androidx.fragment.app.Fragment
@@ -105,21 +106,15 @@ class SettingsFragment: Fragment() {
             }
         }
 
-        if (Utils.getBioMode()) {
-            binding.sFingerprintUnlock.isChecked = true
-        }
+        binding.sDarkSide.isChecked = Utils.toggleManager.darkSideToggle.isEnabled()
 
-        if (!Utils.getAutoCopy()) {
-            binding.sAutoCopy.isChecked = false
-        }
+        binding.sFingerprintUnlock.isChecked = Utils.toggleManager.bioModeToggle.isEnabled()
 
-        if (Utils.getPinMode()) {
-            binding.sSetPin.isChecked = true
-        }
+        binding.sAutoCopy.isChecked = !Utils.toggleManager.autoCopyToggle.isEnabled()
 
-        if (!Utils.useAnalyze()) {
-            binding.sUseAnalyzer.isChecked = true
-        }
+        binding.sSetPin.isChecked = Utils.toggleManager.pinModeToggle.isEnabled()
+
+        binding.sUseAnalyzer.isChecked = !Utils.toggleManager.analyzeToggle.isEnabled()
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             binding.cvAutoFillSettings.visibility = View.GONE
@@ -248,21 +243,21 @@ class SettingsFragment: Fragment() {
         }
 
         binding.sUseAnalyzer.setOnCheckedChangeListener { _, _ ->
-            Utils.setAnalyze(!binding.sUseAnalyzer.isChecked)
+            Utils.toggleManager.analyzeToggle.set(!binding.sUseAnalyzer.isChecked)
         }
 
         binding.tvUseAnalyzer.setOnClickListener {
             binding.sUseAnalyzer.isChecked = !binding.sUseAnalyzer.isChecked
-            Utils.setAnalyze(!binding.sUseAnalyzer.isChecked)
+            Utils.toggleManager.analyzeToggle.set(!binding.sUseAnalyzer.isChecked)
         }
 
         binding.sAutoCopy.setOnCheckedChangeListener { _, _ ->
-            Utils.setAutoCopy(binding.sAutoCopy.isChecked)
+            Utils.toggleManager.autoCopyToggle.set(binding.sAutoCopy.isChecked)
         }
 
         binding.tvAutoCopy.setOnClickListener {
             binding.sAutoCopy.isChecked = !binding.sAutoCopy.isChecked
-            Utils.setAutoCopy(binding.sAutoCopy.isChecked)
+            Utils.toggleManager.autoCopyToggle.set(binding.sAutoCopy.isChecked)
         }
 
         binding.sSetPin.setOnCheckedChangeListener { _, _ ->
@@ -270,27 +265,46 @@ class SettingsFragment: Fragment() {
                 val intent = Intent(requireContext(), PinSetActivity::class.java)
                 startActivity(intent)
             } else {
-                Utils.setPinMode(false)
+                Utils.toggleManager.pinModeToggle.set(false)
             }
         }
 
         binding.tvSetPin.setOnClickListener {
             if (binding.sSetPin.isChecked) {
                 binding.sSetPin.isChecked = false
-                Utils.setPinMode(binding.sSetPin.isChecked)
+                Utils.toggleManager.pinModeToggle.set(binding.sSetPin.isChecked)
             } else {
                 val intent = Intent(requireContext(), PinSetActivity::class.java)
                 startActivity(intent)
             }
         }
 
+        binding.tvDarkSide.setOnClickListener {
+            if (binding.sDarkSide.isChecked) {
+                binding.sDarkSide.isChecked = false
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                Utils.toggleManager.darkSideToggle.set(false)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
+        }
+
+        binding.sDarkSide.setOnCheckedChangeListener { _, _ ->
+            if (binding.sDarkSide.isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            }
+            Utils.toggleManager.darkSideToggle.set(binding.sDarkSide.isChecked)
+        }
+
         binding.sFingerprintUnlock.setOnCheckedChangeListener { _, _ ->
-            Utils.setBioMode(binding.sFingerprintUnlock.isChecked)
+            Utils.toggleManager.bioModeToggle.set(binding.sFingerprintUnlock.isChecked)
         }
 
         binding.tvFingerprintUnlock.setOnClickListener {
             binding.sFingerprintUnlock.isChecked = !binding.sFingerprintUnlock.isChecked
-            Utils.setBioMode(binding.sFingerprintUnlock.isChecked)
+            Utils.toggleManager.bioModeToggle.set(binding.sFingerprintUnlock.isChecked)
         }
 
         binding.sbAppLockTimer.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {

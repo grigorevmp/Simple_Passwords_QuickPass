@@ -37,7 +37,7 @@ class PinViewActivity : AppCompatActivity() {
         val hasBiometricFeature: Boolean =
                 this.packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)
         if (hasBiometricFeature) {
-            if (Utils.getBioMode()) {
+            if (Utils.toggleManager.bioModeToggle.isEnabled()) {
                 binding.finger.visibility = View.VISIBLE
                 binding.finger.isClickable = true
                 val intent = Intent(this, MainActivity::class.java)
@@ -159,7 +159,7 @@ class PinViewActivity : AppCompatActivity() {
     }
 
     private fun initHello() {
-        val login = Utils.getLogin()!!
+        val login = Utils.accountSharedPrefs.getLogin()!!
         val name: String = getString(R.string.hi) + " " + login
         binding.tvUsernameText.text = name
     }

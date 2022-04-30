@@ -6,6 +6,7 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.biometric.BiometricManager
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -24,6 +25,11 @@ class AuthActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
+        if (!Utils.toggleManager.darkSideToggle.isEnabled()) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        } else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -34,8 +40,8 @@ class AuthActivity : AppCompatActivity() {
     }
 
     private fun checkIntents() {
-        val userLogin = Utils.getLogin()
-        val usePin = Utils.getPinMode()
+        val userLogin = Utils.accountSharedPrefs.getLogin()
+        val usePin = Utils.toggleManager.pinModeToggle.isEnabled()
         var intent: Intent? = null
         var goToIntent = false
 
@@ -163,8 +169,8 @@ class AuthActivity : AppCompatActivity() {
             }
 
             if (task.isSuccessful) {
-                Utils.setLogin(login)
-                Utils.setMail(email)
+                Utils.accountSharedPrefs.setLogin(login)
+                Utils.accountSharedPrefs.setMail(email)
                 Utils.auth.currentUser?.updateProfile(
                         UserProfileChangeRequest.Builder().apply {
                             displayName = login
@@ -186,8 +192,8 @@ class AuthActivity : AppCompatActivity() {
         ).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val login = Utils.auth.currentUser?.displayName!!
-                Utils.setLogin(login)
-                Utils.setMail(email)
+                Utils.accountSharedPrefs.setLogin(login)
+                Utils.accountSharedPrefs.setMail(email)
                 goHome()
             }
         }.addOnFailureListener { exception ->
@@ -202,21 +208,21 @@ class AuthActivity : AppCompatActivity() {
             builder.setMessage(getString(R.string.fingerUnlock))
 
             builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
-                Utils.setBioMode(true)
+                Utils.toggleManager.bioModeToggle.set(true)
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             }
 
             builder.setNegativeButton(getString(R.string.no)) { _, _ ->
-                Utils.setBioMode(false)
+                Utils.toggleManager.bioModeToggle.set(false)
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             }
 
             builder.setNeutralButton(getString(R.string.cancel)) { _, _ ->
-                Utils.setBioMode(false)
+                Utils.toggleManager.bioModeToggle.set(false)
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()

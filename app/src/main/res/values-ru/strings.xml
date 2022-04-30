@@ -205,4 +205,5 @@
     <string name="no_folders_found">Папок не найдено</string>
     <string name="no_passwords_found">Паролей не найдено</string>
     <string name="enter_passwords">Пожалуйства, введите пароль</string>
+    <string name="dark_side">Тёмная сторона</string>
 </resources>

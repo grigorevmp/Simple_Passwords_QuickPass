@@ -53,6 +53,30 @@
                         android:textStyle="bold" />
 
                     <LinearLayout
+                        android:id="@+id/llDarkSide"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/small_margin"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvDarkSide"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/base_margin"
+                            android:layout_weight="1"
+                            android:text="@string/dark_side" />
+
+                        <Switch
+                            android:id="@+id/sDarkSide"
+                            android:theme="@style/Widget.App.Switch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/base_margin"
+                            tools:ignore="UseSwitchCompatOrMaterialXml"/>
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/llFingerprintUnlock"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -67,12 +91,13 @@
                             android:layout_weight="1"
                             android:text="@string/biometricLogin" />
 
-                        <com.google.android.material.switchmaterial.SwitchMaterial
+                        <Switch
                             android:id="@+id/sFingerprintUnlock"
+                            android:theme="@style/Widget.App.Switch"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/base_margin"
-                            android:theme="@style/ThemeOverlay.MySwitch" />
+                            tools:ignore="UseSwitchCompatOrMaterialXml" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -91,13 +116,14 @@
                             android:text="@string/auto_copy_password"
                             app:layout_constraintStart_toStartOf="parent" />
 
-                        <com.google.android.material.switchmaterial.SwitchMaterial
+                        <Switch
                             android:id="@+id/sAutoCopy"
+                            android:theme="@style/Widget.App.Switch"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/base_margin"
                             android:checked="true"
-                            android:theme="@style/ThemeOverlay.MySwitch" />
+                            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                     </LinearLayout>
 
@@ -117,12 +143,13 @@
                             android:text="@string/set_pin"
                             app:layout_constraintStart_toStartOf="parent" />
 
-                        <com.google.android.material.switchmaterial.SwitchMaterial
+                        <Switch
                             android:id="@+id/sSetPin"
+                            android:theme="@style/Widget.App.Switch"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/base_margin"
-                            android:theme="@style/ThemeOverlay.MySwitch" />
+                            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                     </LinearLayout>
 
@@ -141,13 +168,14 @@
                             android:layout_weight="1"
                             android:text="@string/password_analyze" />
 
-                        <com.google.android.material.switchmaterial.SwitchMaterial
+                        <Switch
                             android:id="@+id/sUseAnalyzer"
+                            android:theme="@style/Widget.App.Switch"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/base_margin"
                             android:checked="false"
-                            android:theme="@style/ThemeOverlay.MySwitch" />
+                            tools:ignore="UseSwitchCompatOrMaterialXml"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -188,8 +216,8 @@
                             android:layout_margin="@dimen/small_margin"
                             android:max="10"
                             android:progress="6"
-                            android:progressTint="?attr/colorPrimary"
-                            android:thumbTint="?attr/colorPrimary" />
+                            android:progressTint="?attr/colorAccent"
+                            android:thumbTint="?attr/colorAccent" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -301,7 +329,7 @@
                 android:layout_marginStart="@dimen/base_margin"
                 android:layout_marginTop="@dimen/base_margin"
                 android:layout_marginEnd="@dimen/base_margin"
-                app:cardBackgroundColor="?attr/colorPrimary"
+                app:cardBackgroundColor="?attr/colorAccent"
                 app:cardCornerRadius="@dimen/small_margin"
                 app:cardElevation="@dimen/base_margin"
                 app:layout_constraintEnd_toEndOf="parent"

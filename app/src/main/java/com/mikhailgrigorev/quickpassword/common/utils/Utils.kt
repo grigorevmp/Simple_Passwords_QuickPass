@@ -8,6 +8,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.auth.FirebaseAuth
 import com.mikhailgrigorev.quickpassword.common.Application
 import com.mikhailgrigorev.quickpassword.common.manager.PasswordManager
+import com.mikhailgrigorev.quickpassword.common.utils.firebase.AccountSharedPrefs
+import com.mikhailgrigorev.quickpassword.common.utils.toogles.ToggleManager
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import java.text.SimpleDateFormat
 import java.util.*
@@ -19,14 +21,16 @@ object Utils {
         Utils.application = application
     }
 
+    val toggleManager = ToggleManager()
+    val accountSharedPrefs = AccountSharedPrefs
+
     val auth = FirebaseAuth.getInstance()
 
     private var application: Application? = null
+
     private const val preferences_file = "quickPassPreference"
-
-    private var sharedPreferences: SharedPreferences? = null
-
-    private var enSharedPrefsFile: SharedPreferences? = null
+    var sharedPreferences: SharedPreferences? = null
+    var enSharedPrefsFile: SharedPreferences? = null
 
     fun setSharedPreferences() {
         sharedPreferences = application?.getSharedPreferences(
@@ -67,44 +71,23 @@ object Utils {
     val password_manager = PasswordManager()
 
     fun exitAccount() {
-        enSharedPrefsFile!!.edit().remove("prefLogin").apply()
-        sharedPreferences!!.edit().remove("prefMail").apply()
-        enSharedPrefsFile!!.edit().remove("prefPassword").apply()
-        sharedPreferences!!.edit().remove("prefPinMode").apply()
-        sharedPreferences!!.edit().remove("prefBioMode").apply()
+        accountSharedPrefs.removeAll()
+        toggleManager.pinModeToggle.remove()
+        toggleManager.bioModeToggle.remove()
     }
 
-    fun getAutoCopy() = sharedPreferences!!.getBoolean("prefAutoCopyKey", true)
-    fun getLogin() = enSharedPrefsFile!!.getString("prefLogin", "Stranger")
-    fun getMail() = enSharedPrefsFile!!.getString("prefMail", "null")
     fun sortingAsc() = sharedPreferences!!.getBoolean("sortingAsc", false)
     fun getAppLockTime() = sharedPreferences!!.getInt("appLockTime", 6)
     fun getDisconnectTime() = getAppLockTime() * 10000L
-    fun getPinMode() = sharedPreferences!!.getBoolean("prefPinMode", false)
     fun getPin() = sharedPreferences!!.getInt("prefPin", 0)
-    fun getBioMode() = sharedPreferences!!.getBoolean("prefBioMode", false)
-    fun useAnalyze() = sharedPreferences!!.getBoolean("useAnalyze", true)
     fun sortingColumn() = sharedPreferences!!.getString("sortingColumn", "name")
     fun bottomBarState() = sharedPreferences!!.getInt(
             "bottomSheetDialogState",
             BottomSheetBehavior.STATE_HIDDEN
     )
 
-    fun setLogin(login: String) {
-        with(enSharedPrefsFile!!.edit()) {
-            putString("prefLogin", login)
-            apply()
-        }
-    }
 
-    fun setMail(mail: String) {
-        with(enSharedPrefsFile!!.edit()) {
-            putString("prefMail", mail)
-            apply()
-        }
-    }
-
-    private fun <ValueType> editPreferences(
+    fun <ValueType> editPreferences(
         key: String,
         value: ValueType
     ) {
@@ -130,22 +113,6 @@ object Utils {
 
     fun setAppLockTime(value: Int) {
         editPreferences("appLockTime", value)
-    }
-
-    fun setAutoCopy(value: Boolean) {
-        editPreferences("prefAutoCopyKey", value)
-    }
-
-    fun setAnalyze(value: Boolean) {
-        editPreferences("useAnalyze", value)
-    }
-
-    fun setBioMode(value: Boolean) {
-        editPreferences("prefBioMode", value)
-    }
-
-    fun setPinMode(value: Boolean) {
-        editPreferences("prefPinMode", value)
     }
 
     fun setPin(value: Int) {

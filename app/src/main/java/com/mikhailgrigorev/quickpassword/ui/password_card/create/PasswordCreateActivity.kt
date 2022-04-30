@@ -91,7 +91,7 @@ class PasswordCreateActivity : MyBaseActivity() {
                 .build().inject(this)
 
         val args: Bundle? = intent.extras
-        login = Utils.getLogin()!!
+        login = Utils.accountSharedPrefs.getLogin()!!
 
         val list = mutableListOf<String>()
         val pass: String = args?.get("pass").toString()

@@ -201,4 +201,8 @@
     <string name="no_passwords_in_this_folder">이 폴더에 암호가 없습니다</string>
     <string name="where_do_my_passwords_store">내 비밀번호는 어디에 저장되나요?</string>
     <string name="password_storing">현재 귀하의 모든 비밀번호는 제자리에 있습니다. 장치와 연결된 암호를 삭제하지 않고 계정을 변경하거나 삭제합니다. 계정은 향후 클라우드 백업을 지원하기 위해서만 존재합니다. 저장된 모든 비밀번호를 삭제하려면 기기 데이터를 재설정하거나 앱을 제거해야 합니다.</string>
+    <string name="no_folders_found">폴더를 찾을 수 없습니다</string>
+    <string name="no_passwords_found">비밀번호를 찾을 수 없습니다</string>
+    <string name="enter_passwords">비밀번호를 입력해주세요</string>
+    <string name="dark_side">어두운면</string>
 </resources>

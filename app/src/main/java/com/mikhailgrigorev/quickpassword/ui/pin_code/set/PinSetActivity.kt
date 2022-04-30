@@ -21,7 +21,7 @@ class PinSetActivity : MyBaseActivity() {
     }
 
     private fun initHello() {
-        val login = Utils.getLogin()!!
+        val login = Utils.accountSharedPrefs.getLogin()!!
         val name: String = getString(R.string.hi) + " " + login
         binding.tvUsernameText.text = name
     }
@@ -61,7 +61,7 @@ class PinSetActivity : MyBaseActivity() {
             erasePinNumber()
         }
         binding.savePin.setOnClickListener {
-            Utils.setPinMode(true)
+            Utils.toggleManager.pinModeToggle.set(true)
             Utils.setPin(binding.inputPinIdField.text.toString().toInt())
             finish()
         }

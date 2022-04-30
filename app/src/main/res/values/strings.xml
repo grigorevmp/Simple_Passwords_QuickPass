@@ -101,7 +101,7 @@
     <string name="auto_copy_password">Auto-copy password</string>
     <string name="about_app">About app</string>
     <string name="app_author">Mikhail Grigorev</string>
-    <string name="version_and_year" translatable="false">"v3.0.1 • 2022 "</string>
+    <string name="version_and_year" translatable="false">"v3.1.0 • 2022 "</string>
     <string name="telegram" translatable="false">Telegram</string>
     <string name="vkontakte" translatable="false">Vkontakte</string>
     <string name="sen_email" translatable="false">Send email</string>
@@ -235,5 +235,6 @@
     <string name="no_folders_found">No folders found</string>
     <string name="no_passwords_found">No passwords found</string>
     <string name="enter_passwords">Please, enter your password</string>
+    <string name="dark_side">Dark side</string>
 
 </resources>

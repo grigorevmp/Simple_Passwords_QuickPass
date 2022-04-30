@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
@@ -26,6 +27,11 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (!Utils.toggleManager.darkSideToggle.isEnabled()) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -35,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initName() {
-        val name: String = getString(R.string.hi) + " " + Utils.getLogin()
+        val name: String = getString(R.string.hi) + " " + Utils.accountSharedPrefs.getLogin()
         binding.tvUsernameText.text = name
         binding.loginFab.show()
         this.let {
@@ -46,7 +52,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setBiometricFeature() {
-        val bioMode = Utils.getBioMode()
+        val bioMode = Utils.toggleManager.bioModeToggle.isEnabled()
 
         val biometricManager = BiometricManager.from(this)
         val hasBiometricFeature: Boolean =
@@ -98,7 +104,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initListeners() {
-        val userLogin = Utils.getLogin()
+        val userLogin = Utils.accountSharedPrefs.getLogin()
 
         binding.loginFab.setOnClickListener {
             val password = binding.inputPasswordIdField.text.toString()
@@ -150,7 +156,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signIn(password: String) {
-        val userMail = Utils.getMail()!!
+        val userMail = Utils.accountSharedPrefs.getMail()!!
         Utils.auth.signInWithEmailAndPassword(
                 userMail,
                 password

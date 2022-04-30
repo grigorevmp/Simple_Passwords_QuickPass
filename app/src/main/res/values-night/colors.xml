@@ -3,7 +3,7 @@
     <color name="colorPrimary">#7e57c2</color>
     <color name="colorLight">#1C1C1C</color>
     <color name="colorPrimaryDark">#121212</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorAccent">#ff7e57c2</color>
     <color name="textDark">#D6D6D6</color>
     <color name="fabTint">#C3C3C3</color>
     <color name="white" >#202020</color>

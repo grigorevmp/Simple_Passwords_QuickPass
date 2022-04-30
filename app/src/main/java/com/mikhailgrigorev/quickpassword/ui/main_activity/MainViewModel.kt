@@ -43,7 +43,7 @@ class MainViewModel @Inject constructor(
     }
 
     @JvmName("getUserLogin1")
-    private fun getUserLogin(): MutableLiveData<String> = MutableLiveData(Utils.getLogin())
+    private fun getUserLogin(): MutableLiveData<String> = MutableLiveData(Utils.accountSharedPrefs.getLogin())
 
     suspend fun favPassword(currentPassword: PasswordCard) {
         currentPassword.favorite = !(currentPassword.favorite)

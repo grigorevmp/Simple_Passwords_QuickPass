@@ -113,7 +113,7 @@ class PasswordAdapter(
             return@setOnLongClickListener (true)
         }
 
-            if (!Utils.useAnalyze()) {
+            if (!Utils.toggleManager.analyzeToggle.isEnabled()) {
                 holder.qualityMarker.visibility = View.GONE
                 holder.creditCard.visibility = View.GONE
                 holder.creditCardNeg.visibility = View.GONE
