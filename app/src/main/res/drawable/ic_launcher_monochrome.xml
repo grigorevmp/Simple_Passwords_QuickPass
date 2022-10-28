@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Monochrome icon for Android12 "Themed icons" -->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:bottom="24dp"
+        android:left="24dp"
+        android:right="24dp"
+        android:top="24dp">
+        <vector
+            android:width="64dp"
+            android:height="64dp"
+            android:viewportWidth="64"
+            android:viewportHeight="64">
+            <path
+                android:fillColor="#202020"
+                android:pathData="M44.59,61.43A12,12 0,0 0,61.43 44.59,32.16 32.16,0 0,1 44.59,61.43Z" />
+            <path
+                android:fillColor="#202020"
+                android:pathData="M40,52a12,12 0,0 1,21.43 -7.41A32,32 0,1 0,44.59 61.43,12 12,0 0,1 40,52ZM22.75,45.79h-8.6a5.27,5.27 0,0 1,0 -10.53h8.6a5.27,5.27 0,1 1,0 10.53ZM22.75,28.96h-8.6a5.27,5.27 0,0 1,0 -10.53h8.6a5.27,5.27 0,1 1,0 10.53Z" />
+        </vector>
+    </item>
+</layer-list>
