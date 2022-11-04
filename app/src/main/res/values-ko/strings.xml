@@ -205,4 +205,8 @@
     <string name="no_passwords_found">비밀번호를 찾을 수 없습니다</string>
     <string name="enter_passwords">비밀번호를 입력해주세요</string>
     <string name="dark_side">어두운면</string>
+    <string name="custom_value_field_hint">예를 들면 다음과 같습니다.</string>
+    <string name="custom_value_fields">사용자 정의 값 필드</string>
+    <string name="local_account">로컬 프로필</string>
+    <string name="local_profile">로컬 프로필</string>
 </resources>

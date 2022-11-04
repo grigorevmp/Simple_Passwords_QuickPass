@@ -23,6 +23,7 @@ import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
 import com.mikhailgrigorev.quickpassword.common.utils.PasswordQuality
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
+import com.mikhailgrigorev.quickpassword.data.dbo.CustomField
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityPasswordViewBinding
 import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
@@ -58,22 +59,21 @@ class PasswordViewActivity : MyBaseActivity() {
         initViewModel()
 
         checkShortcut()
-        val args: Bundle? = intent.extras
-        val passwordId = args?.get("password_id").toString().toInt()
 
         setUpAutoCopy()
-        loadPassword(passwordId)
         setListeners()
     }
 
     private fun setUpAutoCopy() {
         val args: Bundle? = intent.extras
-        from = args?.get("openedFrom").toString()
-        if (from == "shortcut") {
-            intent.putExtra("openedFrom", args?.get("openedFrom").toString())
-            intent.putExtra("password_id", args?.get("password_id").toString())
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+        args?.also {
+            from = it.getString("openedFrom", "def")
+            if (from == "shortcut") {
+                intent.putExtra("openedFrom", it.getString("openedFrom") as String)
+                intent.putExtra("password_id", it.getString("password_id") as String)
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 
@@ -88,134 +88,220 @@ class PasswordViewActivity : MyBaseActivity() {
 
     private fun loadPassword(passwordId: Int) {
         viewModel.getPasswordById(passwordId).observe(this) { passwordCard ->
-            if (passwordCard.same_with != "") {
-                binding.imSamePartsImage.visibility = View.VISIBLE
-                binding.sameParts.visibility = View.VISIBLE
-                binding.sameParts.text = this.getString(R.string.same_parts, passwordCard.same_with)
-            }
+            setUpScreenContent(passwordCard)
 
             viewModel.currentPassword = passwordCard
-            binding.cFolderName.visibility = View.GONE
+        }
+    }
 
-            if(passwordCard.folder != null) {
-                if(passwordCard.folder!! > 0) {
-                    viewModel.getFolder(passwordCard.folder!!).observe(this) {
-                        binding.cFolderName.visibility = View.VISIBLE
-                        binding.cFolderName.text = it.name
-                        binding.tvAdditionalSettings.visibility = View.VISIBLE
-                    }
-                }
-            }
+    private fun setUpScreenContent(passwordCard: PasswordCard) {
+        passwordCard.also {
+            setUpCustomTexts(it.custom_field)
 
-            if (viewModel.currentPassword!!.favorite) {
-                binding.favButton.visibility = View.GONE
-                binding.favButton2.visibility = View.VISIBLE
-            }
+            setUpSameParts(it.same_with)
+            setUpFavorite(it.favorite)
+            setUpLogin(it.login)
+            setUpUsername(it.name)
+            setUpTags(it.tags)
+            setUpDescription(it.description)
+            setUpPinCodeIcon(it.is_card_pin)
+            setUpUseTwoFA(it.use_2fa)
+            setUpCreationDate(it.time)
+            setUpUseTime(it.use_time)
+            setUpFolder(it.folder)
 
-            binding.tvUsernameText.text = passwordCard.name
-            var originalPassword = passwordCard.password
+            setUpPasswordView(it.password, it.encrypted, it.quality)
 
-            if (passwordCard.encrypted) {
-                binding.cUseEncryption.isChecked = true
-                binding.cUseEncryption.visibility = View.VISIBLE
-                binding.tvAdditionalSettings.visibility = View.VISIBLE
-                originalPassword = Utils.password_manager.decrypt(originalPassword).toString()
-            }
+            updateAllPhotos(it)
+        }
+    }
 
-            binding.etPassword.setText(originalPassword)
+    private fun setUpPasswordView(databasePassword: String, isEncrypted: Boolean, quality: Int) {
 
-            val evaluation = passwordCard.quality
+        var password = databasePassword
 
-            binding.tvPasswordCreationDate.text = getString(
-                    R.string.time_lim,
-                    Utils.returnReadableDate(passwordCard.time)
-            )
+        binding.cUseEncryption.isChecked = false
+        binding.cUseEncryption.visibility = View.GONE
+        binding.tvAdditionalSettings.visibility = View.GONE
 
-            when (evaluation) {
-                PasswordQuality.LOW.value -> {
-                    binding.passQuality.setTextColor(
-                            ContextCompat.getColor(
-                                    applicationContext,
-                                    R.color.red_quality
-                            )
-                    )
-                    binding.passQuality.text = getString(R.string.low)
-                    binding.ivMinorWarningImage.visibility = View.GONE
-                }
-                PasswordQuality.HIGH.value -> {
-                    binding.passQuality.setTextColor(
-                            ContextCompat.getColor(
-                                    applicationContext,
-                                    R.color.green_quality
-                            )
-                    )
-                    binding.passQuality.text = getString(R.string.high)
-                    binding.ivMainWarningImage.visibility = View.GONE
-                }
-                PasswordQuality.MEDIUM.value -> {
-                    binding.passQuality.setTextColor(
-                            ContextCompat.getColor(
-                                    applicationContext,
-                                    R.color.yellow_quality
-                            )
-                    )
-                    binding.passQuality.text = getString(R.string.medium)
-                    binding.ivMinorWarningImage.visibility = View.GONE
-                }
-            }
+        if (isEncrypted) {
+            binding.cUseEncryption.isChecked = true
+            binding.cUseEncryption.visibility = View.VISIBLE
+            binding.tvAdditionalSettings.visibility = View.VISIBLE
+            password = Utils.password_manager.decrypt(password).toString()
+        }
 
-            if ((originalPassword.length == 4) and (evaluation == PasswordQuality.HIGH.value)) {
-                binding.passQualityText.text = getString(R.string.showPin)
-                binding.passQuality.visibility = View.GONE
-                binding.ivMainWarningImage.visibility = View.GONE
-                binding.ivMinorWarningImage.visibility = View.VISIBLE
-                binding.ivMinorWarningImage.setImageDrawable(
-                        AppCompatResources.getDrawable(
-                                this,
-                                R.drawable.credit_card
+        binding.etPassword.setText(password)
+
+        when (quality) {
+            PasswordQuality.LOW.value -> {
+                binding.passQuality.setTextColor(
+                        ContextCompat.getColor(
+                                applicationContext,
+                                R.color.red_quality
                         )
                 )
+                binding.passQuality.text = getString(R.string.low)
+                binding.ivMinorWarningImage.visibility = View.GONE
             }
-
-            if (passwordCard.is_card_pin) {
-                binding.cIsPin.isChecked = true
-                binding.cIsPin.visibility = View.VISIBLE
-                binding.tvAdditionalSettings.visibility = View.VISIBLE
+            PasswordQuality.HIGH.value -> {
+                binding.passQuality.setTextColor(
+                        ContextCompat.getColor(
+                                applicationContext,
+                                R.color.green_quality
+                        )
+                )
+                binding.passQuality.text = getString(R.string.high)
+                binding.ivMainWarningImage.visibility = View.GONE
             }
-
-            if (passwordCard.use_2fa) {
-                binding.cUse2fa.isChecked = true
-                binding.cUse2fa.visibility = View.VISIBLE
-                binding.tvAdditionalSettings.visibility = View.VISIBLE
+            PasswordQuality.MEDIUM.value -> {
+                binding.passQuality.setTextColor(
+                        ContextCompat.getColor(
+                                applicationContext,
+                                R.color.yellow_quality
+                        )
+                )
+                binding.passQuality.text = getString(R.string.medium)
+                binding.ivMinorWarningImage.visibility = View.GONE
             }
-            if (passwordCard.use_time) {
-                binding.cUseTimeLimit.isChecked = true
-                binding.cUseTimeLimit.visibility = View.VISIBLE
-                binding.tvAdditionalSettings.visibility = View.VISIBLE
+        }
+
+        if ((password.length == 4) and (quality == PasswordQuality.HIGH.value)) {
+            binding.passQualityText.text = getString(R.string.showPin)
+            binding.passQuality.visibility = View.GONE
+            binding.ivMainWarningImage.visibility = View.GONE
+            binding.ivMinorWarningImage.visibility = View.VISIBLE
+            binding.ivMinorWarningImage.setImageDrawable(
+                    AppCompatResources.getDrawable(
+                            this,
+                            R.drawable.credit_card
+                    )
+            )
+        }
+    }
+
+    private fun setUpTags(tags: String) {
+        binding.cgPasswordChipGroup.removeAllViews()
+
+        binding.kwInfo.visibility = View.VISIBLE
+
+        if (tags != "") {
+            tags.split("\\s".toRegex()).forEach { item ->
+                val chip = Chip(binding.cgPasswordChipGroup.context)
+                chip.text = item
+                chip.isClickable = false
+                binding.cgPasswordChipGroup.addView(chip)
             }
+        } else {
+            binding.kwInfo.visibility = View.GONE
+        }
+    }
 
-            if (passwordCard.description != "")
-                binding.etDescription.setText(passwordCard.description)
-            else
-                binding.tilDescription.visibility = View.GONE
+    private fun setUpLogin(login: String) {
+        binding.tilPasswordLogin.visibility = View.VISIBLE
 
-            if (passwordCard.login != "")
-                binding.etPasswordLogin.setText(passwordCard.login)
-            else
-                binding.tilPasswordLogin.visibility = View.GONE
+        if (login != "")
+            binding.etPasswordLogin.setText(login)
+        else
+            binding.tilPasswordLogin.visibility = View.GONE
+    }
 
-            binding.cgPasswordChipGroup.removeAllViews()
-            if (passwordCard.tags != "") {
-                passwordCard.tags.split("\\s".toRegex()).forEach { item ->
-                    val chip = Chip(binding.cgPasswordChipGroup.context)
-                    chip.text = item
-                    chip.isClickable = false
-                    binding.cgPasswordChipGroup.addView(chip)
+    private fun setUpSameParts(sameParts: String) {
+        if (sameParts != "") {
+            binding.imSamePartsImage.visibility = View.VISIBLE
+            binding.sameParts.visibility = View.VISIBLE
+            binding.sameParts.text = this.getString(R.string.same_parts, sameParts)
+        }
+    }
+
+    private fun setUpFavorite(favorite: Boolean) {
+        if (favorite) {
+            binding.favButton.visibility = View.GONE
+            binding.favButton2.visibility = View.VISIBLE
+        }
+    }
+
+    private fun setUpFolder(folder: Int?) {
+        binding.cFolderName.visibility = View.GONE
+        binding.tvAdditionalSettings.visibility = View.GONE
+
+        if (folder != null) {
+            if (folder > 0) {
+                viewModel.getFolder(folder).observe(this) {
+                    binding.cFolderName.visibility = View.VISIBLE
+                    binding.cFolderName.text = it.name
+                    binding.tvAdditionalSettings.visibility = View.VISIBLE
                 }
-            } else {
-                binding.kwInfo.visibility = View.GONE
             }
-            updateAllPhotos(passwordCard)
+        }
+    }
+
+    private fun setUpUsername(username: String) {
+        binding.tvUsernameText.text = username
+    }
+
+    private fun setUpCreationDate(time: String) {
+        binding.tvPasswordCreationDate.text = getString(
+                R.string.time_lim,
+                Utils.returnReadableDate(time)
+        )
+    }
+
+    private fun setUpDescription(description: String) {
+        binding.tilDescription.visibility = View.VISIBLE
+
+        if (description != "")
+            binding.etDescription.setText(description)
+        else
+            binding.tilDescription.visibility = View.GONE
+    }
+
+    private fun setUpPinCodeIcon(useTwoFA: Boolean) {
+        binding.cIsPin.visibility = View.GONE
+
+        if (useTwoFA) {
+            binding.cIsPin.isChecked = true
+            binding.cIsPin.visibility = View.VISIBLE
+            binding.tvAdditionalSettings.visibility = View.VISIBLE
+        }
+    }
+
+    private fun setUpUseTwoFA(useTwoFA: Boolean) {
+        binding.cUse2fa.visibility = View.GONE
+
+        if (useTwoFA) {
+            binding.cUse2fa.isChecked = true
+            binding.cUse2fa.visibility = View.VISIBLE
+            binding.tvAdditionalSettings.visibility = View.VISIBLE
+        }
+    }
+
+    private fun setUpUseTime(useTime: Boolean) {
+        binding.cUseTimeLimit.visibility = View.GONE
+
+        if (useTime) {
+            binding.cUseTimeLimit.isChecked = true
+            binding.cUseTimeLimit.visibility = View.VISIBLE
+            binding.tvAdditionalSettings.visibility = View.VISIBLE
+        }
+    }
+
+    private fun setUpCustomTexts(customFields: List<CustomField>) {
+        binding.customFieldsText.visibility = View.VISIBLE
+        binding.tvCustomFields.visibility = View.VISIBLE
+        binding.customFieldsText.text = ""
+
+        var customText = ""
+
+        for (customField in customFields) {
+            customText += "${customField.key} - ${customField.value}\n"
+        }
+
+        if (customText == "") {
+            binding.customFieldsText.visibility = View.GONE
+            binding.tvCustomFields.visibility = View.GONE
+        } else {
+            binding.customFieldsText.text = customText
         }
     }
 
@@ -254,36 +340,38 @@ class PasswordViewActivity : MyBaseActivity() {
 
     private fun showImage(mediaStorageDir: File, imageNum: Int, currentImage: ImageView) {
 
-        val file = File(mediaStorageDir, "${viewModel.currentPassword!!.name}_$imageNum.jpg")
+        viewModel.currentPassword?.also {
+            val file = File(mediaStorageDir, "${it.name}_$imageNum.jpg")
 
-        if (file.exists()) {
-            currentImage.setImageURI(null)
-            val uri = Uri.fromFile(file)
-            currentImage.setImageURI(uri)
-            binding.attachedImageText.visibility = View.VISIBLE
+            if (file.exists()) {
+                currentImage.setImageURI(null)
+                val uri = Uri.fromFile(file)
+                currentImage.setImageURI(uri)
+                binding.attachedImageText.visibility = View.VISIBLE
 
-            val windowMetrics =
-                    WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this)
-            val currentBounds = windowMetrics.bounds
-            val widthMax = currentBounds.width()
+                val windowMetrics =
+                        WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this)
+                val currentBounds = windowMetrics.bounds
+                val widthMax = currentBounds.width()
 
-            val width = (widthMax / 2.4).toInt()
-            val height =
-                    currentImage.drawable.minimumHeight * width / currentImage.drawable.minimumWidth
-            currentImage.layoutParams.height = height
-            currentImage.layoutParams.width = width
+                val width = (widthMax / 2.4).toInt()
+                val height =
+                        currentImage.drawable.minimumHeight * width / currentImage.drawable.minimumWidth
+                currentImage.layoutParams.height = height
+                currentImage.layoutParams.width = width
 
-            currentImage.setOnClickListener {
-                val uriForOpen = FileProvider.getUriForFile(
-                        this,
-                        this.applicationContext.packageName.toString() + ".provider",
-                        file
-                )
-                val intent = Intent()
-                intent.action = Intent.ACTION_VIEW
-                intent.setDataAndType(uriForOpen, "image/*")
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                startActivity(intent)
+                currentImage.setOnClickListener {
+                    val uriForOpen = FileProvider.getUriForFile(
+                            this,
+                            this.applicationContext.packageName.toString() + ".provider",
+                            file
+                    )
+                    val intent = Intent()
+                    intent.action = Intent.ACTION_VIEW
+                    intent.setDataAndType(uriForOpen, "image/*")
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    startActivity(intent)
+                }
             }
         }
     }
@@ -396,15 +484,15 @@ class PasswordViewActivity : MyBaseActivity() {
             }
         }
 
-            if (!Utils.toggleManager.analyzeToggle.isEnabled()) {
-                binding.passQualityText.visibility = View.GONE
-                binding.ivMainWarningImage.visibility = View.GONE
-                binding.passQualityText.visibility = View.GONE
-                binding.passQuality.visibility = View.GONE
-                binding.ivMinorWarningImage.visibility = View.GONE
-                binding.sameParts.visibility = View.GONE
-                binding.imSamePartsImage.visibility = View.GONE
-            }
+        if (!Utils.toggleManager.analyzeToggle.isEnabled()) {
+            binding.passQualityText.visibility = View.GONE
+            binding.ivMainWarningImage.visibility = View.GONE
+            binding.passQualityText.visibility = View.GONE
+            binding.passQuality.visibility = View.GONE
+            binding.ivMinorWarningImage.visibility = View.GONE
+            binding.sameParts.visibility = View.GONE
+            binding.imSamePartsImage.visibility = View.GONE
+        }
 
 
         val layoutTransition = binding.mainLinearLayout.layoutTransition
@@ -415,9 +503,11 @@ class PasswordViewActivity : MyBaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (viewModel.currentPassword != null){
-            updateAllPhotos(viewModel.currentPassword!!)
-        }
+
+        val args: Bundle? = intent.extras
+        val passwordId = args?.getInt("password_id")
+
+        passwordId?.also { loadPassword(it) }
     }
 
     override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {

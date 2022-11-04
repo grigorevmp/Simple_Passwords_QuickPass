@@ -38,6 +38,7 @@ import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
 import com.mikhailgrigorev.quickpassword.common.manager.PasswordManager
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
+import com.mikhailgrigorev.quickpassword.data.dbo.CustomField
 import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityPasswordEditBinding
@@ -85,8 +86,8 @@ class PasswordEditActivity : MyBaseActivity() {
             passwordsCollection = passwords
         }
         viewModel.folders.observe(this) { folders ->
-            if (viewModel.currentPassword != null) {
-                viewModel.currentPassword?.folder?.let { currentPasswordFolderId ->
+            viewModel.currentPassword?.also {
+                it.folder?.let { currentPasswordFolderId ->
                     viewModel.getFolder(currentPasswordFolderId)
                 }!!.observe(this) { folderCard ->
                     val adapter =
@@ -210,10 +211,20 @@ class PasswordEditActivity : MyBaseActivity() {
                 binding.emailField.setText(passwordCard.login)
             }
 
+            if (passwordCard.custom_field.isNotEmpty()) {
+                var customText = ""
+
+                for (customField in passwordCard.custom_field) {
+                    customText += "${customField.key},${customField.value} "
+                }
+
+                binding.customFieldsTextField.setText(customText)
+            }
 
             val mediaStorageDir = File(
                     applicationContext.getExternalFilesDir("QuickPassPhotos")!!.absolutePath
             )
+
             if (!mediaStorageDir.exists()) {
                 mediaStorageDir.mkdirs()
                 Utils.makeToast(applicationContext, "Directory Created")
@@ -603,19 +614,38 @@ class PasswordEditActivity : MyBaseActivity() {
                     else
                         binding.tePasswordToGenerate.text.toString()
 
-                    if (viewModel.currentPassword != null) {
-                        viewModel.currentPassword!!.name = binding.newNameField.text.toString()
-                        viewModel.currentPassword!!.password = password!!
-                        viewModel.currentPassword!!.use_2fa = binding.cUse2fa.isChecked
-                        viewModel.currentPassword!!.use_time = binding.cNumberOfEncrypted.isChecked
-                        viewModel.currentPassword!!.is_card_pin = binding.cIsPin.isChecked
-                        viewModel.currentPassword!!.time = Date().toString()
-                        viewModel.currentPassword!!.folder = folderId
-                        viewModel.currentPassword!!.image_count = imageNum
-                        viewModel.currentPassword!!.description = binding.noteField.text.toString()
-                        viewModel.currentPassword!!.tags = binding.keyWordsField.text.toString()
-                        viewModel.currentPassword!!.login = binding.emailField.text.toString()
-                        viewModel.currentPassword!!.encrypted = binding.cryptToggle.isChecked
+                    viewModel.currentPassword?.also {
+                        it.name = binding.newNameField.text.toString()
+                        it.password = password!!
+                        it.use_2fa = binding.cUse2fa.isChecked
+                        it.use_time = binding.cNumberOfEncrypted.isChecked
+                        it.is_card_pin = binding.cIsPin.isChecked
+                        it.time = Date().toString()
+                        it.folder = folderId
+                        it.image_count = imageNum
+                        it.description = binding.noteField.text.toString()
+                        it.tags = binding.keyWordsField.text.toString()
+                        it.login = binding.emailField.text.toString()
+                        it.encrypted = binding.cryptToggle.isChecked
+
+                        var customFields = emptyList<CustomField>()
+
+                        try {
+                            customFields = binding.customFieldsTextField.text
+                                    ?.trim()
+                                    ?.split(" ")
+                                    ?.map { pair ->
+                                        val (key, value) = pair.split(",")
+                                        CustomField(
+                                                key = key,
+                                                value = value
+                                        )
+                                    } ?: emptyList()
+                        } catch (e: Exception) {
+                            Log.d("Crash", "Password creation failed in custom fields")
+                        }
+
+                        viewModel.currentPassword!!.custom_field = customFields
 
                         if (passwordsCollection != null) {
                             val analyzeResults =
@@ -665,6 +695,7 @@ class PasswordEditActivity : MyBaseActivity() {
                                 from.renameTo(to)
                         }
                     }
+
                     finish()
                 }
             }
@@ -909,8 +940,9 @@ class PasswordEditActivity : MyBaseActivity() {
                         val file = File(mediaStorageDir, "${imageName}_$imageNum.jpg")
 
                         val resultURI = getImagePath(this, selectedImageURI)
-                        if (resultURI != null) {
-                            copyFile(File(resultURI), file)
+
+                        resultURI?.also {
+                            copyFile(File(it), file)
                         }
 
                         isImage = true

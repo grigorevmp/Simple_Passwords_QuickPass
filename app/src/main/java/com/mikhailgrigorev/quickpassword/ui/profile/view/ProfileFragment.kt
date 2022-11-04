@@ -109,6 +109,10 @@ class ProfileFragment : Fragment() {
                 binding.tvUsernameText.text = name
             }
         }
+
+        if (Utils.accountSharedPrefs.getIsLocal()) {
+            binding.localAccount.visibility = View.VISIBLE
+        }
     }
 
     private fun setObservers() {
@@ -126,6 +130,7 @@ class ProfileFragment : Fragment() {
             unsafePass = negative_
             setPasswordQualityText()
         }
+
         viewModel.getItemsNumber().observe(viewLifecycleOwner) { passwordNumber ->
             binding.tvAllPasswords.text = passwordNumber.toString()
         }
@@ -139,15 +144,16 @@ class ProfileFragment : Fragment() {
             encryptedPass = encryptedPass_
             setPasswordQualityText()
         }
+
         viewModel.getItemsNumberWithTimeLimit().observe(viewLifecycleOwner) { timeLimit_ ->
             timeLimit = timeLimit_
             setPasswordQualityText()
         }
+
         viewModel.getPinItems().observe(viewLifecycleOwner) { pins_ ->
             pins = pins_
             setPasswordQualityText()
         }
-
     }
 
     private fun setPasswordQualityText() {
@@ -193,16 +199,15 @@ class ProfileFragment : Fragment() {
         }
         binding.ivLogOut.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogCustom)
-            builder.setTitle(getString(R.string.exit_account))
-            builder.setMessage(getString(R.string.accountExitConfirm))
-            builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
-                exit()
-            }
-            builder.setNegativeButton(getString(R.string.no)) { _, _ ->
+
+            builder.apply {
+                setTitle(getString(R.string.exit_account))
+                setMessage(getString(R.string.accountExitConfirm))
+                setPositiveButton(getString(R.string.yes)) { _, _ -> exit() }
+                setNegativeButton(getString(R.string.no)) { _, _ ->}
+                setNeutralButton(getString(R.string.cancel)) { _, _ -> }
             }
 
-            builder.setNeutralButton(getString(R.string.cancel)) { _, _ ->
-            }
             val dialog: AlertDialog = builder.create()
             dialog.show()
         }
@@ -214,30 +219,33 @@ class ProfileFragment : Fragment() {
 
         binding.ivDeleteAccount.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogCustom)
-            builder.setTitle(getString(R.string.accountDelete))
-            builder.setMessage(getString(R.string.accountDeleteConfirm))
 
-            builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
-                Utils.makeToast(requireContext(), getString(R.string.accountDeleted))
-                deleteAccount()
+            builder.apply {
+                setTitle(getString(R.string.accountDelete))
+                setMessage(getString(R.string.accountDeleteConfirm))
+                setPositiveButton(getString(R.string.yes)) { _, _ ->
+                    Utils.makeToast(requireContext(), getString(R.string.accountDeleted))
+                    deleteAccount()
+                }
+                setNegativeButton(getString(R.string.no)) { _, _ -> }
+                setNeutralButton(getString(R.string.cancel)) { _, _ -> }
             }
 
-            builder.setNegativeButton(getString(R.string.no)) { _, _ ->
-            }
-
-            builder.setNeutralButton(getString(R.string.cancel)) { _, _ ->
-            }
             val dialog: AlertDialog = builder.create()
             dialog.show()
         }
     }
 
     private fun deleteAccount() {
-        if (Utils.auth.currentUser != null) {
+        if (Utils.accountSharedPrefs.getIsLocal()) {
+            Utils.exitAccount()
+            removeShortcuts()
+        } else if (Utils.auth.currentUser != null) {
             Utils.auth.currentUser!!.delete()
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             Utils.exitAccount()
+                            Utils.auth.signOut()
                             removeShortcuts()
                         } else {
                             task.exception
@@ -248,7 +256,7 @@ class ProfileFragment : Fragment() {
 
     private fun exit() {
         Utils.exitAccount()
-        Utils.auth.signOut()
+        if (!Utils.accountSharedPrefs.getIsLocal()) Utils.auth.signOut()
         removeShortcuts()
     }
 

@@ -540,6 +540,18 @@
                     app:layout_constraintTop_toTopOf="@+id/totalPoints" />
             </LinearLayout>
 
+            <com.google.android.material.chip.Chip
+                android:id="@+id/localAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                style="@style/Widget.Material3.Chip.Assist"
+                android:layout_marginTop="@dimen/small_margin"
+                android:text="@string/local_profile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llTotalPoints" />
+
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvTotalPoints"

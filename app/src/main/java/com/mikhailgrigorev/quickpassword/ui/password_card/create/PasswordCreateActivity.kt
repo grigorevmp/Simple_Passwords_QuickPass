@@ -37,6 +37,7 @@ import com.mikhailgrigorev.quickpassword.R
 import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
 import com.mikhailgrigorev.quickpassword.common.manager.PasswordManager
 import com.mikhailgrigorev.quickpassword.common.utils.Utils
+import com.mikhailgrigorev.quickpassword.data.dbo.CustomField
 import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
 import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
 import com.mikhailgrigorev.quickpassword.databinding.ActivityPasswordCreateBinding
@@ -94,7 +95,7 @@ class PasswordCreateActivity : MyBaseActivity() {
         login = Utils.accountSharedPrefs.getLogin()!!
 
         val list = mutableListOf<String>()
-        val pass: String = args?.get("pass").toString()
+        val pass: String = args?.getString("pass")!!
 
         initViewModel()
         setObservers()
@@ -168,27 +169,27 @@ class PasswordCreateActivity : MyBaseActivity() {
             }
         }
 
-        useLetters = args?.get("useLetters") as Boolean
-        if(useLetters){
+        useLetters = args?.getBoolean("useLetters") as Boolean
+        if (useLetters) {
             binding.cLettersToggle.isChecked = true
             list.add(binding.cLettersToggle.text.toString())
         }
-        useUC = args.get("useUC") as Boolean
-        if(useUC){
+        useUC = args.getBoolean("useUC")
+        if (useUC) {
             binding.cUpperCaseToggle.isChecked = true
             list.add(binding.cUpperCaseToggle.text.toString())
         }
-        useNumbers = args.get("useNumbers") as Boolean
+        useNumbers = args.getBoolean("useNumbers")
         if (useNumbers) {
             binding.cNumbersToggle.isChecked = true
             list.add(binding.cNumbersToggle.text.toString())
         }
-        useSymbols = args.get("useSymbols") as Boolean
+        useSymbols = args.getBoolean("useSymbols")
         if (useSymbols) {
             binding.cSymToggles.isChecked = true
             list.add(binding.cSymToggles.text.toString())
         }
-        length = args.get("length") as Int
+        length = args.getInt("length")
         binding.cLengthToggle.text = getString(R.string.length, length)
         binding.sbPasswordLength.progress = length
     }
@@ -253,7 +254,8 @@ class PasswordCreateActivity : MyBaseActivity() {
             }
         }
 
-        binding.sbPasswordLength.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        binding.sbPasswordLength.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
 
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                 binding.cLengthToggle.text = getString(R.string.length, i)
@@ -493,6 +495,23 @@ class PasswordCreateActivity : MyBaseActivity() {
                     else
                         binding.tePasswordToGenerate.text.toString()
 
+                    var customFields = emptyList<CustomField>()
+
+                    try {
+                        customFields = binding.customFieldsTextField.text
+                                ?.trim()
+                                ?.split(" ")
+                                ?.map { pair ->
+                                    val (key, value) = pair.split(",")
+                                    CustomField(
+                                            key = key,
+                                            value = value
+                                    )
+                                } ?: emptyList()
+                    } catch (e: Exception) {
+                        Log.d("Crash", "Password creation failed in custom fields")
+                    }
+
                     val newPassword = PasswordCard(
                             name = binding.newNameField.text.toString(),
                             password = password!!,
@@ -506,6 +525,7 @@ class PasswordCreateActivity : MyBaseActivity() {
                             tags = binding.etKeywords.text.toString(),
                             login = binding.emailField.text.toString(),
                             encrypted = binding.cryptToggle.isChecked,
+                            custom_field = customFields
                     )
 
                     viewModel.currentPassword = newPassword
@@ -555,7 +575,8 @@ class PasswordCreateActivity : MyBaseActivity() {
                         if (imageName != "") {
                             for (i in 0..imageNum) {
                                 val from = File(mediaStorageDir, "${imageName}_$i.jpg")
-                                val to = File(mediaStorageDir, "${binding.newNameField.text}_$i.jpg")
+                                val to =
+                                        File(mediaStorageDir, "${binding.newNameField.text}_$i.jpg")
                                 if (from.exists())
                                     from.renameTo(to)
                             }

@@ -206,4 +206,8 @@
     <string name="no_passwords_found">Паролей не найдено</string>
     <string name="enter_passwords">Пожалуйства, введите пароль</string>
     <string name="dark_side">Тёмная сторона</string>
+    <string name="custom_value_fields">Поля пользовательских значений</string>
+    <string name="custom_value_field_hint">Формат: \'ключ1,значение1, ключ2,значение2\'</string>
+    <string name="local_account">Локальный аккаунт</string>
+    <string name="local_profile">Локальный профиль</string>
 </resources>

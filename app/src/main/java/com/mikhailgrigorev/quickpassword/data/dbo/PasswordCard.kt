@@ -2,8 +2,21 @@ package com.mikhailgrigorev.quickpassword.data.dbo
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
+import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
+import com.google.gson.reflect.TypeToken
 import com.mikhailgrigorev.quickpassword.common.utils.PasswordQuality
+import java.lang.reflect.Type
+
+
+@Entity(tableName = "keyValue")
+data class CustomField(
+    @SerializedName("key")
+    var key: String,
+    @SerializedName("value")
+    var value: String,
+)
 
 @Entity(tableName = "password_card")
 data class PasswordCard(
@@ -38,5 +51,23 @@ data class PasswordCard(
     @SerializedName("quality")
     var quality: Int = PasswordQuality.LOW.value,
     @SerializedName("same_with")
-    var same_with: String = ""
+    var same_with: String = "",
+    @SerializedName("custom_field")
+    var custom_field: List<CustomField> = emptyList()
 )
+
+object CustomFieldConverters {
+    @TypeConverter
+    fun fromCustomFieldList(value: String): List<CustomField> {
+        val listType: Type = object : TypeToken<List<CustomField>>() {}.type
+        var subValue = value
+        if (subValue == "") subValue = "[]"
+        return Gson().fromJson(subValue, listType)
+    }
+
+    @TypeConverter
+    fun fromCustomFieldList(list: List<CustomField>): String {
+        val gson = Gson()
+        return gson.toJson(list)
+    }
+}

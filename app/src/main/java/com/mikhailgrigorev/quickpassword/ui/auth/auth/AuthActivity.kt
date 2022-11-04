@@ -70,11 +70,7 @@ class AuthActivity : AppCompatActivity() {
             if (binding.inputLoginIdField.text.toString() != "") {
                 if (binding.signUpChip.isChecked) {
                     if (validate(binding.inputPasswordIdField.text.toString())) {
-                        if (
-                            binding.inputPasswordIdField.text.toString()
-                            ==
-                            binding.inputPasswordId2Field.text.toString()
-                        ) {
+                        if (binding.inputPasswordIdField.text.toString() == binding.inputPasswordId2Field.text.toString()) {
                             signUp(
                                     binding.inputLoginIdField.text.toString(),
                                     binding.inputPasswordIdField.text.toString()
@@ -115,21 +111,23 @@ class AuthActivity : AppCompatActivity() {
                     AccelerateDecelerateInterpolator()
         }
 
-        binding.signUpChipGroup.setOnCheckedStateChangeListener { _, _ ->
-            binding.signUpChip.let {
-                if (binding.signUpChip.isChecked) {
-                    binding.loginFab.hide()
-                    binding.loginFab.text = getString(R.string.sign_up)
-                    binding.loginFab.show()
-                    binding.tilUserLogin.visibility = View.VISIBLE
-                    binding.inputPassword2Id.visibility = View.VISIBLE
-                } else {
-                    binding.loginFab.hide()
-                    binding.loginFab.text = getString(R.string.sign_in)
-                    binding.loginFab.show()
-                    binding.tilUserLogin.visibility = View.GONE
-                    binding.inputPassword2Id.visibility = View.GONE
-                }
+        binding.signUpChip.setOnClickListener {
+            if (binding.signUpChip.isChecked) {
+                binding.loginFab.hide()
+                binding.loginFab.text = getString(R.string.sign_up)
+                binding.loginFab.show()
+                binding.tilUserLogin.visibility = View.VISIBLE
+                binding.inputPassword2Id.visibility = View.VISIBLE
+                binding.localChip.visibility = View.VISIBLE
+                binding.tvSendForgotPassMail.visibility = View.GONE
+            } else {
+                binding.loginFab.hide()
+                binding.loginFab.text = getString(R.string.sign_in)
+                binding.loginFab.show()
+                binding.tilUserLogin.visibility = View.GONE
+                binding.inputPassword2Id.visibility = View.GONE
+                binding.localChip.visibility = View.GONE
+                binding.tvSendForgotPassMail.visibility = View.VISIBLE
             }
         }
 
@@ -157,30 +155,41 @@ class AuthActivity : AppCompatActivity() {
     }
 
     private fun signUp(email: String, password: String) {
-        Utils.auth.createUserWithEmailAndPassword(
-                email,
-                password
-        ).addOnCompleteListener { task ->
+        val onlyLocal: Boolean = binding.localChip.isChecked
 
-            var login = binding.etUserLogin.text.toString()
+        var login = binding.etUserLogin.text.toString()
+        if (login == "") login = "Stranger"
 
-            if(login == ""){
-                login = "Stranger"
+        if (onlyLocal) {
+            Utils.accountSharedPrefs.setLocal()
+            Utils.accountSharedPrefs.setLogin(login)
+            Utils.accountSharedPrefs.setMail(email)
+            Utils.auth.currentUser?.updateProfile(
+                    UserProfileChangeRequest.Builder().apply {
+                        displayName = login
+                    }.build()
+            )
+            goHome()
+        } else {
+            Utils.auth.createUserWithEmailAndPassword(
+                    email,
+                    password
+            ).addOnCompleteListener { task ->
+
+                if (task.isSuccessful) {
+                    Utils.accountSharedPrefs.setLogin(login)
+                    Utils.accountSharedPrefs.setMail(email)
+                    Utils.auth.currentUser?.updateProfile(
+                            UserProfileChangeRequest.Builder().apply {
+                                displayName = login
+                            }.build()
+                    )
+                    goHome()
+                }
+
+            }.addOnFailureListener { exception ->
+                exception.message?.let { Utils.makeToast(this, it) }
             }
-
-            if (task.isSuccessful) {
-                Utils.accountSharedPrefs.setLogin(login)
-                Utils.accountSharedPrefs.setMail(email)
-                Utils.auth.currentUser?.updateProfile(
-                        UserProfileChangeRequest.Builder().apply {
-                            displayName = login
-                        }.build()
-                )
-                goHome()
-            }
-
-        }.addOnFailureListener { exception ->
-            exception.message?.let { Utils.makeToast(this, it) }
         }
 
     }

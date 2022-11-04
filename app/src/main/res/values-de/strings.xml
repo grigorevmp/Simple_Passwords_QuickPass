@@ -205,5 +205,9 @@
     <string name="no_passwords_found">Keine Passwörter gefunden</string>
     <string name="enter_passwords">Bitte geben Sie Ihr Passwort ein</string>
     <string name="dark_side">Dunkle Seite</string>
+    <string name="custom_value_fields">Benutzerdefinierte Wertefelder</string>
+    <string name="custom_value_field_hint">Format: \'Schlüssel1,Wert1 Schlüssel2,Wert2\'</string>
+    <string name="local_profile">Lokales Profil</string>
+    <string name="local_account">Lokales Profil</string>
 
 </resources>

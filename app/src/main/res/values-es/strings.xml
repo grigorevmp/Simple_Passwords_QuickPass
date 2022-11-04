@@ -190,4 +190,8 @@
     <string name="no_folders_found">No se encontraron carpetas</string>
     <string name="no_passwords_found">No se encontraron contraseñas</string>
     <string name="enter_passwords">Por favor, introduzca su contraseña</string>
+    <string name="custom_value_fields">Campos de valor personalizados</string>
+    <string name="custom_value_field_hint">Formato: \'clave1,valor1 clave2,valor2\'</string>
+    <string name="local_account">Perfil local</string>
+    <string name="local_profile">Perfil local</string>
 </resources>

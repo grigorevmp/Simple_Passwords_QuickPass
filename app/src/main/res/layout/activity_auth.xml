@@ -182,9 +182,8 @@
         android:layout_marginStart="@dimen/base_margin"
         android:layout_marginTop="@dimen/base_margin"
         android:layout_marginBottom="@dimen/base_margin"
-        app:layout_constraintBottom_toTopOf="@+id/loginFab"
-        app:layout_constraintStart_toStartOf="parent"
-        app:singleSelection="true">
+        app:layout_constraintBottom_toTopOf="@+id/tvSendForgotPassMail"
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/signUpChip"
@@ -192,6 +191,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sign_up" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/localChip"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="@string/local_account" />
     </com.google.android.material.chip.ChipGroup>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -230,9 +237,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/base_margin"
+        android:layout_marginBottom="@dimen/base_margin"
         android:text="@string/forgotPasswordText"
-        app:layout_constraintBottom_toBottomOf="@+id/signUpChipGroup"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/signUpChipGroup" />
+        app:layout_constraintBottom_toTopOf="@+id/loginFab"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

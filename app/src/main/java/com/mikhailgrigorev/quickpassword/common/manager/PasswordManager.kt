@@ -212,7 +212,7 @@ class PasswordManager {
             val factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
             val spec = PBEKeySpec(
                     secretKey.toCharArray(),
-                    Base64.decode(salt, Base64.DEFAULT),
+                    Base64.decode(salt, Base64.NO_PADDING),
                     10000,
                     256
             )
