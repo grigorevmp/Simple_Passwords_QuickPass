@@ -13,12 +13,6 @@ class ProfileViewModel @Inject constructor(
 ) : ViewModel() {
     val passwords = passwordCardRepo.allData
 
-    var avatar: MutableLiveData<String> = MutableLiveData()
-
-    fun setAvatar(url: String) {
-        avatar.postValue(url)
-    }
-
     fun setLoginData(data: String) {
         userLogin.postValue(data)
     }

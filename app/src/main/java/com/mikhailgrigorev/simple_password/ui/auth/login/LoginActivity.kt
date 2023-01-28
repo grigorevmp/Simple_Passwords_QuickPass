@@ -40,15 +40,14 @@ class LoginActivity : AppCompatActivity() {
         setBiometricFeature()
     }
 
+
+
     private fun initName() {
         val name: String = getString(R.string.hi) + " " + Utils.accountSharedPrefs.getLogin()
+
         binding.tvUsernameText.text = name
         binding.loginFab.show()
-        this.let {
-            if(Utils.auth.currentUser?.photoUrl != null){
-                binding.tvAvatarSymbol.text = Utils.auth.currentUser?.photoUrl.toString()
-            }
-        }
+        binding.tvAvatarSymbol.text = Utils.accountSharedPrefs.getAvatarEmoji().toString()
     }
 
     private fun setBiometricFeature() {
@@ -108,12 +107,7 @@ class LoginActivity : AppCompatActivity() {
 
         binding.loginFab.setOnClickListener {
             val password = binding.inputPasswordIdField.text.toString()
-            if (
-                validate(password)
-                and (userLogin != null)
-            ) {
-                signIn(password)
-            }
+            if (validate(password) and (userLogin != null)) { signIn(userLogin!!, password) }
         }
 
         binding.fabLogOut.setOnClickListener {
@@ -124,7 +118,6 @@ class LoginActivity : AppCompatActivity() {
 
     private fun exit() {
         Utils.exitAccount()
-        Utils.auth.signOut()
         deleteShortcuts()
     }
 
@@ -155,24 +148,18 @@ class LoginActivity : AppCompatActivity() {
         return valid
     }
 
-    private fun signIn(password: String) {
-        val userMail = Utils.accountSharedPrefs.getMail()!!
-        Utils.auth.signInWithEmailAndPassword(
-                userMail,
-                password
-        ).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val args: Bundle? = intent.extras
-                val from = args?.getString("openedFrom", "none").toString()
-                if (args == null || from == "none") {
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                } else {
-                    intent.putExtra("openedFrom", args.get("none").toString())
-                }
-                finish()
+    private fun signIn(login: String, password: String) {
+        if (Utils.accountSharedPrefs.isCorrectLogin(login) && Utils.accountSharedPrefs.isCorrectMasterPassword(password)) {
+            val args: Bundle? = intent.extras
+            val from = args?.getString("openedFrom", "none").toString()
+            if (args == null || from == "none") {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            } else {
+                intent.putExtra("openedFrom", args.get("none").toString())
             }
-        }.addOnFailureListener {
+            finish()
+        } else {
             binding.inputPasswordId.error = getString(R.string.wrong_pass)
         }
     }

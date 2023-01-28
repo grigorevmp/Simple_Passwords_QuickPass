@@ -101,7 +101,7 @@
         app:boxCornerRadiusTopEnd="@dimen/base_card_radius"
         app:boxCornerRadiusTopStart="@dimen/base_card_radius"
         app:errorEnabled="true"
-        app:layout_constraintBottom_toTopOf="@+id/tilUserEmail"
+        app:layout_constraintBottom_toTopOf="@+id/tilNewPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -206,30 +206,6 @@
             app:tint="@color/textDark" />
 
     </androidx.cardview.widget.CardView>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilUserEmail"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/base_margin"
-        android:layout_marginEnd="@dimen/base_margin"
-        android:layout_marginBottom="@dimen/base_margin"
-        app:boxCornerRadiusBottomEnd="@dimen/base_card_radius"
-        app:boxCornerRadiusBottomStart="@dimen/base_card_radius"
-        app:boxCornerRadiusTopEnd="@dimen/base_card_radius"
-        app:boxCornerRadiusTopStart="@dimen/base_card_radius"
-        app:layout_constraintBottom_toTopOf="@+id/tilNewPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etUserEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/emailOnly"
-            android:inputType="text" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/tvUsernameText"

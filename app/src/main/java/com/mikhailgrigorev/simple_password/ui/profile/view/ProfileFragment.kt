@@ -74,6 +74,8 @@ class ProfileFragment : Fragment() {
         _binding = null
     }
 
+
+
     private fun checkAnalyze() {
         if (!Utils.toggleManager.analyzeToggle.isEnabled()) {
             binding.tvTotalPointsText.visibility = View.GONE
@@ -91,43 +93,26 @@ class ProfileFragment : Fragment() {
             binding.tvUsernameText.text = name
         }
 
-        this.context?.let {
-            if (Utils.auth.currentUser?.photoUrl != null) {
-                binding.tvAvatarSymbol.text = Utils.auth.currentUser?.photoUrl.toString()
-            }
-            viewModel.setAvatar(Utils.auth.currentUser?.photoUrl.toString())
-        }
+        val login = Utils.accountSharedPrefs.getLogin()
+        val name: String = getString(R.string.hi) + " " + login
 
-        viewModel.avatar.observe(viewLifecycleOwner) { str ->
-            this.context?.let {
-                if (Utils.auth.currentUser?.photoUrl != null) {
-                    binding.tvAvatarSymbol.text = str
-                }
-                viewModel.setAvatar(Utils.auth.currentUser?.photoUrl.toString())
-                val login = Utils.accountSharedPrefs.getLogin()
-                val name: String = getString(R.string.hi) + " " + login
-                binding.tvUsernameText.text = name
-            }
-        }
-
-        if (Utils.accountSharedPrefs.getIsLocal()) {
-            binding.localAccount.visibility = View.VISIBLE
-        }
+        binding.tvUsernameText.text = name
+        binding.tvAvatarSymbol.text = Utils.accountSharedPrefs.getAvatarEmoji().toString()
     }
 
     private fun setObservers() {
-        viewModel.getPasswordNumberWithQuality().first.observe(viewLifecycleOwner) { safePass_ ->
-            safePass = safePass_
+        viewModel.getPasswordNumberWithQuality().first.observe(viewLifecycleOwner) {
+            safePass = it
             setPasswordQualityText()
         }
 
-        viewModel.getPasswordNumberWithQuality().second.observe(viewLifecycleOwner) { notSafe_ ->
-            fixPass = notSafe_
+        viewModel.getPasswordNumberWithQuality().second.observe(viewLifecycleOwner) {
+            fixPass = it
             setPasswordQualityText()
         }
 
-        viewModel.getPasswordNumberWithQuality().third.observe(viewLifecycleOwner) { negative_ ->
-            unsafePass = negative_
+        viewModel.getPasswordNumberWithQuality().third.observe(viewLifecycleOwner) {
+            unsafePass = it
             setPasswordQualityText()
         }
 
@@ -135,23 +120,23 @@ class ProfileFragment : Fragment() {
             binding.tvAllPasswords.text = passwordNumber.toString()
         }
 
-        viewModel.getItemsNumberWith2fa().observe(viewLifecycleOwner) { pass2FA_ ->
-            pass2FA = pass2FA_
+        viewModel.getItemsNumberWith2fa().observe(viewLifecycleOwner) {
+            pass2FA = it
             setPasswordQualityText()
         }
 
-        viewModel.getItemsNumberWithEncrypted().observe(viewLifecycleOwner) { encryptedPass_ ->
-            encryptedPass = encryptedPass_
+        viewModel.getItemsNumberWithEncrypted().observe(viewLifecycleOwner) {
+            encryptedPass = it
             setPasswordQualityText()
         }
 
-        viewModel.getItemsNumberWithTimeLimit().observe(viewLifecycleOwner) { timeLimit_ ->
-            timeLimit = timeLimit_
+        viewModel.getItemsNumberWithTimeLimit().observe(viewLifecycleOwner) {
+            timeLimit = it
             setPasswordQualityText()
         }
 
-        viewModel.getPinItems().observe(viewLifecycleOwner) { pins_ ->
-            pins = pins_
+        viewModel.getPinItems().observe(viewLifecycleOwner) {
+            pins = it
             setPasswordQualityText()
         }
     }
@@ -197,20 +182,6 @@ class ProfileFragment : Fragment() {
                     ProfileFragmentDirections.actionProfileFragmentToAboutFragment()
             )
         }
-        binding.ivLogOut.setOnClickListener {
-            val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogCustom)
-
-            builder.apply {
-                setTitle(getString(R.string.exit_account))
-                setMessage(getString(R.string.accountExitConfirm))
-                setPositiveButton(getString(R.string.yes)) { _, _ -> exit() }
-                setNegativeButton(getString(R.string.no)) { _, _ ->}
-                setNeutralButton(getString(R.string.cancel)) { _, _ -> }
-            }
-
-            val dialog: AlertDialog = builder.create()
-            dialog.show()
-        }
 
         binding.cvEditAccount.setOnClickListener {
             findNavController().navigate(
@@ -237,26 +208,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun deleteAccount() {
-        if (Utils.accountSharedPrefs.getIsLocal()) {
-            Utils.exitAccount()
-            removeShortcuts()
-        } else if (Utils.auth.currentUser != null) {
-            Utils.auth.currentUser!!.delete()
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Utils.exitAccount()
-                            Utils.auth.signOut()
-                            removeShortcuts()
-                        } else {
-                            task.exception
-                        }
-                    }
-        }
-    }
-
-    private fun exit() {
         Utils.exitAccount()
-        if (!Utils.accountSharedPrefs.getIsLocal()) Utils.auth.signOut()
         removeShortcuts()
     }
 

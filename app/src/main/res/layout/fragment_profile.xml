@@ -46,7 +46,6 @@
                     android:scrollIndicators="none"
                     android:scrollbarThumbHorizontal="@null">
 
-
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -92,8 +91,11 @@
                                 tools:text="5" />
 
                         </LinearLayout>
+
                     </LinearLayout>
+
                 </HorizontalScrollView>
+
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -129,7 +131,6 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/userNameTextSize" />
             </androidx.cardview.widget.CardView>
-
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvWarningRulesCard"
@@ -177,6 +178,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/doubleFAInfo" />
 
                 </LinearLayout>
+
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -225,6 +227,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/doubleFAInfo" />
 
                 </LinearLayout>
+
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -278,19 +281,6 @@
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/small_margin"
                     android:gravity="center">
-
-                    <ImageButton
-                        android:id="@+id/ivLogOut"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:contentDescription="@string/log_out"
-                        android:paddingStart="@dimen/base_margin"
-                        android:paddingTop="@dimen/small_margin"
-                        android:paddingEnd="@dimen/base_margin"
-                        android:paddingBottom="@dimen/small_margin"
-                        android:src="@drawable/exit_to_app"
-                        app:tint="@color/black" />
 
                     <ImageButton
                         android:id="@+id/ivAboutApp"
@@ -402,7 +392,9 @@
                         </LinearLayout>
 
                     </LinearLayout>
+
                 </HorizontalScrollView>
+
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -410,7 +402,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginTop="@dimen/max_width"
+                android:layout_marginTop="@dimen/base_margin"
                 android:layout_marginEnd="@dimen/base_margin"
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/white"
@@ -418,7 +410,7 @@
                 app:cardElevation="@dimen/base_card_elevation"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/llTotalPoints">
+                app:layout_constraintTop_toBottomOf="@+id/localAccount">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -506,6 +498,7 @@
                             android:layout_marginStart="15dp"
                             android:text="@string/no_text" />
                     </LinearLayout>
+
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -515,7 +508,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/small_margin"
-                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvUsernameText">
@@ -544,14 +536,12 @@
                 android:id="@+id/localAccount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 style="@style/Widget.Material3.Chip.Assist"
                 android:layout_marginTop="@dimen/small_margin"
                 android:text="@string/local_profile"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/llTotalPoints" />
-
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvTotalPoints"
@@ -578,6 +568,9 @@
                     android:paddingEnd="@dimen/base_margin"
                     tools:text="5" />
             </androidx.cardview.widget.CardView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.core.widget.NestedScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

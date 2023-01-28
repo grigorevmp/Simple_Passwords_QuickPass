@@ -1,6 +1,5 @@
 package com.mikhailgrigorev.simple_password.ui.profile.edit
 
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,7 +9,6 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.mikhailgrigorev.simple_password.R
 import com.mikhailgrigorev.simple_password.common.utils.Utils
 import com.mikhailgrigorev.simple_password.databinding.FragmentProfileEditBinding
@@ -55,18 +53,10 @@ class ProfileEditFragment : Fragment() {
     }
 
 
+
     private fun initViews() {
-        binding.etUserEmail.setText(
-                Utils.auth.currentUser?.email
-        )
-        binding.etUserLogin.setText(
-                Utils.auth.currentUser?.displayName
-        )
-        if (Utils.auth.currentUser?.photoUrl != null) {
-            binding.etUserAvatarEmoji.setText(
-                    Utils.auth.currentUser?.photoUrl.toString()
-            )
-        }
+        binding.etUserLogin.setText(Utils.accountSharedPrefs.getLogin())
+        if(Utils.accountSharedPrefs.getAvatarEmoji() != null){ binding.etUserAvatarEmoji.setText(Utils.accountSharedPrefs.getAvatarEmoji().toString()) }
     }
 
     private fun isEmoji(message: String): Boolean {
@@ -88,7 +78,6 @@ class ProfileEditFragment : Fragment() {
     private fun setListeners() {
         binding.savePass.setOnClickListener {
             val login = binding.etUserLogin.text.toString()
-            val mail = binding.etUserEmail.text.toString()
             val password = binding.etPassword.text.toString()
             val newPassword = binding.etNewPassword.text.toString()
             val emojiAvatar = binding.etUserAvatarEmoji.text.toString()
@@ -96,52 +85,20 @@ class ProfileEditFragment : Fragment() {
                 binding.tilPassword.error = getString(R.string.enter_passwords)
             } else {
                 binding.cvSaving.visibility = View.VISIBLE
-                Utils.auth.signInWithEmailAndPassword(
-                        Utils.accountSharedPrefs.getMail()!!,
-                        password
-                ).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        if (mail != "") {
-                            Utils.auth.currentUser?.updateEmail(mail)
-                            Utils.accountSharedPrefs.setMail(mail)
-                        }
+                if (Utils.accountSharedPrefs.isCorrectMasterPassword(password)) {
                         if (login != "") {
-                            Utils.auth.currentUser?.updateProfile(
-                                    UserProfileChangeRequest.Builder().apply {
-                                        displayName = login
-                                    }.build()
-                            )
                             Utils.accountSharedPrefs.setLogin(login)
                             viewModel.setLoginData(login)
                         }
-                        if (newPassword != "") {
-                            Utils.auth.currentUser?.updatePassword(newPassword)
-                        }
-                        if (isEmoji(emojiAvatar)) {
-                            Utils.auth.currentUser?.updateProfile(
-                                    UserProfileChangeRequest.Builder().apply {
-                                        photoUri = Uri.parse(emojiAvatar)
-                                    }.build()
-                            )
-                        }
-                        try {
-                            findNavController().popBackStack()
-                        } catch (e: Exception) {
-                            Log.d("PopBackStack", "strange error")
-                        }
-                    }
-                }.addOnFailureListener { exception ->
+                        if (newPassword != "") { Utils.accountSharedPrefs.setMasterPassword(newPassword) }
+                        if (isEmoji(emojiAvatar)) { Utils.accountSharedPrefs.setAvatarEmoji(emojiAvatar) }
+                        try { findNavController().popBackStack() }
+                        catch (e: Exception) { Log.d("PopBackStack", "strange error") }
+                } else {
                     Log.d("Auth mail", Utils.accountSharedPrefs.getMail()!!)
                     Log.d("Auth password", password)
                     binding.cvSaving.visibility = View.GONE
-                    Utils.makeToast(
-                            requireContext(),
-                            "Data saving error, please write to the app creator"
-                    )
-                    if (exception.localizedMessage != null) {
-                        Utils.makeToast(requireContext(), exception.localizedMessage!!)
-                    } else
-                        exception.message?.let { Utils.makeToast(requireContext(), it) }
+                    Utils.makeToast(requireContext(), "Data saving error, please write to the app creator")
                 }
             }
         }
@@ -173,14 +130,11 @@ class ProfileEditFragment : Fragment() {
         viewModel.userLogin.observe(viewLifecycleOwner) { login ->
             val name: String = getString(R.string.hi) + " " + login
             binding.tvUsernameText.text = name
-            binding.etUserLogin.setText(
-                    Utils.auth.currentUser?.displayName
-            )
+            binding.etUserLogin.setText(Utils.accountSharedPrefs.getLogin())
         }
     }
 
     private fun initViewModel() {
         viewModel = this.injectViewModel(viewModelFactory)
     }
-
 }

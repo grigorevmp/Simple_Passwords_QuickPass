@@ -8,18 +8,31 @@ object AccountSharedPrefs {
         Utils.enSharedPrefsFile!!.edit().remove("prefLogin").apply()
         Utils.sharedPreferences!!.edit().remove("prefMail").apply()
         Utils.sharedPreferences!!.edit().remove("prefLocalAccount").apply()
+        Utils.sharedPreferences!!.edit().remove("prefMasterKey").apply()
+    }
+
+    fun isCorrectLogin(login: String): Boolean {
+        return login == getLogin()
+    }
+
+    fun isCorrectMasterPassword(password: String): Boolean {
+        val masterKey = Utils.enSharedPrefsFile!!.getInt("prefMasterKey", 0)
+        return masterKey == password.hashCode()
     }
 
     fun getLogin() = Utils.enSharedPrefsFile!!.getString("prefLogin", "Stranger")
-    fun getMail() = Utils.enSharedPrefsFile!!.getString("prefMail", "null")
-    fun getIsLocal() = Utils.enSharedPrefsFile!!.getBoolean("prefLocalAccount", false)
 
-    fun setLocal() {
+    fun getMail() = Utils.enSharedPrefsFile!!.getString("prefMail", "null")
+
+    fun getAvatarEmoji() = Utils.enSharedPrefsFile!!.getString("prefAvatarEmoji", "\uD83E\uDD8A")
+
+    fun setMasterPassword(password: String) {
         with(Utils.enSharedPrefsFile!!.edit()) {
-            putBoolean("prefLocalAccount", true)
+            putInt("prefMasterKey", password.hashCode())
             apply()
         }
     }
+
     fun setLogin(login: String) {
         with(Utils.enSharedPrefsFile!!.edit()) {
             putString("prefLogin", login)
@@ -30,6 +43,13 @@ object AccountSharedPrefs {
     fun setMail(mail: String) {
         with(Utils.enSharedPrefsFile!!.edit()) {
             putString("prefMail", mail)
+            apply()
+        }
+    }
+
+    fun setAvatarEmoji(emoji: String) {
+        with(Utils.enSharedPrefsFile!!.edit()) {
+            putString("prefAvatarEmoji", emoji)
             apply()
         }
     }

@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.security.crypto.EncryptedSharedPreferences
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.firebase.auth.FirebaseAuth
 import com.mikhailgrigorev.simple_password.common.Application
 import com.mikhailgrigorev.simple_password.common.manager.PasswordManager
 import com.mikhailgrigorev.simple_password.common.utils.firebase.AccountSharedPrefs
@@ -23,8 +22,6 @@ object Utils {
 
     val toggleManager = ToggleManager()
     val accountSharedPrefs = AccountSharedPrefs
-
-    val auth = FirebaseAuth.getInstance()
 
     private var application: Application? = null
 

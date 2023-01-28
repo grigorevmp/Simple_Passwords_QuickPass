@@ -45,31 +45,6 @@
         app:layout_constraintStart_toStartOf="parent"/>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputLoginId"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/base_margin"
-        android:layout_marginTop="@dimen/login_field_top_margin"
-        android:layout_marginEnd="@dimen/base_margin"
-        app:boxCornerRadiusBottomEnd="@dimen/base_card_radius"
-        app:boxCornerRadiusBottomStart="@dimen/base_card_radius"
-        app:boxCornerRadiusTopEnd="@dimen/base_card_radius"
-        app:boxCornerRadiusTopStart="@dimen/base_card_radius"
-        app:errorEnabled="true"
-        app:layout_constraintBottom_toTopOf="@+id/tilUserLogin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputLoginIdField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/emailOnly"
-            android:inputType="textEmailAddress" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilUserLogin"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="fill_parent"
@@ -182,7 +157,7 @@
         android:layout_marginStart="@dimen/base_margin"
         android:layout_marginTop="@dimen/base_margin"
         android:layout_marginBottom="@dimen/base_margin"
-        app:layout_constraintBottom_toTopOf="@+id/tvSendForgotPassMail"
+        app:layout_constraintBottom_toTopOf="@+id/loginFab"
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.chip.Chip
@@ -192,13 +167,6 @@
             android:layout_height="wrap_content"
             android:text="@string/sign_up" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/localChip"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:text="@string/local_account" />
     </com.google.android.material.chip.ChipGroup>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -228,18 +196,8 @@
         android:layout_marginTop="@dimen/small_margin"
         android:layout_marginBottom="@dimen/base_margin"
         android:text="@string/helloSubText"
-        app:layout_constraintBottom_toTopOf="@+id/inputLoginId"
+        app:layout_constraintBottom_toTopOf="@+id/tilUserLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/tvSendForgotPassMail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/base_margin"
-        android:layout_marginBottom="@dimen/base_margin"
-        android:text="@string/forgotPasswordText"
-        app:layout_constraintBottom_toTopOf="@+id/loginFab"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

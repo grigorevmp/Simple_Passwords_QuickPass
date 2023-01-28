@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.biometric.BiometricManager
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.mikhailgrigorev.simple_password.R
 import com.mikhailgrigorev.simple_password.common.utils.Utils
 import com.mikhailgrigorev.simple_password.databinding.ActivityAuthBinding
@@ -27,7 +26,7 @@ class AuthActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         if (!Utils.toggleManager.darkSideToggle.isEnabled()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-        } else{
+        } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
         binding = ActivityAuthBinding.inflate(layoutInflater)
@@ -38,6 +37,8 @@ class AuthActivity : AppCompatActivity() {
         checkIntents()
         initListeners()
     }
+
+
 
     private fun checkIntents() {
         val userLogin = Utils.accountSharedPrefs.getLogin()
@@ -59,43 +60,35 @@ class AuthActivity : AppCompatActivity() {
     }
 
     private fun initListeners() {
-
         binding.tvAvatarSymbol.text = "🦊"
 
         binding.loginFab.setOnClickListener {
-            binding.inputLoginId.error = null
             binding.inputPasswordId.error = null
             binding.inputPassword2Id.error = null
             binding.tilUserLogin.error = null
-            if (binding.inputLoginIdField.text.toString() != "") {
-                if (binding.signUpChip.isChecked) {
-                    if (validate(binding.inputPasswordIdField.text.toString())) {
-                        if (binding.inputPasswordIdField.text.toString() == binding.inputPasswordId2Field.text.toString()) {
-                            signUp(
-                                    binding.inputLoginIdField.text.toString(),
-                                    binding.inputPasswordIdField.text.toString()
-                            )
-                        } else {
-                            binding.inputPassword2Id.error = "Different passwords -_-"
-                        }
-                    }
-                } else {
-                    if (validate(binding.inputPasswordIdField.text.toString())
-                    ) {
-                        signIn(
-                                binding.inputLoginIdField.text.toString(),
+            if (binding.signUpChip.isChecked) {
+                if (validate(binding.inputPasswordIdField.text.toString())) {
+                    if (binding.inputPasswordIdField.text.toString() == binding.inputPasswordId2Field.text.toString()) {
+                        signUp(
+                                binding.etUserLogin.text.toString(),
                                 binding.inputPasswordIdField.text.toString()
                         )
+                    } else { binding.inputPassword2Id.error = "Different passwords -_-" }
+                }
+            } else {
+                if (validate(binding.inputPasswordIdField.text.toString())) {
+                    Utils.accountSharedPrefs.getLogin()?.let { login ->
+                        signIn(login, binding.inputPasswordIdField.text.toString())
+                    } ?: {
+                        binding.inputPasswordId.error = getString(R.string.wrong_pass)
                     }
                 }
-            }
-            else{
-                binding.inputLoginId.error = "We need your email -_-"
             }
         }
 
         binding.generatePassword.setOnClickListener {
             binding.inputPasswordId.error = null
+
             val newPassword: String =
                     Utils.password_manager.generatePassword(
                             isWithLetters = true,
@@ -104,6 +97,7 @@ class AuthActivity : AppCompatActivity() {
                             isWithSpecial = false,
                             length = 12
                     )
+
             binding.inputPasswordIdField.setText(newPassword)
 
             binding.generatePassword.animate()
@@ -118,27 +112,12 @@ class AuthActivity : AppCompatActivity() {
                 binding.loginFab.show()
                 binding.tilUserLogin.visibility = View.VISIBLE
                 binding.inputPassword2Id.visibility = View.VISIBLE
-                binding.localChip.visibility = View.VISIBLE
-                binding.tvSendForgotPassMail.visibility = View.GONE
             } else {
                 binding.loginFab.hide()
                 binding.loginFab.text = getString(R.string.sign_in)
                 binding.loginFab.show()
                 binding.tilUserLogin.visibility = View.GONE
                 binding.inputPassword2Id.visibility = View.GONE
-                binding.localChip.visibility = View.GONE
-                binding.tvSendForgotPassMail.visibility = View.VISIBLE
-            }
-        }
-
-        binding.tvSendForgotPassMail.setOnClickListener {
-            val email = binding.inputLoginIdField.text.toString()
-            binding.inputLoginId.error = null
-            if (email != "") {
-                Utils.auth.sendPasswordResetEmail(email)
-                Utils.makeToast(this, "Email sent")
-            } else {
-                binding.inputLoginId.error = "Please enter your email"
             }
         }
     }
@@ -154,60 +133,16 @@ class AuthActivity : AppCompatActivity() {
         return valid
     }
 
-    private fun signUp(email: String, password: String) {
-        val onlyLocal: Boolean = binding.localChip.isChecked
+    private fun signUp(login: String, password: String) {
+        Utils.accountSharedPrefs.setLogin(login)
+        Utils.accountSharedPrefs.setMasterPassword(password)
 
-        var login = binding.etUserLogin.text.toString()
-        if (login == "") login = "Stranger"
-
-        if (onlyLocal) {
-            Utils.accountSharedPrefs.setLocal()
-            Utils.accountSharedPrefs.setLogin(login)
-            Utils.accountSharedPrefs.setMail(email)
-            Utils.auth.currentUser?.updateProfile(
-                    UserProfileChangeRequest.Builder().apply {
-                        displayName = login
-                    }.build()
-            )
-            goHome()
-        } else {
-            Utils.auth.createUserWithEmailAndPassword(
-                    email,
-                    password
-            ).addOnCompleteListener { task ->
-
-                if (task.isSuccessful) {
-                    Utils.accountSharedPrefs.setLogin(login)
-                    Utils.accountSharedPrefs.setMail(email)
-                    Utils.auth.currentUser?.updateProfile(
-                            UserProfileChangeRequest.Builder().apply {
-                                displayName = login
-                            }.build()
-                    )
-                    goHome()
-                }
-
-            }.addOnFailureListener { exception ->
-                exception.message?.let { Utils.makeToast(this, it) }
-            }
-        }
-
+        goHome()
     }
 
-    private fun signIn(email: String, password: String) {
-        Utils.auth.signInWithEmailAndPassword(
-                email,
-                password
-        ).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val login = Utils.auth.currentUser?.displayName!!
-                Utils.accountSharedPrefs.setLogin(login)
-                Utils.accountSharedPrefs.setMail(email)
-                goHome()
-            }
-        }.addOnFailureListener { exception ->
-            exception.message?.let { Utils.makeToast(this, it) }
-        }
+    private fun signIn(login: String, password: String) {
+        if (Utils.accountSharedPrefs.isCorrectMasterPassword(password) && Utils.accountSharedPrefs.isCorrectLogin(login)) goHome()
+        else binding.inputPasswordId.error = getString(R.string.wrong_pass)
     }
 
     private fun goHome() {
@@ -249,8 +184,6 @@ class AuthActivity : AppCompatActivity() {
     private fun isAvailable(): Boolean {
         val biometricManager = BiometricManager.from(this)
         return biometricManager.canAuthenticate(
-                BiometricManager.Authenticators.BIOMETRIC_WEAK
-                        or BiometricManager.Authenticators.DEVICE_CREDENTIAL
-        ) == BiometricManager.BIOMETRIC_SUCCESS
+                BiometricManager.Authenticators.BIOMETRIC_WEAK or BiometricManager.Authenticators.DEVICE_CREDENTIAL) == BiometricManager.BIOMETRIC_SUCCESS
     }
 }
