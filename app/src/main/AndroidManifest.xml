@@ -22,7 +22,7 @@
         tools:targetApi="s"
         android:dataExtractionRules="@xml/data_extraction_rules">
         <service
-            android:name="com.mikhailgrigorev.simple_password.common.service.QuickPassAutoFillService"
+            android:name="com.mikhailgrigorev.simple_password.common.service.SimplePasswordsAutoFillService"
             android:label="Simple Passwords"
             android:enabled="true"
             android:process=":process_description"

@@ -13,9 +13,9 @@ import com.mikhailgrigorev.simple_password.R
 import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
-class QuickPassAutoFillService : AutofillService() {
+class SimplePasswordsAutoFillService : AutofillService() {
 
-    private val _preferenceFile = "quickPassPreference"
+    private val _preferenceFile = "simplePasswordsPreference"
     private val _keyUsername = "prefUserNameKey"
 
     @SuppressLint("Recycle")

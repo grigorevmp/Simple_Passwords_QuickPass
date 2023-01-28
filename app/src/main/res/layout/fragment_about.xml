@@ -61,7 +61,7 @@
         android:id="@+id/tvAuthor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/base_margin"
+        android:layout_marginBottom="@dimen/small_margin"
         android:text="@string/app_author"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/tvYear"

@@ -222,7 +222,7 @@ class PasswordEditActivity : MyBaseActivity() {
             }
 
             val mediaStorageDir = File(
-                    applicationContext.getExternalFilesDir("QuickPassPhotos")!!.absolutePath
+                    applicationContext.getExternalFilesDir("SimplePasswordsPhotos")!!.absolutePath
             )
 
             if (!mediaStorageDir.exists()) {
@@ -674,7 +674,7 @@ class PasswordEditActivity : MyBaseActivity() {
                     setResult(1, intent)
 
                     val mediaStorageDir = File(
-                            applicationContext.getExternalFilesDir("QuickPassPhotos")!!.absolutePath
+                            applicationContext.getExternalFilesDir("SimplePasswordsPhotos")!!.absolutePath
                     )
                     if (!mediaStorageDir.exists()) {
                         mediaStorageDir.mkdirs()
@@ -920,7 +920,7 @@ class PasswordEditActivity : MyBaseActivity() {
                         val selectedImageURI: Uri = data?.data!!
 
                         val mediaStorageDir = File(
-                                applicationContext.getExternalFilesDir("QuickPassPhotos")!!.absolutePath
+                                applicationContext.getExternalFilesDir("SimplePasswordsPhotos")!!.absolutePath
                         )
                         if (!mediaStorageDir.exists()) {
                             mediaStorageDir.mkdirs()

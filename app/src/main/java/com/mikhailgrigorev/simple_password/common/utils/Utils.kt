@@ -25,7 +25,7 @@ object Utils {
 
     private var application: Application? = null
 
-    private const val preferences_file = "quickPassPreference"
+    private const val preferences_file = "simplePasswordsPreference"
     var sharedPreferences: SharedPreferences? = null
     var enSharedPrefsFile: SharedPreferences? = null
 

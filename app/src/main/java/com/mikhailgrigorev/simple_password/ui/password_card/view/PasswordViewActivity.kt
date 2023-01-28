@@ -327,7 +327,7 @@ class PasswordViewActivity : MyBaseActivity() {
 
     private fun updateAllPhotos(passwordCard: PasswordCard) {
         val mediaStorageDir = File(
-                applicationContext.getExternalFilesDir("QuickPassPhotos")!!.absolutePath
+                applicationContext.getExternalFilesDir("SimplePasswordsPhotos")!!.absolutePath
         )
         if (!mediaStorageDir.exists()) {
             mediaStorageDir.mkdirs()
