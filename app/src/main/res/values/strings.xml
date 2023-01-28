@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name" translatable="false">Simple passwords</string>
-    <string name="app_name_full" translatable="false">Simple passwords</string>
+    <string name="app_name">Simple password manager</string>
+    <string name="app_name_full">Simple password manager</string>
     <string name="hi_username">Hi,</string>
     <string name="inputLogin">Login</string>
     <string name="inputPassword">Password</string>
@@ -49,7 +49,7 @@
     <string name="chipLetters" translatable="false">abc…</string>
     <string name="upperCaseLetters" translatable="false">ABC…</string>
     <string name="chipNumbers" translatable="false">123…</string>
-    <string name="chipSym" translatable="false">./-…</string>
+    <string name="chipSym" translatable="false">app_name</string>
     <string name="length">Length: %1$d</string>
     <string name="numericValue" translatable="false">%1$.2f/5</string>
     <string name="minutesAppLock" translatable="false">%1$d m</string>
