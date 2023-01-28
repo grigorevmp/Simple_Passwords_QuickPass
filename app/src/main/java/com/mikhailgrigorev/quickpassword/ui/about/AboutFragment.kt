@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.ui.about
+package com.mikhailgrigorev.simple_password.ui.about
 
 import android.content.Intent
 import android.net.Uri
@@ -7,9 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.mikhailgrigorev.quickpassword.R
-import com.mikhailgrigorev.quickpassword.common.utils.*
-import com.mikhailgrigorev.quickpassword.databinding.FragmentAboutBinding
+import com.mikhailgrigorev.simple_password.R
+import com.mikhailgrigorev.simple_password.common.utils.*
+import com.mikhailgrigorev.simple_password.databinding.FragmentAboutBinding
 
 
 class AboutFragment : Fragment() {
@@ -60,7 +60,7 @@ class AboutFragment : Fragment() {
 
     private fun sendEmail() {
         val recipient = authorBaseMail
-        val subject = "QuickPassword app: feedback"
+        val subject = "simple_password app: feedback"
         val message = "Hello, Mikhail \n"
 
         val mIntent = Intent(Intent.ACTION_SEND)

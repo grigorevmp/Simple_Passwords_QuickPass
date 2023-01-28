@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword
+package com.mikhailgrigorev.simple_password
 
 import org.junit.Test
 

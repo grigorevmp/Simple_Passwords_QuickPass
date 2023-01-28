@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.ui.main_activity
+package com.mikhailgrigorev.simple_password.ui.main_activity
 
 import android.os.Bundle
 import android.view.View
@@ -9,12 +9,12 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.mikhailgrigorev.quickpassword.R
-import com.mikhailgrigorev.quickpassword.common.utils.Utils
-import com.mikhailgrigorev.quickpassword.databinding.ActivityMainBinding
-import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
-import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
-import com.mikhailgrigorev.quickpassword.ui.password.PasswordFragment
+import com.mikhailgrigorev.simple_password.R
+import com.mikhailgrigorev.simple_password.common.utils.Utils
+import com.mikhailgrigorev.simple_password.databinding.ActivityMainBinding
+import com.mikhailgrigorev.simple_password.di.component.DaggerApplicationComponent
+import com.mikhailgrigorev.simple_password.di.modules.RoomModule
+import com.mikhailgrigorev.simple_password.ui.password.PasswordFragment
 
 
 private lateinit var binding: ActivityMainBinding

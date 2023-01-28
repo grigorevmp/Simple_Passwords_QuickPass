@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.data.database
+package com.mikhailgrigorev.simple_password.data.database
 
 import android.content.Context
 import androidx.room.Database
@@ -7,9 +7,9 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.mikhailgrigorev.quickpassword.data.dao.PasswordCardDao
-import com.mikhailgrigorev.quickpassword.data.dbo.CustomFieldConverters
-import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
+import com.mikhailgrigorev.simple_password.data.dao.PasswordCardDao
+import com.mikhailgrigorev.simple_password.data.dbo.CustomFieldConverters
+import com.mikhailgrigorev.simple_password.data.dbo.PasswordCard
 
 
 const val PASSWORD_CARD_DB_NAME = "password_card"

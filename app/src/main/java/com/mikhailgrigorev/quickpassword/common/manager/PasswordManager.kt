@@ -1,9 +1,9 @@
-package com.mikhailgrigorev.quickpassword.common.manager
+package com.mikhailgrigorev.simple_password.common.manager
 
 import android.util.Base64
-import com.mikhailgrigorev.quickpassword.common.utils.iv
-import com.mikhailgrigorev.quickpassword.common.utils.salt
-import com.mikhailgrigorev.quickpassword.common.utils.secretKey
+import com.mikhailgrigorev.simple_password.common.utils.iv
+import com.mikhailgrigorev.simple_password.common.utils.salt
+import com.mikhailgrigorev.simple_password.common.utils.secretKey
 import java.security.SecureRandom
 import java.text.SimpleDateFormat
 import java.util.*

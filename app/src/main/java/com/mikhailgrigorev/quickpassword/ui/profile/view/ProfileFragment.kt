@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.ui.profile.view
+package com.mikhailgrigorev.simple_password.ui.profile.view
 
 import android.content.Intent
 import android.content.pm.ShortcutInfo
@@ -12,14 +12,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.mikhailgrigorev.quickpassword.R
-import com.mikhailgrigorev.quickpassword.common.utils.Utils
-import com.mikhailgrigorev.quickpassword.databinding.FragmentProfileBinding
-import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
-import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
-import com.mikhailgrigorev.quickpassword.di.modules.viewModel.injectViewModel
-import com.mikhailgrigorev.quickpassword.ui.auth.auth.AuthActivity
-import com.mikhailgrigorev.quickpassword.ui.profile.ProfileViewModel
+import com.mikhailgrigorev.simple_password.R
+import com.mikhailgrigorev.simple_password.common.utils.Utils
+import com.mikhailgrigorev.simple_password.databinding.FragmentProfileBinding
+import com.mikhailgrigorev.simple_password.di.component.DaggerApplicationComponent
+import com.mikhailgrigorev.simple_password.di.modules.RoomModule
+import com.mikhailgrigorev.simple_password.di.modules.viewModel.injectViewModel
+import com.mikhailgrigorev.simple_password.ui.auth.auth.AuthActivity
+import com.mikhailgrigorev.simple_password.ui.profile.ProfileViewModel
 import javax.inject.Inject
 
 class ProfileFragment : Fragment() {

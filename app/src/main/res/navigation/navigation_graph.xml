@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/password_fragment"
-        android:name="com.mikhailgrigorev.quickpassword.ui.password.PasswordFragment"
+        android:name="com.mikhailgrigorev.simple_password.ui.password.PasswordFragment"
         android:label="fragment_password"
         tools:layout="@layout/fragment_password" />
     <fragment
         android:id="@+id/profile_fragment"
-        android:name="com.mikhailgrigorev.quickpassword.ui.profile.view.ProfileFragment"
+        android:name="com.mikhailgrigorev.simple_password.ui.profile.view.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
@@ -28,16 +28,16 @@
     </fragment>
     <fragment
         android:id="@+id/settings_fragment"
-        android:name="com.mikhailgrigorev.quickpassword.ui.settings.SettingsFragment"
+        android:name="com.mikhailgrigorev.simple_password.ui.settings.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/profileEditFragment"
-        android:name="com.mikhailgrigorev.quickpassword.ui.profile.edit.ProfileEditFragment"
+        android:name="com.mikhailgrigorev.simple_password.ui.profile.edit.ProfileEditFragment"
         android:label="ProfileEditFragment" />
     <fragment
         android:id="@+id/aboutFragment"
-        android:name="com.mikhailgrigorev.quickpassword.ui.about.AboutFragment"
+        android:name="com.mikhailgrigorev.simple_password.ui.about.AboutFragment"
         android:label="fragment_about"
         tools:layout="@layout/fragment_about" />
 </navigation>

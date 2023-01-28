@@ -1,18 +1,18 @@
-package com.mikhailgrigorev.quickpassword.di.component
+package com.mikhailgrigorev.simple_password.di.component
 
-import com.mikhailgrigorev.quickpassword.common.Application
-import com.mikhailgrigorev.quickpassword.di.modules.AppModule
-import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
-import com.mikhailgrigorev.quickpassword.di.modules.ViewModelModule
-import com.mikhailgrigorev.quickpassword.ui.profile.edit.ProfileEditFragment
-import com.mikhailgrigorev.quickpassword.ui.profile.view.ProfileFragment
-import com.mikhailgrigorev.quickpassword.ui.folder.FolderViewActivity
-import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
-import com.mikhailgrigorev.quickpassword.ui.password.PasswordFragment
-import com.mikhailgrigorev.quickpassword.ui.password_card.create.PasswordCreateActivity
-import com.mikhailgrigorev.quickpassword.ui.password_card.edit.PasswordEditActivity
-import com.mikhailgrigorev.quickpassword.ui.password_card.view.PasswordViewActivity
-import com.mikhailgrigorev.quickpassword.ui.settings.SettingsFragment
+import com.mikhailgrigorev.simple_password.common.Application
+import com.mikhailgrigorev.simple_password.di.modules.AppModule
+import com.mikhailgrigorev.simple_password.di.modules.RoomModule
+import com.mikhailgrigorev.simple_password.di.modules.ViewModelModule
+import com.mikhailgrigorev.simple_password.ui.profile.edit.ProfileEditFragment
+import com.mikhailgrigorev.simple_password.ui.profile.view.ProfileFragment
+import com.mikhailgrigorev.simple_password.ui.folder.FolderViewActivity
+import com.mikhailgrigorev.simple_password.ui.main_activity.MainActivity
+import com.mikhailgrigorev.simple_password.ui.password.PasswordFragment
+import com.mikhailgrigorev.simple_password.ui.password_card.create.PasswordCreateActivity
+import com.mikhailgrigorev.simple_password.ui.password_card.edit.PasswordEditActivity
+import com.mikhailgrigorev.simple_password.ui.password_card.view.PasswordViewActivity
+import com.mikhailgrigorev.simple_password.ui.settings.SettingsFragment
 import dagger.Component
 import javax.inject.Singleton
 

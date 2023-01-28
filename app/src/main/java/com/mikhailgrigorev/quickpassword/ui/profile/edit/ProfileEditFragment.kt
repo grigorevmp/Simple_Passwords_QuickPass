@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.ui.profile.edit
+package com.mikhailgrigorev.simple_password.ui.profile.edit
 
 import android.net.Uri
 import android.os.Bundle
@@ -11,13 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.UserProfileChangeRequest
-import com.mikhailgrigorev.quickpassword.R
-import com.mikhailgrigorev.quickpassword.common.utils.Utils
-import com.mikhailgrigorev.quickpassword.databinding.FragmentProfileEditBinding
-import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
-import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
-import com.mikhailgrigorev.quickpassword.di.modules.viewModel.injectViewModel
-import com.mikhailgrigorev.quickpassword.ui.profile.ProfileViewModel
+import com.mikhailgrigorev.simple_password.R
+import com.mikhailgrigorev.simple_password.common.utils.Utils
+import com.mikhailgrigorev.simple_password.databinding.FragmentProfileEditBinding
+import com.mikhailgrigorev.simple_password.di.component.DaggerApplicationComponent
+import com.mikhailgrigorev.simple_password.di.modules.RoomModule
+import com.mikhailgrigorev.simple_password.di.modules.viewModel.injectViewModel
+import com.mikhailgrigorev.simple_password.ui.profile.ProfileViewModel
 import javax.inject.Inject
 
 

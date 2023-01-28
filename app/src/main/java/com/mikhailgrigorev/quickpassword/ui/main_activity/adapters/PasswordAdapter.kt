@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.ui.main_activity.adapters
+package com.mikhailgrigorev.simple_password.ui.main_activity.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
-import com.mikhailgrigorev.quickpassword.R
-import com.mikhailgrigorev.quickpassword.common.utils.PasswordQuality
-import com.mikhailgrigorev.quickpassword.common.utils.Utils
-import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
-import com.mikhailgrigorev.quickpassword.databinding.ItemPasswordCardBinding
+import com.mikhailgrigorev.simple_password.R
+import com.mikhailgrigorev.simple_password.common.utils.PasswordQuality
+import com.mikhailgrigorev.simple_password.common.utils.Utils
+import com.mikhailgrigorev.simple_password.data.dbo.PasswordCard
+import com.mikhailgrigorev.simple_password.databinding.ItemPasswordCardBinding
 
 class PasswordAdapter(
     private val passwordCards: List<PasswordCard>,

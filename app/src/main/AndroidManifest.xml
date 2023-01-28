@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.mikhailgrigorev.quickpassword">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGEE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
@@ -24,8 +23,8 @@
         tools:targetApi="s"
         android:dataExtractionRules="@xml/data_extraction_rules">
         <service
-            android:name="com.mikhailgrigorev.quickpassword.common.service.QuickPassAutoFillService"
-            android:label="QuickPass"
+            android:name="com.mikhailgrigorev.simple_password.common.service.QuickPassAutoFillService"
+            android:label="Simple Passwords"
             android:enabled="true"
             android:process=":process_description"
             android:exported="false"
@@ -90,7 +89,7 @@
             tools:ignore="LockedOrientationActivity" />
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.mikhailgrigorev.quickpassword.fileprovider"
+            android:authorities="com.mikhailgrigorev.simple_password.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

@@ -1,13 +1,13 @@
-package com.mikhailgrigorev.quickpassword.ui.pin_code.set
+package com.mikhailgrigorev.simple_password.ui.pin_code.set
 
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
-import com.mikhailgrigorev.quickpassword.R
-import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
-import com.mikhailgrigorev.quickpassword.common.utils.Utils
-import com.mikhailgrigorev.quickpassword.databinding.ActivityPinSetBinding
+import com.mikhailgrigorev.simple_password.R
+import com.mikhailgrigorev.simple_password.common.base.MyBaseActivity
+import com.mikhailgrigorev.simple_password.common.utils.Utils
+import com.mikhailgrigorev.simple_password.databinding.ActivityPinSetBinding
 
 class PinSetActivity : MyBaseActivity() {
     private lateinit var binding: ActivityPinSetBinding

@@ -1,10 +1,10 @@
-package com.mikhailgrigorev.quickpassword.common.manager
+package com.mikhailgrigorev.simple_password.common.manager
 
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.FileProvider
-import com.mikhailgrigorev.quickpassword.data.database.FOLDER_CARD_DB_NAME
-import com.mikhailgrigorev.quickpassword.data.database.PASSWORD_CARD_DB_NAME
+import com.mikhailgrigorev.simple_password.data.database.FOLDER_CARD_DB_NAME
+import com.mikhailgrigorev.simple_password.data.database.PASSWORD_CARD_DB_NAME
 import java.io.File
 
 
@@ -22,7 +22,7 @@ object BackupManager {
     fun goToFileIntent(context: Context, file: File): Intent {
         val intent = Intent(Intent.ACTION_VIEW)
         val contentUri =
-                FileProvider.getUriForFile(context, "com.mikhailgrigorev.quickpassword.fileprovider", file)
+                FileProvider.getUriForFile(context, "com.mikhailgrigorev.simple_password.fileprovider", file)
         val mimeType = context.contentResolver.getType(contentUri)
         intent.setDataAndType(contentUri, mimeType)
         intent.flags =

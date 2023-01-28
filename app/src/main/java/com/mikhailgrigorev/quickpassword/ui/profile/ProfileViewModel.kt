@@ -1,11 +1,11 @@
-package com.mikhailgrigorev.quickpassword.ui.profile
+package com.mikhailgrigorev.simple_password.ui.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mikhailgrigorev.quickpassword.common.utils.PasswordQuality
-import com.mikhailgrigorev.quickpassword.common.utils.Utils
-import com.mikhailgrigorev.quickpassword.data.repository.PasswordCardRepository
+import com.mikhailgrigorev.simple_password.common.utils.PasswordQuality
+import com.mikhailgrigorev.simple_password.common.utils.Utils
+import com.mikhailgrigorev.simple_password.data.repository.PasswordCardRepository
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(

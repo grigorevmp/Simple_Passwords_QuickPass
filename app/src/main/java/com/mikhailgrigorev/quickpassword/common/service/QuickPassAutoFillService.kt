@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.common.service
+package com.mikhailgrigorev.simple_password.common.service
 
 import android.annotation.SuppressLint
 import android.app.assist.AssistStructure.ViewNode
@@ -9,7 +9,7 @@ import android.service.autofill.*
 import android.view.autofill.AutofillValue
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
-import com.mikhailgrigorev.quickpassword.R
+import com.mikhailgrigorev.simple_password.R
 import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)

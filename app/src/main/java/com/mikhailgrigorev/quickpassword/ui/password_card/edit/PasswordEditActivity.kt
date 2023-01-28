@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.ui.password_card.edit
+package com.mikhailgrigorev.simple_password.ui.password_card.edit
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -34,18 +34,18 @@ import androidx.window.layout.WindowMetricsCalculator
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
-import com.mikhailgrigorev.quickpassword.R
-import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
-import com.mikhailgrigorev.quickpassword.common.manager.PasswordManager
-import com.mikhailgrigorev.quickpassword.common.utils.Utils
-import com.mikhailgrigorev.quickpassword.data.dbo.CustomField
-import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
-import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
-import com.mikhailgrigorev.quickpassword.databinding.ActivityPasswordEditBinding
-import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
-import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
-import com.mikhailgrigorev.quickpassword.di.modules.viewModel.injectViewModel
-import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModel
+import com.mikhailgrigorev.simple_password.R
+import com.mikhailgrigorev.simple_password.common.base.MyBaseActivity
+import com.mikhailgrigorev.simple_password.common.manager.PasswordManager
+import com.mikhailgrigorev.simple_password.common.utils.Utils
+import com.mikhailgrigorev.simple_password.data.dbo.CustomField
+import com.mikhailgrigorev.simple_password.data.dbo.FolderCard
+import com.mikhailgrigorev.simple_password.data.dbo.PasswordCard
+import com.mikhailgrigorev.simple_password.databinding.ActivityPasswordEditBinding
+import com.mikhailgrigorev.simple_password.di.component.DaggerApplicationComponent
+import com.mikhailgrigorev.simple_password.di.modules.RoomModule
+import com.mikhailgrigorev.simple_password.di.modules.viewModel.injectViewModel
+import com.mikhailgrigorev.simple_password.ui.password_card.PasswordViewModel
 import com.thebluealliance.spectrum.SpectrumPalette
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

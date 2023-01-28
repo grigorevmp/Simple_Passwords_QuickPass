@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.ui.settings
+package com.mikhailgrigorev.simple_password.ui.settings
 
 import android.app.Activity
 import android.content.Context
@@ -22,18 +22,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
-import com.mikhailgrigorev.quickpassword.R
-import com.mikhailgrigorev.quickpassword.common.manager.BackupManager
-import com.mikhailgrigorev.quickpassword.common.manager.BackupManager.goToFileIntent
-import com.mikhailgrigorev.quickpassword.common.utils.Utils
-import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
-import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
-import com.mikhailgrigorev.quickpassword.databinding.FragmentSettingsBinding
-import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
-import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
-import com.mikhailgrigorev.quickpassword.di.modules.viewModel.injectViewModel
-import com.mikhailgrigorev.quickpassword.ui.main_activity.MainViewModel
-import com.mikhailgrigorev.quickpassword.ui.pin_code.set.PinSetActivity
+import com.mikhailgrigorev.simple_password.R
+import com.mikhailgrigorev.simple_password.common.manager.BackupManager
+import com.mikhailgrigorev.simple_password.common.manager.BackupManager.goToFileIntent
+import com.mikhailgrigorev.simple_password.common.utils.Utils
+import com.mikhailgrigorev.simple_password.data.dbo.FolderCard
+import com.mikhailgrigorev.simple_password.data.dbo.PasswordCard
+import com.mikhailgrigorev.simple_password.databinding.FragmentSettingsBinding
+import com.mikhailgrigorev.simple_password.di.component.DaggerApplicationComponent
+import com.mikhailgrigorev.simple_password.di.modules.RoomModule
+import com.mikhailgrigorev.simple_password.di.modules.viewModel.injectViewModel
+import com.mikhailgrigorev.simple_password.ui.main_activity.MainViewModel
+import com.mikhailgrigorev.simple_password.ui.pin_code.set.PinSetActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.BufferedReader
@@ -448,7 +448,7 @@ class SettingsFragment: Fragment() {
         val autoFillManager: AutofillManager = context.getSystemService(AutofillManager::class.java)
         if (!autoFillManager.hasEnabledAutofillServices()) {
             val intent = Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE)
-            intent.data = Uri.parse("package:com.mikhailgrigorev.quickpassword")
+            intent.data = Uri.parse("package:com.mikhailgrigorev.simple_password")
             startActivity(intent)
         } else {
             val intent = Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE)

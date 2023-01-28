@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.common.utils
+package com.mikhailgrigorev.simple_password.common.utils
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -6,11 +6,11 @@ import android.widget.Toast
 import androidx.security.crypto.EncryptedSharedPreferences
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.auth.FirebaseAuth
-import com.mikhailgrigorev.quickpassword.common.Application
-import com.mikhailgrigorev.quickpassword.common.manager.PasswordManager
-import com.mikhailgrigorev.quickpassword.common.utils.firebase.AccountSharedPrefs
-import com.mikhailgrigorev.quickpassword.common.utils.toogles.ToggleManager
-import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
+import com.mikhailgrigorev.simple_password.common.Application
+import com.mikhailgrigorev.simple_password.common.manager.PasswordManager
+import com.mikhailgrigorev.simple_password.common.utils.firebase.AccountSharedPrefs
+import com.mikhailgrigorev.simple_password.common.utils.toogles.ToggleManager
+import com.mikhailgrigorev.simple_password.data.dbo.PasswordCard
 import java.text.SimpleDateFormat
 import java.util.*
 

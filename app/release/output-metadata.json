@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.mikhailgrigorev.quickpassword",
+  "applicationId": "com.mikhailgrigorev.simple_password",
   "variantName": "release",
   "elements": [
     {

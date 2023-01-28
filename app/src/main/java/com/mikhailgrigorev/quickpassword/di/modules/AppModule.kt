@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.di.modules
+package com.mikhailgrigorev.simple_password.di.modules
 
 import android.app.Application
 import dagger.Module

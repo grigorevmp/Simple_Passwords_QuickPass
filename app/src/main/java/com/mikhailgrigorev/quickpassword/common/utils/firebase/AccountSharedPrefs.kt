@@ -1,6 +1,6 @@
-package com.mikhailgrigorev.quickpassword.common.utils.firebase
+package com.mikhailgrigorev.simple_password.common.utils.firebase
 
-import com.mikhailgrigorev.quickpassword.common.utils.Utils
+import com.mikhailgrigorev.simple_password.common.utils.Utils
 
 object AccountSharedPrefs {
 

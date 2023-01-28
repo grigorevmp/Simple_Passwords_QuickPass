@@ -1,8 +1,8 @@
-package com.mikhailgrigorev.quickpassword.data.dao
+package com.mikhailgrigorev.simple_password.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
+import com.mikhailgrigorev.simple_password.data.dbo.PasswordCard
 
 @Dao
 interface PasswordCardDao {

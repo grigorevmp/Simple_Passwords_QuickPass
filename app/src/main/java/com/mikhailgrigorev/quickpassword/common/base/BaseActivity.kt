@@ -1,12 +1,12 @@
-package com.mikhailgrigorev.quickpassword.common.base
+package com.mikhailgrigorev.simple_password.common.base
 
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import androidx.appcompat.app.AppCompatActivity
-import com.mikhailgrigorev.quickpassword.common.utils.Utils
-import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
+import com.mikhailgrigorev.simple_password.common.utils.Utils
+import com.mikhailgrigorev.simple_password.ui.auth.login.LoginActivity
 
 
 open class MyBaseActivity : AppCompatActivity() {

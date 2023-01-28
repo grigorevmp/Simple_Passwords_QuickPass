@@ -1,12 +1,12 @@
-package com.mikhailgrigorev.quickpassword.common
+package com.mikhailgrigorev.simple_password.common
 
 import android.app.Application
 import android.os.StrictMode
 import androidx.viewbinding.BuildConfig
-import com.mikhailgrigorev.quickpassword.common.utils.Utils
-import com.mikhailgrigorev.quickpassword.di.component.ApplicationComponent
-import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
-import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
+import com.mikhailgrigorev.simple_password.common.utils.Utils
+import com.mikhailgrigorev.simple_password.di.component.ApplicationComponent
+import com.mikhailgrigorev.simple_password.di.component.DaggerApplicationComponent
+import com.mikhailgrigorev.simple_password.di.modules.RoomModule
 
 
 class Application : Application() {

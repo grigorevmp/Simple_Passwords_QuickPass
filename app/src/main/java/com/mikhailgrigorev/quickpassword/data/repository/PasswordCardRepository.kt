@@ -1,8 +1,8 @@
-package com.mikhailgrigorev.quickpassword.data.repository
+package com.mikhailgrigorev.simple_password.data.repository
 
 import androidx.lifecycle.LiveData
-import com.mikhailgrigorev.quickpassword.data.dao.PasswordCardDao
-import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
+import com.mikhailgrigorev.simple_password.data.dao.PasswordCardDao
+import com.mikhailgrigorev.simple_password.data.dbo.PasswordCard
 import javax.inject.Inject
 
 

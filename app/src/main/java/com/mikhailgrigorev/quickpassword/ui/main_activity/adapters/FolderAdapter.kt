@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.ui.main_activity.adapters
+package com.mikhailgrigorev.simple_password.ui.main_activity.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
-import com.mikhailgrigorev.quickpassword.databinding.ItemFolderCardBinding
+import com.mikhailgrigorev.simple_password.data.dbo.FolderCard
+import com.mikhailgrigorev.simple_password.databinding.ItemFolderCardBinding
 
 class FolderAdapter(
     private val folders: List<FolderCard>,

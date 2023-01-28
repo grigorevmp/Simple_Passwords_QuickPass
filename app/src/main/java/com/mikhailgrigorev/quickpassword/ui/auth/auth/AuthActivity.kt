@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.ui.auth.auth
+package com.mikhailgrigorev.simple_password.ui.auth.auth
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,12 +10,12 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.biometric.BiometricManager
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.firebase.auth.UserProfileChangeRequest
-import com.mikhailgrigorev.quickpassword.R
-import com.mikhailgrigorev.quickpassword.common.utils.Utils
-import com.mikhailgrigorev.quickpassword.databinding.ActivityAuthBinding
-import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
-import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
-import com.mikhailgrigorev.quickpassword.ui.pin_code.view.PinViewActivity
+import com.mikhailgrigorev.simple_password.R
+import com.mikhailgrigorev.simple_password.common.utils.Utils
+import com.mikhailgrigorev.simple_password.databinding.ActivityAuthBinding
+import com.mikhailgrigorev.simple_password.ui.auth.login.LoginActivity
+import com.mikhailgrigorev.simple_password.ui.main_activity.MainActivity
+import com.mikhailgrigorev.simple_password.ui.pin_code.view.PinViewActivity
 
 class AuthActivity : AppCompatActivity() {
 

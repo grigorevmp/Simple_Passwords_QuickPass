@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.ui.auth.login
+package com.mikhailgrigorev.simple_password.ui.auth.login
 
 import android.content.Intent
 import android.content.pm.ShortcutInfo
@@ -11,11 +11,11 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
-import com.mikhailgrigorev.quickpassword.R
-import com.mikhailgrigorev.quickpassword.common.utils.Utils
-import com.mikhailgrigorev.quickpassword.databinding.ActivityLoginBinding
-import com.mikhailgrigorev.quickpassword.ui.auth.auth.AuthActivity
-import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
+import com.mikhailgrigorev.simple_password.R
+import com.mikhailgrigorev.simple_password.common.utils.Utils
+import com.mikhailgrigorev.simple_password.databinding.ActivityLoginBinding
+import com.mikhailgrigorev.simple_password.ui.auth.auth.AuthActivity
+import com.mikhailgrigorev.simple_password.ui.main_activity.MainActivity
 import java.util.concurrent.Executor
 
 class LoginActivity : AppCompatActivity() {

@@ -1,19 +1,19 @@
-package com.mikhailgrigorev.quickpassword.ui.folder
+package com.mikhailgrigorev.simple_password.ui.folder
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mikhailgrigorev.quickpassword.common.base.MyBaseActivity
-import com.mikhailgrigorev.quickpassword.common.utils.Utils
-import com.mikhailgrigorev.quickpassword.data.dbo.PasswordCard
-import com.mikhailgrigorev.quickpassword.databinding.ActivityFolderViewBinding
-import com.mikhailgrigorev.quickpassword.di.component.DaggerApplicationComponent
-import com.mikhailgrigorev.quickpassword.di.modules.RoomModule
-import com.mikhailgrigorev.quickpassword.di.modules.viewModel.injectViewModel
-import com.mikhailgrigorev.quickpassword.ui.main_activity.adapters.PasswordAdapter
-import com.mikhailgrigorev.quickpassword.ui.password_card.view.PasswordViewActivity
+import com.mikhailgrigorev.simple_password.common.base.MyBaseActivity
+import com.mikhailgrigorev.simple_password.common.utils.Utils
+import com.mikhailgrigorev.simple_password.data.dbo.PasswordCard
+import com.mikhailgrigorev.simple_password.databinding.ActivityFolderViewBinding
+import com.mikhailgrigorev.simple_password.di.component.DaggerApplicationComponent
+import com.mikhailgrigorev.simple_password.di.modules.RoomModule
+import com.mikhailgrigorev.simple_password.di.modules.viewModel.injectViewModel
+import com.mikhailgrigorev.simple_password.ui.main_activity.adapters.PasswordAdapter
+import com.mikhailgrigorev.simple_password.ui.password_card.view.PasswordViewActivity
 import javax.inject.Inject
 
 class FolderViewActivity : MyBaseActivity() {

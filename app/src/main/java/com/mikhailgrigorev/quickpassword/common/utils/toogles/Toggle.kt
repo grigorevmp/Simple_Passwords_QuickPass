@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.common.utils.toogles
+package com.mikhailgrigorev.simple_password.common.utils.toogles
 
 abstract class Toggle {
     abstract fun isEnabled(): Boolean

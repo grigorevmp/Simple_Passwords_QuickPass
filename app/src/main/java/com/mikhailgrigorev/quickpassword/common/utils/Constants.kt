@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.common.utils
+package com.mikhailgrigorev.simple_password.common.utils
 
 const val authorTelegramLink = "https://t.me/grigorevmp"
 const val authorGitHubLink = "https://github.com/grigorevmp/QuickPass-Mobile-Password-manager"

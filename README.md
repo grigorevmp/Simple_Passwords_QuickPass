@@ -1,23 +1,11 @@
-# :lock: QuickPass
+# :lock: Simple Password
 
 Powerful password manager with autofill framework
 
-### Download QuickPassword: Reborn 3.0 (2022~)
-
-[Google Play](https://play.google.com/store/apps/details?id=com.mikhailgrigorev.quickpassword)
-
-### Download OLD QuickPass 2.0 (2020~2021)
-
-[Deprecated] [Google Play](https://play.google.com/store/apps/details?id=com.mikhailgrigorev.quickpassword)
-
 ### New features
 
-- Full code refactor
-- Jetpack libraries
-- Multithreading for password decoding
-- Material YOU
-- Synchronisation
-- Great speed improvements
+- Offline only version
+- Material 3.0
 
 ## App features
 
@@ -34,7 +22,7 @@ Powerful password manager with autofill framework
 - Database encryption
 - Support for themes
 - Export / Import of data
-- cgSorting
+- Sorting
 
 ##
 The program complies with the latest Material design guidelines
@@ -55,5 +43,13 @@ The program complies with the latest Material design guidelines
 
 ### Also: Analyzing quality of password and its crossing with other, Clear statistic
 
+# Deprecated versions
 
+### simple_password: Reborn 3.0 (2022)
+
+[Google Play](https://play.google.com/store/apps/details?id=com.mikhailgrigorev.simple_password)
+
+### QuickPass 2.0 (2020~2021)
+
+[Google Play](https://play.google.com/store/apps/details?id=com.mikhailgrigorev.simple_password)
 

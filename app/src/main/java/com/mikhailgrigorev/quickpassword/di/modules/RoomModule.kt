@@ -1,12 +1,12 @@
-package com.mikhailgrigorev.quickpassword.di.modules
+package com.mikhailgrigorev.simple_password.di.modules
 
-import com.mikhailgrigorev.quickpassword.common.Application
-import com.mikhailgrigorev.quickpassword.data.dao.FolderDao
-import com.mikhailgrigorev.quickpassword.data.dao.PasswordCardDao
-import com.mikhailgrigorev.quickpassword.data.database.FolderCardDatabase
-import com.mikhailgrigorev.quickpassword.data.database.PasswordCardDatabase
-import com.mikhailgrigorev.quickpassword.data.repository.FolderRepository
-import com.mikhailgrigorev.quickpassword.data.repository.PasswordCardRepository
+import com.mikhailgrigorev.simple_password.common.Application
+import com.mikhailgrigorev.simple_password.data.dao.FolderDao
+import com.mikhailgrigorev.simple_password.data.dao.PasswordCardDao
+import com.mikhailgrigorev.simple_password.data.database.FolderCardDatabase
+import com.mikhailgrigorev.simple_password.data.database.PasswordCardDatabase
+import com.mikhailgrigorev.simple_password.data.repository.FolderRepository
+import com.mikhailgrigorev.simple_password.data.repository.PasswordCardRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Inject

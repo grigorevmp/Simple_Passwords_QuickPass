@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.ui.pin_code.view
+package com.mikhailgrigorev.simple_password.ui.pin_code.view
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -9,11 +9,11 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
-import com.mikhailgrigorev.quickpassword.R
-import com.mikhailgrigorev.quickpassword.common.utils.Utils
-import com.mikhailgrigorev.quickpassword.databinding.ActivityPinViewBinding
-import com.mikhailgrigorev.quickpassword.ui.auth.login.LoginActivity
-import com.mikhailgrigorev.quickpassword.ui.main_activity.MainActivity
+import com.mikhailgrigorev.simple_password.R
+import com.mikhailgrigorev.simple_password.common.utils.Utils
+import com.mikhailgrigorev.simple_password.databinding.ActivityPinViewBinding
+import com.mikhailgrigorev.simple_password.ui.auth.login.LoginActivity
+import com.mikhailgrigorev.simple_password.ui.main_activity.MainActivity
 import java.util.concurrent.Executor
 
 class PinViewActivity : AppCompatActivity() {

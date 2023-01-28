@@ -1,11 +1,11 @@
-package com.mikhailgrigorev.quickpassword.data.database
+package com.mikhailgrigorev.simple_password.data.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.mikhailgrigorev.quickpassword.data.dao.FolderDao
-import com.mikhailgrigorev.quickpassword.data.dbo.FolderCard
+import com.mikhailgrigorev.simple_password.data.dao.FolderDao
+import com.mikhailgrigorev.simple_password.data.dbo.FolderCard
 
 const val FOLDER_CARD_DB_NAME = "folder_card"
 

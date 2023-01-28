@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.data.dbo
+package com.mikhailgrigorev.simple_password.data.dbo
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

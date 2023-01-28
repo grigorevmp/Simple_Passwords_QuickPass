@@ -1,4 +1,4 @@
-package com.mikhailgrigorev.quickpassword.di.modules.viewModel
+package com.mikhailgrigorev.simple_password.di.modules.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

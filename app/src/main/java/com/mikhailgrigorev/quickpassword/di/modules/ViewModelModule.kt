@@ -1,13 +1,13 @@
-package com.mikhailgrigorev.quickpassword.di.modules
+package com.mikhailgrigorev.simple_password.di.modules
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.mikhailgrigorev.quickpassword.di.modules.viewModel.ViewModelFactory
-import com.mikhailgrigorev.quickpassword.di.modules.viewModel.ViewModelKey
-import com.mikhailgrigorev.quickpassword.ui.profile.ProfileViewModel
-import com.mikhailgrigorev.quickpassword.ui.folder.FolderViewModel
-import com.mikhailgrigorev.quickpassword.ui.main_activity.MainViewModel
-import com.mikhailgrigorev.quickpassword.ui.password_card.PasswordViewModel
+import com.mikhailgrigorev.simple_password.di.modules.viewModel.ViewModelFactory
+import com.mikhailgrigorev.simple_password.di.modules.viewModel.ViewModelKey
+import com.mikhailgrigorev.simple_password.ui.profile.ProfileViewModel
+import com.mikhailgrigorev.simple_password.ui.folder.FolderViewModel
+import com.mikhailgrigorev.simple_password.ui.main_activity.MainViewModel
+import com.mikhailgrigorev.simple_password.ui.password_card.PasswordViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

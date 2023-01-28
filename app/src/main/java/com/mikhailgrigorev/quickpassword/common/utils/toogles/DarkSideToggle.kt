@@ -1,6 +1,6 @@
-package com.mikhailgrigorev.quickpassword.common.utils.toogles
+package com.mikhailgrigorev.simple_password.common.utils.toogles
 
-import com.mikhailgrigorev.quickpassword.common.utils.Utils
+import com.mikhailgrigorev.simple_password.common.utils.Utils
 
 object DarkSideToggle : Toggle() {
 
