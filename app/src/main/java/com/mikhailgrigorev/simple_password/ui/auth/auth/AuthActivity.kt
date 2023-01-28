@@ -19,6 +19,8 @@ import com.mikhailgrigorev.simple_password.ui.pin_code.view.PinViewActivity
 class AuthActivity : AppCompatActivity() {
 
     private val defaultRotation = 45F
+    private val forceSignUpState = true
+
     private lateinit var binding: ActivityAuthBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +51,7 @@ class AuthActivity : AppCompatActivity() {
         if (usePin) {
             intent = Intent(this, PinViewActivity::class.java)
             goToIntent = true
-        } else if (userLogin != "Stranger") {
+        } else if (userLogin != null) {
             intent = Intent(this, LoginActivity::class.java)
             goToIntent = true
         }
@@ -66,7 +68,7 @@ class AuthActivity : AppCompatActivity() {
             binding.inputPasswordId.error = null
             binding.inputPassword2Id.error = null
             binding.tilUserLogin.error = null
-            if (binding.signUpChip.isChecked) {
+            if (forceSignUpState) {
                 if (validate(binding.inputPasswordIdField.text.toString())) {
                     if (binding.inputPasswordIdField.text.toString() == binding.inputPasswordId2Field.text.toString()) {
                         signUp(
@@ -105,8 +107,16 @@ class AuthActivity : AppCompatActivity() {
                     AccelerateDecelerateInterpolator()
         }
 
+        if (forceSignUpState) {
+            binding.loginFab.hide()
+            binding.loginFab.text = getString(R.string.sign_up)
+            binding.loginFab.show()
+            binding.tilUserLogin.visibility = View.VISIBLE
+            binding.inputPassword2Id.visibility = View.VISIBLE
+        }
+
         binding.signUpChip.setOnClickListener {
-            if (binding.signUpChip.isChecked) {
+            if (forceSignUpState) {
                 binding.loginFab.hide()
                 binding.loginFab.text = getString(R.string.sign_up)
                 binding.loginFab.show()

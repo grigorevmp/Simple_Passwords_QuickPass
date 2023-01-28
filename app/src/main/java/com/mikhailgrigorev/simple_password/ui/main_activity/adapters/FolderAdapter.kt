@@ -44,12 +44,15 @@ class FolderAdapter(
         holder.folderCard.setOnClickListener {
             clickListener(position)
         }
+
         holder.folderCard.setOnLongClickListener {
             longClickListener(position, it)
             return@setOnLongClickListener (true)
         }
     }
 }
+
+
 
 class FolderViewHolder(binding: ItemFolderCardBinding) : RecyclerView.ViewHolder(binding.root) {
     val folderName = binding.tvFolderName

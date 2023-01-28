@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.mikhailgrigorev.simple_password.R
 import com.mikhailgrigorev.simple_password.common.utils.Utils
@@ -20,6 +21,8 @@ import com.mikhailgrigorev.simple_password.di.modules.RoomModule
 import com.mikhailgrigorev.simple_password.di.modules.viewModel.injectViewModel
 import com.mikhailgrigorev.simple_password.ui.auth.auth.AuthActivity
 import com.mikhailgrigorev.simple_password.ui.profile.ProfileViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ProfileFragment : Fragment() {
@@ -208,8 +211,13 @@ class ProfileFragment : Fragment() {
     }
 
     private fun deleteAccount() {
-        Utils.exitAccount()
-        removeShortcuts()
+        lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.deleteFoldersAndPasswords()
+            lifecycleScope.launch(Dispatchers.Main) {
+                Utils.exitAccount()
+                removeShortcuts()
+            }
+        }
     }
 
     private fun removeShortcuts() {

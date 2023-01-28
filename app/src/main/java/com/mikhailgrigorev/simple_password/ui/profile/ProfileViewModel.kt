@@ -5,11 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mikhailgrigorev.simple_password.common.utils.PasswordQuality
 import com.mikhailgrigorev.simple_password.common.utils.Utils
+import com.mikhailgrigorev.simple_password.data.repository.FolderRepository
 import com.mikhailgrigorev.simple_password.data.repository.PasswordCardRepository
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
-    private var passwordCardRepo: PasswordCardRepository
+    private var passwordCardRepo: PasswordCardRepository,
+    private var folderRepo: FolderRepository
 ) : ViewModel() {
     val passwords = passwordCardRepo.allData
 
@@ -34,4 +36,9 @@ class ProfileViewModel @Inject constructor(
     fun getItemsNumberWithEncrypted() = passwordCardRepo.getItemsNumberWithEncrypted()
     fun getItemsNumberWithTimeLimit() = passwordCardRepo.getItemsNumberWithTimeLimit()
     fun getPinItems() = passwordCardRepo.getPinItems()
+
+    suspend fun deleteFoldersAndPasswords() {
+        passwordCardRepo.deleteAll()
+        folderRepo.deleteAll()
+    }
 }

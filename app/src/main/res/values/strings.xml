@@ -3,11 +3,11 @@
     <string name="app_name_full">Simple password manager</string>
     <string name="hi_username">Hi,</string>
     <string name="inputLogin">Login</string>
-    <string name="inputPassword">Password</string>
-    <string name="inputPassword2">Repeat password</string>
+    <string name="inputPassword">Master password</string>
+    <string name="inputPassword2">Repeat master password</string>
     <string name="sign_in">Sign in</string>
     <string name="sign_up">Sign up</string>
-    <string name="helloSubText">Login or create new account</string>
+    <string name="helloSubText">Create new account</string>
     <string name="errNumOfText">at least 3 characters</string>
     <string name="errPass">between from 4 to 20 alphanumeric characters</string>
     <string name="log_out">Log out</string>
@@ -101,7 +101,7 @@
     <string name="auto_copy_password">Auto-copy password</string>
     <string name="about_app">About app</string>
     <string name="app_author">Mikhail Grigorev</string>
-    <string name="version_and_year" translatable="false">"v3.2.0 • 2022 "</string>
+    <string name="version_and_year" translatable="false">"v1.0.0 • 2023"</string>
     <string name="telegram" translatable="false">Telegram</string>
     <string name="vkontakte" translatable="false">Vkontakte</string>
     <string name="sen_email" translatable="false">Send email</string>

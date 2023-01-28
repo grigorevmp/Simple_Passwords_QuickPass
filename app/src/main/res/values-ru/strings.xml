@@ -4,10 +4,10 @@
     <string name="app_name_full">Менеджер паролей</string>
     <string name="hi_username">Привет,</string>
     <string name="inputLogin">Логин</string>
-    <string name="inputPassword">Пароль</string>
-    <string name="inputPassword2">Повторите пароль</string>
+    <string name="inputPassword">Мастер-пароль</string>
+    <string name="inputPassword2">Повторите мастер пароль</string>
     <string name="sign_up">Зарегистрироваться</string>
-    <string name="helloSubText">Войдите или создайте новый аккаунт</string>
+    <string name="helloSubText">Создайте новый аккаунт</string>
     <string name="sign_in">Войти</string>
     <string name="errNumOfText">по крайней мере 3 символа</string>
     <string name="errPass">необходимо ввести от 4 до 20 символов</string>

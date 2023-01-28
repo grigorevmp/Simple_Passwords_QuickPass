@@ -25,4 +25,8 @@ class FolderRepository @Inject constructor(
         folderDao.delete(fItem)
     }
 
+    suspend fun deleteAll() {
+        folderDao.deleteAll()
+    }
+
 }

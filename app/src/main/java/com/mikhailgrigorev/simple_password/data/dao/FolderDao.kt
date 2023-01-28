@@ -10,9 +10,7 @@ interface FolderDao {
     @Insert
     fun insert(card: FolderCard)
 
-    @Query(
-            "select * from folder_card"
-    )
+    @Query("select * from folder_card")
     fun getAll(): LiveData<List<FolderCard>>
 
     @Query("select * from folder_card where _id = :id")

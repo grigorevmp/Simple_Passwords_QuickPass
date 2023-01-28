@@ -95,7 +95,6 @@ class ProfileEditFragment : Fragment() {
                         try { findNavController().popBackStack() }
                         catch (e: Exception) { Log.d("PopBackStack", "strange error") }
                 } else {
-                    Log.d("Auth mail", Utils.accountSharedPrefs.getMail()!!)
                     Log.d("Auth password", password)
                     binding.cvSaving.visibility = View.GONE
                     Utils.makeToast(requireContext(), "Data saving error, please write to the app creator")

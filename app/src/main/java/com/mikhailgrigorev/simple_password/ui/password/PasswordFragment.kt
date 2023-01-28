@@ -100,7 +100,6 @@ class PasswordFragment: Fragment() {
         setHelloText()
     }
 
-
     override fun onResume() {
         super.onResume()
         setHelloText()
@@ -126,8 +125,7 @@ class PasswordFragment: Fragment() {
         setPasswordQualityText()
         setObservers()
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1)
-            generateShortcuts()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) generateShortcuts()
 
         setSortingOptions()
         setListeners()
@@ -140,6 +138,7 @@ class PasswordFragment: Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 
 
     private fun initSorting() {
@@ -593,15 +592,8 @@ class PasswordFragment: Fragment() {
         binding.rvPasswordRecycler.adapter = PasswordAdapter(
                 passwords,
                 requireContext(),
-                clickListener = {
-                    passClickListener(it)
-                },
-                longClickListener = { i: Int, view: View ->
-                    passLongClickListener(
-                            i,
-                            view
-                    )
-                }
+                clickListener = { passClickListener(it) },
+                longClickListener = { i: Int, view: View -> passLongClickListener(i, view) }
         ) {
             tagSearchClicker(it)
         }
@@ -611,15 +603,8 @@ class PasswordFragment: Fragment() {
         binding.rvFoldersRecycler.adapter = FolderAdapter(
                 folderCards,
                 requireContext(),
-                clickListener = {
-                    folderClickListener(it)
-                }
-        ) { i: Int, view: View ->
-            folderLongClickListener(
-                    i,
-                    view
-            )
-        }
+                clickListener = { folderClickListener(it) }
+        ) { i: Int, view: View -> folderLongClickListener(i, view) }
     }
 
     private fun updatePasswordQualityCirclesColor(
@@ -634,10 +619,8 @@ class PasswordFragment: Fragment() {
 
     private fun copyPassword() {
         if (binding.tePasswordToGenerate.text.toString() != "") {
-            val clipboard =
-                    requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip =
-                    ClipData.newPlainText("Password", binding.tePasswordToGenerate.text.toString())
+            val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Password", binding.tePasswordToGenerate.text.toString())
             clipboard.setPrimaryClip(clip)
             Utils.makeToast(requireContext(), getString(R.string.passCopied))
         }
@@ -657,6 +640,7 @@ class PasswordFragment: Fragment() {
     private fun notSafePasswordsClickedAction() {
         if (searchNotSafe) {
             binding.ivNotSafePasswordsCircle.setImageResource(R.drawable.circle_yellow)
+
             setObservers(
                     type = PasswordGettingType.All,
                     value = defaultPassFilterValue,
@@ -664,6 +648,7 @@ class PasswordFragment: Fragment() {
                     sortColumn = defaultPassFilterSorting,
                     isAsc = defaultPassFilterAsc
             )
+
             searchNotSafe = false
         } else {
             updatePasswordQualityCirclesColor(
@@ -676,6 +661,7 @@ class PasswordFragment: Fragment() {
                     type = PasswordGettingType.ByQuality,
                     value = PasswordQuality.MEDIUM.value
             )
+
             searchNegative = false
             searchCorrect = false
             searchNotSafe = true
@@ -803,9 +789,8 @@ class PasswordFragment: Fragment() {
         }
     }
 
-    fun View.hideKeyboard() {
-        val inputManager =
-                context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    private fun View.hideKeyboard() {
+        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 
@@ -901,6 +886,12 @@ class PasswordFragment: Fragment() {
         startActivity(intent)
     }
 
+    private fun initViewModel() {
+        viewModel = this.injectViewModel(viewModelFactory)
+    }
+
+
+
     fun favorite(view: View) {
         Log.d("favorite", view.id.toString())
         val position = globalPos
@@ -993,9 +984,5 @@ class PasswordFragment: Fragment() {
         val dialog: AlertDialog = builder.create()
         dialog.show()
         changeStatusPopUp.dismiss()
-    }
-
-    private fun initViewModel() {
-        viewModel = this.injectViewModel(viewModelFactory)
     }
 }
