@@ -27,6 +27,12 @@ class PasswordViewModel @Inject constructor(
 
     fun getFolder(id: Int) = folderRepo.getItem(id)
 
+    fun getPasswordById(id: Int): LiveData<PasswordCard> {
+        return passwordCardRepo.getItem(id)
+    }
+
+
+
     suspend fun updatePassword(password: PasswordCard) {
         passwordCardRepo.update(password)
     }
@@ -42,9 +48,5 @@ class PasswordViewModel @Inject constructor(
             currentPassword!!.favorite = !(currentPassword!!.favorite)
             passwordCardRepo.update(currentPassword!!)
         }
-    }
-
-    fun getPasswordById(id: Int): LiveData<PasswordCard> {
-        return passwordCardRepo.getItem(id)
     }
 }

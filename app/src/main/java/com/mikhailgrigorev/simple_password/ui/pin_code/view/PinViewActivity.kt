@@ -23,6 +23,8 @@ class PinViewActivity : AppCompatActivity() {
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
     private lateinit var binding: ActivityPinViewBinding
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPinViewBinding.inflate(layoutInflater)
@@ -32,6 +34,8 @@ class PinViewActivity : AppCompatActivity() {
         setListeners()
         initBio()
     }
+
+
 
     private fun initBio() {
         val hasBiometricFeature: Boolean =

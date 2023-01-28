@@ -76,7 +76,7 @@ class LoginActivity : AppCompatActivity() {
                             if (args == null || from == "none") {
                                 startActivity(intent)
                             } else {
-                                intent.putExtra("openedFrom", args.get("none").toString())
+                                intent.putExtra("openedFrom", args.getString("none"))
                             }
                             finish()
                         }
@@ -94,9 +94,7 @@ class LoginActivity : AppCompatActivity() {
             binding.fabBiometricUnlock.isClickable = true
             biometricPrompt.authenticate(promptInfo)
 
-            binding.fabBiometricUnlock.setOnClickListener {
-                biometricPrompt.authenticate(promptInfo)
-            }
+            binding.fabBiometricUnlock.setOnClickListener { biometricPrompt.authenticate(promptInfo) }
         }
 
 
@@ -110,9 +108,7 @@ class LoginActivity : AppCompatActivity() {
             if (validate(password) and (userLogin != null)) { signIn(userLogin!!, password) }
         }
 
-        binding.fabLogOut.setOnClickListener {
-            exit()
-        }
+        binding.fabLogOut.setOnClickListener { exit() }
 
     }
 
@@ -137,15 +133,12 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun validate(password: String): Boolean {
-        var valid = true
-        if (Utils.validate(password)) {
-            binding.inputPasswordId.error = getString(R.string.errPass)
-            valid = false
-        } else {
-            binding.inputPasswordId.error = null
-        }
-        return valid
+    private fun validate(password: String)= if (Utils.validate(password)) {
+        binding.inputPasswordId.error = getString(R.string.errPass)
+        false
+    } else {
+        binding.inputPasswordId.error = null
+        true
     }
 
     private fun signIn(login: String, password: String) {
@@ -156,7 +149,7 @@ class LoginActivity : AppCompatActivity() {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             } else {
-                intent.putExtra("openedFrom", args.get("none").toString())
+                intent.putExtra("openedFrom", args.getString("none"))
             }
             finish()
         } else {

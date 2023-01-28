@@ -52,6 +52,8 @@ class SettingsFragment: Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -140,7 +142,7 @@ class SettingsFragment: Fragment() {
                         try {
                             val data = result.data?.data
                             data.let { commonResult ->
-                                val dataResult = commonResult?.let { it ->
+                                val dataResult = commonResult?.let {
                                     readCSV(it)
                                 }
                                 if (dataResult != null) {

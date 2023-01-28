@@ -16,8 +16,11 @@ class MainViewModel @Inject constructor(
     private var passwordCardRepo: PasswordCardRepository,
     private var folderRepo: FolderRepository
 ) : ViewModel() {
+
     val passwords = passwordCardRepo.allData
+
     val folders = folderRepo.allData
+
 
 
     fun insertCard(item: FolderCard) {
@@ -42,16 +45,36 @@ class MainViewModel @Inject constructor(
         userLogin.postValue(data)
     }
 
+    fun getPasswordNumberWithQuality(): Triple<LiveData<Int>, LiveData<Int>, LiveData<Int>> {
+        val correct = passwordCardRepo.getItemsNumberWithQuality(PasswordQuality.HIGH.value)
+        val notSafe = passwordCardRepo.getItemsNumberWithQuality(PasswordQuality.LOW.value)
+        val negative = passwordCardRepo.getItemsNumberWithQuality(PasswordQuality.MEDIUM.value)
+        return Triple(correct, notSafe, negative)
+    }
+
+    fun getFavoriteItems() = passwordCardRepo.getFavoriteItems()
+
+    fun getItemsNumber() = passwordCardRepo.getItemsNumber()
+
+    fun getItemsNumberWith2fa() = passwordCardRepo.getItemsNumberWith2fa()
+
+    fun getItemsNumberWithEncrypted() = passwordCardRepo.getItemsNumberWithEncrypted()
+
+
+
     @JvmName("getUserLogin1")
     private fun getUserLogin(): MutableLiveData<String> = MutableLiveData(Utils.accountSharedPrefs.getLogin())
 
-    suspend fun favPassword(currentPassword: PasswordCard) {
-        currentPassword.favorite = !(currentPassword.favorite)
-        passwordCardRepo.update(currentPassword)
-    }
-
-    fun getPasswordById(id: Int): LiveData<PasswordCard> {
-        return passwordCardRepo.getItem(id)
+    fun getPasswords(
+        type: PasswordGettingType = PasswordGettingType.All,
+        name: String = "",
+        value: Int = 0,
+        columnName: String = "name",
+        isAsc: Boolean = false
+    ) = when (type) {
+        PasswordGettingType.All -> getAllPasswords(columnName, isAsc)
+        PasswordGettingType.ByName -> getPasswordByName(name, columnName, isAsc)
+        PasswordGettingType.ByQuality -> getPasswordByQuality(value, columnName, isAsc)
     }
 
     private fun getPasswordByName(
@@ -65,39 +88,18 @@ class MainViewModel @Inject constructor(
         isAsc: Boolean = false
     ) = passwordCardRepo.getAll(columnName, isAsc)
 
-    private fun getAllFolders() = folderRepo.allData
-
     private fun getPasswordByQuality(
         value: Int,
         columnName: String = "name",
         isAsc: Boolean = false
     ) = passwordCardRepo.getItemByQuality(value, columnName, isAsc)
 
-    fun getPasswordNumberWithQuality(): Triple<LiveData<Int>, LiveData<Int>, LiveData<Int>> {
-        val correct = passwordCardRepo.getItemsNumberWithQuality(PasswordQuality.HIGH.value)
-        val notSafe = passwordCardRepo.getItemsNumberWithQuality(PasswordQuality.LOW.value)
-        val negative = passwordCardRepo.getItemsNumberWithQuality(PasswordQuality.MEDIUM.value)
-        return Triple(correct, notSafe, negative)
+
+
+    suspend fun favPassword(currentPassword: PasswordCard) {
+        currentPassword.favorite = !(currentPassword.favorite)
+        passwordCardRepo.update(currentPassword)
     }
 
-    fun getFavoriteItems() = passwordCardRepo.getFavoriteItems()
-
-    fun getItemsNumber() = passwordCardRepo.getItemsNumber()
-    fun getItemsNumberWith2fa() = passwordCardRepo.getItemsNumberWith2fa()
-    fun getItemsNumberWithEncrypted() = passwordCardRepo.getItemsNumberWithEncrypted()
-
     suspend fun deleteItem(item: PasswordCard) = passwordCardRepo.delete(item)
-
-    fun getPasswords(
-        type: PasswordGettingType = PasswordGettingType.All,
-        name: String = "",
-        value: Int = 0,
-        columnName: String = "name",
-        isAsc: Boolean = false
-    ) =
-            when (type) {
-                PasswordGettingType.All -> getAllPasswords(columnName, isAsc)
-                PasswordGettingType.ByName -> getPasswordByName(name, columnName, isAsc)
-                PasswordGettingType.ByQuality -> getPasswordByQuality(value, columnName, isAsc)
-            }
 }

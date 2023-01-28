@@ -38,6 +38,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
+
     private fun setUpBottomNav(bottomNav: BottomNavigationView) {
         navController?.let { navController ->
             bottomNav.setupWithNavController(navController)
@@ -51,6 +53,8 @@ class MainActivity : AppCompatActivity() {
             )
         }
     }
+
+
 
     fun editFolder(view: View) {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)

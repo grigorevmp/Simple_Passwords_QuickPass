@@ -20,6 +20,17 @@ class PinSetActivity : MyBaseActivity() {
         setListeners()
     }
 
+    override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
+        when (keyCode) {
+            KeyEvent.KEYCODE_BACK -> {
+                finish()
+            }
+        }
+        return false
+    }
+
+
+
     private fun initHello() {
         val login = Utils.accountSharedPrefs.getLogin()!!
         val name: String = getString(R.string.hi) + " " + login
@@ -101,14 +112,4 @@ class PinSetActivity : MyBaseActivity() {
                             .substring(0, binding.inputPinIdField.text.toString().length - 1)
             )
     }
-
-    override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
-        when (keyCode) {
-            KeyEvent.KEYCODE_BACK -> {
-                finish()
-            }
-        }
-        return false
-    }
-
 }

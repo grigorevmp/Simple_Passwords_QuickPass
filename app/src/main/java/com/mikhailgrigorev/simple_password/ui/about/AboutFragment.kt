@@ -11,10 +11,11 @@ import com.mikhailgrigorev.simple_password.R
 import com.mikhailgrigorev.simple_password.common.utils.*
 import com.mikhailgrigorev.simple_password.databinding.FragmentAboutBinding
 
-
 class AboutFragment : Fragment() {
     private var _binding: FragmentAboutBinding? = null
     private val binding get() = _binding!!
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,6 +32,8 @@ class AboutFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
 
     private fun initListeners() {
         binding.ivTelegram.setOnClickListener {
@@ -63,12 +66,12 @@ class AboutFragment : Fragment() {
         val subject = "simple_password app: feedback"
         val message = "Hello, Mikhail \n"
 
-        val mIntent = Intent(Intent.ACTION_SEND)
-        mIntent.data = Uri.parse("mailto:")
-        mIntent.type = "text/plain"
-        mIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(recipient))
-        mIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
-        mIntent.putExtra(Intent.EXTRA_TEXT, message)
+        val mIntent = Intent(Intent.ACTION_SEND).setDataAndType(Uri.parse("mailto:"), "text/plain")
+                .apply {
+                    putExtra(Intent.EXTRA_EMAIL, arrayOf(recipient))
+                    putExtra(Intent.EXTRA_SUBJECT, subject)
+                    putExtra(Intent.EXTRA_TEXT, message)
+                }
         try {
             startActivity(Intent.createChooser(mIntent, getString(R.string.chooseEmail)))
         } catch (e: Exception) {

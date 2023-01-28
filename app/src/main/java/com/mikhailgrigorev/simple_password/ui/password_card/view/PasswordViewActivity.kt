@@ -64,6 +64,26 @@ class PasswordViewActivity : MyBaseActivity() {
         setListeners()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        val args: Bundle? = intent.extras
+        val passwordId = args?.getInt("password_id")
+
+        passwordId?.also { loadPassword(it) }
+    }
+
+    override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
+        when (keyCode) {
+            KeyEvent.KEYCODE_BACK -> {
+                finish()
+            }
+        }
+        return false
+    }
+
+
+
     private fun setUpAutoCopy() {
         val args: Bundle? = intent.extras
         args?.also {
@@ -499,24 +519,6 @@ class PasswordViewActivity : MyBaseActivity() {
         layoutTransition.setDuration(5000)
         layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        val args: Bundle? = intent.extras
-        val passwordId = args?.getInt("password_id")
-
-        passwordId?.also { loadPassword(it) }
-    }
-
-    override fun onKeyUp(keyCode: Int, msg: KeyEvent?): Boolean {
-        when (keyCode) {
-            KeyEvent.KEYCODE_BACK -> {
-                finish()
-            }
-        }
-        return false
     }
 
     private fun initViewModel() {

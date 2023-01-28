@@ -280,18 +280,18 @@ class PasswordFragment: Fragment() {
             }
         }
 
-        viewModel.getPasswordNumberWithQuality().first.observe(viewLifecycleOwner) { safePass_ ->
-            safePass = safePass_
+        viewModel.getPasswordNumberWithQuality().first.observe(viewLifecycleOwner) {
+            safePass = it
             setPasswordQualityText()
         }
 
-        viewModel.getPasswordNumberWithQuality().second.observe(viewLifecycleOwner) { notSafe_ ->
-            fixPass = notSafe_
+        viewModel.getPasswordNumberWithQuality().second.observe(viewLifecycleOwner) {
+            fixPass = it
             setPasswordQualityText()
         }
 
-        viewModel.getPasswordNumberWithQuality().third.observe(viewLifecycleOwner) { negative_ ->
-            unsafePass = negative_
+        viewModel.getPasswordNumberWithQuality().third.observe(viewLifecycleOwner) {
+            unsafePass = it
             setPasswordQualityText()
         }
 
@@ -500,8 +500,8 @@ class PasswordFragment: Fragment() {
                     .inflate(R.layout.dialog_add_folder, null, false)
             val materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
             customAlertDialogView.findViewById<SpectrumPalette>(R.id.spPalette)
-                    .setOnColorSelectedListener { it_ ->
-                        globalColor = "#${Integer.toHexString(it_).uppercase(Locale.getDefault())}"
+                    .setOnColorSelectedListener { color ->
+                        globalColor = "#${Integer.toHexString(color).uppercase(Locale.getDefault())}"
                     }
             materialAlertDialogBuilder.setView(customAlertDialogView)
             materialAlertDialogBuilder
@@ -817,6 +817,7 @@ class PasswordFragment: Fragment() {
         showFolderEditPopup(position, view)
     }
 
+    @SuppressLint("InflateParams")
     private fun showFolderEditPopup(position: Int, view: View) {
         val location = IntArray(2)
         view.getLocationOnScreen(location)
@@ -845,6 +846,7 @@ class PasswordFragment: Fragment() {
         )
     }
 
+    @SuppressLint("InflateParams")
     private fun showPopup(position: Int, view: View) {
         val location = IntArray(2)
         view.getLocationOnScreen(location)
@@ -913,8 +915,8 @@ class PasswordFragment: Fragment() {
                 .inflate(R.layout.dialog_add_folder, null, false)
         val materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
         customAlertDialogView.findViewById<SpectrumPalette>(R.id.spPalette)
-                .setOnColorSelectedListener { it_ ->
-                    globalColor = "#${Integer.toHexString(it_).uppercase(Locale.getDefault())}"
+                .setOnColorSelectedListener { color ->
+                    globalColor = "#${Integer.toHexString(color).uppercase(Locale.getDefault())}"
                 }
         materialAlertDialogBuilder.setView(customAlertDialogView)
         customAlertDialogView.findViewById<TextInputEditText>(

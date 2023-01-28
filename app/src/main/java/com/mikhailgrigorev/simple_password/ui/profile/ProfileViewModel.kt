@@ -15,14 +15,16 @@ class ProfileViewModel @Inject constructor(
 ) : ViewModel() {
     val passwords = passwordCardRepo.allData
 
-    fun setLoginData(data: String) {
-        userLogin.postValue(data)
-    }
-
     val userLogin = getUserLogin()
+
+
 
     @JvmName("getUserLogin1")
     private fun getUserLogin(): MutableLiveData<String> = MutableLiveData(Utils.accountSharedPrefs.getLogin())
+
+    fun setLoginData(data: String) {
+        userLogin.postValue(data)
+    }
 
     fun getPasswordNumberWithQuality(): Triple<LiveData<Int>, LiveData<Int>, LiveData<Int>> {
         val correct = passwordCardRepo.getItemsNumberWithQuality(PasswordQuality.HIGH.value)

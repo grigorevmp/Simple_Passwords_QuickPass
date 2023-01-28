@@ -129,8 +129,8 @@ class PasswordEditActivity : MyBaseActivity() {
                 .build().inject(this)
 
         val args: Bundle? = intent.extras
-        login = args?.get("login").toString()
-        val passwordId = args?.get("password_id").toString().toInt()
+        login = args?.getString("login")!!
+        val passwordId = args.getInt("password_id")
 
         initViewModel()
         loadPassword(passwordId)
@@ -330,8 +330,8 @@ class PasswordEditActivity : MyBaseActivity() {
                     .inflate(R.layout.dialog_add_folder, null, false)
             val materialAlertDialogBuilder = MaterialAlertDialogBuilder(this)
             customAlertDialogView.findViewById<SpectrumPalette>(R.id.spPalette)
-                    .setOnColorSelectedListener { it_ ->
-                        globalColor = "#${Integer.toHexString(it_).uppercase(Locale.getDefault())}"
+                    .setOnColorSelectedListener { color ->
+                        globalColor = "#${Integer.toHexString(color).uppercase(Locale.getDefault())}"
                     }
             materialAlertDialogBuilder.setView(customAlertDialogView)
             materialAlertDialogBuilder

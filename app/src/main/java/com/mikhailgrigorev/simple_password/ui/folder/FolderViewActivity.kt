@@ -24,6 +24,8 @@ class FolderViewActivity : MyBaseActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFolderViewBinding.inflate(layoutInflater)
@@ -39,6 +41,8 @@ class FolderViewActivity : MyBaseActivity() {
         setObservers()
 
     }
+
+
 
     private fun initLayout() {
         binding.rvPasswordRecycler.setHasFixedSize(true)
@@ -57,37 +61,36 @@ class FolderViewActivity : MyBaseActivity() {
 
     private fun setObservers() {
         val args: Bundle? = intent.extras
-        val folderId = args?.get("folder_id").toString().toInt()
-        val folderName = args?.get("folder_name").toString()
+        val folderId = args?.getInt("folder_id")
+        val folderName = args?.getString("folder_name")
         binding.tvFolderName.text = folderName
 
-        viewModel.getPasswordsFromFolder(folderId).observe(this) { passwords ->
-            passwordCards = passwords
-            if(passwords.isEmpty()){
-                binding.tvNoPasswordsInFolder.visibility = View.VISIBLE
-                binding.rvPasswordRecycler.visibility = View.GONE
-            }
-            binding.rvPasswordRecycler.adapter = PasswordAdapter(
-                    passwords,
-                    this,
-                    clickListener = {
-                        passClickListener(it)
-                    },
-                    longClickListener = { i: Int, view: View ->
-                        passLongClickListener(
-                                i,
-                                view
-                        )
-                    }
-            ) {
-                tagSearchClicker(it)
+        if (folderId != null) {
+            viewModel.getPasswordsFromFolder(folderId).observe(this) { passwords ->
+                passwordCards = passwords
+                if(passwords.isEmpty()){
+                    binding.tvNoPasswordsInFolder.visibility = View.VISIBLE
+                    binding.rvPasswordRecycler.visibility = View.GONE
+                }
+                binding.rvPasswordRecycler.adapter = PasswordAdapter(
+                        passwords,
+                        this,
+                        clickListener = {
+                            passClickListener(it)
+                        },
+                        longClickListener = { _, _ ->
+                            passLongClickListener()
+                        }
+                ) {
+                    tagSearchClicker()
+                }
             }
         }
     }
 
-    private fun tagSearchClicker(string: String) {}
+    private fun tagSearchClicker() {}
 
-    private fun passLongClickListener(i: Int, view: View) {}
+    private fun passLongClickListener() {}
 
     private fun passClickListener(position: Int) {
         val intent = Intent(this, PasswordViewActivity::class.java)
@@ -96,6 +99,6 @@ class FolderViewActivity : MyBaseActivity() {
     }
 
     private fun initViewModel() {
-        viewModel = this.injectViewModel<FolderViewModel>(viewModelFactory)
+        viewModel = this.injectViewModel(viewModelFactory)
     }
 }

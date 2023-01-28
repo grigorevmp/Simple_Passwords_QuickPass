@@ -202,8 +202,8 @@ class PasswordCreateActivity : MyBaseActivity() {
                     .inflate(R.layout.dialog_add_folder, null, false)
             val materialAlertDialogBuilder = MaterialAlertDialogBuilder(this)
             customAlertDialogView.findViewById<SpectrumPalette>(R.id.spPalette)
-                    .setOnColorSelectedListener { it_ ->
-                        globalColor = "#${Integer.toHexString(it_).uppercase(Locale.getDefault())}"
+                    .setOnColorSelectedListener { color ->
+                        globalColor = "#${Integer.toHexString(color).uppercase(Locale.getDefault())}"
                     }
             materialAlertDialogBuilder.setView(customAlertDialogView)
             materialAlertDialogBuilder
