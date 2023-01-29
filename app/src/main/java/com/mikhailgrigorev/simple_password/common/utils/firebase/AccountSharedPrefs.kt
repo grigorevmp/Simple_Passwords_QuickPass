@@ -9,6 +9,7 @@ object AccountSharedPrefs {
         Utils.sharedPreferences!!.edit().remove("prefMail").apply()
         Utils.sharedPreferences!!.edit().remove("prefLocalAccount").apply()
         Utils.sharedPreferences!!.edit().remove("prefMasterKey").apply()
+        Utils.sharedPreferences!!.edit().remove("prefAvatarEmoji").apply()
     }
 
     fun isCorrectLogin(login: String): Boolean {

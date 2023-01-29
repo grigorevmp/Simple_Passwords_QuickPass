@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Simple password manager</string>
+    <string name="app_name">Password manager</string>
     <string name="app_name_full">Simple password manager</string>
     <string name="hi_username">Hi,</string>
     <string name="inputLogin">Login</string>

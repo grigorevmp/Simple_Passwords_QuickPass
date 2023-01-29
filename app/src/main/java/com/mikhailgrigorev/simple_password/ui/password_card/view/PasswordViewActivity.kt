@@ -248,9 +248,11 @@ class PasswordViewActivity : MyBaseActivity() {
         if (folder != null) {
             if (folder > 0) {
                 viewModel.getFolder(folder).observe(this) {
-                    binding.cFolderName.visibility = View.VISIBLE
-                    binding.cFolderName.text = it.name
-                    binding.tvAdditionalSettings.visibility = View.VISIBLE
+                    if(it != null) {
+                        binding.cFolderName.visibility = View.VISIBLE
+                        binding.cFolderName.text = it.name
+                        binding.tvAdditionalSettings.visibility = View.VISIBLE
+                    }
                 }
             }
         }

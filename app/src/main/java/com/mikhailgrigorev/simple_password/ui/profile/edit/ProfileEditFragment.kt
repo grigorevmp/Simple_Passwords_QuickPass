@@ -99,6 +99,7 @@ class ProfileEditFragment : Fragment() {
                 } else {
                     Log.d("Auth password", password)
                     binding.cvSaving.visibility = View.GONE
+                    binding.tilPassword.error = getString(R.string.wrong_pass)
                     Utils.makeToast(requireContext(), "Data saving error, please write to the app creator")
                 }
             }

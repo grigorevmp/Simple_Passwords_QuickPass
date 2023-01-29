@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">Simple password manager</string>
+    <string name="app_name">Password manager</string>
     <string name="app_name_full">Simple password manager</string>
     <string name="hi_username">こんにちは、</string>
     <string name="inputLogin">ログイン</string>

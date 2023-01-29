@@ -2,33 +2,35 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
+        android:name=".common.Application"
         android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
-        android:name=".common.Application"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.QP"
-        tools:targetApi="s"
-        android:dataExtractionRules="@xml/data_extraction_rules">
+        tools:targetApi="s">
         <service
             android:name="com.mikhailgrigorev.simple_password.common.service.SimplePasswordsAutoFillService"
-            android:label="Simple Passwords"
             android:enabled="true"
-            android:process=":process_description"
             android:exported="false"
-            tools:node="replace"
-            android:permission="android.permission.BIND_AUTOFILL_SERVICE">
+            android:label="Simple Passwords"
+            android:permission="android.permission.BIND_AUTOFILL_SERVICE"
+            android:process=":process_description"
+            tools:node="replace">
             <intent-filter>
                 <action android:name="android.service.autofill.AutofillService" />
             </intent-filter>
@@ -64,11 +66,11 @@
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.auth.auth.AuthActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.QP.Starting"
-            android:exported="true">
+            android:windowSoftInputMode="adjustResize"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
                 <action android:name="android.intent.action.MAIN" />
@@ -77,8 +79,8 @@
         <activity
             android:name=".ui.auth.login.LoginActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.main_activity.MainActivity"
             android:exported="true"
@@ -86,6 +88,7 @@
             android:theme="@style/Theme.QP.Main"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
             tools:ignore="LockedOrientationActivity" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.mikhailgrigorev.simple_password.fileprovider"

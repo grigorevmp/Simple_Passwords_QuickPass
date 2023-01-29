@@ -129,8 +129,8 @@ class PasswordEditActivity : MyBaseActivity() {
                 .build().inject(this)
 
         val args: Bundle? = intent.extras
-        login = args?.getString("login")!!
-        val passwordId = args.getInt("password_id")
+        login = Utils.accountSharedPrefs.getLogin() ?: return
+        val passwordId = args?.getInt("password_id") ?: return
 
         initViewModel()
         loadPassword(passwordId)

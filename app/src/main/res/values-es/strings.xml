@@ -194,6 +194,6 @@
     <string name="custom_value_field_hint">Formato: \'clave1,valor1 clave2,valor2\'</string>
     <string name="local_account">Perfil local</string>
     <string name="local_profile">Perfil local</string>
-    <string name="app_name">Simple password manager</string>
+    <string name="app_name">Password manager</string>
     <string name="app_name_full">Simple password manager</string>
 </resources>
