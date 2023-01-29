@@ -27,9 +27,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal"
+            android:padding="@dimen/small_padding"
             android:paddingStart="@dimen/small_margin"
-            android:paddingEnd="@dimen/small_margin"
-            android:padding="@dimen/small_padding">
+            android:paddingEnd="@dimen/small_margin">
 
             <LinearLayout
                 android:layout_width="0dp"

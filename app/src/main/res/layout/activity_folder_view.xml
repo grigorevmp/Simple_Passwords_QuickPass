@@ -47,7 +47,6 @@
                 app:layout_constraintStart_toEndOf="@+id/ivBackButton"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvPasswordRecycler"
                 android:layout_width="match_parent"
@@ -78,9 +77,8 @@
 
             </TextView>
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
 
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

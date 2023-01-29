@@ -534,9 +534,9 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/localAccount"
+                style="@style/Widget.Material3.Chip.Assist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Widget.Material3.Chip.Assist"
                 android:layout_marginTop="@dimen/small_margin"
                 android:text="@string/local_profile"
                 app:layout_constraintEnd_toEndOf="parent"

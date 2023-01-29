@@ -7,7 +7,6 @@
     android:animateLayoutChanges="true"
     tools:context=".ui.about.AboutFragment">
 
-
     <ImageView
         android:id="@+id/appIcon"
         android:layout_width="@dimen/about_icon_size"
@@ -171,6 +170,7 @@
                         app:srcCompat="@drawable/ic_contact_mail"
                         app:tint="@color/white" />
                 </androidx.cardview.widget.CardView>
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -205,6 +205,7 @@
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
+
     </LinearLayout>
 
 

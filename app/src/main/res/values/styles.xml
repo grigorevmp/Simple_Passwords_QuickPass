@@ -1,4 +1,5 @@
 <resources>
+
     <style name="popUpAnim" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/popup_on</item>
         <item name="android:windowExitAnimation">@anim/popup_off</item>
@@ -8,7 +9,7 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorPrimary">@color/black</item>
         <item name="android:windowBackground">@drawable/alert_dialog</item>
-        <item name="android:useDefaultMargins"> true</item>
+        <item name="android:useDefaultMargins">true</item>
     </style>
 
     <style name="MySeekBar" parent="Widget.AppCompat.SeekBar">
@@ -16,42 +17,52 @@
     </style>
 
 
+
     <style name="AppThemeRed" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ic_account_Red</item>
         <item name="colorAccent">@color/ic_account_Red_Tr</item>
     </style>
+
     <style name="AppThemePink" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ic_account_Pink</item>
         <item name="colorAccent">@color/ic_account_Pink_Tr</item>
     </style>
+
     <style name="AppThemePurple" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ic_account_Purple</item>
         <item name="colorAccent">@color/ic_account_Purple_Tr</item>
     </style>
+
     <style name="AppThemeViolet" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ic_account_Violet</item>
         <item name="colorAccent">@color/ic_account_Violet_Tr</item>
     </style>
+
     <style name="AppThemeDarkViolet" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ic_account_Dark_Violet</item>
         <item name="colorAccent">@color/ic_account_Dark_Violet_Tr</item>
     </style>
+
     <style name="AppThemeBlue" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ic_account_Blue</item>
         <item name="colorAccent">@color/ic_account_Blue_Tr</item>
     </style>
+
     <style name="AppThemeCyan" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ic_account_Cyan</item>
         <item name="colorAccent">@color/ic_account_Cyan_Tr</item>
     </style>
+
     <style name="AppThemeTeal" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ic_account_Teal</item>
         <item name="colorAccent">@color/ic_account_Teal_Tr</item>
     </style>
+
     <style name="AppThemeGreen" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ic_account_Green</item>
         <item name="colorAccent">@color/ic_account_Green_Tr</item>
     </style>
+
     <style name="AppThemeLightGreen" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ic_account_lightGreen</item>
         <item name="colorAccent">@color/ic_account_lightGreen_Tr</item>

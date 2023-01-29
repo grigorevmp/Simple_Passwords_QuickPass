@@ -247,7 +247,9 @@
                     android:src="@drawable/content_save_outline"
                     app:tint="@color/black" />
             </LinearLayout>
+
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

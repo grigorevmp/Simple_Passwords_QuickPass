@@ -29,6 +29,7 @@
             android:indeterminate="true"
             android:indeterminateTint="?attr/colorPrimary"
             android:indeterminateTintMode="src_atop" />
+
     </androidx.cardview.widget.CardView>
 
     <ImageView
@@ -87,6 +88,7 @@
             android:maxLength="5"
             android:hint="@string/avatar_emoji"
             android:inputType="textPersonName" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -111,6 +113,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/inputLogin"
             android:inputType="textPersonName" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -151,6 +154,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/pass"
             android:inputType="textPassword" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -177,6 +181,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/new_pass"
             android:inputType="textPassword" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.cardview.widget.CardView
