@@ -2,11 +2,11 @@
 
 # Download
 
-<img src="https://cdni.comss.net/logo/logo-rustore.png" width="20%">
+<img src="https://cdni.comss.net/logo/logo-rustore.png" width="10%">
 
 RuStore: [Download](https://apps.rustore.ru/app/com.mikhailgrigorev.simple_password)
 
-<img src="https://cdn-icons-png.flaticon.com/512/732/732208.png" width="20%">
+<img src="https://cdn-icons-png.flaticon.com/512/732/732208.png" width="10%">
 
 GooglePlay: [Download](https://play.google.com/store/apps/details?id=com.mikhailgrigorev.simple_password)
 
