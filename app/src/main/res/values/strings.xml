@@ -49,7 +49,7 @@
     <string name="chipLetters" translatable="false">abc…</string>
     <string name="upperCaseLetters" translatable="false">ABC…</string>
     <string name="chipNumbers" translatable="false">123…</string>
-    <string name="chipSym" translatable="false">app_name</string>
+    <string name="chipSym" translatable="false">./-…</string>
     <string name="length">Length: %1$d</string>
     <string name="numericValue" translatable="false">%1$.2f/5</string>
     <string name="minutesAppLock" translatable="false">%1$d m</string>
@@ -101,7 +101,7 @@
     <string name="auto_copy_password">Auto-copy password</string>
     <string name="about_app">About app</string>
     <string name="app_author">Mikhail Grigorev</string>
-    <string name="version_and_year" translatable="false">"v1.0.0 • 2023"</string>
+    <string name="version_and_year" translatable="false">v1.0.1 • 2023</string>
     <string name="telegram" translatable="false">Telegram</string>
     <string name="vkontakte" translatable="false">Vkontakte</string>
     <string name="sen_email" translatable="false">Send email</string>
@@ -148,7 +148,8 @@
     <string name="exported">Exported successfully to sdcard.</string>
     <string name="imported">Imported successfully from sdcard.</string>
     <string name="inOut">Local backup</string>
-    <string name="InOutMessage">При сохранении данных будет открыто 2 файла в формате csv, вам следует самостоятельно сохранить их на устройство, это сделано во избежании образования утечки данных</string>
+    <string name="importFromGoogle">Import from Google Passwords</string>
+    <string name="InOutMessage">When you save the data, 2 files in csv format will be opened, you should save them to the device yourself, this is done to avoid data leakage</string>
     <string name="InOutMessage3">You can create csv yourself in the format: (_id, name, password, 2fa, useTimeNotifications, time, tags, groups, login (or e-mail), description). Id, time - will be filled automatically, 2fa, usetime take 1 or 0 depending on usage. Groups initialized to \"#favorite\" if the password is in the favorites</string>
     <string name="warning">Warning!</string>
     <string name="latest_updates_on_my_github_page">Latest updates on my GitHub page</string>
@@ -186,8 +187,7 @@
     <string name="slowLoading">Enabling encryption slows down the loading of the password list</string>
     <string name="pin">PIN</string>
     <string name="newPassIdea"> Password creation idea</string>
-    <string name="newPassIdea1">Come up with a keyword like kitten. Create a password without specifying it in the application, add a keyword to the end of the password on the service. "Sup3rP4s55kitten"
-     So, even if an attacker gets this database, he will not get access to services.</string>
+    <string name="newPassIdea1">Come up with a keyword like kitten. Create a password without specifying it in the application, add a keyword to the end of the password on the service. "Sup3rP4s55kitten"\nSo, even if an attacker gets this database, he will not get access to services.</string>
     <string name="warnQuality">Quality of encrypted passwords won\'t be analyzed on the main screen</string>
     <string name="tooEasyText">Your password/pin is one of the most popular</string>
     <string name="donut">Donut</string>
@@ -240,5 +240,7 @@
     <string name="custom_value_field_hint">Format: \'key1,value1 key2,value2\'</string>
     <string name="local_account">Local account</string>
     <string name="local_profile">Local profile</string>
+    <string name="import_db_failed">There is a problem with some passwords</string>
+    <string name="import_db_folder_ok">All passwords imported</string>
 
 </resources>

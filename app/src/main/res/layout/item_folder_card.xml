@@ -11,10 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center|end"
-        android:layout_marginStart="@dimen/base_card_vertical_margin"
-        android:layout_marginTop="@dimen/base_card_vertical_margin"
-        android:layout_marginEnd="@dimen/base_card_vertical_margin"
-        android:layout_marginBottom="@dimen/base_card_vertical_margin"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginEnd="@dimen/small_margin"
+        android:layout_marginBottom="@dimen/small_margin"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
@@ -65,7 +65,7 @@
                 android:layout_marginStart="@dimen/base_margin"
                 android:visibility="gone"
                 card_view:cardBackgroundColor="@color/yellow_quality"
-                card_view:cardCornerRadius="@dimen/extra_base_card_radius"
+                card_view:cardCornerRadius="@dimen/extra_small_card_radius"
                 card_view:cardElevation="@dimen/base_card_elevation"
                 tools:visibility="visible" />
 

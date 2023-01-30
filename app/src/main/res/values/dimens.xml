@@ -1,30 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Buttons -->
     <dimen name="box_size">55dp</dimen>
-    <dimen name="base_card_radius">15dp</dimen>
-    <dimen name="small_card_radius">10dp</dimen>
-    <dimen name="extra_base_card_radius">5dp</dimen>
-    <dimen name="base_card_elevation">3dp</dimen>
-    <dimen name="micro_card_elevation">2dp</dimen>
-    <dimen name="base_card_vertical_margin">10dp</dimen>
-    <dimen name="small_card_horizontal_margin">10dp</dimen>
-    <dimen name="x_small_card_horizontal_margin">5dp</dimen>
-    <dimen name="base_card_horizontal_margin">20dp</dimen>
-    <dimen name="medium_card_vertical_margin">20dp</dimen>
-    <dimen name="big_text_vertical_margin">40dp</dimen>
     <dimen name="image_button_size_20">20dp</dimen>
     <dimen name="image_button_size_15">15dp</dimen>
     <dimen name="image_button_size_10">10dp</dimen>
-    <dimen name="small_padding">10dp</dimen>
-    <dimen name="medium_padding">15dp</dimen>
-    <dimen name="base_elevation">20dp</dimen>
+
+    <!-- Padding -->
+    <dimen name="small_padding">8dp</dimen>
+    <dimen name="medium_padding">16dp</dimen>
+
+    <!-- Card elevation -->
+    <dimen name="micro_card_elevation">2dp</dimen>
+    <dimen name="base_card_elevation">4dp</dimen>
+
+    <!-- Card radius -->
+    <dimen name="extra_small_card_radius">4dp</dimen>
+    <dimen name="small_card_radius">8dp</dimen>
+    <dimen name="base_card_radius">16dp</dimen>
+
+    <!-- Elevation -->
+    <dimen name="small_elevation">8dp</dimen>
     <dimen name="plus_elevation">11dp</dimen>
-    <dimen name="medium_elevation">25dp</dimen>
-    <dimen name="small_elevation">10dp</dimen>
-    <dimen name="base_margin">20dp</dimen>
-    <dimen name="medium_margin">30dp</dimen>
-    <dimen name="small_margin">10dp</dimen>
+    <dimen name="base_elevation">16dp</dimen>
+    <dimen name="medium_elevation">24dp</dimen>
+
+    <!-- Margin -->
+    <dimen name="extra_small_margin">4dp</dimen>
+    <dimen name="small_margin">8dp</dimen>
+    <dimen name="base_margin">16dp</dimen>
+    <dimen name="base_margin_40">40dp</dimen>
+    <dimen name="medium_margin">32dp</dimen>
+    <dimen name="huge_margin">64dp</dimen>
     <dimen name="max_width">100dp</dimen>
+
+    <!-- Text input -->
     <dimen name="text_input_margin_end_huge">95dp</dimen>
 
     <!-- Login page -->
@@ -35,7 +46,6 @@
     <dimen name="about_icon_size">100dp</dimen>
     <dimen name="about_small_icon_size">32dp</dimen>
     <dimen name="about_x_small_icon_size">20dp</dimen>
-    <dimen name="about_bottom_margin">30dp</dimen>
     <dimen name="account_logo_size">70dp</dimen>
     <dimen name="account_logo_radius_size">35dp</dimen>
     <dimen name="fragment_title">24sp</dimen>
