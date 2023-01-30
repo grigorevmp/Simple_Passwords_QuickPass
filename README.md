@@ -1,5 +1,7 @@
 # :lock: Simple Password
 
+Powerful password manager with autofill framework
+
 # Download
 
 <img src="https://cdni.comss.net/logo/logo-rustore.png" width="10%">
@@ -10,11 +12,12 @@ RuStore: [Download](https://apps.rustore.ru/app/com.mikhailgrigorev.simple_passw
 
 GooglePlay: [Download](https://play.google.com/store/apps/details?id=com.mikhailgrigorev.simple_password)
 
-Powerful password manager with autofill framework
+<img src="https://github.com/grigorevmp/Simple_Passwords_QuickPass/blob/simple-password/app/src/main/res/drawable/logo.png" width="10%">
 
 ### New features
 
 - Offline only version
+- Import from Google Passwords
 - Material 3.0
 
 ## App features
@@ -62,4 +65,3 @@ The program complies with the latest Material design guidelines
 ### QuickPass 2.0 (2020~2021)
 
 [Google Play](https://play.google.com/store/apps/details?id=com.mikhailgrigorev.simple_password)
-
