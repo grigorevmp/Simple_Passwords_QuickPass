@@ -1,5 +1,9 @@
 # :lock: Simple Password
 
+RuStore: [Download](https://apps.rustore.ru/app/com.mikhailgrigorev.simple_password)
+
+GooglePlay: [Download](https://play.google.com/store/apps/details?id=com.mikhailgrigorev.simple_password)
+
 Powerful password manager with autofill framework
 
 ### New features
