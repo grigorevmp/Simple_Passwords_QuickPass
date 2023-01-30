@@ -287,6 +287,7 @@
                                 android:layout_marginStart="@dimen/base_margin"
                                 android:layout_weight="1"
                                 android:text="@string/autofill_Desc" />
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -319,7 +320,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginTop="@dimen/medium_margin"
                 android:layout_marginEnd="@dimen/base_margin"
                 android:layout_marginBottom="@dimen/small_margin"
                 android:text="@string/inOut"
@@ -347,7 +348,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
 
                     <TextView
                         android:layout_width="match_parent"
@@ -378,16 +378,14 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cvExportButtons"
+                android:id="@+id/cvImpExButtons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginTop="@dimen/medium_margin"
                 android:layout_marginEnd="@dimen/base_margin"
-                android:layout_marginBottom="@dimen/base_margin"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="@dimen/base_card_radius"
                 app:cardElevation="@dimen/small_margin"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cvWarningRulesCard"
                 app:layout_constraintVertical_bias="0.0">
@@ -414,6 +412,59 @@
 
                     <ImageButton
                         android:id="@+id/ibImportDatabases"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/small_margin"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:contentDescription="@string/importFile"
+                        android:focusable="true"
+                        android:paddingStart="@dimen/base_margin"
+                        android:paddingEnd="@dimen/base_margin"
+                        android:src="@drawable/download"
+                        app:tint="@color/black" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tvImportFromGoogle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:layout_marginEnd="@dimen/base_margin"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:text="@string/importFromGoogle"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cvImpExButtons" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvImportFromGooglePasswords"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:layout_marginBottom="@dimen/medium_margin"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/base_card_radius"
+                app:cardElevation="@dimen/small_margin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvImportFromGoogle"
+                app:layout_constraintVertical_bias="0.0">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/small_margin"
+                    android:gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/ibImportDatabasesFromGoogle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/small_margin"

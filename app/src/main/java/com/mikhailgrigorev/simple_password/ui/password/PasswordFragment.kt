@@ -911,44 +911,30 @@ class PasswordFragment: Fragment() {
         val folder = folderCards[position]
         changeFolderPopUp.dismiss()
 
-        val customAlertDialogView = LayoutInflater.from(requireContext())
-                .inflate(R.layout.dialog_add_folder, null, false)
+        val customAlertDialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_folder, null, false)
+
         val materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
+
         customAlertDialogView.findViewById<SpectrumPalette>(R.id.spPalette)
                 .setOnColorSelectedListener { color ->
                     globalColor = "#${Integer.toHexString(color).uppercase(Locale.getDefault())}"
                 }
+
         materialAlertDialogBuilder.setView(customAlertDialogView)
-        customAlertDialogView.findViewById<TextInputEditText>(
-                R.id.etFolderName
-        )
-                .setText(
-                        folder.name
-                )
-        customAlertDialogView.findViewById<TextInputEditText>(
-                R.id.etFolderDesc
-        )
-                .setText(
-                        folder.description
-                )
+
+        customAlertDialogView.findViewById<TextInputEditText>(R.id.etFolderName).setText(folder.name)
+        customAlertDialogView.findViewById<TextInputEditText>(R.id.etFolderDesc).setText(folder.description)
+
         materialAlertDialogBuilder
                 .setView(customAlertDialogView)
                 .setTitle("Folder editor")
                 .setMessage("Current configuration details")
                 .setPositiveButton("Ok") { dialog, _ ->
-                    folder.name =
-                            customAlertDialogView.findViewById<TextInputEditText>(
-                                    R.id.etFolderName
-                            ).text.toString()
-                    folder.description =
-                            customAlertDialogView.findViewById<TextInputEditText>(
-                                    R.id.etFolderDesc
-                            ).text.toString()
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        viewModel.updateCard(
-                                folder
-                        )
-                    }
+                    folder.name = customAlertDialogView.findViewById<TextInputEditText>(R.id.etFolderName).text.toString()
+                    folder.description = customAlertDialogView.findViewById<TextInputEditText>(R.id.etFolderDesc).text.toString()
+                    folder.colorTag = globalColor
+
+                    lifecycleScope.launch(Dispatchers.IO) { viewModel.updateCard(folder) }
 
                     dialog.dismiss()
 

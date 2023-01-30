@@ -51,8 +51,8 @@ class ProfileFragment : Fragment() {
         val view = binding.root
 
         DaggerApplicationComponent.builder()
-                .roomModule(Utils.getApplication()?.let { RoomModule(it) })
-                .build().inject(this)
+            .roomModule(Utils.getApplication()?.let { RoomModule(it) })
+            .build().inject(this)
 
         checkAnalyze()
         initViewModel()
@@ -181,14 +181,11 @@ class ProfileFragment : Fragment() {
 
     private fun setListeners() {
         binding.ivAboutApp.setOnClickListener {
-            findNavController().navigate(
-                    ProfileFragmentDirections.actionProfileFragmentToAboutFragment()
-            )
+            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToAboutFragment())
         }
 
         binding.cvEditAccount.setOnClickListener {
-            findNavController().navigate(
-                    ProfileFragmentDirections.actionProfileFragmentToProfileEditFragment())
+            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToProfileEditFragment())
         }
 
         binding.ivDeleteAccount.setOnClickListener {
@@ -225,9 +222,7 @@ class ProfileFragment : Fragment() {
 
         val shortcutManager: ShortcutManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            shortcutManager =
-                    requireContext().getSystemService(ShortcutManager::class.java)!!
-
+            shortcutManager = requireContext().getSystemService(ShortcutManager::class.java)!!
             shortcutManager.dynamicShortcuts = shortcutList
         }
 

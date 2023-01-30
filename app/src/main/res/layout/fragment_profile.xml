@@ -114,7 +114,7 @@
                 android:id="@+id/cvAccountAvatar"
                 android:layout_width="@dimen/account_logo_size"
                 android:layout_height="@dimen/account_logo_size"
-                android:layout_marginTop="@dimen/max_width"
+                android:layout_marginTop="@dimen/medium_margin"
                 android:backgroundTint="@color/white"
                 app:cardCornerRadius="@dimen/account_logo_radius_size"
                 app:cardElevation="@dimen/base_card_elevation"
@@ -231,56 +231,40 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/deleteCard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginTop="@dimen/base_margin"
-                android:layout_marginBottom="30dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="@dimen/base_card_radius"
-                app:cardElevation="@dimen/small_elevation"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cvWarningAccountCard"
-                app:layout_constraintVertical_bias="1.0">
-
-                <ImageButton
-                    android:id="@+id/ivDeleteAccount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/small_margin"
-                    android:background="@android:color/transparent"
-                    android:contentDescription="@string/delete_account"
-                    android:paddingStart="@dimen/base_margin"
-                    android:paddingTop="@dimen/small_margin"
-                    android:paddingEnd="@dimen/base_margin"
-                    android:paddingBottom="@dimen/small_margin"
-                    android:src="@drawable/delete_outline"
-                    app:tint="@color/quitAccent" />
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
                 android:id="@+id/settingsCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginTop="@dimen/medium_margin"
                 android:layout_marginEnd="@dimen/base_margin"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="@dimen/medium_margin"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="@dimen/base_card_radius"
                 app:cardElevation="@dimen/small_elevation"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cvWarningRulesCard"
+                app:layout_constraintTop_toBottomOf="@+id/cvWarningAccountCard"
                 app:layout_constraintVertical_bias="1.0">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/small_margin"
+                    android:orientation="horizontal"
                     android:gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/ivDeleteAccount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/medium_margin"
+                        android:background="@android:color/transparent"
+                        android:contentDescription="@string/delete_account"
+                        android:paddingStart="@dimen/base_margin"
+                        android:paddingTop="@dimen/small_margin"
+                        android:paddingEnd="@dimen/base_margin"
+                        android:paddingBottom="@dimen/small_margin"
+                        android:src="@drawable/delete_outline"
+                        app:tint="@color/quitAccent" />
 
                     <ImageButton
                         android:id="@+id/ivAboutApp"
@@ -402,7 +386,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginTop="@dimen/medium_margin"
                 android:layout_marginEnd="@dimen/base_margin"
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/white"

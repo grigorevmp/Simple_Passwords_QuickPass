@@ -19,6 +19,7 @@
     <string name="wrong_name">Нет пользователя с таким именем</string>
     <string name="wrong_pass">Неверный пароль</string>
     <string name="input_your_password">Введите пароль</string>
+    <string name="importFromGoogle">Импортировать из Google Паролей</string>
     <string name="or_use_fingerprint">Или используйте отпечаток пальца</string>
 
     <plurals name="correct_passwords" tools:ignore="UnusedQuantity">
@@ -212,4 +213,7 @@
     <string name="custom_value_field_hint">Формат: \'ключ1,значение1, ключ2,значение2\'</string>
     <string name="local_account">Локальный аккаунт</string>
     <string name="local_profile">Локальный профиль</string>
+
+    <string name="import_db_failed">Произошла проблема с одним из паролей</string>
+    <string name="import_db_folder_ok">Все пароли импортированы</string>
 </resources>

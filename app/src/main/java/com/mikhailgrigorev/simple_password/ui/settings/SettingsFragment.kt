@@ -44,6 +44,14 @@ import java.util.*
 import javax.inject.Inject
 
 class SettingsFragment: Fragment() {
+
+    companion object {
+        val IMPORT_FROM_PASSWORD_CODE = 5
+        val IMPORT_FROM_OLD_QUICKPASS = 11
+    }
+
+
+
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
 
@@ -142,85 +150,159 @@ class SettingsFragment: Fragment() {
                         try {
                             val data = result.data?.data
                             data.let { commonResult ->
-                                val dataResult = commonResult?.let {
-                                    readCSV(it)
-                                }
+                                val dataResult = commonResult?.let { readCSV(it) }
+
                                 if (dataResult != null) {
                                     var firstLine = true
                                     var tmp = ""
+
                                     for (line in dataResult) {
+
                                         if (firstLine) {
                                             firstLine = false
                                             continue
                                         }
+
                                         if(line[line.length - 1] == '='){
                                             tmp = line
                                             continue
                                         }
+
                                         val split = (tmp + line).split(",".toRegex())
+
                                         tmp = ""
+
                                         when (split.size) {
-                                            5 -> {
+                                            IMPORT_FROM_PASSWORD_CODE -> {
                                                 lifecycleScope.launch(Dispatchers.IO) {
                                                     viewModel.insertCard(
-                                                            FolderCard(
-                                                                    name = split[1],
-                                                                    imageSrc = split[2],
-                                                                    colorTag = split[3],
-                                                                    description = split[4],
-                                                            )
+                                                        FolderCard(
+                                                            name = split[1],
+                                                            imageSrc = split[2],
+                                                            colorTag = split[3],
+                                                            description = split[4],
+                                                        )
                                                     )
                                                 }
                                             }
-                                            11 -> {
+                                            IMPORT_FROM_OLD_QUICKPASS -> {
                                                 lifecycleScope.launch(Dispatchers.IO) {
                                                     viewModel.insertPassword(
-                                                            PasswordCard(
-                                                                    name = split[1],
-                                                                    image_count = 0,
-                                                                    password = split[2],
-                                                                    use_2fa = split[3].toBoolean(),
-                                                                    is_card_pin = false,
-                                                                    use_time = split[4].toBoolean(),
-                                                                    time = Date().toString(),
-                                                                    description = split[9],
-                                                                    tags = split[6],
-                                                                    folder = -1,
-                                                                    login = split[8],
-                                                                    encrypted = split[10] == "crypted",
-                                                                    quality = 2,
-                                                                    same_with = "",
-                                                                    favorite = false,
-                                                            )
+                                                        PasswordCard(
+                                                            name = split[1],
+                                                            image_count = 0,
+                                                            password = split[2],
+                                                            use_2fa = split[3].toBoolean(),
+                                                            is_card_pin = false,
+                                                            use_time = split[4].toBoolean(),
+                                                            time = Date().toString(),
+                                                            description = split[9],
+                                                            tags = split[6] + " Imported",
+                                                            folder = -1,
+                                                            login = split[8],
+                                                            encrypted = split[10] == "crypted",
+                                                            quality = 2,
+                                                            same_with = "",
+                                                            favorite = false,
+                                                        )
                                                     )
                                                 }
                                             }
                                             else -> {
                                                 lifecycleScope.launch(Dispatchers.IO) {
                                                     viewModel.insertPassword(
-                                                            PasswordCard(
-                                                                    name = split[1],
-                                                                    image_count = split[2].toInt(),
-                                                                    password = split[3],
-                                                                    use_2fa = split[4].toBoolean(),
-                                                                    is_card_pin = split[5].toBoolean(),
-                                                                    use_time = split[6].toBoolean(),
-                                                                    time = split[7],
-                                                                    description = if (split[8] != "null") split[8] else "",
-                                                                    tags = if (split[9] != "null") split[9] else "",
-                                                                    folder = if (split[10] != "") split[10].toInt() else -1,
-                                                                    login = if (split[11] != "null") split[11] else "",
-                                                                    encrypted = split[12].toBoolean(),
-                                                                    quality = split[13].toInt(),
-                                                                    same_with = if (split[14] != "null") split[14] else "",
-                                                                    favorite = split[15].toBoolean(),
-                                                            )
+                                                        PasswordCard(
+                                                            name = split[1],
+                                                            image_count = split[2].toInt(),
+                                                            password = split[3],
+                                                            use_2fa = split[4].toBoolean(),
+                                                            is_card_pin = split[5].toBoolean(),
+                                                            use_time = split[6].toBoolean(),
+                                                            time = split[7],
+                                                            description = if (split[8] != "null") split[8] else "",
+                                                            tags = if (split[9] != "null") split[9] + " Imported" else "",
+                                                            folder = if (split[10] != "") split[10].toInt() else -1,
+                                                            login = if (split[11] != "null") split[11] else "",
+                                                            encrypted = split[12].toBoolean(),
+                                                            quality = split[13].toInt(),
+                                                            same_with = if (split[14] != "null") split[14] else "",
+                                                            favorite = split[15].toBoolean(),
+                                                        )
                                                     )
                                                 }
                                             }
                                         }
                                     }
-                                    Utils.makeToast(requireContext(), "IMPORT_DB FOLDER: Ok.")
+                                    Utils.makeToast(requireContext(), getString(R.string.import_db_folder_ok))
+                                }
+                            }
+                        }
+                        catch (e: Exception){
+                            e.message?.let { Log.d("Backup", it) }
+                            Utils.makeToast(requireContext(), "IMPORT_DB FOLDER: ${e.message}")
+                        }
+                    }
+                }
+
+
+        // Google format: Name, Url, Username, Password
+        val googleResultLauncher =
+                registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                    if (result.resultCode == Activity.RESULT_OK) {
+                        try {
+                            val data = result.data?.data
+
+                            data.let { commonResult ->
+                                val dataResult = commonResult?.let { readCSV(it) }
+
+                                if (dataResult != null) {
+                                    var firstLine = true
+                                    var tmp = ""
+
+                                    for (line in dataResult) {
+                                        if (firstLine) {
+                                            firstLine = false
+                                            continue
+                                        }
+
+                                        if(line[line.length - 1] == '='){
+                                            tmp = line
+                                            continue
+                                        }
+
+                                        val split = (tmp + line).split(",".toRegex())
+
+                                        tmp = ""
+
+                                        when (split.size) {
+                                            4 -> {
+                                                lifecycleScope.launch(Dispatchers.IO) {
+                                                    viewModel.insertPassword(
+                                                        PasswordCard(
+                                                            name = split[0],
+                                                            image_count = 0,
+                                                            password = split[3],
+                                                            use_2fa = false,
+                                                            is_card_pin = false,
+                                                            use_time = false,
+                                                            time = Date().toString(),
+                                                            description = "Url: " + split[1],
+                                                            tags = "Google_password Imported",
+                                                            folder = -1,
+                                                            login = split[2],
+                                                            encrypted = false,
+                                                            quality = 2,
+                                                            same_with = "",
+                                                            favorite = false,
+                                                        )
+                                                    )
+                                                }
+                                            }
+                                            else -> Utils.makeToast(requireContext(), getString(R.string.import_db_failed))
+                                        }
+                                    }
+
+                                    Utils.makeToast(requireContext(), getString(R.string.import_db_folder_ok))
                                 }
                             }
                         }
@@ -236,6 +318,13 @@ class SettingsFragment: Fragment() {
             intent.addCategory(Intent.CATEGORY_OPENABLE)
             intent.type = "text/*"
             resultLauncher.launch(intent)
+        }
+
+        binding.ibImportDatabasesFromGoogle.setOnClickListener {
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            intent.type = "text/*"
+            googleResultLauncher.launch(intent)
         }
 
         binding.checkAutoFillSettings.setOnClickListener {
@@ -329,52 +418,52 @@ class SettingsFragment: Fragment() {
             if (it.isEmpty()) {
                 this.context?.let { it1 ->
                     Utils.makeToast(
-                            it1,
-                            getString(R.string.no_passwords_found)
+                        it1,
+                        getString(R.string.no_passwords_found)
                     )
                 }
             } else {
                 csvWriter().open(csvFile, append = false) {
                     writeRow(
-                            listOf(
-                                    "[id]",
-                                    "[name]",
-                                    "[image_count]",
-                                    "[password]",
-                                    "[use_2fa]",
-                                    "[is_card_pin]",
-                                    "[use_time]",
-                                    "[time]",
-                                    "[description]",
-                                    "[tags]",
-                                    "[folder]",
-                                    "[login]",
-                                    "[encrypted]",
-                                    "[quality]",
-                                    "[same_with]",
-                                    "[favorite]"
-                            )
+                        listOf(
+                            "[id]",
+                            "[name]",
+                            "[image_count]",
+                            "[password]",
+                            "[use_2fa]",
+                            "[is_card_pin]",
+                            "[use_time]",
+                            "[time]",
+                            "[description]",
+                            "[tags]",
+                            "[folder]",
+                            "[login]",
+                            "[encrypted]",
+                            "[quality]",
+                            "[same_with]",
+                            "[favorite]"
+                        )
                     )
                     it.forEachIndexed { index, passwordCard ->
                         writeRow(
-                                listOf(
-                                        index,
-                                        passwordCard.name,
-                                        passwordCard.image_count,
-                                        passwordCard.password,
-                                        passwordCard.use_2fa,
-                                        passwordCard.is_card_pin,
-                                        passwordCard.use_time,
-                                        passwordCard.time,
-                                        if (passwordCard.description != "") passwordCard.description else "null",
-                                        if (passwordCard.tags != "") passwordCard.tags else "null",
-                                        passwordCard.folder,
-                                        if (passwordCard.login != "") passwordCard.login else "null",
-                                        passwordCard.encrypted,
-                                        passwordCard.quality,
-                                        if (passwordCard.same_with != "") passwordCard.same_with else "null",
-                                        passwordCard.favorite
-                                )
+                            listOf(
+                                index,
+                                passwordCard.name,
+                                passwordCard.image_count,
+                                passwordCard.password,
+                                passwordCard.use_2fa,
+                                passwordCard.is_card_pin,
+                                passwordCard.use_time,
+                                passwordCard.time,
+                                if (passwordCard.description != "") passwordCard.description else "null",
+                                if (passwordCard.tags != "") passwordCard.tags else "null",
+                                passwordCard.folder,
+                                if (passwordCard.login != "") passwordCard.login else "null",
+                                passwordCard.encrypted,
+                                passwordCard.quality,
+                                if (passwordCard.same_with != "") passwordCard.same_with else "null",
+                                passwordCard.favorite
+                            )
                         )
                     }
                 }
@@ -394,23 +483,23 @@ class SettingsFragment: Fragment() {
             } else {
                 csvWriter().open(csvFile, append = false) {
                     writeRow(
-                            listOf(
-                                    "[id]",
-                                    "[name]",
-                                    "[imageSrc]",
-                                    "[colorTag]",
-                                    "[description]",
-                            )
+                        listOf(
+                            "[id]",
+                            "[name]",
+                            "[imageSrc]",
+                            "[colorTag]",
+                            "[description]",
+                        )
                     )
                     it.forEachIndexed { index, folderCard ->
                         writeRow(
-                                listOf(
-                                        index,
-                                        folderCard.name,
-                                        if (folderCard.imageSrc != "") folderCard.imageSrc else "null",
-                                        if (folderCard.colorTag != "") folderCard.colorTag else "0",
-                                        if (folderCard.description != "") folderCard.description else "null",
-                                )
+                            listOf(
+                                index,
+                                folderCard.name,
+                                if (folderCard.imageSrc != "") folderCard.imageSrc else "null",
+                                if (folderCard.colorTag != "") folderCard.colorTag else "0",
+                                if (folderCard.description != "") folderCard.description else "null",
+                            )
                         )
                     }
                 }

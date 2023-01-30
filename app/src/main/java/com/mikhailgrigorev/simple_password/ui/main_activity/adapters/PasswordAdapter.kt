@@ -38,9 +38,10 @@ class PasswordAdapter(
     @SuppressLint("SetTextI18n", "ClickableViewAccessibility")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val password = passwordCards[position]
-        holder.passwordName.text = password.name
 
+        holder.passwordName.text = password.name
         holder.passwordGroup.removeAllViews()
+        holder.passwordDescription.text = password.description
 
         if (password.use_2fa) {
             val chip = Chip(
@@ -48,35 +49,37 @@ class PasswordAdapter(
                     null,
                     R.style.Widget_MaterialComponents_Chip_Choice
             )
+
             chip.text = "2FA"
             chip.isClickable = false
             chip.isChecked = false
             chip.alpha = 0.7f
             chip.textSize = 12F
+
             holder.passwordGroup.addView(chip)
         }
-        if (password.description != "")
-            holder.passwordDescription.visibility = View.VISIBLE
-        holder.passwordDescription.text = password.description
-        if (password.favorite) {
-            holder.favoriteButton.visibility = View.VISIBLE
-        }
+
+        if (password.description != "") holder.passwordDescription.visibility = View.VISIBLE
+
+        if (password.favorite) { holder.favoriteButton.visibility = View.VISIBLE }
+
         if (password.tags != "")
             password.tags.split("\\s".toRegex()).forEach { item ->
                 val chip = Chip(
-                        holder.passwordGroup.context,
-                        null,
-                        R.style.Widget_MaterialComponents_Chip_Choice
+                    holder.passwordGroup.context,
+                    null,
+                    R.style.Widget_MaterialComponents_Chip_Choice
                 )
-                chip.text = item
+
+                chip.text = item.trim()
                 chip.isClickable = true
                 chip.isChecked = false
                 chip.textSize = 12F
-                chip.setOnClickListener {
-                    tagsClickListener(item)
-                }
+                chip.setOnClickListener { tagsClickListener(item) }
+
                 holder.passwordGroup.addView(chip)
             }
+
         when {
             password.encrypted -> {
                 holder.lockIcon.visibility = View.VISIBLE
@@ -108,16 +111,17 @@ class PasswordAdapter(
         holder.passwordCard.setOnClickListener {
             clickListener(position)
         }
+
         holder.passwordCard.setOnLongClickListener {
             longClickListener(position, it)
             return@setOnLongClickListener (true)
         }
 
-            if (!Utils.toggleManager.analyzeToggle.isEnabled()) {
-                holder.qualityMarker.visibility = View.GONE
-                holder.creditCard.visibility = View.GONE
-                holder.creditCardNeg.visibility = View.GONE
-            }
+        if (!Utils.toggleManager.analyzeToggle.isEnabled()) {
+            holder.qualityMarker.visibility = View.GONE
+            holder.creditCard.visibility = View.GONE
+            holder.creditCardNeg.visibility = View.GONE
+        }
     }
 }
 
