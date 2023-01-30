@@ -2,6 +2,8 @@
 
 Powerful password manager with autofill framework
 
+***
+
 # Download
 
 <img src="https://cdni.comss.net/logo/logo-rustore.png" width="10%">
@@ -10,11 +12,13 @@ RuStore: [Download](https://apps.rustore.ru/app/com.mikhailgrigorev.simple_passw
 
 <img src="https://cdn-icons-png.flaticon.com/512/732/732208.png" width="10%">
 
-GooglePlay: [Download](https://play.google.com/store/apps/details?id=com.mikhailgrigorev.simple_password)
+Google Play: [Download](https://play.google.com/store/apps/details?id=com.mikhailgrigorev.simple_password)
+
+***
 
 <img src="https://github.com/grigorevmp/Simple_Passwords_QuickPass/blob/simple-password/app/src/main/res/drawable/logo.png" width="10%">
 
-### New features
+## New features
 
 - Offline only version
 - Import from Google Passwords
