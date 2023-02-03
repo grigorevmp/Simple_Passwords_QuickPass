@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.autofill.AutofillManager
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
@@ -46,8 +47,8 @@ import javax.inject.Inject
 class SettingsFragment: Fragment() {
 
     companion object {
-        val IMPORT_FROM_PASSWORD_CODE = 5
-        val IMPORT_FROM_OLD_QUICKPASS = 11
+        const val IMPORT_FROM_PASSWORD_CODE = 5
+        const val IMPORT_FROM_OLD_APPLICATION = 11
     }
 
 
@@ -185,7 +186,7 @@ class SettingsFragment: Fragment() {
                                                     )
                                                 }
                                             }
-                                            IMPORT_FROM_OLD_QUICKPASS -> {
+                                            IMPORT_FROM_OLD_APPLICATION -> {
                                                 lifecycleScope.launch(Dispatchers.IO) {
                                                     viewModel.insertPassword(
                                                         PasswordCard(
@@ -526,11 +527,15 @@ class SettingsFragment: Fragment() {
                 val intent = this.context?.let {
                     goToFileIntent(it, csvFile)
                 }
-                startActivity(intent)
+                try {
+                    startActivity(intent)
+                } catch (e: Exception) {
+                    context?.let { Utils.makeToast(it, getString(R.string.sorry_there_is_no_application_to_view_csv_on_your_device)) }
+                }
             }
             // Utils.makeToast(requireContext(), "EXPORT_DB: Ok.")
         } else {
-            Utils.makeToast(requireContext(), "EXPORT_DB: Error.")
+            context?.let { Utils.makeToast(it, "EXPORT_DB: Error.") }
         }
     }
 

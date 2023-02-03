@@ -108,6 +108,8 @@ class PasswordViewActivity : MyBaseActivity() {
 
     private fun loadPassword(passwordId: Int) {
         viewModel.getPasswordById(passwordId).observe(this) { passwordCard ->
+            if (passwordCard == null) return@observe
+
             viewModel.currentPassword = passwordCard
 
             setUpScreenContent(passwordCard)

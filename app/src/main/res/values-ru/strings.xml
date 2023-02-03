@@ -216,4 +216,5 @@
 
     <string name="import_db_failed">Произошла проблема с одним из паролей</string>
     <string name="import_db_folder_ok">Все пароли импортированы</string>
+    <string name="sorry_there_is_no_application_to_view_csv_on_your_device">Извините, на вашем девайсе нет приложения, чтобы просмотреть CSV-файл</string>
 </resources>

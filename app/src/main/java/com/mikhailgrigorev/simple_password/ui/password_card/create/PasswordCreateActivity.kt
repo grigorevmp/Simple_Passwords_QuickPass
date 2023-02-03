@@ -7,6 +7,7 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.DocumentsContract
 import android.provider.MediaStore
@@ -596,10 +597,14 @@ class PasswordCreateActivity : MyBaseActivity() {
     private val permissionCodeWrite = 1002
 
     private fun checkPermissionForImage() {
-        if ((checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
-            && (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
-        ) {
-            val permission = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+        val manifestPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+
+        if ((checkSelfPermission(manifestPermission) == PackageManager.PERMISSION_DENIED) && (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)) {
+            val permission = arrayOf(manifestPermission)
             val permissionCoarse = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
             requestPermissions(permission, permissionCodeRead)

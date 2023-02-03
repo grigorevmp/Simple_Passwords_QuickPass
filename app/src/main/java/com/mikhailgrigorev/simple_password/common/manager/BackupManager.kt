@@ -20,13 +20,17 @@ object BackupManager {
     }
 
     fun goToFileIntent(context: Context, file: File): Intent {
+        val contentUri = FileProvider.getUriForFile(
+                context,
+                "com.mikhailgrigorev.simple_password.provider",
+                file
+        )
+
+
         val intent = Intent(Intent.ACTION_VIEW)
-        val contentUri =
-                FileProvider.getUriForFile(context, "com.mikhailgrigorev.simple_password.fileprovider", file)
-        val mimeType = context.contentResolver.getType(contentUri)
-        intent.setDataAndType(contentUri, mimeType)
-        intent.flags =
-                Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                .addFlags( Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+
+        intent.setDataAndType(contentUri, "text/comma-separated-values")
 
         return intent
     }

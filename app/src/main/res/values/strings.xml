@@ -101,7 +101,7 @@
     <string name="auto_copy_password">Auto-copy password</string>
     <string name="about_app">About app</string>
     <string name="app_author">Mikhail Grigorev</string>
-    <string name="version_and_year" translatable="false">v1.0.1 • 2023</string>
+    <string name="version_and_year" translatable="false">v1.0.2 • 2023</string>
     <string name="telegram" translatable="false">Telegram</string>
     <string name="vkontakte" translatable="false">Vkontakte</string>
     <string name="sen_email" translatable="false">Send email</string>
@@ -242,5 +242,6 @@
     <string name="local_profile">Local profile</string>
     <string name="import_db_failed">There is a problem with some passwords</string>
     <string name="import_db_folder_ok">All passwords imported</string>
+    <string name="sorry_there_is_no_application_to_view_csv_on_your_device">Sorry, there is no application to view CSV on your device</string>
 
 </resources>
