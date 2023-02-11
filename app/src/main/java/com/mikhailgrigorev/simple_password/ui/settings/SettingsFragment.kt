@@ -78,6 +78,7 @@ class SettingsFragment: Fragment() {
         initViewModel()
         initUI()
         initListeners()
+
         return view
     }
 
@@ -521,14 +522,14 @@ class SettingsFragment: Fragment() {
                 val intent = this.context?.let {
                     goToFileIntent(it, csvFile)
                 }
-                startActivity(intent)
+                intent?.let { startActivity(intent) }
             } else {
                 exportPasswordsToCSVFile(csvFile)
                 val intent = this.context?.let {
                     goToFileIntent(it, csvFile)
                 }
                 try {
-                    startActivity(intent)
+                    intent?.let { startActivity(intent) }
                 } catch (e: Exception) {
                     context?.let { Utils.makeToast(it, getString(R.string.sorry_there_is_no_application_to_view_csv_on_your_device)) }
                 }

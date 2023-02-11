@@ -101,7 +101,7 @@
     <string name="auto_copy_password">Auto-copy password</string>
     <string name="about_app">About app</string>
     <string name="app_author">Mikhail Grigorev</string>
-    <string name="version_and_year" translatable="false">v1.0.2 • 2023</string>
+    <string name="version_and_year" translatable="false">v1.0.4 • 2023</string>
     <string name="telegram" translatable="false">Telegram</string>
     <string name="vkontakte" translatable="false">Vkontakte</string>
     <string name="sen_email" translatable="false">Send email</string>
