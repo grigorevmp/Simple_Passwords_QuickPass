@@ -29,6 +29,7 @@ object BackupManager {
 
         val intent = Intent(Intent.ACTION_VIEW)
                 .addFlags( Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                .addFlags( Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
         intent.setDataAndType(contentUri, "text/comma-separated-values")
 

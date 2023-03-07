@@ -512,8 +512,8 @@ class SettingsFragment: Fragment() {
     private fun exportDatabaseToCSVFile(folder: Boolean) {
         val csvFile = this.context?.let {
             BackupManager.generateFile(
-                    it,
-                    BackupManager.getCSVFileName(folder)
+                it,
+                BackupManager.getCSVFileName(folder)
             )
         }
         if (csvFile != null) {
@@ -534,7 +534,6 @@ class SettingsFragment: Fragment() {
                     context?.let { Utils.makeToast(it, getString(R.string.sorry_there_is_no_application_to_view_csv_on_your_device)) }
                 }
             }
-            // Utils.makeToast(requireContext(), "EXPORT_DB: Ok.")
         } else {
             context?.let { Utils.makeToast(it, "EXPORT_DB: Error.") }
         }

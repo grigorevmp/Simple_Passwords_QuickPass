@@ -64,12 +64,13 @@ class PasswordAdapter(
         if (password.favorite) { holder.favoriteButton.visibility = View.VISIBLE }
 
         if (password.tags != "")
-            password.tags.split("\\s".toRegex()).forEach { item ->
-                val chip = Chip(
-                    holder.passwordGroup.context,
-                    null,
-                    R.style.Widget_MaterialComponents_Chip_Choice
-                )
+            password.tags.trim()
+                    .split("\\s".toRegex()).forEach { item ->
+                    val chip = Chip(
+                        holder.passwordGroup.context,
+                        null,
+                        R.style.Widget_MaterialComponents_Chip_Choice
+                    )
 
                 chip.text = item.trim()
                 chip.isClickable = true

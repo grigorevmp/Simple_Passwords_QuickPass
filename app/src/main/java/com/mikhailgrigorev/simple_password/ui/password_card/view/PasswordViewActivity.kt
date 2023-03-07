@@ -208,11 +208,12 @@ class PasswordViewActivity : MyBaseActivity() {
         binding.kwInfo.visibility = View.VISIBLE
 
         if (tags != "") {
-            tags.split("\\s".toRegex()).forEach { item ->
-                val chip = Chip(binding.cgPasswordChipGroup.context)
-                chip.text = item
-                chip.isClickable = false
-                binding.cgPasswordChipGroup.addView(chip)
+            tags.trim()
+                    .split("\\s".toRegex()).forEach { item ->
+                    val chip = Chip(binding.cgPasswordChipGroup.context)
+                    chip.text = item
+                    chip.isClickable = false
+                    binding.cgPasswordChipGroup.addView(chip)
             }
         } else {
             binding.kwInfo.visibility = View.GONE
